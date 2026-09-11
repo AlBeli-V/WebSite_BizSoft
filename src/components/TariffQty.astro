@@ -1,0 +1,56 @@
+---
+/**
+ * Счётчик количества и сумма на карточке тарифа.
+ *
+ * Ставится внутрь карточки с атрибутом data-qty-scope — поведение (шаг,
+ * нижняя граница, пересчёт суммы, передача количества в расчёт) живёт в
+ * VendorQuotePath и AddToCartButton, которые находят поля по этим же
+ * атрибутам. Здесь только разметка, чтобы она была одинаковой везде.
+ *
+ * Минимум вендора — не украшение: у командных тарифов он часто больше
+ * единицы, и если счётчик его не держит, покупатель считает бюджет вдвое
+ * меньше реального и узнаёт правду в счёте.
+ */
+import { formatRub } from '../lib/pricing';
+
+interface Props {
+  /** Цена за единицу — по ней считается сумма. */
+  price: number;
+  /** Минимум вендора: ниже счётчик не опускается. */
+  minQty?: number;
+  /** Подпись единиц в именительном падеже: «Мест», «Лицензий». */
+  qtyLabel?: string;
+  /** Название позиции — для подписей доступности. */
+  name: string;
+}
+const { price, minQty = 1, qtyLabel = 'Лицензий', name } = Astro.props;
+const min = Math.max(1, minQty);
+---
+<div class="vqty">
+  <span class="qlab">{qtyLabel}:</span>
+  <span class="stepper">
+    <button type="button" data-qty-step="-1" aria-label={`Уменьшить: ${name}`}>−</button>
+    <input
+      type="number" data-qty value={min} min={min} max="10000"
+      inputmode="numeric" aria-label={`${qtyLabel}: ${name}`}
+    />
+    <button type="button" data-qty-step="1" aria-label={`Увеличить: ${name}`}>+</button>
+  </span>
+  {min > 1 && <span class="qmin">минимум {min}</span>}
+</div>
+<p class="vsum" data-sum data-price={price}>Сумма: <b>{formatRub(price * min)}</b></p>
+
+<style>
+  /* Счётчик и сумма — над кнопками: сумма считается до решения, а не после */
+  .vqty { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.2rem; font-size: 0.84rem; }
+  .qlab { font-weight: 600; }
+  .qmin { color: var(--color-text-dim); font-size: 0.78rem; }
+  .stepper { display: inline-flex; align-items: center; gap: 0.2rem; border: 1px solid var(--color-border-strong); border-radius: 999px; padding: 0.1rem 0.25rem; }
+  .stepper button { width: 26px; height: 26px; border: none; border-radius: 50%; background: var(--color-bg-elevated); color: var(--color-text); font: inherit; font-weight: 700; line-height: 1; cursor: pointer; }
+  .stepper button:hover { background: var(--color-border); }
+  .stepper input { width: 3.4rem; border: none; background: transparent; color: var(--color-text); font: inherit; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
+  .stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .stepper input:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; border-radius: 6px; }
+  .vsum { font-size: 0.86rem; color: var(--color-text-muted); margin: 0.35rem 0 0.6rem; }
+  .vsum b { color: var(--color-text); font-variant-numeric: tabular-nums; }
+</style>
