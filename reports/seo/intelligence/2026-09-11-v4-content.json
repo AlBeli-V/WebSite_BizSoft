@@ -1,0 +1,70 @@
+{
+ "date": "2026-09-11",
+ "passed": true,
+ "checks": [
+  {
+   "check": "kpi_fully_attributed",
+   "ok": true,
+   "detail": "показателей без источника, периода или достоверности: нет"
+  },
+  {
+   "check": "kpi_values_match_snapshot",
+   "ok": true,
+   "detail": "расхождений со снимком: нет"
+  },
+  {
+   "check": "signals_have_baseline",
+   "ok": true,
+   "detail": "сигналов без базы сравнения: нет"
+  },
+  {
+   "check": "cause_backed_by_entities",
+   "ok": true,
+   "detail": "адресов-драйверов перечислено: 3"
+  },
+  {
+   "check": "verdict_respects_exposure",
+   "ok": true,
+   "detail": "преждевременных вердиктов: нет"
+  },
+  {
+   "check": "combined_treatment_declared",
+   "ok": true,
+   "detail": "без оговорки о совместности: нет"
+  },
+  {
+   "check": "no_fake_market_demand",
+   "ok": true,
+   "detail": "источники доказательств: ['market_demand', 'market_demand', 'market_demand']; спрос измерен: True"
+  },
+  {
+   "check": "health_matches_findings",
+   "ok": true,
+   "detail": "статус verified, критических находок 0"
+  },
+  {
+   "check": "conditional_rendering",
+   "ok": true,
+   "detail": "скрыто пустых разделов: нет — все разделы содержательны"
+  },
+  {
+   "check": "no_zero_for_missing",
+   "ok": true,
+   "detail": "нулей вместо «нет данных»: нет"
+  },
+  {
+   "check": "leads_channel_basis_named",
+   "ok": true,
+   "detail": "заявок без канала или основания: нет"
+  },
+  {
+   "check": "leads_count_matches_snapshot",
+   "ok": true,
+   "detail": "в снимке 2, в письме 2"
+  }
+ ],
+ "counts": {
+  "total": 12,
+  "failed": 0
+ }
+}
