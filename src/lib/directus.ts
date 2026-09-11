@@ -504,6 +504,28 @@ export interface Lead {
   lost_reason?: string | null;
   next_action_at?: string | null;
   note?: string | null;
+  /**
+   * Источник обращения. Поля пишет сайт (src/lib/quote-lead.ts), читает
+   * разбор канала в письмах и утреннее уточнение: без них заявка в воронке
+   * есть, а ответа «органика это или реклама» нет.
+   */
+  form_source?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
+  yclid?: string;
+  gclid?: string;
+  first_touch_source?: string;
+  first_touch_ts?: string;
+  last_touch_source?: string;
+  landing_path?: string;
+  ym_client_id?: string;
+  ga_client_id?: string;
+  first_touch_referrer?: string;
+  last_touch_referrer?: string;
+  visit_path?: string;
 }
 
 export async function createLead(payload: Record<string, unknown>): Promise<void> {

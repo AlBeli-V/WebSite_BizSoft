@@ -265,6 +265,28 @@ def find(url: str, subject: str, experiments: list[dict],
     return control_hit
 
 
+def split_takeable(packages: list[dict] | None
+                   ) -> tuple[list[dict], list[dict]]:
+    """Делит готовые пакеты на поручаемые и занятые чужим замером.
+
+    Последняя линия обороны отчёта и письма. `mark()` делит пакеты до
+    сборки документа, но 10.09.2026 вызывающий взял из неё только занятых, а
+    свободных выбросил — и 16 занятых страниц вышли в раздел «План работ» с
+    чек-листом и приёмкой. Проверка на выходе не зависит от того, правильно
+    ли собран вызов: занятый пакет не попадёт в поручения, даже если его
+    туда передали.
+
+    Контрольные группы остаются поручаемыми намеренно — это условие, а не
+    запрет (см. шапку модуля); их ограничение цитируется в самом пакете.
+    """
+    free: list[dict] = []
+    busy: list[dict] = []
+    for package in packages or []:
+        степень = (package.get("занятость") or {}).get("степень")
+        (busy if степень == BUSY_PAGE else free).append(package)
+    return free, busy
+
+
 def mark(packages: list[dict], experiments: list[dict] | None = None,
          today: str = "") -> tuple[list[dict], list[dict]]:
     """Делит пакеты на свободные и занятые, проставляя пометку занятости.
