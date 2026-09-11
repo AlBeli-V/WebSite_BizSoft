@@ -7,12 +7,116 @@
  */
 
 export interface VendorComparison { cols: string[]; rows: { label: string; values: string[] }[] }
-export interface VendorDecision { scenario: string; product: string; note: string }
-export interface VendorScenario { title: string; text: string }
-export interface VendorQA { q: string; a: string }
+/** Строка «что выбрать». slug делает рекомендацию ссылкой на карточку. */
+export interface VendorDecision { scenario: string; product: string; note: string; slug?: string }
+export interface VendorScenario { title: string; text: string; note?: string }
+export interface VendorQA { q: string; a: string; group?: string }
+/** Блок «Безопасность и данные»: что с данными компании и что спросит ИБ. */
+export interface VendorSecurity { text: string; cta?: string }
+/**
+ * Карточка тарифа: минимальный объём заказа и как называются единицы.
+ * Ключ — slug или sku позиции (правило catalog.md). Минимум вендора живёт
+ * здесь, а не в тексте FAQ: покупатель считает бюджет по счётчику мест, и
+ * «от 2 мест» он должен видеть там же, где считает.
+ */
+export interface VendorCardMeta {
+  minQty?: number;
+  qtyLabel?: string;
+  check?: string;
+  /** Случай, к которому относится позиция (см. VendorSegment). */
+  seg?: string;
+  /** Плашка над названием: план, редакция, тип места. */
+  badge?: string;
+  /** Кому адресована позиция — вместо короткого описания из каталога. */
+  forWhom?: string;
+  /** Состав позиции — вместо списка возможностей из каталога. */
+  features?: string[];
+}
+/** Разбор, который нужен до цен: типы мест, виды лицензий, редакции. */
+export interface VendorExplainer { title: string; items: VendorScenario[] }
+
+/**
+ * Выбор ситуации перед сеткой тарифов. Покупатель выбирает не между
+ * тарифами, а между случаями: «сотруднику», «команде», «в свой продукт».
+ * Отмеченный случай сужает сетку до карточек со своим полем seg.
+ */
+export interface VendorSegment {
+  id: string; title: string; text: string;
+  /** Короткая приписка на плитке: что это даёт. */
+  hint?: string;
+  /** Почему именно этот случай — показывается после выбора. */
+  why?: string;
+  /**
+   * Позиции случая: slug или sku. Состав случая перечисляется в одном
+   * месте — иначе он расползается по карточкам и расходится с текстом.
+   */
+  keys?: string[];
+}
+
+/** Раздел линейки: своя подсетка карточек (например, личные и командные планы). */
+export interface VendorGroup { id: string; title: string; note?: string; items: string[] }
+
+/**
+ * Полоса номиналов: варианты одной родительской позиции (пополнение
+ * баланса, пакеты кредитов). Плитками, а не карточками: одиннадцать
+ * одинаковых карточек заменили бы собой страницу.
+ */
+export interface VendorDenominations {
+  title: string; note?: string;
+  /** Родительская позиция — slug или sku; её варианты и составляют ряд. */
+  parent: string;
+  /** Что показывает плитка: «$», «кредитов». */
+  unit?: string;
+}
+
+/**
+ * Быстрый подбор: ярлык задачи или стека → продукт. Не опросник: один клик
+ * подставляет выбор в форму и ведёт к карточке.
+ */
+export interface VendorPick { label: string; product: string; target?: string; query: string }
+
+/**
+ * Свободный блок страницы. Виды: текст, ячейки, плитки-ссылки на товары и
+ * раскрывающийся список. Больше видов не заводить: следующий вид — повод
+ * спросить, не пора ли этой странице снова стать своей.
+ */
+export interface VendorSection {
+  id?: string;
+  title: string;
+  kind?: 'prose' | 'cells' | 'links' | 'accordion';
+  text?: string;
+  note?: string;
+  cells?: VendorScenario[];
+  links?: { label: string; slug?: string; href?: string; text?: string }[];
+  items?: VendorQA[];
+  /** Подпись кнопки, ведущей к форме страницы. */
+  cta?: string;
+  /** Ссылка «дальше по теме» под блоком: каталог раздела, документация. */
+  more?: { label: string; href: string };
+  /** Куда ставить блок: до тарифов или после сравнения (по умолчанию). */
+  place?: 'before-products' | 'after-compare' | 'before-buy';
+}
 
 export interface VendorContent {
   summary?: string;
+  /** Абзац «какой тариф кому» — сразу за блоком «Коротко». */
+  intro?: string;
+  explainer?: VendorExplainer;
+  segments?: VendorSegment[];
+  groups?: VendorGroup[];
+  denominations?: VendorDenominations;
+  picks?: { title: string; note?: string; items: VendorPick[] };
+  sections?: VendorSection[];
+  /** Темы блока вопросов: вопрос попадает в тему по полю group. */
+  faqGroups?: { id: string; title: string }[];
+  cards?: Record<string, VendorCardMeta>;
+  /**
+   * Порядок карточек: slug или sku. Не перечисленные уходят в конец.
+   * Нужен там, где линейка читается только в своём порядке — планы от
+   * младшего к старшему, а не как отдала база.
+   */
+  order?: string[];
+  security?: VendorSecurity;
   comparison?: VendorComparison;
   decision?: VendorDecision[];
   scenarios?: VendorScenario[];
@@ -439,6 +543,28 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
   },
   "anthropic": {
     "summary": "Claude Team и Enterprise — корпоративные тарифы AI-ассистента Anthropic. Team продаётся местами двух типов: Standard seat закрывает обычную работу отдела, Premium seat даёт кратно большие лимиты тем, кто целый день работает в Claude Code. Оформим на юрлицо: договор, счёт в рублях, закрывающие через ЭДО.",
+    "intro": "Тарифы Anthropic различаются не набором возможностей ассистента, а тем, на кого оформлены и как управляются. Claude Team — рабочее пространство отдела: общие проекты и чаты, единый счёт на компанию, административное управление местами; берётся от двух мест. Внутри Team два типа мест: Standard seat для обычного рабочего ритма и Premium seat с кратно большими лимитами для тех, у кого Claude Code открыт весь день, — типы мест совмещаются в одной команде. Claude Enterprise отличается не ассистентом, а контуром управления: SSO и SCIM, ролевой доступ, журналы аудита и свои сроки хранения данных; порог входа — от 20 мест. BIZSoft подберёт тип и количество мест и оформит поставку на юрлицо.",
+    "cards": {
+      "anthropic-team": {
+        "minQty": 2,
+        "qtyLabel": "Мест",
+        "check": "Тариф оформляется от 2 мест — счётчик ниже не опускается."
+      },
+      "anthropic-team-premium": {
+        "minQty": 2,
+        "qtyLabel": "Мест",
+        "check": "Тариф оформляется от 2 мест; места Premium и Standard совмещаются в одной команде."
+      },
+      "anthropic-enterprise": {
+        "minQty": 20,
+        "qtyLabel": "Мест",
+        "check": "Порог входа — от 20 мест."
+      }
+    },
+    "security": {
+      "text": "На корпоративных тарифах Anthropic не использует переписку и файлы компании для обучения моделей — это закреплено в коммерческих условиях, формулировку показываем до оформления. Claude Team даёт административное управление местами и общий контур отдела; Claude Enterprise добавляет единый вход SSO и SCIM, ролевой доступ, журналы аудита, настраиваемые сроки хранения переписки и файлов, выгрузку для проверок через Compliance API и режим работы с медицинскими данными (HIPAA/BAA). Конкретные настройки приватности и соответствие внутренним политикам ИБ уточняются до КП.",
+      "cta": "Обсудить требования ИБ"
+    },
     "comparison": {
       "cols": [
         "Team · Standard seat",
@@ -809,7 +935,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       },
       {
         "q": "Как купить Apple Gift Card для юридического лица в России?",
-        "a": "На странице карты выбираете регион Apple Account и номинал, добавляете позицию в избранное и формируете КП или заявку. Заключаем договор, выставляем счёт; после оплаты передаём код и закрывающие документы."
+        "a": "На странице карты выбираете регион Apple Account и номинал, добавляете позицию в расчёт и формируете КП или заявку. Заключаем договор, выставляем счёт; после оплаты передаём код и закрывающие документы."
       },
       {
         "q": "Чем отличаются карты для России, Казахстана и Турции?",
@@ -4210,6 +4336,286 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       }
     ]
   },
+  "figma": {
+    "summary": "BIZSoft подбирает и оформляет подписки Figma для юридических лиц по новой модели посадочных мест: Full (дизайн), Dev (разработка) и Collab (просмотр и комментирование) на планах Professional, Organization и Enterprise. Доступны договор, счёт и закрывающие документы; оплата в рублях по курсу ЦБ.",
+    "explainer": {
+      "title": "Типы мест в Figma",
+      "items": [
+        {
+          "title": "Full seat (дизайн)",
+          "text": "Полный доступ: создание и редактирование дизайна, прототипы, дизайн-системы и Dev Mode. Для дизайнеров."
+        },
+        {
+          "title": "Dev seat (разработка)",
+          "text": "Dev Mode: инспекция макетов, спецификации, ассеты и хендофф. Для разработчиков без полного редактирования."
+        },
+        {
+          "title": "Collab seat (совместная работа)",
+          "text": "Просмотр, комментирование и работа в FigJam. Для менеджеров, стейкхолдеров и заказчиков."
+        }
+      ]
+    },
+    "cards": {
+      "FIGMA-PROF-FULL": {
+        "badge": "Professional",
+        "forWhom": "Дизайнеры небольших команд",
+        "features": [
+          "Полный редактор и прототипы",
+          "Dev Mode",
+          "Безлимит файлов и проектов",
+          "Командные библиотеки"
+        ],
+        "qtyLabel": "Мест"
+      },
+      "FIGMA-PROF-DEV": {
+        "badge": "Professional",
+        "forWhom": "Разработчики, хендофф",
+        "features": [
+          "Dev Mode: инспекция и хендофф",
+          "Спецификации и ассеты",
+          "Комментарии и задачи",
+          "Экспорт кода и ресурсов"
+        ],
+        "qtyLabel": "Мест"
+      },
+      "FIGMA-PROF-COLLAB": {
+        "badge": "Professional",
+        "forWhom": "Стейкхолдеры, менеджеры",
+        "features": [
+          "Просмотр и комментирование",
+          "Работа в FigJam",
+          "Участие в воркшопах",
+          "Без редактирования дизайна"
+        ],
+        "qtyLabel": "Мест"
+      },
+      "FIGMA-ORG-FULL": {
+        "badge": "Organization",
+        "forWhom": "Дизайн-команды организации",
+        "features": [
+          "Всё из Professional",
+          "Общие библиотеки между командами",
+          "Централизованное администрирование",
+          "Только годовая оплата"
+        ],
+        "qtyLabel": "Мест"
+      },
+      "FIGMA-ORG-DEV": {
+        "badge": "Organization",
+        "forWhom": "Разработчики организации",
+        "features": [
+          "Dev Mode и хендофф",
+          "Централизованное управление доступом",
+          "Аналитика использования",
+          "Только годовая оплата"
+        ],
+        "qtyLabel": "Мест"
+      },
+      "FIGMA-ORG-COLLAB": {
+        "badge": "Organization",
+        "forWhom": "Стейкхолдеры организации",
+        "features": [
+          "Просмотр и комментирование",
+          "FigJam",
+          "Контроль доступа",
+          "Только годовая оплата"
+        ],
+        "qtyLabel": "Мест"
+      },
+      "int-design-figma": {
+        "badge": "Organization",
+        "forWhom": "Годовой пакет на организацию",
+        "features": [
+          "Full-места для дизайн-команды",
+          "Общие библиотеки между командами",
+          "Централизованное администрирование",
+          "Оформление и оплата одним счётом"
+        ],
+        "qtyLabel": "Мест"
+      },
+      "FIGMA-ENT-FULL": {
+        "badge": "Enterprise",
+        "forWhom": "Крупные дизайн-организации",
+        "features": [
+          "Всё из Organization",
+          "Несколько воркспейсов",
+          "SSO и расширенная безопасность",
+          "Максимальные AI-кредиты"
+        ],
+        "qtyLabel": "Мест"
+      },
+      "FIGMA-ENT-DEV": {
+        "badge": "Enterprise",
+        "forWhom": "Разработчики Enterprise",
+        "features": [
+          "Dev Mode и хендофф",
+          "SSO и безопасность",
+          "Централизованное администрирование",
+          "Только годовая оплата"
+        ],
+        "qtyLabel": "Мест"
+      },
+      "FIGMA-ENT-COLLAB": {
+        "badge": "Enterprise",
+        "forWhom": "Стейкхолдеры Enterprise",
+        "features": [
+          "Просмотр и комментирование",
+          "FigJam",
+          "SSO и контроль доступа",
+          "Только годовая оплата"
+        ],
+        "qtyLabel": "Мест"
+      }
+    },
+    "order": [
+      "FIGMA-PROF-FULL",
+      "FIGMA-PROF-DEV",
+      "FIGMA-PROF-COLLAB",
+      "FIGMA-ORG-FULL",
+      "FIGMA-ORG-DEV",
+      "FIGMA-ORG-COLLAB",
+      "int-design-figma",
+      "FIGMA-ENT-FULL",
+      "FIGMA-ENT-DEV",
+      "FIGMA-ENT-COLLAB"
+    ],
+    "comparison": {
+      "cols": [
+        "Professional",
+        "Organization",
+        "Enterprise"
+      ],
+      "rows": [
+        {
+          "label": "Типы мест",
+          "values": [
+            "Full / Dev / Collab",
+            "Full / Dev / Collab",
+            "Full / Dev / Collab"
+          ]
+        },
+        {
+          "label": "Библиотеки между командами",
+          "values": [
+            "—",
+            "да",
+            "да"
+          ]
+        },
+        {
+          "label": "SSO",
+          "values": [
+            "—",
+            "—",
+            "да"
+          ]
+        },
+        {
+          "label": "Несколько воркспейсов",
+          "values": [
+            "—",
+            "—",
+            "да"
+          ]
+        },
+        {
+          "label": "Централизованное админ.",
+          "values": [
+            "базовое",
+            "да",
+            "расширенное"
+          ]
+        },
+        {
+          "label": "Оплата через BIZSoft",
+          "values": [
+            "1 год",
+            "1 год",
+            "1 год"
+          ]
+        }
+      ]
+    },
+    "decision": [
+      {
+        "scenario": "Дизайн-студия до ~15 человек",
+        "product": "Professional (Full + Collab)",
+        "note": "Full места дизайнерам, Collab — менеджерам и клиентам."
+      },
+      {
+        "scenario": "Компания с несколькими командами",
+        "product": "Organization",
+        "note": "Общие библиотеки между командами и централизованное управление."
+      },
+      {
+        "scenario": "Крупная организация с ИБ-требованиями",
+        "product": "Enterprise",
+        "note": "SSO, несколько воркспейсов, расширенная безопасность и аналитика."
+      },
+      {
+        "scenario": "Только передача макетов разработчикам",
+        "product": "Dev seat",
+        "note": "Разработчикам достаточно Dev-мест без полного редактирования дизайна."
+      },
+      {
+        "scenario": "Заказчики и стейкхолдеры",
+        "product": "Collab seat",
+        "note": "Просмотр, комментирование и FigJam без оплаты полного места."
+      }
+    ],
+    "scenarios": [
+      {
+        "title": "Продуктовый дизайн",
+        "text": "UI/UX-дизайн интерфейсов, прототипы и дизайн-системы для продуктовых команд."
+      },
+      {
+        "title": "Брендинг и графика",
+        "text": "Айдентика, презентации, маркетинговые материалы и общие библиотеки бренда."
+      },
+      {
+        "title": "Разработка",
+        "text": "Передача макетов в разработку через Dev Mode: спецификации, ассеты, код."
+      },
+      {
+        "title": "Воркшопы",
+        "text": "Брейнштормы, карты пути и совместная работа в FigJam."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Как купить Figma для юридического лица в России?",
+        "a": "Через BIZSoft: заключаем договор, выставляем счёт, оплата в рублях по безналичному расчёту. Закрывающие документы — в том числе через ЭДО. Подберём набор мест и подготовим КП."
+      },
+      {
+        "q": "Как устроены места (seats) в Figma?",
+        "a": "С 2024 года Figma использует раздельные места: Full (дизайн), Dev (разработка) и Collab (просмотр и комментирование). Вы платите только за нужный тип места каждому сотруднику."
+      },
+      {
+        "q": "Чем отличаются Professional, Organization и Enterprise?",
+        "a": "Professional — для небольших команд. Organization добавляет общие библиотеки между командами и централизованное управление. Enterprise — SSO, несколько воркспейсов, расширенная безопасность и аналитика."
+      },
+      {
+        "q": "Сколько стоит Figma?",
+        "a": "Цена зависит от плана и типа мест. Стоимость в рублях считается от прайса Figma по курсу ЦБ РФ; актуальные цены — в карточках выше."
+      },
+      {
+        "q": "Нужно ли всем покупать Full seat?",
+        "a": "Нет. Дизайнерам — Full, разработчикам — Dev, а менеджерам и заказчикам обычно достаточно Collab-мест. Это заметно снижает стоимость."
+      },
+      {
+        "q": "Можно ли оплатить Figma с расчётного счёта?",
+        "a": "Да. Работаем с юрлицами и ИП по договору и счёту, предоставляем закрывающие документы для бухгалтерии."
+      },
+      {
+        "q": "Входит ли FigJam?",
+        "a": "FigJam доступен в рамках оплаченных мест (в том числе Collab). Отдельная лицензия обычно не требуется."
+      },
+      {
+        "q": "Что нужно для КП?",
+        "a": "Реквизиты компании, контактное лицо, email, план (Professional/Organization/Enterprise) и количество мест каждого типа (Full/Dev/Collab)."
+      }
+    ]
+  },
   "fl-studio": {
     "summary": "FL Studio — бессрочные лицензии с пожизненными бесплатными обновлениями: редакции Producer, Signature и All Plugins. Оформим покупку на юрлицо: договор, счёт в рублях, ЭДО.",
     "comparison": {
@@ -5984,6 +6390,829 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       }
     ]
   },
+  "jetbrains": {
+    "summary": "BIZSoft подбирает и оформляет лицензии JetBrains для юридических лиц и ИП: All Products Pack, IntelliJ IDEA Ultimate, dotUltimate, а также отдельные IDE — PyCharm Pro, WebStorm, PhpStorm, GoLand, Rider, CLion, RubyMine, RustRover, DataGrip и ReSharper. Доступны JetBrains AI, командные инструменты (TeamCity, YouTrack, Qodana, Datalore) и плагины Marketplace. Оформляем КП, счёт, договор и закрывающие документы через ЭДО.",
+    "intro": "JetBrains — это набор профессиональных сред разработки (IDE) и инструментов для команд: IntelliJ IDEA для Java и Kotlin, PyCharm для Python, WebStorm для JavaScript и TypeScript, PhpStorm, Rider для .NET, CLion, GoLand, RubyMine, RustRover, DataGrip, а также All Products Pack, JetBrains AI и серверные инструменты (TeamCity, YouTrack, Qodana, Datalore). BIZSoft помогает организациям и ИП легально приобрести и продлить лицензии JetBrains: мы подбираем продукты под задачи команды, рассчитываем стоимость в коммерческом предложении и оформляем поставку по договору с полным пакетом документов. Лицензии поставляются как годовая подписка на пользователя; стоимость зависит от курса евро, типа лицензии и числа пользователей.",
+    "picks": {
+      "title": "Быстрый подбор продукта",
+      "note": "Выберите стек или задачу — подскажем подходящий продукт и подставим выбор в форму расчёта.",
+      "items": [
+        {
+          "label": "Java / Kotlin",
+          "product": "IntelliJ IDEA Ultimate",
+          "target": "jb-idea-ult-org",
+          "query": "IntelliJ IDEA Ultimate (Java/Kotlin)"
+        },
+        {
+          "label": "Python",
+          "product": "PyCharm Pro",
+          "target": "jb-pycharm-pro-org",
+          "query": "PyCharm Pro (Python)"
+        },
+        {
+          "label": "JS / TS",
+          "product": "WebStorm",
+          "target": "jb-webstorm-org",
+          "query": "WebStorm (JavaScript/TypeScript)"
+        },
+        {
+          "label": "PHP",
+          "product": "PhpStorm",
+          "target": "jb-phpstorm-org",
+          "query": "PhpStorm (PHP)"
+        },
+        {
+          "label": ".NET",
+          "product": "Rider или ReSharper",
+          "target": "jb-rider-org",
+          "query": ".NET — Rider / ReSharper / dotUltimate"
+        },
+        {
+          "label": "C / C++",
+          "product": "CLion",
+          "target": "jb-clion-org",
+          "query": "CLion (C/C++)"
+        },
+        {
+          "label": "Go",
+          "product": "GoLand",
+          "target": "jb-goland-org",
+          "query": "GoLand (Go)"
+        },
+        {
+          "label": "Ruby",
+          "product": "RubyMine",
+          "target": "jb-rubymine-org",
+          "query": "RubyMine (Ruby)"
+        },
+        {
+          "label": "Rust",
+          "product": "RustRover",
+          "target": "jb-rustrover-org",
+          "query": "RustRover (Rust)"
+        },
+        {
+          "label": "SQL / данные",
+          "product": "DataGrip",
+          "target": "jb-datagrip-org",
+          "query": "DataGrip (SQL/БД)"
+        },
+        {
+          "label": "CI/CD",
+          "product": "TeamCity",
+          "target": "#team",
+          "query": "TeamCity (CI/CD)"
+        },
+        {
+          "label": "Управление задачами",
+          "product": "YouTrack",
+          "target": "#team",
+          "query": "YouTrack (трекер задач)"
+        },
+        {
+          "label": "Контроль качества",
+          "product": "Qodana",
+          "target": "#team",
+          "query": "Qodana (статанализ)"
+        },
+        {
+          "label": "ИИ-ассистент",
+          "product": "JetBrains AI",
+          "target": "#ai",
+          "query": "JetBrains AI (Pro/Ultimate)"
+        },
+        {
+          "label": "Смешанный стек",
+          "product": "All Products Pack",
+          "target": "jb-all-pack-org",
+          "query": "All Products Pack (мультистек)"
+        }
+      ]
+    },
+    "cards": {
+      "JB-ALL-PACK-ORG": {
+        "badge": "все продукты",
+        "forWhom": "Команды с разнородным стеком и несколькими языками",
+        "features": [
+          "Все настольные IDE JetBrains",
+          "Инструменты для .NET и AI Pro *",
+          "Все языки и платформы",
+          "Управление лицензиями",
+          "Годовая подписка на пользователя"
+        ],
+        "check": "Состав пакета уточняется перед КП — может обновляться вендором.",
+        "qtyLabel": "Лицензий"
+      },
+      "JB-IDEA-ULT-ORG": {
+        "badge": "Java / Kotlin",
+        "forWhom": "Backend- и fullstack-команды на JVM-стеке",
+        "features": [
+          "Java, Kotlin, Scala, Groovy",
+          "Spring и Jakarta EE",
+          "Работа с базами данных",
+          "Встроенный профилировщик",
+          "Docker и Kubernetes"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-DOTULTIMATE-ORG": {
+        "badge": ".NET",
+        "forWhom": "Команды .NET: разработка, анализ и профилирование",
+        "features": [
+          "Rider и ReSharper",
+          "Профилировщики dotTrace и dotMemory",
+          "Покрытие тестами dotCover",
+          "C#, F#, VB.NET",
+          "Поставка по договору"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-RIDER-ORG": {
+        "badge": ".NET / Unity",
+        "forWhom": ".NET- и геймдев-команды, кроссплатформенная разработка",
+        "features": [
+          "Кроссплатформенная IDE для .NET",
+          "Поддержка Unity и Unreal",
+          "Редактирование C# и F#",
+          "Встроенный отладчик",
+          "Windows, macOS, Linux"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-RESHARPER-ORG": {
+        "badge": "Visual Studio",
+        "forWhom": ".NET-команды, работающие в Visual Studio",
+        "features": [
+          "Расширение для Visual Studio",
+          "Сотни инспекций кода",
+          "Рефакторинг C#",
+          "Навигация и генерация кода",
+          "Модульное тестирование"
+        ],
+        "check": "Требуется установленная Visual Studio.",
+        "qtyLabel": "Лицензий"
+      },
+      "JB-PYCHARM-PRO-ORG": {
+        "badge": "Python",
+        "forWhom": "Python-разработчики и дата-сайентисты",
+        "features": [
+          "Python, Django, Flask",
+          "Поддержка Jupyter",
+          "Работа с базами данных",
+          "Виртуальные окружения",
+          "Научные библиотеки"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-GOLAND-ORG": {
+        "badge": "Go",
+        "forWhom": "Backend- и DevOps-команды на Go",
+        "features": [
+          "Разработка на Go",
+          "Отладчик и профилировщик",
+          "Поддержка Go Modules",
+          "Работа с Docker",
+          "gRPC и микросервисы"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-WEBSTORM-ORG": {
+        "badge": "JS / TS",
+        "forWhom": "Frontend- и fullstack-команды",
+        "features": [
+          "JavaScript и TypeScript",
+          "React, Angular, Vue",
+          "Node.js",
+          "Отладка и тесты",
+          "Интеграция с npm"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-PHPSTORM-ORG": {
+        "badge": "PHP",
+        "forWhom": "Веб-команды на PHP",
+        "features": [
+          "Разработка на PHP",
+          "Laravel и Symfony",
+          "WordPress и Drupal",
+          "Отладка с Xdebug",
+          "Поддержка фронтенда"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-RUBYMINE-ORG": {
+        "badge": "Ruby",
+        "forWhom": "Команды на Ruby и Ruby on Rails",
+        "features": [
+          "Разработка на Ruby",
+          "Поддержка Ruby on Rails",
+          "Отладчик и тесты",
+          "Работа с базами данных",
+          "RVM/rbenv и Docker"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-RUSTROVER-ORG": {
+        "badge": "Rust",
+        "forWhom": "Команды системного и сетевого ПО на Rust",
+        "features": [
+          "Разработка на Rust",
+          "Интеграция с Cargo",
+          "Встроенный отладчик",
+          "Анализ ошибок компилятора",
+          "WebAssembly и embedded"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-CLION-ORG": {
+        "badge": "C / C++",
+        "forWhom": "Команды системного, прикладного и embedded ПО",
+        "features": [
+          "Разработка на C и C++",
+          "Поддержка CMake",
+          "Встроенный отладчик (GDB/LLDB)",
+          "Статический анализ",
+          "Google Test и Catch"
+        ],
+        "qtyLabel": "Лицензий"
+      },
+      "JB-DATAGRIP-ORG": {
+        "badge": "SQL / БД",
+        "forWhom": "Инженеры данных, аналитики и разработчики",
+        "features": [
+          "Работа с SQL и СУБД",
+          "Десятки баз данных",
+          "Умное автодополнение SQL",
+          "Редактор данных",
+          "Диаграммы связей"
+        ],
+        "qtyLabel": "Лицензий"
+      }
+    },
+    "comparison": {
+      "cols": [
+        "All Products Pack",
+        "Отдельная IDE",
+        "dotUltimate"
+      ],
+      "rows": [
+        {
+          "label": "Когда выгоднее",
+          "values": [
+            "Смешанный стек, fullstack",
+            "Один язык или задача",
+            ".NET-команды"
+          ]
+        },
+        {
+          "label": "Состав",
+          "values": [
+            "Все настольные IDE + .NET-инструменты + AI Pro *",
+            "Одна выбранная IDE",
+            "Rider + ReSharper + профилировщики"
+          ]
+        },
+        {
+          "label": "Языки / стек",
+          "values": [
+            "Все языки",
+            "Один язык/стек",
+            "Только .NET"
+          ]
+        },
+        {
+          "label": "Профилировщики",
+          "values": [
+            "входят *",
+            "зависит от IDE *",
+            "dotTrace, dotMemory, dotCover"
+          ]
+        },
+        {
+          "label": "Работа с БД",
+          "values": [
+            "DataGrip входит",
+            "зависит от IDE *",
+            "через Rider"
+          ]
+        },
+        {
+          "label": "Лицензия",
+          "values": [
+            "на пользователя в год",
+            "на пользователя в год",
+            "на пользователя в год"
+          ]
+        },
+        {
+          "label": "Управление лицензиями",
+          "values": [
+            "JetBrains Account / сервер",
+            "JetBrains Account / сервер",
+            "JetBrains Account / сервер"
+          ]
+        }
+      ]
+    },
+    "decision": [
+      {
+        "scenario": "Java / Kotlin (JVM)",
+        "product": "IntelliJ IDEA Ultimate",
+        "slug": "jb-idea-ult-org",
+        "note": "Лучшая IDE для серверной разработки на JVM: Spring, Jakarta EE, базы данных и профилирование."
+      },
+      {
+        "scenario": "Python (web / скрипты)",
+        "product": "PyCharm Pro",
+        "slug": "jb-pycharm-pro-org",
+        "note": "Профессиональная среда для Python и web: Django, Flask, работа с данными."
+      },
+      {
+        "scenario": "Data science / ноутбуки",
+        "product": "PyCharm Pro + Datalore",
+        "slug": "jb-pycharm-pro-org",
+        "note": "PyCharm для кода, Datalore для совместных Jupyter-ноутбуков в браузере."
+      },
+      {
+        "scenario": "Frontend JS / TS",
+        "product": "WebStorm",
+        "slug": "jb-webstorm-org",
+        "note": "Заточена под React, Angular, Vue и Node.js."
+      },
+      {
+        "scenario": "PHP",
+        "product": "PhpStorm",
+        "slug": "jb-phpstorm-org",
+        "note": "Понимает Laravel, Symfony и CMS, поддерживает фронтенд в одном окне."
+      },
+      {
+        "scenario": ".NET в отдельной IDE",
+        "product": "Rider",
+        "slug": "jb-rider-org",
+        "note": "Кроссплатформенная IDE для C# и F# на Windows, macOS и Linux."
+      },
+      {
+        "scenario": ".NET в Visual Studio",
+        "product": "ReSharper",
+        "slug": "jb-resharper-org",
+        "note": "Усиливает уже используемую Visual Studio: инспекции, рефакторинг, навигация."
+      },
+      {
+        "scenario": "Unity / геймдев",
+        "product": "Rider",
+        "slug": "jb-rider-org",
+        "note": "Глубокая интеграция с Unity и Unreal Engine."
+      },
+      {
+        "scenario": "C / C++ / embedded",
+        "product": "CLion",
+        "slug": "jb-clion-org",
+        "note": "CMake, отладчик GDB/LLDB и нативный код для системного и встраиваемого ПО."
+      },
+      {
+        "scenario": "Go",
+        "product": "GoLand",
+        "slug": "jb-goland-org",
+        "note": "Заточена под Go, микросервисы, gRPC и Kubernetes."
+      },
+      {
+        "scenario": "Ruby / Rails",
+        "product": "RubyMine",
+        "slug": "jb-rubymine-org",
+        "note": "Понимает динамику Ruby и Rails, поддерживает RSpec и базы данных."
+      },
+      {
+        "scenario": "Rust",
+        "product": "RustRover",
+        "slug": "jb-rustrover-org",
+        "note": "Учитывает владение и заимствование Rust, интеграция с Cargo и WebAssembly."
+      },
+      {
+        "scenario": "SQL / базы данных",
+        "product": "DataGrip",
+        "slug": "jb-datagrip-org",
+        "note": "Один клиент для десятков СУБД: PostgreSQL, MySQL, Oracle, SQL Server и других."
+      },
+      {
+        "scenario": "Несколько языков / весь стек",
+        "product": "All Products Pack",
+        "slug": "jb-all-pack-org",
+        "note": "Один SKU вместо набора лицензий — когда команда работает с разными технологиями."
+      },
+      {
+        "scenario": "AI-ассистент",
+        "product": "JetBrains AI (Pro / Ultimate)",
+        "note": "ИИ в IDE; доступность и лимиты зависят от региона и провайдеров — уточняется перед КП."
+      },
+      {
+        "scenario": "CI/CD",
+        "product": "TeamCity",
+        "note": "Сервер непрерывной интеграции и доставки. Цена по запросу."
+      },
+      {
+        "scenario": "Трекер задач",
+        "product": "YouTrack",
+        "note": "Гибкий трекер задач и проектов; для небольших команд есть бесплатный тариф."
+      },
+      {
+        "scenario": "Статанализ в CI/CD",
+        "product": "Qodana",
+        "note": "Инспекции JetBrains в пайплайне; есть бесплатная Community-версия."
+      },
+      {
+        "scenario": "Покупка на 10 пользователей",
+        "product": "All Products Pack",
+        "note": "Для смешанного стека часто выгоднее единый пакет — посчитаем оба варианта в КП."
+      },
+      {
+        "scenario": "Продление",
+        "product": "Продление текущей подписки",
+        "note": "Сохраняем непрерывность подписки — уточните текущий состав и дату окончания."
+      }
+    ],
+    "sections": [
+      {
+        "id": "stack",
+        "title": "IDE и инструменты по стеку разработки",
+        "kind": "cells",
+        "cells": [
+          {
+            "title": "Java / Kotlin",
+            "note": "IntelliJ IDEA Ultimate",
+            "text": "Spring, Jakarta EE, профилирование и работа с базами данных для серверной и fullstack-разработки на JVM."
+          },
+          {
+            "title": "Python",
+            "note": "PyCharm Pro",
+            "text": "Django и Flask, Jupyter и работа с данными — для веб-разработки и анализа данных на Python."
+          },
+          {
+            "title": "JS / TS",
+            "note": "WebStorm",
+            "text": "React, Angular, Vue и Node.js, отладка и тесты — для современного фронтенда и fullstack."
+          },
+          {
+            "title": "PHP",
+            "note": "PhpStorm",
+            "text": "Laravel, Symfony, WordPress и Drupal, Xdebug и фронтенд в одном окне."
+          },
+          {
+            "title": ".NET",
+            "note": "Rider / ReSharper / dotUltimate",
+            "text": "Rider — кроссплатформенная IDE; ReSharper — для Visual Studio; dotUltimate — полный набор инструментов."
+          },
+          {
+            "title": "C / C++",
+            "note": "CLion",
+            "text": "CMake, отладчик и статический анализ для системного, прикладного и встраиваемого ПО."
+          },
+          {
+            "title": "Go",
+            "note": "GoLand",
+            "text": "Go Modules, отладчик, профилировщик, Docker и Kubernetes — для микросервисов и сетевых приложений."
+          },
+          {
+            "title": "Ruby",
+            "note": "RubyMine",
+            "text": "Ruby on Rails, RSpec и базы данных — для веб-приложений и API на Ruby."
+          },
+          {
+            "title": "Rust",
+            "note": "RustRover",
+            "text": "Cargo, отладчик и анализ ошибок компилятора — для безопасного системного и сетевого кода."
+          },
+          {
+            "title": "SQL / БД",
+            "note": "DataGrip",
+            "text": "Десятки СУБД из единого интерфейса: PostgreSQL, MySQL, Oracle, SQL Server, ClickHouse и другие."
+          }
+        ]
+      },
+      {
+        "id": "ai",
+        "title": "JetBrains AI / AI Assistant",
+        "kind": "cells",
+        "text": "JetBrains AI — это ИИ-ассистент, встроенный в IDE JetBrains: контекстное автодополнение, генерация и объяснение кода, рефакторинг, написание тестов и работа с документацией. Автодополнение в большинстве случаев не расходует квоту; чат, генерация кода и продвинутые функции используют ИИ-кредиты.",
+        "cells": [
+          {
+            "title": "AI Free",
+            "note": "Бесплатно",
+            "text": "Базовый тариф: автодополнение без расхода кредитов и небольшая квота на чат и генерацию."
+          },
+          {
+            "title": "AI Pro",
+            "note": "Цена по запросу",
+            "text": "Расширенные лимиты и доступ к облачным моделям; по данным JetBrains входит в All Products Pack."
+          },
+          {
+            "title": "AI Ultimate",
+            "note": "Цена по запросу",
+            "text": "Максимальные лимиты и агентные сценарии для интенсивной ИИ-нагрузки."
+          }
+        ],
+        "note": "Доступность уточняется. Важно: доступность ИИ-функций зависит от региона и условий сторонних провайдеров. Мы не обещаем работу ИИ в конкретной локации — доступность и актуальные лимиты уточняйте у менеджера перед покупкой.",
+        "cta": "Уточнить цену на JetBrains AI"
+      },
+      {
+        "id": "team",
+        "title": "Командные инструменты JetBrains",
+        "kind": "cells",
+        "cells": [
+          {
+            "title": "TeamCity",
+            "note": "CI/CD-сервер",
+            "text": "Сервер непрерывной интеграции и доставки: пайплайны, параллельные и распределённые сборки, доставка релизов. Цена по запросу"
+          },
+          {
+            "title": "YouTrack",
+            "note": "Трекер задач и PM",
+            "text": "Гибкий трекер задач и управление проектами: Scrum и Kanban, язык запросов, отчёты и автоматизация. Есть бесплатный тариф · поставка по запросу"
+          },
+          {
+            "title": "Qodana",
+            "note": "Статанализ в CI/CD",
+            "text": "Платформа статического анализа кода в пайплайне: инспекции JetBrains, проверки безопасности и дашборды качества. Есть Community-версия · расширенные по запросу"
+          },
+          {
+            "title": "Datalore",
+            "note": "Совместные ноутбуки",
+            "text": "Облачная платформа для совместной работы с данными и Jupyter-ноутбуками в браузере. Цена по запросу"
+          }
+        ],
+        "cta": "Уточнить цену командных инструментов"
+      },
+      {
+        "id": "plugins",
+        "title": "Плагины и расширения JetBrains Marketplace",
+        "kind": "accordion",
+        "text": "Плагины JetBrains Marketplace — сторонние дополнения; правообладатель — не JetBrains. Мы оформим покупку нужного плагина на организацию вместе с основными продуктами; точная цена — в карточке или КП.",
+        "items": [
+          {
+            "q": "AI-плагины",
+            "a": "Ассистенты, генерация и ревью кода, интеграции с моделями поверх IDE."
+          },
+          {
+            "q": "Темы и UI / иконки",
+            "a": "Цветовые схемы, наборы иконок и оформление редактора."
+          },
+          {
+            "q": "Логи и консоль",
+            "a": "Подсветка, фильтрация и навигация по логам и выводу консоли."
+          },
+          {
+            "q": "DevOps и инфраструктура",
+            "a": "Docker, Kubernetes, Ansible и облачные инструменты прямо в IDE."
+          },
+          {
+            "q": "Тестирование",
+            "a": "Раннеры, отчёты и помощники для модульных и интеграционных тестов."
+          },
+          {
+            "q": "Безопасность",
+            "a": "Проверки уязвимостей, секретов и зависимостей."
+          },
+          {
+            "q": "Языки и фреймворки",
+            "a": "Поддержка дополнительных языков, синтаксиса и фреймворков."
+          },
+          {
+            "q": "Productivity",
+            "a": "Навигация, шорткаты и инструменты для ускорения ежедневной работы."
+          }
+        ],
+        "note": "Не выводим весь список плагинов на странице. Полный каталог расширений для оформления на юрлицо — в разделе разработки.",
+        "more": {
+          "label": "Перейти в каталог плагинов →",
+          "href": "/catalog/development"
+        }
+      },
+      {
+        "id": "licenses",
+        "title": "Управление лицензиями, безопасность и администрирование",
+        "kind": "cells",
+        "text": "Лицензии JetBrains управляются через JetBrains Account: вы распределяете места между сотрудниками и контролируете подписки. Для организаций предусмотрены инструменты централизованного управления. BIZSoft помогает оформить, продлить и учесть лицензии: единый счёт, документы для бухгалтерии и сопровождение при разворачивании. Конкретные технические сценарии (офлайн-активация, сервер лицензий) уточняются у менеджера.",
+        "cells": [
+          {
+            "title": "JetBrains Account",
+            "text": "Центр управления подписками: распределение мест между сотрудниками и контроль использования лицензий."
+          },
+          {
+            "title": "Назначение и продление",
+            "text": "Назначение лицензий пользователям, продление подписок и помощь при разворачивании в команде."
+          },
+          {
+            "title": "Передача лицензий",
+            "text": "Перераспределение мест между сотрудниками при ротации в команде (условия уточняются перед КП)."
+          },
+          {
+            "title": "Сервер лицензий и офлайн",
+            "text": "Для организаций возможны централизованные сценарии управления и офлайн-активации (уточняется перед КП)."
+          },
+          {
+            "title": "Единый счёт и документы",
+            "text": "Учёт всех лицензий на одном счёте, договор и закрывающие документы для бухгалтерии."
+          },
+          {
+            "title": "Сопровождение IT-отдела",
+            "text": "Помощь при настройке, продлении и контроле лицензий силами BIZSoft."
+          }
+        ],
+        "cta": "Получить КП на лицензии команды"
+      },
+      {
+        "id": "segments",
+        "title": "Для каких команд подходит JetBrains",
+        "kind": "cells",
+        "cells": [
+          {
+            "title": "Стартапы и продуктовые команды",
+            "text": "Несколько продуктов на разном стеке — обычно выгоднее All Products Pack."
+          },
+          {
+            "title": "Backend-команды",
+            "text": "Серверная разработка на Java/Kotlin, Go или Python — профильная IDE под язык."
+          },
+          {
+            "title": ".NET-команды",
+            "text": "Разработка на C# и F#: Rider, ReSharper или комплект dotUltimate."
+          },
+          {
+            "title": "Аналитика и данные",
+            "text": "Инженерам данных и аналитикам — DataGrip, PyCharm Pro и Datalore для SQL, Python и Jupyter."
+          },
+          {
+            "title": "Геймдев",
+            "text": "Rider с интеграцией Unity и Unreal для команд, делающих игры."
+          },
+          {
+            "title": "Аутсорс и студии",
+            "text": "Проекты на разных языках — гибкое перекрытие потребностей через All Products Pack."
+          }
+        ],
+        "place": "before-buy"
+      },
+      {
+        "id": "objections",
+        "title": "Частые возражения",
+        "kind": "accordion",
+        "items": [
+          {
+            "q": "Дорого / непонятна цена",
+            "a": "Цена зависит от продукта, числа пользователей и курса евро. Пришлём прозрачный расчёт в КП."
+          },
+          {
+            "q": "А документы для бухгалтерии будут?",
+            "a": "Да: договор, счёт, акт или УПД. Документооборот ведём через ЭДО."
+          },
+          {
+            "q": "Можно ли продлить текущую подписку?",
+            "a": "Да, помогаем с продлением. Уточните текущий продукт, состав и дату окончания."
+          },
+          {
+            "q": "Нам нужен только один язык",
+            "a": "Тогда пакет не нужен — подберём профильную IDE и сэкономим бюджет."
+          },
+          {
+            "q": "Будет ли работать ИИ?",
+            "a": "Доступность ИИ-функций зависит от региона и сторонних провайдеров. Мы не обещаем работу в конкретной локации — уточняйте перед покупкой."
+          },
+          {
+            "q": "Это легально для юрлица?",
+            "a": "Поставка оформляется по договору с полным пакетом документов; лицензия — годовая подписка на пользователя."
+          }
+        ],
+        "place": "before-buy"
+      }
+    ],
+    "scenarios": [
+      {
+        "title": "Backend-разработка",
+        "text": "IntelliJ IDEA Ultimate, GoLand или PyCharm Pro для серверной логики, API и микросервисов."
+      },
+      {
+        "title": "Frontend-разработка",
+        "text": "WebStorm для React, Angular, Vue и Node.js: отладка, тесты и интеграция с npm."
+      },
+      {
+        "title": ".NET-команды",
+        "text": "Rider, ReSharper и dotUltimate для C#, F#, ASP.NET и игр на Unity."
+      },
+      {
+        "title": "Работа с данными",
+        "text": "DataGrip для SQL и десятков СУБД, плюс PyCharm Pro и Datalore для анализа и ноутбуков."
+      },
+      {
+        "title": "DevOps и качество",
+        "text": "TeamCity для CI/CD и Qodana для статанализа кода в пайплайне."
+      },
+      {
+        "title": "Смешанный стек",
+        "text": "All Products Pack, когда команда одновременно работает с несколькими языками."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Можно ли купить JetBrains на юридическое лицо?",
+        "a": "Да. BIZSoft оформляет поставку по договору, выставляет счёт и предоставляет закрывающие документы (акт или УПД), работает через ЭДО."
+      },
+      {
+        "q": "Какие документы вы предоставляете?",
+        "a": "Договор, счёт и УПД с выделенным НДС 5% (или акт со счётом-фактурой). Документооборот ведём через ЭДО."
+      },
+      {
+        "q": "Как формируется цена?",
+        "a": "Цена — годовая подписка на пользователя; зависит от продукта, числа пользователей, типа лицензии и курса евро. "
+      },
+      {
+        "q": "Что входит в All Products Pack?",
+        "a": "По данным JetBrains — настольные IDE, инструменты для .NET (ReSharper, ReSharper C++, dotCover, dotTrace, dotMemory) и подписка AI Pro. Состав уточняйте в КП — он может обновляться вендором."
+      },
+      {
+        "q": "Что выгоднее: All Products Pack или отдельная IDE?",
+        "a": "Для смешанного стека обычно выгоднее пакет, для одного языка — профильная IDE. Поможем сравнить оба варианта по числу пользователей."
+      },
+      {
+        "q": "Чем отличается лицензия «для организаций» от индивидуальной?",
+        "a": "Организационная покупается компанией на юрлицо по договору, выставляется счёт, обмен закрывающими идёт через ЭДО. Индивидуальная оформляется на одного человека для личного использования; доступна оплата для физлиц и ИП. Это разные карточки с разной ценой."
+      },
+      {
+        "q": "Можно ли продлить существующую подписку?",
+        "a": "Да. Уточните текущий продукт, состав лицензий и дату окончания — подготовим продление."
+      },
+      {
+        "q": "Можно ли апгрейдить отдельную IDE до All Products Pack?",
+        "a": "Уточняйте у менеджера — рассчитаем вариант перехода. Условия апгрейда определяются вендором."
+      },
+      {
+        "q": "Сколько стоит IntelliJ IDEA Ultimate для организации?",
+        "a": "Цена указана на карточке как ориентир за пользователя в год."
+      },
+      {
+        "q": "Какую IDE выбрать для Python?",
+        "a": "PyCharm Pro: Django, Flask, Jupyter и работа с данными. Для совместной работы с данными — дополнительно Datalore."
+      },
+      {
+        "q": "Какую IDE выбрать для .NET?",
+        "a": "Rider — кроссплатформенная IDE; ReSharper — если работаете в Visual Studio; полный набор инструментов — dotUltimate."
+      },
+      {
+        "q": "Что выбрать для фронтенда?",
+        "a": "WebStorm — для React, Angular, Vue и Node.js, с отладкой, тестами и интеграцией с npm."
+      },
+      {
+        "q": "Есть ли инструмент для баз данных?",
+        "a": "Да, DataGrip — поддерживает PostgreSQL, MySQL, Oracle, SQL Server, ClickHouse и десятки других СУБД из единого интерфейса."
+      },
+      {
+        "q": "Что такое JetBrains AI и сколько стоит?",
+        "a": "ИИ-ассистент в IDE с тарифами Free, Pro и Ultimate. Pro и Ultimate — по запросу; стоимость зависит от числа пользователей."
+      },
+      {
+        "q": "Будет ли JetBrains AI работать в нашем регионе?",
+        "a": "Доступность ИИ-функций зависит от региона и условий сторонних провайдеров. Мы не гарантируем работу в конкретной локации — уточняйте перед покупкой."
+      },
+      {
+        "q": "Что такое TeamCity?",
+        "a": "Сервер непрерывной интеграции и доставки (CI/CD) для автоматизации сборки, тестов и развёртывания. Цена по запросу."
+      },
+      {
+        "q": "Что такое YouTrack?",
+        "a": "Гибкий трекер задач и управление проектами. Для небольших команд есть бесплатный тариф; корпоративная поставка — по запросу."
+      },
+      {
+        "q": "Что такое Qodana?",
+        "a": "Платформа статического анализа кода в CI/CD. Есть бесплатная Community-версия; расширенные редакции — по запросу."
+      },
+      {
+        "q": "Что такое Datalore?",
+        "a": "Облачная платформа для совместной работы с данными и Jupyter-ноутбуками. Цена по запросу."
+      },
+      {
+        "q": "Продаёте ли вы плагины JetBrains Marketplace?",
+        "a": "Да, можем оформить покупку плагина на организацию. Это сторонние дополнения; правообладатель — не JetBrains."
+      },
+      {
+        "q": "На сколько пользователей можно купить?",
+        "a": "На любое число — от одного до десятков. Для 5, 10 или 50+ рассчитываем стоимость в КП."
+      },
+      {
+        "q": "Как управлять лицензиями в команде?",
+        "a": "Через JetBrains Account: распределение мест и контроль подписок; для организаций возможны централизованные инструменты управления."
+      },
+      {
+        "q": "Работаете ли вы с ИП?",
+        "a": "Да. Поставщик — ИП Беляев А.В.; работаем с организациями и ИП."
+      },
+      {
+        "q": "Как быстро вы пришлёте КП?",
+        "a": "Подготовим расчёт после уточнения продуктов и числа пользователей; срок согласуем при обращении."
+      },
+      {
+        "q": "Можно ли вернуть или отменить?",
+        "a": "Условия возврата и отмены уточняйте у менеджера до оплаты — они зависят от типа лицензии и вендора."
+      }
+    ]
+  },
   "kimi": {
     "summary": "Kimi от Moonshot AI — ассистент с длинным контекстом, заметно дешевле западных аналогов. Оформим подписку на юрлицо: договор, счёт в рублях, ЭДО.",
     "comparison": {
@@ -6877,114 +8106,338 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
     ]
   },
   "maxon": {
-    "summary": "Maxon — экосистема инструментов для 3D, моушн-дизайна, VFX и цифрового скульптинга: Cinema 4D, ZBrush, Redshift, Red Giant. BizSoft поставляет подписки Maxon российским юрлицам официально по договору, с закрывающими документами и оплатой в рублях по счёту. Лицензирование — по модели «за место в год» (annual subscription per seat): одно место = один работающий пользователь. Подписки бывают на отдельные продукты либо единым пакетом Maxon One, куда входит весь стек сразу.",
+    "summary": "BIZSoft оформляет годовые подписки Maxon (Cinema 4D, ZBrush, Redshift, Red Giant, Universe и пакет Maxon One) для российских юридических лиц: договор, счёт в рублях, закрывающие документы через ЭДО. Планы двух видов: индивидуальные (Individuals) — лицензия на конкретного специалиста, и командные (Teams) — места принадлежат компании, управляются централизованно и переназначаются между сотрудниками. Командные планы дороже, но остаются активом организации при смене состава команды.",
+    "intro": "Maxon — экосистема инструментов для 3D-графики, моушн-дизайна, VFX и цифрового скульптинга. В линейке шесть подписок: пакет Maxon One со всем стеком сразу и отдельные продукты — Cinema 4D для 3D-моделирования и анимации, Red Giant для VFX и постпродакшена, GPU-рендер Redshift, скульптинг ZBrush и коллекция эффектов Universe. Каждая подписка продаётся в двух моделях лицензирования: индивидуальный план (Individuals) — лицензия на конкретного специалиста, и командный план (Teams) — места принадлежат компании, управляются из единой консоли и переназначаются между сотрудниками. Исключение — Universe: отдельной командной версии у него нет, для команд он входит в состав Red Giant.",
+    "cards": {
+      "MAXON-ONE": {
+        "badge": "весь стек",
+        "forWhom": "Специалисту, которому нужно всё: 3D, скульптинг, рендер и VFX",
+        "features": [
+          "Cinema 4D, Redshift, ZBrush, Red Giant и Universe в одном пакете",
+          "Дешевле, чем два-три продукта по отдельности",
+          "Лицензия на одного специалиста"
+        ]
+      },
+      "MAXON-C4D": {
+        "badge": "3D и анимация",
+        "forWhom": "Моушн-дизайнеру и 3D-художнику",
+        "features": [
+          "3D-моделирование, анимация и симуляция",
+          "Redshift для Cinema 4D включён",
+          "Интеграция с After Effects"
+        ]
+      },
+      "MAXON-REDGIANT": {
+        "badge": "VFX и моушн",
+        "forWhom": "Монтажёру и специалисту по постпродакшену",
+        "features": [
+          "Trapcode, Magic Bullet, VFX и Universe",
+          "Плагины для After Effects и Premiere Pro",
+          "Цветокоррекция и киношные луки"
+        ]
+      },
+      "MAXON-REDSHIFT": {
+        "badge": "GPU-рендер",
+        "forWhom": "3D-специалисту с любым основным пакетом",
+        "features": [
+          "Рендер продакшн-качества на GPU",
+          "C4D, Maya, 3ds Max, Houdini, Blender, Katana",
+          "Объёмные эффекты, волосы, SSS"
+        ]
+      },
+      "MAXON-ZBRUSH": {
+        "badge": "скульптинг",
+        "forWhom": "Художнику по персонажам и hard-surface",
+        "features": [
+          "Индустриальный стандарт скульптинга",
+          "ZBrush для iPad включён",
+          "Экспорт в игровые пайплайны"
+        ]
+      },
+      "MAXON-UNIVERSE": {
+        "badge": "эффекты",
+        "forWhom": "Монтажёру — самый доступный вход в экосистему Maxon",
+        "features": [
+          "GPU-эффекты, переходы и генераторы",
+          "AE, Premiere Pro, Final Cut, DaVinci Resolve",
+          "Регулярные пополнения коллекции"
+        ]
+      },
+      "MAXON-ONE-TEAMS": {
+        "badge": "весь стек",
+        "forWhom": "Студии, где полный стек Maxon нужен на несколько мест",
+        "features": [
+          "Cinema 4D, Redshift, ZBrush, Red Giant и Universe",
+          "Места принадлежат компании и переназначаются",
+          "Управление лицензиями из единой консоли"
+        ]
+      },
+      "MAXON-C4D-TEAMS": {
+        "badge": "3D и анимация",
+        "forWhom": "Студии моушн-дизайна и 3D-продакшену",
+        "features": [
+          "3D-моделирование, анимация и симуляция",
+          "Redshift для Cinema 4D включён",
+          "Места переназначаются между сотрудниками"
+        ]
+      },
+      "MAXON-REDGIANT-TEAMS": {
+        "badge": "VFX и моушн",
+        "forWhom": "Постпродакшн-студии и отделу видео",
+        "features": [
+          "Trapcode, Magic Bullet, VFX и Universe",
+          "Плагины для After Effects и Premiere Pro",
+          "Места переназначаются между сотрудниками"
+        ]
+      },
+      "MAXON-REDSHIFT-TEAMS": {
+        "badge": "GPU-рендер",
+        "forWhom": "Студии с общим парком рабочих станций",
+        "features": [
+          "Рендер продакшн-качества на GPU",
+          "C4D, Maya, 3ds Max, Houdini, Blender, Katana",
+          "Места переназначаются между сотрудниками"
+        ]
+      },
+      "MAXON-ZBRUSH-TEAMS": {
+        "badge": "скульптинг",
+        "forWhom": "Студии персонажки и аутсорс-команде",
+        "features": [
+          "Индустриальный стандарт скульптинга",
+          "ZBrush для iPad включён",
+          "Места переназначаются между сотрудниками"
+        ]
+      }
+    },
+    "order": [
+      "MAXON-ONE",
+      "MAXON-C4D",
+      "MAXON-REDGIANT",
+      "MAXON-REDSHIFT",
+      "MAXON-ZBRUSH",
+      "MAXON-UNIVERSE",
+      "MAXON-ONE-TEAMS",
+      "MAXON-C4D-TEAMS",
+      "MAXON-REDGIANT-TEAMS",
+      "MAXON-REDSHIFT-TEAMS",
+      "MAXON-ZBRUSH-TEAMS"
+    ],
+    "groups": [
+      {
+        "id": "individuals",
+        "title": "Индивидуальные планы (Individuals)",
+        "note": "Лицензия закреплена за конкретным специалистом.",
+        "items": [
+          "MAXON-ONE",
+          "MAXON-C4D",
+          "MAXON-REDGIANT",
+          "MAXON-REDSHIFT",
+          "MAXON-ZBRUSH",
+          "MAXON-UNIVERSE"
+        ]
+      },
+      {
+        "id": "teams",
+        "title": "Командные планы (Teams)",
+        "note": "Места принадлежат компании, управляются из единой консоли и переназначаются между сотрудниками.",
+        "items": [
+          "MAXON-ONE-TEAMS",
+          "MAXON-C4D-TEAMS",
+          "MAXON-REDGIANT-TEAMS",
+          "MAXON-REDSHIFT-TEAMS",
+          "MAXON-ZBRUSH-TEAMS"
+        ]
+      }
+    ],
     "comparison": {
       "cols": [
-        "Maxon One",
-        "Cinema 4D",
-        "ZBrush",
-        "Red Giant"
+        "Индивидуальный план (Individuals)",
+        "Командный план (Teams)"
       ],
       "rows": [
         {
-          "label": "Назначение",
+          "label": "Кому принадлежит лицензия",
           "values": [
-            "Всё-в-одном: полный набор Maxon",
-            "3D-моделинг, анимация и сцены",
-            "Цифровой скульптинг и модели высокой детализации",
-            "VFX и моушн-графика в After Effects / Premiere"
+            "Конкретному специалисту",
+            "Организации"
           ]
         },
         {
-          "label": "3D-моделинг и анимация",
+          "label": "Переназначение места другому сотруднику",
           "values": [
-            "Да (Cinema 4D)",
-            "Да",
-            "Частично (скульпт-меши, ретопология)",
-            "Нет"
-          ]
-        },
-        {
-          "label": "Скульптинг",
-          "values": [
-            "Да (ZBrush + Forger)",
-            "Базовый скульпт-режим",
-            "Да, профильный инструмент",
-            "Нет"
-          ]
-        },
-        {
-          "label": "VFX и моушн-графика",
-          "values": [
-            "Да (Red Giant + Universe)",
-            "Ограниченно",
             "Нет",
-            "Да, профильный набор"
+            "Да, в любой момент"
           ]
         },
         {
-          "label": "Рендер Redshift",
+          "label": "Централизованное управление местами",
           "values": [
-            "Включён (GPU/CPU)",
-            "Не входит, докупается отдельно",
             "Нет",
-            "Нет"
+            "Да, консоль администратора"
           ]
         },
         {
-          "label": "Состав пакета",
+          "label": "Что происходит при уходе сотрудника",
           "values": [
-            "C4D + Redshift + ZBrush + Red Giant + Universe + Forger",
-            "Cinema 4D + Redshift на подписке",
-            "ZBrush + Forger",
-            "Trapcode, Magic Bullet, VFX, Universe"
+            "Подписка остаётся у специалиста",
+            "Место передаётся новому сотруднику"
           ]
         },
         {
-          "label": "Модель лицензии",
+          "label": "Масштабирование закупки",
           "values": [
-            "Подписка за место в год",
-            "Подписка за место в год",
-            "Подписка за место в год",
-            "Подписка за место в год"
+            "По одной подписке",
+            "По числу мест в одном договоре"
           ]
         },
         {
-          "label": "Для кого",
+          "label": "Кому подходит",
           "values": [
-            "Студии, которым нужен весь конвейер",
-            "3D-дженералисты, моушн-дизайнеры",
-            "Скульпторы, character-артисты",
-            "Композеры, motion-дизайнеры на Adobe"
+            "Фрилансер, ИП, единственный специалист",
+            "Студия, отдел, распределённая команда"
+          ]
+        },
+        {
+          "label": "Цена за место в год",
+          "values": [
+            "Ниже",
+            "Выше — за управляемость и переносимость"
+          ]
+        },
+        {
+          "label": "Доступные продукты",
+          "values": [
+            "Maxon One, Cinema 4D, Red Giant, Redshift, ZBrush, Universe",
+            "Maxon One, Cinema 4D, Red Giant, Redshift, ZBrush"
           ]
         }
       ]
     },
     "decision": [
       {
-        "scenario": "Нужен весь конвейер: 3D, рендер, скульпт и моушн",
-        "product": "Maxon One",
-        "note": "Выгоднее, когда нужны хотя бы 2-3 продукта Maxon одновременно — пакет дешевле суммы отдельных подписок и включает Redshift и Universe."
+        "scenario": "Один моушн-дизайнер, нужен весь стек Maxon",
+        "product": "Maxon One 1Y (Individuals)",
+        "slug": "maxon-one",
+        "note": "Полный пакет дешевле двух-трёх продуктов по отдельности"
       },
       {
-        "scenario": "Только 3D-сцены, моделинг и анимация",
-        "product": "Cinema 4D",
-        "note": "Оптимально для 3D-дженералиста; в подписку входит рендер Redshift, а ZBrush и Red Giant не нужны."
+        "scenario": "Студия из нескольких 3D-специалистов, состав меняется",
+        "product": "Maxon One 1Y (Teams)",
+        "slug": "maxon-one-teams",
+        "note": "Места принадлежат компании и переназначаются между сотрудниками"
       },
       {
-        "scenario": "Скульптинг персонажей и высокодетальных моделей",
-        "product": "ZBrush",
-        "note": "Профильный инструмент скульптинга; берите отдельно, если 3D-сцены и рендер уже закрыты."
+        "scenario": "Нужен только Cinema 4D одному специалисту",
+        "product": "Cinema 4D 1Y (Individuals)",
+        "slug": "maxon-c4d",
+        "note": "Redshift для Cinema 4D уже включён в подписку"
       },
       {
-        "scenario": "Быстрый GPU-рендер поверх своего DCC",
-        "product": "Redshift",
-        "note": "Отдельная подписка на движок рендера; подходит, если используете Houdini, Maya или Blender."
+        "scenario": "Отдел видео: эффекты и цветокоррекция в After Effects / Premiere",
+        "product": "Red Giant 1Y (Teams)",
+        "slug": "maxon-redgiant-teams",
+        "note": "Trapcode, Magic Bullet, VFX и Universe на управляемых местах"
       },
       {
-        "scenario": "VFX и моушн-графика в After Effects и Premiere",
-        "product": "Red Giant Complete",
-        "note": "Trapcode, Magic Bullet и VFX-плагины; не требует Cinema 4D и работает как расширение Adobe."
+        "scenario": "Рендер в Maya / Houdini / Blender на несколько рабочих станций",
+        "product": "Redshift 1Y (Teams)",
+        "slug": "maxon-redshift-teams",
+        "note": "GPU-рендер закупается на компанию, места передаются"
+      },
+      {
+        "scenario": "Монтажёру нужны только переходы и эффекты",
+        "product": "Universe 1Y (Individuals)",
+        "slug": "maxon-universe",
+        "note": "Самая доступная позиция Maxon; командной версии нет — для команд Universe входит в Red Giant (Teams)"
+      }
+    ],
+    "explainer": {
+      "title": "Что входит в линейку Maxon",
+      "items": [
+        {
+          "title": "Maxon One",
+          "text": "Пакет «всё в одном»: Cinema 4D, Redshift, ZBrush, Red Giant и Universe одной подпиской. Выгоден уже при использовании двух-трёх продуктов стека."
+        },
+        {
+          "title": "Cinema 4D",
+          "text": "3D-моделирование, анимация и симуляция — индустриальный стандарт моушн-дизайна. Redshift для Cinema 4D включён в подписку."
+        },
+        {
+          "title": "Red Giant",
+          "text": "VFX и моушн-графика: Trapcode, Magic Bullet, VFX и Universe. Плагины для After Effects, Premiere Pro и других хостов."
+        },
+        {
+          "title": "Redshift",
+          "text": "GPU-рендерер продакшн-качества для Cinema 4D, Maya, 3ds Max, Houdini, Blender и Katana."
+        },
+        {
+          "title": "ZBrush",
+          "text": "Цифровой скульптинг: персонажи и hard-surface с детализацией в десятки миллионов полигонов. Версия для iPad включена."
+        },
+        {
+          "title": "Universe",
+          "text": "Коллекция GPU-эффектов, переходов и генераторов для монтажа. Доступна отдельно только в индивидуальном плане; в командной модели входит в Red Giant."
+        }
+      ]
+    },
+    "sections": [
+      {
+        "id": "segments",
+        "title": "Для каких команд подходит Maxon",
+        "kind": "cells",
+        "cells": [
+          {
+            "title": "Студии моушн-дизайна",
+            "text": "Cinema 4D и Red Giant — базовый стек рекламной и брендинговой графики; командные планы позволяют гибко передавать места между проектами."
+          },
+          {
+            "title": "Игровые студии",
+            "text": "ZBrush для персонажки и пропсов, Redshift для рендера синематиков, Cinema 4D для промо-материалов."
+          },
+          {
+            "title": "Видеопродакшн и постпродакшн",
+            "text": "Red Giant и Universe в монтажке: эффекты, переходы, цветокоррекция, VFX в After Effects и Premiere Pro."
+          },
+          {
+            "title": "Фрилансеры и ИП",
+            "text": "Индивидуальные планы: полный Maxon One или отдельный продукт под задачу — с оформлением на юрлицо и закрывающими документами."
+          }
+        ],
+        "place": "before-buy"
+      }
+    ],
+    "faq": [
+      {
+        "q": "Чем командные планы Maxon (Teams) отличаются от индивидуальных (Individuals)?",
+        "a": "Индивидуальная подписка оформляется на конкретного специалиста и не передаётся другому человеку. В командном плане места принадлежат организации: администратор управляет ими из единой консоли, назначает и переназначает сотрудникам — при смене состава команды лицензии остаются у компании. За управляемость и переносимость командные планы стоят дороже."
+      },
+      {
+        "q": "Можно ли купить индивидуальный план на юридическое лицо?",
+        "a": "Да. Договор и счёт оформляются на организацию или ИП, а использовать подписку будет конкретный специалист, на которого она зарегистрирована. Если специалистов несколько и места нужно переназначать, выбирайте командный план."
+      },
+      {
+        "q": "Что входит в Maxon One?",
+        "a": "Maxon One объединяет весь стек Maxon: Cinema 4D, GPU-рендер Redshift, скульптинг ZBrush (включая версию для iPad), набор Red Giant и коллекцию эффектов Universe. Пакет выгоднее покупки продуктов по отдельности уже при использовании двух-трёх из них."
+      },
+      {
+        "q": "Почему у Universe нет командного плана?",
+        "a": "Производитель продаёт Universe отдельной подпиской только в индивидуальном плане. Командам, которым нужны эффекты Universe на управляемых местах, подходит Red Giant 1Y (Teams) — Universe входит в набор Red Giant."
+      },
+      {
+        "q": "Как считается цена в рублях?",
+        "a": "Цены на сайте привязаны к прайсу производителя в долларах США и пересчитываются в рубли по курсу ЦБ РФ; итоговая сумма фиксируется в счёте на дату выставления. Окончательную стоимость под ваше количество мест подтвердим в коммерческом предложении."
+      },
+      {
+        "q": "Какие документы получит бухгалтерия?",
+        "a": "Договор поставки, счёт на оплату и УПД с выделенным НДС 5% (или акт со счётом-фактурой). Обмен через ЭДО; при необходимости выдаём бумажный комплект. Состав документов подтверждаем до оплаты — образцы на странице «Документы»."
+      },
+      {
+        "q": "Сколько занимает поставка подписки Maxon?",
+        "a": "Обычно 1–3 рабочих дня после оплаты счёта: передаём доступы и инструкции по активации на почту ответственного сотрудника."
+      },
+      {
+        "q": "Можно ли сочетать индивидуальные и командные планы в одном заказе?",
+        "a": "Да. Например, командный Cinema 4D на отдел и индивидуальный ZBrush для одного художника оформляются одним договором и одним счётом."
       }
     ],
     "scenarios": [
@@ -7003,36 +8456,6 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       {
         "title": "VFX и композитинг на Adobe",
         "text": "Red Giant Complete добавляет в After Effects и Premiere частицы Trapcode, кинематографичный лук Magic Bullet и VFX-инструменты. Отдельная подписка не требует Cinema 4D."
-      }
-    ],
-    "faq": [
-      {
-        "q": "Можно ли купить Maxon на российское юрлицо и получить счёт?",
-        "a": "Да. BizSoft оформляет подписки Maxon по договору: выставляем счёт, принимаем оплату в рублях по безналу и предоставляем закрывающие документы."
-      },
-      {
-        "q": "Как считается лицензия — за место или за компьютер?",
-        "a": "Лицензирование по модели «за место в год» (per seat, annual): одна подписка = один работающий пользователь. Количество мест выбирается под размер команды; продление ежегодное."
-      },
-      {
-        "q": "Что входит в Maxon One?",
-        "a": "Полный стек: Cinema 4D, движок рендера Redshift, ZBrush, Red Giant Complete, набор Universe и приложение Forger — единая подписка на всё сразу за место в год."
-      },
-      {
-        "q": "Redshift входит в подписку или покупается отдельно?",
-        "a": "Redshift включён в Cinema 4D и в Maxon One. Его также можно приобрести отдельной подпиской, если используете другой DCC — Houdini, Maya, Blender или 3ds Max."
-      },
-      {
-        "q": "С какими программами работает Red Giant?",
-        "a": "Red Giant Complete — набор плагинов для Adobe After Effects и Premiere Pro (Trapcode, Magic Bullet, VFX, Universe). Устанавливается как расширение хоста и не требует Cinema 4D."
-      },
-      {
-        "q": "Чем Maxon One выгоднее отдельных подписок?",
-        "a": "Если студии нужны хотя бы два-три продукта Maxon одновременно, Maxon One дешевле суммы отдельных подписок и сразу включает Redshift, Universe и Forger."
-      },
-      {
-        "q": "Нужен ли ZBrush, если уже есть Cinema 4D?",
-        "a": "Не обязательно. В Cinema 4D есть базовый скульпт-режим. ZBrush нужен для профессионального high-poly скульптинга персонажей — тогда берите Maxon One или отдельную подписку ZBrush."
       }
     ]
   },
@@ -8081,6 +9504,285 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       {
         "q": "Можно перенести существующую вики?",
         "a": "Да, Notion импортирует данные из распространённых вики и таблиц. Объём и структуру оценим до оформления."
+      }
+    ]
+  },
+  "openai": {
+    "summary": "BIZSoft подбирает и оформляет доступ к продуктам OpenAI для юридических лиц: ChatGPT Business для команд (места Standard seat и Premium seat), ChatGPT Enterprise для крупных организаций и пополнение баланса OpenAI API для разработки — там оплата идёт по использованию, а не за место. Договор, счёт и закрывающие документы; оплата в рублях по курсу ЦБ.",
+    "segments": [
+      {
+        "id": "team",
+        "title": "Команда",
+        "text": "Отдел от 2 человек: общее пространство, админ-панель, единый вход.",
+        "why": "Оба варианта — один тариф ChatGPT Business, различаются только типом места. Места смешиваются в одной команде: тем, кто упирается в лимиты, берут Premium seat, остальным — Standard seat.",
+        "keys": [
+          "chatgpt-business",
+          "INT-AI-CHATGPT",
+          "chatgpt-business-premium",
+          "CHATGPT-BUSINESS-PREMIUM"
+        ]
+      },
+      {
+        "id": "org",
+        "title": "Крупная организация",
+        "text": "Десятки мест и требования информационной безопасности.",
+        "why": "SCIM, EKM, RBAC, аналитика и расширенная приватность есть только в Enterprise. Цена договорная: считаем под число мест и требования ИБ.",
+        "keys": [
+          "openai-enterprise",
+          "OPENAI-ENTERPRISE"
+        ]
+      },
+      {
+        "id": "api",
+        "title": "Разработчик, нужен API",
+        "text": "Встраивание моделей OpenAI в собственный продукт.",
+        "why": "Другая модель продажи: платите не за места, а за фактическое использование — за токены на входе и выходе. Выбираете номинал пополнения баланса; счёт и закрывающие оформляем так же, на юрлицо.",
+        "keys": [
+          "openai-api-balance",
+          "OPENAI-API-BALANCE"
+        ]
+      }
+    ],
+    "cards": {
+      "chatgpt-business": {
+        "badge": "для команд",
+        "forWhom": "Компании и отделы от 2 пользователей",
+        "features": [
+          "Командное пространство",
+          "Админ-управление, SSO, домен",
+          "SOC 2, данные не в обучении",
+          "Company Knowledge, Projects"
+        ],
+        "check": "Тариф доступен от 2 пользователей; цена — за одно место Standard seat в год при годовой схеме оплаты.",
+        "minQty": 2,
+        "qtyLabel": "Мест",
+        "seg": "team"
+      },
+      "chatgpt-business-premium": {
+        "badge": "для нагрузки",
+        "forWhom": "Те, кто работает в ассистенте весь день",
+        "features": [
+          "То же пространство и админ-панель",
+          "Кратно большие лимиты",
+          "Приоритет в агентских инструментах",
+          "Смешивается с местами Standard seat"
+        ],
+        "check": "Старший тип места в тарифе Business; цена — за одно место Premium seat в год при годовой схеме оплаты.",
+        "minQty": 2,
+        "qtyLabel": "Мест",
+        "seg": "team"
+      },
+      "OPENAI-ENTERPRISE": {
+        "badge": "по запросу",
+        "forWhom": "Крупные организации с требованиями ИБ",
+        "features": [
+          "SCIM, EKM, RBAC, аналитика",
+          "Расширенная приватность",
+          "Максимальные лимиты",
+          "Централизованное управление"
+        ],
+        "check": "Цена договорная, рассчитывается индивидуально.",
+        "minQty": 1,
+        "qtyLabel": "Мест",
+        "seg": "org"
+      },
+      "openai-api-balance": {
+        "badge": "API",
+        "forWhom": "Разработка и интеграции в продукты",
+        "features": [
+          "Оплата по токенам (вход/выход)",
+          "Модели GPT, Realtime, эмбеддинги",
+          "Batch и flex-режимы",
+          "Номинал пополнения — на выбор"
+        ],
+        "check": "Не подписка за место: вносим согласованную сумму на баланс вашего аккаунта, списание идёт по фактическому потреблению.",
+        "seg": "api"
+      }
+    },
+    "order": [
+      "chatgpt-business",
+      "INT-AI-CHATGPT",
+      "chatgpt-business-premium",
+      "CHATGPT-BUSINESS-PREMIUM",
+      "openai-enterprise",
+      "OPENAI-ENTERPRISE",
+      "openai-api-balance",
+      "OPENAI-API-BALANCE"
+    ],
+    "denominations": {
+      "title": "Номиналы пополнения баланса API",
+      "note": "Оплата по использованию: сумма зачисляется на баланс вашего аккаунта и расходуется по фактическим запросам. Нужна сумма вне ряда — посчитаем по запросу.",
+      "parent": "openai-api-balance",
+      "unit": "$"
+    },
+    "security": {
+      "text": "В тарифах ChatGPT Business и Enterprise данные организации по умолчанию не используются для обучения моделей; доступны админ-управление, SSO, верификация домена, а в Enterprise — SCIM, EKM, RBAC и аналитика. Конкретные настройки приватности, хранения данных и соответствие внутренним политикам ИБ уточняются перед оформлением.",
+      "cta": "Обсудить требования ИБ"
+    },
+    "comparison": {
+      "cols": [
+        "Business · Standard seat",
+        "Business · Premium seat",
+        "Enterprise"
+      ],
+      "rows": [
+        {
+          "label": "Для кого",
+          "values": [
+            "команда 2+",
+            "команда 2+",
+            "организация"
+          ]
+        },
+        {
+          "label": "Лимиты использования",
+          "values": [
+            "расширенные",
+            "кратно выше",
+            "гибкие"
+          ]
+        },
+        {
+          "label": "Админ-управление",
+          "values": [
+            "да",
+            "да",
+            "расширенное"
+          ]
+        },
+        {
+          "label": "SSO / верификация домена",
+          "values": [
+            "да",
+            "да",
+            "да"
+          ]
+        },
+        {
+          "label": "Данные не для обучения",
+          "values": [
+            "да",
+            "да",
+            "да"
+          ]
+        },
+        {
+          "label": "SCIM / EKM / RBAC",
+          "values": [
+            "—",
+            "—",
+            "да"
+          ]
+        },
+        {
+          "label": "Sora (видео)",
+          "values": [
+            "уточн.",
+            "уточн.",
+            "уточн."
+          ]
+        }
+      ]
+    },
+    "decision": [
+      {
+        "scenario": "Команда от 2 человек",
+        "product": "ChatGPT Business, Standard seat",
+        "note": "Общее пространство, админ-управление, SSO и защита данных."
+      },
+      {
+        "scenario": "Ассистент открыт весь рабочий день, упираетесь в лимиты",
+        "product": "ChatGPT Business, Premium seat",
+        "note": "Тот же тариф и то же пространство, но место с кратно большими лимитами."
+      },
+      {
+        "scenario": "Крупная организация, ИБ-требования",
+        "product": "ChatGPT Enterprise",
+        "note": "SCIM, EKM, RBAC, аналитика и договорные условия."
+      },
+      {
+        "scenario": "Интеграция в собственный продукт",
+        "product": "Пополнение баланса OpenAI API",
+        "note": "Программный доступ к моделям с оплатой по использованию: выбираете номинал пополнения."
+      }
+    ],
+    "scenarios": [
+      {
+        "title": "Маркетинг и контент",
+        "text": "Тексты, идеи, рерайт, локализация и работа с брендовыми материалами."
+      },
+      {
+        "title": "Разработка",
+        "text": "Помощь с кодом, ревью, документация и автоматизация через Codex и API."
+      },
+      {
+        "title": "Аналитика",
+        "text": "Работа с данными, отчёты, Deep Research и сложные исследования."
+      },
+      {
+        "title": "Поддержка и продукты",
+        "text": "Ассистенты, чат-боты и интеграции моделей OpenAI через API."
+      }
+    ],
+    "faqGroups": [
+      {
+        "id": "order",
+        "title": "Оформление, цена и документы"
+      },
+      {
+        "id": "choice",
+        "title": "Какой тариф выбрать"
+      },
+      {
+        "id": "security",
+        "title": "Данные и безопасность"
+      }
+    ],
+    "faq": [
+      {
+        "group": "order",
+        "q": "Как купить ChatGPT для юридического лица в России?",
+        "a": "Через BIZSoft: заключаем договор, выставляем счёт, оплата в рублях по безналичному расчёту. Закрывающие документы — в том числе через ЭДО. Подберём тариф и подготовим КП."
+      },
+      {
+        "group": "choice",
+        "q": "Чем место Premium seat отличается от места Standard seat?",
+        "a": "Возможности рабочего пространства одинаковые: общие проекты и GPT, админ-панель, единый вход, запрет на использование данных для обучения моделей. Отличаются лимиты — у места Premium seat они кратно выше, и приоритетнее доступ к агентским инструментам. Места двух типов совмещаются в одной команде: тем, кто упирается в лимиты, берут Premium seat, остальным — Standard seat."
+      },
+      {
+        "group": "order",
+        "q": "Сколько стоит ChatGPT Business?",
+        "a": "Актуальная цена в рублях указана в карточке товара — за одно место в год при годовой схеме оплаты (минимум 2 места). Место Standard seat и место Premium seat — отдельные карточки с разной ценой. Финальная сумма — в КП."
+      },
+      {
+        "group": "security",
+        "q": "Что такое ChatGPT Enterprise?",
+        "a": "Корпоративный тариф с расширенной безопасностью (SCIM, EKM, RBAC), приватностью, максимальными лимитами и централизованным управлением. Цена договорная — рассчитывается индивидуально."
+      },
+      {
+        "group": "choice",
+        "q": "Чем OpenAI API отличается от ChatGPT?",
+        "a": "ChatGPT — готовое приложение с тарифами за пользователя. OpenAI API — программный доступ к моделям для встраивания в свои продукты; оплата по факту использования (за токены), без фиксированной цены за место. Оформляется пополнением баланса на выбранный номинал."
+      },
+      {
+        "group": "choice",
+        "q": "Можно ли оформить на компанию личные тарифы ChatGPT Plus и Pro?",
+        "a": "Мы с ними не работаем: у Plus и Pro нет годовых предоплатных планов — только ежемесячная оплата личной подпиской. Для компании это неудобно и заказчику, и бухгалтерии: расход приходится отслеживать и проводить каждый месяц, а доступ остаётся привязанным к личному аккаунту сотрудника. Рекомендуем эквивалент из линейки Business: ChatGPT Business на местах Standard seat (от 2 мест) или Premium seat, когда сотрудник упирается в лимиты, — это годовая оплата, один счёт и рабочее пространство компании. Для разработки — пополнение баланса OpenAI API."
+      },
+      {
+        "group": "security",
+        "q": "Используются ли данные для обучения моделей?",
+        "a": "В тарифах Business и Enterprise данные организации по умолчанию не используются для обучения моделей. Детали и настройки приватности уточняются перед оформлением."
+      },
+      {
+        "group": "order",
+        "q": "Можно ли оплатить с расчётного счёта?",
+        "a": "Да. Работаем с юрлицами и ИП по договору и счёту, предоставляем закрывающие документы для бухгалтерии."
+      },
+      {
+        "group": "order",
+        "q": "Что нужно для КП?",
+        "a": "Реквизиты компании, контактное лицо, email, выбранный продукт (Business, Enterprise или пополнение баланса API) и количество пользователей либо сумма пополнения."
       }
     ]
   },
