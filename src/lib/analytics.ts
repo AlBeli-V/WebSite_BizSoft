@@ -123,6 +123,21 @@ export const GOALS: Record<string, GoalSpec> = {
   open_comparison_table: { ga4: 'open_comparison_table', key: false,
     meaning: 'Таблица сравнения тарифов показана на экране' },
 
+  // ── Раздел производителей (/vendors) ────────────────────────────────
+  // До 11.09.2026 страница не шла ни одной цели: не было видно ни того,
+  // что ищут, ни того, на каком вендоре уходят, ни того, пользуются ли
+  // подбором. Пять целей закрывают весь путь по странице.
+  vendors_search: { ga4: 'search', key: false,
+    meaning: 'Поиск по производителям на /vendors' },
+  vendors_filter_click: { ga4: 'vendors_filter_click', key: false,
+    meaning: 'Выбран фильтр по назначению или порядок показа на /vendors' },
+  vendors_card_click: { ga4: 'select_item', key: false,
+    meaning: 'Переход на страницу производителя из каталога производителей' },
+  vendors_multiselect_add: { ga4: 'vendors_multiselect_add', key: false,
+    meaning: 'Производитель отмечен «в подбор» на /vendors' },
+  vendors_multiselect_submit: { ga4: 'vendors_multiselect_submit', key: false,
+    meaning: 'Запрошен общий расчёт по нескольким отмеченным производителям' },
+
   // ── Спрос, которого у нас нет ───────────────────────────────────────
   // Поиск по каталогу — единственный канал, где посетитель прямо называет,
   // что ему нужно. Пустая выдача по запросу дороже любого замера частотности:
