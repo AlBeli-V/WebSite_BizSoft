@@ -224,7 +224,7 @@ def attacks_section(attacks: list[dict], limit: int = 5) -> str:
             f'{_td(esc(a["confidence"]), color=MUTED, small=True)}</tr>')
     head = (f'<tr>{_th("ID")}{_th("Запрос")}{_th("Мы", "right")}{_th("Выше нас")}'
             f'{_th("Выгода", "right")}{_th("Увер.")}</tr>')
-    return (_heading("Где ближе всего рост", "мы на 4–20, выше — конкурент за ту же сделку")
+    return (_heading("Где ближе всего рост", "выше нас — конкурент за ту же сделку")
             + _table("".join(rows), head))
 
 
@@ -261,6 +261,7 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
                 if pkg["queries_count"] > 3 else "")
         url_short = pkg["url"].replace("https://biz-soft.pro", "")
         done = pkg.get("уже_сделано") or []
+        control_line = _control_note(pkg)
         done_line = (
             f'<div style="font-size:11px;color:{MUTED};padding-top:4px;">'
             f'Проверено и работ не требует: {esc("; ".join(done))}</div>'
@@ -287,6 +288,7 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
                line-height:1.45;">{checks}</ul>
     <div style="font-size:11px;color:{MUTED};padding-top:6px;">
       Запросы: {esc(queries)}{esc(more)}</div>
+    {control_line}
     {done_line}
   </td></tr></table>
 </td></tr>""")
@@ -294,7 +296,50 @@ def packages_section(packages: list[dict], limit: int = 3) -> str:
             + "".join(blocks))
 
 
-def options_section(packages: list[dict]) -> str:
+def control_note(package: dict) -> str:
+    """Условие, если кластер страницы — контрольная группа чужого замера.
+
+    Занятая страница из очереди выводится совсем, а контрольная группа — нет:
+    ограничение чужого эксперимента может нашей правки и не касаться, читать
+    его и решать должен человек (см. attack_engine/occupancy.py). Но тогда
+    условие обязано ехать вместе с поручением: в письме 10.09.2026 пометки
+    занятости не было вовсе, она жила строкой в таблице отчёта на 186 строк.
+    """
+    занятость = package.get("занятость") or {}
+    if занятость.get("степень") != "контрольная группа":
+        return ""
+    return (f"Условие: кластер страницы — контрольная группа эксперимента "
+            f"{занятость.get('эксперимент', '—')} до "
+            f"{занятость.get('до', 'контрольной точки')}. Правка сейчас лишит "
+            f"оценки чужой замер — решение за вами.")
+
+
+def _control_note(package: dict) -> str:
+    text = control_note(package)
+    if not text:
+        return ""
+    return (f'<div style="font-size:11px;color:{MUTED};padding-top:4px;">'
+            f'{esc(text)}</div>')
+
+
+def blocked_note(blocked: list[dict] | None) -> str:
+    """Сколько пакетов ждёт освобождения страниц и до какого срока.
+
+    Без этой строки сжавшийся план работ читается как «целей не осталось».
+    10.09.2026 доступных пакетов было 3 из 22 — остальные держал чужой замер,
+    и это факт о загрузке контура, а не об отсутствии работы.
+    """
+    if not blocked:
+        return ""
+    сроки = sorted({(p.get("занятость") or {}).get("до") or ""
+                    for p in blocked} - {""})
+    когда = f", страницы освобождаются {сроки[0]} — {сроки[-1]}" if сроки else ""
+    return (f"Ещё {len(blocked)} пакетов не предлагаются: их страницы занял "
+            f"замер базового SEO-контура{когда}. Правка сейчас лишила бы "
+            f"оценки оба эксперимента.")
+
+
+def options_section(packages: list[dict], blocked: list[dict] | None = None) -> str:
     """Варианты действий — чтобы решение принималось из альтернатив.
 
     Одно «сделайте это» не даёт руководителю выбора. Три сценария с ценой и
@@ -340,8 +385,11 @@ def options_section(packages: list[dict]) -> str:
         for name, scope, effect, note in options)
     head = (f'<tr>{_th("Вариант")}{_th("Объём")}{_th("Отдача", "right")}'
             f'{_th("Чем отличается")}</tr>')
+    note = blocked_note(blocked)
+    tail = (f'<tr><td colspan="4" style="padding:6px 24px 0;font-size:11px;'
+            f'color:{MUTED};">{esc(note)}</td></tr>' if note else "")
     return (_heading("Варианты действий", "потенциал, а не обещание: переходы называются только при сопоставимом спросе")
-            + _table(rows, head))
+            + _table(rows, head) + tail)
 
 
 def experiments_section(line: str, on_watch: list[dict] | None = None) -> str:
