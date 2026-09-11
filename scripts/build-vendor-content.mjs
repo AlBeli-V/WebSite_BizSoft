@@ -32,8 +32,8 @@ const header = `/**
 export interface VendorComparison { cols: string[]; rows: { label: string; values: string[] }[] }
 /** Строка «что выбрать». slug делает рекомендацию ссылкой на карточку. */
 export interface VendorDecision { scenario: string; product: string; note: string; slug?: string }
-export interface VendorScenario { title: string; text: string }
-export interface VendorQA { q: string; a: string }
+export interface VendorScenario { title: string; text: string; note?: string }
+export interface VendorQA { q: string; a: string; group?: string }
 /** Блок «Безопасность и данные»: что с данными компании и что спросит ИБ. */
 export interface VendorSecurity { text: string; cta?: string }
 /**
@@ -69,6 +69,11 @@ export interface VendorSegment {
   hint?: string;
   /** Почему именно этот случай — показывается после выбора. */
   why?: string;
+  /**
+   * Позиции случая: slug или sku. Состав случая перечисляется в одном
+   * месте — иначе он расползается по карточкам и расходится с текстом.
+   */
+  keys?: string[];
 }
 
 /** Раздел линейки: своя подсетка карточек (например, личные и командные планы). */
@@ -109,6 +114,8 @@ export interface VendorSection {
   items?: VendorQA[];
   /** Подпись кнопки, ведущей к форме страницы. */
   cta?: string;
+  /** Ссылка «дальше по теме» под блоком: каталог раздела, документация. */
+  more?: { label: string; href: string };
   /** Куда ставить блок: до тарифов или после сравнения (по умолчанию). */
   place?: 'before-products' | 'after-compare' | 'before-buy';
 }
@@ -123,8 +130,8 @@ export interface VendorContent {
   denominations?: VendorDenominations;
   picks?: { title: string; note?: string; items: VendorPick[] };
   sections?: VendorSection[];
-  /** Группировка вопросов FAQ по темам. */
-  faqGroups?: { title: string; items: VendorQA[] }[];
+  /** Темы блока вопросов: вопрос попадает в тему по полю group. */
+  faqGroups?: { id: string; title: string }[];
   cards?: Record<string, VendorCardMeta>;
   /**
    * Порядок карточек: slug или sku. Не перечисленные уходят в конец.

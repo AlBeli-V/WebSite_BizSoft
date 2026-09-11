@@ -110,41 +110,13 @@ export const GOALS: Record<string, GoalSpec> = {
     meaning: 'Переход к тарифам на самой странице' },
   click_clarify_price: { ga4: 'click_clarify_price', key: false,
     meaning: 'Нажата кнопка «уточнить цену» — открывает форму вопроса' },
-  click_request_invoice: { ga4: 'click_request_invoice', key: false,
-    meaning: 'Нажата кнопка запроса счёта — открывает форму вопроса' },
-  click_renew: { ga4: 'click_renew', key: false,
-    meaning: 'Нажата кнопка продления подписки — открывает форму вопроса' },
-  click_buy_org: { ga4: 'click_buy_org', key: false,
-    meaning: 'Нажата покупка тарифа на организацию — открывает форму вопроса' },
   click_pick_licenses: { ga4: 'click_pick_licenses', key: false,
     meaning: 'Переход к подборщику лицензий на странице' },
-  click_plugins_catalog: { ga4: 'click_plugins_catalog', key: false,
-    meaning: 'Переход в каталог из блока плагинов' },
-  expand_plugins_category: { ga4: 'expand_plugins_category', key: false,
-    meaning: 'Раскрыта категория плагинов' },
-  quiz_step: { ga4: 'quiz_step', key: false,
-    meaning: 'Шаг подборщика тарифа пройден' },
-  quiz_complete: { ga4: 'quiz_complete', key: false,
-    meaning: 'Подборщик тарифа доведён до конца — открывает форму вопроса' },
-  // ── Лендинг вендора: шаги выбора тарифа (макет «сегменты по ролям») ──
-  // Решение руководителя 11.09.2026. Прежние click_* показывали клики, но не
-  // путь: где посетитель отсеялся — на выборе ситуации, на карточке тарифа
-  // или на форме — по ним было не увидеть.
-  vendor_tariff_view: { ga4: 'view_item_list', key: false,
-    meaning: 'Сетка тарифов вендора показана на экране' },
   vendor_selector_step: { ga4: 'vendor_selector_step', key: false,
     meaning: 'Выбрана ситуация в подборщике лендинга вендора' },
-  vendor_cart_add: { ga4: 'vendor_cart_add', key: false,
-    meaning: 'Тариф добавлен в подборку с лендинга вендора' },
-  vendor_quote_request: { ga4: 'vendor_quote_request', key: false,
-    meaning: 'Запрошен расчёт по конкретному тарифу — тариф подставлен в форму' },
   vendor_kp_download: { ga4: 'vendor_kp_download', key: false,
     meaning: 'КП по подборке сформировано — в составе есть позиции вендора' },
-  vendor_faq_expand: { ga4: 'vendor_faq_expand', key: false,
-    meaning: 'Раскрыт вопрос FAQ на лендинге вендора' },
 
-  click_compare_app: { ga4: 'click_compare_app', key: false,
-    meaning: 'Таблица сравнения приложений показана на экране' },
   open_comparison_table: { ga4: 'open_comparison_table', key: false,
     meaning: 'Таблица сравнения тарифов показана на экране' },
 
@@ -162,6 +134,17 @@ export const GOALS: Record<string, GoalSpec> = {
     meaning: 'Производитель отмечен «в подбор» на /vendors' },
   vendors_multiselect_submit: { ga4: 'vendors_multiselect_submit', key: false,
     meaning: 'Запрошен общий расчёт по нескольким отмеченным производителям' },
+
+  // Сняты 11.09.2026, когда четыре страницы с собственной вёрсткой переехали
+  // на общий шаблон. Часть целей называла кнопки, которых больше нет
+  // (запрос счёта, продление, покупка на организацию, шаги опросника,
+  // раскрытие категории плагинов, показ таблицы приложений). Ещё четыре —
+  // vendor_tariff_view, vendor_cart_add, vendor_quote_request и
+  // vendor_faq_expand — заведены в тот же день параллельной веткой под те же
+  // шаги воронки, что уже считают view_tariffs, add_to_cart, click_get_quote
+  // и faq_expand. Два имени на один шаг делят каждый отчёт пополам, поэтому
+  // осталось по одному. В кабинете Метрики снятые цели не удаляются: там они
+  // просто перестают получать события.
 
   // ── Спрос, которого у нас нет ───────────────────────────────────────
   // Поиск по каталогу — единственный канал, где посетитель прямо называет,
