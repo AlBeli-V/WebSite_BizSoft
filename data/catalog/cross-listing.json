@@ -13,7 +13,7 @@
 
   "_reasons": {
     "collaboration": "рабочее пространство команды: каналы, файлы, общие документы — а не только звонки",
-    "ai-office": "AI внутри рабочих документов, почты и встреч",
+    "ai-office": "AI внутри рабочих документов, почты и встреч. Microsoft 365 Copilot сюда не вписан: артикул MSCOPILOT-M365 и так лежит в этом разделе — вторая привязка ему не нужна",
     "web": "публикация сайта, домен и защита периметра — задача одного заказчика",
     "ai-marketing": "инструменты маркетинговой команды: креатив, ролики, фирменный стиль",
     "architecture": "рабочий инструмент архитектурной визуализации",
@@ -30,7 +30,6 @@
     "ZOOM-WP-ENTERPRISE": ["collaboration"],
     "NOTION-ENTERPRISE": ["collaboration"],
 
-    "M365-COPILOT-BUSINESS-ADDON": ["ai-office"],
     "DEEPL-STARTER": ["ai-office"],
     "DEEPL-ADVANCED": ["ai-office"],
     "DEEPL-BUSINESS": ["ai-office"],
