@@ -18,6 +18,7 @@ import type { QuoteData } from '../quote-layout';
 import type { PartyCard } from '../dadata';
 import { usdReference, type QuoteEconomics } from '../quote-economics';
 import type { AttributionFields } from '../quote-lead';
+import type { SourceEnrichment } from '../traffic-source';
 import {
   attributionLines, attributionRows, card, EMAIL_COLOR, emailShell, escapeHtml,
   heading, kvRow, note, paragraph,
@@ -33,6 +34,16 @@ export interface ManagerQuoteEmailInput {
   eco: QuoteEconomics | null;
   /** Источник перехода (канал → кампания → фраза); опционален для старых вызовов. */
   attribution?: AttributionFields;
+  /**
+   * Данные Метрики и Директа: в живом письме их нет (визит появляется в
+   * Метрике с задержкой, расход Директа закрывается за сутки), заполняются
+   * при повторной отправке и в утреннем уточнении.
+   */
+  enrichment?: SourceEnrichment | null;
+  /** Приписка к теме — «(ТЕСТ ПОВТОР)» у повторной отправки. */
+  subjectPrefix?: string;
+  /** Плашка в начале письма: зачем оно пришло второй раз. */
+  notice?: string;
 }
 
 // Неразрывный пробел перед ₽: обычный позволяет почтовику оторвать знак
@@ -69,10 +80,11 @@ const td = (text: string, right = false, bold = false): string =>
   + `padding:6px 8px 6px 0;${bold ? 'font-weight:bold;' : ''}white-space:${right ? 'nowrap' : 'normal'};">${text}</td>`;
 
 export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedEmail {
-  const { data, innCheck, party, eco, attribution } = input;
+  const { data, innCheck, party, eco, attribution, enrichment } = input;
   const mismatch = innCheck.nameMatch === 'mismatch';
   const trouble = !(innCheck.valid && !mismatch && (party === null || party.active));
-  const subject = `${trouble ? '⚠ ' : ''}Отправлено КП № ${data.quoteNo} — ${data.buyerCompany}`;
+  const built = `${trouble ? '⚠ ' : ''}Отправлено КП № ${data.quoteNo} — ${data.buyerCompany}`;
+  const subject = input.subjectPrefix ? `${input.subjectPrefix} ${built}` : built;
 
   // ── Предупреждения: только при реальной проблеме, одно на строку, бордовым.
   const warnings: string[] = [];
@@ -146,9 +158,12 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
     heading(`Запрос КП — ${rub(data.total)}`)
     + paragraph(`Запрос КП на продукты: <b>${escapeHtml(shownNames)}</b>. `
       + `Сумма — <b>${rub(data.total)}</b>. КП № ${escapeHtml(data.quoteNo)} отправлено клиенту на почту.`)
+    + (input.notice ? note(escapeHtml(input.notice)) : '')
     + warnHtml
     + (attribution
-      ? card(`<table role="presentation" cellpadding="0" cellspacing="0">${attributionRows(attribution)}</table>`)
+      ? heading('Источник обращения')
+        + card(`<table role="presentation" cellpadding="0" cellspacing="0">${
+          attributionRows(attribution, enrichment)}</table>`)
       : '')
     + card(
       `<table role="presentation" cellpadding="0" cellspacing="0">`
@@ -189,8 +204,9 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
   const text = [
     `Запрос КП на продукты: ${shownNames}. Сумма — ${data.total.toLocaleString('ru-RU')} ₽.`,
     `КП № ${data.quoteNo} отправлено клиенту на почту.`,
+    ...(input.notice ? ['', input.notice] : []),
     ...warnings.map((w) => `⚠ ${w}`),
-    ...(attribution ? ['', 'Источник:', ...attributionLines(attribution)] : []),
+    ...(attribution ? ['', 'Источник обращения:', ...attributionLines(attribution, enrichment)] : []),
     '',
     'Реквизиты:',
     ...(mismatch && party?.name

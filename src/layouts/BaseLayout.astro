@@ -103,6 +103,18 @@ const { title, description, canonical, ogImage, noindex, type, keywords, localBu
         if (name) trackGoal(name, { page_url: location.pathname });
       });
 
+      // Клики по элементам с data-ev — тем же порядком и по той же причине.
+      // Раньше привязка стояла в каждой странице производителя, и стоило
+      // вынести карточку тарифа в общий компонент, как её кнопки оказались
+      // размеченными без слушателя. Один обработчик на сайт: цель уходит
+      // отовсюду, где стоит атрибут, и ровно один раз.
+      document.addEventListener('click', (e) => {
+        const el = (e.target as HTMLElement)?.closest?.('[data-ev]') as HTMLElement | null;
+        if (!el) return;
+        const name = el.dataset.ev;
+        if (name) trackGoal(name, { page_url: location.pathname });
+      });
+
       // Плавное появление получают только секции ниже первого экрана.
       //
       // Разметка идёт здесь, после первой отрисовки (rAF + setTimeout), а не

@@ -1,0 +1,143 @@
+# Карта каталога: артикул — раздел — происхождение — описание.
+#
+# Зачем отдельная выгрузка. ops-export-products отдаёт цену и закупку, но не
+# раздел и не текст; ops-export-content отдаёт текст, но только по явному
+# списку слагов и тоже без раздела. Разобрать раскладку товаров по разделам
+# по их описаниям было не из чего: в репозитории лежат пакеты импорта на 236
+# позиций, остальные карточки хранят описание только в Directus.
+#
+# Заодно закрывает вопрос происхождения: витрина исключает отечественное ПО на
+# уровне выборки, а в базе такие карточки опубликованы — по прежним выгрузкам
+# нельзя было сказать, видны они на сайте или нет.
+#
+# Только чтение: ни одного запроса на запись. Результат — в журнал issue #22.
+name: ops-export-catalog-map
+
+on:
+  workflow_dispatch:
+    inputs:
+      category:
+        description: 'Слаг раздела — выгрузить только его (пусто = весь каталог)'
+        required: false
+        default: ''
+      chars:
+        description: 'Сколько знаков описания показывать (по умолчанию 160)'
+        required: false
+        default: '160'
+
+permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
+  issues: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Export map from Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_CATEGORY: ${{ inputs.category }}
+          P_CHARS: ${{ inputs.chars }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_CATEGORY,P_CHARS
+          capture_stdout: true
+          script: |
+            set -e
+            TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            export TOKEN
+            python3 - <<'PYEOF'
+            import json, os, urllib.parse, urllib.request
+            from collections import Counter
+
+            token = os.environ['TOKEN']
+            only = (os.environ.get('P_CATEGORY') or '').strip()
+            try:
+                chars = max(0, min(600, int(os.environ.get('P_CHARS') or 160)))
+            except ValueError:
+                chars = 160
+
+            flt = {'status': {'_eq': 'published'}}
+            if only:
+                flt['category'] = {'slug': {'_eq': only}}
+            fields = 'sku,slug,name,vendor,origin,category.slug,short_description'
+            url = ('http://localhost:8055/items/products'
+                   f'?fields={fields}&limit=-1'
+                   f'&filter={urllib.parse.quote(json.dumps(flt))}'
+                   '&sort[]=category.slug&sort[]=vendor&sort[]=name')
+            req = urllib.request.Request(url, headers={'Authorization': f'Bearer {token}'})
+            rows = json.load(urllib.request.urlopen(req))['data']
+
+            def clean(s):
+                return ' '.join((s or '').split())
+
+            by_cat, origins = Counter(), Counter()
+            for r in rows:
+                cat = (r.get('category') or {}).get('slug') or '(без раздела)'
+                by_cat[cat] += 1
+                origins[r.get('origin') or '(не задано)'] += 1
+
+            print(f'ВСЕГО ОПУБЛИКОВАНО: {len(rows)}'
+                  + (f' (только раздел {only})' if only else ''))
+            print()
+            print('ПРОИСХОЖДЕНИЕ')
+            # Витрина показывает только origin != domestic. Если здесь есть
+            # domestic — эти карточки опубликованы, но на сайте не видны.
+            for k, n in origins.most_common():
+                hidden = ' — НА ВИТРИНЕ НЕ ПОКАЗЫВАЕТСЯ' if k == 'domestic' else ''
+                print(f'  {k}: {n}{hidden}')
+            print()
+            print('РАЗДЕЛЫ')
+            for k, n in sorted(by_cat.items(), key=lambda kv: (-kv[1], kv[0])):
+                print(f'  {n:5d}  {k}')
+            print()
+
+            cur = None
+            for r in rows:
+                cat = (r.get('category') or {}).get('slug') or '(без раздела)'
+                if cat != cur:
+                    cur = cat
+                    print(f'\n===== {cat} =====')
+                sd = clean(r.get('short_description'))
+                if chars and len(sd) > chars:
+                    sd = sd[:chars].rstrip() + '…'
+                org = r.get('origin') or '—'
+                print(f"{r.get('sku') or '—'} | {r.get('slug')} | {org} | "
+                      f"{r.get('vendor') or '—'} | {r.get('name')} | {sd or '—'}")
+            PYEOF
+
+      # Вывод больше лимита env-переменной процесса (Argument list too long) —
+      # передаём через файл: интерполяция ${{ }} в run-шаге пишется в файл скрипта.
+      - name: Save result to file
+        if: always()
+        run: |
+          cat > /tmp/ops-catalog-map.txt <<'OPS_MAP_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_MAP_EOF
+
+      # Локальному action нужен репозиторий в рабочей копии. if: always() —
+      # потому что шаг журнала тоже always(): без этого при падении основного
+      # шага checkout пропускается, и запись в журнал не проходит.
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-export-catalog-map"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-catalog-map.txt
