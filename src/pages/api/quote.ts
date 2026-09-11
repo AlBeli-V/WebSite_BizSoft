@@ -1,8 +1,9 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
-import { getProductsBySkus, getZohoPositionsBySkus, createQuote, createLead, getLeads, createLeadEvent } from '../../lib/directus';
-import { leadFromQuote, describeQuote, attributionFields, LEAD_ECONOMICS_FIELDS } from '../../lib/quote-lead';
+import { getProductsBySkus, getZohoPositionsBySkus, createQuote, getLeads, createLeadEvent } from '../../lib/directus';
+import { leadFromQuote, describeQuote, attributionFields } from '../../lib/quote-lead';
+import { createLeadTolerant } from '../../lib/lead-write';
 import { effectivePrice } from '../../lib/pricing';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
@@ -61,22 +62,8 @@ async function recordQuoteLead(q: Parameters<typeof leadFromQuote>[0]): Promise<
     });
     return;
   }
-  const record = leadFromQuote(q);
-  try {
-    await createLead(record);
-  } catch (e) {
-    // До прогона ops-directus-schema на проде полей экономики в leads нет,
-    // и Directus отвергает запись целиком. Контакт важнее маржи в карточке:
-    // повторяем без экономики, а не теряем заявку.
-    const stripped = { ...record };
-    let hadEconomics = false;
-    for (const f of LEAD_ECONOMICS_FIELDS) {
-      if (f in stripped) { delete stripped[f]; hadEconomics = true; }
-    }
-    if (!hadEconomics) throw e;
-    console.warn('lead: поля экономики не приняты, повтор без них', e);
-    await createLead(stripped);
-  }
+  // Откат при отставании схемы прода — общий для обеих форм (lead-write.ts).
+  await createLeadTolerant(leadFromQuote(q));
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -110,7 +97,7 @@ export const POST: APIRoute = async ({ request }) => {
     .filter((i) => i && typeof i.sku === 'string' && Number(i.qty) > 0)
     .map((i) => ({ sku: i.sku, qty: Math.min(9999, Math.max(1, Math.floor(Number(i.qty)))) }));
 
-  if (lines.length === 0) return new Response(JSON.stringify({ error: 'список избранного пуст' }), { status: 422 });
+  if (lines.length === 0) return new Response(JSON.stringify({ error: 'расчёт пуст' }), { status: 422 });
 
   // Форма разобрана, дальше начинается дорогая часть: справочник, документы,
   // письмо. Порог тратит эта заявка, а не отвергнутая валидацией попытка.

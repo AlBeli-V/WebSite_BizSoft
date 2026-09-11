@@ -79,6 +79,10 @@ FIRST_SCREEN_MARKER = "<!--first-screen-end-->"
 # База, ниже которой относительное изменение не публикуется. Совпадает с
 # порогом low_base в quality.delta: одно определение малой базы на всю систему.
 LOW_BASE = 30
+# Сигналов дня ровно столько же, сколько пропускает uxlint_v4:
+# потолок держит первый экран письма, и генератор в него укладывается
+# сам, а не проверяется постфактум (разбор 11.09.2026).
+SIGNALS_LIMIT = 3
 
 PILL_COLOUR = {
     "positive": T["positive"], "mixed": T["warning"], "negative": T["danger"],
@@ -741,7 +745,7 @@ def signals(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                         "Внутри выборки прибавилось запросов на первой странице."
                         if td > 0 else
                         "Число запросов выборки на первой странице не изменилось.")})
-    out = out[:3]
+    out = out[:SIGNALS_LIMIT]
 
     # Постоянные показатели выше отвечают на вопрос «что с индексацией и
     # видимостью». Ниже добавляется то, что сильнее всего изменилось за сутки,
@@ -758,9 +762,22 @@ def signals(snap: dict, prev: dict | None, dq: dict) -> list[dict]:
                       and m["metric"] not in {e["metric"] for e in extra}), None)
         if worst:
             extra.append(worst)
+    # Сигналов в письме по-прежнему три: потолок задан линтом ради первого
+    # экрана, и добавка не расширяет письмо, а занимает место. Уступает его
+    # нейтральный постоянный показатель — он говорит «не изменилось», тогда
+    # как добавка говорит про изменение дня. Нейтральных нет — добавка
+    # отбрасывается: три сигнала с движением сильнее четырёх любых.
     for m in extra:
-        out.append({k: v for k, v in m.items() if k != "score"})
-    return out[:5]
+        row = {k: v for k, v in m.items() if k != "score"}
+        if len(out) < SIGNALS_LIMIT:
+            out.append(row)
+            continue
+        idx = next((i for i in range(len(out) - 1, -1, -1)
+                    if out[i]["tone"] == "neutral"), None)
+        if idx is None:
+            continue
+        out[idx] = row
+    return out[:SIGNALS_LIMIT]
 
 
 def execution_board(actions_cfg: dict, date: str) -> list[dict]:
