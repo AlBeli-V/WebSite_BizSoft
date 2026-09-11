@@ -18,9 +18,10 @@ import { getCategories, getProducts } from '../../lib/directus';
 import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
 import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
-import { aiSubcategories, aiEnterpriseSlugs } from '../../data/ai-hub';
+import { aiSubcategories } from '../../data/ai-hub';
 import { searchProducts } from '../../lib/product-search';
 import { countByCategory, listingProducts } from '../../lib/catalog';
+import { categoryMembers, crossListedCount, inCategory } from '../../lib/cross-listing';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import type { Product, Category } from '../../lib/types';
@@ -56,15 +57,6 @@ const searchResults = q ? searchProducts(listing, q) : [];
 const catCounts = countByCategory(listing);
 const catSlug = (p: Product) => (typeof p.category === 'object' && p.category ? p.category.slug : '');
 
-const byCategory = new Map<string, Product[]>();
-for (const p of listing) {
-  const s = catSlug(p);
-  if (!s) continue;
-  const bucket = byCategory.get(s);
-  if (bucket) bucket.push(p);
-  else byCategory.set(s, [p]);
-}
-
 // Канонический адрес раздела. У AI-подкатегорий он вложенный
 // (/catalog/ai/text): плоский слаг Directus отдаёт 301, и ссылка с главного
 // узла каталога уходила бы через лишний прыжок.
@@ -89,35 +81,28 @@ const usedCategories = categories
 // счётчик на хабе обязан показывать агрегат. Прямая привязка к родителю —
 // это два товара, и плитка годами обещала два при девяноста с лишним внутри.
 const isAiSlug = (s: string) => s === 'ai' || s.startsWith('ai-');
-const aiTotal = listing.filter((p) => isAiSlug(catSlug(p))).length;
+// Счётчик обязан совпадать с тем, что показывает /catalog/ai: родитель, все
+// ветки и пришедшее в них второй привязкой. Товар, попавший в ветку из другого
+// раздела, на странице хаба виден — значит и в счётчике должен быть.
+const aiTotal = listing.filter((p) => isAiSlug(catSlug(p))
+  || aiSubcategories.some((s) => inCategory(p, s.categorySlug))).length;
 const aiCategory = categories.find((c) => c.slug === 'ai') || null;
-// «Корпоративные AI» — кросс-коллекция: у товара одна категория, и
-// enterprise-тарифы лежат в тематических ветках (ai-text, ai-code, ai-office),
-// а на свою страницу попадают явным списком из ai-hub. Счётчик по полю
-// `category` показывает для них ноль, и хаб подписывал живой раздел с десятком
-// тарифов как «в подготовке». Считаем так же, как показывает сама страница.
-const crossListed: Record<string, Product[]> = {
-  'ai-enterprise': listing.filter(
-    (p) => aiEnterpriseSlugs.includes(p.slug) && catSlug(p) !== 'ai-enterprise',
-  ),
-};
-const subProducts = (categorySlug: string) => [
-  ...(byCategory.get(categorySlug) || []),
-  ...(crossListed[categorySlug] || []),
-];
-
+// Ветки AI собираются общим механизмом второй привязки (lib/cross-listing):
+// у товара одна категория, а показывается он и в разделе, который закрывает ту
+// же задачу. «Корпоративные AI» так живут с самого начала — enterprise-тарифы
+// лежат в тематических ветках, а на свою страницу попадают списком.
 const aiSubs = aiSubcategories
   .map((s) => {
-    const items = subProducts(s.categorySlug);
+    const items = categoryMembers(listing, s.categorySlug);
+    const cross = crossListedCount(listing, s.categorySlug);
     return {
       sub: s.sub,
       name: s.name,
       short: s.short,
       count: items.length,
-      // Раздел собран кросс-листингом — его товары уже посчитаны в своих
-      // ветках, и складывать счётчики веток нельзя. Подписываем честно.
-      cross: (crossListed[s.categorySlug] || []).length > 0
-        && (byCategory.get(s.categorySlug) || []).length === 0,
+      // Раздел целиком собран второй привязкой — складывать его счётчик со
+      // счётчиками соседних веток нельзя, товары в них уже посчитаны.
+      cross: cross > 0 && cross === items.length,
       vendors: topVendors(items, 2),
     };
   })
@@ -128,7 +113,7 @@ const aiSubs = aiSubcategories
 const aiPicks: Product[] = [];
 for (const s of aiSubs) {
   if (aiPicks.length >= 4) break;
-  const pick = (byCategory.get(`ai-${s.sub}`) || []).find((p) => effectivePrice(p).price > 0);
+  const pick = categoryMembers(listing, `ai-${s.sub}`).find((p) => effectivePrice(p).price > 0);
   if (pick) aiPicks.push(pick);
 }
 
@@ -136,8 +121,8 @@ for (const s of aiSubs) {
 const nonAi = usedCategories.filter((c) => !isAiSlug(c.slug)).sort((a, b) => b.count - a.count);
 const majorCategories = nonAi.slice(0, 4).map((c) => ({
   ...c,
-  vendors: topVendors(byCategory.get(c.slug) || [], 5),
-  picks: pickPriced(byCategory.get(c.slug) || [], 2),
+  vendors: topVendors(categoryMembers(listing, c.slug), 5),
+  picks: pickPriced(categoryMembers(listing, c.slug), 2),
 }));
 const minorCategories = nonAi.slice(4);
 const majorTotal = majorCategories.reduce((n, c) => n + c.count, 0);
