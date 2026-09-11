@@ -12,12 +12,13 @@ import CategoryIcon from '../../components/CategoryIcon.astro';
 import FAQ from '../../components/FAQ.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
+import CatalogRequest from '../../components/CatalogRequest.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getCategories, getProducts } from '../../lib/directus';
 import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
 import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
-import { aiSubcategories } from '../../data/ai-hub';
+import { aiSubcategories, aiEnterpriseSlugs } from '../../data/ai-hub';
 import { searchProducts } from '../../lib/product-search';
 import { countByCategory, listingProducts } from '../../lib/catalog';
 import { effectivePrice, formatRub } from '../../lib/pricing';
@@ -90,14 +91,36 @@ const usedCategories = categories
 const isAiSlug = (s: string) => s === 'ai' || s.startsWith('ai-');
 const aiTotal = listing.filter((p) => isAiSlug(catSlug(p))).length;
 const aiCategory = categories.find((c) => c.slug === 'ai') || null;
+// «Корпоративные AI» — кросс-коллекция: у товара одна категория, и
+// enterprise-тарифы лежат в тематических ветках (ai-text, ai-code, ai-office),
+// а на свою страницу попадают явным списком из ai-hub. Счётчик по полю
+// `category` показывает для них ноль, и хаб подписывал живой раздел с десятком
+// тарифов как «в подготовке». Считаем так же, как показывает сама страница.
+const crossListed: Record<string, Product[]> = {
+  'ai-enterprise': listing.filter(
+    (p) => aiEnterpriseSlugs.includes(p.slug) && catSlug(p) !== 'ai-enterprise',
+  ),
+};
+const subProducts = (categorySlug: string) => [
+  ...(byCategory.get(categorySlug) || []),
+  ...(crossListed[categorySlug] || []),
+];
+
 const aiSubs = aiSubcategories
-  .map((s) => ({
-    sub: s.sub,
-    name: s.name,
-    short: s.short,
-    count: catCounts[s.categorySlug] || 0,
-    vendors: topVendors(byCategory.get(s.categorySlug) || [], 2),
-  }))
+  .map((s) => {
+    const items = subProducts(s.categorySlug);
+    return {
+      sub: s.sub,
+      name: s.name,
+      short: s.short,
+      count: items.length,
+      // Раздел собран кросс-листингом — его товары уже посчитаны в своих
+      // ветках, и складывать счётчики веток нельзя. Подписываем честно.
+      cross: (crossListed[s.categorySlug] || []).length > 0
+        && (byCategory.get(s.categorySlug) || []).length === 0,
+      vendors: topVendors(items, 2),
+    };
+  })
   .sort((a, b) => b.count - a.count);
 
 // Товары-представители AI: по одному из самых ёмких веток, порядок внутри
@@ -220,7 +243,10 @@ const ld = [
           </div>
           </>
         ) : (
-          <p class="sr-empty">Ничего не нашлось. Попробуйте другое написание (например, латиницей) или <button class="btn btn-primary btn-sm" data-open-question>спросите нас</button> — подключаем и то, чего нет в каталоге.</p>
+          <>
+          <p class="sr-empty">Ничего не нашлось. Попробуйте другое написание — например, латиницей.</p>
+          <CatalogRequest query={q} context="search" compact />
+          </>
         )}
       </section>
     )}
@@ -311,7 +337,7 @@ const ld = [
                 <a href={`/catalog/ai/${s.sub}`} class="fl-sub-tile" data-cat-ai-sub={s.sub}>
                   <span class="fs-ico"><CategoryIcon slug={`ai-${s.sub}`} name={s.name} size={28} /></span>
                   <span class="fs-name">{s.name}</span>
-                  <span class="fs-meta">{s.count} · {s.vendors.length > 0 ? s.vendors.map((v) => v.replace(/ \d+$/, '')).join(', ') : s.short}</span>
+                  <span class="fs-meta">{s.cross ? `${s.count} · тарифы из других веток` : `${s.count} · ${s.vendors.length > 0 ? s.vendors.map((v) => v.replace(/ \d+$/, '')).join(', ') : s.short}`}</span>
                 </a>
               ) : (
                 <span class="fl-sub-tile is-soon" aria-disabled="true">
@@ -390,6 +416,8 @@ const ld = [
       <p class="cat-empty">Разделы каталога загружаются. Напишите нам — подберём нужный сервис: <button class="link-btn" data-open-question>обсудить задачу →</button></p>
     )}
 
+    <CatalogRequest context="catalog" />
+
     <!-- ПРОИЗВОДИТЕЛИ -->
     <section class="cat-block">
       <SectionHeading eyebrow="Производители" title="Бренды, которые подключают чаще всего">
@@ -427,9 +455,12 @@ const ld = [
     </>)}
   </div>
 
+  <!-- Призыв не повторяет блок «Искали, но не нашли»: тот забирает название
+       конкретного продукта, этот — задачу целиком. Прежний заголовок «Не нашли
+       нужный сервис?» дублировал блок слово в слово. -->
   <CTASection
-    title="Не нашли нужный сервис?"
-    text="Опишите задачу — подберём способ закупки, посчитаем стоимость и подготовим КП."
+    title="Нужен расчёт под вашу задачу?"
+    text="Опишите, что закупаете и на сколько сотрудников — подберём способ оплаты, посчитаем стоимость и подготовим КП."
     primaryLabel="Обсудить задачу"
     primaryHref="/contacts"
     secondaryLabel="Все производители"

@@ -8,6 +8,7 @@ import ProductCard from '../../components/ProductCard.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
+import CatalogRequest from '../../components/CatalogRequest.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts, getCategoryBySlug, getProductsBySlugs } from '../../lib/directus';
 import { LICENSE_LABEL, type LicenseType } from '../../lib/types';
@@ -267,7 +268,10 @@ if (isAi) {
             {filtered.map((p) => <ProductCard product={p} />)}
           </div>
         ) : (
+          <>
           <p class="empty">Ничего не найдено по выбранным фильтрам. <a href={basePath}>Сбросить →</a></p>
+          <CatalogRequest query={q} context={segment} compact />
+          </>
         )}
       </div>
     </div>
@@ -332,6 +336,7 @@ if (isAi) {
     )}
 
     <FAQ items={faq} title="Вопросы по разделу" />
+    <CatalogRequest context={segment} />
   </div>
   <CTASection />
   <QuestionForm source="catalog" />
