@@ -527,25 +527,42 @@ class TestSignalMovers(unittest.TestCase):
                            "indexation": {"indexed_urls": indexed}},
                 "google": {"available": False}}
 
-    def test_худшее_падение_добавляется_когда_постоянные_не_отрицательны(self):
+    def test_худшее_падение_вытесняет_нейтральный_постоянный(self):
         # Постоянные сигналы: индексация без изменений и рост запросов на
-        # первой странице — ни одного падения.
+        # первой странице — ни одного падения. Место падению уступает
+        # нейтральный показатель: письмо остаётся на трёх сигналах
+        # (решение руководителя 11.09.2026).
         sig = self.r.signals(self.snap(), self.snap(top10=1263, impressions=2212),
                              self.dq())
         tones = {s["metric"]: s["tone"] for s in sig}
-        self.assertNotIn("negative", [s["tone"] for s in sig[:3]])
         self.assertIn("Целевые события органики", tones)
         self.assertEqual(tones["Целевые события органики"], "negative")
+        self.assertNotIn("Страницы в поиске Яндекса", tones)
+        self.assertNotIn("neutral", [s["tone"] for s in sig])
 
     def test_самое_крупное_изменение_суток_попадает_в_письмо(self):
         sig = self.r.signals(self.snap(), self.snap(top10=1263, impressions=2212),
                              self.dq())
         self.assertIn("Показы в Яндексе", [s["metric"] for s in sig])
 
+    def test_потолок_сигналов_совпадает_с_линтом(self):
+        """Генератор укладывается в гейт сам, а не проверяется постфактум.
+
+        11.09.2026 письмо несло пять сигналов при потолке линта три, и
+        ежедневный отчёт встал на гейте качества. Расхождение двух чисел —
+        причина того сбоя, поэтому оно проверяется здесь.
+        """
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "uxlint_v4", pathlib.Path(self.r.__file__).with_name("uxlint_v4.py"))
+        ux = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(ux)
+        self.assertEqual(self.r.SIGNALS_LIMIT, ux.LIMITS["signals"])
+
     def test_повторов_и_переполнения_нет(self):
         sig = self.r.signals(self.snap(), self.snap(top10=1263, impressions=2212),
                              self.dq())
-        self.assertLessEqual(len(sig), 5)
+        self.assertLessEqual(len(sig), self.r.SIGNALS_LIMIT)
         self.assertEqual(len(sig), len({s["metric"] for s in sig}))
         self.assertFalse([s for s in sig if "score" in s])
 

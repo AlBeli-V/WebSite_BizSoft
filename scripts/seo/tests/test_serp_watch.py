@@ -3,6 +3,7 @@
 
 import json
 import pathlib
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -347,6 +348,51 @@ class TestSerpAnalysis(unittest.TestCase):
         res = self.sa.build(DATE)
         self.assertFalse(res["available"])
         self.assertIn("срезов за окно нет", res["reason"])
+
+
+class TestModuleResolution(unittest.TestCase):
+    """Одноимённые модули seo/ и seo/wordstat/ не должны подменять друг друга.
+
+    Скрипты, которым нужны оба каталога, кладут их в sys.path вручную, и
+    порядок вставок решает, чей opportunity.py импортируется: у своего есть
+    money_radar, у wordstat — нет. Ошибка порядка тихая: внутри общего
+    прогона тестов модуль уже загружен кем-то другим и подмена не видна,
+    поэтому проверка идёт отдельным процессом, как в бою.
+    """
+
+    SEO = pathlib.Path(__file__).resolve().parents[1]
+
+    def resolve(self, module: str, names: tuple[str, ...]) -> dict:
+        code = (
+            "import importlib, json, sys\n"
+            f"sys.path.insert(0, {str(self.SEO)!r})\n"
+            f"importlib.import_module({module!r})\n"
+            "print(json.dumps({n: getattr(sys.modules.get(n), '__file__', None)"
+            f" for n in {list(names)!r}}}))\n"
+        )
+        res = subprocess.run([sys.executable, "-c", code], cwd=self.SEO.parents[1],
+                             capture_output=True, text=True)
+        self.assertEqual(res.returncode, 0, res.stderr)
+        return json.loads(res.stdout)
+
+    def test_serp_watchlist_takes_its_own_opportunity(self):
+        got = self.resolve("serp_watchlist",
+                           ("opportunity", "normalize", "inventory"))
+        self.assertEqual(got["opportunity"], str(self.SEO / "opportunity.py"))
+        self.assertEqual(got["normalize"], str(self.SEO / "wordstat" / "normalize.py"))
+        self.assertEqual(got["inventory"], str(self.SEO / "inventory.py"))
+
+    def test_watchlist_builds_in_a_clean_process(self):
+        """Сбор ядра в чистом процессе: падение импорта роняло весь SERP-срез."""
+        code = (
+            "import sys, pathlib\n"
+            f"sys.path.insert(0, {str(self.SEO)!r})\n"
+            "import serp_watchlist\n"
+            "serp_watchlist.build('2026-01-01')\n"
+        )
+        res = subprocess.run([sys.executable, "-c", code], cwd=self.SEO.parents[1],
+                             capture_output=True, text=True)
+        self.assertEqual(res.returncode, 0, res.stderr)
 
 
 if __name__ == "__main__":
