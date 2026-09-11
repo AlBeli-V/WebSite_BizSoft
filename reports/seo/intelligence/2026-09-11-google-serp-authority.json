@@ -2,14 +2,14 @@
  "schema_version": "1.0.0",
  "generated_for": "2026-09-11",
  "as_of_google": "2026-09-07",
- "as_of_yandex": "2026-09-10",
+ "as_of_yandex": "2026-09-11",
  "queries_google": 394,
- "queries_yandex": 489,
- "queries_common": 375,
+ "queries_yandex": 445,
+ "queries_common": 345,
  "google_top10": 1,
  "google_top20": 1,
- "yandex_top10": 217,
- "gap_queries": 216,
+ "yandex_top10": 183,
+ "gap_queries": 182,
  "doc_types_by_intent": {
   "BUY": {
    "PRODUCT_LISTING": 216,
@@ -189,7 +189,7 @@
  "hubs": {
   "ai-subscriptions": {
    "queries": 67,
-   "gap": 33,
+   "gap": 23,
    "b2b": 19,
    "vendors": [
     "anthropic",
@@ -210,22 +210,22 @@
    "top_gap_queries": [
     "оплата openrouter юридическим лицом",
     "купить openai api юридическим лицом",
-    "magnific оплата юридическим ai лицом",
     "оплата magnific ai юридическим лицом",
     "купить leonardo ai юридическим лицом",
     "корпоративная оплата recraft",
-    "perplexity enterprise pro купить",
     "тарифные планы anthropic для бизнеса",
-    "купить claude team",
     "купить perplexity pro юридическим лицом",
-    "leonardo artisan оплата рф",
-    "leonardo apprentice оплата из россии"
+    "leonardo apprentice оплата из россии",
+    "grok для бизнеса купить",
+    "claude team купить",
+    "claude team plan купить",
+    "купить heygen юридическим лицом"
    ],
    "weakness_avg": 29.1
   },
   "design-software": {
    "queries": 111,
-   "gap": 72,
+   "gap": 62,
    "b2b": 10,
    "vendors": [
     "adobe",
@@ -256,7 +256,7 @@
   },
   "video-creative": {
    "queries": 39,
-   "gap": 18,
+   "gap": 14,
    "b2b": 4,
    "vendors": [
     "artlist",
@@ -268,22 +268,22 @@
    "top_gap_queries": [
     "runway тарифы habr.com",
     "оплата artlist юридическим лицом",
-    "artlist купить подписку",
     "оплата motion array юридическим лицом",
-    "как оплатить runway в россии companies.rbc.ru",
-    "оплата artlist лицом юридическим",
     "runway standard оплата из россии",
-    "самый простой способ оплатить runway",
     "runway оплата ежемесячно из россии",
     "оплата descript картой",
     "runway pro оплата из россии",
-    "runway ai тарифы"
+    "runway ai тарифы",
+    "как оплатить runway pro из россии",
+    "runway тарифы",
+    "купить подписку artlist",
+    "artlist подписка"
    ],
    "weakness_avg": 28.6
   },
   "dev-tools": {
    "queries": 106,
-   "gap": 64,
+   "gap": 60,
    "b2b": 15,
    "vendors": [
     "atlassian",
@@ -296,44 +296,44 @@
    ],
    "top_gap_queries": [
     "купить cursor pro юридическим лицом",
-    "купить windsurf аккаунт pro",
     "оплата windsurf юридическим лицом",
-    "купить аккаунт windsurf",
     "gitlab оплатить из рф",
     "купить подписку github copilot business",
     "как оплатить gitlab из россии",
     "gitlab оплатить подписку россия",
     "gitlab оплата с российского счета",
+    "как купить windsurf из россии",
     "github copilot business купить",
     "продление подписки postman из россии",
-    "как купить gitlab в россии"
+    "как купить gitlab в россии",
+    "гитлаб подписка рф"
    ],
    "weakness_avg": 21.1
   },
   "cross-cutting": {
    "queries": 42,
-   "gap": 22,
+   "gap": 18,
    "b2b": 14,
    "vendors": [],
    "top_gap_queries": [
     "купить foundry",
-    "оплатить подписку one capture",
     "оплата иностранной подписки для бизнеса документы",
-    "capture оплата one лицом юридическим",
-    "метрика лицензирования что это",
     "купить аккаунт hailuo ai",
     "character creator 5 купить",
     "как купить hailuo ai из россии",
-    "оплата зарубежного по для юрлица стоимость",
     "оплата зарубежного по для юрлица",
     "оплата зарубежного по для юр лица документы",
-    "оплата зарубежных сервисов для юридических лиц документы"
+    "оплата зарубежных сервисов для юридических лиц документы",
+    "spine 2d купить",
+    "sketchup go подписка",
+    "ключ программы spine professional купить",
+    "оплатить git lab"
    ],
    "weakness_avg": 30.0
   },
   "productivity-collab": {
    "queries": 15,
-   "gap": 6,
+   "gap": 5,
    "b2b": 6,
    "vendors": [
     "box",
@@ -348,22 +348,19 @@
     "notion business купить",
     "корпоративные тарифы slack для бизнеса из рф",
     "купить дропбокс",
-    "купить notion ai юридическим лицом",
-    "дропбокс купить"
+    "купить notion ai юридическим лицом"
    ],
    "weakness_avg": 30.9
   },
   "infrastructure-security": {
    "queries": 9,
-   "gap": 1,
+   "gap": 0,
    "b2b": 0,
    "vendors": [
     "anydesk",
     "cloudflare"
    ],
-   "top_gap_queries": [
-    "как оплатить cloudflare pro из россии"
-   ],
+   "top_gap_queries": [],
    "weakness_avg": 25.2
   },
   "gift-cards": {
@@ -486,7 +483,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
+   "yandex_position": 2,
    "gap": true,
    "weakness": 38,
    "weakness_reasons": [
@@ -519,7 +516,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
+   "yandex_position": 2,
    "gap": true,
    "weakness": 8,
    "weakness_reasons": [],
@@ -549,8 +546,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 44,
    "weakness_reasons": [
     "нет специализированного продавца",
@@ -618,7 +615,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 1,
    "gap": true,
    "weakness": 30,
    "weakness_reasons": [
@@ -684,7 +681,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 26,
    "weakness_reasons": [
@@ -716,7 +713,7 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
+   "yandex_position": 3,
    "gap": true,
    "weakness": 25,
    "weakness_reasons": [
@@ -749,7 +746,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -846,7 +843,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
+   "yandex_position": 2,
    "gap": true,
    "weakness": 13,
    "weakness_reasons": [
@@ -910,7 +907,7 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 22,
    "weakness_reasons": [
@@ -942,7 +939,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 36,
    "weakness_reasons": [
@@ -976,7 +973,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -1009,8 +1006,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 3,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 32,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -1043,7 +1040,7 @@
    "hub": "productivity-collab",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 41,
    "weakness_reasons": [
@@ -1077,7 +1074,7 @@
    "hub": "video-creative",
    "google_position": 1,
    "google_depth": 19,
-   "yandex_position": 1,
+   "yandex_position": 2,
    "gap": false,
    "weakness": 26,
    "weakness_reasons": [
@@ -1110,7 +1107,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
+   "yandex_position": 2,
    "gap": true,
    "weakness": 26,
    "weakness_reasons": [
@@ -1142,7 +1139,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
+   "yandex_position": 3,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -1209,7 +1206,7 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 40,
    "weakness_reasons": [
@@ -1243,8 +1240,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 7,
+   "gap": true,
    "weakness": 15,
    "weakness_reasons": [
     "маркетплейсы ключей — 50% топ-10"
@@ -1275,7 +1272,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 15,
    "weakness_reasons": [
@@ -1308,7 +1305,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 25,
    "weakness_reasons": [
@@ -1341,7 +1338,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 22,
    "weakness_reasons": [
@@ -1373,7 +1370,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
+   "yandex_position": 2,
    "gap": true,
    "weakness": 41,
    "weakness_reasons": [
@@ -1407,7 +1404,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 2,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 10,
    "weakness_reasons": [
@@ -1439,7 +1436,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 20,
    "weakness_reasons": [
@@ -1471,7 +1468,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 10,
    "weakness_reasons": [],
@@ -1501,7 +1498,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 6,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 39,
    "weakness_reasons": [
@@ -1535,7 +1532,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 15,
    "weakness_reasons": [
@@ -1670,8 +1667,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 27,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -1703,7 +1700,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 6,
    "weakness_reasons": [
@@ -1735,7 +1732,7 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 25,
    "weakness_reasons": [
@@ -1801,7 +1798,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 25,
    "weakness_reasons": [
@@ -2001,7 +1998,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 1,
+   "yandex_position": 3,
    "gap": true,
    "weakness": 64,
    "weakness_reasons": [
@@ -2037,7 +2034,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 5,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 36,
    "weakness_reasons": [
@@ -2071,7 +2068,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 32,
    "weakness_reasons": [
@@ -2138,7 +2135,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
+   "yandex_position": 2,
    "gap": true,
    "weakness": 12,
    "weakness_reasons": [
@@ -2170,7 +2167,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 20,
    "weakness_reasons": [
@@ -2237,7 +2234,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 27,
    "weakness_reasons": [
@@ -2270,7 +2267,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 33,
    "weakness_reasons": [
@@ -2304,7 +2301,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 32,
    "weakness_reasons": [
@@ -2437,8 +2434,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 6,
+   "gap": true,
    "weakness": 37,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -2538,8 +2535,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 30,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -2803,7 +2800,7 @@
    "hub": "productivity-collab",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 10,
    "weakness_reasons": [
@@ -2836,7 +2833,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 5,
    "weakness_reasons": [],
@@ -2866,7 +2863,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 6,
    "weakness_reasons": [
@@ -2931,7 +2928,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 2,
    "gap": true,
    "weakness": 34,
    "weakness_reasons": [
@@ -2999,8 +2996,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 34,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -3033,7 +3030,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 4,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -3102,7 +3099,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 37,
    "weakness_reasons": [
@@ -3170,7 +3167,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 10,
    "weakness_reasons": [
@@ -3334,8 +3331,8 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 25,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -3367,8 +3364,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 28,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -3465,7 +3462,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 31,
    "weakness_reasons": [
@@ -3565,8 +3562,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 8,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 16,
    "weakness_reasons": [
     "UGC и СМИ занимают 50% топ-10",
@@ -3663,7 +3660,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -3696,7 +3693,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 30,
    "weakness_reasons": [
@@ -3762,8 +3759,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 28,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -3795,7 +3792,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 10,
    "weakness_reasons": [
@@ -3827,8 +3824,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 8,
+   "gap": true,
    "weakness": 33,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -3895,8 +3892,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 6,
+   "gap": true,
    "weakness": 26,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -3962,8 +3959,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 35,
    "weakness_reasons": [
     "нет специализированного продавца",
@@ -4027,7 +4024,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 37,
    "weakness_reasons": [
@@ -4061,8 +4058,8 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 41,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -4096,7 +4093,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 31,
    "weakness_reasons": [
@@ -4130,7 +4127,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 8,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -4195,7 +4192,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 17,
-   "yandex_position": 1,
+   "yandex_position": 2,
    "gap": true,
    "weakness": 46,
    "weakness_reasons": [
@@ -4228,7 +4225,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 17,
-   "yandex_position": 3,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 52,
    "weakness_reasons": [
@@ -4263,7 +4260,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 11,
    "weakness_reasons": [
@@ -4295,7 +4292,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 8,
    "weakness_reasons": [],
@@ -4359,7 +4356,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 25,
    "weakness_reasons": [
@@ -4460,7 +4457,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 6,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 34,
    "weakness_reasons": [
@@ -4495,7 +4492,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 4,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 27,
    "weakness_reasons": [
@@ -4528,7 +4525,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -4562,8 +4559,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 2,
+   "gap": true,
    "weakness": 20,
    "weakness_reasons": [
     "нет официального сайта вендора"
@@ -4628,8 +4625,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 8,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 34,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -4662,7 +4659,7 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 19,
    "weakness_reasons": [
@@ -4730,7 +4727,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 32,
    "weakness_reasons": [
@@ -4796,7 +4793,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -4829,7 +4826,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 17,
    "weakness_reasons": [
@@ -4960,7 +4957,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 40,
    "weakness_reasons": [
@@ -4994,7 +4991,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 36,
    "weakness_reasons": [
@@ -5029,8 +5026,8 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 9,
+   "gap": true,
    "weakness": 22,
    "weakness_reasons": [
     "нет официального сайта вендора"
@@ -5095,7 +5092,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 4,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 24,
    "weakness_reasons": [
@@ -5127,8 +5124,8 @@
    "hub": "infrastructure-security",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 22,
    "weakness_reasons": [
     "нет официального сайта вендора"
@@ -5191,8 +5188,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 30,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -5225,7 +5222,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 5,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 42,
    "weakness_reasons": [
@@ -5259,7 +5256,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -5293,8 +5290,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 9,
+   "gap": true,
    "weakness": 25,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -5326,7 +5323,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 31,
    "weakness_reasons": [
@@ -5492,7 +5489,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 26,
    "weakness_reasons": [
@@ -5655,7 +5652,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 25,
    "weakness_reasons": [
@@ -5688,7 +5685,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 25,
    "weakness_reasons": [
@@ -5721,8 +5718,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 31,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -5854,7 +5851,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 30,
    "weakness_reasons": [
@@ -5983,7 +5980,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 31,
    "weakness_reasons": [
@@ -6017,8 +6014,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 33,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -6051,7 +6048,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 31,
    "weakness_reasons": [
@@ -6118,7 +6115,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
+   "yandex_position": 3,
    "gap": true,
    "weakness": 6,
    "weakness_reasons": [
@@ -6217,7 +6214,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 34,
    "weakness_reasons": [
@@ -6283,8 +6280,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 31,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -6317,7 +6314,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -6350,7 +6347,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 33,
    "weakness_reasons": [
@@ -6384,7 +6381,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 38,
    "weakness_reasons": [
@@ -6452,8 +6449,8 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 6,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 28,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -6586,7 +6583,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 9,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 13,
    "weakness_reasons": [
@@ -6653,8 +6650,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 57,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -6689,7 +6686,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 11,
    "weakness_reasons": [
@@ -6721,7 +6718,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 3,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 30,
    "weakness_reasons": [
@@ -6755,7 +6752,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 4,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 8,
    "weakness_reasons": [
@@ -6821,7 +6818,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 21,
    "weakness_reasons": [
@@ -6854,8 +6851,8 @@
    "hub": "productivity-collab",
    "google_position": null,
    "google_depth": 20,
-   "yandex_position": 7,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 9,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: dropbox.com"
@@ -6886,7 +6883,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
+   "yandex_position": 3,
    "gap": true,
    "weakness": 36,
    "weakness_reasons": [
@@ -6988,8 +6985,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 8,
+   "gap": true,
    "weakness": 11,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: vc.ru"
@@ -7117,8 +7114,8 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 35,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -7150,7 +7147,7 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 5,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 27,
    "weakness_reasons": [
@@ -7183,7 +7180,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 56,
    "weakness_reasons": [
@@ -7218,7 +7215,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 31,
    "weakness_reasons": [
@@ -7252,7 +7249,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 11,
    "weakness_reasons": [
@@ -7350,7 +7347,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 4,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 16,
    "weakness_reasons": [
@@ -7383,7 +7380,7 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 18,
    "weakness_reasons": [
@@ -7449,8 +7446,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 22,
    "weakness_reasons": [
     "нет официального сайта вендора"
@@ -7514,7 +7511,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 3,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 8,
    "weakness_reasons": [
@@ -7546,7 +7543,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 38,
    "weakness_reasons": [
@@ -7646,8 +7643,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 13,
    "weakness_reasons": [
     "UGC и СМИ занимают 40% топ-10",
@@ -7712,7 +7709,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 30,
    "weakness_reasons": [
@@ -7746,8 +7743,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 26,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -7844,7 +7841,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 27,
    "weakness_reasons": [
@@ -7977,7 +7974,7 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 5,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 31,
    "weakness_reasons": [
@@ -8010,7 +8007,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 10,
    "weakness_reasons": [
@@ -8042,8 +8039,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 1,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 8,
    "weakness_reasons": [],
    "google_top3": [
@@ -8072,8 +8069,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 27,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -8105,8 +8102,8 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 36,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -8206,8 +8203,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 13,
    "weakness_reasons": [
     "UGC и СМИ занимают 40% топ-10",
@@ -8239,8 +8236,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 15,
    "weakness_reasons": [
     "маркетплейсы ключей — 30% топ-10",
@@ -8338,8 +8335,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 11,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: postman.com"
@@ -8504,7 +8501,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
+   "yandex_position": 3,
    "gap": true,
    "weakness": 22,
    "weakness_reasons": [
@@ -8536,8 +8533,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 12,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: atlassian.com, community.atlassian.com"
@@ -8568,8 +8565,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 25,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -8698,8 +8695,8 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 40,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -8732,7 +8729,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 8,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 8,
    "weakness_reasons": [
@@ -8798,7 +8795,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 8,
    "weakness_reasons": [
@@ -8830,8 +8827,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 11,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: recraft.ai"
@@ -8862,8 +8859,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 10,
+   "gap": true,
    "weakness": 8,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: atlassian.com"
@@ -8894,8 +8891,8 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 17,
-   "yandex_position": 1,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 38,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -8959,8 +8956,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 8,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: atlassian.com"
@@ -9118,8 +9115,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 2,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 22,
    "weakness_reasons": [
     "нет официального сайта вендора"
@@ -9182,8 +9179,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 27,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -9249,8 +9246,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 10,
+   "gap": true,
    "weakness": 13,
    "weakness_reasons": [
     "UGC и СМИ занимают 40% топ-10",
@@ -9379,8 +9376,8 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 16,
-   "yandex_position": 1,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 35,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -9412,7 +9409,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 13,
    "weakness_reasons": [
@@ -9544,8 +9541,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 16,
    "weakness_reasons": [
     "UGC и СМИ занимают 50% топ-10"
@@ -9708,7 +9705,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 8,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 38,
    "weakness_reasons": [
@@ -9742,7 +9739,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 26,
    "weakness_reasons": [
@@ -9775,8 +9772,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 25,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -9840,7 +9837,7 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
+   "yandex_position": 3,
    "gap": true,
    "weakness": 47,
    "weakness_reasons": [
@@ -9874,8 +9871,8 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 20,
    "weakness_reasons": [
     "нет официального сайта вендора"
@@ -9906,8 +9903,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 9,
+   "gap": true,
    "weakness": 8,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: atlassian.com"
@@ -10070,7 +10067,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 33,
    "weakness_reasons": [
@@ -10137,7 +10134,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 22,
    "weakness_reasons": [
@@ -10169,7 +10166,7 @@
    "hub": "productivity-collab",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -10202,8 +10199,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 6,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 31,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -10236,8 +10233,8 @@
    "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 6,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: descript.com"
@@ -10495,7 +10492,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
+   "yandex_position": 3,
    "gap": true,
    "weakness": 25,
    "weakness_reasons": [
@@ -10528,8 +10525,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 26,
    "weakness_reasons": [
     "нет официального сайта вендора"
@@ -10560,8 +10557,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 11,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: postman.com"
@@ -10694,7 +10691,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
+   "yandex_position": 2,
    "gap": true,
    "weakness": 14,
    "weakness_reasons": [
@@ -10792,7 +10789,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 33,
    "weakness_reasons": [
@@ -10924,8 +10921,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 25,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -11022,7 +11019,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 5,
+   "yandex_position": 6,
    "gap": true,
    "weakness": 24,
    "weakness_reasons": [
@@ -11121,7 +11118,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 1,
+   "yandex_position": 4,
    "gap": true,
    "weakness": 8,
    "weakness_reasons": [
@@ -11188,7 +11185,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 8,
    "weakness_reasons": [
@@ -11252,7 +11249,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 10,
    "weakness_reasons": [
@@ -11284,8 +11281,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 9,
+   "gap": true,
    "weakness": 22,
    "weakness_reasons": [
     "нет официального сайта вендора"
@@ -11348,8 +11345,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 9,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 8,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: atlassian.com"
@@ -11380,8 +11377,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 6,
+   "gap": true,
    "weakness": 8,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: atlassian.com"
@@ -11412,7 +11409,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 6,
+   "yandex_position": 7,
    "gap": true,
    "weakness": 26,
    "weakness_reasons": [
@@ -11478,7 +11475,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 3,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -11709,7 +11706,7 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 10,
+   "yandex_position": 8,
    "gap": true,
    "weakness": 10,
    "weakness_reasons": [
@@ -11774,7 +11771,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 6,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 24,
    "weakness_reasons": [
@@ -11806,8 +11803,8 @@
    "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 10,
+   "gap": true,
    "weakness": 22,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -11839,7 +11836,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 9,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 31,
    "weakness_reasons": [
@@ -11873,7 +11870,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 7,
+   "yandex_position": 10,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
@@ -11973,7 +11970,7 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
+   "yandex_position": 9,
    "gap": true,
    "weakness": 39,
    "weakness_reasons": [
@@ -12040,8 +12037,8 @@
    "hub": "design-software",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 8,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 15,
    "weakness_reasons": [
     "маркетплейсы ключей — 30% топ-10",
@@ -12073,8 +12070,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
-   "gap": true,
+   "yandex_position": null,
+   "gap": false,
    "weakness": 45,
    "weakness_reasons": [
     "нет официального сайта вендора",
@@ -12243,8 +12240,8 @@
    "hub": "ai-subscriptions",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 9,
+   "gap": true,
    "weakness": 23,
    "weakness_reasons": [
     "нет официального сайта вендора"
@@ -12340,8 +12337,8 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
+   "yandex_position": 10,
+   "gap": true,
    "weakness": 8,
    "weakness_reasons": [
     "топ разбавлен повторами доменов: atlassian.com"
@@ -12406,7 +12403,7 @@
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": 4,
+   "yandex_position": 3,
    "gap": true,
    "weakness": 20,
    "weakness_reasons": [
@@ -13412,7 +13409,7 @@
    "class": "UGC",
    "google_top10_hits": 408,
    "google_queries": 339,
-   "yandex_top10_hits": 236,
+   "yandex_top10_hits": 198,
    "google_only": false,
    "sample_queries": [
     "adobe photoshop купить",
@@ -13425,7 +13422,7 @@
    "class": "UGC",
    "google_top10_hits": 407,
    "google_queries": 325,
-   "yandex_top10_hits": 83,
+   "yandex_top10_hits": 72,
    "google_only": false,
    "sample_queries": [
     "adobe photoshop купить",
@@ -13438,7 +13435,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 144,
    "google_queries": 144,
-   "yandex_top10_hits": 150,
+   "yandex_top10_hits": 147,
    "google_only": false,
    "sample_queries": [
     "envato elements гайд оплата",
@@ -13451,7 +13448,7 @@
    "class": "MARKETPLACE",
    "google_top10_hits": 130,
    "google_queries": 128,
-   "yandex_top10_hits": 98,
+   "yandex_top10_hits": 78,
    "google_only": false,
    "sample_queries": [
     "adobe photoshop купить",
@@ -13477,7 +13474,7 @@
    "class": "MARKETPLACE",
    "google_top10_hits": 108,
    "google_queries": 107,
-   "yandex_top10_hits": 49,
+   "yandex_top10_hits": 42,
    "google_only": false,
    "sample_queries": [
     "adobe купить",
@@ -13503,7 +13500,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 98,
    "google_queries": 89,
-   "yandex_top10_hits": 245,
+   "yandex_top10_hits": 215,
    "google_only": false,
    "sample_queries": [
     "atlassian jira оплата из россии",
@@ -13516,7 +13513,7 @@
    "class": "OFFICIAL",
    "google_top10_hits": 91,
    "google_queries": 34,
-   "yandex_top10_hits": 18,
+   "yandex_top10_hits": 14,
    "google_only": false,
    "sample_queries": [
     "atlassian jira оплата из россии",
@@ -13529,7 +13526,7 @@
    "class": "UGC",
    "google_top10_hits": 87,
    "google_queries": 75,
-   "yandex_top10_hits": 48,
+   "yandex_top10_hits": 47,
    "google_only": false,
    "sample_queries": [
     "canva аналоги",
@@ -13542,7 +13539,7 @@
    "class": "MARKETPLACE",
    "google_top10_hits": 82,
    "google_queries": 80,
-   "yandex_top10_hits": 45,
+   "yandex_top10_hits": 43,
    "google_only": false,
    "sample_queries": [
     "adobe photoshop купить",
@@ -13555,8 +13552,8 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 80,
    "google_queries": 78,
-   "yandex_top10_hits": 0,
-   "google_only": true,
+   "yandex_top10_hits": 1,
+   "google_only": false,
    "sample_queries": [
     "ai купить leonardo юридическим лицом",
     "envato elements гайд оплата",
@@ -13568,7 +13565,7 @@
    "class": "MEDIA",
    "google_top10_hits": 70,
    "google_queries": 64,
-   "yandex_top10_hits": 28,
+   "yandex_top10_hits": 26,
    "google_only": false,
    "sample_queries": [
     "ai купить leonardo юридическим лицом",
@@ -13581,7 +13578,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 68,
    "google_queries": 68,
-   "yandex_top10_hits": 14,
+   "yandex_top10_hits": 11,
    "google_only": false,
    "sample_queries": [
     "atlassian jira оплата из россии",
@@ -13594,7 +13591,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 66,
    "google_queries": 65,
-   "yandex_top10_hits": 47,
+   "yandex_top10_hits": 82,
    "google_only": false,
    "sample_queries": [
     "artlist оплата подписки",
@@ -13633,7 +13630,7 @@
    "class": "RESELLER",
    "google_top10_hits": 55,
    "google_queries": 55,
-   "yandex_top10_hits": 8,
+   "yandex_top10_hits": 6,
    "google_only": false,
    "sample_queries": [
     "artlist купить подписку",
@@ -13646,7 +13643,7 @@
    "class": "FORUM",
    "google_top10_hits": 54,
    "google_queries": 54,
-   "yandex_top10_hits": 82,
+   "yandex_top10_hits": 60,
    "google_only": false,
    "sample_queries": [
     "claude enterprise купить",
@@ -13672,7 +13669,7 @@
    "class": "RESELLER",
    "google_top10_hits": 47,
    "google_queries": 46,
-   "yandex_top10_hits": 49,
+   "yandex_top10_hits": 45,
    "google_only": false,
    "sample_queries": [
     "adobe pro купить",
@@ -13685,7 +13682,7 @@
    "class": "MEDIA",
    "google_top10_hits": 42,
    "google_queries": 42,
-   "yandex_top10_hits": 10,
+   "yandex_top10_hits": 9,
    "google_only": false,
    "sample_queries": [
     "framer basic оплата россия",
@@ -13698,7 +13695,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 41,
    "google_queries": 41,
-   "yandex_top10_hits": 22,
+   "yandex_top10_hits": 20,
    "google_only": false,
    "sample_queries": [
     "envato elements гайд оплата",
@@ -13711,7 +13708,7 @@
    "class": "RESELLER",
    "google_top10_hits": 39,
    "google_queries": 35,
-   "yandex_top10_hits": 11,
+   "yandex_top10_hits": 8,
    "google_only": false,
    "sample_queries": [
     "gitlab bronze оплата россия",
@@ -13724,7 +13721,7 @@
    "class": "MARKETPLACE",
    "google_top10_hits": 37,
    "google_queries": 34,
-   "yandex_top10_hits": 22,
+   "yandex_top10_hits": 24,
    "google_only": false,
    "sample_queries": [
     "adobe photoshop купить",
@@ -13737,7 +13734,7 @@
    "class": "RESELLER",
    "google_top10_hits": 32,
    "google_queries": 29,
-   "yandex_top10_hits": 47,
+   "yandex_top10_hits": 39,
    "google_only": false,
    "sample_queries": [
     "adobe pro купить",
@@ -13750,8 +13747,8 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 31,
    "google_queries": 31,
-   "yandex_top10_hits": 4,
-   "google_only": false,
+   "yandex_top10_hits": 0,
+   "google_only": true,
    "sample_queries": [
     "atlassian jira оплата из россии",
     "jira premium оплата из россии",
@@ -13776,7 +13773,7 @@
    "class": "OTHER",
    "google_top10_hits": 26,
    "google_queries": 26,
-   "yandex_top10_hits": 11,
+   "yandex_top10_hits": 7,
    "google_only": false,
    "sample_queries": [
     "adobe подписка",
@@ -13789,7 +13786,7 @@
    "class": "MARKETPLACE",
    "google_top10_hits": 26,
    "google_queries": 25,
-   "yandex_top10_hits": 31,
+   "yandex_top10_hits": 21,
    "google_only": false,
    "sample_queries": [
     "claude team plan купить",
@@ -13802,7 +13799,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 25,
    "google_queries": 25,
-   "yandex_top10_hits": 42,
+   "yandex_top10_hits": 37,
    "google_only": false,
    "sample_queries": [
     "github copilot business оплата из россии",
@@ -13815,7 +13812,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 24,
    "google_queries": 24,
-   "yandex_top10_hits": 9,
+   "yandex_top10_hits": 7,
    "google_only": false,
    "sample_queries": [
     "framer pro оплата из россии",
@@ -13828,7 +13825,7 @@
    "class": "RESELLER",
    "google_top10_hits": 24,
    "google_queries": 24,
-   "yandex_top10_hits": 11,
+   "yandex_top10_hits": 13,
    "google_only": false,
    "sample_queries": [
     "adobe pro купить",
@@ -13841,7 +13838,7 @@
    "class": "MARKETPLACE",
    "google_top10_hits": 22,
    "google_queries": 22,
-   "yandex_top10_hits": 15,
+   "yandex_top10_hits": 16,
    "google_only": false,
    "sample_queries": [
     "google ai купить",
@@ -13854,7 +13851,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 22,
    "google_queries": 22,
-   "yandex_top10_hits": 1,
+   "yandex_top10_hits": 2,
    "google_only": false,
    "sample_queries": [
     "envato elements гайд оплата",
@@ -13867,7 +13864,7 @@
    "class": "RESELLER",
    "google_top10_hits": 20,
    "google_queries": 20,
-   "yandex_top10_hits": 21,
+   "yandex_top10_hits": 14,
    "google_only": false,
    "sample_queries": [
     "adobe pro купить",
@@ -13893,7 +13890,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 19,
    "google_queries": 19,
-   "yandex_top10_hits": 24,
+   "yandex_top10_hits": 27,
    "google_only": false,
    "sample_queries": [
     "jira оплата инструкция россия",
@@ -13906,7 +13903,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 18,
    "google_queries": 18,
-   "yandex_top10_hits": 12,
+   "yandex_top10_hits": 11,
    "google_only": false,
    "sample_queries": [
     "adobe photoshop купить",
@@ -13919,7 +13916,7 @@
    "class": "MEDIA",
    "google_top10_hits": 17,
    "google_queries": 16,
-   "yandex_top10_hits": 3,
+   "yandex_top10_hits": 4,
    "google_only": false,
    "sample_queries": [
     "canva аналоги",
@@ -13945,7 +13942,7 @@
    "class": "UGC",
    "google_top10_hits": 17,
    "google_queries": 16,
-   "yandex_top10_hits": 205,
+   "yandex_top10_hits": 184,
    "google_only": false,
    "sample_queries": [
     "artlist купить подписку",
@@ -13971,7 +13968,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 15,
    "google_queries": 15,
-   "yandex_top10_hits": 96,
+   "yandex_top10_hits": 90,
    "google_only": false,
    "sample_queries": [
     "gitlab bronze оплата россия",
@@ -13984,8 +13981,8 @@
    "class": "OFFICIAL",
    "google_top10_hits": 15,
    "google_queries": 14,
-   "yandex_top10_hits": 1,
-   "google_only": false,
+   "yandex_top10_hits": 0,
+   "google_only": true,
    "sample_queries": [
     "gitlab bronze оплата россия",
     "gitlab enterprise оплата из россии",
@@ -14036,7 +14033,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 13,
    "google_queries": 13,
-   "yandex_top10_hits": 2,
+   "yandex_top10_hits": 1,
    "google_only": false,
    "sample_queries": [
     "recraft basic подписка",
@@ -14049,7 +14046,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 13,
    "google_queries": 13,
-   "yandex_top10_hits": 3,
+   "yandex_top10_hits": 4,
    "google_only": false,
    "sample_queries": [
     "capture one для россиян оплата",
@@ -14062,7 +14059,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 12,
    "google_queries": 12,
-   "yandex_top10_hits": 7,
+   "yandex_top10_hits": 10,
    "google_only": false,
    "sample_queries": [
     "envato elements оплата без иностранной карты",
@@ -14075,7 +14072,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 11,
    "google_queries": 11,
-   "yandex_top10_hits": 25,
+   "yandex_top10_hits": 20,
    "google_only": false,
    "sample_queries": [
     "leonardo ai оплата через посредника",
@@ -14127,7 +14124,7 @@
    "class": "OFFICIAL",
    "google_top10_hits": 10,
    "google_queries": 8,
-   "yandex_top10_hits": 5,
+   "yandex_top10_hits": 4,
    "google_only": false,
    "sample_queries": [
     "postman лицензия",
@@ -14140,7 +14137,7 @@
    "class": "MEDIA",
    "google_top10_hits": 10,
    "google_queries": 10,
-   "yandex_top10_hits": 5,
+   "yandex_top10_hits": 12,
    "google_only": false,
    "sample_queries": [
     "framer mini оплата рф",
@@ -14153,7 +14150,7 @@
    "class": "OFFICIAL",
    "google_top10_hits": 10,
    "google_queries": 7,
-   "yandex_top10_hits": 4,
+   "yandex_top10_hits": 3,
    "google_only": false,
    "sample_queries": [
     "adobe photoshop купить",
@@ -14166,7 +14163,7 @@
    "class": "OFFICIAL",
    "google_top10_hits": 10,
    "google_queries": 2,
-   "yandex_top10_hits": 2,
+   "yandex_top10_hits": 1,
    "google_only": false,
    "sample_queries": [
     "дропбокс купить",
@@ -14191,7 +14188,7 @@
    "class": "RESELLER",
    "google_top10_hits": 9,
    "google_queries": 8,
-   "yandex_top10_hits": 13,
+   "yandex_top10_hits": 10,
    "google_only": false,
    "sample_queries": [
     "heygen купить лицом юридическим",
@@ -14217,7 +14214,7 @@
    "class": "OFFICIAL",
    "google_top10_hits": 9,
    "google_queries": 7,
-   "yandex_top10_hits": 3,
+   "yandex_top10_hits": 2,
    "google_only": false,
    "sample_queries": [
     "enterprise perplexity купить",
@@ -14230,7 +14227,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 9,
    "google_queries": 9,
-   "yandex_top10_hits": 82,
+   "yandex_top10_hits": 69,
    "google_only": false,
    "sample_queries": [
     "framer оплата 2026",
@@ -14243,7 +14240,7 @@
    "class": "OTHER",
    "google_top10_hits": 9,
    "google_queries": 9,
-   "yandex_top10_hits": 3,
+   "yandex_top10_hits": 1,
    "google_only": false,
    "sample_queries": [
     "envato elements как оплатить с рф",
@@ -14282,7 +14279,7 @@
    "class": "OTHER",
    "google_top10_hits": 8,
    "google_queries": 8,
-   "yandex_top10_hits": 25,
+   "yandex_top10_hits": 17,
    "google_only": false,
    "sample_queries": [
     "capture оплата one лицом юридическим",
@@ -14321,7 +14318,7 @@
    "class": "OTHER",
    "google_top10_hits": 7,
    "google_queries": 7,
-   "yandex_top10_hits": 4,
+   "yandex_top10_hits": 5,
    "google_only": false,
    "sample_queries": [
     "оплата зарубежного по для юр лица документы",
@@ -14334,7 +14331,7 @@
    "class": "OFFICIAL",
    "google_top10_hits": 7,
    "google_queries": 4,
-   "yandex_top10_hits": 2,
+   "yandex_top10_hits": 1,
    "google_only": false,
    "sample_queries": [
     "купить подписку descript",
@@ -14347,7 +14344,7 @@
    "class": "OTHER",
    "google_top10_hits": 7,
    "google_queries": 7,
-   "yandex_top10_hits": 7,
+   "yandex_top10_hits": 5,
    "google_only": false,
    "sample_queries": [
     "leonardo ai оплата через посредника",
@@ -14373,7 +14370,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 7,
    "google_queries": 7,
-   "yandex_top10_hits": 73,
+   "yandex_top10_hits": 63,
    "google_only": false,
    "sample_queries": [
     "как оплатить cloudflare pro из россии",
@@ -14386,7 +14383,7 @@
    "class": "OTHER",
    "google_top10_hits": 7,
    "google_queries": 6,
-   "yandex_top10_hits": 10,
+   "yandex_top10_hits": 8,
    "google_only": false,
    "sample_queries": [
     "framer без vpn оплата",
@@ -14399,7 +14396,7 @@
    "class": "OTHER",
    "google_top10_hits": 6,
    "google_queries": 6,
-   "yandex_top10_hits": 3,
+   "yandex_top10_hits": 2,
    "google_only": false,
    "sample_queries": [
     "как оплатить cloudflare в россии",
