@@ -65,6 +65,13 @@ jobs:
         if: steps.decide.outputs.run == 'yes'
         run: bash scripts/ops/gh_dispatch_wait.sh competitive-intelligence-daily.yml --ref main --no-wait
 
+      # Уточнения источника вчерашних заявок. Свой маркер дня у прогона есть
+      # (reports/seo/intelligence/last-lead-source.txt), поэтому несколько
+      # пробуждений сторожа подряд писем не задваивают.
+      - name: Start lead source letters
+        if: steps.decide.outputs.run == 'yes'
+        run: bash scripts/ops/gh_dispatch_wait.sh ops-lead-source-mail.yml --ref main --no-wait
+
       # Комитет — только по понедельникам, и у него свой маркер отправки.
       # 07.09.2026 оба его cron-слота (09:10 и 09:50 МСК) планировщик
       # пропустил, а сторож тогда покрывал лишь два ежедневных контура —
