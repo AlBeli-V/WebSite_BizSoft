@@ -30,9 +30,10 @@ const header = `/**
  */
 
 export interface VendorComparison { cols: string[]; rows: { label: string; values: string[] }[] }
-export interface VendorDecision { scenario: string; product: string; note: string }
-export interface VendorScenario { title: string; text: string }
-export interface VendorQA { q: string; a: string }
+/** Строка «что выбрать». slug делает рекомендацию ссылкой на карточку. */
+export interface VendorDecision { scenario: string; product: string; note: string; slug?: string }
+export interface VendorScenario { title: string; text: string; note?: string }
+export interface VendorQA { q: string; a: string; group?: string }
 /** Блок «Безопасность и данные»: что с данными компании и что спросит ИБ. */
 export interface VendorSecurity { text: string; cta?: string }
 /**
@@ -45,6 +46,8 @@ export interface VendorCardMeta {
   minQty?: number;
   qtyLabel?: string;
   check?: string;
+  /** Случай, к которому относится позиция (см. VendorSegment). */
+  seg?: string;
   /** Плашка над названием: план, редакция, тип места. */
   badge?: string;
   /** Кому адресована позиция — вместо короткого описания из каталога. */
@@ -55,11 +58,80 @@ export interface VendorCardMeta {
 /** Разбор, который нужен до цен: типы мест, виды лицензий, редакции. */
 export interface VendorExplainer { title: string; items: VendorScenario[] }
 
+/**
+ * Выбор ситуации перед сеткой тарифов. Покупатель выбирает не между
+ * тарифами, а между случаями: «сотруднику», «команде», «в свой продукт».
+ * Отмеченный случай сужает сетку до карточек со своим полем seg.
+ */
+export interface VendorSegment {
+  id: string; title: string; text: string;
+  /** Короткая приписка на плитке: что это даёт. */
+  hint?: string;
+  /** Почему именно этот случай — показывается после выбора. */
+  why?: string;
+  /**
+   * Позиции случая: slug или sku. Состав случая перечисляется в одном
+   * месте — иначе он расползается по карточкам и расходится с текстом.
+   */
+  keys?: string[];
+}
+
+/** Раздел линейки: своя подсетка карточек (например, личные и командные планы). */
+export interface VendorGroup { id: string; title: string; note?: string; items: string[] }
+
+/**
+ * Полоса номиналов: варианты одной родительской позиции (пополнение
+ * баланса, пакеты кредитов). Плитками, а не карточками: одиннадцать
+ * одинаковых карточек заменили бы собой страницу.
+ */
+export interface VendorDenominations {
+  title: string; note?: string;
+  /** Родительская позиция — slug или sku; её варианты и составляют ряд. */
+  parent: string;
+  /** Что показывает плитка: «$», «кредитов». */
+  unit?: string;
+}
+
+/**
+ * Быстрый подбор: ярлык задачи или стека → продукт. Не опросник: один клик
+ * подставляет выбор в форму и ведёт к карточке.
+ */
+export interface VendorPick { label: string; product: string; target?: string; query: string }
+
+/**
+ * Свободный блок страницы. Виды: текст, ячейки, плитки-ссылки на товары и
+ * раскрывающийся список. Больше видов не заводить: следующий вид — повод
+ * спросить, не пора ли этой странице снова стать своей.
+ */
+export interface VendorSection {
+  id?: string;
+  title: string;
+  kind?: 'prose' | 'cells' | 'links' | 'accordion';
+  text?: string;
+  note?: string;
+  cells?: VendorScenario[];
+  links?: { label: string; slug?: string; href?: string; text?: string }[];
+  items?: VendorQA[];
+  /** Подпись кнопки, ведущей к форме страницы. */
+  cta?: string;
+  /** Ссылка «дальше по теме» под блоком: каталог раздела, документация. */
+  more?: { label: string; href: string };
+  /** Куда ставить блок: до тарифов или после сравнения (по умолчанию). */
+  place?: 'before-products' | 'after-compare' | 'before-buy';
+}
+
 export interface VendorContent {
   summary?: string;
   /** Абзац «какой тариф кому» — сразу за блоком «Коротко». */
   intro?: string;
   explainer?: VendorExplainer;
+  segments?: VendorSegment[];
+  groups?: VendorGroup[];
+  denominations?: VendorDenominations;
+  picks?: { title: string; note?: string; items: VendorPick[] };
+  sections?: VendorSection[];
+  /** Темы блока вопросов: вопрос попадает в тему по полю group. */
+  faqGroups?: { id: string; title: string }[];
   cards?: Record<string, VendorCardMeta>;
   /**
    * Порядок карточек: slug или sku. Не перечисленные уходят в конец.

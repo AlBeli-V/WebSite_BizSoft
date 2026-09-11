@@ -100,6 +100,9 @@ export const VENDORS: VendorEntry[] = [
     tagline: 'Maya, 3ds Max и Media & Entertainment Collection для 3D-продакшена.',
     about: 'Autodesk Media & Entertainment — индустриальный стандарт 3D-моделирования, анимации и VFX (Maya, 3ds Max, MotionBuilder, Mudbox) для игр, кино и ТВ.' },
   { slug: 'maxon', vendor: 'Maxon', legalName: 'Maxon Computer GmbH', brandColor: '#E5006D', site: 'https://www.maxon.net', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'games',
+    metaTitle: 'Купить Maxon для юридических лиц — индивидуальные и командные планы Cinema 4D, ZBrush, Redshift',
+    metaDescription: 'Подписки Maxon для бизнеса: Maxon One, Cinema 4D, Red Giant, Redshift, ZBrush и Universe. Индивидуальные (Individuals) и командные (Teams) планы, отличия и сравнение. Договор, счёт в рублях, закрывающие документы для юрлиц.',
+    h1: 'Maxon для юридических лиц: индивидуальные и командные планы',
     tagline: 'Cinema 4D, ZBrush, Redshift, Red Giant и Universe: индивидуальные и командные подписки Maxon.',
     about: 'Maxon — набор для 3D и моушн-дизайна: Cinema 4D, скульптинг ZBrush, GPU-рендер Redshift, VFX-инструменты Red Giant и коллекция эффектов Universe. Объединены в подписке Maxon One. Планы двух видов: индивидуальные (Individuals) — на конкретного специалиста, и командные (Teams) — лицензии принадлежат компании и переназначаются между сотрудниками.' },
   { slug: 'houdini', vendor: 'SideFX Houdini', title: 'Houdini', legalName: 'Side Effects Software Inc.', brandColor: '#FF6600', site: 'https://www.sidefx.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'games',
@@ -221,6 +224,20 @@ export const VENDORS: VendorEntry[] = [
     about: 'Microsoft — разработчик Windows, Office и облачной платформы Microsoft 365. Мы помогаем юрлицам легально оформить подписки Microsoft 365 (только на tenant компании в поддерживаемой стране, после предварительной проверки) и поставляем бессрочные коробочные версии Office, Visio, Project и Windows 11 Pro электронным ключом активации.' },
 
   // ─── Блок 5: AI-ассистенты и инженерное ПО (добавлены 20.08.2026 по замеру спроса) ───
+  // OpenAI и JetBrains переехали с собственных страниц на общий шаблон
+  // (решение руководителя 11.09.2026). Метаданные и H1 сохранены дословно.
+  { slug: 'openai', vendor: 'OpenAI', title: 'OpenAI', legalName: 'OpenAI, L.L.C.', brandColor: '#10A37F', site: 'https://openai.com', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
+    metaTitle: 'Купить ChatGPT (OpenAI) для юрлица — Business, Enterprise и баланс API',
+    metaDescription: 'ChatGPT для бизнеса: тарифы Business и Enterprise, пополнение баланса OpenAI API. Оформление на юрлицо по договору и счёту, оплата в рублях, закрывающие через ЭДО.',
+    h1: 'OpenAI (ChatGPT) для юридических лиц: тарифы и оформление через BIZSoft',
+    tagline: 'ChatGPT для команд и организаций: тарифы Business и Enterprise, пополнение баланса OpenAI API для разработки.',
+    about: 'OpenAI ChatGPT — текстовый AI-ассистент для работы с документами, кодом и знаниями компании. Business даёт командное пространство с админ-управлением, SSO и запретом на обучение моделей на данных компании, Enterprise добавляет SCIM, EKM, RBAC и аналитику. Программный доступ продаётся не тарифом, а пополнением баланса на выбранный номинал: списание идёт по фактическому потреблению.' },
+  { slug: 'jetbrains', vendor: 'JetBrains', title: 'JetBrains', legalName: 'JetBrains s.r.o.', brandColor: '#000000', site: 'https://www.jetbrains.com', catSeg: 'development', catLabel: 'Средства разработки', domain: 'it',
+    metaTitle: 'Купить JetBrains для организации — цена, КП | BIZSoft',
+    metaDescription: 'Лицензии JetBrains для команд: All Products Pack, IntelliJ IDEA, Rider, PyCharm, WebStorm и другие IDE. Оформление на юрлицо: договор, счёт, закрывающие, ЭДО. Подберём и пришлём КП.',
+    h1: 'JetBrains для бизнеса: лицензии IDE, All Products Pack и инструменты с оформлением на юрлицо',
+    tagline: 'Профессиональные среды разработки и командные инструменты: All Products Pack, IntelliJ IDEA, Rider, PyCharm, WebStorm, TeamCity и YouTrack.',
+    about: 'JetBrains — набор сред разработки под каждый стек и серверных инструментов для команды. All Products Pack даёт доступ ко всем IDE сразу, отдельные лицензии берут под один язык. Лицензии поставляются годовой подпиской на пользователя и управляются через JetBrains Account: места распределяются между сотрудниками и переназначаются.' },
   // Figma переехала с собственной страницы на общий шаблон (решение
   // руководителя 11.09.2026). Метаданные и H1 сохранены прежними: формула
   // шаблона переписала бы уже проиндексированные заголовки.
