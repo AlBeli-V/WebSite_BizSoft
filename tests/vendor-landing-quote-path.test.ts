@@ -21,6 +21,7 @@ const leadForm = readFileSync('src/components/LeadForm.astro', 'utf8');
 const addToCart = readFileSync('src/components/AddToCartButton.astro', 'utf8');
 // Поведение единого пути вынесено в компонент: им же пользуются bespoke-страницы.
 const quotePath = readFileSync('src/components/VendorQuotePath.astro', 'utf8');
+const qty = readFileSync('src/components/TariffQty.astro', 'utf8');
 
 describe('лендинг производителя: один путь заявки', () => {
   it('призыв «Получить расчёт и КП» ведёт к форме, а не в окно вопроса', () => {
@@ -58,7 +59,9 @@ describe('лендинг производителя: один путь заяв�
 
 describe('расчёт на карточке тарифа', () => {
   it('минимум вендора держится счётчиком, а не только текстом вопросов', () => {
-    expect(landing).toContain('min={c.minQty}');
+    expect(landing).toContain('minQty={c.minQty}');
+    expect(qty).toContain('const min = Math.max(1, minQty)');
+    expect(qty).toContain('min={min}');
     // Нижняя граница держится и кнопками счётчика, и потерей фокуса:
     // ввод руками иначе обошёл бы минимум.
     expect(quotePath).toContain('Math.max(min,');

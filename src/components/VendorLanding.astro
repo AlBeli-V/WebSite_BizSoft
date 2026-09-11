@@ -23,6 +23,7 @@ import { productKind, listingProducts, isGiftCard } from '../lib/catalog';
 import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
 import AddToCartButton from './AddToCartButton.astro';
+import TariffQty from './TariffQty.astro';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
 import { vendorContent } from '../data/vendor-content';
 import type { Product } from '../lib/types';
@@ -260,21 +261,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
             {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
             {c.check && <p class="vcheck">⚠ {c.check}</p>}
             {!c.byRequest && !c.gift && (
-              <div class="vqty">
-                <span class="qlab">{c.qtyLabel}:</span>
-                <span class="stepper">
-                  <button type="button" data-qty-step="-1" aria-label={`Уменьшить: ${c.name}`}>−</button>
-                  <input
-                    type="number" data-qty value={c.minQty} min={c.minQty} max="10000"
-                    inputmode="numeric" aria-label={`${c.qtyLabel}: ${c.name}`}
-                  />
-                  <button type="button" data-qty-step="1" aria-label={`Увеличить: ${c.name}`}>+</button>
-                </span>
-                {c.minQty > 1 && <span class="qmin">минимум {c.minQty}</span>}
-              </div>
-            )}
-            {!c.byRequest && !c.gift && (
-              <p class="vsum" data-sum data-price={c.price}>Сумма: <b>{formatRub(c.price * c.minQty)}</b></p>
+              <TariffQty price={c.price} minQty={c.minQty} qtyLabel={c.qtyLabel} name={c.name} />
             )}
             <div class="vactions">
               {c.byRequest ? (
@@ -495,18 +482,6 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   .vfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--vc, var(--color-accent)); font-weight: 700; }
   .vbadge { align-self: flex-start; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; background: color-mix(in srgb, var(--vc, var(--color-accent)) 16%, transparent); color: var(--vc, var(--color-accent)); margin-bottom: 0.5rem; }
   .vcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.6rem; }
-  /* Счётчик и сумма — над кнопками: сумма считается до решения, а не после */
-  .vqty { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.2rem; font-size: 0.84rem; }
-  .vqty .qlab { font-weight: 600; }
-  .vqty .qmin { color: var(--color-text-dim); font-size: 0.78rem; }
-  .stepper { display: inline-flex; align-items: center; gap: 0.2rem; border: 1px solid var(--color-border-strong); border-radius: 999px; padding: 0.1rem 0.25rem; }
-  .stepper button { width: 26px; height: 26px; border: none; border-radius: 50%; background: var(--color-bg-elevated); color: var(--color-text); font: inherit; font-weight: 700; line-height: 1; cursor: pointer; }
-  .stepper button:hover { background: var(--color-border); }
-  .stepper input { width: 3.4rem; border: none; background: transparent; color: var(--color-text); font: inherit; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
-  .stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  .stepper input:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; border-radius: 6px; }
-  .vsum { font-size: 0.86rem; color: var(--color-text-muted); margin: 0.35rem 0 0.6rem; }
-  .vsum b { color: var(--color-text); font-variant-numeric: tabular-nums; }
   /* Третий призыв первого экрана — текстовая ссылка, а не кнопка: это
      запасной лёгкий канал, и спорить с главным призывом он не должен. */
   .btn-link { background: none; border: none; padding: 0.55rem 0; color: var(--color-accent); font: inherit; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
