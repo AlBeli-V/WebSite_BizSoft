@@ -64,7 +64,7 @@ const cards = listingProducts(products).map((p) => {
     features: feats,
     plan: planType(p.name, p.short_description || ''),
     icon: productIcons(p.slug).length > 0,
-    // Подарочная карта: цена «от» минимального номинала, в избранное — со
+    // Подарочная карта: цена «от» минимального номинала, в расчёт — со
     // страницы карты после выбора региона и номинала.
     gift: isGiftCard(p),
     priceFrom: Boolean(p.price_from),
@@ -251,7 +251,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
               ) : c.gift ? (
                 <a href={`/product/${c.slug}`} class="btn btn-primary btn-sm" data-ev="click_product_card">Выбрать регион и номинал</a>
               ) : (
-                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor={entry.vendor} price={c.price} label="В расчёт" compact />
+                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor={entry.vendor} price={c.price} compact />
               )}
               <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
             </div>
