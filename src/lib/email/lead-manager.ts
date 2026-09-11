@@ -8,9 +8,10 @@
  */
 import type { PartyCard } from '../dadata';
 import type { AttributionFields } from '../quote-lead';
+import type { SourceEnrichment } from '../traffic-source';
 import {
   attributionLines, attributionRows, card, EMAIL_COLOR, emailShell, escapeHtml,
-  heading, kvRow, paragraph,
+  heading, kvRow, note, paragraph,
 } from './layout';
 import type { RenderedEmail } from './quote-customer';
 import { siteFromEmail } from './quote-manager';
@@ -32,14 +33,28 @@ export interface ManagerLeadEmailInput {
   /** null — ИНН не проверялся (ключа ДаДаты нет). */
   innCheck: { valid: boolean; verdict: string; nameMatch?: string } | null;
   party: PartyCard | null;
+  /**
+   * Данные Метрики и Директа по этой заявке. В живом письме их нет: визит в
+   * Метрике появляется с задержкой, расход Директа закрывается за сутки.
+   * Заполняются при повторной отправке и в утреннем уточнении.
+   */
+  enrichment?: SourceEnrichment | null;
+  /** Приписка к теме — «(ТЕСТ ПОВТОР)» у повторной отправки. */
+  subjectPrefix?: string;
+  /** Тема целиком вместо собранной: повтор письма о КП сохраняет свою. */
+  subjectOverride?: string;
+  /** Плашка в начале письма: зачем оно пришло второй раз. */
+  notice?: string;
 }
 
 export function buildManagerLeadEmail(input: ManagerLeadEmailInput): RenderedEmail {
-  const { lead, attribution, innCheck, party } = input;
+  const { lead, attribution, innCheck, party, enrichment } = input;
   const mismatch = innCheck?.nameMatch === 'mismatch';
   const trouble = Boolean(innCheck && (!innCheck.valid || mismatch)) || (party ? !party.active : false);
-  const subject = `${trouble ? '⚠ ' : ''}Новая заявка с сайта BIZSoft`
-    + (lead.product_ref ? `: ${lead.product_ref}` : '');
+  const built = input.subjectOverride
+    || `${trouble ? '⚠ ' : ''}Новая заявка с сайта BIZSoft`
+      + (lead.product_ref ? `: ${lead.product_ref}` : '');
+  const subject = input.subjectPrefix ? `${input.subjectPrefix} ${built}` : built;
 
   const warnings: string[] = [];
   if (innCheck && !innCheck.valid) warnings.push('ВНИМАНИЕ: ИНН не проходит проверку контрольной суммы — сверить реквизиты');
@@ -77,8 +92,11 @@ export function buildManagerLeadEmail(input: ManagerLeadEmailInput): RenderedEma
     + paragraph(`Форма: <b>${escapeHtml(lead.form_source)}</b>`
       + (lead.product_ref ? ` · товар: <b>${escapeHtml(lead.product_ref)}</b>` : '')
       + ` · получена ${escapeHtml(lead.date)}.`)
+    + (input.notice ? note(escapeHtml(input.notice)) : '')
     + warnHtml
-    + card(`<table role="presentation" cellpadding="0" cellspacing="0">${attributionRows(attribution)}</table>`)
+    + heading('Источник обращения')
+    + card(`<table role="presentation" cellpadding="0" cellspacing="0">${
+      attributionRows(attribution, enrichment)}</table>`)
     + card(
       `<table role="presentation" cellpadding="0" cellspacing="0">`
       + kvRow('Компания', companyHtml)
@@ -99,10 +117,11 @@ export function buildManagerLeadEmail(input: ManagerLeadEmailInput): RenderedEma
   const text = [
     `Новая заявка с сайта. Форма: ${lead.form_source}`
       + (lead.product_ref ? ` · товар: ${lead.product_ref}` : '') + ` · получена ${lead.date}.`,
+    ...(input.notice ? ['', input.notice] : []),
     ...warnings.map((w) => `⚠ ${w}`),
     '',
-    'Источник:',
-    ...attributionLines(attribution),
+    'Источник обращения:',
+    ...attributionLines(attribution, enrichment),
     '',
     'Реквизиты:',
     ...(mismatch && party?.name

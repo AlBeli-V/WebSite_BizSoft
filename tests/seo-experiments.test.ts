@@ -13,6 +13,8 @@ const EXP_2 = ['adobe', 'autodesk', 'blackmagic', 'midjourney'];
 // ценовой интент фактических запросов Вебмастера.
 const EXP_2R = ['clip-studio-paint', 'procreate'];
 // «snippet-anthropic-demand» (29.08.2026): GAP-D — показы есть, кликов нет.
+// Остановлен 11.09.2026 решением руководителя: страница уходит в переработку.
+// Сниппет оставлен (KEEP), типовой FAQ снят — у страницы вернулся свой.
 const EXP_3 = ['anthropic'];
 // «snippets-3-gap-d» (01.09.2026): запросная формула «оплата {vendor}
 // юридическим лицом» вместо общей коммерческой.
@@ -47,6 +49,9 @@ const EXP_2R_VENDOR: Record<string, string> = {
 };
 // Группы с общей коммерческой формулой title/description.
 const COMMERCIAL = [...EXP_1, ...EXP_2, ...EXP_3, ...EXP_5];
+// Страницы, где типовой FAQ-блок действует. EXP_3 закрыт и свой FAQ вернул,
+// поэтому в этой проверке не участвует — сниппет у него при этом прежний.
+const COMMERCIAL_FAQ = COMMERCIAL.filter((s) => !EXP_3.includes(s));
 const SLUGS = [...COMMERCIAL, ...EXP_4, ...EXP_2R, ...EXP_6];
 
 describe('SEO-эксперименты на vendor-страницах', () => {
@@ -102,7 +107,7 @@ describe('SEO-эксперименты на vendor-страницах', () => {
   });
 
   it('FAQ-блок «Как купить … на юрлицо»: 3–4 вопроса с нужными темами', () => {
-    for (const s of COMMERCIAL) {
+    for (const s of COMMERCIAL_FAQ) {
       const { faqTitle, faq } = SEO_EXPERIMENTS[s];
       expect(faqTitle).toMatch(/^Как купить .+ на юрлицо$/);
       expect(faq).toBeDefined();
@@ -114,6 +119,18 @@ describe('SEO-эксперименты на vendor-страницах', () => {
       expect(all).toMatch(/ЭДО/);
       expect(all).toMatch(/1–3/);
       expect(all).toMatch(/курсу ЦБ/);
+    }
+  });
+
+  it('snippet-anthropic-demand закрыт: сниппет прежний, FAQ страницы свой', () => {
+    for (const s of EXP_3) {
+      const { faqTitle, faq, faqAdd } = SEO_EXPERIMENTS[s];
+      // Ни faq, ни faqAdd: VendorLanding отдаёт собственный FAQ страницы
+      // целиком — шесть вопросов из scripts/content/anthropic.json.
+      expect(faq).toBeUndefined();
+      expect(faqAdd).toBeUndefined();
+      // Заголовок блока остаётся запросным: он часть сниппета, а не подмены.
+      expect(faqTitle).toMatch(/^Как купить .+ на юрлицо$/);
     }
   });
 
@@ -202,7 +219,13 @@ describe('SEO-эксперименты на vendor-страницах', () => {
   it('faq и faqAdd взаимоисключающи — иначе вопросы задвоятся', () => {
     for (const s of SLUGS) {
       const e = SEO_EXPERIMENTS[s];
-      expect(Boolean(e.faq) !== Boolean(e.faqAdd)).toBe(true);
+      expect(Boolean(e.faq) && Boolean(e.faqAdd)).toBe(false);
+      // У закрытого эксперимента нет ни того, ни другого: блок вопросов
+      // страница отдаёт целиком свой. У идущего — ровно одно из двух,
+      // иначе непонятно, что именно замеряется.
+      if (!EXP_3.includes(s)) {
+        expect(Boolean(e.faq) !== Boolean(e.faqAdd)).toBe(true);
+      }
     }
   });
 

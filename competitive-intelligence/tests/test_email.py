@@ -64,6 +64,20 @@ class TestVerdict(unittest.TestCase):
         self.assertEqual(mark, kpi_mod.VERDICT_NO_DATA)
         self.assertIn("не хватает 1", why)
 
+    def test_вердикт_без_методической_оговорки(self):
+        """Первый экран письма коротким держит не проверка, а генератор.
+
+        11.09.2026 вердикт нёс оговорку про основание ряда (141 символ), и
+        письмо вышло за лимит — прогон разведки встал на гейте качества.
+        Оговорка живёт в детализации, вердикт называет только вывод.
+        """
+        k = kpi_mod.build_kpi(snapshot())
+        _, why = kpi_mod.verdict(k, [0.05] * 4)
+        self.assertNotIn("сцепленн", why)
+        self.assertNotIn("пересечение составов", why)
+        self.assertNotIn("звеньев", why)
+        self.assertLessEqual(len(why), 120)
+
     def test_нет_покрытия_даёт_серый_вердикт(self):
         k = kpi_mod.build_kpi(snapshot(coverage=0))
         mark, _ = kpi_mod.verdict(k, [0.05] * 6)

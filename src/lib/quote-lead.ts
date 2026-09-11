@@ -83,7 +83,30 @@ export interface AttributionFields {
   landing_path: string;
   ym_client_id: string;
   ga_client_id: string;
+  /**
+   * Полные адреса переходов. Хоста мало: yandex.ru отдаёт и выдачу, и
+   * карточку организации в Яндекс Бизнесе, и Дзен — по строке «yandex.ru /
+   * referral» эти три источника неразличимы, а руководителю нужен именно
+   * этот разбор (решение 10.09.2026).
+   */
+  first_touch_referrer: string;
+  last_touch_referrer: string;
+  /**
+   * Шаги посетителя по сайту, записанные браузером: «дата и время~страница»
+   * через «|». Метрика тот же путь отдаёт с задержкой, а письмо о заявке
+   * уходит в ту же секунду — цепочка из браузера закрывает разрыв.
+   */
+  visit_path: string;
 }
+
+/**
+ * Поля источника, которых на проде может не быть до прогона
+ * ops-directus-schema. Directus отвергает запись с незнакомым полем целиком,
+ * поэтому обработчик повторяет её без них: контакт важнее разбора канала.
+ */
+export const ATTRIBUTION_EXTRA_FIELDS = [
+  'first_touch_referrer', 'last_touch_referrer', 'visit_path',
+] as const;
 
 /** Одно поле касания: строка разумной длины или пусто. */
 function touchField(v: unknown): string {
@@ -125,6 +148,12 @@ export function attributionFields(body: Record<string, unknown>): AttributionFie
     landing_path: touchField(first.landing_path) || touchField(last.landing_path),
     ym_client_id: touchField(a.ym_client_id),
     ga_client_id: touchField(a.ga_client_id),
+    // Реферер режется длиннее прочих полей: у выдачи и у карточки организации
+    // значащая часть адреса стоит после хоста, и обрезка по 200 символам
+    // отрезала бы как раз её.
+    first_touch_referrer: typeof first.referrer === 'string' ? first.referrer.slice(0, 500) : '',
+    last_touch_referrer: typeof last.referrer === 'string' ? last.referrer.slice(0, 500) : '',
+    visit_path: typeof a.visit_path === 'string' ? a.visit_path.slice(0, 1000) : '',
   };
 }
 
