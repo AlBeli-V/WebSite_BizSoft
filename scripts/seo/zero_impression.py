@@ -27,6 +27,7 @@ import datetime as dt
 import inventory
 from mismatch import page_type
 import passport
+from textfmt import counted, num, ru_date
 
 YOUNG_DAYS = 14     # моложе — «рано судить», это не находка
 OLD_DAYS = 30       # старше без показов — кандидат на разбор
@@ -74,6 +75,30 @@ def _yandex_status(path: str, yidx: dict | None,
                          + inventory.yandex_reason_label(ex.get("status"))}
     return {"status": "absent", "reason": None,
             "label": "не в поиске, причина не зафиксирована"}
+
+
+def yandex_slice_note(iy: dict, host_indexed: int | None) -> str:
+    """Подпись к числу «в поиске» по инвентарю: возраст среза и сходимость.
+
+    Инвентарь — часть хоста, поэтому его «в поиске» не может быть больше
+    сводки хоста. 09.09.2026 отчёт напечатал 663 страницы инвентаря против
+    650 по хосту: срез страниц был от 06.09, а сводка — свежая. Числа из
+    разных дней сравнивать нельзя, и об этом говорит подпись, а не читатель.
+    """
+    if not iy.get("available"):
+        return ""
+    parts = []
+    stale = iy.get("stale_days")
+    as_of = iy.get("as_of")
+    if stale and as_of:
+        parts.append(f"срез страниц от {ru_date(as_of)}, на "
+                     f"{counted(stale, 'день', 'дня', 'дней')} старше отчёта")
+    n = iy.get("in_search")
+    if n is not None and host_indexed and n > host_indexed:
+        parts.append(f"инвентарь — часть хоста, поэтому {num(n)} против "
+                     f"{num(host_indexed)} по сводке хоста означает разные дни "
+                     f"сбора, а не рост: сравнивать эти числа нельзя")
+    return "; ".join(parts)
 
 
 def build(date_s: str) -> dict:
@@ -166,6 +191,11 @@ def build(date_s: str) -> dict:
         "index_yandex": {
             "available": yidx is not None,
             "as_of": (yidx or {}).get("as_of"),
+            # Возраст среза страниц: он собирается своим шагом и отстаёт от
+            # отчёта. Пока возраст не печатался, трёхдневный срез читался как
+            # сегодняшний, а его число «в поиске» спорило со сводкой хоста.
+            "stale_days": ((date - dt.date.fromisoformat((yidx or {})["as_of"])).days
+                           if (yidx or {}).get("as_of") else None),
             "in_search": y_in_inventory,
             "coverage": round(y_in_inventory / total, 3) if total and yidx else None,
             "in_search_host_total": (yidx or {}).get("in_search_count"),

@@ -17,7 +17,7 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | Контур | Код | Данные (ветка) | Workflow | Документ | Тесты |
 |---|---|---|---|---|---|
 | Сайт (Astro/Directus) | `src/` (pages, components, lib, data) | Directus/Postgres на проде, вне git | `deploy.yml`, `ci.yml` | `README.md`, `docs/OPERATIONS.md`, `docs/ADMIN-GUIDE.md` | `pnpm test`, `pnpm typecheck`, `pnpm smoke` |
-| Каталог и импорт | `scripts/catalog/*.json`, `scripts/import-vendors.mjs`, `scripts/import-cards.mjs`, `src/data/vendors.ts` | Directus прод; исходники вендоров — `main` | `ops-import-vendors`, `ops-export-products`, `ops-merge-product`, `ops-patch-product`, `ops-rename-product`, `ops-recategorize`, `ops-categories` | `docs/vendors-expansion-prompt.md`, `docs/ai-catalog-import.md` | `tests/catalog-uniqueness.test.ts`, `tests/bulk-import.test.ts` |
+| Каталог и импорт | `scripts/catalog/*.json`, `scripts/ai-catalog-cards.json`, `scripts/import-vendors.mjs`, `scripts/import-cards.mjs`, `src/data/vendors.ts` | Directus прод; исходники вендоров — `main` | `ops-import-vendors`, `ops-import-ai-cards`, `ops-export-products`, `ops-merge-product`, `ops-patch-product`, `ops-rename-product`, `ops-recategorize`, `ops-categories` | `docs/vendors-expansion-prompt.md`, `docs/ai-catalog-import.md` | `tests/catalog-uniqueness.test.ts`, `tests/bulk-import.test.ts` |
 | SEO Growth Intelligence | `scripts/seo/*.py` (collect, snapshot, quality, report_v4, webreport, allocator, loop_health, money_queries) | ветка `seo-data` → `reports/seo/*` | `seo-data-collect`, `seo-daily-report`, `seo-report-email`, `seo-period-report`, `seo-site-check`, `seo-analytics-check`, `seo-goals-sync`, `seo-publish-web` | `reports/seo/README.md`, `docs/seo/reporting-methodology.md` (721 стр. — по разделу), `docs/seo/goals.md`, `docs/seo/pagespeed-monitor.md` | `python3 -m unittest discover -s scripts/seo/tests` (94 проверки) |
 | Wordstat | `scripts/seo/wordstat/*.py` (run, report, audience) | ветка `seo-data` → `reports/seo/wordstat/` | `seo-wordstat` | `reports/seo/README.md` (раздел 11), `reports/seo/wordstat/decisions.json` — реестр решений по кандидатам | `scripts/seo/tests` (общий набор) |
 | SERP (Яндекс + Google xmlriver) | `scripts/seo/serp_watch.py`, `serp_google.py`, `xmlriver.py`, `serp_analysis.py` | ветка `seo-data` → `reports/seo/serp/` | `seo-serp-watch` — единственный сборщик («один сбор — все потребители») | `docs/seo/serp-google-xmlriver.md` | `scripts/seo/tests` |
@@ -28,6 +28,7 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | Фиды | `src/lib/feeds/*` (yml, registry, select) | — (SSR из Directus на лету) | `ops-yandex-feeds-toggle`, `ops-yandex-feeds` | `docs/yandex-feeds.md` | `pnpm smoke` (закрыты по умолчанию) |
 | Визуальный слой отчётов (KPI-kit) | `scripts/viz/kpi_kit.py` (плитки, светофор, линии, теплокарта, малые кратные, таблицы-дашборды; email-варианты) | — | входит в `seo-daily-report`, `competitive-intelligence-daily` | `docs/rules/kpi-kit.md`, витрина `docs/design/kpi-dashboards/` | `scripts/seo/tests/test_kpi_kit.py` |
 | Письма | `scripts/seo/report_v4.py`, `committee.py`; `competitive-intelligence/mailer/*` | ветки `seo-data` / `competitive-data` | `seo-report-email`, `seo-committee-build`+`seo-committee-email`, `competitive-intelligence-mail`, `ops-send-mail`, `ops-mail` | `reports/seo/README.md` | `uxlint_v4.py`, `contentcheck.py` (в конвейере отчёта) |
+| Сторож каталога | `scripts/ops/catalog_watch.py` | снимки на сервере `/opt/bizsoft/ops/catalog` | `ops-catalog-watch` (ежедневно, письмо через `ops-send-mail`) | `docs/rules/catalog-watch.md` | `python3 -m unittest discover -s scripts/ops/tests -t scripts/ops/tests` |
 | Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup` | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
 | Операционные прогоны | — (детерминированные workflow, без сессий Claude/Routine) | — | `seo-daily-report`, `competitive-intelligence-daily`, `seo-committee-build`, `seo-tasks-due`; кросс-запуск между workflow — `scripts/ops/gh_dispatch_wait.sh` | заголовки этих workflow объясняют, какую Routine они заменили | — |
 
@@ -37,6 +38,10 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   чеклист и обязательные шаги (sitemap, микроразметка, WebMCP, уникальность
   meta) — `docs/vendors-expansion-prompt.md`, раздел 11/11а, и правила в
   `CLAUDE.md`.
+- **Карточка AI-каталога и пара «Standard seat + Premium seat»** —
+  реестр `scripts/ai-catalog-cards.json`, заливка воркфлоу `ops-import-ai-cards`,
+  правила против каннибализации пары тарифов: `docs/ai-catalog-import.md`,
+  раздел «Заведение отдельной карточки AI-каталога».
 - **Подарочная карта (тип gift_card)** — модель, цена ×3, порядок на проде:
   `docs/gift-cards.md`; пакет Apple собирает `scripts/build-gift-card-package.mjs`,
   контент страницы — `src/data/gift-cards.ts`, логика — `src/lib/gift-cards.ts`.
@@ -72,6 +77,12 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 - **Новая страница** (лендинг/продукт) — `src/pages/vendors/*`,
   `src/pages/product/[slug].astro`; добавить в `STATIC_ROUTES`
   (`src/pages/sitemap.xml.ts`), если страница bespoke.
+- **Разбор источника заявки** (органика или реклама, запрос, цепочка шагов,
+  цена клика) — классификатор `src/lib/traffic-source.ts`, блок письма
+  `src/lib/email/layout.ts`, утреннее уточнение и повтор писем —
+  `ops-lead-source-mail` + `scripts/ops/lead_source_enrich.py`; правило и
+  границы — `docs/rules/lead-source.md`. Признаки перехода внешних площадок
+  ведутся в `data/marketing/platform-accounts.json` (`referrer_match`).
 - **Правка письма отчёта** — блоки письма в `scripts/seo/report_v4.py`
   (Growth Intelligence) или `scripts/seo/committee.py` (Growth Committee);
   методика — `docs/seo/reporting-methodology.md`, открывать нужный раздел,
@@ -86,7 +97,13 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   (очерёдность площадок, единые данные профилей, инструкция по регистрации,
   разбор Дзена, механика Pressfeed); состояние регистраций —
   `data/marketing/platform-accounts.json`, оттуда подтверждённые профили
-  идут в `sameAs`.
+  идут в `sameAs`. Реестр еженедельно сверяет сторож `ops-registrations-watch`
+  (`scripts/ops/registrations_watch.py`): записанные профили дёргает живым
+  запросом, о незаведённых напоминает письмом.
+- **Можно ли публиковать машиной** (Яндекс Бизнес, Дзен) —
+  `docs/marketing/external/auto-publishing.md`: товарные карточки уже идут
+  фидом, посты и статьи публичным API не пишутся, RSS-экспорт Дзена разобран
+  с доводами против подключения сейчас.
 - **Авторитет в Google** (почему Яндекс держит топ, а Google нет) —
   `reports/seo/google-authority-strategy.md`; карта контента и разрыв —
   `google-content-map.json`, `google-link-gap.csv`, `google-entity-gap.md`;

@@ -87,5 +87,76 @@ class TestMoneyRadar(unittest.TestCase):
         self.assertIn("меньше порога", res["reason"])
 
 
+class TestExperimentMoratorium(unittest.TestCase):
+    """Кластер под действующим опытом правкой не рекомендуется.
+
+    09.09.2026 радар предлагал «переписать заголовок и описание страницы под
+    запрос» по двум кластерам из трёх, и оба мерялись экспериментом:
+    «оплата coreldraw для россиян» — CONTENT-003, «оплата artlist юридическим
+    лицом» — SEO-EXP-004. В таблице money-запросов таких строк было шесть из
+    девяти верхних. Правка обнуляет замер, ради которого опыт и заведён.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.o = mocks.load("opportunity")
+
+    EXPS = [
+        {"id": "cluster-coreldraw", "ticket": "CONTENT-003", "status": "running",
+         "query_markers": ["coreldraw", "корел"]},
+        {"id": "cluster-heygen", "ticket": "CONTENT-005", "status": "done",
+         "query_markers": ["heygen", "хейген"]},
+    ]
+
+    def with_exps(self, entities):
+        s = snap(entities)
+        s["experiments"] = self.EXPS
+        return s
+
+    def test_действующий_опыт_находится_по_маркеру(self):
+        s = self.with_exps([])
+        self.assertEqual(self.o.under_experiment("оплата coreldraw для россиян", s),
+                         "CONTENT-003")
+        self.assertEqual(self.o.under_experiment("оплата корел дро из россии", s),
+                         "CONTENT-003")
+
+    def test_завершённый_опыт_мораторий_не_держит(self):
+        s = self.with_exps([])
+        self.assertIsNone(self.o.under_experiment("купить heygen юридическим лицом", s))
+
+    def test_свободный_кластер_не_придержан(self):
+        s = self.with_exps([])
+        self.assertIsNone(self.o.under_experiment("оплата magnific ai", s))
+
+    def test_money_радар_называет_опыт_вместо_правки(self):
+        s = self.with_exps([query("оплата coreldraw для россиян", imp=134, pos=8.08),
+                            query("оплата magnific ai юрлицом", imp=58, pos=4.33)])
+        rows = {i["query"]: i for i in self.o.money_radar(s)["items"]}
+        held = rows["оплата coreldraw для россиян"]
+        self.assertEqual(held["experiment"], "CONTENT-003")
+        self.assertIn("под замером CONTENT-003", held["recommended_action"])
+        self.assertIsNone(rows["оплата magnific ai юрлицом"]["experiment"])
+        self.assertNotIn("под замером",
+                         rows["оплата magnific ai юрлицом"]["recommended_action"])
+
+    def test_радар_возможностей_придерживает_но_не_прячет(self):
+        s = self.with_exps([query("оплата coreldraw для россиян", imp=500, pos=8.08),
+                            query("оплата magnific ai юрлицом", imp=58, pos=4.33)])
+        s["market_demand"] = {"available": False}
+        res = self.o.build(s)
+        clusters = [i["cluster"] for i in res["items"]]
+        self.assertNotIn("оплата coreldraw для россиян", clusters)
+        self.assertIn("оплата magnific ai юрлицом", clusters)
+        self.assertEqual(res["held_by_experiment"],
+                         [{"cluster": "оплата coreldraw для россиян",
+                           "experiment": "CONTENT-003"}])
+
+    def test_без_экспериментов_поведение_прежнее(self):
+        s = snap([query("оплата coreldraw для россиян", imp=134, pos=8.08)])
+        s["market_demand"] = {"available": False}
+        self.assertEqual(self.o.build(s)["held_by_experiment"], [])
+        self.assertIsNone(self.o.money_radar(s)["items"][0]["experiment"])
+
+
 if __name__ == "__main__":
     unittest.main()
