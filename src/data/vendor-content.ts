@@ -10,9 +10,22 @@ export interface VendorComparison { cols: string[]; rows: { label: string; value
 export interface VendorDecision { scenario: string; product: string; note: string }
 export interface VendorScenario { title: string; text: string }
 export interface VendorQA { q: string; a: string }
+/** Блок «Безопасность и данные»: что с данными компании и что спросит ИБ. */
+export interface VendorSecurity { text: string; cta?: string }
+/**
+ * Карточка тарифа: минимальный объём заказа и как называются единицы.
+ * Ключ — slug или sku позиции (правило catalog.md). Минимум вендора живёт
+ * здесь, а не в тексте FAQ: покупатель считает бюджет по счётчику мест, и
+ * «от 2 мест» он должен видеть там же, где считает.
+ */
+export interface VendorCardMeta { minQty?: number; qtyLabel?: string; check?: string }
 
 export interface VendorContent {
   summary?: string;
+  /** Абзац «какой тариф кому» — сразу за блоком «Коротко». */
+  intro?: string;
+  cards?: Record<string, VendorCardMeta>;
+  security?: VendorSecurity;
   comparison?: VendorComparison;
   decision?: VendorDecision[];
   scenarios?: VendorScenario[];
@@ -439,6 +452,28 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
   },
   "anthropic": {
     "summary": "Claude Team и Enterprise — корпоративные тарифы AI-ассистента Anthropic. Team продаётся местами двух типов: Standard seat закрывает обычную работу отдела, Premium seat даёт кратно большие лимиты тем, кто целый день работает в Claude Code. Оформим на юрлицо: договор, счёт в рублях, закрывающие через ЭДО.",
+    "intro": "Тарифы Anthropic различаются не набором возможностей ассистента, а тем, на кого оформлены и как управляются. Claude Team — рабочее пространство отдела: общие проекты и чаты, единый счёт на компанию, административное управление местами; берётся от двух мест. Внутри Team два типа мест: Standard seat для обычного рабочего ритма и Premium seat с кратно большими лимитами для тех, у кого Claude Code открыт весь день, — типы мест совмещаются в одной команде. Claude Enterprise отличается не ассистентом, а контуром управления: SSO и SCIM, ролевой доступ, журналы аудита и свои сроки хранения данных; порог входа — от 20 мест. BIZSoft подберёт тип и количество мест и оформит поставку на юрлицо.",
+    "cards": {
+      "anthropic-team": {
+        "minQty": 2,
+        "qtyLabel": "Мест",
+        "check": "Тариф оформляется от 2 мест — счётчик ниже не опускается."
+      },
+      "anthropic-team-premium": {
+        "minQty": 2,
+        "qtyLabel": "Мест",
+        "check": "Тариф оформляется от 2 мест; места Premium и Standard совмещаются в одной команде."
+      },
+      "anthropic-enterprise": {
+        "minQty": 20,
+        "qtyLabel": "Мест",
+        "check": "Порог входа — от 20 мест."
+      }
+    },
+    "security": {
+      "text": "На корпоративных тарифах Anthropic не использует переписку и файлы компании для обучения моделей — это закреплено в коммерческих условиях, формулировку показываем до оформления. Claude Team даёт административное управление местами и общий контур отдела; Claude Enterprise добавляет единый вход SSO и SCIM, ролевой доступ, журналы аудита, настраиваемые сроки хранения переписки и файлов, выгрузку для проверок через Compliance API и режим работы с медицинскими данными (HIPAA/BAA). Конкретные настройки приватности и соответствие внутренним политикам ИБ уточняются до КП.",
+      "cta": "Обсудить требования ИБ"
+    },
     "comparison": {
       "cols": [
         "Team · Standard seat",

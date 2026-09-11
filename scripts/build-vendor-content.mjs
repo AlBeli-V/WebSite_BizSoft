@@ -33,9 +33,22 @@ export interface VendorComparison { cols: string[]; rows: { label: string; value
 export interface VendorDecision { scenario: string; product: string; note: string }
 export interface VendorScenario { title: string; text: string }
 export interface VendorQA { q: string; a: string }
+/** Блок «Безопасность и данные»: что с данными компании и что спросит ИБ. */
+export interface VendorSecurity { text: string; cta?: string }
+/**
+ * Карточка тарифа: минимальный объём заказа и как называются единицы.
+ * Ключ — slug или sku позиции (правило catalog.md). Минимум вендора живёт
+ * здесь, а не в тексте FAQ: покупатель считает бюджет по счётчику мест, и
+ * «от 2 мест» он должен видеть там же, где считает.
+ */
+export interface VendorCardMeta { minQty?: number; qtyLabel?: string; check?: string }
 
 export interface VendorContent {
   summary?: string;
+  /** Абзац «какой тариф кому» — сразу за блоком «Коротко». */
+  intro?: string;
+  cards?: Record<string, VendorCardMeta>;
+  security?: VendorSecurity;
   comparison?: VendorComparison;
   decision?: VendorDecision[];
   scenarios?: VendorScenario[];

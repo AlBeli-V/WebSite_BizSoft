@@ -97,6 +97,11 @@ const messagePlaceholder = compact
   )}
 
   {!compact && <VendorChips />}
+  {/* Что именно считаем: тариф и количество подставляет страница (лендинг
+      производителя — из подборки и из кнопки, по которой пришли). Поле
+      уходит в заявку как product_ref, поэтому менеджер видит выбор
+      покупателя, а не пересказ своими словами. */}
+  <input type="hidden" name="product_ref" data-product-ref value="" />
   <FormGuardFields />
   <label class="lf-consent">
     <input type="checkbox" name="consent" required />
@@ -212,6 +217,16 @@ const messagePlaceholder = compact
       const submit = form.querySelector('.lf-submit') as HTMLButtonElement;
       submit.disabled = true;
       status.textContent = 'Отправляем…'; status.className = 'lf-status';
+      // Количество из поля дописывается к составу заявки: без этого число
+      // мест оставалось в форме и до заявки не доезжало (в payload
+      // /api/lead поля seats нет). База хранится отдельно, иначе повторная
+      // отправка после ошибки дописала бы количество второй раз.
+      const ref = form.querySelector('[data-product-ref]') as HTMLInputElement | null;
+      if (ref) {
+        const seats = (form.elements.namedItem('seats') as HTMLInputElement | null)?.value?.trim();
+        ref.value = [ref.dataset.base || '', seats ? `количество: ${seats}` : '']
+          .filter(Boolean).join(' · ').slice(0, 300);
+      }
       let httpStatus = 0;
       try {
         const data = Object.fromEntries(new FormData(form).entries());
