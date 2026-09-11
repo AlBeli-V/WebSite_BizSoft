@@ -218,9 +218,9 @@ def build(date: str, snapshot: dict, previous: dict | None,
           ranked_rivals=None, packages: list[dict] | None = None,
           blocked: list[dict] | None = None,
           history: list[float] | None = None,
-          core_note: str = "", experiments_line: str = "") -> dict:
+          experiments_line: str = "") -> dict:
     kpi = kpi_mod.build_kpi(snapshot, previous)
-    verdict_mark, verdict_why = kpi_mod.verdict(kpi, history, core_note=core_note)
+    verdict_mark, verdict_why = kpi_mod.verdict(kpi, history)
     signal_delta = kpi_mod.trend_change(history or [])
     if stale_notice:
         # Данные не за сегодня. Показать их можно — они честно датированы, —

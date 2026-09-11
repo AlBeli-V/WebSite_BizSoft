@@ -42,6 +42,10 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   реестр `scripts/ai-catalog-cards.json`, заливка воркфлоу `ops-import-ai-cards`,
   правила против каннибализации пары тарифов: `docs/ai-catalog-import.md`,
   раздел «Заведение отдельной карточки AI-каталога».
+- **Пополнение баланса API (номиналы)** — реестр `scripts/api-balance.json`,
+  сборщик `scripts/build-api-balance-cards.mjs`, заливка тем же
+  `ops-import-ai-cards` с входом `registry`; модель, формула цены и защита
+  артикулов от каннибализации — `docs/api-balance-cards.md`.
 - **Подарочная карта (тип gift_card)** — модель, цена ×3, порядок на проде:
   `docs/gift-cards.md`; пакет Apple собирает `scripts/build-gift-card-package.mjs`,
   контент страницы — `src/data/gift-cards.ts`, логика — `src/lib/gift-cards.ts`.
@@ -77,6 +81,12 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 - **Новая страница** (лендинг/продукт) — `src/pages/vendors/*`,
   `src/pages/product/[slug].astro`; добавить в `STATIC_ROUTES`
   (`src/pages/sitemap.xml.ts`), если страница bespoke.
+- **Разбор источника заявки** (органика или реклама, запрос, цепочка шагов,
+  цена клика) — классификатор `src/lib/traffic-source.ts`, блок письма
+  `src/lib/email/layout.ts`, утреннее уточнение и повтор писем —
+  `ops-lead-source-mail` + `scripts/ops/lead_source_enrich.py`; правило и
+  границы — `docs/rules/lead-source.md`. Признаки перехода внешних площадок
+  ведутся в `data/marketing/platform-accounts.json` (`referrer_match`).
 - **Правка письма отчёта** — блоки письма в `scripts/seo/report_v4.py`
   (Growth Intelligence) или `scripts/seo/committee.py` (Growth Committee);
   методика — `docs/seo/reporting-methodology.md`, открывать нужный раздел,
