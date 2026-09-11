@@ -175,7 +175,7 @@ def main(argv: list[str]) -> int:
         "" if core_stable else "состав ядра между днями менялся")
     if trend_kind == "сцепленный":
         core_note = (
-            f"ряд сцепленный: строгого нет, "
+            f"строгого ряда нет, "
             f"{core_meta.get('причина_строгого', 'состав ядра менялся')}; "
             f"звеньев в цепи {core_meta.get('звеньев', 0)}, отрезок с "
             f"{core_meta.get('отрезок_с', '?')}")
@@ -418,7 +418,6 @@ def main(argv: list[str]) -> int:
                              stale_notice=stale_notice, ranked_rivals=ranked,
                              packages=packages, blocked=blocked,
                              history=our_history,
-                             core_note=core_note,
                              experiments_line=exp_learning.summary_line(
                                  experiments, config))
     kpi_obj = kpi_mod.build_kpi(snapshot, previous)
@@ -459,6 +458,7 @@ def main(argv: list[str]) -> int:
                              position_verdict=poscheck_verdict,
                              our_history=our_history,
                              trend_basis=trend_kind,
+                             trend_note=core_note,
                              history_dates=[p.get("дата") or "" for p in past_snapshots])
     os.makedirs(paths.ARCHIVE_DIR, exist_ok=True)
     for target in (os.path.join(paths.ARCHIVE_DIR, f"{date}.html"),

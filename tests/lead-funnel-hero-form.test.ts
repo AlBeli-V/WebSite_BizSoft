@@ -78,8 +78,10 @@ describe('компактная форма первого экрана', () => {
 });
 
 describe('первый экран рекламных посадочных', () => {
-  it('форма стоит только на двух посадочных эксперимента', () => {
-    expect(vendorLanding).toContain("HERO_FORM_SLUGS = new Set(['anthropic', 'adobe'])");
+  it('форма стоит только на посадочных эксперимента', () => {
+    // anthropic выведен из замера 11.09.2026: страница переведена на единый
+    // путь заявки. adobe остаётся с формой до отдельного решения.
+    expect(vendorLanding).toContain("HERO_FORM_SLUGS = new Set(['adobe'])");
     expect(vendorLanding).toContain('compact');
   });
 
