@@ -1,0 +1,100 @@
+---
+/**
+ * Свободные блоки страницы производителя (решение руководителя 11.09.2026).
+ *
+ * Четыре страницы жили своей вёрсткой не из-за композиции, а из-за
+ * нескольких блоков: у Zoom — аддоны и AI Companion, у JetBrains — стек,
+ * командные инструменты и плагины, у Maxon — пояснение про модели
+ * лицензирования. Все они укладываются в четыре вида подачи, поэтому виды
+ * живут здесь, а содержимое — в scripts/content/<slug>.json.
+ *
+ * Видов ровно четыре, и новые заводить не нужно: пятый вид — это повод
+ * спросить, не пора ли странице снова стать своей.
+ */
+import type { VendorSection } from '../data/vendor-content';
+
+interface Props {
+  sections: VendorSection[];
+  /** Куда именно ставится этот вызов; блоки без места идут после сравнения. */
+  place: 'before-products' | 'after-compare' | 'before-buy';
+  /** Название вендора — для подписи кнопки, ведущей к форме. */
+  vendor: string;
+}
+const { sections, place, vendor } = Astro.props;
+const here = sections.filter((s) => (s.place || 'after-compare') === place);
+---
+{here.map((s) => (
+  <section class="block" id={s.id}>
+    <h2>{s.title}</h2>
+    {s.text && <div class="prose-bizsoft"><p>{s.text}</p></div>}
+
+    {s.kind === 'cells' && s.cells && (
+      <div class="cells">
+        {s.cells.map((c) => (
+          <div class="card cell">
+            <h3>{c.title}</h3>
+            {c.note && <p class="cell-note">{c.note}</p>}
+            <p>{c.text}</p>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {s.kind === 'links' && s.links && (
+      <div class="tiles">
+        {s.links.map((l) => (
+          <a href={l.slug ? `/product/${l.slug}` : (l.href || '#')} class="card card-hover tile" data-ev="click_product_card">
+            <b>{l.label}</b>
+            {l.text && <span class="muted">{l.text}</span>}
+          </a>
+        ))}
+      </div>
+    )}
+
+    {s.kind === 'accordion' && s.items && (
+      <div class="acc">
+        {s.items.map((i) => (
+          <details class="acc-item">
+            <summary><span>{i.q}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg></summary>
+            <div class="acc-body"><p>{i.a}</p></div>
+          </details>
+        ))}
+      </div>
+    )}
+
+    {s.note && (
+      <p class="muted small">
+        {s.note}
+        {s.more && <> <a href={s.more.href} data-ev="click_related_link">{s.more.label}</a></>}
+      </p>
+    )}
+    {s.cta && (
+      <a href="#lead" class="btn btn-ghost" data-quote-cta data-context={`${vendor} — ${s.title}`} data-ev="click_get_quote">{s.cta}</a>
+    )}
+  </section>
+))}
+
+<style>
+  .block { margin-top: 3rem; }
+  .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
+  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .cell { padding: 1.3rem; }
+  .cell h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .cell p { color: var(--color-text-muted); font-size: 0.9rem; }
+  .cell .cell-note { color: var(--vc, var(--color-accent)); font-weight: 600; font-size: 0.88rem; margin-bottom: 0.2rem; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .tile { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem; text-decoration: none; }
+  .tile b { font-size: 1rem; color: var(--color-text); }
+  .tile .muted { font-size: 0.9rem; line-height: 1.45; color: var(--color-text-muted); }
+  .acc { border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; }
+  .acc-item { border-bottom: 1px solid var(--color-border); }
+  .acc-item:last-child { border-bottom: none; }
+  .acc-item summary { cursor: pointer; padding: 0.8rem 1.1rem; font-weight: 600; display: flex; justify-content: space-between; gap: 0.8rem; align-items: center; list-style: none; }
+  .acc-item summary::-webkit-details-marker { display: none; }
+  .acc-item[open] summary svg { transform: rotate(180deg); }
+  .acc-item summary svg { flex: 0 0 auto; transition: transform 0.2s ease; color: var(--vc, var(--color-accent)); }
+  .acc-body { padding: 0 1.1rem 0.9rem; color: var(--color-text-muted); font-size: 0.92rem; }
+  .muted { color: var(--color-text-muted); }
+  .small { font-size: 0.82rem; margin-top: 0.6rem; }
+  .btn { margin-top: 1rem; }
+</style>

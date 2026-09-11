@@ -21,7 +21,7 @@ const { product } = Astro.props;
 const eff = effectivePrice(product);
 const logo = logoUrl(product, { width: 96, height: 96, fit: 'contain', format: 'webp' });
 const byRequest = !(product.price > 0) && !eff.isPromo; // NaN и null — тоже «по запросу»
-// Подарочная карта: в избранное добавляется конкретный номинал со страницы
+// Подарочная карта: в расчёт добавляется конкретный номинал со страницы
 // карты, сама карточка ведёт туда; цена показывается как «от».
 const gift = isGiftCard(product);
 // Ребрендинг вендора «Новое имя (прежнее)»: новое — крупно, прежнее — мельче ниже,

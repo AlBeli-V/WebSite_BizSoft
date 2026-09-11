@@ -98,5 +98,71 @@ class TestRealPending(unittest.TestCase):
             self.assertTrue(record.get("control_group"), record.get("id"))
 
 
+def decision(eid="a", date="2026-09-11", verdict="INCONCLUSIVE",
+             owner="KEEP", note=""):
+    return {"experiment_id": eid, "date": date, "verdict": verdict,
+            "recommendation": owner, "owner_decision": owner, "note": note}
+
+
+class TestDecisions(unittest.TestCase):
+    """Перенос решения владельца: журнал и закрытие записи в реестре.
+
+    Пока запись остаётся running, остановленный эксперимент для всех
+    моделей идёт: его страницы заняты, кластер закрыт для новых проверок.
+    """
+
+    def setUp(self):
+        self.reg = {"experiments": [rec("a", status="running", start="2026-08-29")]}
+        self.journal = []
+
+    def test_решение_пишется_и_закрывает_запись(self):
+        r = es.merge_decisions(self.reg, self.journal,
+                               [(pathlib.Path("d.json"), decision())])
+        self.assertEqual([i[1] for i in r["appended"]], ["a"])
+        self.assertEqual([i[1] for i in r["closed"]], ["a"])
+        self.assertEqual(self.reg["experiments"][0]["status"], "closed")
+        self.assertEqual(self.reg["experiments"][0]["end"], "2026-09-11")
+        self.assertEqual(len(self.journal), 1)
+
+    def test_повторный_прогон_не_задваивает(self):
+        pend = [(pathlib.Path("d.json"), decision())]
+        es.merge_decisions(self.reg, self.journal, pend)
+        r = es.merge_decisions(self.reg, self.journal, pend)
+        self.assertEqual(r["appended"], [])
+        self.assertEqual([i[1] for i in r["skipped"]], ["a"])
+        self.assertEqual(len(self.journal), 1)
+
+    def test_решение_по_чужому_эксперименту_не_пишется(self):
+        # Расхождение кода и реестра должно быть видно, а не осесть
+        # записью в журнале про эксперимент, которого нет.
+        r = es.merge_decisions(self.reg, self.journal,
+                               [(pathlib.Path("d.json"), decision(eid="нет-такого"))])
+        self.assertEqual(self.journal, [])
+        self.assertEqual(len(r["broken"]), 1)
+        self.assertIn("нет в реестре", r["broken"][0][2])
+
+    def test_чужое_слово_в_вердикте_не_проходит(self):
+        # Словарь общий с оценкой: своё слово здесь означало бы, что журнал
+        # и письма говорят разное.
+        r = es.merge_decisions(self.reg, self.journal,
+                               [(pathlib.Path("d.json"), decision(verdict="ХОРОШО"))])
+        self.assertEqual(self.journal, [])
+        self.assertIn("вердикт", r["broken"][0][2])
+
+    def test_продление_не_закрывает_эксперимент(self):
+        r = es.merge_decisions(self.reg, self.journal,
+                               [(pathlib.Path("d.json"), decision(owner="EXTEND"))])
+        self.assertEqual(r["closed"], [])
+        self.assertEqual(self.reg["experiments"][0]["status"], "running")
+        self.assertEqual(len(self.journal), 1)
+
+
+class TestРеальныйФайлРешений(unittest.TestCase):
+    def test_заготовленные_решения_проходят_проверку(self):
+        root = ROOT / "data" / "seo" / "decisions-pending"
+        for path, record in es.load_decisions(root):
+            self.assertEqual(es.validate_decision(record), [], f"{path.name}: {record}")
+
+
 if __name__ == "__main__":
     unittest.main()
