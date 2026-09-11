@@ -13,7 +13,7 @@ import VendorInterlinks from '../../components/VendorInterlinks.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts } from '../../lib/directus';
 import { effectivePrice, formatRub } from '../../lib/pricing';
-import { listingProducts } from '../../lib/catalog';
+import { listingProducts, productKind } from '../../lib/catalog';
 import { collectionPageSchema } from '../../lib/seo';
 import {
   OPENAI_VENDOR, OPENAI_SUMMARY, OPENAI_ORDER, OPENAI_CARD_META,
@@ -50,15 +50,49 @@ const cards = items.map((p) => {
     seg: segmentOf(p),
   };
 });
-const priced = items.filter((p) => effectivePrice(p).price > 0);
-const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
+// Номиналы пополнения баланса (<PREFIX>-CREDITS-<сумма>) — дополнение, а не
+// тариф: в сетке они дали бы одиннадцать почти одинаковых плиток. Их место —
+// компактная полоса в блоке API, где выбор номинала и есть весь выбор.
+const mainCards = cards.filter((c) => productKind({ sku: c.sku }) !== 'addon');
+// Подпись номинала берётся из артикула (<PREFIX>-CREDITS-<сумма>), а не из
+// названия: артикул — контракт механизма пополнений, название редактируется.
+const topups = cards
+  .filter((c) => productKind({ sku: c.sku }) === 'addon' && !c.byRequest)
+  .map((c) => ({ ...c, nominal: Number(c.sku.split('-').pop()) }))
+  .filter((c) => Number.isFinite(c.nominal))
+  .sort((a, b) => a.nominal - b.nominal);
+
+/** Склонение при числе: 1 номинал, 2 номинала, 11 номиналов. */
+const plural = (n: number, forms: [string, string, string]) => {
+  const mod100 = n % 100;
+  const mod10 = n % 10;
+  if (mod100 >= 11 && mod100 <= 14) return forms[2];
+  if (mod10 === 1) return forms[0];
+  if (mod10 >= 2 && mod10 <= 4) return forms[1];
+  return forms[2];
+};
+
+// «Цены от» — по тарифам: минимум по пополнениям выдал бы цену разового
+// пополнения «в год».
+const priced = mainCards.filter((c) => !c.byRequest);
+const minPrice = priced.length ? Math.min(...priced.map((c) => c.price)) : 0;
 const hasMin = minPrice > 0;
 // Сегменты, под которые на витрине действительно есть карточки: пустой
 // сегмент на странице — обещание товара, которого нет.
-const segments = OPENAI_SEGMENTS.filter((s) => cards.some((c) => c.seg === s.id));
+const segCount = (id: string) => mainCards.filter((c) => c.seg === id).length;
+const segments = OPENAI_SEGMENTS
+  .filter((s) => segCount(s.id) > 0)
+  .map((s) => ({
+    ...s,
+    // Подпись сегмента: сколько вариантов за ним стоит. У API вариант один
+    // (пополнение), но номиналов у него много — об этом и говорим.
+    hint: s.id === 'api' && topups.length > 0
+      ? `${topups.length} ${plural(topups.length, ['номинал', 'номинала', 'номиналов'])} и сумма по запросу →`
+      : `${segCount(s.id)} ${plural(segCount(s.id), ['вариант', 'варианта', 'вариантов'])} →`,
+  }));
 // Список для выбора тарифа прямо в форме: то же, что показано в сетке.
 const plans = [
-  ...cards.map((c) => ({ value: `OpenAI — ${c.name}`, label: c.name })),
+  ...mainCards.map((c) => ({ value: `OpenAI — ${c.name}`, label: c.name })),
   // Обращение не про тариф, а про требования ИБ: у него своя строка, иначе
   // кнопка блока безопасности сбрасывала бы выбор в «подберите под задачу».
   { value: 'OpenAI — требования ИБ', label: 'Требования к безопасности и ИБ' },
@@ -105,7 +139,7 @@ const ld = [
             <button type="button" class="card card-hover seg" data-seg-btn={s.id} aria-pressed="false">
               <b>{s.title}</b>
               <span class="muted">{s.text}</span>
-              <em>{cards.filter((c) => c.seg === s.id).length === 1 ? '1 вариант' : `${cards.filter((c) => c.seg === s.id).length} варианта`} →</em>
+              <em>{s.hint}</em>
             </button>
           ))}
         </div>
@@ -119,7 +153,7 @@ const ld = [
     <section class="block" id="products">
       <h2>Тарифы и продукты OpenAI</h2>
       <div class="vgrid">
-        {cards.map((c) => (
+        {mainCards.map((c) => (
           <article class:list={['card', 'vcard', c.seg === 'api' && 'vcard-api']} data-seg-card={c.seg}>
             {c.meta && <div class="vhead"><span class="vbadge">{c.meta.badge}</span></div>}
             <div class="pih">
@@ -144,6 +178,22 @@ const ld = [
         ))}
       </div>
       <p class="muted small">Цена в рублях пересчитывается по курсу ЦБ РФ.</p>
+
+      {topups.length > 0 && (
+        <div class="topups" data-seg-card="api">
+          <h3>Номиналы пополнения баланса API</h3>
+          <p class="muted small topups-note">Оплата по использованию: сумма зачисляется на баланс вашего аккаунта и расходуется по фактическим запросам. Нужна сумма вне ряда — <a href="#lead" data-plan="OpenAI — Пополнение баланса OpenAI API">посчитаем по запросу</a>.</p>
+          <ul class="topup-list">
+            {topups.map((c) => (
+              <li class="topup">
+                <a class="topup-name" href={`/product/${c.slug}`} data-ev="click_product_card">{c.nominal.toLocaleString('ru-RU')} $</a>
+                <b class="topup-price">{c.priceText}</b>
+                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor="OpenAI" price={c.price} compact />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
 
     <section class="block" id="compare">
@@ -209,7 +259,7 @@ const ld = [
     <section class="block links">
       <h2>Связанные товары и разделы</h2>
       <div class="link-grid">
-        {cards.map((c) => <a href={`/product/${c.slug}`}>{c.name}</a>)}
+        {mainCards.map((c) => <a href={`/product/${c.slug}`}>{c.name}</a>)}
         <a href="/catalog/ai">Все AI-сервисы</a><a href="/vendors">Все производители</a>
         <a href="/how-we-work">Как мы работаем</a><a href="/documents">Документы</a><a href="/contacts">Контакты</a>
       </div>
@@ -260,6 +310,15 @@ const ld = [
   .vfeat li { padding-left: 1.3rem; position: relative; color: var(--color-text); font-size: 0.88rem; } .vfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--vc, var(--color-accent)); font-weight: 700; }
   .vcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.7rem; }
   .vactions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
+  .topups { margin-top: 2rem; border: 1px dashed var(--color-border-strong); border-radius: var(--radius-lg); padding: 1.4rem; background: var(--color-bg-card); }
+  .topups h3 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+  .topups-note { max-width: 72ch; margin-top: 0; }
+  .topups-note a { color: var(--color-accent); }
+  .topup-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .topup { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 0.6rem 0.8rem; }
+  .topup-name { font-weight: 600; font-size: 0.92rem; }
+  .topup-name:hover { color: var(--color-accent); }
+  .topup-price { margin-left: auto; font-size: 0.95rem; white-space: nowrap; }
   .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table.cmp { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.92rem; }
   table.cmp th, table.cmp td { border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; text-align: left; }

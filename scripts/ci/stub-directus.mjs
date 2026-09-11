@@ -52,6 +52,12 @@ function product(over) {
 
 const PRODUCTS = [
   product({ id: 101, name: 'ChatGPT Business', sku: 'INT-AI-CHATGPT', vendor: 'OpenAI', slug: 'chatgpt-business', old_slugs: [{ value: 'chatgpt-team' }] }),
+  // Пополнение баланса API: родитель «по запросу» и два номинала. Без них смоук
+  // не видел ни блока номиналов на лендинге вендора, ни того, что карточки
+  // -CREDITS-<сумма> не попадают в сетку тарифов и в «Цены от».
+  product({ id: 901, name: 'Пополнение баланса OpenAI API', sku: 'OPENAI-API-BALANCE', vendor: 'OpenAI', slug: 'openai-api-balance', price: 0 }),
+  product({ id: 902, name: 'OpenAI API — пополнение баланса на 50 $', sku: 'OPENAI-CREDITS-50', vendor: 'OpenAI', slug: 'openai-credits-50', price: 11504 }),
+  product({ id: 903, name: 'OpenAI API — пополнение баланса на 100 $', sku: 'OPENAI-CREDITS-100', vendor: 'OpenAI', slug: 'openai-credits-100', price: 23008 }),
   product({ id: 102, name: 'Figma Organization', sku: 'INT-DESIGN-FIGMA', vendor: 'Figma', slug: 'figma-organization', category: CATEGORIES[1] }),
   // Второй товар из кураторского списка бестселлеров главной: блок hero-карточек
   // рендерится только от двух позиций с ценой, и без него смоук не видел ни

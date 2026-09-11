@@ -1,0 +1,28 @@
+{
+  "_comment": "Реестр пополнений баланса API — общий механизм для любого вендора, у которого программный доступ продаётся не местами, а суммой на балансе (OpenAI, Anthropic и далее). Здесь только номиналы и тексты; карточки разворачивает scripts/build-api-balance-cards.mjs в scripts/api-balance-cards.json, откуда их забирает штатный ops-import-ai-cards. Цена: себестоимость = номинал × vat_coeff (НДС поставщика), витрина = себестоимость × markup_coeff × курс ЦБ — обычной переоценкой, без отдельной ветки расчёта. Артикул номинала <PREFIX>-CREDITS-<номинал> попадает под правило productNoindex (CREDITS_PACK в src/lib/catalog.ts): одиннадцать почти одинаковых страниц не конкурируют между собой и со страницей вендора — intent «пополнить баланс <вендор>» держит родительская карточка.",
+  "defaults": {
+    "vat_coeff": 1.22,
+    "markup_coeff": 1.9,
+    "currency": "USD",
+    "license_type": "org",
+    "vat_included": true,
+    "billing_note_ru": "разовое пополнение баланса"
+  },
+  "vendors": [
+    {
+      "vendor": "OpenAI",
+      "prefix": "OPENAI",
+      "category": "ai-text",
+      "api_name": "OpenAI API",
+      "sort_base": 1400,
+      "parent_sku": "OPENAI-API-BALANCE",
+      "parent_name": "Пополнение баланса OpenAI API",
+      "denominations": [50, 100, 150, 200, 300, 500, 1000, 1500, 3000, 5000, 10000],
+      "texts": {
+        "models": "модели GPT, Realtime и эмбеддинги",
+        "where": "на баланс аккаунта OpenAI вашей организации",
+        "intent": "команда разработки встраивает модели OpenAI в свой продукт"
+      }
+    }
+  ]
+}
