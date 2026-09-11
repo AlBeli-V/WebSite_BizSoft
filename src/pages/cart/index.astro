@@ -511,6 +511,12 @@ try {
         + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
       status.className = 'kp-status ok';
       trackGoal('quote_pdf', { form_source: 'quote', quote_no: quoteNo });
+      // Тот же шаг в разрезе производителей: воронка лендинга вендора
+      // заканчивается здесь, а не на его странице.
+      trackGoal('vendor_kp_download', {
+        quote_no: quoteNo,
+        vendors: Array.from(new Set(readCart().map((i) => i.vendor).filter(Boolean))).join(','),
+      });
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';
