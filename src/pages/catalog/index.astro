@@ -4,7 +4,6 @@ export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
-import HeroSteps from '../../components/HeroSteps.astro';
 import CatalogTabs from '../../components/CatalogTabs.astro';
 import CTASection from '../../components/CTASection.astro';
 import Carousel from '../../components/Carousel.astro';
@@ -13,13 +12,17 @@ import CategoryIcon from '../../components/CategoryIcon.astro';
 import FAQ from '../../components/FAQ.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
+import CatalogRequest from '../../components/CatalogRequest.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getCategories, getProducts } from '../../lib/directus';
 import { site } from '../../config/site';
 import { POPULAR_VENDORS } from '../../data/popular';
 import { SEO_EXPERIMENT_LINKS } from '../../data/seo-experiments';
+import { aiSubcategories } from '../../data/ai-hub';
 import { searchProducts } from '../../lib/product-search';
 import { countByCategory, listingProducts } from '../../lib/catalog';
+import { categoryMembers, crossListedCount, inCategory } from '../../lib/cross-listing';
+import { effectivePrice, formatRub } from '../../lib/pricing';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import type { Product, Category } from '../../lib/types';
 
@@ -41,21 +44,125 @@ try {
 // Логика поиска общая с WebMCP-инструментом search_products (lib/product-search):
 // агент и человек обязаны находить одно и то же.
 const q = (Astro.url.searchParams.get('q') || '').trim();
-// Варианты подарочных карт в результатах не показываются: их представляет
-// родительская карточка (агент через WebMCP видит и варианты — ему нужен артикул).
-const searchResults = q ? searchProducts(listingProducts(products), q) : [];
 
-const catCounts = countByCategory(products);
+// Один и тот же набор для счётчиков и для карточек.
+//
+// Раньше плитки считались по сырой выборке, а списки разделов — по
+// `listingProducts`, и подарочные карты в плитке шли вместе с номиналами:
+// счётчик обещал 53 позиции, а на странице раздела их оказывалось заметно
+// меньше. Считаем один раз и тем же набором, каким показываем товар.
+const listing = listingProducts(products);
+const searchResults = q ? searchProducts(listing, q) : [];
+
+const catCounts = countByCategory(listing);
+const catSlug = (p: Product) => (typeof p.category === 'object' && p.category ? p.category.slug : '');
+
+// Канонический адрес раздела. У AI-подкатегорий он вложенный
+// (/catalog/ai/text): плоский слаг Directus отдаёт 301, и ссылка с главного
+// узла каталога уходила бы через лишний прыжок.
+const aiSubByCategory = new Map(aiSubcategories.map((s) => [s.categorySlug, s]));
+const categoryHref = (slug: string) => {
+  const sub = aiSubByCategory.get(slug);
+  return sub ? `/catalog/ai/${sub.sub}` : `/catalog/${slug}`;
+};
+
 const usedCategories = categories
   .filter((c) => (catCounts[c.slug] || 0) > 0)
   .map((c) => ({
     slug: c.slug,
     name: c.name,
+    href: categoryHref(c.slug),
     count: catCounts[c.slug],
     blurb: (c.intro || '').trim() || 'Лицензии и подписки для бизнеса с оформлением на юрлицо.',
   }));
 
+// ── AI: раздел с собственной структурой ────────────────────────────────
+// Страница /catalog/ai агрегирует родительский раздел и все ai-*, поэтому и
+// счётчик на хабе обязан показывать агрегат. Прямая привязка к родителю —
+// это два товара, и плитка годами обещала два при девяноста с лишним внутри.
+const isAiSlug = (s: string) => s === 'ai' || s.startsWith('ai-');
+// Счётчик обязан совпадать с тем, что показывает /catalog/ai: родитель, все
+// ветки и пришедшее в них второй привязкой. Товар, попавший в ветку из другого
+// раздела, на странице хаба виден — значит и в счётчике должен быть.
+const aiTotal = listing.filter((p) => isAiSlug(catSlug(p))
+  || aiSubcategories.some((s) => inCategory(p, s.categorySlug))).length;
+const aiCategory = categories.find((c) => c.slug === 'ai') || null;
+// Ветки AI собираются общим механизмом второй привязки (lib/cross-listing):
+// у товара одна категория, а показывается он и в разделе, который закрывает ту
+// же задачу. «Корпоративные AI» так живут с самого начала — enterprise-тарифы
+// лежат в тематических ветках, а на свою страницу попадают списком.
+const aiSubs = aiSubcategories
+  .map((s) => {
+    const items = categoryMembers(listing, s.categorySlug);
+    const cross = crossListedCount(listing, s.categorySlug);
+    return {
+      sub: s.sub,
+      name: s.name,
+      short: s.short,
+      count: items.length,
+      // Раздел целиком собран второй привязкой — складывать его счётчик со
+      // счётчиками соседних веток нельзя, товары в них уже посчитаны.
+      cross: cross > 0 && cross === items.length,
+      vendors: topVendors(items, 2),
+    };
+  })
+  .sort((a, b) => b.count - a.count);
+
+// Товары-представители AI: по одному из самых ёмких веток, порядок внутри
+// ветки — редакторский (поле sort в Directus), не случайный.
+const aiPicks: Product[] = [];
+for (const s of aiSubs) {
+  if (aiPicks.length >= 4) break;
+  const pick = categoryMembers(listing, `ai-${s.sub}`).find((p) => effectivePrice(p).price > 0);
+  if (pick) aiPicks.push(pick);
+}
+
+// ── Крупные и нишевые разделы ──────────────────────────────────────────
+const nonAi = usedCategories.filter((c) => !isAiSlug(c.slug)).sort((a, b) => b.count - a.count);
+const majorCategories = nonAi.slice(0, 4).map((c) => ({
+  ...c,
+  vendors: topVendors(categoryMembers(listing, c.slug), 5),
+  picks: pickPriced(categoryMembers(listing, c.slug), 2),
+}));
+const minorCategories = nonAi.slice(4);
+const majorTotal = majorCategories.reduce((n, c) => n + c.count, 0);
+
+// ── Сводка каталога для боковой колонки ────────────────────────────────
+const totalProducts = listing.length;
+const vendorCount = new Set(listing.map((p) => (p.vendor || '').trim()).filter(Boolean)).size;
+const pricedCount = listing.filter((p) => effectivePrice(p).price > 0).length;
+const onRequestCount = totalProducts - pricedCount;
+// Отечественное ПО снято с витрины: выборка товаров исключает origin=domestic
+// (lib/directus.ts), поэтому в каталоге таких позиций ровно ноль. Показываем
+// это числом из данных, а не подписью: вернутся позиции — вернётся и строка.
+const domesticCount = listing.filter((p) => p.origin === 'domestic').length;
+
+function topVendors(items: Product[], n: number): string[] {
+  const counts = new Map<string, number>();
+  for (const p of items) {
+    const v = (p.vendor || '').trim();
+    if (v) counts.set(v, (counts.get(v) || 0) + 1);
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'ru'))
+    .slice(0, n)
+    .map(([v, c]) => `${v} ${c}`);
+}
+
+/** Первые n товаров раздела с известной ценой — порядок редакторский (sort). */
+function pickPriced(items: Product[], n: number): Product[] {
+  const priced = items.filter((p) => effectivePrice(p).price > 0);
+  return (priced.length >= n ? priced : [...priced, ...items.filter((p) => !(effectivePrice(p).price > 0))]).slice(0, n);
+}
+
 const plural = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'товар' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'товара' : 'товаров');
+const pluralSection = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'раздел' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'раздела' : 'разделов');
+
+// Строка собирается здесь, а не в разметке: в шаблоне пробел между двумя
+// соседними выражениями схлопывается, и подпись читалась как «10товаров».
+const hubEyebrow = totalProducts > 0
+  ? `Каталог · ${totalProducts} ${plural(totalProducts)} · ${usedCategories.length} ${pluralSection(usedCategories.length)}`
+  : 'Каталог';
 
 function textOn(hex: string): string {
   const h = hex.replace('#', '');
@@ -75,6 +182,7 @@ const faq = [
   { q: 'Как купить ПО для юридического лица?', a: 'Выберите категорию или производителя, добавьте позиции в расчёт и запросите КП, либо оставьте заявку. Заключаем договор, выставляем счёт, после оплаты предоставляем доступ и передаём закрывающие документы через ЭДО.' },
   { q: 'Можно ли оплатить без зарубежной карты?', a: 'Да. Где вендор принимает карту — оплачиваем сами. Где оплата возможна только с зарубежного счёта — закупаем через счёт нашей компании за рубежом. Вы платите в рублях по договору.' },
   { q: 'Цены в каталоге окончательные?', a: 'Цены ориентировочные: часть зависит от курса ЦБ РФ на дату счёта или считается по запросу. Итоговую стоимость фиксируем в коммерческом предложении или счёте.' },
+  { q: 'Есть ли в каталоге отечественное ПО из реестра?', a: 'Сейчас в каталоге только зарубежные сервисы и ПО. Реестровое отечественное ПО подбираем и закупаем по запросу: назовите продукт или задачу — проверим наличие у дистрибьютора и подготовим КП.' },
 ];
 
 const ld = [
@@ -90,10 +198,12 @@ const ld = [
     '@type': 'ItemList',
     name: 'Категории каталога',
     itemListElement: usedCategories.map((c, i) => ({
-      '@type': 'ListItem', position: i + 1, name: c.name, url: `${site.url}/catalog/${c.slug}`,
+      '@type': 'ListItem', position: i + 1, name: c.name, url: `${site.url}${c.href}`,
     })),
   },
   // FAQPage не дублируем: разметку выводит компонент FAQ рядом с видимым блоком.
+  // ItemList на странице один: карточки товаров — навигация по хабу, своей
+  // разметки они не несут (правило «один тип — один раз на страницу»).
 ];
 ---
 <BaseLayout
@@ -118,63 +228,184 @@ const ld = [
           </div>
           </>
         ) : (
-          <p class="sr-empty">Ничего не нашлось. Попробуйте другое написание (например, латиницей) или <button class="btn btn-primary btn-sm" data-open-question>спросите нас</button> — подключаем и то, чего нет в каталоге.</p>
+          <>
+          <p class="sr-empty">Ничего не нашлось. Попробуйте другое написание — например, латиницей.</p>
+          <CatalogRequest query={q} context="search" compact />
+          </>
         )}
       </section>
     )}
 
     {!q && (<>
-    <!-- HERO -->
-    <header class="cat-hero hero-cols">
-      <div>
-      <span class="eyebrow">Каталог</span>
-      <h1>Зарубежное ПО и SaaS для бизнеса — <span class="accent">с оплатой и документами</span></h1>
+    <!-- ШАПКА ХАБА: поиск как первый вход -->
+    <header class="hub-head">
+      <span class="eyebrow">{hubEyebrow}</span>
+      <h1>Зарубежное ПО и SaaS для бизнеса — <span class="accent">с оплатой в рублях и документами</span></h1>
       <p class="lead">
-        Подбираем и оформляем на юрлицо сервисы, которыми пользуется весь мир: дизайн, разработка,
-        видео, AI и коммуникации. Оплачиваем картой, где вендор её принимает, и через счёт нашей
-        зарубежной компании, где иначе не выйдет. Вы платите в рублях по договору, закрывающие —
-        через ЭДО.
+        Назовите продукт — покажем цену и оформим на юрлицо. Оплачиваем картой, где вендор её
+        принимает, и через счёт нашей зарубежной компании, где иначе не выйдет. Закрывающие — через ЭДО.
       </p>
-      <div class="cat-actions">
-        <button class="btn btn-primary" data-open-question data-goal="catalog_discuss">Обсудить задачу</button>
-        <a href="/vendors" class="btn btn-ghost">Производители</a>
-      </div>
+
+      <form class="hub-search" action="/catalog" method="get" role="search" data-cat-search>
+        <label class="sr-only" for="hub-q">Поиск по каталогу</label>
+        <input id="hub-q" type="search" name="q" autocomplete="off"
+               placeholder="Adobe, ChatGPT, Figma, JetBrains, Midjourney…"
+               aria-label="Поиск по названию продукта или производителя" />
+        <button type="submit" class="btn btn-primary">Найти</button>
+      </form>
+
       <ul class="cat-badges">
         <li>Оплата картой или через зарубежный счёт</li>
         <li>Договор, счёт и ЭДО</li>
         <li>Оплата в рублях</li>
       </ul>
-    </div>
-      <HeroSteps />
     </header>
 
     <CatalogTabs active="categories" />
 
-    <!-- ПЛАШКИ ЗАДАЧ -->
-    <section class="cat-block">
-      <SectionHeading num="01" eyebrow="По задачам" title="Выберите, что нужно команде">
-        <p>Каждый раздел — набор проверенных сервисов под конкретную задачу бизнеса.</p>
-      </SectionHeading>
-      {usedCategories.length > 0 ? (
-        <div class="task-grid">
-          {usedCategories.map((c) => (
-            <a href={`/catalog/${c.slug}`} class="task-tile reveal" aria-label={`${c.name} — ${c.count} ${plural(c.count)}`}>
-              <span class="task-icon"><CategoryIcon slug={c.slug} name={c.name} size={64} /></span>
-              <h3>{c.name}</h3>
-              <span class="task-count">{c.count} {plural(c.count)}</span>
-              <p>{c.blurb}</p>
-              <span class="task-link">Открыть раздел →</span>
-            </a>
-          ))}
+    {usedCategories.length > 0 ? (
+    <div class="hub-layout">
+      <!-- БОКОВАЯ КОЛОНКА: происхождение и сводка -->
+      <aside class="hub-side card" aria-label="О каталоге">
+        <div class="side-grp">
+          <span class="side-lbl">Происхождение</span>
+          <span class="side-row is-on" aria-current="true" data-cat-origin="foreign">
+            <span>Зарубежное</span><b>{totalProducts}</b>
+          </span>
+          <button type="button" class="side-row side-row-btn" data-open-question
+                  data-product="Отечественное ПО из реестра — подбор"
+                  data-cat-origin="domestic">
+            <span>Отечественное</span><b>{domesticCount}</b>
+          </button>
+          <p class="side-hint">
+            Отечественное ПО сейчас не поставляем. Реестровые позиции подбираем по запросу —
+            нажмите, чтобы назвать продукт или задачу.
+          </p>
         </div>
-      ) : (
-        <p class="cat-empty">Разделы каталога загружаются. Напишите нам — подберём нужный сервис: <button class="link-btn" data-open-question>обсудить задачу →</button></p>
-      )}
-    </section>
+
+        <div class="side-grp">
+          <span class="side-lbl">Что в каталоге</span>
+          <dl class="side-stats">
+            <div><dt>Разделов</dt><dd>{usedCategories.length}</dd></div>
+            <div><dt>Производителей</dt><dd>{vendorCount}</dd></div>
+            <div><dt>Цена на сайте</dt><dd>{pricedCount}</dd></div>
+            <div><dt>Цена по запросу</dt><dd>{onRequestCount}</dd></div>
+          </dl>
+        </div>
+
+        <p class="side-links">
+          <a href="/vendors">Все производители →</a>
+          <a href="/solutions">Подбор по задаче →</a>
+        </p>
+      </aside>
+
+      <div class="hub-main">
+        <!-- ФЛАГМАН: AI с раскрытыми ветками -->
+        {aiTotal > 0 && (
+          <section class="flagship" aria-labelledby="flagship-h">
+            <div class="fl-top">
+              <div>
+                <span class="eyebrow">Флагман каталога</span>
+                <h2 id="flagship-h">
+                  <a href="/catalog/ai" data-cat-category="ai">{aiCategory?.name || 'AI-сервисы'}</a>
+                </h2>
+                <p class="fl-sub">
+                  Корпоративные тарифы с оформлением на юрлицо: ассистенты, генерация кода,
+                  изображения, видео и звук. Единственный раздел с собственной структурой веток.
+                </p>
+              </div>
+              <a href="/catalog/ai" class="fl-badge" data-cat-category="ai">{aiTotal} {plural(aiTotal)} →</a>
+            </div>
+
+            <div class="fl-subs">
+              {aiSubs.map((s) => (s.count > 0 ? (
+                <a href={`/catalog/ai/${s.sub}`} class="fl-sub-tile" data-cat-ai-sub={s.sub}>
+                  <span class="fs-ico"><CategoryIcon slug={`ai-${s.sub}`} name={s.name} size={28} /></span>
+                  <span class="fs-name">{s.name}</span>
+                  <span class="fs-meta">{s.cross ? `${s.count} · тарифы из других веток` : `${s.count} · ${s.vendors.length > 0 ? s.vendors.map((v) => v.replace(/ \d+$/, '')).join(', ') : s.short}`}</span>
+                </a>
+              ) : (
+                <span class="fl-sub-tile is-soon" aria-disabled="true">
+                  <span class="fs-ico"><CategoryIcon slug={`ai-${s.sub}`} name={s.name} size={28} /></span>
+                  <span class="fs-name">{s.name}</span>
+                  <span class="fs-meta">в подготовке</span>
+                </span>
+              )))}
+            </div>
+
+            {aiPicks.length > 0 && (
+              <div class="fl-prods">
+                {aiPicks.map((p) => (
+                  <div data-cat-product={p.slug}><ProductCard product={p} /></div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        <!-- КРУПНЫЕ РАЗДЕЛЫ -->
+        {majorCategories.length > 0 && (
+          <section class="hub-block" aria-labelledby="major-h">
+            <div class="hub-sechead">
+              <h2 id="major-h">Крупные разделы</h2>
+              <span class="hub-cnt">{majorCategories.length} {pluralSection(majorCategories.length)} из {usedCategories.length} дают {majorTotal} {plural(majorTotal)}</span>
+            </div>
+            <div class="major-grid">
+              {majorCategories.map((c) => (
+                <article class="major-card">
+                  <div class="mj-head">
+                    <h3><a href={c.href} data-cat-category={c.slug}>{c.name}</a></h3>
+                    <span class="mj-count">{c.count}</span>
+                  </div>
+                  {c.vendors.length > 0 && <p class="mj-vendors">{c.vendors.join(' · ')}</p>}
+                  {c.picks.map((p) => {
+                    const eff = effectivePrice(p);
+                    return (
+                      <a href={`/product/${p.slug}`} class="mj-row" data-cat-product={p.slug}>
+                        <span class="mj-name">{p.name}</span>
+                        <span class="mj-price">{eff.price > 0 ? `от ${formatRub(eff.price)}` : 'по запросу'}</span>
+                      </a>
+                    );
+                  })}
+                  <a href={c.href} class="mj-all" data-cat-category={c.slug}>
+                    {c.count > 1 ? `Все ${c.count} ${plural(c.count)} →` : 'Открыть раздел →'}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- НИШЕВЫЕ РАЗДЕЛЫ: компактный список, все ссылки на месте -->
+        {minorCategories.length > 0 && (
+          <section class="hub-block" aria-labelledby="minor-h">
+            <div class="hub-sechead">
+              <h2 id="minor-h">Ещё {minorCategories.length} {pluralSection(minorCategories.length)}</h2>
+            </div>
+            <ul class="minor-list">
+              {minorCategories.map((c) => (
+                <li>
+                  <a href={c.href} data-cat-category={c.slug}>
+                    <span class="mn-ico"><CategoryIcon slug={c.slug} name={c.name} size={20} /></span>
+                    <span class="mn-name">{c.name}</span>
+                    <span class="mn-count">{c.count}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
+    ) : (
+      <p class="cat-empty">Разделы каталога загружаются. Напишите нам — подберём нужный сервис: <button class="link-btn" data-open-question>обсудить задачу →</button></p>
+    )}
+
+    <CatalogRequest context="catalog" />
 
     <!-- ПРОИЗВОДИТЕЛИ -->
     <section class="cat-block">
-      <SectionHeading num="02" eyebrow="Производители" title="Бренды, которые подключают чаще всего">
+      <SectionHeading eyebrow="Производители" title="Бренды, которые подключают чаще всего">
         <p>Откройте страницу производителя — там тарифы, сравнение и оформление на юрлицо.</p>
       </SectionHeading>
       <Carousel label="Производители" autoplay={2600} slideWidth="clamp(200px, 60vw, 240px)">
@@ -193,7 +424,7 @@ const ld = [
 
     <!-- ВЫГОДЫ -->
     <section class="cat-block band">
-      <SectionHeading num="03" eyebrow="Почему BIZSoft" title="Закупка без простоев и с документами">
+      <SectionHeading eyebrow="Почему BIZSoft" title="Закупка без простоев и с документами">
       </SectionHeading>
       <div class="benefit-grid">
         {benefits.map((b) => (
@@ -209,9 +440,12 @@ const ld = [
     </>)}
   </div>
 
+  <!-- Призыв не повторяет блок «Искали, но не нашли»: тот забирает название
+       конкретного продукта, этот — задачу целиком. Прежний заголовок «Не нашли
+       нужный сервис?» дублировал блок слово в слово. -->
   <CTASection
-    title="Не нашли нужный сервис?"
-    text="Опишите задачу — подберём способ закупки, посчитаем стоимость и подготовим КП."
+    title="Нужен расчёт под вашу задачу?"
+    text="Опишите, что закупаете и на сколько сотрудников — подберём способ оплаты, посчитаем стоимость и подготовим КП."
     primaryLabel="Обсудить задачу"
     primaryHref="/contacts"
     secondaryLabel="Все производители"
@@ -233,6 +467,39 @@ const ld = [
     const found = Number(res.dataset.searchFound || '0');
     trackGoal(found > 0 ? 'search_used' : 'search_no_results', { search_term: term, results: found });
   }
+
+  // Выходы с хаба каталога.
+  //
+  // Общий делегированный слушатель, а не атрибут data-goal на каждой ссылке:
+  // хабу нужны параметры (какой раздел, какая ветка, какой товар), а data-goal
+  // из макета шлёт только имя цели. Разметка на элементах — чтобы новая плитка
+  // считалась сама, без правки скрипта.
+  const HUB_GOALS: [string, string, string][] = [
+    ['catOrigin', 'catalog_origin_click', 'origin'],
+    ['catAiSub', 'catalog_ai_subcategory_click', 'subcategory'],
+    ['catCategory', 'catalog_category_click', 'category'],
+    ['catProduct', 'catalog_product_click', 'product'],
+  ];
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    if (!target?.closest) return;
+    for (const [attr, goal, param] of HUB_GOALS) {
+      // Ветка AI лежит внутри блока раздела AI, а карточка товара — внутри
+      // плитки раздела: ищем ближайшую разметку и останавливаемся на ней,
+      // иначе один клик отправлял бы две цели разного уровня.
+      const el = target.closest(`[data-${attr.replace(/[A-Z]/g, (c) => '-' + c.toLowerCase())}]`) as HTMLElement | null;
+      if (!el) continue;
+      trackGoal(goal, { [param]: el.dataset[attr] || '', page_url: location.pathname });
+      return;
+    }
+  });
+
+  const form = document.querySelector('[data-cat-search]') as HTMLFormElement | null;
+  form?.addEventListener('submit', () => {
+    const field = form.querySelector('input[name="q"]') as HTMLInputElement | null;
+    const term = (field?.value || '').trim();
+    if (term) trackGoal('catalog_search', { search_term: term });
+  });
 </script>
 
 <style>
@@ -246,53 +513,137 @@ const ld = [
   .sr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
   .sr-empty { color: var(--color-text-muted); display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
 
-  /* HERO */
-  .cat-hero { max-width: 760px; margin: 1rem 0 3rem; }
-  .cat-hero h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin: 0.8rem 0 1rem; }
+  /* ── Шапка хаба ── */
+  .hub-head { max-width: 760px; margin: 1rem 0 2rem; }
+  .hub-head h1 { font-size: clamp(1.75rem, 4.1vw, 2.7rem); margin: 0.7rem 0 0.9rem; }
   .accent { color: var(--color-accent); }
-  .cat-hero .lead { color: var(--color-text-muted); font-size: clamp(1.02rem, 1.6vw, 1.18rem); }
-  .cat-actions { display: flex; gap: 0.8rem; margin: 1.6rem 0 1.2rem; flex-wrap: wrap; }
+  .hub-head .lead { color: var(--color-text-muted); font-size: clamp(1rem, 1.6vw, 1.12rem); }
+
+  .hub-search { display: flex; gap: 0.6rem; margin: 1.5rem 0 1.1rem; flex-wrap: wrap; }
+  .hub-search input {
+    flex: 1 1 260px; min-width: 0;
+    border: 2px solid var(--color-accent); border-radius: 999px;
+    padding: 0.78rem 1.25rem; font: inherit; font-size: 1rem;
+    background: var(--color-bg-card); color: var(--color-text);
+    box-shadow: 0 4px 18px rgba(242, 89, 29, 0.12);
+  }
+  .hub-search input::placeholder { color: var(--color-text-dim); }
+  .hub-search input:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .hub-search .btn { border-radius: 999px; padding-inline: 1.5rem; }
+
   .cat-badges { display: flex; gap: 0.6rem 1.4rem; list-style: none; padding: 0; margin: 0; flex-wrap: wrap; color: var(--color-text-muted); font-size: 0.9rem; }
   .cat-badges li { position: relative; padding-left: 1.1rem; }
   .cat-badges li::before { content: '●'; position: absolute; left: 0; color: var(--color-accent); font-size: 0.6rem; top: 0.35em; }
 
-  .cat-block { padding-top: clamp(2.5rem, 5vw, 4rem); }
+  /* ── Раскладка: фильтры сбоку, содержимое справа ── */
+  .hub-layout { display: grid; grid-template-columns: minmax(0, 210px) minmax(0, 1fr); gap: 1.4rem; align-items: start; margin-top: 1.6rem; }
+  @media (max-width: 860px) { .hub-layout { grid-template-columns: minmax(0, 1fr); } }
 
-  /* Плашки задач — крупная инфографика: линейная иконка по центру, как у
-     больших софт-магазинов. Hover: выпирает + заливается акцентом. */
-  .task-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.2rem; }
-  .task-tile {
-    position: relative;
-    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.55rem;
-    padding: 2rem 1.5rem 1.7rem;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
-    will-change: transform;
+  .hub-side { padding: 1.1rem; display: flex; flex-direction: column; gap: 1.1rem; position: sticky; top: 1rem; }
+  @media (max-width: 860px) { .hub-side { position: static; } }
+  .side-grp { display: flex; flex-direction: column; gap: 0.45rem; }
+  .side-lbl { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; color: var(--color-text-dim); }
+  .side-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+    width: 100%; text-align: left;
+    padding: 0.44rem 0.6rem; border-radius: var(--radius-sm);
+    font-size: 0.9rem; color: var(--color-text-muted);
+    border: 1px solid transparent; background: none;
   }
-  .task-tile:hover { transform: translateY(-8px) scale(1.015); box-shadow: var(--shadow-lg); background: var(--color-accent); border-color: var(--color-accent); }
-  .task-tile:hover h3,
-  .task-tile:hover p,
-  .task-tile:hover .task-count,
-  .task-tile:hover .task-link,
-  .task-tile:hover .task-icon { color: #fff; }
-  .task-tile:hover .task-icon { background: rgba(255, 255, 255, 0.16); }
-  .task-icon {
-    width: 96px; height: 96px; border-radius: 24px;
-    display: inline-flex; align-items: center; justify-content: center;
-    background: var(--color-accent-soft); color: var(--color-accent);
-    transition: background 0.28s ease, color 0.28s ease;
-    margin-bottom: 0.35rem;
+  .side-row b { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-text-dim); }
+  .side-row.is-on { background: var(--color-accent-soft); border-color: var(--color-accent); color: var(--color-text); font-weight: 600; }
+  .side-row.is-on b { color: var(--color-accent); }
+  .side-row-btn { font: inherit; font-size: 0.9rem; cursor: pointer; border-color: var(--color-border); }
+  .side-row-btn:hover { border-color: var(--color-accent); color: var(--color-text); }
+  .side-hint { font-size: 0.76rem; color: var(--color-text-dim); line-height: 1.45; margin: 0.15rem 0 0; }
+
+  .side-stats { margin: 0; display: flex; flex-direction: column; gap: 1px; background: var(--color-border); border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; }
+  .side-stats > div { background: var(--color-bg-card); display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; padding: 0.4rem 0.6rem; }
+  .side-stats dt { font-size: 0.8rem; color: var(--color-text-muted); }
+  .side-stats dd { margin: 0; font-size: 0.9rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  .side-links { display: flex; flex-direction: column; gap: 0.35rem; margin: 0; padding-top: 0.85rem; border-top: 1px solid var(--color-border); }
+  .side-links a { color: var(--color-accent); font-weight: 600; font-size: 0.85rem; }
+
+  .hub-main { display: flex; flex-direction: column; gap: 1.8rem; min-width: 0; }
+
+  /* ── Флагман: AI ── */
+  .flagship {
+    border: 1px solid var(--color-accent); border-radius: var(--radius-lg);
+    background: linear-gradient(150deg, color-mix(in srgb, var(--color-accent-soft) 90%, #fff) 0%, var(--color-bg-card) 62%);
+    padding: clamp(1.1rem, 2.4vw, 1.5rem);
+    box-shadow: 0 4px 18px rgba(242, 89, 29, 0.10);
   }
-  .task-count { font-size: 0.85rem; font-weight: 600; color: var(--color-text-dim); transition: color 0.28s ease; }
-  .task-tile h3 { font-size: 1.18rem; line-height: 1.3; transition: color 0.28s ease; }
-  .task-tile p { color: var(--color-text-muted); font-size: 0.9rem; flex-grow: 1; transition: color 0.28s ease; margin: 0;
+  .fl-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .eyebrow { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-accent); }
+  .flagship h2 { font-size: clamp(1.25rem, 2.6vw, 1.6rem); margin: 0.4rem 0 0.35rem; }
+  .flagship h2 a { color: inherit; }
+  .flagship h2 a:hover { color: var(--color-accent); }
+  .fl-sub { color: var(--color-text-muted); font-size: 0.9rem; max-width: 46ch; margin: 0; }
+  .fl-badge {
+    font-size: 0.85rem; font-weight: 700; color: #fff; background: var(--color-accent);
+    border-radius: 999px; padding: 0.35rem 0.9rem; white-space: nowrap; flex-shrink: 0;
+  }
+  .fl-badge:hover { background: var(--color-accent-hover); }
+
+  .fl-subs { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.55rem; margin-top: 1.1rem; }
+  .fl-sub-tile {
+    display: flex; flex-direction: column; gap: 0.2rem;
+    border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+    background: var(--color-bg-card); padding: 0.6rem 0.7rem;
+    transition: border-color 0.18s ease, transform 0.18s ease;
+  }
+  a.fl-sub-tile:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .fl-sub-tile.is-soon { background: var(--color-bg-elevated); border-style: dashed; }
+  .fs-ico { color: var(--color-accent); height: 28px; display: flex; align-items: center; }
+  .fl-sub-tile.is-soon .fs-ico { color: var(--color-text-dim); }
+  .fs-name { font-size: 0.86rem; font-weight: 700; line-height: 1.25; color: var(--color-text); }
+  .fs-meta { font-size: 0.74rem; color: var(--color-text-dim); line-height: 1.35;
     display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .task-link { color: var(--color-accent); font-weight: 600; font-size: 0.9rem; transition: color 0.28s ease; margin-top: 0.2rem; }
-  @media (prefers-reduced-motion: reduce) { .task-tile:hover { transform: none; } }
 
+  .fl-prods { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 0.7rem; margin-top: 1rem; }
+  /* Обёртка нужна только как носитель разметки цели: в раскладке её нет,
+     карточка остаётся собственным элементом сетки. На поиск closest() в
+     обработчике display:contents не влияет — дерево DOM прежнее. */
+  .fl-prods > div { display: contents; }
+
+  /* ── Секции хаба ── */
+  .hub-sechead { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+  .hub-sechead h2 { font-size: clamp(1.15rem, 2.3vw, 1.4rem); }
+  .hub-cnt { font-size: 0.8rem; color: var(--color-text-dim); }
+
+  /* Крупные разделы */
+  .major-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(252px, 1fr)); gap: 0.9rem; }
+  .major-card {
+    border: 1px solid var(--color-border); border-radius: var(--radius);
+    background: var(--color-bg-card); box-shadow: var(--shadow-sm);
+    padding: 1rem; display: flex; flex-direction: column; gap: 0.55rem;
+  }
+  .mj-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.7rem; }
+  .mj-head h3 { font-size: 1.02rem; }
+  .mj-head h3 a { color: inherit; }
+  .mj-head h3 a:hover { color: var(--color-accent); }
+  .mj-count { font-size: 0.85rem; font-weight: 700; color: var(--color-accent); font-variant-numeric: tabular-nums; }
+  .mj-vendors { font-size: 0.78rem; color: var(--color-text-dim); line-height: 1.4; margin: 0; }
+  .mj-row {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 0.7rem;
+    border-top: 1px solid var(--color-border); padding-top: 0.5rem;
+    font-size: 0.84rem; color: var(--color-text-muted);
+  }
+  .mj-row:hover .mj-name { color: var(--color-accent); }
+  .mj-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mj-price { font-weight: 700; color: var(--color-text); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .mj-all { margin-top: auto; padding-top: 0.4rem; font-size: 0.82rem; font-weight: 700; color: var(--color-accent); }
+
+  /* Нишевые разделы */
+  .minor-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr)); gap: 1px; background: var(--color-border); border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; }
+  .minor-list a { display: flex; align-items: center; gap: 0.55rem; background: var(--color-bg-card); padding: 0.6rem 0.75rem; font-size: 0.88rem; color: var(--color-text-muted); height: 100%; }
+  .minor-list a:hover { background: var(--color-accent-soft); color: var(--color-text); }
+  .mn-ico { color: var(--color-accent); display: flex; flex-shrink: 0; }
+  .mn-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mn-count { margin-left: auto; font-size: 0.78rem; font-weight: 700; color: var(--color-text-dim); font-variant-numeric: tabular-nums; }
+
+  .cat-block { padding-top: clamp(2.5rem, 5vw, 4rem); }
   .cat-empty { color: var(--color-text-muted); }
   .link-btn { background: none; border: none; color: var(--color-accent); font: inherit; font-weight: 600; cursor: pointer; padding: 0; }
 
@@ -312,4 +663,8 @@ const ld = [
   .benefit-card { padding: 1.6rem; }
   .benefit-card h3 { font-size: 1.12rem; margin-bottom: 0.5rem; }
   .benefit-card p { color: var(--color-text-muted); font-size: 0.92rem; margin: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    a.fl-sub-tile:hover, .brand-chip:hover { transform: none; }
+  }
 </style>

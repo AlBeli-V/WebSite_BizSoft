@@ -8,10 +8,12 @@ import ProductCard from '../../components/ProductCard.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTASection from '../../components/CTASection.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
+import CatalogRequest from '../../components/CatalogRequest.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import { getProducts, getCategoryBySlug, getProductsBySlugs } from '../../lib/directus';
 import { LICENSE_LABEL, type LicenseType } from '../../lib/types';
 import { productKind, PRODUCT_KIND_LABEL, type ProductKind, listingProducts } from '../../lib/catalog';
+import { categoryMembers, crossListedCount, inCategory } from '../../lib/cross-listing';
 import { itemListSchema } from '../../lib/seo';
 import { aiSubcategories, aiFlagships } from '../../data/ai-hub';
 import { comparisons } from '../../data/comparisons';
@@ -61,24 +63,34 @@ let title = '';
 let lead = '';
 let base: Product[] = [];
 let pageCategory = null;
+let crossCount = 0;
 
 try {
   pageCategory = await getCategoryBySlug(segment!);
   if (pageCategory) {
+    // Выборка идёт по всему каталогу, а не запросом с фильтром по разделу:
+    // вторую привязку (lib/cross-listing) база не знает — товар лежит в своём
+    // разделе, а показывается ещё и здесь. Запрос без фильтра к тому же
+    // кэшируется один на все разделы, а не по ключу на каждый.
+    const all = listingProducts(await getProducts());
     if (segment === 'ai') {
       // Родительская категория AI агрегирует товары всех дочерних ai-*:
-      // прямые привязки к «ai» + все подкатегории (ai-text, ai-code, …).
-      const all = await getProducts();
+      // прямые привязки к «ai» + все подкатегории (ai-text, ai-code, …),
+      // включая пришедшие в них второй привязкой.
       base = all.filter((p) => {
         const cs = typeof p.category === 'object' && p.category ? p.category.slug : '';
-        return cs === 'ai' || cs.startsWith('ai-');
+        if (cs === 'ai' || cs.startsWith('ai-')) return true;
+        return aiSubcategories.some((s) => inCategory(p, s.categorySlug));
       });
     } else {
-      base = await getProducts({ categorySlug: segment! });
+      base = categoryMembers(all, segment!);
     }
+    // Сколько позиций пришло второй привязкой — подписываем под списком, чтобы
+    // раздел не выглядел больше, чем он есть на самом деле.
+    crossCount = crossListedCount(all, segment!);
     // Варианты (номиналы подарочных карт) в списке не показываются — их
-    // представляет родительская карточка с выбором региона и номинала.
-    base = listingProducts(base);
+    // представляет родительская карточка с выбором региона и номинала:
+    // отсечены выше, в `all`.
     title = pageCategory.name;
     // seo_text — не лид, а блок «Как выбрать» под списком товаров (ниже).
     lead = pageCategory.intro || `${pageCategory.name}: зарубежные лицензии и подписки для юрлиц по договору и счёту.`;
@@ -260,6 +272,11 @@ if (isAi) {
         <h2 class="sr-only">Товары раздела «{title}»</h2>
         <div class="results-head">
           <span>Найдено: <b>{filtered.length}</b></span>
+          {crossCount > 0 && (
+            <span class="cross-note" title="Товары из соседних разделов, которые закрывают и эту задачу">
+              из них {crossCount} — из смежных разделов
+            </span>
+          )}
           <a href="/catalog" class="switch-link">← Весь каталог</a>
         </div>
         {filtered.length > 0 ? (
@@ -267,7 +284,10 @@ if (isAi) {
             {filtered.map((p) => <ProductCard product={p} />)}
           </div>
         ) : (
+          <>
           <p class="empty">Ничего не найдено по выбранным фильтрам. <a href={basePath}>Сбросить →</a></p>
+          <CatalogRequest query={q} context={segment} compact />
+          </>
         )}
       </div>
     </div>
@@ -332,6 +352,7 @@ if (isAi) {
     )}
 
     <FAQ items={faq} title="Вопросы по разделу" />
+    <CatalogRequest context={segment} />
   </div>
   <CTASection />
   <QuestionForm source="catalog" />
@@ -362,6 +383,7 @@ if (isAi) {
   .results-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; color: var(--color-text-muted); font-size: 0.92rem; }
   .switch-link { color: var(--color-accent); font-weight: 600; }
   .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.2rem; }
+  .cross-note { color: var(--color-text-dim); font-size: 0.85rem; }
   .empty { color: var(--color-text-muted); }
   .empty a { color: var(--color-accent); }
   .guide { margin-top: 2.6rem; max-width: 760px; }
