@@ -154,7 +154,11 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
               полутора экранов описания. */}
           {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b>{entry.domain === 'gift' ? ' за код' : ' в год'}</p>}
           <div class="hero-actions">
-            <button class="btn btn-primary" data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
+            {/* Ветка идущего замера первого экрана (сейчас это adobe): её
+                призыв намеренно оставлен прежним — страница под замером не
+                правится, иначе вывод о форме будет неотделим от вывода о
+                кнопке. Закроется замер — ветка вернётся на общий путь. */}
+            <button class="btn btn-primary" data-hero-form-cta data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
             {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
           </div>
         </>
