@@ -49,9 +49,13 @@ if (!entry && !scaffold && !live) return new Response(null, { status: 404 });
 const vTitle = entry ? (entry.title || entry.vendor) : '';
 // SEO-эксперимент P0-1: точечные метаданные 5 страниц (см. seo-experiments.ts).
 const exp = entry ? SEO_EXPERIMENTS[entry.slug] : undefined;
-const title = entry ? (exp?.title ?? `Купить ${vTitle} для юрлица — тарифы, счёт и КП`) : '';
+// Порядок источников: эксперимент → собственные метаданные страницы →
+// формула шаблона. Средняя ступень появилась, когда bespoke-страницы
+// переехали на общий шаблон: их заголовки уже проиндексированы.
+const title = entry ? (exp?.title ?? entry.metaTitle ?? `Купить ${vTitle} для юрлица — тарифы, счёт и КП`) : '';
 const description = entry
-  ? (exp?.description ?? `${vTitle} для юридических лиц: ${entry.tagline} Оформление по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`)
+  ? (exp?.description ?? entry.metaDescription
+    ?? `${vTitle} для юридических лиц: ${entry.tagline} Оформление по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`)
   : '';
 const liveName = live ? (live.vendor.match(/^(.+?)\s*\(/)?.[1] ?? live.vendor) : '';
 ---

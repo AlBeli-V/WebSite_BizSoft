@@ -9,6 +9,8 @@ import VendorIcon from '../../components/VendorIcon.astro';
 import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
 import AddToCartButton from '../../components/AddToCartButton.astro';
+import TariffQty from '../../components/TariffQty.astro';
+import VendorQuotePath from '../../components/VendorQuotePath.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import VendorInterlinks from '../../components/VendorInterlinks.astro';
 import JsonLd from '../../components/JsonLd.astro';
@@ -105,7 +107,7 @@ const cards = zoom.map((p) => {
           <li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Подбор тарифа и аддонов</li>
         </ul>
         <div class="hero-actions">
-          <button class="btn btn-primary" data-open-question data-product="Zoom — подбор тарифа" data-ev="click_get_quote">Получить расчёт и КП</button>
+          <a href="#lead" class="btn btn-primary" data-quote-cta data-context="Zoom — подбор тарифа" data-ev="click_get_quote">Получить расчёт и КП</a>
           <a href="#chooser" class="btn btn-ghost" data-ev="click_choose_plan">Подобрать тариф Zoom</a>
         </div>
         {minPrice > 0 && <p class="from">Цены от <b>{formatRub(minPrice)}</b> в год</p>}
@@ -130,7 +132,7 @@ const cards = zoom.map((p) => {
       <h2>Тарифы и продукты Zoom</h2>
       <div class="zgrid">
         {cards.map((c) => (
-          <article class="card zcard">
+          <article class="card zcard" data-qty-scope>
             <div class="zhead">
               {c.meta && <span class={`zbadge ${c.badgeClass}`}>{c.meta.badge}</span>}
             </div>
@@ -148,6 +150,9 @@ const cards = zoom.map((p) => {
               <ul class="zfeat">{c.features.map((f) => <li>{f}</li>)}</ul>
             )}
             {c.meta?.check && <p class="zcheck">⚠ {c.meta.check}</p>}
+            {!c.byRequest && (
+              <TariffQty price={c.price} qtyLabel="Лицензий" name={c.name} />
+            )}
             <div class="zactions">
               {c.byRequest ? (
                 <button class="btn btn-primary btn-sm" data-open-question data-product={`Zoom — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">Запросить цену</button>
@@ -265,7 +270,7 @@ const cards = zoom.map((p) => {
         <li>После оплаты передаются доступы или инструкции по активации.</li>
         <li>Закрывающие документы передаются в согласованном формате, в том числе через ЭДО.</li>
       </ol>
-      <button class="btn btn-primary" data-open-question data-product="Zoom — расчёт и КП" data-ev="click_get_quote">Получить расчёт и КП</button>
+      <a href="#lead" class="btn btn-primary" data-quote-cta data-context="Zoom — расчёт и КП" data-ev="click_get_quote">Получить расчёт и КП</a>
     </section>
 
     <!-- Документы -->
@@ -284,12 +289,13 @@ const cards = zoom.map((p) => {
     <FAQ items={ZOOM_FAQ} title="Частые вопросы про Zoom для бизнеса" />
 
     <!-- Финальный CTA -->
-    <section class="block final">
+    <section class="block final" id="lead">
       <div class="final-grid">
         <div>
           <h2>Подобрать Zoom для компании</h2>
           <p class="muted">Опишите задачу: сколько пользователей и участников нужно, планируются ли вебинары,
             большие встречи, переговорные, телефония или мероприятия. Подготовим расчёт, КП или счёт.</p>
+          <VendorQuotePath />
           <ul class="zfeat">
             <li>Оформление для юрлиц: договор, счёт, закрывающие</li>
             <li>Комплект: тариф + Webinars / Large Meeting / Rooms / Phone / Events</li>

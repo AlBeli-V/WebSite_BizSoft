@@ -1,0 +1,147 @@
+---
+/**
+ * Единый путь заявки на коммерческой странице (решение руководителя 11.09.2026).
+ *
+ * Раньше страница вендора собирала контакт тремя формами с пересекающимися
+ * полями, а выбранный тариф в заявку не доезжал: покупатель называл продукт
+ * словами заново. Здесь собрано всё, что делает путь одним:
+ *   — счётчик количества на карточке и сумма, которая считается на месте;
+ *   — состав расчёта рядом с формой;
+ *   — перенос выбора в скрытое поле product_ref формы.
+ *
+ * Компонент ставится один раз на страницу, внутри блока с формой. Разметка
+ * страницы должна дать ему три зацепки:
+ *   [data-qty-scope]  — карточка с полем [data-qty] и строкой [data-sum];
+ *   id="lead"         — секция с формой, куда ведут призывы;
+ *   [data-quote-cta]  — призыв со своим data-context.
+ * Ни одна из них не обязательна: без карточек работает только состав, без
+ * состава — только счётчики.
+ */
+---
+{/* Что уже выбрано на странице. Пусто — блок не показывается: пустая рамка
+    «ничего не выбрано» только шумит. */}
+<div class="spec card" data-spec hidden>
+  <p class="spec-head">В расчёте:</p>
+  <ul class="spec-list" data-spec-list></ul>
+  <p class="spec-total">Итого: <b data-spec-total></b></p>
+  <p class="spec-note">
+    Сумма справочная: рублёвая цена считается по курсу ЦБ РФ на дату счёта, НДС выделяется
+    в счёте. Состав уйдёт вместе с заявкой — <a href="/cart">открыть спецификацию</a>.
+  </p>
+</div>
+
+<style>
+  .spec { padding: 1rem 1.2rem; margin: 1.2rem 0; display: flex; flex-direction: column; gap: 0.4rem; }
+  .spec-head { font-weight: 700; margin: 0; }
+  .spec-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.25rem; font-size: 0.9rem; }
+  .spec-list :global(.q) { color: var(--color-text-dim); }
+  .spec-total { margin: 0; font-size: 0.95rem; }
+  .spec-total b { font-variant-numeric: tabular-nums; }
+  .spec-note { margin: 0; color: var(--color-text-muted); font-size: 0.82rem; }
+  .spec-note a { color: var(--color-accent); }
+</style>
+
+<script>
+  import { trackGoalOnce } from '@/lib/analytics';
+  import { readCart, cartTotal } from '@/lib/cart-client';
+  import { formatRub } from '@/lib/pricing';
+
+  // ── Счётчик количества на карточке ──────────────────────────────────
+  // Сумма пересчитывается на месте: решение о бюджете принимается на
+  // странице, а не после звонка менеджера.
+  function repaintSum(scope: Element) {
+    const field = scope.querySelector('[data-qty]') as HTMLInputElement | null;
+    const sum = scope.querySelector('[data-sum]') as HTMLElement | null;
+    if (!field || !sum) return;
+    const min = Number(field.min || 1);
+    const n = parseInt(field.value, 10);
+    const qty = Number.isFinite(n) && n >= min ? n : min;
+    const price = Number(sum.dataset.price || 0);
+    const b = sum.querySelector('b');
+    if (b) b.textContent = formatRub(price * qty);
+  }
+
+  document.querySelectorAll('[data-qty-scope]').forEach((scope) => {
+    const field = scope.querySelector('[data-qty]') as HTMLInputElement | null;
+    if (!field) return;
+    const min = Number(field.min || 1);
+    scope.querySelectorAll('[data-qty-step]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const step = Number((b as HTMLElement).dataset.qtyStep || 1);
+        const n = parseInt(field.value, 10);
+        // Минимум вендора — нижняя граница: «от 2 мест» должно держаться
+        // счётчиком, а не только строкой в вопросах.
+        field.value = String(Math.max(min, (Number.isFinite(n) ? n : min) + step));
+        repaintSum(scope);
+      });
+    });
+    field.addEventListener('input', () => repaintSum(scope), { passive: true });
+    field.addEventListener('blur', () => {
+      const n = parseInt(field.value, 10);
+      if (!Number.isFinite(n) || n < min) field.value = String(min);
+      repaintSum(scope);
+    });
+  });
+
+  // Тарифы показаны на экране — шаг между визитом и выбором. Раз на страницу.
+  const grid = document.querySelector('#products .vgrid, #products .grid, #products [data-tariff-grid]');
+  if (grid && typeof IntersectionObserver === 'function') {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          trackGoalOnce('view_tariffs', { page_url: location.pathname });
+          io.disconnect();
+        }
+      }
+    }, { threshold: 0.25 });
+    io.observe(grid);
+  }
+
+  // ── Состав расчёта рядом с формой ───────────────────────────────────
+  // Подборка собрана на странице — значит, в заявке она должна оказаться
+  // сама, а не пересказом покупателя.
+  const spec = document.querySelector('[data-spec]') as HTMLElement | null;
+  const specList = document.querySelector('[data-spec-list]') as HTMLElement | null;
+  const specTotal = document.querySelector('[data-spec-total]') as HTMLElement | null;
+  const ref = document.querySelector('[data-product-ref]') as HTMLInputElement | null;
+
+  function paintSpec() {
+    const items = readCart();
+    if (spec) spec.hidden = items.length === 0;
+    if (specList) {
+      specList.innerHTML = '';
+      for (const it of items) {
+        const li = document.createElement('li');
+        li.textContent = it.name;
+        const q = document.createElement('span');
+        q.className = 'q';
+        q.textContent = ` — ${it.qty} шт · ${formatRub(it.price * it.qty)}`;
+        li.appendChild(q);
+        specList.appendChild(li);
+      }
+    }
+    if (specTotal) specTotal.textContent = formatRub(cartTotal(items));
+    if (ref && items.length) {
+      ref.dataset.base = items.map((i) => `${i.name} ×${i.qty}`).join('; ').slice(0, 300);
+      ref.value = ref.dataset.base;
+    }
+  }
+  paintSpec();
+  window.addEventListener('cart:change', paintSpec);
+
+  // ── Призывы ведут в одну форму и приносят с собой контекст ──────────
+  document.querySelectorAll('[data-quote-cta]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const ctx = (el as HTMLElement).dataset.context || '';
+      // Состав расчёта важнее подписи кнопки: если человек что-то выбрал,
+      // в заявку идёт выбранное, а не «подбор тарифа».
+      if (ref && !ref.dataset.base && ctx) {
+        ref.dataset.base = ctx;
+        ref.value = ctx;
+      }
+      const field = document.querySelector('#lead [data-lead-form] input') as HTMLInputElement | null;
+      // Прокрутка уже идёт по якорю href="#lead"; фокус ставим после неё.
+      setTimeout(() => field?.focus({ preventScroll: true }), 400);
+    });
+  });
+</script>

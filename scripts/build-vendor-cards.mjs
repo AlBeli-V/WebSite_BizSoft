@@ -1,5 +1,10 @@
 // Строит xlsx для пакетной заливки товаров BizSoft из нормализованного JSON вендоров.
 // Использование: node scripts/build-vendor-cards.mjs <input.json> <output.xlsx>
+//                node scripts/build-vendor-cards.mjs <input.json> <output.xlsx> --only SKU1,SKU2
+//
+// --only отбирает из реестра перечисленные SKU: партия из одной-двух карточек
+// заливается, не трогая остальные позиции реестра (импорт — upsert по sku,
+// и без отбора в него уехали бы все 20+ строк файла).
 //
 // Формат input.json:
 // {
@@ -13,6 +18,12 @@
 //       "products": [
 //         {
 //           "key": "TEAMS",            // суффикс SKU
+//           "sku": "INT-AI-CHATGPT",   // необяз.: готовый SKU вместо prefix-key —
+//                                      // для карточки, которая уже живёт в
+//                                      // Directus под «интеграционным» sku;
+//                                      // upsert идёт по нему, слаг не меняется
+//           "markup_coeff": 1.85,      // необяз.: свой коэффициент вместо общего
+//           "sort": 1310,              // необяз.: свой sort вместо сквозного
 //           "name": "Canva Teams",
 //           "license_type": "org",     // org|individual
 //           "base_price": 100,          // число в валюте currency
@@ -21,6 +32,9 @@
 //           "billing_note_ru": "за пользователя в год",
 //           "price_on_request": false,
 //           "short_desc_ru": "…",
+//           "description_ru": "…",      // необяз.: готовое описание вместо
+//                                      // генерируемой рамки
+
 //           "features_ru": ["…"],
 //           "category": "design"        // необяз., перекрывает вендорскую
 //         }
@@ -124,8 +138,14 @@ function buildKeywords(vendorName, p, category) {
   return parts.join(', ');
 }
 
-const input = JSON.parse(readFileSync(process.argv[2], 'utf8'));
-const out = process.argv[3];
+const argv = process.argv.slice(2);
+const onlyIdx = argv.indexOf('--only');
+const only = onlyIdx >= 0
+  ? new Set(String(argv[onlyIdx + 1] || '').split(',').map((s) => s.trim().toUpperCase()).filter(Boolean))
+  : null;
+const positional = argv.filter((a, i) => (onlyIdx < 0 ? true : a !== '--only' && i !== onlyIdx + 1));
+const input = JSON.parse(readFileSync(positional[0], 'utf8'));
+const out = positional[1];
 let sort = input.sortBase ?? 1000;
 const rows = [];
 
@@ -133,7 +153,11 @@ for (const v of input.vendors) {
   const vendorCat = v.category || input.block || 'design';
   for (const p of v.products) {
     const category = p.category || vendorCat;
-    const sku = `${v.prefix}-${p.key}`.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+    const sku = (p.sku || `${v.prefix}-${p.key}`).toUpperCase().replace(/[^A-Z0-9-]/g, '');
+    // Сквозной sort двигается на каждой позиции реестра, а не только на
+    // отобранных: иначе --only переставлял бы карточки в разделе каталога.
+    const rowSort = p.sort ?? (sort += 10);
+    if (only && !only.has(sku)) continue;
     const por = !!p.price_on_request;
     let base_usd = '', base_eur = '', peg = '';
     if (!por) {
@@ -148,12 +172,16 @@ for (const v of input.vendors) {
       category,
       license_type: p.license_type || 'org',
       short_description: p.short_desc_ru,
-      description: buildDescription(v.vendor, p, category),
+      // description_ru — готовый текст карточки из реестра. Нужен там, где
+      // рамка генератора неверна по сути: пополнение баланса API — не подписка
+      // за место, и фраза «подписка оформляется на компанию» в нём была бы
+      // ложью. Реестры без этого поля работают как раньше.
+      description: p.description_ru || buildDescription(v.vendor, p, category),
       keywords: buildKeywords(v.vendor, p, category),
       base_price_usd: base_usd,
       base_price_eur: base_eur,
       peg_currency: peg,
-      markup_coeff: por ? '' : MARKUP,
+      markup_coeff: por ? '' : (p.markup_coeff ?? MARKUP),
       price_locked: 0,
       price: '',
       price_note: por ? 'Цена по запросу' : (p.billing_note_ru || 'по курсу ЦБ'),
@@ -161,13 +189,22 @@ for (const v of input.vendors) {
       currency: 'RUB',
       promo_price: '', promo_label: '', promo_start: '', promo_end: '',
       features: (p.features_ru || []).join(' | '),
-      status: 'published',
-      sort: sort += 10,
+      status: p.status || 'published',
+      sort: rowSort,
     });
   }
 }
 
 function round2(n) { return Math.round(Number(n) * 100) / 100; }
+
+if (only) {
+  const missing = [...only].filter((s) => !rows.some((r) => r.sku === s));
+  if (missing.length) {
+    console.error(`нет в реестре: ${missing.join(', ')}`);
+    process.exit(1);
+  }
+}
+if (rows.length === 0) { console.error('нечего собирать: строк 0'); process.exit(1); }
 
 const aoa = [HEADERS, ...rows.map((r) => HEADERS.map((h) => r[h] ?? ''))];
 const ws = XLSX.utils.aoa_to_sheet(aoa);
