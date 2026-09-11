@@ -14,6 +14,8 @@ const attribution: AttributionFields = {
   first_touch_source: 'yandex.ru / referral', first_touch_ts: '',
   last_touch_source: 'yandex / cpc', landing_path: '/vendors/anthropic',
   ym_client_id: '', ga_client_id: '',
+  first_touch_referrer: 'https://yandex.ru/search/?text=claude+купить',
+  last_touch_referrer: '', visit_path: '',
 };
 
 const party = {
@@ -43,8 +45,9 @@ describe('письмо о заявке', () => {
     expect(ok.text).toContain('Новая заявка с сайта');
   });
 
-  it('источник: канал, кампания, фраза, первое касание, вход', () => {
-    for (const part of ['yandex / cpc', 'bs-test-2026-09', 'claude купить',
+  it('источник: вердикт, метка, кампания, фраза, первое касание, вход', () => {
+    for (const part of ['Платная реклама', 'Яндекс Директ', 'yandex / cpc',
+                        'bs-test-2026-09', 'claude купить',
                         'yandex.ru / referral', '/vendors/anthropic']) {
       expect(ok.html).toContain(part);
       expect(ok.text).toContain(part);

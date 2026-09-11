@@ -32,6 +32,9 @@
 //           "billing_note_ru": "за пользователя в год",
 //           "price_on_request": false,
 //           "short_desc_ru": "…",
+//           "description_ru": "…",      // необяз.: готовое описание вместо
+//                                      // генерируемой рамки
+
 //           "features_ru": ["…"],
 //           "category": "design"        // необяз., перекрывает вендорскую
 //         }
@@ -169,7 +172,11 @@ for (const v of input.vendors) {
       category,
       license_type: p.license_type || 'org',
       short_description: p.short_desc_ru,
-      description: buildDescription(v.vendor, p, category),
+      // description_ru — готовый текст карточки из реестра. Нужен там, где
+      // рамка генератора неверна по сути: пополнение баланса API — не подписка
+      // за место, и фраза «подписка оформляется на компанию» в нём была бы
+      // ложью. Реестры без этого поля работают как раньше.
+      description: p.description_ru || buildDescription(v.vendor, p, category),
       keywords: buildKeywords(v.vendor, p, category),
       base_price_usd: base_usd,
       base_price_eur: base_eur,
