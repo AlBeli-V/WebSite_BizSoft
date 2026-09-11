@@ -19,6 +19,8 @@ import { VENDOR_CONTENT } from '../src/data/vendor-content';
 const landing = readFileSync('src/components/VendorLanding.astro', 'utf8');
 const leadForm = readFileSync('src/components/LeadForm.astro', 'utf8');
 const addToCart = readFileSync('src/components/AddToCartButton.astro', 'utf8');
+// Поведение единого пути вынесено в компонент: им же пользуются bespoke-страницы.
+const quotePath = readFileSync('src/components/VendorQuotePath.astro', 'utf8');
 
 describe('лендинг производителя: один путь заявки', () => {
   it('призыв «Получить расчёт и КП» ведёт к форме, а не в окно вопроса', () => {
@@ -59,13 +61,13 @@ describe('расчёт на карточке тарифа', () => {
     expect(landing).toContain('min={c.minQty}');
     // Нижняя граница держится и кнопками счётчика, и потерей фокуса:
     // ввод руками иначе обошёл бы минимум.
-    expect(landing).toContain('Math.max(min,');
-    expect(landing).toContain('if (!Number.isFinite(n) || n < min) field.value = String(min)');
+    expect(quotePath).toContain('Math.max(min,');
+    expect(quotePath).toContain('if (!Number.isFinite(n) || n < min) field.value = String(min)');
   });
 
   it('сумма пересчитывается на странице', () => {
-    expect(landing).toContain('function repaintSum');
-    expect(landing).toContain('formatRub(price * qty)');
+    expect(quotePath).toContain('function repaintSum');
+    expect(quotePath).toContain('formatRub(price * qty)');
   });
 
   it('количество с карточки уходит в подборку, а не теряется', () => {
@@ -78,7 +80,7 @@ describe('расчёт на карточке тарифа', () => {
     // Скрытое поле есть в форме, страница его заполняет, сервер принимает.
     expect(leadForm).toContain('name="product_ref"');
     expect(leadForm).toContain('data-product-ref');
-    expect(landing).toContain('ref.dataset.base');
+    expect(quotePath).toContain('ref.dataset.base');
     // Количество мест собиралось формой и терялось: в payload /api/lead поля
     // seats нет, поэтому оно дописывается к составу.
     expect(leadForm).toContain("`количество: ${seats}`");

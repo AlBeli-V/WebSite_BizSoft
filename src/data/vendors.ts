@@ -22,6 +22,15 @@ export interface VendorEntry {
   domain: VendorDomain;
   tagline: string;
   about: string;
+  /**
+   * Свои title/description/H1 вместо шаблонной формулы. Заводятся там, где
+   * страница жила отдельной вёрсткой со своими метаданными и переехала на
+   * общий шаблон: формула шаблона переписала бы уже проиндексированный
+   * заголовок. Для новых вендоров не нужны — шаблон справляется сам.
+   */
+  metaTitle?: string;
+  metaDescription?: string;
+  h1?: string;
 }
 
 export const VENDORS: VendorEntry[] = [
@@ -212,6 +221,21 @@ export const VENDORS: VendorEntry[] = [
     about: 'Microsoft — разработчик Windows, Office и облачной платформы Microsoft 365. Мы помогаем юрлицам легально оформить подписки Microsoft 365 (только на tenant компании в поддерживаемой стране, после предварительной проверки) и поставляем бессрочные коробочные версии Office, Visio, Project и Windows 11 Pro электронным ключом активации.' },
 
   // ─── Блок 5: AI-ассистенты и инженерное ПО (добавлены 20.08.2026 по замеру спроса) ───
+  // OpenAI и Figma переехали с собственных страниц на общий шаблон
+  // (решение руководителя 11.09.2026). Метаданные и H1 сохранены прежними:
+  // формула шаблона переписала бы уже проиндексированные заголовки.
+  { slug: 'openai', vendor: 'OpenAI', title: 'OpenAI', legalName: 'OpenAI, L.L.C.', brandColor: '#10A37F', site: 'https://openai.com', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
+    metaTitle: 'Купить ChatGPT (OpenAI) для юрлица — Plus, Pro, Business, Enterprise и API',
+    metaDescription: 'ChatGPT для бизнеса: тарифы Plus, Pro, Business, Enterprise и OpenAI API. Оформление на юрлицо по договору и счёту, оплата в рублях, закрывающие через ЭДО.',
+    h1: 'OpenAI (ChatGPT) для юридических лиц: тарифы и оформление через BIZSoft',
+    tagline: 'ChatGPT для сотрудников, команд и организаций: тарифы Plus, Pro, Business, Enterprise и OpenAI API.',
+    about: 'OpenAI ChatGPT — текстовый AI-ассистент для работы с документами, кодом и знаниями компании. Plus и Pro закрывают работу отдельного сотрудника, Business даёт командное пространство с админ-управлением и запретом на обучение моделей на данных компании, Enterprise добавляет SCIM, EKM, RBAC и аналитику. OpenAI API продаётся отдельно и оплачивается по использованию — для встраивания моделей в собственные продукты.' },
+  { slug: 'figma', vendor: 'Figma', title: 'Figma', legalName: 'Figma, Inc.', brandColor: '#F24E1E', site: 'https://www.figma.com', catSeg: 'design', catLabel: 'Дизайн и графика', domain: 'design',
+    metaTitle: 'Купить Figma для юрлица — Professional, Organization, Enterprise (места Full/Dev/Collab)',
+    metaDescription: 'Figma для бизнеса по модели посадочных мест: Full, Dev и Collab на планах Professional, Organization и Enterprise. Оформление на юрлицо по договору и счёту, оплата в рублях.',
+    h1: 'Figma для юридических лиц: места, планы и оформление через BIZSoft',
+    tagline: 'Дизайн-платформа по модели посадочных мест: Full, Dev и Collab на планах Professional, Organization и Enterprise.',
+    about: 'Figma — редактор интерфейсов и совместной работы над дизайном: макеты, прототипы, дизайн-системы, передача в разработку через Dev Mode и воркшопы в FigJam. С 2024 года места раздельные: Full для дизайнеров, Dev для разработчиков, Collab для менеджеров и заказчиков, — платить за полное место всей команде не нужно.' },
   { slug: 'anthropic', vendor: 'Anthropic', title: 'Anthropic Claude', legalName: 'Anthropic PBC', brandColor: '#D97757', site: 'https://www.anthropic.com', catSeg: 'ai', catLabel: 'AI-сервисы', domain: 'ai',
     tagline: 'Claude для команд и организаций: тарифы Team и Enterprise с общими проектами, SSO и контролем данных.',
     about: 'Anthropic Claude — текстовый AI-ассистент для работы с документами, кодом и знаниями компании. Тариф Team даёт общие проекты и совместные чаты для отдела, Enterprise добавляет SSO, расширенный контекст, аудит и корпоративные политики хранения данных. Востребован в аналитике, юридической и продуктовой работе, где важны длинные документы и точность формулировок.' },

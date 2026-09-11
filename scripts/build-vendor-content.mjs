@@ -41,13 +41,32 @@ export interface VendorSecurity { text: string; cta?: string }
  * здесь, а не в тексте FAQ: покупатель считает бюджет по счётчику мест, и
  * «от 2 мест» он должен видеть там же, где считает.
  */
-export interface VendorCardMeta { minQty?: number; qtyLabel?: string; check?: string }
+export interface VendorCardMeta {
+  minQty?: number;
+  qtyLabel?: string;
+  check?: string;
+  /** Плашка над названием: план, редакция, тип места. */
+  badge?: string;
+  /** Кому адресована позиция — вместо короткого описания из каталога. */
+  forWhom?: string;
+  /** Состав позиции — вместо списка возможностей из каталога. */
+  features?: string[];
+}
+/** Разбор, который нужен до цен: типы мест, виды лицензий, редакции. */
+export interface VendorExplainer { title: string; items: VendorScenario[] }
 
 export interface VendorContent {
   summary?: string;
   /** Абзац «какой тариф кому» — сразу за блоком «Коротко». */
   intro?: string;
+  explainer?: VendorExplainer;
   cards?: Record<string, VendorCardMeta>;
+  /**
+   * Порядок карточек: slug или sku. Не перечисленные уходят в конец.
+   * Нужен там, где линейка читается только в своём порядке — планы от
+   * младшего к старшему, а не как отдала база.
+   */
+  order?: string[];
   security?: VendorSecurity;
   comparison?: VendorComparison;
   decision?: VendorDecision[];
