@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Конкурентная разведка · 2026-09-11</title>
+<style>:root{--kit-plane:#f5f5f7;--kit-surface:#ffffff;--kit-surface2:#fafafb;--kit-ink:#1d1d1f;--kit-ink2:#3f3f46;--kit-muted:#6e6e78;--kit-hair:#e8e8ed;--kit-hair2:#d2d2d7;--kit-accent:#f2591d;--kit-accent-ink:#b8420f;--kit-accent-soft:#fff2ec;--kit-s1:#2a78d6;--kit-s2:#f2591d;--kit-s3:#1baf7a;--kit-s4:#4a3aa7;--kit-gray:#c3c2c7;--kit-good:#1a8f4c;--kit-good-soft:#e6f4ec;--kit-warn:#b97a00;--kit-warn-soft:#fff5dc;--kit-crit:#d92d20;--kit-crit-soft:#fdecea;--kit-hero:#1d1d1f;--kit-hero-ink:#ffffff;--kit-hero-muted:#a0a0a8;--kit-q1:#e3eefc;--kit-q2:#b7d3f6;--kit-q3:#86b6ef;--kit-q4:#5598e7;--kit-q5:#2a78d6;--kit-q6:#1c5cab;--kit-q7:#0d366b}
+.kit-num,.kit-table td,.kit-v,.kit-wf-v,.kit-heat-cell,.kit-heat-wk{font-variant-numeric:tabular-nums}
+.kit-muted{color:var(--kit-muted)}
+.kit-dash{background:var(--kit-surface);border:1px solid var(--kit-hair);border-radius:14px;padding:20px 22px;margin:0 0 18px}
+.kit-dash-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.kit-dash-title h3{margin:0;font-size:16px;font-weight:700;letter-spacing:0;text-transform:none}
+.kit-period{font-size:12.5px;color:var(--kit-muted)}
+.kit-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:12px}
+.kit-tile{position:relative;font:inherit;color:inherit;text-align:left;background:var(--kit-surface);border:1px solid var(--kit-hair);border-radius:10px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:5px;min-height:112px;cursor:default;overflow:hidden}
+button.kit-tile{cursor:pointer;transition:border-color .15s}
+button.kit-tile:hover{border-color:var(--kit-hair2)}
+button.kit-tile:focus-visible{outline:2px solid var(--kit-accent);outline-offset:2px}
+.kit-tile.kit-active{border-color:var(--kit-accent);box-shadow:inset 0 0 0 1px var(--kit-accent)}
+.kit-tile.kit-muted .kit-val{color:var(--kit-muted)}
+.kit-lbl{font-size:12px;color:var(--kit-muted);font-weight:600}
+.kit-val{font-size:26px;font-weight:600;line-height:1.05;letter-spacing:-.01em;color:var(--kit-ink)}
+.kit-val small{font-size:13px;font-weight:500;color:var(--kit-muted);margin-left:4px;letter-spacing:0}
+.kit-note{font-size:13px;line-height:1.4;color:var(--kit-ink2);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.kit-sub{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 8px;margin-top:auto;min-width:0}
+.kit-sub .kit-delta{white-space:normal}
+.kit-sub .kit-spark{max-width:100%;height:auto}
+.kit-meta{font-size:12px;color:var(--kit-muted);line-height:1.4}
+.kit-delta{font-size:12.5px;font-weight:600;white-space:nowrap}
+.kit-delta.up{color:var(--kit-good)} .kit-delta.down{color:var(--kit-crit)} .kit-delta.flat{color:var(--kit-muted)}
+.kit-spark{display:block;flex-shrink:0}
+.kit-panel{margin-top:14px;border-top:1px solid var(--kit-hair);padding-top:14px;display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.kit-panel>*,.kit-two>*,.kit-multi>*,.kit-hero-grid>*,.kit-row>*{min-width:0}
+.kit-panel h4{margin:0 0 6px;font-size:13.5px;font-weight:700}
+.kit-panel .kit-hint{font-size:12px;color:var(--kit-muted);margin:0 0 8px}
+@media (max-width:820px){.kit-panel{grid-template-columns:1fr}}
+.kit-chart svg{display:block;max-width:100%;height:auto}
+.kit-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--kit-ink2);margin-bottom:6px}
+.kit-legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.kit-tip{position:fixed;z-index:200;pointer-events:none;background:var(--kit-ink);color:var(--kit-plane);font-size:12px;line-height:1.35;padding:6px 9px;border-radius:7px;opacity:0;transform:translate(-50%,-115%);transition:opacity .08s;white-space:nowrap}
+.kit-tip.show{opacity:1}
+.kit-status{display:flex;flex-direction:column}
+.kit-srow{display:grid;grid-template-columns:26px 1.3fr 90px 90px 1.5fr 1.5fr;gap:12px;align-items:center;padding:10px 6px;border-bottom:1px solid var(--kit-hair)}
+.kit-srow:last-child{border-bottom:0}
+.kit-shead{font-size:11.5px;font-weight:600;color:var(--kit-muted);padding:4px 6px;letter-spacing:.02em}
+.kit-name{font-weight:600;font-size:14px}
+.kit-name small{display:block;font-weight:500;color:var(--kit-muted);font-size:11.5px}
+.kit-v{font-size:17px;font-weight:600}
+.kit-cmt{font-size:12.5px;color:var(--kit-ink2);line-height:1.4}
+.kit-dot{width:15px;height:15px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700}
+.kit-dot.good{background:var(--kit-good)} .kit-dot.warn{background:var(--kit-warn)} .kit-dot.crit{background:var(--kit-crit)} .kit-dot.neutral{background:var(--kit-gray)}
+.kit-meter-wrap{display:flex;align-items:center;gap:10px}
+.kit-meter{position:relative;flex:1;height:8px;border-radius:4px;background:var(--kit-q1);display:block}
+.kit-meter b{position:absolute;left:0;top:0;height:100%;border-radius:4px;background:var(--kit-s1)}
+.kit-meter b.good{background:var(--kit-good)} .kit-meter b.warn{background:var(--kit-warn)} .kit-meter b.crit{background:var(--kit-crit)}
+.kit-meter-cap{font-size:11.5px;color:var(--kit-muted);white-space:nowrap}
+@media (max-width:820px){.kit-srow{grid-template-columns:24px 1fr 80px 70px}.kit-srow .kit-m,.kit-srow .kit-cmt{display:none}}
+.kit-hero-grid{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:stretch}
+@media (max-width:820px){.kit-hero-grid{grid-template-columns:1fr}}
+.kit-hero{background:var(--kit-hero);color:var(--kit-hero-ink);border-radius:14px;padding:22px 22px 18px;display:flex;flex-direction:column;justify-content:space-between;min-height:220px}
+.kit-hero-lbl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--kit-hero-muted);font-weight:600}
+.kit-hero-big{font-size:72px;font-weight:700;line-height:1;letter-spacing:-.03em;margin-top:6px}
+.kit-hero-big small{font-size:20px;color:var(--kit-hero-muted);font-weight:500;letter-spacing:0}
+.kit-hero-delta{color:#4ad07a;font-weight:600;font-size:14px;margin-top:6px}
+.kit-hero-foot{font-size:12px;color:var(--kit-hero-muted);margin-top:12px;line-height:1.45}
+.kit-wf{display:grid;gap:6px}
+.kit-wf-row{display:grid;grid-template-columns:minmax(120px,220px) 1fr 60px;gap:10px;align-items:center;font-size:13px}
+.kit-wf-lab{color:var(--kit-ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kit-wf-row.total .kit-wf-lab,.kit-wf-row.base .kit-wf-lab{font-weight:600;color:var(--kit-ink)}
+.kit-wf-track{position:relative;height:14px;display:block}
+.kit-wf-track b{position:absolute;top:0;height:14px;border-radius:4px}
+.kit-wf-zero{position:absolute;top:-4px;bottom:-4px;width:1px;background:var(--kit-hair2)}
+.kit-wf-v{text-align:right;font-weight:600}
+.kit-db{display:grid;gap:4px}
+.kit-db-row{display:grid;grid-template-columns:minmax(120px,220px) 1fr 90px;gap:10px;align-items:center;font-size:12.5px;height:24px}
+.kit-db-lab{color:var(--kit-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kit-db-track{position:relative;height:12px;display:block}
+.kit-db-track i{position:absolute;top:-4px;width:1px;height:20px}
+.kit-db-track b{position:absolute;top:0;height:12px}
+.kit-db-v{font-weight:600;white-space:nowrap;color:var(--kit-ink)}
+.kit-db-share{color:var(--kit-muted);font-weight:400}
+.kit-heat{display:grid;grid-template-columns:110px repeat(7,minmax(0,1fr)) 60px;gap:3px;align-items:center;min-width:432px}
+.kit-heat-row{font-size:12px;color:var(--kit-ink2);padding-right:6px;white-space:nowrap}
+.kit-heat-col{font-size:11px;color:var(--kit-muted);text-align:center;padding-bottom:2px}
+.kit-heat-cell{height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;color:var(--kit-ink2);min-width:0;overflow:hidden}
+.kit-heat-cell.kit-heat-ink{color:#fff}
+.kit-heat-empty{background:transparent;border:1px dashed var(--kit-hair2);color:var(--kit-muted)}
+.kit-heat-wk{font-size:12px;font-weight:600;text-align:right;padding-right:4px}
+.kit-ramp{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--kit-muted);margin-top:10px;flex-wrap:wrap}
+.kit-ramp i{display:inline-block;width:22px;height:10px;border-radius:2px}
+.kit-ramp b{color:var(--kit-ink)}
+.kit-multi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:14px}
+.kit-mcard{border:1px solid var(--kit-hair);border-radius:10px;padding:12px 12px 8px;background:var(--kit-surface)}
+.kit-mcard-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.kit-mcard-h b{font-size:13px;font-weight:600}
+.kit-mcard-h span{font-size:12px;color:var(--kit-muted)}
+.kit-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.kit-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.kit-table th{font-size:11.5px;font-weight:600;color:var(--kit-muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--kit-hair2);letter-spacing:.02em;white-space:nowrap;text-transform:none;position:static;background:transparent}
+.kit-table th[data-kit-sort]{cursor:pointer;user-select:none}
+.kit-table th.kit-sorted::after{content:" ↓";color:var(--kit-accent)}
+.kit-table th.kit-sorted.asc::after{content:" ↑"}
+.kit-table td{padding:7px 8px;border-bottom:1px solid var(--kit-hair);vertical-align:middle}
+.kit-table tr:last-child td{border-bottom:0}
+.kit-table td.right,.kit-table th.right{text-align:right;white-space:nowrap}
+.kit-table td .kit-spark{display:inline-block;vertical-align:middle}
+.kit-bar{display:inline-block;height:10px;background:var(--kit-s1);border-radius:0 4px 4px 0;vertical-align:middle;margin-right:8px}
+.kit-pos{display:inline-block;min-width:32px;text-align:right;font-weight:600}
+.kit-chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap;text-transform:none;letter-spacing:0}
+.kit-chip.good{background:var(--kit-good-soft);color:var(--kit-good)} .kit-chip.warn{background:var(--kit-warn-soft);color:var(--kit-warn)} .kit-chip.crit{background:var(--kit-crit-soft);color:var(--kit-crit)} .kit-chip.neutral{background:var(--kit-plane);color:var(--kit-ink2)} .kit-chip.accent{background:var(--kit-accent-soft);color:var(--kit-accent-ink)}
+.kit-two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:820px){.kit-two{grid-template-columns:1fr}}
+
+:root{--ink:var(--kit-ink);--muted:var(--kit-muted);--line:var(--kit-hair);--bg:var(--kit-plane);
+      --ok:var(--kit-good);--bad:var(--kit-crit);--brand:var(--kit-accent);--accent:var(--kit-s1);}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+     font:15px/1.55 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif;}
+.wrap{max-width:1120px;margin:0 auto;padding:24px 16px 64px;}
+h1{font-size:24px;margin:0 0 6px;letter-spacing:-.01em}
+h2{font-size:19px;margin:36px 0 6px;padding-top:18px;border-top:2px solid var(--line);}
+h3{font-size:15px;margin:22px 0 8px}
+.sub{color:var(--muted);font-size:13px}
+.lead{font-size:15px;color:var(--muted);margin:6px 0 0;max-width:70ch}
+nav{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:18px 0}
+nav a{color:var(--accent);text-decoration:none;margin-right:18px;font-size:13px;white-space:nowrap}
+nav a:hover{text-decoration:underline}
+.cards{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.card{flex:1 1 160px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px}
+.card .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:26px;font-weight:700;line-height:1.2;margin-top:2px}
+.card .d{font-size:12px;color:var(--muted);margin-top:2px}
+.scroll{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;
+   text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap;
+   position:sticky;top:0;background:#fff}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FCFCFD}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.us td{background:#FFF7ED!important;font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;
+     border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.H{background:#FEF3F2;color:#B42318;border-color:#FECDCA}
+.tag.A,.tag.B{background:#EFF8FF;color:#175CD3;border-color:#B2DDFF}
+.tag.E,.tag.G,.tag.F{background:#F8F9FC}
+.bar{height:10px;border-radius:0 4px 4px 0;background:var(--kit-q1);overflow:hidden;min-width:60px}
+.bar i{display:block;height:100%;background:var(--kit-s1);border-radius:0 4px 4px 0}
+.kit-dash table{font-size:13.5px}
+.note{background:#FFFAEB;border:1px solid #FEDF89;border-radius:10px;
+      padding:12px 14px;font-size:13px;color:#93370D;margin:14px 0}
+.ok{background:#ECFDF3;border-color:#A6F4C5;color:#05603A}
+.lbl{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;
+     padding:2px 6px;border-radius:4px;margin-right:6px;vertical-align:1px}
+.fact{background:#ECFDF3;color:#067647}.likely{background:#FFFAEB;color:#B54708}
+.hypo{background:#F4F3FF;color:#5925DC}.act{background:#EFF8FF;color:#175CD3}
+.wp-act{border-left:3px solid #175CD3;padding:6px 0 6px 12px;margin:0 0 14px}
+.wp-act>b{display:block;font-size:14px;line-height:1.35;margin-bottom:4px}
+details{background:#fff;border:1px solid var(--line);border-radius:10px;
+        padding:12px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:600;font-size:14px}
+summary::marker{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:12px}
+.grid2>*{min-width:0}
+.q{font-size:12px;color:var(--muted);word-break:break-word}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);
+       font-size:12px;color:var(--muted)}
+a{color:var(--accent)}
+h2,h3,h4,details{scroll-margin-top:18px}
+:target>summary,:target{outline:2px solid #B2DDFF;outline-offset:4px;border-radius:10px}
+.cut>summary{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;
+             color:var(--accent)}
+.cut-note{font-weight:400;font-size:12px;color:var(--muted)}
+
+/* Плавающее меню разделов. Кнопка стоит поверх страницы в правом нижнем углу
+   и текст не сдвигает; панель открывается только по нажатию. Меню собрано на
+   <details>, поэтому работает и без JavaScript — скрипт лишь раскрывает
+   целевой кат и закрывает панель после перехода. */
+.toc{position:fixed;right:16px;bottom:16px;z-index:60;margin:0;padding:0;
+     background:none;border:0;border-radius:0}
+.toc>summary{list-style:none;display:flex;align-items:center;gap:8px;
+     background:var(--ink);color:#fff;border-radius:24px;padding:10px 16px;
+     font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(16,24,40,.28);
+     user-select:none}
+.toc>summary::-webkit-details-marker{display:none}
+.toc>summary::marker{content:""}
+.toc[open]>summary{background:var(--accent)}
+.toc-panel{position:absolute;right:0;bottom:52px;width:min(380px,calc(100vw - 32px));
+     max-height:min(70vh,620px);display:flex;flex-direction:column;background:#fff;
+     border:1px solid var(--line);border-radius:12px;overflow:hidden;
+     box-shadow:0 16px 40px rgba(16,24,40,.22)}
+.toc-head{display:flex;align-items:center;justify-content:space-between;
+     padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px;
+     font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.toc-body{overflow-y:auto;padding:6px 0}
+.toc-body a{display:block;text-decoration:none;color:var(--ink);font-size:13px;
+     padding:6px 14px;line-height:1.35}
+.toc-body a:hover{background:var(--bg)}
+.toc-body .l1{font-weight:700}
+.toc-body .l2{padding-left:28px;color:var(--muted);font-size:12px}
+.toc-foot{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--line)}
+.toc button{font:inherit;font-size:12px;cursor:pointer;background:#fff;
+     border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--ink)}
+.toc button:hover{background:var(--bg)}
+.toc-x{border:0!important;padding:0 4px!important;font-size:16px;line-height:1;
+     color:var(--muted)}
+@media(max-width:640px){.wrap{padding:16px 10px 72px}h1{font-size:20px}
+  .card .v{font-size:22px}
+  .toc{right:10px;bottom:10px}.toc-cap{display:none}
+  .toc>summary{padding:12px 14px;font-size:16px}}
+@media print{.toc{display:none}}
+</style></head>
+<body><div class="wrap">
+
+<h1>Конкурентная разведка BIZSoft</h1>
+<div class="sub">Срез за 2026-09-11 · Яндекс, Москва (регион 213) ·
+  595 запросов в поле <span class="sub">(доли и счётчики — по полю; сравнимость с другими днями — по ядру, 445 запросов)</span> · собран 2026-09-11T19:57</div>
+<p class="lead">Отчёт отвечает на пять вопросов: усиливаемся ли мы, кто забирает
+наш спрос, на каких запросах, где конкурент уязвим и что даст наибольший
+эффект. Письмо содержит только вывод — здесь основания. Крупные таблицы и
+разборы убраны под кат: заголовок виден всегда, содержимое раскрывается
+нажатием. Кнопка «Разделы» в правом нижнем углу открывает структуру целиком —
+переход к любому пакету работ и любому конкуренту в одно нажатие.</p>
+
+
+<nav>
+  <a href="#l1">1 · Итоги дня</a>
+  <a href="#l2">2 · Конкуренты</a>
+  <a href="#l3">3 · Карточки конкурентов</a>
+  <a href="#plan">4 · План работ</a>
+  <a href="#l4">5 · Точки атаки</a>
+  <a href="#exp">6 · Эксперименты</a>
+  <a href="#l5">7 · Исходные данные</a>
+  <a href="#method">Методика</a>
+</nav>
+
+<h2 id="l1">1 · Итоги дня</h2>
+<div class="kit-dash"><div class="kit-dash-title"><h3>Итоги дня</h3><span class="kit-period">срез 2026-09-11 · Яндекс, Москва</span></div><div class="kit-row"><div class="kit-tile"><span class="kit-lbl">B2B Share · Яндекс</span><span class="kit-val">3,8%</span><span class="kit-sub"><span class="kit-delta down">▼ -1,30 п.п. к 2026-09-10, 445 общих запросов</span><svg class="kit-spark" width="96" height="28" viewBox="0 0 96 28" aria-hidden="true"><polyline points="5.0,23.0 26.5,13.8 48.0,12.9 69.5,5.0 91.0,21.3" fill="none" stroke="var(--kit-s1)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="91.0" cy="21.3" r="3.5" fill="var(--kit-s1)" stroke="var(--kit-surface)" stroke-width="2"/></svg></span><span class="kit-meta">доля взвешенной видимости в поле запросов</span></div><div class="kit-tile"><span class="kit-lbl">B2B Share · Google</span><span class="kit-val">0,1%</span><span class="kit-note">Россия (xmlriver), топ-20, срез 2026-09-07</span><span class="kit-sub"></span></div><div class="kit-tile"><span class="kit-lbl">В ТОП-3 органики</span><span class="kit-val">49<small>из 595 запросов поля</small></span><span class="kit-note">без рекламы и колдунщиков</span><span class="kit-sub"></span></div><div class="kit-tile"><span class="kit-lbl">В ТОП-10 органики</span><span class="kit-val">218<small>из 595 запросов поля</small></span><span class="kit-note">без рекламы и колдунщиков</span><span class="kit-sub"></span></div><div class="kit-tile"><span class="kit-lbl">Точек атаки</span><span class="kit-val">167</span><span class="kit-note">мы на 4–10, выше конкурент</span><span class="kit-sub"></span></div></div></div>
+<div class="note">Зрелость расчёта: <b>базовый</b>. Vulnerability (насколько позицию конкурента реально отобрать) требует краулинга страниц конкурентов и появится в Phase 4 — до тех пор его вес перераспределён на измеримые факторы, а уверенность рекомендаций не поднимается выше MEDIUM. Экономический фактор в модели отсутствует вовсе: измеренной выручки по запросам нет, а её оценка через спрос и интент дублировала бы эти факторы (убрана в версии 1.1.0). Судьба выданных поручений отслеживается с 01.09.2026 — раздел 6.</div>
+
+<h3 id="cat">Кто держит коммерческую выдачу</h3>
+<p class="lead">Доля взвешенной видимости: позиция каждого домена умножается на
+вес клика по этой позиции. Категории «B2C и маркетплейсы», «информационные
+площадки» и «официальные сайты вендоров» присутствуют в выдаче и забирают
+клики, но не конкурируют с нами за сделку, поэтому в основной рейтинг не
+входят.</p>
+<div class="kit-scroll"><table class="kit-table kit-sortable"><thead><tr><th class="left" data-kit-sort>Категория</th><th class="right" data-kit-sort>Доля видимости</th><th class="left" data-kit-sort>Кто внутри</th><th class="left" data-kit-sort>В рейтинге</th></tr></thead><tbody><tr><td class="left"><span class="tag G">G</span> информационные площадки</td><td class="right" data-sort="0.348935"><i class="kit-bar" style="width:56px;background:var(--kit-gray)"></i>34,9%</td><td class="left"><span class="q">—</span></td><td class="left"><span class="kit-chip neutral">вне рейтинга</span></td></tr><tr><td class="left"><span class="tag H">H</span> платёжные посредники</td><td class="right" data-sort="0.20021"><i class="kit-bar" style="width:32px;background:var(--kit-s1)"></i>20,0%</td><td class="left"><span class="q">raketapay.ru, finteka.io, dolphinpay.ru</span></td><td class="left"><span class="kit-chip good">в рейтинге</span></td></tr><tr><td class="left"><span class="tag ?">?</span> не классифицировано</td><td class="right" data-sort="0.195123"><i class="kit-bar" style="width:31px;background:var(--kit-gray)"></i>19,5%</td><td class="left"><span class="q">—</span></td><td class="left"><span class="kit-chip neutral">вне рейтинга</span></td></tr><tr><td class="left"><span class="tag E">E</span> B2C и маркетплейсы</td><td class="right" data-sort="0.096803"><i class="kit-bar" style="width:16px;background:var(--kit-gray)"></i>9,7%</td><td class="left"><span class="q">—</span></td><td class="left"><span class="kit-chip neutral">вне рейтинга</span></td></tr><tr><td class="left"><span class="tag A">A</span> прямые B2B-реселлеры</td><td class="right" data-sort="0.091661"><i class="kit-bar" style="width:15px;background:var(--kit-s1)"></i>9,2%</td><td class="left"><span class="q">platipomiru.com, syssoft.ru, migsoft.ru</span></td><td class="left"><span class="kit-chip good">в рейтинге</span></td></tr><tr><td class="left"><span class="tag F">F</span> официальные сайты вендоров</td><td class="right" data-sort="0.028926"><i class="kit-bar" style="width:5px;background:var(--kit-gray)"></i>2,9%</td><td class="left"><span class="q">—</span></td><td class="left"><span class="kit-chip neutral">вне рейтинга</span></td></tr></tbody></table></div>
+
+<h3 id="google">Google, Россия — срез 2026-09-07 (xmlriver, местоположение Россия)</h3><p class="lead">Первая настоящая российская выдача Google в контуре: 394 запросов ядра с данными (ошибок 0), возраст среза 4 дн., глубина выдачи 20 позиций. Наша доля взвешенной видимости <b>0,1%</b>, ТОП-3 по 1, ТОП-10 по 1, лучшая позиция 1. Срез тот же, что читает ежедневный SEO-отчёт; повторно не покупается. Доли считаются внутри Google-поля и с Яндексом не складываются. Серия google_ru только началась — динамики и сводной цифры с Яндексом нет до накопления базовой линии.</p><details class="cut"><summary>Лидеры выдачи Google — 10 доменов<span class="cut-note">первый: platipomiru.com</span></summary><div class="scroll"><table><tr><th>Домен</th><th>Категория</th><th>Доля</th><th>ТОП-3</th><th>ТОП-10</th></tr><tr><td>platipomiru.com</td><td>A</td><td class="num">4,0%</td><td class="num">53</td><td class="num">144</td></tr><tr><td>oplata.guru</td><td>H</td><td class="num">3,2%</td><td class="num">41</td><td class="num">108</td></tr><tr><td>raketapay.ru</td><td>H</td><td class="num">2,6%</td><td class="num">39</td><td class="num">98</td></tr><tr><td>syssoft.ru</td><td>A</td><td class="num">1,6%</td><td class="num">23</td><td class="num">47</td></tr><tr><td>pay-saas.ru</td><td>H</td><td class="num">1,1%</td><td class="num">9</td><td class="num">68</td></tr><tr><td>payholder.ru</td><td>H</td><td class="num">1,0%</td><td class="num">10</td><td class="num">41</td></tr><tr><td>migsoft.ru</td><td>A</td><td class="num">0,8%</td><td class="num">11</td><td class="num">32</td></tr><tr><td>global-payments.ru</td><td>H</td><td class="num">0,6%</td><td class="num">10</td><td class="num">25</td></tr><tr><td>payment.mts.ru</td><td>H</td><td class="num">0,6%</td><td class="num">6</td><td class="num">26</td></tr><tr><td>store.softline.ru</td><td>A</td><td class="num">0,6%</td><td class="num">10</td><td class="num">16</td></tr></table></div></details><h4 id="google-gap">Разрыв с Яндексом по общему ядру</h4><p class="lead">Сопоставлено 345 запросов, измеренных в обеих системах: в топ-10 обеих — <b>1</b>; Яндекс топ-10, в Google нет — <b>182</b>; Google топ-10, в Яндексе нет — <b>0</b>. «Нет» — нет в собранной выдаче своей глубины (Google 20, Яндекс 10). Первая группа — главный вопрос по Google. Сравнивается присутствие в выдаче, не позиции.</p><div class="card"><h4 id="google-why">Чего не хватает этим страницам</h4><p class="lead"><b>Одной причины нет — их три, и работа у них разная.</b> 38 из 60 страниц разрыва Google либо не знает, либо знает и не индексирует: там переписывание текстов бесполезно. Ещё 22 в индексе и просто проигрывают — вот они и есть цели для обычных пакетов работ. Разбирать эти группы вместе значит лечить одним средством три разные болезни.</p><div class="scroll"><table><tr><th>Что с ней в Google</th><th class="num">Страниц</th><th>Что это значит и что делать</th></tr><tr><td>Google не знает адреса</td><td class="num"><b>9</b></td><td class="q">Страницы в индексе нет и не было: адрес Google не встречал. Тексты здесь ни при чём. Смотреть надо, попадает ли страница в sitemap и стоят ли на неё внутренние ссылки; переотправку карты делает еженедельный ops-index-validate.</td></tr><tr><td>Google знает адрес и в индекс не берёт</td><td class="num"><b>29</b></td><td class="q">Адрес обнаружен, страница не проиндексирована. Прежде чем считать это приговором содержимому, посмотрите строку об обходе ниже: если страницу не скачивали, это очередь, а не оценка, и переписывать нечего.</td></tr><tr><td>Страница в индексе и проигрывает</td><td class="num"><b>22</b></td><td class="q">Вот это и есть работа с содержимым: страница известна, проиндексирована и не попадает в топ-20 по этим запросам. Обычные пакеты работ применимы.</td></tr></table></div><p class="lead"><b>Сколько из этого — очередь обхода.</b> Google ни разу не скачивал 38 из 60 страниц разрыва. По сайту целиком не скачано 493 из 731 (67%), последний обход 2026-09-11. Страницу, которую не скачивали, переписывать бесполезно: её содержимое Google не видел.</p><p class="q">Статусы — из выгрузки базового SEO-контура (URL Inspection API, срез 2026-09-11), читается только на чтение и повторно не запрашивается.</p><details class="cut"><summary>Страницы разрыва по весу<span class="cut-note">отсортированы по числу запросов, которые держит каждая</span></summary><div class="scroll"><table><tr><th>Наша страница</th><th class="num">Запросов в разрыве</th><th class="num">Лучшая позиция в Яндексе</th><th>Статус в Google</th></tr><tr><td class="q">/blog/kak-oplatit-framer-dlya-yurlica</td><td class="num">27</td><td class="num">2</td><td>URL is unknown to Google</td></tr><tr><td class="q">/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica</td><td class="num">25</td><td class="num">3</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian</td><td class="num">13</td><td class="num">1</td><td>URL is unknown to Google</td></tr><tr><td class="q">/blog/kak-oplatit-envato-elements-dlya-yurlica</td><td class="num">9</td><td class="num">1</td><td>URL is unknown to Google</td></tr><tr><td class="q">/vendors/capture-one</td><td class="num">9</td><td class="num">1</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/recraft</td><td class="num">7</td><td class="num">1</td><td>Submitted and indexed</td></tr><tr><td class="q">/blog/kak-oplatit-postman-dlya-yurlica</td><td class="num">7</td><td class="num">2</td><td>URL is unknown to Google</td></tr><tr><td class="q">/vendors/coreldraw</td><td class="num">5</td><td class="num">2</td><td>Submitted and indexed</td></tr><tr><td class="q">/blog/tarify-runway-oplata-dlya-yurlica</td><td class="num">5</td><td class="num">4</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/artlist</td><td class="num">4</td><td class="num">1</td><td>Submitted and indexed</td></tr><tr><td class="q">/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica</td><td class="num">4</td><td class="num">3</td><td>Submitted and indexed</td></tr><tr><td class="q">/vendors/github</td><td class="num">4</td><td class="num">4</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/atlassian</td><td class="num">3</td><td class="num">3</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/framer</td><td class="num">3</td><td class="num">4</td><td>Submitted and indexed</td></tr><tr><td class="q">/vendors/gitlab</td><td class="num">3</td><td class="num">7</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/perplexity</td><td class="num">2</td><td class="num">1</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/envato</td><td class="num">2</td><td class="num">2</td><td>Submitted and indexed</td></tr><tr><td class="q">/vendors/motion-array</td><td class="num">2</td><td class="num">2</td><td>Submitted and indexed</td></tr><tr><td class="q">/vendors/leonardo-ai</td><td class="num">2</td><td class="num">2</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/openai</td><td class="num">2</td><td class="num">2</td><td>Submitted and indexed</td></tr><tr><td class="q">/vendors/hailuo</td><td class="num">2</td><td class="num">6</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/product/anthropic-team</td><td class="num">2</td><td class="num">6</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/windsurf</td><td class="num">2</td><td class="num">6</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/runway</td><td class="num">2</td><td class="num">8</td><td>Submitted and indexed</td></tr><tr><td class="q">/product/adobe-ae</td><td class="num">1</td><td class="num">1</td><td>URL is unknown to Google</td></tr><tr><td class="q">/blog/kak-kupit-recraft-dlya-yurlica</td><td class="num">1</td><td class="num">2</td><td>URL is unknown to Google</td></tr><tr><td class="q">/vendors/slack</td><td class="num">1</td><td class="num">2</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica</td><td class="num">1</td><td class="num">2</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/blog/kak-kupit-perplexity-dlya-yurlica</td><td class="num">1</td><td class="num">2</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/fmod</td><td class="num">1</td><td class="num">2</td><td>Submitted and indexed</td></tr><tr><td class="q">/product/notion-business</td><td class="num">1</td><td class="num">2</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/product/adobe-lr</td><td class="num">1</td><td class="num">2</td><td>Submitted and indexed</td></tr><tr><td class="q">/product/adobe-pr</td><td class="num">1</td><td class="num">2</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/foundry</td><td class="num">1</td><td class="num">3</td><td>Submitted and indexed</td></tr><tr><td class="q">/product/spine-pro</td><td class="num">1</td><td class="num">3</td><td>Submitted and indexed</td></tr><tr><td class="q">/vendors/freepik</td><td class="num">1</td><td class="num">3</td><td>Submitted and indexed</td></tr><tr><td class="q">/blog/kak-oplatit-coreldraw-dlya-yurlica</td><td class="num">1</td><td class="num">3</td><td>URL is unknown to Google</td></tr><tr><td class="q">/vendors/cursor</td><td class="num">1</td><td class="num">3</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/openrouter</td><td class="num">1</td><td class="num">3</td><td>Discovered - currently not indexed</td></tr><tr><td class="q">/vendors/toon-boom</td><td class="num">1</td><td class="num">4</td><td>Discovered - currently not indexed</td></tr></table></div></details><details class="cut"><summary>Почему вывод именно такой</summary><p class="q"><b>Откуда взяты статусы.</b> Не из наблюдения за выдачей, а из URL Inspection API Google: базовый SEO-контур снимает статус по всему инвентарю sitemap ежедневно и кладёт в своё хранилище. Разведка читает готовый файл (срез 2026-09-11) и ничего у Google не запрашивает — правило «один сбор — все потребители».</p><p class="q"><b>Почему одного наблюдения было мало.</b> Отсутствие страницы в собранной выдаче — один факт с тремя разными причинами. 59 из 60 страниц разрыва не встречаются в Google-срезе ни разу, и по этому признаку они неразличимы: адрес неизвестен; известен, но не проиндексирован; проиндексирован, но ниже собранной глубины. Наблюдение за выдачей даёт для всех трёх один и тот же ноль, статус их разделяет.</p><p class="q"><b>Почему это важно для порядка работ.</b> Дописывание фраз помогает только третьей группе. Первым двум оно не поможет вовсе: страница, которой Google не знает, не станет видимой от того, что в ней появилось нужное слово. Прежняя версия этого раздела предлагала одну работу на всех и отправляла проверять индексацию руками — при том, что статус уже был собран.</p><p class="q"><b>Чего статус не говорит.</b> «В индексе» не значит «ранжируется по этому запросу»: страница может быть проиндексирована и стоять пятидесятой. И статус снят по последней известной Google версии страницы, а не на момент нашего среза выдачи — свежая правка в нём ещё не отражена.</p></details></div><details class="cut"><summary>Яндекс топ-10, в Google нет — 25 запросов из 182</summary><div class="scroll"><table><tr><th>Запрос</th><th>Яндекс</th><th>Кто в топ-3 Google</th></tr><tr><td class="q">recraft по договору купить</td><td class="num">органика №1</td><td class="q">habr.com, dtf.ru, syssoft.ru</td></tr><tr><td class="q">как получить счет и закрывающие от atlassian</td><td class="num">органика №1</td><td class="q">atlassian.com, raketapay.ru, vc.ru</td></tr><tr><td class="q">купить after effects юридическим лицом</td><td class="num">органика №1</td><td class="q">ml-soft.ru, ml-soft.ru, vc.ru</td></tr><tr><td class="q">купить perplexity pro юридическим лицом</td><td class="num">органика №1</td><td class="q">syssoft.ru, companies.rbc.ru, klerk.ru</td></tr><tr><td class="q">оплата artlist юридическим лицом</td><td class="num">органика №1</td><td class="q">dtf.ru, oplata.guru, getpayall.com</td></tr><tr><td class="q">оплата capture one юридическим лицом</td><td class="num">органика №1</td><td class="q">reddit.com, oplata.guru, vc.ru</td></tr><tr><td class="q">оплата envato юридическим лицом</td><td class="num">органика №1</td><td class="q">vc.ru, oplata.guru, wanttopay.net</td></tr><tr><td class="q">fmod лицензия</td><td class="num">органика №2</td><td class="q">fmod.com, ru.wikipedia.org, syssoft.ru</td></tr><tr><td class="q">framer оплата рублями</td><td class="num">органика №2</td><td class="q">platipomiru.com, dtf.ru, vc.ru</td></tr><tr><td class="q">framer подписка из рф гайд</td><td class="num">органика №2</td><td class="q">dtf.ru, vc.ru, platipomiru.com</td></tr><tr><td class="q">корпоративная оплата recraft</td><td class="num">органика №2</td><td class="q">vc.ru, notruble.ru, phygital.plus</td></tr><tr><td class="q">корпоративные тарифы slack для бизнеса из рф</td><td class="num">органика №2</td><td class="q">raketapay.ru, bitrix24.ru, trueconf.ru</td></tr><tr><td class="q">купить chatgpt pro юридическим лицом</td><td class="num">органика №2</td><td class="q">klerk.ru, syssoft.ru, vc.ru</td></tr><tr><td class="q">купить envato elements юридическим лицом</td><td class="num">органика №2</td><td class="q">ggsel.net, vc.ru, steam-account.ru</td></tr><tr><td class="q">купить leonardo ai юридическим лицом</td><td class="num">органика №2</td><td class="q">wanttopay.net, oplata.guru, vc.ru</td></tr><tr><td class="q">купить lightroom юридическим лицом</td><td class="num">органика №2</td><td class="q">migsoft.ru, market.yandex.ru, store.softline.ru</td></tr><tr><td class="q">купить notion ai юридическим лицом</td><td class="num">органика №2</td><td class="q">vc.ru, migsoft.ru, dtf.ru</td></tr><tr><td class="q">купить openai api юридическим лицом</td><td class="num">органика №2</td><td class="q">ggsel.net, proxyapi.ru, vc.ru</td></tr><tr><td class="q">купить perplexity max юридическим лицом</td><td class="num">органика №2</td><td class="q">syssoft.ru, companies.rbc.ru, klerk.ru</td></tr><tr><td class="q">купить premiere pro юридическим лицом</td><td class="num">органика №2</td><td class="q">market.yandex.ru, migsoft.ru, adobe.datasystem.ru</td></tr><tr><td class="q">оплата coreldraw</td><td class="num">органика №2</td><td class="q">store.softline.ru, syssoft.ru, vc.ru</td></tr><tr><td class="q">оплата coreldraw для россиян</td><td class="num">органика №2</td><td class="q">syssoft.ru, platipomiru.com, store.softline.ru</td></tr><tr><td class="q">оплата motion array юридическим лицом</td><td class="num">органика №2</td><td class="q">remoney.ru, vc.ru, pay-saas.ru</td></tr><tr><td class="q">оплата postman юридическим лицом</td><td class="num">органика №2</td><td class="q">dtf.ru, vc.ru, pikabu.ru</td></tr><tr><td class="q">оплата windsurf юридическим лицом</td><td class="num">органика №2</td><td class="q">pay-saas.ru, vc.ru, oplata.guru</td></tr></table></div></details><h4 id="google-attacks">Точки атаки в Google — 0 кандидатов</h4><p class="lead">Тот же Strike List по Google-срезу: мы на 4–10, выше стоит другой участник. В пакеты работ пока не входят — список справочный, до накопления базовой линии.</p>
+
+<h3 id="poscheck">Сверка позиции с Вебмастером — 163 запроса</h3><p class="lead">Позиция в срезе — <b>органическая</b>: Yandex Cloud Search API отдаёт только документы выдачи, без рекламных блоков и колдунщиков. Вебмастер даёт другую величину — среднюю позицию показа в фактической выдаче со всеми её блоками. Сравнение двух величин показывает, насколько наши цифры расходятся с тем, что видит человек. Обе стороны считаются по одному периоду — окну выгрузки Вебмастера 2026-08-08 — 2026-09-04: с нашей стороны берётся медиана позиции по 6 срезам внутри окна (2026-08-30 — 2026-09-04), а не срез дня прогона. Из сверки исключены 401 запрос, по которым внутри окна мы ни разу не ранжировались — там сравнивать не с чем.</p><p class="lead">Медиана расхождения <b>+1.25</b> позиции; срез оптимистичнее Вебмастера по 116 запросам из 163 (71%), пессимистичнее — по 24.</p><div class="note ok">расхождение +1.25 позиции при базовой линии +1.25 — в пределах наблюдаемого</div><details class="cut"><summary>Расхождение по диапазонам позиций<span class="cut-note">разбор по глубине: одно число по всей выборке скрывает, что сдвиг зависит от позиции</span></summary><div class="scroll"><table><tr><th>Позиция в срезе</th><th class="num">Запросов</th><th class="num">Медиана расхождения</th></tr><tr><td>1</td><td class="num">7</td><td class="num">+2.25</td></tr><tr><td>2–3</td><td class="num">43</td><td class="num">+2.07</td></tr><tr><td>4–5</td><td class="num">29</td><td class="num">+1.84</td></tr><tr><td>6–10</td><td class="num">78</td><td class="num">+0.44</td></tr></table></div></details><details class="cut"><summary>Почему сравниваются именно эти периоды</summary><p class="q"><b>Величины разной природы сравнивать можно только на общем времени.</b> Вебмастер отдаёт среднюю позицию показа за окно 2026-08-08 — 2026-09-04. Раньше отчёт сравнивал её со срезом дня прогона, а этот день лежит уже за концом окна: между ними успевали пройти позиции, и их движение попадало в «расхождение» наравне с рекламой. Теперь с нашей стороны берётся медиана по срезам внутри самого окна — 6 из 28 дней окна, в среднем 4 замера на запрос.</p><p class="q"><b>Почему медиана, а не один срез.</b> Сравнение одного измерения со средней даёт перекос, который зависит от позиции и притворяется рекламой. Позиция 1 в срезе может отклоняться от своей средней только вниз — выше первого места нет; позиция 8 отклоняется в обе стороны и в среднем никуда. Это регрессия к среднему, и она сама по себе рисует профиль «большое расхождение наверху, нулевое в середине» — тот самый, который прежняя версия отчёта приписывала рекламным блокам. Медиана по нескольким срезам сравнивает среднее со средним, и этот источник перекоса снимается.</p><p class="q"><b>Что осталось ограничением.</b> Срезы покрывают не всё окно: контур начал собирать выдачу позже, чем открылось окно Вебмастера, поэтому наша сторона взвешена в пользу его конца. Дни, когда мы вовсе не попали в выдачу, в медиану не входят — иначе один провал утягивал бы её к дну; Вебмастер по той же причине считает среднюю только по дням с показами. Обе оговорки смещают сверку в одну сторону — в сторону оптимизма, — и вывод «расхождение в пределах наблюдаемого» надо читать с этой поправкой.</p></details><p class="q">Чего сверка не даёт: она меряет размер расхождения, но не его причину. Разложить его на вклад рекламы и вклад ранжирования нечем: все доступные автоматические источники — Search API, xmlriver и сам Вебмастер — видят только органику, а место, которое видит человек, ни одним из них не измеряется: проверено пробами обоих источников. Это граница контура, названная прямо.</p>
+
+<h2 id="l2">2 · Конкуренты по уровню угрозы</h2>
+<p class="lead">Threat — насколько конкурент опасен сейчас: доля
+видимости и присутствие в ТОП-3 и ТОП-10 (базовый режим, шкала
+0–70); динамика добавляется в полном режиме (шкала
+0–100), когда накоплено 6 сравнимых
+измерений при неизменном ядре. Режим и основание каждой оценки — в
+последней колонке таблицы; числа разных режимов между собой несравнимы.</p>
+<details class="cut"><summary>Таблица угрозы — 10 конкурентов<span class="cut-note">первые: raketapay.ru, platipomiru.com, syssoft.ru</span></summary><div class="scroll"><table><tr><th class="num">#</th><th>Домен</th><th>Категория</th><th class="num">Доля</th><th class="num">ТОП-3</th><th class="num">ТОП-10</th><th class="num">Threat</th><th>Уверенность и основание</th></tr><tr><td class="num">1</td><td><b>raketapay.ru</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">10,2%</td><td class="num">148</td><td class="num">271</td><td class="num"><b>42</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr><tr><td class="num">2</td><td><b>platipomiru.com</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">5,6%</td><td class="num">89</td><td class="num">179</td><td class="num"><b>24</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr><tr><td class="num">3</td><td><b>syssoft.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">1,6%</td><td class="num">25</td><td class="num">59</td><td class="num"><b>7</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr><tr><td class="num">4</td><td><b>finteka.io</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">1,5%</td><td class="num">18</td><td class="num">92</td><td class="num"><b>7</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr><tr><td class="num">5</td><td><b>dolphinpay.ru</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">1,1%</td><td class="num">11</td><td class="num">80</td><td class="num"><b>6</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr><tr><td class="num">6</td><td><b>kartli.io</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">1,0%</td><td class="num">5</td><td class="num">96</td><td class="num"><b>6</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr><tr><td class="num">7</td><td><b>yello-card.com</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">1,1%</td><td class="num">14</td><td class="num">65</td><td class="num"><b>5</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr><tr><td class="num">8</td><td><b>aifory.pro</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">0,9%</td><td class="num">5</td><td class="num">82</td><td class="num"><b>5</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr><tr><td class="num">9</td><td><b>migsoft.ru</b></td><td><span class="tag A">прямые B2B-реселлеры</span></td><td class="num">0,8%</td><td class="num">10</td><td class="num">48</td><td class="num"><b>4</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr><tr><td class="num">10</td><td><b>oplata.guru</b></td><td><span class="tag H">платёжные посредники</span></td><td class="num">0,5%</td><td class="num">8</td><td class="num">42</td><td class="num"><b>3</b></td><td class="q">LOW · базовый режим (шкала 0–70): состав ядра менялся: доли по разным ядрам несопоставимы; по запросам выше BIZSoft</td></tr></table></div></details>
+
+<h2 id="l3">3 · Карточки конкурентов</h2>
+<p class="lead">По каждому — на каких запросах он виден и какими страницами
+ранжируется. Это и есть материал для разбора: что у них на странице такого,
+чего нет у нас.</p>
+
+<details id="cmp-raketapay-ru"><summary>raketapay.ru —
+  доля 10,2%,
+  ТОП-3 по 148 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 1.
+      Появлений в выдаче: 271.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>купить аккаунт windsurf</li><li>оплата motion array юридическим лицом</li><li>оплата magnific ai юридическим лицом</li><li>оплата artlist юридическим лицом</li><li>оплата envato юридическим лицом</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://raketapay.ru/kupit/windsurf" rel="noreferrer nofollow">https://raketapay.ru/kupit/windsurf</a></li><li><a href="https://raketapay.ru/oplata/motion-array" rel="noreferrer nofollow">https://raketapay.ru/oplata/motion-array</a></li><li><a href="https://raketapay.ru/oplata/magnific-ai" rel="noreferrer nofollow">https://raketapay.ru/oplata/magnific-ai</a></li></ul></div>
+  </div>
+</details>
+<details id="cmp-platipomiru-com"><summary>platipomiru.com —
+  доля 5,6%,
+  ТОП-3 по 89 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: прямые B2B-реселлеры.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 1.
+      Появлений в выдаче: 179.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплатить бокс</li><li>оплата coreldraw для россиян</li><li>купить аккаунт windsurf</li><li>оплата корел дро из россии</li><li>оплата artlist юридическим лицом</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://platipomiru.com/online-service/box/" rel="noreferrer nofollow">https://platipomiru.com/online-service/box/</a></li><li><a href="https://platipomiru.com/online-service/coreldraw/" rel="noreferrer nofollow">https://platipomiru.com/online-service/coreldraw/</a></li><li><a href="https://platipomiru.com/online-service/windsurf/" rel="noreferrer nofollow">https://platipomiru.com/online-service/windsurf/</a></li></ul></div>
+  </div>
+</details>
+<details id="cmp-syssoft-ru"><summary>syssoft.ru —
+  доля 1,6%,
+  ТОП-3 по 25 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: прямые B2B-реселлеры.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 1.
+      Появлений в выдаче: 59.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата postman юридическим лицом</li><li>купить notion ai юридическим лицом</li><li>github business купить</li><li>купить perplexity pro юридическим лицом</li><li>github copilot business купить</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://www.syssoft.ru/postman/postman-enterprise/" rel="noreferrer nofollow">https://www.syssoft.ru/postman/postman-enterprise/</a></li><li><a href="https://www.syssoft.ru/notion-labs/notion-business/" rel="noreferrer nofollow">https://www.syssoft.ru/notion-labs/notion-business/</a></li><li><a href="https://www.syssoft.ru/github/github/" rel="noreferrer nofollow">https://www.syssoft.ru/github/github/</a></li></ul></div>
+  </div>
+</details>
+<details id="cmp-finteka-io"><summary>finteka.io —
+  доля 1,5%,
+  ТОП-3 по 18 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 2.
+      Появлений в выдаче: 92.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата coreldraw для россиян</li><li>оплата корел дро из россии</li><li>framer оформить подписку россия</li><li>gitlab годовая подписка из россии</li><li>как оплатить фреймер из россии</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://finteka.io/services/coreldraw" rel="noreferrer nofollow">https://finteka.io/services/coreldraw</a></li><li><a href="https://finteka.io/services/coreldraw" rel="noreferrer nofollow">https://finteka.io/services/coreldraw</a></li><li><a href="https://finteka.io/services/framer" rel="noreferrer nofollow">https://finteka.io/services/framer</a></li></ul></div>
+  </div>
+</details>
+<details id="cmp-dolphinpay-ru"><summary>dolphinpay.ru —
+  доля 1,1%,
+  ТОП-3 по 11 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 2.
+      Появлений в выдаче: 80.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата envato юридическим лицом</li><li>оплата иностранной подписки для бизнеса документы</li><li>оплата postman юридическим лицом</li><li>оплата зарубежного по для юр лица документы</li><li>как получить счет и закрывающие от atlassian</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://dolphinpay.ru/envato" rel="noreferrer nofollow">https://dolphinpay.ru/envato</a></li><li><a href="https://dolphinpay.ru/blog/posts/foreign-subscription-for-company-without-card" rel="noreferrer nofollow">https://dolphinpay.ru/blog/posts/foreign-subscription-for-company-without-card</a></li><li><a href="https://dolphinpay.ru/blog/posts/kak-oplatit-postman-iz-rossii-v-2026-godu" rel="noreferrer nofollow">https://dolphinpay.ru/blog/posts/kak-oplatit-postman-iz-rossii-v-2026-godu</a></li></ul></div>
+  </div>
+</details>
+<details id="cmp-yello-card-com"><summary>yello-card.com —
+  доля 1,1%,
+  ТОП-3 по 14 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 2.
+      Появлений в выдаче: 65.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата postman юридическим лицом</li><li>framer оформить подписку россия</li><li>framer тариф россия</li><li>как оплатить фреймер из россии</li><li>postman оплата подписки</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://yello-card.com/services/development/postman" rel="noreferrer nofollow">https://yello-card.com/services/development/postman</a></li><li><a href="https://yello-card.com/services/creative/framer" rel="noreferrer nofollow">https://yello-card.com/services/creative/framer</a></li><li><a href="https://yello-card.com/services/creative/framer" rel="noreferrer nofollow">https://yello-card.com/services/creative/framer</a></li></ul></div>
+  </div>
+</details>
+<details id="cmp-kartli-io"><summary>kartli.io —
+  доля 1,0%,
+  ТОП-3 по 5 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 2.
+      Появлений в выдаче: 96.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата корел дро из россии</li><li>framer оформить подписку россия</li><li>как купить framer pro в россии</li><li>gitlab годовая подписка из россии</li><li>как получить счет и закрывающие от atlassian</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://kartli.io/oplata/coreldraw/" rel="noreferrer nofollow">https://kartli.io/oplata/coreldraw/</a></li><li><a href="https://kartli.io/oplata/framer/" rel="noreferrer nofollow">https://kartli.io/oplata/framer/</a></li><li><a href="https://kartli.io/oplata/framer/" rel="noreferrer nofollow">https://kartli.io/oplata/framer/</a></li></ul></div>
+  </div>
+</details>
+<details id="cmp-aifory-pro"><summary>aifory.pro —
+  доля 0,9%,
+  ТОП-3 по 5 запросам</summary>
+  <div class="grid2">
+    <div><h3>Кто это</h3>
+      <p class="q">Категория: платёжные посредники.
+      B2B Confidence: — —
+      проверка страниц появится в Phase 4.
+      Лучшая позиция: 2.
+      Появлений в выдаче: 82.</p></div>
+    <div><h3>По каким запросам виден</h3><ul class="q"><li>оплата coreldraw для россиян</li><li>оплата корел дро из россии</li><li>framer basic оплата россия</li><li>как оплатить фреймер из россии</li><li>framer pro оплата из россии</li></ul></div>
+    <div><h3>Страницы, которыми ранжируется</h3><ul class="q"><li><a href="https://aifory.pro/payments/online/kak-oplatit/coreldraw" rel="noreferrer nofollow">https://aifory.pro/payments/online/kak-oplatit/coreldraw</a></li><li><a href="https://aifory.pro/payments/online/kak-oplatit/coreldraw" rel="noreferrer nofollow">https://aifory.pro/payments/online/kak-oplatit/coreldraw</a></li><li><a href="https://aifory.pro/payments/online/kak-oplatit/framer" rel="noreferrer nofollow">https://aifory.pro/payments/online/kak-oplatit/framer</a></li></ul></div>
+  </div>
+</details>
+
+<h2 id="plan">4 · План работ — 3 пакетов</h2>
+
+<p class="lead">Точки атаки, сведённые в поручения. Единица работы — страница:
+одна доработка закрывает сразу несколько запросов, и именно её можно поручить
+и принять. Порядок — по ожидаемому приросту переходов; перевод в переходы не считается: ни по одному пакету дня спрос не измерен шкалой, сопоставимой с переходами.</p>
+<details class="cut"><summary>Чего не предлагаем ни по одной странице и почему<span class="cut-note">одинаково для всех пакетов, поэтому сказано один раз</span></summary><ul class="q"><li>внешние ссылки и их закупка: ссылочный профиль этим контуром не измеряется — предлагать бюджет под неизмеряемое нельзя</li><li>поведенческие факторы: данные Метрики по этим страницам в контур не заведены, эффект правок проверить нечем</li><li>общие формулировки вида «улучшить SEO» и «усилить контент»: их нельзя ни поручить, ни принять — они запрещены проверкой отчёта</li></ul></details>
+
+<details id="pkg-wp-31"><summary>WP-31 ·
+  /vendors/hailuo · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
+  2 запросов · потенциал средний</summary>
+  <div class="grid2">
+    <div><h3>Что сделать</h3>
+      <div class="wp-act"><b>WP-31-1. Вынести 1 запрос в подзаголовки или вопросы FAQ</b>
+        <span class="lbl">S · редактор</span>
+        <p class="q"><b>Где:</b> /vendors/hailuo — src/data/vendors.ts, запись slug: &#x27;hailuo&#x27;<br>
+        <b>Почему:</b> тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь</p>
+        <ul class="q"><li>«купить аккаунт hailuo ai»</li></ul>
+        <p class="q"><b>Приёмка:</b> каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце</p></div>
+      <div class="wp-act"><b>WP-31-2. Отправить страницу на переобход после правок</b>
+        <span class="lbl">S · SEO</span>
+        <p class="q"><b>Где:</b> workflow ops-yandex-recrawl, запуск с main<br>
+        <b>Почему:</b> правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна</p>
+        <ul class="q"><li>urls = https://biz-soft.pro/vendors/hailuo</li></ul>
+        <p class="q"><b>Приёмка:</b> URL принят Вебмастером, результат в журнале issue #22</p></div></div>
+    <div><h3>Уже сделано — проверено, работ не требует</h3><p class="q">по этой странице ничего из проверяемого не сделано</p>
+      <h3>Не рекомендуем сейчас</h3><p class="q">адресных ограничений по этой странице нет; общие — в начале раздела</p></div>
+    <div><h3>Чем обоснован приоритет</h3>
+      <p class="q">Страница: <b>/vendors/hailuo</b> (vendor),
+      сейчас позиции 6–9.<br>
+      Выше нас: raketapay.ru.<br>
+      Спрос по источникам (не суммируется — величины разной природы): 9 webmaster по 2 запр..<br>
+      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала 0.003
+      (средний) — безразмерная величина для сравнения
+      пакетов между собой: прирост веса позиции, умноженный на нормированный
+      спрос. Спрос измерен по 2/2 запросам
+      пакета.<br>
+      перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка<br>
+      Уверенность оценки: MEDIUM.<br>
+      <b>Что именно проверено:</b> проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/hailuo.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят
+      (источник: src/data/vendors.ts).<br>
+      Любая оценка реализуется только если правка действительно поднимет
+      страницу.</p></div>
+    <div><h3>Какие запросы закрывает</h3><ul class="q"><li>купить аккаунт hailuo ai</li><li>как купить hailuo ai из россии</li></ul></div>
+  </div>
+</details>
+<details id="pkg-wp-38"><summary>WP-38 ·
+  /vendors/houdini · Вынести 1 запрос в подзаголовки или вопросы FAQ ·
+  1 запросов · потенциал низкий</summary>
+  <div class="grid2">
+    <div><h3>Что сделать</h3>
+      <div class="wp-act"><b>WP-38-1. Вынести 1 запрос в подзаголовки или вопросы FAQ</b>
+        <span class="lbl">S · редактор</span>
+        <p class="q"><b>Где:</b> /vendors/houdini — src/data/vendors.ts, запись slug: &#x27;houdini&#x27;<br>
+        <b>Почему:</b> тема раскрыта в тексте, но не видна в структуре страницы: заголовки и вопросы FAQ поисковик сопоставляет с запросом в первую очередь</p>
+        <ul class="q"><li>«houdini цена»</li></ul>
+        <p class="q"><b>Приёмка:</b> каждая фраза стоит в H2/H3 или в вопросе FAQ, а не только в абзаце</p></div>
+      <div class="wp-act"><b>WP-38-2. Отправить страницу на переобход после правок</b>
+        <span class="lbl">S · SEO</span>
+        <p class="q"><b>Где:</b> workflow ops-yandex-recrawl, запуск с main<br>
+        <b>Почему:</b> правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна</p>
+        <ul class="q"><li>urls = https://biz-soft.pro/vendors/houdini</li></ul>
+        <p class="q"><b>Приёмка:</b> URL принят Вебмастером, результат в журнале issue #22</p></div></div>
+    <div><h3>Уже сделано — проверено, работ не требует</h3><p class="q">по этой странице ничего из проверяемого не сделано</p>
+      <h3>Не рекомендуем сейчас</h3><p class="q">адресных ограничений по этой странице нет; общие — в начале раздела</p></div>
+    <div><h3>Чем обоснован приоритет</h3>
+      <p class="q">Страница: <b>/vendors/houdini</b> (vendor),
+      сейчас позиции 5–5.<br>
+      Выше нас: syssoft.ru.<br>
+      Спрос по источникам (не суммируется — величины разной природы): 5 webmaster по 1 запр..<br>
+      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала 0.001
+      (низкий) — безразмерная величина для сравнения
+      пакетов между собой: прирост веса позиции, умноженный на нормированный
+      спрос. Спрос измерен по 1/1 запросам
+      пакета.<br>
+      перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка<br>
+      Уверенность оценки: MEDIUM.<br>
+      <b>Что именно проверено:</b> проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/houdini.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят
+      (источник: src/data/vendors.ts).<br>
+      Любая оценка реализуется только если правка действительно поднимет
+      страницу.</p></div>
+    <div><h3>Какие запросы закрывает</h3><ul class="q"><li>houdini цена</li></ul></div>
+  </div>
+</details>
+<details id="pkg-wp-47"><summary>WP-47 ·
+  /vendors/deepl · Дописать текст под 1 запрос без единого вхождения на странице ·
+  1 запросов · потенциал низкий</summary>
+  <div class="grid2">
+    <div><h3>Что сделать</h3>
+      <div class="wp-act"><b>WP-47-1. Дописать текст под 1 запрос без единого вхождения на странице</b>
+        <span class="lbl">S · редактор</span>
+        <p class="q"><b>Где:</b> /vendors/deepl — src/data/vendors.ts, запись slug: &#x27;deepl&#x27; (правка полей tagline/about в src/data/vendors.ts, обычный PR; карточки товаров на странице приходят из Directus)<br>
+        <b>Почему:</b> по этим запросам мы на позициях 4–4, выше нас raketapay.ru; вхождений темы нет в тексте, который мы контролируем в репозитории — проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/deepl.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят, поэтому перед правкой убедитесь, что фразы нет и в теле страницы из Directus</p>
+        <ul class="q"><li>«крк купить deepl pro из россии» — не хватает слов: крк</li></ul>
+        <p class="q"><b>Приёмка:</b> каждая фраза из списка встречается в тексте страницы хотя бы раз, в естественной формулировке, а не перечислением</p></div>
+      <div class="wp-act"><b>WP-47-2. Отправить страницу на переобход после правок</b>
+        <span class="lbl">S · SEO</span>
+        <p class="q"><b>Где:</b> workflow ops-yandex-recrawl, запуск с main<br>
+        <b>Почему:</b> правка вступает в силу для поиска только после переобхода; квота 150 URL в сутки, страница одна</p>
+        <ul class="q"><li>urls = https://biz-soft.pro/vendors/deepl</li></ul>
+        <p class="q"><b>Приёмка:</b> URL принят Вебмастером, результат в журнале issue #22</p></div></div>
+    <div><h3>Уже сделано — проверено, работ не требует</h3><p class="q">по этой странице ничего из проверяемого не сделано</p>
+      <h3>Не рекомендуем сейчас</h3><p class="q">адресных ограничений по этой странице нет; общие — в начале раздела</p></div>
+    <div><h3>Чем обоснован приоритет</h3>
+      <p class="q">Страница: <b>/vendors/deepl</b> (vendor),
+      сейчас позиции 4–4.<br>
+      Выше нас: raketapay.ru.<br>
+      Спрос по источникам (не суммируется — величины разной природы): 2 webmaster по 1 запр..<br>
+      <span class="lbl likely">ОЦЕНКА</span>Индекс потенциала 0.000
+      (низкий) — безразмерная величина для сравнения
+      пакетов между собой: прирост веса позиции, умноженный на нормированный
+      спрос. Спрос измерен по 1/1 запросам
+      пакета.<br>
+      перевод в переходы невозможен: спрос измерен показами Вебмастера — это видимая нам часть спроса за две недели, а не объём рынка<br>
+      Уверенность оценки: MEDIUM.<br>
+      <b>Что именно проверено:</b> проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/deepl.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят
+      (источник: src/data/vendors.ts).<br>
+      Любая оценка реализуется только если правка действительно поднимет
+      страницу.</p></div>
+    <div><h3>Какие запросы закрывает</h3><ul class="q"><li>крк купить deepl pro из россии</li></ul></div>
+  </div>
+</details>
+<h3 id="blocked">Заблокировано чужим замером — 18 пакетов</h3><p class="lead">По этим страницам базовый SEO-контур ведёт собственный эксперимент. Правка сейчас лишит оценки оба замера сразу — и чужой, и наш: разделить вклад двух правок в одном окне наблюдения нечем. Поэтому работа здесь есть, а поручения нет; пакет ждёт контрольной точки и вернётся в план сам. Самая ранняя страница освободится 2026-09-16, последняя — 2026-10-01.</p><details class="cut"><summary>Что ждёт освобождения страницы</summary><div class="scroll"><table><tr><th>Пакет</th><th>Страница</th><th class="num">Запросов</th><th>Чей замер</th><th>Свободна с</th><th>Что нужно будет сделать</th></tr><tr><td>WP-40</td><td>/vendors/canva</td><td class="num">1</td><td>snippets-5-vendors</td><td>2026-09-16</td><td class="q">Дописать текст под 1 запрос без единого вхождения на странице</td></tr><tr><td>WP-19</td><td>/vendors/anthropic</td><td class="num">1</td><td>snippet-anthropic-demand</td><td>2026-09-26</td><td class="q">Вынести 1 запрос в подзаголовки или вопросы FAQ</td></tr><tr><td>WP-01</td><td>/blog/kak-oplatit-framer-dlya-yurlica</td><td class="num">24</td><td>content-6-clusters</td><td>2026-09-30</td><td class="q">Дописать текст под 6 запросов без единого вхождения на странице</td></tr><tr><td>WP-04</td><td>/vendors/github</td><td class="num">4</td><td>content-6-clusters</td><td>2026-09-30</td><td class="q">Вынести 4 запроса в подзаголовки или вопросы FAQ</td></tr><tr><td>WP-05</td><td>/blog/kak-oplatit-postman-dlya-yurlica</td><td class="num">5</td><td>content-6-clusters</td><td>2026-09-30</td><td class="q">Дописать текст под 1 запрос без единого вхождения на странице</td></tr><tr><td>WP-15</td><td>/blog/kak-oplatit-envato-elements-dlya-yurlica</td><td class="num">7</td><td>content-6-clusters</td><td>2026-09-30</td><td class="q">Дописать текст под 2 запроса без единого вхождения на странице</td></tr><tr><td>WP-17</td><td>/blog/tarify-runway-oplata-dlya-yurlica</td><td class="num">4</td><td>content-6-clusters</td><td>2026-09-30</td><td class="q">Дописать текст под 1 запрос без единого вхождения на странице</td></tr><tr><td>WP-42</td><td>/blog/kak-kupit-github-copilot-dlya-yurlica</td><td class="num">1</td><td>content-6-clusters</td><td>2026-09-30</td><td class="q">Закрыть региональный разрыв по Санкт-Петербургу</td></tr><tr><td>WP-43</td><td>/vendors/perplexity</td><td class="num">1</td><td>content-6-clusters</td><td>2026-09-30</td><td class="q">Вынести 1 запрос в подзаголовки или вопросы FAQ</td></tr><tr><td>WP-02</td><td>/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica</td><td class="num">25</td><td>content-10-clusters</td><td>2026-10-01</td><td class="q">Дописать текст под 6 запросов без единого вхождения на странице</td></tr><tr><td>WP-08</td><td>/blog/kak-oplatit-box-business-iz-rossii</td><td class="num">3</td><td>content-10-clusters</td><td>2026-10-01</td><td class="q">Дописать текст под 2 запроса без единого вхождения на странице</td></tr><tr><td>WP-09</td><td>/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian</td><td class="num">14</td><td>content-10-clusters</td><td>2026-10-01</td><td class="q">Дописать текст под 3 запроса без единого вхождения на странице</td></tr><tr><td>WP-10</td><td>/blog/kak-oplatit-heygen-dlya-yurlica</td><td class="num">1</td><td>cluster-heygen</td><td>2026-10-01</td><td class="q">Дописать текст под 1 запрос без единого вхождения на странице</td></tr><tr><td>WP-23</td><td>/vendors/dropbox</td><td class="num">1</td><td>content-10-clusters</td><td>2026-10-01</td><td class="q">Дописать текст под 1 запрос без единого вхождения на странице</td></tr><tr><td>WP-29</td><td>/blog/kupit-leonardo-ai-yuridicheskim-licom</td><td class="num">2</td><td>content-10-clusters</td><td>2026-10-01</td><td class="q">Вынести 1 запрос в подзаголовки или вопросы FAQ</td></tr><tr><td>WP-32</td><td>/vendors/leonardo-ai</td><td class="num">1</td><td>content-10-clusters</td><td>2026-10-01</td><td class="q">Вынести 1 запрос в подзаголовки или вопросы FAQ</td></tr><tr><td>WP-34</td><td>/blog/oplata-descript-yuridicheskim-licom</td><td class="num">1</td><td>content-10-clusters</td><td>2026-10-01</td><td class="q">Вынести 1 запрос в подзаголовки или вопросы FAQ</td></tr><tr><td>WP-39</td><td>/vendors/atlassian</td><td class="num">2</td><td>content-10-clusters</td><td>2026-10-01</td><td class="q">Вынести 1 запрос в подзаголовки или вопросы FAQ</td></tr></table></div></details>
+
+<h3 id="verify">Проверить, а не делать — 6 страниц</h3><p class="lead">По этим страницам проверка не нашла, что менять: запросы пакета раскрыты в том тексте, который контур видит. Остаётся посмотреть тело страницы из Directus — в репозитории его нет. Это не поручение: работы здесь нет, есть проверка, и в очереди работ такие строки занимали место настоящих.</p><details class="cut"><summary>Список страниц под проверку</summary><div class="scroll"><table><tr><th>Пакет</th><th>Страница</th><th class="num">Запросов</th><th>Почему не поручение</th><th>Что уже проверено</th></tr><tr><td>WP-07</td><td>/vendors/runway</td><td class="num">2</td><td class="q">правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td><td class="q">проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/runway.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); подмена FAQ экспериментом со сниппетами учтена; карточки товаров приходят из Directus и в проверку не входят</td></tr><tr><td>WP-25</td><td>/vendors/depositphotos</td><td class="num">1</td><td class="q">правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td><td class="q">проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/depositphotos.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); подмена FAQ экспериментом со сниппетами учтена; карточки товаров приходят из Directus и в проверку не входят</td></tr><tr><td>WP-26</td><td>/vendors/spine</td><td class="num">1</td><td class="q">правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td><td class="q">проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/spine.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят</td></tr><tr><td>WP-36</td><td>/vendors/notion</td><td class="num">1</td><td class="q">правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td><td class="q">проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/notion.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят</td></tr><tr><td>WP-37</td><td>/vendors/grok</td><td class="num">1</td><td class="q">правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td><td class="q">проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/grok.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят</td></tr><tr><td>WP-45</td><td>/vendors/toon-boom</td><td class="num">1</td><td class="q">правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td><td class="q">проверены редакторские tagline и about из src/data/vendors.ts; текст типового лендинга (заголовки и блоки шаблона); bespoke-контент scripts/content/toon-boom.json (лид, сравнение тарифов, матрица выбора, сценарии, свой FAQ); карточки товаров приходят из Directus и в проверку не входят</td></tr></table></div></details>
+
+<h2 id="l4">5 · Точки атаки — 167 кандидатов</h2>
+<p class="lead">Кандидат — запрос, где мы на 4–10 позиции, а выше стоит другой
+участник выдачи. Где мы уже в ТОП-3, отбирать нечего; где нас нет в ТОП-20
+вовсе — это работа по созданию страницы, а не атака. Если выше стоит компания
+с признаками B2B-продажи, на кону сделка; если официальный сайт вендора,
+статья или маркетплейс — переход мы теряем точно, и такой запрос остаётся
+кандидатом с пометкой вида конкуренции.</p>
+<p class="lead">Opportunity 0–100 взвешивает коммерческий и B2B-интент,
+близость позиции, спрос, уязвимость страницы конкурента, запас улучшения
+нашей страницы и приоритет вендора. <b>Экономического фактора в оценке
+нет</b>: измеренной выручки по запросам не существует, а её оценка через
+спрос и интент дублировала бы эти же факторы — он убран в версии 1.1.0.
+Уязвимость страницы конкурента сейчас не измеряется, и её вес
+пропорционально распределяется между измеренными факторами, а уверенность
+понижается.</p>
+<details class="cut"><summary>Чего стоит нехватка одного фактора<span class="cut-note">почему верхние строки списка нельзя читать как «здесь легче всего»</span></summary><p class="q"><b>Перераспределение веса — это тоже подстановка, просто неявная.</b> Если недоступному фактору отдать взвешенное среднее по измеренным, получится в точности та же оценка, что после перераспределения. Это не приближение и не «примерно то же»: величины совпадают до последнего знака, и проверяется это подстановкой в формулу.</p><p class="q"><b>Отличие от прежнего поведения есть, и оно существенно.</b> До версии 1.1.0 неизвестный спрос давал 0,5 — общую середину шкалы, одинаковую для всех целей независимо от того, что о них известно. Сейчас подставляется среднее самой цели по её же измеренным факторам. Это заметно честнее, но подстановкой быть не перестаёт.</p><p class="q"><b>Куда это смещает оценку.</b> У цели, сильной по всем измеренным факторам, недоступная уязвимость страницы конкурента считается такой же сильной. Именно этого утверждать нельзя: сильный коммерческий интент запроса ничего не говорит о том, легко ли отобрать позицию у конкретного конкурента. Смещение направленное и бьёт по верхушке списка — там, где принимаются решения. Пониженная уверенность его не снимает: уверенность говорит о разбросе, а не о направлении. Поэтому верхние строки списка стоит читать как «здесь стоит посмотреть», а не как «здесь точно легко».</p></details>
+
+<div class="card"><h3>Что происходит с этими точками</h3>
+<div class="scroll"><table><thead><tr><th>Состояние</th><th class="num">Запросов</th>
+<th>Что это значит</th></tr></thead><tbody>
+<tr><td>Правка внесена, идёт замер</td><td class="num">55</td>
+<td>страница доработана, до конца моратория новых поручений по ней нет</td></tr>
+<tr><td>Проверено, эффект измерен</td><td class="num">0</td>
+<td>окно наблюдения истекло, результат в разделе 6</td></tr>
+<tr><td>В очереди на работу</td><td class="num">0</td>
+<td>поручение сформировано, правка не внесена — это и есть работа, доступная
+сегодня</td></tr>
+<tr><td>Страница занята чужим замером</td><td class="num">98</td>
+<td>по странице идёт эксперимент базового SEO-контура: вторая правка в том же
+окне лишит оценки оба замера, пакет выведен из очереди до контрольной
+точки — раздел «Заблокировано чужим замером»</td></tr>
+<tr><td>Кластер — контрольная группа чужого замера</td>
+<td class="num">4</td>
+<td>пакет в очереди, но с условием: правка контрольной группы лишает оценки
+чужой эксперимент, ограничение процитировано в пакете и решает человек</td></tr>
+<tr><td>Снято с поручений: страницу правили вне контура</td>
+<td class="num">3</td>
+<td>отпечаток текста изменился между прогонами, идёт срок наблюдения</td></tr>
+<tr><td>Проверка, а не поручение</td><td class="num">7</td>
+<td>правок по репозиторию не требуется, остаётся посмотреть тело страницы из
+Directus — раздел «Проверить, а не делать»</td></tr>
+<tr><td>Вне плана работ</td><td class="num">0</td>
+<td>запрос не сведён в пакет: спрос не измерен либо страница не в нашей зоне</td></tr>
+</tbody></table></div>
+<p class="q"><b>Чего ждать от закрытия точки.</b> Цель по каждой — выход в
+ТОП-3 по её запросу. Величина выигрыша считается не здесь, а по пакету работ
+(раздел 4): там она выражена индексом потенциала, а в переходах — только там,
+где спрос измерен сопоставимой шкалой. Факт вместо ожидания появляется в
+разделе 6 через две недели после внесения правки: позиции сравниваются с
+базой и с контрольной группой.</p></div>
+<details class="cut"><summary>Полная таблица точек атаки — 167 строк<span class="cut-note">из них сведено в пакеты 167</span></summary><div class="scroll"><table><tr><th>ID</th><th class="num">Opp.</th><th>Увер.</th><th>Запрос</th><th class="num">Наша</th><th>Конкурент</th><th class="num">Спрос</th><th>Источник</th><th>Поручение</th><th>Что с ним</th></tr><tr><td>ATT-001</td><td class="num"><b>71</b></td><td>MEDIUM</td><td class="q">оплатить recraft по счету</td><td class="num">5</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-35</td><td class="q">правка внесена, замер до 2026-09-25</td></tr><tr><td>ATT-002</td><td class="num"><b>69</b></td><td>MEDIUM</td><td class="q">купить heygen юридическим лицом</td><td class="num">5</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">54</td><td class="q">webmaster</td><td>WP-10</td><td class="q">страница занята экспериментом cluster-heygen до 2026-10-01</td></tr><tr><td>ATT-003</td><td class="num"><b>67</b></td><td>MEDIUM</td><td class="q">оплата зарубежных сервисов для юридических лиц документы</td><td class="num">6</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">44</td><td class="q">webmaster</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-004</td><td class="num"><b>67</b></td><td>MEDIUM</td><td class="q">купить подписку github copilot business</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">43</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-005</td><td class="num"><b>66</b></td><td>MEDIUM</td><td class="q">мск корпоративные лицензии atlassian</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-39</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-006</td><td class="num"><b>66</b></td><td>MEDIUM</td><td class="q">оплата иностранной подписки для бизнеса документы</td><td class="num">6</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">42</td><td class="q">webmaster</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-007</td><td class="num"><b>62</b></td><td>MEDIUM</td><td class="q">github copilot business купить</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">53</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-008</td><td class="num"><b>61</b></td><td>MEDIUM</td><td class="q">оплата зарубежного по для юрлица</td><td class="num">10</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">26</td><td class="q">webmaster</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-009</td><td class="num"><b>61</b></td><td>MEDIUM</td><td class="q">тарифные планы anthropic для бизнеса</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">47</td><td class="q">webmaster</td><td>WP-19</td><td class="q">страница занята экспериментом snippet-anthropic-demand до 2026-09-26</td></tr><tr><td>ATT-010</td><td class="num"><b>61</b></td><td>MEDIUM</td><td class="q">github business купить</td><td class="num">4</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">41</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-011</td><td class="num"><b>59</b></td><td>MEDIUM</td><td class="q">claude team plan купить</td><td class="num">6</td><td>migsoft.ru <span class="sub">#4</span></td><td class="num">47</td><td class="q">webmaster</td><td>WP-06</td><td class="q">снято с поручений до 2026-09-25: страница правилась вне контура; последняя правка 2026-09-11</td></tr><tr><td>ATT-012</td><td class="num"><b>59</b></td><td>MEDIUM</td><td class="q">купить подписку motion array</td><td class="num">4</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">32</td><td class="q">webmaster</td><td>WP-24</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-013</td><td class="num"><b>58</b></td><td>LOW</td><td class="q">оплата бокс из россии</td><td class="num">5</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">—</td><td class="q">none</td><td>WP-08</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-014</td><td class="num"><b>58</b></td><td>LOW</td><td class="q">оплатить recraft без зарубежной карты</td><td class="num">5</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">—</td><td class="q">none</td><td>WP-35</td><td class="q">правка внесена, замер до 2026-09-25</td></tr><tr><td>ATT-015</td><td class="num"><b>57</b></td><td>MEDIUM</td><td class="q">купить подписку descript</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">23</td><td class="q">webmaster</td><td>WP-22</td><td class="q">правка внесена, замер до 2026-09-18</td></tr><tr><td>ATT-016</td><td class="num"><b>57</b></td><td>LOW</td><td class="q">оплата box для россиян</td><td class="num">6</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">—</td><td class="q">none</td><td>WP-08</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-017</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">grok для бизнеса купить</td><td class="num">5</td><td>legasoft.ru <span class="sub">#2</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-37</td><td class="q">не поручение — проверка: правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td></tr><tr><td>ATT-018</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">postman оплата подписки</td><td class="num">6</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">32</td><td class="q">webmaster</td><td>WP-05</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-019</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">gitlab оплата с российского счета</td><td class="num">4</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-020</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">recraft basic тариф цена</td><td class="num">4</td><td>syssoft.ru <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-021</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">toon boom harmony купить лицензию</td><td class="num">4</td><td>syssoft.ru <span class="sub">#1</span></td><td class="num">13</td><td class="q">wordstat</td><td>WP-45</td><td class="q">не поручение — проверка: правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td></tr><tr><td>ATT-022</td><td class="num"><b>55</b></td><td>MEDIUM</td><td class="q">claude team купить</td><td class="num">7</td><td>softmagazin.ru <span class="sub">#3</span></td><td class="num">63</td><td class="q">wordstat</td><td>WP-06</td><td class="q">снято с поручений до 2026-09-25: страница правилась вне контура; последняя правка 2026-09-11</td></tr><tr><td>ATT-023</td><td class="num"><b>55</b></td><td>MEDIUM</td><td class="q">recraft для бизнеса купить</td><td class="num">6</td><td>syssoft.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-024</td><td class="num"><b>55</b></td><td>LOW</td><td class="q">оплата motion array российской картой</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">—</td><td class="q">none</td><td>WP-24</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-025</td><td class="num"><b>55</b></td><td>LOW</td><td class="q">тариф recraft</td><td class="num">7</td><td>yello-card.com <span class="sub">#2</span></td><td class="num">—</td><td class="q">none</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-026</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">perplexity enterprise купить</td><td class="num">7</td><td>migsoft.ru <span class="sub">#2</span></td><td class="num">8</td><td class="q">wordstat</td><td>WP-43</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-027</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">gitlab подписка оплатить в рф</td><td class="num">6</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">9</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-028</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">gitlab оплатить подписку россия</td><td class="num">6</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-029</td><td class="num"><b>54</b></td><td>MEDIUM</td><td class="q">recraft счет на оплату</td><td class="num">6</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">1</td><td class="q">webmaster</td><td>WP-35</td><td class="q">правка внесена, замер до 2026-09-25</td></tr><tr><td>ATT-030</td><td class="num"><b>54</b></td><td>LOW</td><td class="q">оплата framer</td><td class="num">8</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">—</td><td class="q">none</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-031</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">recraft подписка оптом</td><td class="num">8</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-032</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">notion business купить</td><td class="num">8</td><td>syssoft.ru <span class="sub">#6</span></td><td class="num">20</td><td class="q">wordstat</td><td>WP-36</td><td class="q">не поручение — проверка: правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td></tr><tr><td>ATT-033</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">framer тариф россия</td><td class="num">4</td><td>yello-card.com <span class="sub">#2</span></td><td class="num">43</td><td class="q">webmaster</td><td>WP-11</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-034</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">оплатить подписку postman</td><td class="num">8</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">15</td><td class="q">webmaster</td><td>WP-05</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-035</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">framer подписка оплатить в рф</td><td class="num">7</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-036</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">framer оплатить подписку россия</td><td class="num">7</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-037</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">купить подписку postman</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">9</td><td class="q">webmaster</td><td>WP-30</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-038</td><td class="num"><b>53</b></td><td>LOW</td><td class="q">recraft pro оплата</td><td class="num">9</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">—</td><td class="q">none</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-039</td><td class="num"><b>53</b></td><td>MEDIUM</td><td class="q">московская область оплатить подписку capture one</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-13</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-040</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">купить подписку artlist</td><td class="num">9</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">18</td><td class="q">webmaster</td><td>WP-12</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-041</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">купить подписку capture one</td><td class="num">8</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">12</td><td class="q">wordstat</td><td>WP-13</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-042</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">gitlab купить подписку россия</td><td class="num">8</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-18</td><td class="q">правка внесена, замер до 2026-09-18</td></tr><tr><td>ATT-043</td><td class="num"><b>52</b></td><td>MEDIUM</td><td class="q">gitlab продлить подписку из рф</td><td class="num">8</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-044</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">github copilot enterprise оплата рф</td><td class="num">10</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-04</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-045</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">framer домен оплата рф</td><td class="num">4</td><td>yello-card.com <span class="sub">#3</span></td><td class="num">23</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-046</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">framer годовая подписка из россии</td><td class="num">4</td><td>finteka.io <span class="sub">#2</span></td><td class="num">19</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-047</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">framer оплата с российского счета</td><td class="num">9</td><td>aifory.pro <span class="sub">#2</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-048</td><td class="num"><b>51</b></td><td>MEDIUM</td><td class="q">windsurf купить подписку</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">13</td><td class="q">wordstat</td><td>WP-21</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-049</td><td class="num"><b>50</b></td><td>MEDIUM</td><td class="q">оплата capture one</td><td class="num">5</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">21</td><td class="q">webmaster</td><td>WP-13</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-050</td><td class="num"><b>50</b></td><td>MEDIUM</td><td class="q">recraft годовой тариф цена</td><td class="num">10</td><td>yello-card.com <span class="sub">#7</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-051</td><td class="num"><b>50</b></td><td>LOW</td><td class="q">как оплатить recraft без иностранной карты</td><td class="num">5</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">—</td><td class="q">none</td><td>WP-35</td><td class="q">правка внесена, замер до 2026-09-25</td></tr><tr><td>ATT-052</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">оплата корел дро из россии</td><td class="num">6</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">32</td><td class="q">webmaster</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-053</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">gitlab оформить подписку россия</td><td class="num">5</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">18</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-054</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">runway standard оплата из россии</td><td class="num">4</td><td>yello-card.com <span class="sub">#3</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-17</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-055</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">envato elements тариф россия</td><td class="num">5</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">13</td><td class="q">webmaster</td><td>WP-27</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-056</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">gitlab premium оплата из россии</td><td class="num">5</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">12</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-057</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">jira standard оплата рф</td><td class="num">4</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-39</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-058</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">энвато элементс оплата рф</td><td class="num">4</td><td>finteka.io <span class="sub">#2</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-059</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">jira premium оплата из россии</td><td class="num">4</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-060</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">leonardo ai оплата с российского счета</td><td class="num">10</td><td>dolphinpay.ru <span class="sub">#5</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-29</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-061</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">сервисы оплаты coreldraw из россии</td><td class="num">4</td><td>finteka.io <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-16</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-062</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">motion array подписка</td><td class="num">4</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">7</td><td class="q">wordstat</td><td>WP-24</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-063</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">крк купить deepl pro из россии</td><td class="num">4</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-47</td><td class="q">в очереди, но кластер — контроль эксперимента money-a1-query-phrase</td></tr><tr><td>ATT-064</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">framer basic оплата россия</td><td class="num">8</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">38</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-065</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">framer pro подписка из россии</td><td class="num">5</td><td>yello-card.com <span class="sub">#4</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-066</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">framer подписка из россии</td><td class="num">5</td><td>yello-card.com <span class="sub">#4</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-067</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">jira оплата рублями</td><td class="num">5</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-068</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">фреймер подписка рф</td><td class="num">5</td><td>yello-card.com <span class="sub">#4</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-069</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">энвато тарифы</td><td class="num">5</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">1</td><td class="q">webmaster</td><td>WP-27</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-070</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">houdini цена</td><td class="num">5</td><td>syssoft.ru <span class="sub">#2</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-38</td><td class="q">в очереди, но кластер — контроль эксперимента money-a1-query-phrase</td></tr><tr><td>ATT-071</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">подписка на юнити</td><td class="num">5</td><td>syssoft.ru <span class="sub">#4</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-44</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-072</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">gitlab годовая подписка из россии</td><td class="num">8</td><td>kartli.io <span class="sub">#2</span></td><td class="num">34</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-073</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">framer pro оплата из россии</td><td class="num">7</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">18</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-074</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">купить аккаунт hailuo ai</td><td class="num">6</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-31</td><td class="q">в очереди, но кластер — контроль эксперимента money-a1-query-phrase</td></tr><tr><td>ATT-075</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">envato elements оплата помощь россия</td><td class="num">6</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-076</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">atlassian jira оплата из россии</td><td class="num">6</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-077</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">leonardo maestro оплата россия</td><td class="num">6</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-32</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-078</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">гитлаб подписка рф</td><td class="num">6</td><td>finteka.io <span class="sub">#4</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-079</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">gitlab подписка из россии</td><td class="num">6</td><td>platipomiru.com <span class="sub">#4</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-080</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">оплата depositphotos</td><td class="num">7</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">14</td><td class="q">webmaster</td><td>WP-25</td><td class="q">не поручение — проверка: правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td></tr><tr><td>ATT-081</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">recraft оплата для ип</td><td class="num">6</td><td>syssoft.ru <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-082</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">оплата jira для российского ооо</td><td class="num">6</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-083</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">оплата depositphotos из россии</td><td class="num">8</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">29</td><td class="q">webmaster</td><td>WP-14</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-084</td><td class="num"><b>47</b></td><td>LOW</td><td class="q">как купить recraft без иностранной карты</td><td class="num">7</td><td>raketapay.ru <span class="sub">#5</span></td><td class="num">—</td><td class="q">none</td><td>WP-35</td><td class="q">правка внесена, замер до 2026-09-25</td></tr><tr><td>ATT-085</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">jira работает в россии оплата</td><td class="num">6</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-086</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">вегас редактор видео цена</td><td class="num">6</td><td>syssoft.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-41</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-087</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">gitlab купить аккаунт</td><td class="num">6</td><td>syssoft.ru <span class="sub">#2</span></td><td class="num">9</td><td class="q">wordstat</td><td>WP-18</td><td class="q">правка внесена, замер до 2026-09-18</td></tr><tr><td>ATT-088</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">оплатить бокс</td><td class="num">10</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">40</td><td class="q">webmaster</td><td>WP-08</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-089</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">runway оплата ежемесячно из россии</td><td class="num">7</td><td>yello-card.com <span class="sub">#5</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-17</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-090</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">gitlab оплата рублями</td><td class="num">7</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">10</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-091</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">фреймер оплата из россии</td><td class="num">7</td><td>finteka.io <span class="sub">#2</span></td><td class="num">10</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-092</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">framer план оплата россия</td><td class="num">7</td><td>yello-card.com <span class="sub">#3</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-11</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-093</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">leonardo apprentice оплата из россии</td><td class="num">7</td><td>card-open.ru <span class="sub">#6</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-29</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-094</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">framer оплата помощь рф</td><td class="num">7</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-095</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">оплата descript картой</td><td class="num">7</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-34</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-096</td><td class="num"><b>46</b></td><td>MEDIUM</td><td class="q">jira оплата помощь россия</td><td class="num">7</td><td>remoney.ru <span class="sub">#2</span></td><td class="num">1</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-097</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">runway тарифы</td><td class="num">8</td><td>migsoft.ru <span class="sub">#2</span></td><td class="num">28</td><td class="q">wordstat</td><td>WP-07</td><td class="q">не поручение — проверка: правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td></tr><tr><td>ATT-098</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">runway ai тарифы</td><td class="num">10</td><td>migsoft.ru <span class="sub">#5</span></td><td class="num">35</td><td class="q">webmaster</td><td>WP-07</td><td class="q">не поручение — проверка: правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td></tr><tr><td>ATT-099</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">gitlab месячная подписка россия</td><td class="num">8</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-100</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">gitlab оплатить из рф</td><td class="num">8</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-101</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">купить дропбокс</td><td class="num">9</td><td>allsoft.ru <span class="sub">#1</span></td><td class="num">14</td><td class="q">webmaster</td><td>WP-23</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-102</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">gitlab тариф россия</td><td class="num">8</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-103</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">jira оплата 2026</td><td class="num">8</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-104</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">artlist подписка</td><td class="num">8</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">47</td><td class="q">wordstat</td><td>WP-12</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-105</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">gitlab gold оплата из россии</td><td class="num">8</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-106</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">как оплатить фреймер из россии</td><td class="num">4</td><td>finteka.io <span class="sub">#2</span></td><td class="num">20</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-107</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">оплатить git lab</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-108</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">framer работает в россии оплата</td><td class="num">9</td><td>finteka.io <span class="sub">#4</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-109</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">framer оплата инструкция россия</td><td class="num">9</td><td>virtupayments.com <span class="sub">#3</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-110</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">jira оплата через сервис</td><td class="num">9</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-111</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">гитлаб оплата из россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-112</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">gitlab подписка из рф гайд</td><td class="num">9</td><td>platipomiru.com <span class="sub">#5</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-113</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">оплата postman без vpn</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-05</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-114</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">gitlab silver оплата рф</td><td class="num">9</td><td>platipomiru.com <span class="sub">#4</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-115</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">envato elements оплата через сервис</td><td class="num">9</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-116</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">recraft под ключ купить</td><td class="num">9</td><td>migsoft.ru <span class="sub">#6</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-117</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">envato elements оплата через посредника</td><td class="num">9</td><td>payholder.ru <span class="sub">#7</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-118</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">оплата capture one картой</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-13</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-119</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">framer оплата санкции</td><td class="num">9</td><td>pay-saas.ru <span class="sub">#3</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-120</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">jira оплата usdt</td><td class="num">9</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-121</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">gitlab оплата помощь рф</td><td class="num">9</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-122</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">артлист подписка</td><td class="num">9</td><td>raketapay.ru <span class="sub">#8</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-12</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-123</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">gitlab купить</td><td class="num">10</td><td>syssoft.ru <span class="sub">#2</span></td><td class="num">25</td><td class="q">wordstat</td><td>WP-18</td><td class="q">правка внесена, замер до 2026-09-18</td></tr><tr><td>ATT-124</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">runway pro оплата из россии</td><td class="num">10</td><td>pay.atlas-go.pro <span class="sub">#3</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-17</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-125</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">framer оплатить из рф</td><td class="num">10</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-126</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">framer mini оплата рф</td><td class="num">10</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-127</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">оплата framer из россии 2026</td><td class="num">10</td><td>finteka.io <span class="sub">#2</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-128</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">gitlab оплата через сервис</td><td class="num">10</td><td>platipomiru.com <span class="sub">#3</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-129</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">оплата postman картой</td><td class="num">10</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-05</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-130</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">framer способы оплаты в россии</td><td class="num">10</td><td>dolphinpay.ru <span class="sub">#3</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-131</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">framer sites оплата из россии</td><td class="num">10</td><td>yello-card.com <span class="sub">#2</span></td><td class="num">6</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-132</td><td class="num"><b>43</b></td><td>LOW</td><td class="q">как купить recraft pro</td><td class="num">10</td><td>syssoft.ru <span class="sub">#1</span></td><td class="num">—</td><td class="q">none</td><td>WP-35</td><td class="q">правка внесена, замер до 2026-09-25</td></tr><tr><td>ATT-133</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">jira оплата рф</td><td class="num">10</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-134</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">gitlab подписка рф 2026</td><td class="num">10</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">4</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-135</td><td class="num"><b>43</b></td><td>LOW</td><td class="q">как оплатить recraft pro</td><td class="num">10</td><td>raketapay.ru <span class="sub">#3</span></td><td class="num">—</td><td class="q">none</td><td>WP-35</td><td class="q">правка внесена, замер до 2026-09-25</td></tr><tr><td>ATT-136</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">оплата confluence из россии</td><td class="num">9</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-137</td><td class="num"><b>43</b></td><td>MEDIUM</td><td class="q">spine 2d купить</td><td class="num">10</td><td>syssoft.ru <span class="sub">#2</span></td><td class="num">10</td><td class="q">webmaster</td><td>WP-26</td><td class="q">не поручение — проверка: правок по репозиторию не требуется: запросы пакета уже раскрыты в проверенном тексте — остаётся проверить тело страницы из Directus</td></tr><tr><td>ATT-138</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">gitlab оплата рф</td><td class="num">10</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-139</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">как оплатить capture one</td><td class="num">4</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">11</td><td class="q">wordstat</td><td>WP-13</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-140</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">jira оплата зарубежной картой</td><td class="num">10</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-141</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">оплата gitlab из россии</td><td class="num">10</td><td>platipomiru.com <span class="sub">#1</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-142</td><td class="num"><b>42</b></td><td>MEDIUM</td><td class="q">оплата postman без vpn москве</td><td class="num">10</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-05</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-143</td><td class="num"><b>41</b></td><td>MEDIUM</td><td class="q">как купить windsurf из россии</td><td class="num">6</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">16</td><td class="q">webmaster</td><td>WP-21</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-144</td><td class="num"><b>41</b></td><td>MEDIUM</td><td class="q">как оплатить jira из россии в 2026 году dtf</td><td class="num">5</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-145</td><td class="num"><b>38</b></td><td>MEDIUM</td><td class="q">как оплатить гитлаб из россии</td><td class="num">8</td><td>platipomiru.com <span class="sub">#5</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-146</td><td class="num"><b>38</b></td><td>MEDIUM</td><td class="q">как оплатить jira из россии</td><td class="num">8</td><td>raketapay.ru <span class="sub">#2</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-09</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-147</td><td class="num"><b>38</b></td><td>MEDIUM</td><td class="q">как оплатить recraft без карты</td><td class="num">8</td><td>aifory.pro <span class="sub">#7</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-35</td><td class="q">правка внесена, замер до 2026-09-25</td></tr><tr><td>ATT-148</td><td class="num"><b>38</b></td><td>MEDIUM</td><td class="q">как оплатить capture one рбк</td><td class="num">8</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-13</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-149</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как оплатить framer из россии</td><td class="num">10</td><td>platipomiru.com <span class="sub">#2</span></td><td class="num">11</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-150</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как оплатить runway pro из россии</td><td class="num">9</td><td>pay.atlas-go.pro <span class="sub">#4</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-17</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-151</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как оплатить gitlab из россии</td><td class="num">9</td><td>raketapay.ru <span class="sub">#4</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-02</td><td class="q">страница занята экспериментом content-10-clusters до 2026-10-01</td></tr><tr><td>ATT-152</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">envato elements как оплатить с рф</td><td class="num">9</td><td>dolphinpay.ru <span class="sub">#5</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-153</td><td class="num"><b>37</b></td><td>MEDIUM</td><td class="q">как купить hailuo ai из россии</td><td class="num">9</td><td>raketapay.ru <span class="sub">#1</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-31</td><td class="q">в очереди, но кластер — контроль эксперимента money-a1-query-phrase</td></tr><tr><td>ATT-154</td><td class="num"><b>58</b></td><td>MEDIUM</td><td class="q">github copilot business оплата из россии</td><td class="num">4</td><td>dzen.ru <span class="sub">#1</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-42</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-155</td><td class="num"><b>58</b></td><td>MEDIUM</td><td class="q">framer купить подписку россия</td><td class="num">4</td><td>ggsel.net <span class="sub">#1</span></td><td class="num">19</td><td class="q">webmaster</td><td>WP-11</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-156</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">framer продлить подписку из рф</td><td class="num">4</td><td>dzen.ru <span class="sub">#1</span></td><td class="num">5</td><td class="q">webmaster</td><td>WP-01</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-157</td><td class="num"><b>56</b></td><td>MEDIUM</td><td class="q">покупка лицензий по у западных поставщиков</td><td class="num">4</td><td>justfin.tech <span class="sub">#1</span></td><td class="num">1</td><td class="q">webmaster</td><td>WP-03</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-158</td><td class="num"><b>55</b></td><td>LOW</td><td class="q">recraft цена в рублях</td><td class="num">7</td><td>routerai.ru <span class="sub">#1</span></td><td class="num">—</td><td class="q">none</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-159</td><td class="num"><b>53</b></td><td>LOW</td><td class="q">стоимость recraft в россии</td><td class="num">9</td><td>aitunnel.ru <span class="sub">#1</span></td><td class="num">—</td><td class="q">none</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-160</td><td class="num"><b>49</b></td><td>MEDIUM</td><td class="q">sketchup go подписка</td><td class="num">4</td><td>sketchup.trimble.com <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-46</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-161</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">envato elements гайд оплата</td><td class="num">5</td><td>dzen.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-162</td><td class="num"><b>48</b></td><td>MEDIUM</td><td class="q">character creator 5 купить</td><td class="num">6</td><td>ozon.ru <span class="sub">#1</span></td><td class="num">11</td><td class="q">webmaster</td><td>WP-28</td><td class="q">снято с поручений до 2026-09-25: страница правилась вне контура; последняя правка 2026-09-11</td></tr><tr><td>ATT-163</td><td class="num"><b>47</b></td><td>MEDIUM</td><td class="q">сколько стоит подписка в клип студио</td><td class="num">6</td><td>ggsel.net <span class="sub">#1</span></td><td class="num">7</td><td class="q">webmaster</td><td>WP-33</td><td class="q">правка внесена, замер до 2026-09-15</td></tr><tr><td>ATT-164</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">envato elements оплата санкции</td><td class="num">8</td><td>dzen.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-15</td><td class="q">страница занята экспериментом content-6-clusters до 2026-09-30</td></tr><tr><td>ATT-165</td><td class="num"><b>45</b></td><td>MEDIUM</td><td class="q">recraft аккаунт pro купить</td><td class="num">8</td><td>ggsel.net <span class="sub">#1</span></td><td class="num">2</td><td class="q">webmaster</td><td>WP-20</td><td class="q">правка внесена, замер до 2026-09-17</td></tr><tr><td>ATT-166</td><td class="num"><b>44</b></td><td>MEDIUM</td><td class="q">купить canva buisness</td><td class="num">9</td><td>avito.ru <span class="sub">#1</span></td><td class="num">3</td><td class="q">webmaster</td><td>WP-40</td><td class="q">страница занята экспериментом snippets-5-vendors до 2026-09-16</td></tr><tr><td>ATT-167</td><td class="num"><b>40</b></td><td>MEDIUM</td><td class="q">как купить gitlab в россии</td><td class="num">7</td><td>dzen.ru <span class="sub">#1</span></td><td class="num">8</td><td class="q">webmaster</td><td>WP-18</td><td class="q">правка внесена, замер до 2026-09-18</td></tr></table></div></details>
+
+<h3 id="att-details">Разбор первых десяти</h3>
+
+<details id="att-001"><summary>ATT-001 ·
+  Opportunity 71 · «оплатить recraft по счету»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 5-м месте
+     (https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica); выше — raketapay.ru на 4-м.
+     Спрос 2 (webmaster), коммерческий интент
+     1.00, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 23.5 · b2b 16.5 · proximity 16.6 · demand 0.2 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (2) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+<details id="att-002"><summary>ATT-002 ·
+  Opportunity 69 · «купить heygen юридическим лицом»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 5-м месте
+     (https://biz-soft.pro/blog/kak-oplatit-heygen-dlya-yurlica); выше — raketapay.ru на 2-м.
+     Спрос 54 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 16.5 · b2b 16.5 · proximity 16.6 · demand 4.8 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (54) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+<details id="att-003"><summary>ATT-003 ·
+  Opportunity 67 · «оплата зарубежных сервисов для юридических лиц документы»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 6-м месте
+     (https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica); выше — raketapay.ru на 1-м.
+     Спрос 44 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 16.5 · b2b 16.5 · proximity 15.4 · demand 3.9 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (44) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+<details id="att-004"><summary>ATT-004 ·
+  Opportunity 67 · «купить подписку github copilot business»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 5-м месте
+     (https://biz-soft.pro/vendors/github); выше — raketapay.ru на 1-м.
+     Спрос 43 (webmaster), коммерческий интент
+     1.00, B2B-интент 0.35.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 23.5 · b2b 8.2 · proximity 16.6 · demand 3.8 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (43) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+<details id="att-005"><summary>ATT-005 ·
+  Opportunity 66 · «мск корпоративные лицензии atlassian»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
+     (https://biz-soft.pro/vendors/atlassian); выше — raketapay.ru на 1-м.
+     Спрос 3 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 16.5 · b2b 16.5 · proximity 17.6 · demand 0.3 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (3) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+<details id="att-006"><summary>ATT-006 ·
+  Opportunity 66 · «оплата иностранной подписки для бизнеса документы»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 6-м месте
+     (https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica); выше — raketapay.ru на 2-м.
+     Спрос 42 (webmaster), коммерческий интент
+     1.00, B2B-интент 0.35.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 23.5 · b2b 8.2 · proximity 15.4 · demand 3.7 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (42) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+<details id="att-007"><summary>ATT-007 ·
+  Opportunity 62 · «github copilot business купить»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
+     (https://biz-soft.pro/vendors/github); выше — raketapay.ru на 1-м.
+     Спрос 53 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.35.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 16.5 · b2b 8.2 · proximity 17.6 · demand 4.7 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (53) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+<details id="att-008"><summary>ATT-008 ·
+  Opportunity 61 · «оплата зарубежного по для юрлица»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 10-м месте
+     (https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica); выше — raketapay.ru на 1-м.
+     Спрос 26 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.70.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 16.5 · b2b 16.5 · proximity 11.0 · demand 2.3 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (26) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+<details id="att-009"><summary>ATT-009 ·
+  Opportunity 61 · «тарифные планы anthropic для бизнеса»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
+     (https://biz-soft.pro/vendors/anthropic); выше — raketapay.ru на 1-м.
+     Спрос 47 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.35.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 16.5 · b2b 8.2 · proximity 17.6 · demand 4.1 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (47) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+<details id="att-010"><summary>ATT-010 ·
+  Opportunity 61 · «github business купить»</summary>
+  <p><span class="lbl fact">ФАКТ</span>BIZSoft на 4-м месте
+     (https://biz-soft.pro/vendors/github); выше — raketapay.ru на 1-м.
+     Спрос 41 (webmaster), коммерческий интент
+     0.70, B2B-интент 0.35.</p>
+  <p><span class="lbl fact">РАСЧЁТ</span><span class="q">commercial 16.5 · b2b 8.2 · proximity 17.6 · demand 3.6 · page_improvement 11.8 · vendor 2.9</span></p>
+  <p><span class="lbl likely">ВЕРОЯТНО</span>Конкурент отвечает на тот же
+     коммерческий интент, но глубина B2B-содержания его страницы не проверена —
+     проверка появится с краулингом конкурентов (Phase 4).</p>
+  <p><span class="lbl act">ЧТО СДЕЛАТЬ</span>Усилить нашу страницу под этот
+     запрос: явный блок оплаты по счёту для юрлиц, условия лицензирования,
+     закрывающие документы и ЭДО, FAQ по покупке на компанию.
+     Контроль: 14 / 30 / 60 дней по позиции и кликам Вебмастера.</p>
+  <ul class="q"><li>Vulnerability недоступен до обхода страниц конкурентов: его вес пропорционально распределён между измеренными факторами, а не передан выбранным</li><li>спрос оценён по показам Вебмастера (41) — это видимая нам часть спроса за две недели, а не рынок за месяц</li><li>экономический фактор не участвует: измеренной выручки нет, а её оценка через спрос и интент дублировала бы эти факторы</li></ul>
+</details>
+
+<h2 id="exp">6 · Эксперименты: что внедрено и что из этого вышло</h2>
+<p class="lead">Раздел закрывает петлю обратной связи: поручение → внедрение →
+мораторий на время замера → оценка эффекта → вывод для будущих рекомендаций.
+Без него контур остаётся генератором предложений, который не знает судьбы
+собственных советов.</p>
+
+<p class="lead">Предложено 16 ·
+на наблюдении 29 ·
+оценено 0 ·
+из оценённых улучшение у 0,
+без изменений 0,
+ухудшение 0.</p>
+
+<details class="cut"><summary>Что нивелировано в замере и чего нивелировать нельзя</summary>
+<p class="q">Правки вносились по одной версии методики, а замер пойдёт по
+другой — методика за эти дни менялась. Плюс часть правок была не текстом
+страницы, а шаблоном: она задела все страницы своего типа, включая те, что
+служат контролем. Если это не учесть, сравнение «было → стало» окажется
+сравнением разными линейками на загрязнённой контрольной группе. Что сделано:</p>
+<ul class="q">
+  <li><b>Условия базы сохраняются вместе с ней</b> — версия методики, отпечаток
+  конфигурации и версия ядра запросов. При оценке они сверяются с текущими, и
+  в таблице появляется колонка «сравнимость условий»: «полная», если считали
+  одинаково, и «ограничена», если модель между замерами менялась. Позиции
+  измеряются одинаково в любой версии, поэтому сравнение остаётся осмысленным
+  — но всю разницу относить на счёт правки в таком случае нельзя.</li>
+  <li><b>Страницы, задетые правкой шаблона, исключаются из контроля.</b> Правка
+  шаблона применяется ко всем страницам своего типа: оставить их в контрольной
+  группе значит сравнивать изменённое с изменённым и получить ноль там, где
+  эффект есть.</li>
+  <li><b>В контроль идут только запросы, где мы присутствуем в выдаче.</b>
+  Запрос, по которому нас нет, стоит на условной позиции 21 в оба окна и
+  ничего не измеряет; набрав таких сотни, мы получили бы неподвижную медиану
+  и контроль, который всегда показывает ноль.</li>
+  <li><b>Состав контроля фиксируется по обоим окнам сразу</b> — разный состав
+  до и после сам по себе сдвинул бы медиану.</li>
+</ul>
+<p class="q">Чего нивелировать нельзя и что остаётся ограничением: мы не ставим
+A/B-тест на поисковой выдаче. Контрольная группа снимает общий сдвиг, но не
+события, случившиеся ровно с этой страницей.</p></details>
+
+<h3 id="exp-watch">Под мораторием: правка внесена, идёт замер</h3>
+<p class="q">Эти страницы намеренно исключены из сегодняшних поручений. Если
+предлагать по ним новую работу, измерить эффект уже внесённой правки будет
+нельзя: непонятно, какая из двух что сдвинула.</p>
+
+<div class="scroll"><table><thead><tr><th>Опыт</th><th>Страница</th><th>Внедрено</th>
+<th>Замер до</th><th>Позиция до</th><th>Запросов</th></tr></thead>
+<tbody>
+<tr><td>EXP-0001</td><td>/blog/kak-oplatit-depositphotos-dlya-yurlica</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>8.5</td>
+<td>12</td></tr>
+<tr><td>EXP-0002</td><td>/vendors/coreldraw</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>8.5</td>
+<td>5</td></tr>
+<tr><td>EXP-0003</td><td>/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>6</td>
+<td>3</td></tr>
+<tr><td>EXP-0004</td><td>/vendors/foundry</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>7.5</td>
+<td>2</td></tr>
+<tr><td>EXP-0006</td><td>/vendors/framer</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>6.5</td>
+<td>5</td></tr>
+<tr><td>EXP-0007</td><td>/vendors/artlist</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>10</td>
+<td>3</td></tr>
+<tr><td>EXP-0008</td><td>/vendors/recraft</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>15.5</td>
+<td>3</td></tr>
+<tr><td>EXP-0009</td><td>/vendors/envato</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>4.5</td>
+<td>2</td></tr>
+<tr><td>EXP-0010</td><td>/vendors/postman</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>9.0</td>
+<td>2</td></tr>
+<tr><td>EXP-0012</td><td>/vendors/clip-studio-paint</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>7.5</td>
+<td>2</td></tr>
+<tr><td>EXP-0013</td><td>/product/gamma-business</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>5</td>
+<td>1</td></tr>
+<tr><td>EXP-0014</td><td>/vendors/motion-array</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>4.0</td>
+<td>1</td></tr>
+<tr><td>EXP-0015</td><td>/vendors/cursor</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>5.5</td>
+<td>1</td></tr>
+<tr><td>EXP-0016</td><td>/vendors/reallusion</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>5.5</td>
+<td>1</td></tr>
+<tr><td>EXP-0019</td><td>/vendors/vegas</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>6</td>
+<td>1</td></tr>
+<tr><td>EXP-0022</td><td>/vendors/windsurf</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>8</td>
+<td>1</td></tr>
+<tr><td>EXP-0023</td><td>/vendors/unity</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>4</td>
+<td>1</td></tr>
+<tr><td>EXP-0024</td><td>/product/sketchup-go</td>
+<td>2026-09-01</td><td>2026-09-15</td>
+<td>4</td>
+<td>1</td></tr>
+<tr><td>EXP-0026</td><td>/vendors/capture-one</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>14.5</td>
+<td>1</td></tr>
+<tr><td>EXP-0027</td><td>/vendors/descript</td>
+<td>2026-09-04</td><td>2026-09-18</td>
+<td>6</td>
+<td>1</td></tr>
+<tr><td>EXP-0029</td><td>/vendors/gitlab</td>
+<td>2026-09-04</td><td>2026-09-18</td>
+<td>14.5</td>
+<td>2</td></tr>
+<tr><td>EXP-0030</td><td>/vendors/monotype</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>2.5</td>
+<td>1</td></tr>
+<tr><td>EXP-0031</td><td>/vendors/freepik</td>
+<td>2026-09-03</td><td>2026-09-17</td>
+<td>5</td>
+<td>1</td></tr>
+<tr><td>EXP-0033</td><td>https://www.biz-soft.pro/vendors/openai</td>
+<td>2026-09-11</td><td>2026-09-25</td>
+<td>2</td>
+<td>1</td></tr>
+<tr><td>EXP-0039</td><td>/vendors/figma</td>
+<td>2026-09-11</td><td>2026-09-25</td>
+<td>21</td>
+<td>1</td></tr>
+<tr><td>EXP-0040</td><td>/product/recraft-team</td>
+<td>2026-09-11</td><td>2026-09-25</td>
+<td>6.5</td>
+<td>2</td></tr>
+<tr><td>EXP-0042</td><td>/vendors/sketch</td>
+<td>2026-09-11</td><td>2026-09-25</td>
+<td>10</td>
+<td>1</td></tr>
+<tr><td>EXP-0043</td><td>/blog/kak-kupit-recraft-dlya-yurlica</td>
+<td>2026-09-11</td><td>2026-09-25</td>
+<td>5.5</td>
+<td>3</td></tr>
+<tr><td>EXP-0044</td><td>/blog/glpi-manageengine-ili-korobka</td>
+<td>2026-09-11</td><td>2026-09-25</td>
+<td>21</td>
+<td>1</td></tr></tbody></table></div>
+<h3 id="exp-outside">Снято с поручений: страница правилась вне контура — 2 страницы</h3><p class="q">Контур сравнивает отпечаток проверяемого текста каждой страницы с прошлым прогоном. Изменился — значит страницу правили, и она выводится из очереди на срок наблюдения независимо от того, кто внёс правку: измерению мешает вторая правка в окне, а не её авторство.</p><div class="scroll"><table><tr><th>Страница</th><th>Мораторий до</th><th>Основание</th></tr><tr><td>/product/anthropic-team</td><td>2026-09-25</td><td class="q">страница правилась вне контура; последняя правка 2026-09-11</td></tr><tr><td>/product/rlsn-cc5</td><td>2026-09-25</td><td class="q">страница правилась вне контура; последняя правка 2026-09-11</td></tr></table></div>
+
+<h3 id="exp-done">Было → стало по завершённым экспериментам</h3>
+<p class="q"><b>Как считается эффект.</b> Берётся изменение медианной позиции
+по запросам эксперимента и — за тот же период — изменение по всем прочим
+запросам ядра, где мы ничего не трогали. Эффектом считается разница между
+ними: так общий сдвиг выдачи (апдейт алгоритма, сезонность, уход конкурента)
+не записывается в заслугу правки. Отрицательное значение — позиции выросли.
+Отсутствие в собранной выдаче считается позицией на единицу глубже её
+границы (срез Яндекса глубиной 10 — значит 11), иначе выпадение из выдачи улучшало
+бы среднее. <b>Это наблюдение, а не доказательство:</b> A/B-теста на поисковой
+выдаче не существует, и влияние других причин исключить нельзя.</p>
+<p class="q">Завершённых экспериментов нет: ни одно окно наблюдения не истекло.</p>
+
+<h3 id="exp-lessons">Чему это учит: какие правки работают</h3>
+<p class="q">Пока по типу действия накоплено меньше пяти оценённых
+экспериментов, вывода нет и порядок поручений не меняется: подстраивать
+приоритет работ под три случайных наблюдения — способ закрепить случайность
+в методике.</p>
+<p class="q">Выводов по типам действий пока нет: ни один эксперимент не доведён до оценки.</p>
+
+<h2 id="l5">7 · Исходные данные</h2>
+<p class="lead">Всё выше построено на этих строках выдачи. Каждая — запрос,
+регион и TOP-20 доменов с URL на момент съёма.</p>
+<details><summary>Показать выдачу по первым 20 запросам</summary>
+<div class="scroll"><table><tr><th>Запрос</th><th>ТОП-10 доменов</th></tr>
+<tr><td class="q">оплатить бокс</td><td class="q">antresol24.ru, platipomiru.com, www.citi-box.ru, bupas-gym.ru, lk.boxmetr.ru, domosklad.com, 82box.ru, urban-box.ru, www.boxland.ru, <b>biz-soft.pro</b></td></tr><tr><td class="q">оплата coreldraw для россиян</td><td class="q">dzen.ru, <b>biz-soft.pro</b>, grinny.io, platipomiru.com, finteka.io, pipl.io, aifory.pro, onskills.ru, oplata.guru, windows-office.ru</td></tr><tr><td class="q">claude team купить</td><td class="q">www.avito.ru, ggsel.net, www.softmagazin.ru, funpay.com, claude.com, migsoft.ru, <b>biz-soft.pro</b>, claudeai.to, plati.market, rb.ru</td></tr><tr><td class="q">купить аккаунт windsurf</td><td class="q">ggsel.net, raketapay.ru, plati.market, funpay.com, ez1.gg, www.avito.ru, platipomiru.com, fanpays.net, temavorobey.com, playerok.com</td></tr><tr><td class="q">оплата motion array юридическим лицом</td><td class="q">raketapay.ru, <b>biz-soft.pro</b>, oplata.guru, dzen.ru, softmap.ru, pay-saas.ru, teletype.in, motionarray.com, sanpay.ru, vc.ru</td></tr><tr><td class="q">оплата magnific ai юридическим лицом</td><td class="q">raketapay.ru, companies.rbc.ru, <b>biz-soft.pro</b>, www.audit-it.ru, www.magnific.com, payment.mts.ru, global-payments.ru, vc.ru, pay-saas.ru, provod.ai</td></tr><tr><td class="q">оплата корел дро из россии</td><td class="q">platipomiru.com, dzen.ru, finteka.io, kartli.io, grinny.io, <b>biz-soft.pro</b>, pipl.io, aifory.pro, oplata.guru, coreldrawai.ru</td></tr><tr><td class="q">оплата artlist юридическим лицом</td><td class="q"><b>biz-soft.pro</b>, raketapay.ru, teletype.in, platipomiru.com, www.naletutv.ru, pipl.io, www.banki.ru, help.artlist.io, myexport.exportcenter.ru, www.avito.ru</td></tr><tr><td class="q">оплата envato юридическим лицом</td><td class="q"><b>biz-soft.pro</b>, raketapay.ru, oplata.guru, vc.ru, help.market.envato.com, myexport.exportcenter.ru, pay-saas.ru, dolphinpay.ru, oplatim.services, pipl.io</td></tr><tr><td class="q">оплата иностранной подписки для бизнеса документы</td><td class="q">www.klerk.ru, raketapay.ru, duc-technologies.ru, kontaktab.ru, companies.rbc.ru, <b>biz-soft.pro</b>, dolphinpay.ru, kalinkindev.ru, vc.ru, glavkniga.ru</td></tr><tr><td class="q">runway тарифы</td><td class="q">runway.com, migsoft.ru, companies.rbc.ru, ggsel.net, neiroai.ru, www.somake.ai, kupikod.com, <b>biz-soft.pro</b>, funpay.com, www.avito.ru</td></tr><tr><td class="q">тарифные планы anthropic для бизнеса</td><td class="q">raketapay.ru, chataibot.ru, claude.com, <b>biz-soft.pro</b>, companies.rbc.ru, vc.ru, aitunnel.ru, anthropic-official.com, www.klerk.ru, pikabu.ru</td></tr><tr><td class="q">оплата postman юридическим лицом</td><td class="q">raketapay.ru, <b>biz-soft.pro</b>, www.postman.com, www.syssoft.ru, nukapay.ru, migsoft.ru, yello-card.com, plativputi.com, dolphinpay.ru, pikabu.ru</td></tr><tr><td class="q">оплата capture one юридическим лицом</td><td class="q"><b>biz-soft.pro</b>, raketapay.ru, oplata.guru, pay-saas.ru, www.captureone.com, vc.ru, plati.market, dzen.ru, allsoft.ru, softmap.ru</td></tr><tr><td class="q">framer оформить подписку россия</td><td class="q">dzen.ru, hochu-plachu.com, <b>biz-soft.pro</b>, ggsel.net, yello-card.com, kartli.io, finteka.io, zamon.app, platipomiru.com, mshopy.ru</td></tr><tr><td class="q">оплата зарубежного по для юр лица документы</td><td class="q">raketapay.ru, www.klerk.ru, <b>biz-soft.pro</b>, dolphinpay.ru, kosareva.cloud, companies.rbc.ru, glavkniga.ru, kalinkindev.ru, fd.hse.ru, marix.cc</td></tr><tr><td class="q">оплата descript юридическим лицом</td><td class="q">raketapay.ru, <b>biz-soft.pro</b>, yookassa.ru, www.tbank.ru, tenchat.ru, tochka.com, descrip.ru, kontur.ru, help.descript.com, robokassa.com</td></tr><tr><td class="q">framer тариф россия</td><td class="q">dzen.ru, yello-card.com, hochu-plachu.com, <b>biz-soft.pro</b>, www.framer.com, deeptools.ru, card-open.ru, fixframer.ru, skillbox.ru, ggsel.net</td></tr><tr><td class="q">купить heygen юридическим лицом</td><td class="q">www.heygen.com, raketapay.ru, ml-soft.ru, www-heygen.com, <b>biz-soft.pro</b>, legasoft.ru, www.avito.ru, migsoft.ru, pikabu.ru, plati.market</td></tr><tr><td class="q">как купить framer pro в россии</td><td class="q">dzen.ru, ggsel.net, www.wildberries.ru, market.yandex.ru, plati.market, steam-account.ru, mshopy.ru, www.sravni.ru, kartli.io, hochu-plachu.com</td></tr>
+</table></div></details>
+
+<h2 id="method">Методика и границы</h2>
+<div class="grid2">
+<details><summary>Как считается доля видимости</summary>
+<p class="q">Вес позиции берётся из зафиксированной кривой CTR (1-е место —
+0,28, 10-е — 0,018, вне ТОП-20 — ноль); кривая лежит в конфиге и подлежит
+калибровке по фактическим показам и кликам. Доля домена — его суммарный вес,
+делённый на вес всего поля. Это не доля рынка и не доля трафика, а доля
+взвешенной поисковой видимости внутри контролируемого набора запросов.</p></details>
+<details><summary>Откуда берутся данные</summary>
+<p class="q">Срезы выдачи Яндекса собирает базовый SEO-контур; конкурентная
+разведка читает их только на чтение и повторно не покупает. Спрос — частотность
+Wordstat, а где её нет — показы Яндекс.Вебмастера (источник указан в таблице
+атак, шкалы нормируются раздельно). Google — российская выдача через
+xmlriver (местоположение Россия), еженедельный срез того же базового контура,
+читается только на чтение и повторно не покупается; серия google_ru ведётся с
+первого среза 09.2026, прежней Google-серии нет. Позиции Яндекса и Google не
+сравниваются как равноточные — сравнивается присутствие в выдаче; глубина
+Google-среза задаётся числом страниц сборщика (сейчас 20 позиций), доли
+считаются внутри своего поля и не складываются.</p></details>
+<details><summary>Чего этот отчёт пока не делает</summary>
+<p class="q">Не оценивает уязвимость конкретных страниц конкурентов (нужен
+краулинг — Phase 4), не измеряет выручку по запросам (нужна привязка к
+конверсиям — Phase 5), не отслеживает историю решений и результат внедрений
+(уязвимость страниц конкурентов — Phase 4). Отсутствие данных нигде не
+показывается как ноль. Судьба поручений с 01.09.2026 отслеживается — см.
+раздел 6.</p></details>
+</div>
+
+<details><summary>Условия расчёта: чем и по какому полю посчитан этот день</summary>
+<p class="q">Версия методики 1.10.3 ·
+отпечаток конфигурации f0158598bcae ·
+ядро запросов v11
+(494dcab964a4, 445 запросов) ·
+покрытие по запросам 1.0 ·
+покрытие по спросу {&#x27;webmaster&#x27;: 1.0, &#x27;wordstat&#x27;: 1.0} ·
+источники спроса {&#x27;webmaster&#x27;: 357, &#x27;wordstat&#x27;: 37, &#x27;none&#x27;: 51} ·
+основание ряда динамики: сцепленный (строгого ряда нет, пересечение составов (57 из 445) меньше порога 70% — сравнимого поля фактически нет; звеньев в цепи 4, отрезок с 2026-09-07).<br>
+Сравнивать цифры этого дня с другими днями допустимо только при совпадении
+версии методики, отпечатка конфигурации и отпечатка ядра; при различии ядра
+динамика считается по пересечению составов запросов, а не по полям целиком.
+Оценки, полученные в разных режимах зрелости модели, между собой не
+сравниваются.</p></details>
+
+<footer>
+BIZSoft Competitive Intelligence · отчёт за 2026-09-11 ·
+методика 1.10.3 ·
+ядро v11 ·
+собран 11.09.2026 19:57 МСК ·
+страница не индексируется и не имеет ссылок с сайта
+</footer>
+</div>
+
+<details class="toc" id="toc">
+  <summary title="Разделы отчёта">☰<span class="toc-cap">Разделы</span></summary>
+  <div class="toc-panel">
+    <div class="toc-head">Структура отчёта
+      <button type="button" class="toc-x" data-toc-close
+              aria-label="Закрыть меню">×</button></div>
+    <div class="toc-body"><a class="l1" href="#l1">1 · Итоги дня</a><a class="l2" href="#cat">Кто держит коммерческую выдачу</a><a class="l2" href="#google">Google, Россия</a><a class="l2" href="#google-gap">Разрыв с Яндексом</a><a class="l2" href="#google-why">Чьё это отсутствие</a><a class="l2" href="#google-attacks">Точки атаки в Google</a><a class="l2" href="#poscheck">Сверка позиции с Вебмастером</a><a class="l1" href="#l2">2 · Конкуренты по уровню угрозы</a><a class="l1" href="#l3">3 · Карточки конкурентов</a><a class="l2" href="#cmp-raketapay-ru">raketapay.ru</a><a class="l2" href="#cmp-platipomiru-com">platipomiru.com</a><a class="l2" href="#cmp-syssoft-ru">syssoft.ru</a><a class="l2" href="#cmp-finteka-io">finteka.io</a><a class="l2" href="#cmp-dolphinpay-ru">dolphinpay.ru</a><a class="l2" href="#cmp-yello-card-com">yello-card.com</a><a class="l2" href="#cmp-kartli-io">kartli.io</a><a class="l2" href="#cmp-aifory-pro">aifory.pro</a><a class="l1" href="#plan">4 · План работ — 3 пакетов</a><a class="l2" href="#pkg-wp-31">WP-31 · /vendors/hailuo</a><a class="l2" href="#pkg-wp-38">WP-38 · /vendors/houdini</a><a class="l2" href="#pkg-wp-47">WP-47 · /vendors/deepl</a><a class="l2" href="#blocked">Заблокировано чужим замером</a><a class="l2" href="#verify">Проверить, а не делать</a><a class="l1" href="#l4">5 · Точки атаки — 167 кандидатов</a><a class="l2" href="#att-details">Разбор первых десяти</a><a class="l2" href="#att-001">ATT-001 · оплатить recraft по счету</a><a class="l2" href="#att-002">ATT-002 · купить heygen юридическим лицом</a><a class="l2" href="#att-003">ATT-003 · оплата зарубежных сервисов для юридических лиц документы</a><a class="l2" href="#att-004">ATT-004 · купить подписку github copilot business</a><a class="l2" href="#att-005">ATT-005 · мск корпоративные лицензии atlassian</a><a class="l2" href="#att-006">ATT-006 · оплата иностранной подписки для бизнеса документы</a><a class="l2" href="#att-007">ATT-007 · github copilot business купить</a><a class="l2" href="#att-008">ATT-008 · оплата зарубежного по для юрлица</a><a class="l2" href="#att-009">ATT-009 · тарифные планы anthropic для бизнеса</a><a class="l2" href="#att-010">ATT-010 · github business купить</a><a class="l1" href="#exp">6 · Эксперименты</a><a class="l2" href="#exp-watch">Под мораторием</a><a class="l2" href="#exp-done">Было → стало</a><a class="l2" href="#exp-lessons">Чему это учит</a><a class="l1" href="#l5">7 · Исходные данные</a><a class="l1" href="#method">Методика и границы</a></div>
+    <div class="toc-foot">
+      <button type="button" data-expand="all">Развернуть всё</button>
+      <button type="button" data-expand="none">Свернуть всё</button>
+    </div>
+  </div>
+</details>
+<script>
+(function(){
+  var toc=document.getElementById('toc');
+  function reveal(hash){
+    if(!hash||hash.length<2)return;
+    var el=document.getElementById(decodeURIComponent(hash.slice(1)));
+    if(!el)return;
+    if(el.tagName==='DETAILS')el.open=true;
+    for(var p=el.parentElement;p;p=p.parentElement){
+      if(p.tagName==='DETAILS'&&p.id!=='toc')p.open=true;
+    }
+    el.scrollIntoView({block:'start'});
+  }
+  function up(node,sel){
+    for(var n=node;n&&n.nodeType===1;n=n.parentElement){
+      if(n.matches&&n.matches(sel))return n;
+    }
+    return null;
+  }
+  document.addEventListener('click',function(e){
+    var close=up(e.target,'[data-toc-close]');
+    if(close){if(toc)toc.open=false;e.preventDefault();return;}
+    var expand=up(e.target,'[data-expand]');
+    if(expand){
+      var on=expand.getAttribute('data-expand')==='all';
+      Array.prototype.forEach.call(document.querySelectorAll('details'),
+        function(d){if(d.id!=='toc')d.open=on;});
+      e.preventDefault();return;
+    }
+    var a=up(e.target,'a[href^="#"]');
+    if(a){
+      reveal(a.getAttribute('href'));
+      if(toc&&toc.contains(a))toc.open=false;
+      return;
+    }
+    if(toc&&toc.open&&!toc.contains(e.target))toc.open=false;
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&toc)toc.open=false;
+  });
+  window.addEventListener('hashchange',function(){reveal(location.hash);});
+  if(location.hash)reveal(location.hash);
+})();
+</script>
+<script>
+(function(){
+  var tip=document.createElement('div');tip.className='kit-tip';document.body.appendChild(tip);
+  function show(h,x,y){tip.innerHTML=h;tip.style.left=x+'px';tip.style.top=(y-8)+'px';tip.classList.add('show');}
+  function hide(){tip.classList.remove('show');}
+  document.addEventListener('mousemove',function(e){
+    var t=e.target.closest&&e.target.closest('[data-tip]');
+    if(t){show(t.getAttribute('data-tip'),e.clientX,e.clientY);}
+    else if(!(e.target.closest&&e.target.closest('svg[data-kit-line]'))){hide();}
+  });
+  document.querySelectorAll('svg[data-kit-line]').forEach(function(svg){
+    var d;try{d=JSON.parse(svg.getAttribute('data-kit-line'));}catch(err){return;}
+    var n=d.labels.length,iw=d.w-d.pad[0]-d.pad[1],ih=d.h-d.pad[2]-d.pad[3];
+    var ns='http://www.w3.org/2000/svg',g=document.createElementNS(ns,'g');g.style.display='none';
+    var ln=document.createElementNS(ns,'line');ln.setAttribute('y1',d.pad[2]);ln.setAttribute('y2',d.pad[2]+ih);
+    ln.setAttribute('stroke','var(--kit-hair2)');g.appendChild(ln);
+    var dots=d.series.map(function(s){var c=document.createElementNS(ns,'circle');c.setAttribute('r',5);
+      c.setAttribute('fill',s.color);c.setAttribute('stroke','var(--kit-surface)');c.setAttribute('stroke-width',2);g.appendChild(c);return c;});
+    svg.appendChild(g);
+    var X=function(i){return d.pad[0]+i*iw/(n-1);},Y=function(v){return d.pad[2]+ih-(v-d.ymin)/(d.top-d.ymin)*ih;};
+    svg.addEventListener('mousemove',function(e){
+      var b=svg.getBoundingClientRect(),mx=(e.clientX-b.left)*(d.w/b.width);
+      var i=Math.max(0,Math.min(n-1,Math.round((mx-d.pad[0])/iw*(n-1))));
+      g.style.display='';ln.setAttribute('x1',X(i));ln.setAttribute('x2',X(i));
+      var rows=[];
+      d.series.forEach(function(s,k){var v=s.values[i];if(v==null){dots[k].style.display='none';rows.push(s.name+': нет данных');return;}
+        dots[k].style.display='';dots[k].setAttribute('cx',X(i));dots[k].setAttribute('cy',Y(v));rows.push(s.name+': <b>'+v.toLocaleString('ru-RU')+'</b>');});
+      show('<b>'+d.labels[i]+'</b><br>'+rows.join('<br>'),e.clientX,e.clientY);
+    });
+    svg.addEventListener('mouseleave',function(){g.style.display='none';hide();});
+  });
+  document.querySelectorAll('.kit-dash').forEach(function(dash){
+    var tiles=dash.querySelectorAll('[data-kit-key]');
+    tiles.forEach(function(t){t.addEventListener('click',function(){
+      tiles.forEach(function(x){x.classList.remove('kit-active');x.setAttribute('aria-pressed','false');});
+      t.classList.add('kit-active');t.setAttribute('aria-pressed','true');
+      dash.querySelectorAll('[data-kit-panel]').forEach(function(p){p.hidden=p.getAttribute('data-kit-panel')!==t.getAttribute('data-kit-key');});
+    });});
+  });
+  document.querySelectorAll('table.kit-sortable').forEach(function(tbl){
+    var ths=tbl.querySelectorAll('th[data-kit-sort]');
+    ths.forEach(function(th,idx){th.addEventListener('click',function(){
+      var asc=th.classList.contains('kit-sorted')&&!th.classList.contains('asc');
+      ths.forEach(function(x){x.classList.remove('kit-sorted','asc');});
+      th.classList.add('kit-sorted');if(asc)th.classList.add('asc');
+      var col=Array.prototype.indexOf.call(th.parentNode.children,th);
+      var body=tbl.tBodies[0],rows=Array.prototype.slice.call(body.rows);
+      var val=function(r){var td=r.cells[col];if(!td)return '';var s=td.getAttribute('data-sort');return s!==null?parseFloat(s):td.textContent.trim();};
+      rows.sort(function(a,b){var x=val(a),y=val(b);var num=typeof x==='number'&&typeof y==='number';
+        var c=num?x-y:String(x).localeCompare(String(y),'ru');return asc?c:-c;});
+      rows.forEach(function(r){body.appendChild(r);});
+    });});
+  });
+})();
+</script>
+</body></html>
