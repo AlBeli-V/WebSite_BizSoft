@@ -3,27 +3,47 @@ import JsonLd from './JsonLd.astro';
 import { faqSchema } from '../lib/seo';
 
 interface Props {
-  items: { q: string; a: string }[];
+  items: { q: string; a: string; group?: string }[];
   title?: string;
   /** добавлять ли FAQPage-разметку (по умолчанию да) */
   schema?: boolean;
+  /**
+   * Разбивка списка на смысловые группы (порядок — как в массиве).
+   * Вопросы при этом не меняются и не убираются: группа — только подача,
+   * разметка FAQPage выводится одна на все вопросы страницы. Вопрос без
+   * группы или с чужим ключом попадает в конец, отдельным списком, —
+   * иначе правка группы тихо уносила бы вопрос со страницы.
+   */
+  groups?: { id: string; title: string }[];
 }
-const { items, title = 'Частые вопросы', schema = true } = Astro.props;
+const { items, title = 'Частые вопросы', schema = true, groups } = Astro.props;
+
+const grouped = (groups || []).map((g) => ({ ...g, items: items.filter((i) => i.group === g.id) })).filter((g) => g.items.length > 0);
+const shown = new Set(grouped.flatMap((g) => g.items));
+const rest = items.filter((i) => !shown.has(i));
+const blocks = grouped.length > 0
+  ? [...grouped, ...(rest.length > 0 ? [{ id: 'rest', title: 'Остальные вопросы', items: rest }] : [])]
+  : [{ id: 'all', title: '', items }];
 ---
 {items.length > 0 && (
   <section class="faq reveal">
     {title && <h2>{title}</h2>}
-    <div class="faq-list">
-      {items.map((item) => (
-        <details class="faq-item">
-          <summary>
-            <span>{item.q}</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-          </summary>
-          <div class="faq-answer"><p>{item.a}</p></div>
-        </details>
-      ))}
-    </div>
+    {blocks.map((b) => (
+      <div class="faq-group">
+        {b.title && <h3 class="faq-group-title">{b.title}</h3>}
+        <div class="faq-list">
+          {b.items.map((item) => (
+            <details class="faq-item">
+              <summary>
+                <span>{item.q}</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+              </summary>
+              <div class="faq-answer"><p>{item.a}</p></div>
+            </details>
+          ))}
+        </div>
+      </div>
+    ))}
     {schema && <JsonLd schema={faqSchema(items)} />}
   </section>
 )}
@@ -41,6 +61,17 @@ const { items, title = 'Частые вопросы', schema = true } = Astro.pr
     flex-direction: column;
     gap: 0.6rem;
     max-width: 800px;
+  }
+  .faq-group + .faq-group {
+    margin-top: 1.6rem;
+  }
+  .faq-group-title {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--color-text-dim);
+    margin-bottom: 0.7rem;
   }
   .faq-item {
     background: var(--color-bg-card);

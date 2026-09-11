@@ -23,8 +23,12 @@ on:
   workflow_dispatch:
     inputs:
       skus:
-        description: 'SKU через запятую (из scripts/ai-catalog-cards.json)'
+        description: 'SKU через запятую (из реестра ниже)'
         required: true
+      registry:
+        description: 'Реестр карточек: scripts/ai-catalog-cards.json или scripts/api-balance-cards.json'
+        required: false
+        default: 'scripts/ai-catalog-cards.json'
       apply:
         description: 'true — применить; false — dry-run'
         required: true
@@ -60,9 +64,16 @@ jobs:
       - name: Build xlsx from registry
         env:
           SKUS: ${{ inputs.skus }}
+          REGISTRY: ${{ inputs.registry }}
         run: |
           npm install --no-save xlsx@0.18.5
-          node scripts/build-vendor-cards.mjs scripts/ai-catalog-cards.json /tmp/ai-cards.xlsx --only "$SKUS"
+          # Реестр приходит входом: карточки пополнения баланса API живут в
+          # своём файле (генерируется из scripts/api-balance.json), формат тот же.
+          case "$REGISTRY" in
+            scripts/ai-catalog-cards.json|scripts/api-balance-cards.json) ;;
+            *) echo "недопустимый реестр: $REGISTRY"; exit 1 ;;
+          esac
+          node scripts/build-vendor-cards.mjs "$REGISTRY" /tmp/ai-cards.xlsx --only "$SKUS"
           ls -la /tmp/ai-cards.xlsx
 
       - name: Copy xlsx to server
