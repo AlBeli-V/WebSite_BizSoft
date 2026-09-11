@@ -68,5 +68,32 @@ class NavbarTest(unittest.TestCase):
         self.assertIn("chip", nav)
 
 
+class OwnerDeskTest(unittest.TestCase):
+    """Строка «От вас» и плашка шапки говорят одно и то же.
+
+    09.09.2026 страница печатала «ОТ ВАС: 2 предложения» в шапке и «Срочных
+    решений нет» строкой ниже, а сами предложения не называла: блок был только
+    в письме.
+    """
+
+    DESK = ["ассортимент: 3 кандидата — «Каких вендоров добавить»",
+            "продвижение: статья под кластер — «Перспективные идеи»"]
+
+    def test_предложения_названы_на_странице(self):
+        html = webreport._owner_desk_html(
+            {"user_action_required": False, "owner_desk": self.DESK})
+        self.assertIn("2 предложения", html)
+        for d in self.DESK:
+            self.assertIn(d, html)
+
+    def test_при_срочном_решении_блок_не_дублируется(self):
+        self.assertEqual(webreport._owner_desk_html(
+            {"user_action_required": True, "owner_desk": self.DESK}), "")
+
+    def test_пустой_стол_блока_не_даёт(self):
+        self.assertEqual(webreport._owner_desk_html(
+            {"user_action_required": False, "owner_desk": []}), "")
+
+
 if __name__ == "__main__":
     unittest.main()
