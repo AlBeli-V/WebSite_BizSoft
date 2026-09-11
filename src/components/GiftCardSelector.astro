@@ -6,7 +6,7 @@
  * (порядок задаёт lib/gift-cards.ts, не база). У каждого варианта — номинал
  * и итоговая цена BIZSoft в рублях; закупка в разметку не попадает: в
  * data-атрибуты уходят только sku, slug, название и рублёвая цена варианта.
- * Выбранный вариант добавляется в избранное своим артикулом — дальше он
+ * Выбранный вариант добавляется в расчёт своим артикулом — дальше он
  * живёт в корзине и КП как обычная позиция.
  */
 import { formatRub } from '../lib/pricing';
@@ -94,7 +94,7 @@ const singleRegion = regions.length === 1;
 
       <div class="gc-actions">
         <button type="button" class="btn btn-primary" data-gc-add disabled={!initial}>
-          <span class="lbl-def">В избранное</span><span class="lbl-add" hidden>Добавлено ✓</span>
+          <span class="lbl-def">В расчёт</span><span class="lbl-add" hidden>Добавлено ✓</span>
         </button>
         <button type="button" class="btn btn-ghost" data-open-question data-product={productName} data-sku={initial?.sku ?? sku}>Задать вопрос</button>
       </div>
