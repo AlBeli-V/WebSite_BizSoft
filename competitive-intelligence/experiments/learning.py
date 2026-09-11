@@ -104,18 +104,32 @@ def ranking(experiments: list[jr.Experiment],
 
 def summary_line(experiments: list[jr.Experiment],
                  config: dict | None = None) -> str:
-    """Одна строка для письма: состояние цикла экспериментов."""
+    """Одна строка для письма: где сейчас стоят опыты журнала.
+
+    Числа — это ЗАПАСЫ по состояниям, а не поток через воронку: опыт стоит
+    ровно в одном состоянии. До 1.9.5 строка звучала «предложено 22, на
+    наблюдении 23, оценено 0» и читалась как «22, из которых 23» — то есть
+    как невозможное. Теперь названо общее число и то, что доли — текущие
+    состояния.
+
+    Заодно строка перестала прятать главное. 22 опыта, стоящие в «предложен»,
+    — это правки, которые контур предложил и которые никто не внёс; их
+    столько же, сколько на замере. Растущий хвост непринятых поручений и есть
+    тот факт, ради которого раздел заводился.
+    """
     data = funnel(experiments)
     states = data["по_состояниям"]
     verdicts = data["исходы"]
     if not experiments:
         return "Эксперименты: журнал пуст — цикл проверки только запускается."
-    parts = [f"предложено {states.get(jr.STATE_PROPOSED, 0)}",
-             f"на наблюдении {states.get(jr.STATE_WATCH, 0)}",
+    ждут = states.get(jr.STATE_PROPOSED, 0)
+    parts = [f"ждут внедрения {ждут}",
+             f"на замере {states.get(jr.STATE_WATCH, 0)}",
              f"оценено {states.get(jr.STATE_DONE, 0)}"]
     tail = ""
     if states.get(jr.STATE_DONE):
         tail = (f"; из оценённых улучшение у {verdicts[jr.VERDICT_BETTER]}, "
                 f"без изменений {verdicts[jr.VERDICT_FLAT]}, "
                 f"ухудшение {verdicts[jr.VERDICT_WORSE]}")
-    return "Эксперименты: " + ", ".join(parts) + tail + "."
+    return (f"Эксперименты: всего {data['всего']} — "
+            + ", ".join(parts) + tail + ".")
