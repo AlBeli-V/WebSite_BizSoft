@@ -62,7 +62,7 @@ const groups = vendorInterlinks({
   .interlinks .groups {
     display: grid;
     gap: 1.25rem;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   }
   .interlinks h3 { margin: 0 0 0.35rem; font-size: 1rem; }
   .interlinks p.muted { margin: 0 0 0.5rem; font-size: 0.9rem; }
