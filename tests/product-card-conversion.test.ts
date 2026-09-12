@@ -13,7 +13,9 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { commerceState, quoteCtaLabel, quoteProductRef, UNIT_FORMS } from '../src/lib/product-commerce';
+import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, UNIT_FORMS } from '../src/lib/product-commerce';
+import { PROCUREMENT_FLOW, TRUST_LINES } from '../src/data/policies';
+import { cardComposition } from '../src/lib/product-composition';
 import { VENDOR_CONTENT } from '../src/data/vendor-content';
 
 const ROOT = resolve(__dirname, '..');
@@ -55,8 +57,8 @@ describe('цена не меньше реального заказа', () => {
   it('крупным числом идёт сумма минимального заказа, а не цена единицы', () => {
     // Цена одного места крупным шрифтом обещает заказ, который нельзя
     // оформить; цена единицы остаётся, но строкой ниже.
-    expect(page).toContain('commerce.minQty > 1 ? (');
-    expect(page).toContain('от {formatRub(commerce.purchasePrice)}');
+    expect(page).toContain('commerce.minQty > 1 ? `от ${formatRub(commerce.purchasePrice)}`');
+    expect(page).toContain('цена за {unitPhrase(1, commerce.qtyLabel)}');
   });
 });
 
@@ -81,7 +83,15 @@ describe('призыв называет результат', () => {
 
   it('главный призыв карточки больше не называется «В расчёт»', () => {
     expect(page).not.toContain('>В расчёт<');
-    expect(page).toContain('Добавить в расчёт');
+    expect(page).toContain('Добавить в подборку');
+  });
+
+  it('подборка — обратимое действие с видимым состоянием', () => {
+    // Одноразовое «Добавлено ✓» не давало ни состояния, ни способа
+    // передумать: человек шёл искать корзину.
+    expect(page).toContain('Исключить из подборки');
+    expect(page).toContain('removeFromCart');
+    expect(page).toContain('data-coll-check');
   });
 
   it('окно заявки называет то, за чем пришли', () => {
@@ -107,16 +117,98 @@ describe('призыв называет результат', () => {
 });
 
 describe('первый экран и липкая полоса', () => {
-  it('цена и призыв есть в первом экране узкого экрана', () => {
-    expect(page).toContain('data-hero-cta');
-    expect(page).toMatch(/\.hero-buy \{ display: none; \}/);
-    expect(page).toMatch(/@media \(max-width: 900px\)[\s\S]*\.hero-buy \{\s*display: block/);
+  it('на узком экране карточка покупки идёт сразу за первым экраном', () => {
+    // Второго блока цены под описанием больше нет: порядок в разметке
+    // (экран → покупка → остальное) сам даёт цену до первой прокрутки.
+    expect(page).not.toContain('hero-buy');
+    const hero = page.indexOf('class="col-hero"');
+    const aside = page.indexOf('class="product-aside"');
+    const rest = page.indexOf('class="col-rest"');
+    expect(hero).toBeGreaterThan(0);
+    expect(aside).toBeGreaterThan(hero);
+    expect(rest).toBeGreaterThan(aside);
+    expect(page).toMatch(/@media \(max-width: 900px\)[\s\S]*\.product-layout \{ grid-template-columns: minmax\(0, 1fr\); \}/);
   });
 
-  it('полоса показывается только когда призыв первого экрана ушёл из виду', () => {
+  it('полоса показывается только когда призыв карточки ушёл из виду', () => {
     // Два одинаковых призыва на одном экране спорят друг с другом.
     expect(page).toContain('buyBar.hidden = e.isIntersecting');
     expect(page).toContain('io.observe(heroCta)');
+  });
+});
+
+describe('вид позиции задаёт композицию', () => {
+  const base = { sku: 'X', price: 1000, product_type: null, parent_sku: null };
+
+  it('подписка за расчётную единицу — эталонная композиция', () => {
+    expect(cardComposition(base)).toBe('unit_subscription');
+  });
+
+  it('подарочная карта и её номинал — не подписка', () => {
+    expect(cardComposition({ ...base, product_type: 'gift_card' })).toBe('balance_topup');
+    expect(cardComposition({ ...base, parent_sku: 'PARENT' })).toBe('balance_topup');
+  });
+
+  it('дополнение к основному продукту опознаётся по артикулу', () => {
+    expect(cardComposition({ ...base, sku: 'JB-PLG-RIDER' })).toBe('addon');
+    expect(cardComposition({ ...base, sku: 'ZOOM-PHONE-PRO' })).toBe('addon');
+    expect(cardComposition({ ...base, sku: 'OPENAI-CREDITS-100' })).toBe('addon');
+  });
+
+  it('позиция без цены — договорная, а не подписка', () => {
+    expect(cardComposition({ ...base, price: 0 })).toBe('quote_only');
+  });
+
+  it('карточка не показывает счётчик мест там, где мест нет', () => {
+    // Счётчик рабочих мест на пополнении баланса — неверный вопрос.
+    expect(page).toContain('const isUnitPlan = composition');
+    expect(page).toContain("k: 'Расчётная единица'");
+    expect(page).toContain('data-composition={composition}');
+  });
+});
+
+describe('композиция, одобренная 12.09.2026', () => {
+  it('разделы страницы идут в утверждённом порядке', () => {
+    const order = [
+      'Что входит в план',
+      'Основные параметры',
+      'Как организовано взаимодействие',
+      'Подробно о продукте и условиях использования',
+    ];
+    let prev = -1;
+    for (const title of order) {
+      const at = page.indexOf(title);
+      expect(at, title).toBeGreaterThan(prev);
+      prev = at;
+    }
+  });
+
+  it('условия поставки берутся из единого источника, а не из шаблона', () => {
+    // Строка условий, заведённая в шаблоне мимо policies.ts, разъедется с
+    // ответом агента при первой же правке.
+    expect(page).toContain('PROCUREMENT_FLOW');
+    expect(page).toContain('TRUST_LINES');
+    expect(page).not.toContain('Закрывающие бухгалтерские документы');
+    expect(PROCUREMENT_FLOW).toHaveLength(5);
+    expect(TRUST_LINES.length).toBeGreaterThan(2);
+  });
+
+  it('артикул ушёл из первого экрана в параметры', () => {
+    const hero = page.slice(page.indexOf('class="col-hero"'), page.indexOf('class="product-aside"'));
+    expect(hero).not.toContain('product.sku}');
+    expect(page).toContain('Артикул BIZSoft:');
+  });
+
+  it('интерфейсные решения не выводятся из слага, названия или вендора', () => {
+    expect(page).not.toMatch(/slug\.includes\(/);
+    expect(page).not.toMatch(/vendor === '/);
+  });
+
+  it('единица расчёта названа одним словом, а не винительным падежом', () => {
+    expect(unitNoun('Мест')).toBe('Рабочее место');
+    expect(unitNoun('Лицензий')).toBe('Лицензия');
+    // Незнакомая подпись возвращается как есть, а не подменяется догадкой.
+    expect(unitNoun('Серверов')).toBe('Серверов');
   });
 });
 

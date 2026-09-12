@@ -52,6 +52,24 @@ export const UNIT_FORMS: Record<string, [string, string, string]> = {
   'устройств': ['устройство', 'устройства', 'устройств'],
 };
 
+/**
+ * Единица в именительном падеже — для строки «Расчётная единица» и для
+ * маркеров цены. Формы из UNIT_FORMS здесь не годятся: у них винительный
+ * падеж, и «лицензию» в параметрах читается как обрывок фразы.
+ */
+export const UNIT_SINGULAR: Record<string, string> = {
+  'лицензий': 'Лицензия',
+  'мест': 'Рабочее место',
+  'пользователей': 'Пользователь',
+  'устройств': 'Устройство',
+};
+
+/** «Рабочее место», «Лицензия» — единица расчёта как отдельное слово. */
+export function unitNoun(qtyLabel: string): string {
+  const key = qtyLabel.trim().toLowerCase();
+  return UNIT_SINGULAR[key] || qtyLabel.trim();
+}
+
 /** «5 мест», «1 лицензию» — число со склонённой единицей. */
 export function unitPhrase(n: number, qtyLabel: string): string {
   const forms = UNIT_FORMS[qtyLabel.trim().toLowerCase()];
