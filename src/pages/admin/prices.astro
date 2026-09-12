@@ -123,7 +123,7 @@ import AdminTabs from '../../components/AdminTabs.astro';
   .tool h2 { font-size: 1.3rem; margin-bottom: 1rem; }
   label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; color: var(--color-text-muted); }
   input, select { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 8px; padding: 0.5rem 0.6rem; color: var(--color-text); font: inherit; }
-  .grid-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.9rem; margin-bottom: 1rem; }
+  .grid-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: 0.9rem; margin-bottom: 1rem; }
   .actions { display: flex; gap: 0.7rem; align-items: center; flex-wrap: wrap; margin: 0.8rem 0; }
   .manual { display: flex; gap: 0.4rem; align-items: center; }
   .chk { flex-direction: row; align-items: center; gap: 0.4rem; }
