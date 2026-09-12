@@ -41,7 +41,7 @@ const cases = [
   .head { max-width: 720px; margin-bottom: 2.5rem; }
   h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 1rem; }
   .lead { color: var(--color-text-muted); font-size: 1.08rem; }
-  .cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+  .cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1.2rem; }
   .case { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
   .tag { align-self: flex-start; background: color-mix(in srgb, var(--color-accent) 16%, transparent); color: var(--color-accent); font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 6px; }
   .case h2 { font-size: 1.25rem; }
