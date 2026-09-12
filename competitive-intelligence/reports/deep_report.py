@@ -1538,6 +1538,7 @@ def build(date: str, snapshot: dict, previous: dict | None,
           position_verdict: dict | None = None,
           our_history: list[float] | None = None,
           trend_basis: str = "",
+          trend_note: str = "",
           history_dates: list[str] | None = None) -> str:
     """Собирает самодостаточный HTML-отчёт."""
     ours = snapshot.get("наши_показатели") or {}
@@ -1726,7 +1727,7 @@ Google-среза задаётся числом страниц сборщика 
 покрытие по запросам {esc(str(_meta(snapshot, "покрытие_запросов")))} ·
 покрытие по спросу {esc(str(_meta(snapshot, "взвешенное_покрытие")))} ·
 источники спроса {esc(str(_meta(snapshot, "состав_источников_спроса")))} ·
-основание ряда динамики: {esc(trend_basis or "не считался")}.<br>
+основание ряда динамики: {esc(trend_basis or "не считался")}{esc(f" ({trend_note})" if trend_note else "")}.<br>
 Сравнивать цифры этого дня с другими днями допустимо только при совпадении
 версии методики, отпечатка конфигурации и отпечатка ядра; при различии ядра
 динамика считается по пересечению составов запросов, а не по полям целиком.

@@ -97,7 +97,7 @@ export const POST: APIRoute = async ({ request }) => {
     .filter((i) => i && typeof i.sku === 'string' && Number(i.qty) > 0)
     .map((i) => ({ sku: i.sku, qty: Math.min(9999, Math.max(1, Math.floor(Number(i.qty)))) }));
 
-  if (lines.length === 0) return new Response(JSON.stringify({ error: 'список избранного пуст' }), { status: 422 });
+  if (lines.length === 0) return new Response(JSON.stringify({ error: 'расчёт пуст' }), { status: 422 });
 
   // Форма разобрана, дальше начинается дорогая часть: справочник, документы,
   // письмо. Порог тратит эта заявка, а не отвергнутая валидацией попытка.
