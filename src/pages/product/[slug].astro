@@ -24,7 +24,7 @@ import { vendorContent } from '../../data/vendor-content';
 import { vendorSlug } from '../../lib/vendor-links';
 import { vendorBySlug } from '../../data/vendors';
 import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase } from '../../lib/product-commerce';
-import { planType, PLAN_MARKER } from '../../lib/plan-type';
+import { planType, PLAN_MARKER, PLAN_SHORT } from '../../lib/plan-type';
 import { cardComposition } from '../../lib/product-composition';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../../data/policies';
 import { seller } from '../../config/site';
@@ -93,7 +93,7 @@ const features = Array.isArray(product.features)
   ? product.features.map((f) => (typeof f === 'string' ? f : (f as { value?: string }).value)).filter(Boolean)
   : [];
 // У подарочной карты вопросы из редакторского модуля; у остальных — из Directus.
-const faq = gift ? gift.faq : (Array.isArray(product.faq) ? product.faq : []);
+const catalogFaq = Array.isArray(product.faq) ? product.faq : [];
 const gallery = galleryImages(product);
 const vat = product.vat_percent ?? 0;
 const byRequest = product.price <= 0 && !eff.isPromo;
@@ -105,6 +105,9 @@ const byRequest = product.price <= 0 && !eff.isPromo;
 // счётчик разрешал единицу. Ключ меты — slug или sku (правило catalog.md).
 const vendorCards = product.vendor ? vendorContent(vendorSlug(product.vendor)).cards : undefined;
 const cardMeta = vendorCards?.[product.slug] ?? vendorCards?.[product.sku];
+// Вопросы карточки: каталог первичен. Когда в позиции их нет, берутся
+// вопросы из контента вендора — иначе раздел, согласованный на макете,
+// просто не выводится.
 const commerce = commerceState({
   price: eff.price,
   priceFrom: product.price_from,
@@ -125,6 +128,8 @@ const isUnitPlan = composition === 'unit_subscription';
 // Подпись призыва и позиция заявки считаются из состояния, а не пишутся в
 // разметке: то же правило потом повторяет клиентский скрипт при смене
 // счётчика, и разойтись им не с чего.
+const faq = gift ? gift.faq : (catalogFaq.length > 0 ? catalogFaq : (cardMeta?.faq ?? []));
+
 const ctaLabel = quoteCtaLabel(commerce, commerce.minQty, isUnitPlan);
 const ctaRef = quoteProductRef(product.name, product.sku, commerce, commerce.minQty, isUnitPlan);
 
@@ -135,29 +140,34 @@ const ctaRef = quoteProductRef(product.name, product.sku, commerce, commerce.min
 // это DATA GAP, поэтому маркер не показывается, когда уверенности нет.
 const planKind = planType(product.name, product.short_description || '');
 const planMarker = planKind ? PLAN_MARKER[planKind] : '';
+const planShort = planKind ? PLAN_SHORT[planKind] : '';
 const unitName = unitNoun(commerce.qtyLabel);
 // Подзаголовок называет тип плана. Срока подписки в схеме каталога нет
-// (DATA GAP), и плашка вендора его не заменяет: `badge` — тематическая
-// подпись линейки («VFX и моушн», «для команд»), от которой в подзаголовке
-// получалось «Командный план · VFX и моушн».
-const subtitleParts = [planMarker].filter(Boolean) as string[];
+// (DATA GAP в каталоге), он ведётся в контенте вендора (VendorCardMeta.term).
+// Плашка `badge` его не заменяет: это тематическая подпись линейки («VFX и
+// моушн», «для команд»), от которой получалось «Командный план · VFX и моушн».
+const subtitleParts = [planMarker, cardMeta?.term].filter(Boolean) as string[];
 
-// Факты под описанием — только подтверждённые полями. Срок подписки и
-// признак переназначения мест в каталоге отсутствуют (DATA GAP), поэтому
-// в первый экран не выносятся.
+// Факты под описанием: срок, минимальный объём, переназначение единиц.
+// Срока и признака переназначения в каталоге нет — они приходят из контента
+// вендора; чего нет и там, то заменяется подтверждённым полем, а не пустой
+// ячейкой.
 const heroFacts: { k: string; v: string }[] = [];
-if (!byRequest) {
-  if (isUnitPlan) heroFacts.push({ k: 'Расчётная единица', v: unitName });
-  if (isUnitPlan) heroFacts.push({ k: 'Минимальный заказ', v: unitPhrase(commerce.minQty, commerce.qtyLabel) });
-  if (vat > 0) heroFacts.push({ k: 'НДС', v: `${vat}% (включено в стоимость)` });
-  else if (category) heroFacts.push({ k: 'Категория', v: category.name });
+if (!byRequest && isUnitPlan) {
+  if (cardMeta?.termShort) heroFacts.push({ k: 'Срок', v: cardMeta.termShort });
+  heroFacts.push({ k: 'MIN кол-во', v: String(commerce.minQty) });
+  if (cardMeta?.reassign) heroFacts.push({ k: 'Переназначение', v: cardMeta.reassign });
+  if (heroFacts.length < 3) heroFacts.unshift({ k: 'Расчётная единица', v: unitName });
+  if (heroFacts.length < 3 && vat > 0) heroFacts.push({ k: 'НДС', v: `${vat}% (включено в стоимость)` });
+  else if (heroFacts.length < 3 && category) heroFacts.push({ k: 'Категория', v: category.name });
 }
 
-// Зона «за что» у цены: единица, объём минимального заказа, тип плана.
+// Зона «за что» у цены: единица, срок либо минимальный объём, тип плана.
 const priceWhat: string[] = [];
 if (!byRequest) {
-  if (isUnitPlan) priceWhat.push(unitName);
+  if (isUnitPlan) priceWhat.push(unitPhrase(1, commerce.qtyLabel));
   if (commerce.minQty > 1) priceWhat.push(`минимум ${unitPhrase(commerce.minQty, commerce.qtyLabel)}`);
+  else if (cardMeta?.termShort) priceWhat.push(`1 календарный ${cardMeta.termShort.replace(/^1\s*/, '')}`);
   if (planMarker) priceWhat.push(planMarker);
   else if (category) priceWhat.push(category.name);
 }
@@ -230,7 +240,11 @@ const hasMd = isGift ? productLd !== null : !byRequest;
 const mdProduct = hasMd
   ? { itemscope: true, itemtype: 'https://schema.org/Product' }
   : {};
-const mdName = hasMd ? { itemprop: 'name' } : {};
+// Когда H1 показывает короткое имя, itemprop="name" уезжает с заголовка в
+// отдельный meta: иначе microdata назвала бы товар иначе, чем JSON-LD, и
+// слои разошлись бы (смоук-проверка их сверяет).
+const h1Text = cardMeta?.shortName || product.name;
+const mdName = hasMd && h1Text === product.name ? { itemprop: 'name' } : {};
 const mdDesc = hasMd && product.short_description ? { itemprop: 'description' } : {};
 const mdOffer = hasMd
   ? { itemprop: 'offers', itemscope: true, itemtype: isGift ? 'https://schema.org/AggregateOffer' : 'https://schema.org/Offer' }
@@ -280,6 +294,7 @@ try {
       {hasMd && (
         <>
           <meta itemprop="sku" content={product.sku} />
+          {h1Text !== product.name && <meta itemprop="name" content={product.name} />}
           <link itemprop="url" href={canonicalProductUrl} />
           <link itemprop="image" href={microImage} />
           {!product.short_description && (
@@ -306,7 +321,7 @@ try {
           {productIcons(product.slug).length > 0 && (
             <ProductIcon slug={product.slug} name={product.name} size={52} variant="color" />
           )}
-          <h1 {...mdName}>{product.name}</h1>
+          <h1 {...mdName}>{h1Text}</h1>
         </div>
         {subtitleParts.length > 0 && <p class="subtitle">{subtitleParts.join(' · ')}</p>}
         {product.short_description && <p class="lede" lang="ru" {...mdDesc}>{product.short_description}</p>}
@@ -542,10 +557,18 @@ try {
 
         {/* Состав подписки — выше описания: «что я получу за эти деньги»
             читают до маркетингового текста, а не после него. */}
-        {features.length > 0 && !gift && (
+        {(cardMeta?.includes?.length || features.length > 0) && !gift && (
           <section class="sec">
             <h2 class="sec-head"><i aria-hidden="true">/</i>{isUnitPlan ? 'Что входит в план' : 'Что входит'}</h2>
-            <ul class="incl">{features.map((f) => <li>{f}</li>)}</ul>
+            {cardMeta?.includes?.length ? (
+              /* Заголовок пункта с пояснением: плоский список отвечает на
+                 «что перечислено», а покупателю нужно «что это значит». */
+              <ul class="incl incl-wide">
+                {cardMeta.includes.map((it) => <li><b>{it.t}</b><p>{it.d}</p></li>)}
+              </ul>
+            ) : (
+              <ul class="incl">{features.map((f) => <li>{f}</li>)}</ul>
+            )}
           </section>
         )}
 
@@ -557,9 +580,12 @@ try {
               используется. */}
           <div class="params">
             {product.vendor && <div class="prow"><span class="k">Производитель:</span><span class="v">{vendorLegal(product.vendor)}</span></div>}
-            {planMarker && <div class="prow"><span class="k">Тип плана:</span><span class="v">{planMarker}</span></div>}
+            {planShort && <div class="prow"><span class="k">Тип плана:</span><span class="v">{planShort}</span></div>}
+            {cardMeta?.term && <div class="prow"><span class="k">Срок:</span><span class="v">{cardMeta.term}</span></div>}
             {isUnitPlan && <div class="prow"><span class="k">Расчётная единица:</span><span class="v">{unitName}</span></div>}
             {isUnitPlan && <div class="prow"><span class="k">Минимальное количество:</span><span class="v">{commerce.minQty}</span></div>}
+            {cardMeta?.reassign && <div class="prow"><span class="k">Переназначение пользователей:</span><span class="v">{cardMeta.reassign}</span></div>}
+            {cardMeta?.management && <div class="prow"><span class="k">Управление:</span><span class="v">{cardMeta.management}</span></div>}
             {category && <div class="prow"><span class="k">Категория:</span><span class="v">{category.name}</span></div>}
             {product.license_type && LICENSE_LABEL[product.license_type] && (
               <div class="prow"><span class="k">Тип использования:</span><span class="v">{LICENSE_LABEL[product.license_type]}</span></div>
@@ -834,6 +860,11 @@ try {
   .incl { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; }
   .incl li { position: relative; padding-left: 0.85rem; color: var(--color-text-muted); line-height: 1.55; }
   .incl li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 4px; height: 4px; background: var(--color-accent); }
+  /* Состав плана заголовками: строка-название и пояснение под ней. */
+  .incl-wide { gap: 1.1rem; }
+  .incl-wide li { padding-left: 0.85rem; color: var(--color-text); }
+  .incl-wide b { display: block; font-weight: 600; margin-bottom: 0.2rem; }
+  .incl-wide p { margin: 0; color: var(--color-text-muted); font-size: 0.93rem; line-height: 1.55; max-width: 68ch; }
   /* Параметры без границ ячеек: строка — подпись и значение. */
   .params { display: grid; gap: 0.1rem; }
   .prow { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--color-border); font-size: 0.93rem; }
