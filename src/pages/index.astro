@@ -495,6 +495,20 @@ const routes = [
     </div>
   </section>
 
+  <!-- РАЗБОРЫ ПЕРЕД ПОКУПКОЙ.
+       Те же шесть ссылок лежат в маршруте «Ещё выбираю», и краулеру их
+       достаточно. Но маршрут открывает только тот, кто сам отнёс себя к
+       «ещё выбираю», — остальные их не увидят вовсе, а до редизайна врезка
+       попадалась каждому при прокрутке. Строка возвращает видимость всем,
+       не возвращая на страницу тринадцатый блок с двумя списками карточек
+       (решение руководителя 12.09.2026). -->
+  <section class="container-page kb-line">
+    <p class="ps-links">
+      <span class="ps-cap">Сравнения и разборы перед покупкой:</span>
+      {[...compareLinks, ...kbLinks].map((l) => <a href={l.href} data-goal="home_knowledge">{l.label}</a>)}
+    </p>
+  </section>
+
   <!-- ФИНАЛ: две двери. Слева — предложение по собранной спецификации,
        справа — заявка для тех, кому проще спросить. -->
   <section class="container-page section fin-sec">
@@ -651,6 +665,10 @@ const routes = [
   .dir b { display: block; font-size: 1rem; margin: 0.1rem 0 0.15rem; }
   .dir-note { color: var(--color-text-dim); font-size: 0.82rem; }
   .ps-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; margin: 1.2rem 0 0; align-items: baseline; }
+  /* Та же строка-реестр, что у популярных сервисов: одинаковый приём для
+     одинаковой по смыслу вещи — плотный список входов вглубь сайта. */
+  .kb-line { padding-top: clamp(2rem, 4vw, 3rem); }
+  .kb-line .ps-links { margin-top: 0; }
   .ps-cap { color: var(--color-text-dim); font-size: 0.88rem; }
   .ps-links a { color: var(--color-text-muted); font-size: 0.9rem; font-weight: 600; }
   .ps-links a:hover { color: var(--color-accent); }
