@@ -1,6 +1,6 @@
 {
  "date": "2026-09-12",
- "generated_at": "2026-09-12T05:48:51+00:00",
+ "generated_at": "2026-09-12T07:18:59+00:00",
  "measured_at": "2026-09-06",
  "universe": {
   "phrases": 24913,
@@ -16,8 +16,8 @@
   "total_commercial_demand": 971409,
   "levels": {
    "page": 0.964,
-   "indexed": 0.8101,
-   "top10": 0.7679,
+   "indexed": 0.8166,
+   "top10": 0.7774,
    "clicks": 0.001,
    "conversion_measured": null,
    "qualified_leads": null
@@ -57,10 +57,10 @@
   "AI-сервисы": {
    "demand": 84562,
    "covered": 84562,
-   "top10": 38588,
+   "top10": 45410,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.456,
+   "top10_coverage": 0.537,
    "click_coverage": 0.0
   },
   "Офисное ПО": {
@@ -75,28 +75,28 @@
   "не определено": {
    "demand": 53033,
    "covered": 18096,
-   "top10": 58,
+   "top10": 837,
    "clicks": 0,
    "page_coverage": 0.341,
-   "top10_coverage": 0.001,
+   "top10_coverage": 0.016,
    "click_coverage": 0.0
   },
   "Дизайн и графика": {
    "demand": 38883,
    "covered": 38883,
-   "top10": 3526,
+   "top10": 5640,
    "clicks": 963,
    "page_coverage": 1.0,
-   "top10_coverage": 0.091,
+   "top10_coverage": 0.145,
    "click_coverage": 0.025
   },
   "Звук, видео и медиа": {
    "demand": 17264,
    "covered": 17264,
-   "top10": 4563,
+   "top10": 4048,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.264,
+   "top10_coverage": 0.234,
    "click_coverage": 0.0
   },
   "Средства разработки": {
@@ -178,12 +178,12 @@
   "C": 75
  },
  "gaps_by_class": {
-  "GAP-C": 9,
-  "GAP-D": 16,
+  "GAP-C": 8,
+  "GAP-D": 20,
   "GAP-E": 1,
   "GAP-G": 1,
   "GAP-H": 24,
-  "GAP-N": 28
+  "GAP-N": 25
  },
  "uncovered_top": [
   {
@@ -515,14 +515,14 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 7159,
+  "calls_total": 7229,
   "calls_paid": 266,
   "cost_month_rub": 5.41,
   "cost_today_rub": 0.0,
   "remaining_budget_rub": 5494.59,
   "forecast_month_end_rub": 13.53,
   "state": "open",
-  "cache_hit_rate": 0.9628,
+  "cache_hit_rate": 0.9632,
   "duplicate_rate": 0.7231,
   "unique_phrases": 1866,
   "new_commercial_phrases": 649,
@@ -530,7 +530,7 @@
   "cost_per_1000_unique_phrases_rub": 2.899,
   "cost_per_1000_commercial_phrases_rub": 8.336,
   "cost_per_new_cluster_rub": 1.3525,
-  "empty_response_rate": 0.3595
+  "empty_response_rate": 0.3608
  },
  "quota": {
   "requests_per_hour": 500,
@@ -542,11 +542,11 @@
   "available": true,
   "title": "Спрос и направления развития",
   "expansion": null,
-  "summary": "Мы видим 971 409 покупательских запросов в месяц по 177 направлениям каталога. Своя страница есть под 96% этого спроса, в поиске находится 81%, на первой странице — 77%. Без страницы остаётся 16 205 запросов в месяц — это направления, где спрос есть, а своей страницы нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
+  "summary": "Мы видим 971 409 покупательских запросов в месяц по 177 направлениям каталога. Своя страница есть под 96% этого спроса, в поиске находится 82%, на первой странице — 78%. Без страницы остаётся 16 205 запросов в месяц — это направления, где спрос есть, а своей страницы нет. Ещё 52 137 запросов в месяц не отнесены ни к нам, ни к чужому товару: это голые фразы омонимичных брендов (box — 30 187, zoom — 10 813, bubble купить — 5 732). В спрос и в решения об ассортименте они не входят.",
   "coverage": {
    "page": 0.964,
-   "indexed": 0.8101,
-   "top10": 0.7679
+   "indexed": 0.8166,
+   "top10": 0.7774
   },
   "lead_opportunity": {
    "cluster": "apple",
