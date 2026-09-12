@@ -6,7 +6,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FAQ from '../../components/FAQ.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
-import CTASection from '../../components/CTASection.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import OfferLogisticsMicrodata from '../../components/OfferLogisticsMicrodata.astro';
 import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, getProductsBySkus, getProductVariants, galleryImages , getCurrencyRate } from '../../lib/directus';
@@ -114,12 +113,6 @@ const commerce = commerceState({
   qtyLabel: cardMeta?.qtyLabel,
   check: cardMeta?.check,
 });
-// Подпись призыва и позиция заявки считаются из состояния, а не пишутся в
-// разметке: то же правило потом повторяет клиентский скрипт при смене
-// счётчика, и разойтись им не с чего.
-const ctaLabel = quoteCtaLabel(commerce, commerce.minQty);
-const ctaRef = quoteProductRef(product.name, product.sku, commerce, commerce.minQty);
-
 // ── Вид позиции ──────────────────────────────────────────────────────
 // Эталонная композиция (счётчик расчётных единиц, минимальный заказ, «что
 // входит в план») годится подписке за расчётную единицу. Пополнение
@@ -129,6 +122,12 @@ const ctaRef = quoteProductRef(product.name, product.sku, commerce, commerce.min
 const composition = cardComposition(product);
 const isUnitPlan = composition === 'unit_subscription';
 
+// Подпись призыва и позиция заявки считаются из состояния, а не пишутся в
+// разметке: то же правило потом повторяет клиентский скрипт при смене
+// счётчика, и разойтись им не с чего.
+const ctaLabel = quoteCtaLabel(commerce, commerce.minQty, isUnitPlan);
+const ctaRef = quoteProductRef(product.name, product.sku, commerce, commerce.minQty, isUnitPlan);
+
 // ── Подача первого экрана ────────────────────────────────────────────
 // Тип плана — коммерческий маркер («Командный», «Индивидуальный»), а не
 // ответ на вопрос «кому можно пользоваться»: тот даёт license_type и живёт
@@ -137,9 +136,11 @@ const isUnitPlan = composition === 'unit_subscription';
 const planKind = planType(product.name, product.short_description || '');
 const planMarker = planKind ? PLAN_MARKER[planKind] : '';
 const unitName = unitNoun(commerce.qtyLabel);
-// Подзаголовок собирается из того, что есть: срока в схеме каталога нет,
-// ближайшее к нему — плашка редакции в контенте вендора.
-const subtitleParts = [planMarker, cardMeta?.badge].filter(Boolean) as string[];
+// Подзаголовок называет тип плана. Срока подписки в схеме каталога нет
+// (DATA GAP), и плашка вендора его не заменяет: `badge` — тематическая
+// подпись линейки («VFX и моушн», «для команд»), от которой в подзаголовке
+// получалось «Командный план · VFX и моушн».
+const subtitleParts = [planMarker].filter(Boolean) as string[];
 
 // Факты под описанием — только подтверждённые полями. Срок подписки и
 // признак переназначения мест в каталоге отсутствуют (DATA GAP), поэтому
@@ -349,6 +350,11 @@ try {
               rateDate={rateDate}
               vat={vat}
             />
+            {/* Доверительные признаки показываются один раз на страницу — и у
+                подарочной карты тоже: до 12.09.2026 их на ней не было вовсе. */}
+            <ul class="buy-trust">
+              {TRUST_LINES.map((t) => <li>{t}</li>)}
+            </ul>
           </div>
         ) : (
         <div class="card buy-card" id="buy" {...mdOffer}>
@@ -376,7 +382,7 @@ try {
               <div class="pz-sum">
                 {eff.isPromo && eff.promoLabel && <span class="promo-label">{eff.promoLabel}</span>}
                 <b>{commerce.minQty > 1 ? `от ${formatRub(commerce.purchasePrice)}` : formatRub(eff.price)}</b>
-                <span>цена за {unitPhrase(1, commerce.qtyLabel)}</span>
+                {isUnitPlan && <span>цена за {unitPhrase(1, commerce.qtyLabel)}</span>}
                 {vat > 0 && <span>в том числе НДС {vat}%</span>}
               </div>
               <ul class="pz-what">
@@ -404,7 +410,7 @@ try {
 
           {!byRequest && (
             <div class="buy-qty">
-              <span class="qty-label">Количество {commerce.qtyLabel.toLowerCase()}</span>
+              <span class="qty-label">{isUnitPlan ? `Количество ${commerce.qtyLabel.toLowerCase()}` : 'Количество'}</span>
               <div class="qty-controls">
                 {qtyPresets.length > 0 && (
                   <div class="presets">
@@ -417,7 +423,7 @@ try {
                       иначе покупатель считает бюджет по невозможному заказу. */}
                   <input
                     type="number" min={commerce.minQty} value={commerce.minQty} inputmode="numeric"
-                    data-qty data-min={commerce.minQty} aria-label={`Количество ${commerce.qtyLabel.toLowerCase()}`}
+                    data-qty data-min={commerce.minQty} aria-label={isUnitPlan ? `Количество ${commerce.qtyLabel.toLowerCase()}` : 'Количество'}
                   />
                   <button type="button" data-inc aria-label="Больше">+</button>
                 </span>
@@ -430,7 +436,7 @@ try {
           {!byRequest && (
             <div class="buy-total">
               <div class="bt-row">
-                <span class="bt-lbl">Итого{vat > 0 ? ` в т.ч. НДС ${vat}%` : ''}:</span>
+                <span class="bt-lbl">ИТОГО{vat > 0 ? ` в т.ч. НДС ${vat}%` : ''}:</span>
                 <b data-total>{formatRub(commerce.purchasePrice)}</b>
               </div>
               {rateDate && <p class="rate-note">Цена по курсу ЦБ РФ на {rateDate}</p>}
@@ -555,7 +561,9 @@ try {
             {isUnitPlan && <div class="prow"><span class="k">Расчётная единица:</span><span class="v">{unitName}</span></div>}
             {isUnitPlan && <div class="prow"><span class="k">Минимальное количество:</span><span class="v">{commerce.minQty}</span></div>}
             {category && <div class="prow"><span class="k">Категория:</span><span class="v">{category.name}</span></div>}
-            {product.license_type && <div class="prow"><span class="k">Тип использования:</span><span class="v">{LICENSE_LABEL[product.license_type]}</span></div>}
+            {product.license_type && LICENSE_LABEL[product.license_type] && (
+              <div class="prow"><span class="k">Тип использования:</span><span class="v">{LICENSE_LABEL[product.license_type]}</span></div>
+            )}
             {isGift && giftRegions.length > 0 && (
               <div class="prow"><span class="k">Регионы:</span><span class="v">{giftRegions.map((r) => `${r.name} (${r.currency})`).join(', ')}</span></div>
             )}
@@ -707,7 +715,7 @@ try {
           {byRequest ? <b>Цена по запросу</b> : (
             <>
               <b data-bar-total>{formatRub(commerce.purchasePrice)}</b>
-              <span class="bb-qty" data-bar-qty>{unitPhrase(commerce.minQty, commerce.qtyLabel)}</span>
+              <span class="bb-qty" data-bar-qty>{isUnitPlan ? unitPhrase(commerce.minQty, commerce.qtyLabel) : `${commerce.minQty} шт.`}</span>
             </>
           )}
         </span>
@@ -733,7 +741,6 @@ try {
     <button class="lb-nav lb-next" data-lb-next aria-label="Вперёд">›</button>
   </div>
 
-  <CTASection />
   <QuestionForm source="product" />
 </BaseLayout>
 
@@ -963,6 +970,9 @@ try {
   const layout = document.querySelector<HTMLElement>('.product-layout');
   let commerce: CommerceState | null = null;
   try { commerce = JSON.parse(layout?.dataset.commerce || 'null'); } catch { commerce = null; }
+  // Вид позиции решает, называть ли в подписи расчётную единицу: у пополнения
+  // баланса её нет, и «Получить КП на 1 лицензию» обещает не то, что покупают.
+  const namedUnit = layout?.dataset.composition === 'unit_subscription';
   const minQty = Math.max(1, commerce?.minQty || 1);
 
   const buyCard = document.querySelector<HTMLElement>('.buy-card');
@@ -1004,11 +1014,11 @@ try {
     const q = curQty();
     if (totalEl) totalEl.textContent = formatRub(unit * q);
     if (barTotal) barTotal.textContent = formatRub(unit * q);
-    if (barQty && commerce) barQty.textContent = unitPhrase(q, commerce.qtyLabel);
+    if (barQty && commerce) barQty.textContent = namedUnit ? unitPhrase(q, commerce.qtyLabel) : `${q} шт.`;
     if (!commerce) return;
     for (const b of quoteBtns) {
-      b.dataset.ref = quoteProductRef(itemName, itemSku, commerce, q);
-      if (b.dataset.ctaShort === undefined) b.textContent = quoteCtaLabel(commerce, q);
+      b.dataset.ref = quoteProductRef(itemName, itemSku, commerce, q, namedUnit);
+      if (b.dataset.ctaShort === undefined) b.textContent = quoteCtaLabel(commerce, q, namedUnit);
     }
   }
 

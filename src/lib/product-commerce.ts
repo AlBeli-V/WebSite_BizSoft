@@ -106,15 +106,22 @@ export function commerceState(input: {
  * «В расчёт» на кнопке, которая кладёт позицию в подборку, покупателю,
  * пришедшему за ценой, не говорит ничего.
  */
-export function quoteCtaLabel(s: CommerceState, qty: number): string {
+export function quoteCtaLabel(s: CommerceState, qty: number, named = true): string {
   if (s.availability === 'out_of_stock') return 'Подобрать аналог';
   if (s.pricing === 'quote_only') return 'Получить расчёт';
+  // named = false там, где расчётная единица позиции неизвестна: пополнение
+  // баланса и дополнение продаются не «лицензиями», и подставлять эту
+  // подпись значит называть покупателю не то, что он покупает.
+  if (!named) return 'Получить КП';
   return `Получить КП на ${unitPhrase(Math.max(Math.floor(qty) || s.minQty, s.minQty), s.qtyLabel)}`;
 }
 
 /** Подпись позиции для заявки: что именно уходит менеджеру. */
-export function quoteProductRef(name: string, sku: string, s: CommerceState, qty: number): string {
+export function quoteProductRef(name: string, sku: string, s: CommerceState, qty: number, named = true): string {
   const n = Math.max(Math.floor(qty) || s.minQty, s.minQty);
   const base = sku ? `${name} (${sku})` : name;
-  return s.pricing === 'quote_only' ? base : `${base} — ${unitPhrase(n, s.qtyLabel)}`;
+  if (s.pricing === 'quote_only') return base;
+  // Менеджеру уходит объём без выдуманной единицы: «× 2» вместо «2 лицензии»
+  // там, где лицензий нет.
+  return named ? `${base} — ${unitPhrase(n, s.qtyLabel)}` : `${base} — ${n} шт.`;
 }
