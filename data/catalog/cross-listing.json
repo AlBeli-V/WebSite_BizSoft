@@ -1,5 +1,5 @@
 {
-  "_note": "Вторая привязка товара к разделу каталога: артикул → дополнительные разделы. Домашний раздел (поле category в Directus) не меняется — он задаёт хлебные крошки, канонический адрес и раздел в карточке. Товар из реестра дополнительно показывается в перечисленных разделах и считается в их счётчиках. Правится через PR: решение о том, что продукт закрывает две задачи, — редакторское. Реестр читает src/lib/cross-listing.ts, сторожит tests/cross-listing.test.ts.",
+  "_note": "Вторая привязка товара к разделу каталога: артикул → дополнительные разделы. Домашний раздел (поле category в Directus) не меняется — он задаёт хлебные крошки, канонический адрес и раздел в карточке. Товар из реестра дополнительно показывается в перечисленных разделах и считается в их счётчиках. Правится через PR: решение о том, что продукт закрывает две задачи, — редакторское. Реестр читает src/lib/cross-listing.ts, сторожит tests/cross-listing.test.ts; сверку с боевой базой делает прогон ops-export-catalog-map.",
 
   "_why": "У товара в Directus одна категория, и вокруг неё собран весь сайт. Перенос товара из раздела в раздел не наполняет каталог: он забирает позицию у соседа. Тонкие разделы (Сайты и хостинг, Маркетинг AI, Доски и совместная работа, Офисная продуктивность AI) пусты не потому, что товары лежат не там, а потому что один и тот же продукт закрывает две задачи, а показан в одной. Механизм тот же, которым с 2026 года живут «Корпоративные AI»: раздел собирается явным списком, схема базы не меняется.",
 
@@ -18,7 +18,9 @@
     "ai-marketing": "инструменты маркетинговой команды: креатив, ролики, фирменный стиль",
     "architecture": "рабочий инструмент архитектурной визуализации",
     "engineering": "инженерные редакции: гражданское строительство и обмер по облаку точек",
-    "ai-audio": "работа со звуком на моделях: реставрация записи и расшифровка речи"
+    "ai-audio": "работа со звуком на моделях: реставрация записи и расшифровка речи",
+    "ai-image": "генерация, апскейл и улучшение изображений на моделях",
+    "ai-video": "генеративное видео и восстановление записи на моделях"
   },
 
   "also": {
@@ -29,31 +31,59 @@
     "ZOOM-WP-BUSINESS-PLUS": ["collaboration"],
     "ZOOM-WP-ENTERPRISE": ["collaboration"],
     "NOTION-ENTERPRISE": ["collaboration"],
+    "FIGMA-PROF-COLLAB": ["collaboration"],
+    "FIGMA-ORG-COLLAB": ["collaboration"],
+    "FIGMA-ENT-COLLAB": ["collaboration"],
 
     "DEEPL-STARTER": ["ai-office"],
     "DEEPL-ADVANCED": ["ai-office"],
     "DEEPL-BUSINESS": ["ai-office"],
     "ZOOM-AI-COMPANION": ["ai-office"],
+    "ADOBE-ACRO-PRO": ["ai-office"],
+    "ADOBE-ACRO-PRO-TEAM": ["ai-office"],
+    "ADOBE-ACRO-STUDIO": ["ai-office"],
 
     "FRAMER-ENT": ["web"],
     "CLOUDFLARE-PRO": ["web"],
     "CLOUDFLARE-BUSINESS": ["web"],
     "LOVABLE-PRO": ["web"],
     "LOVABLE-BUSINESS": ["web"],
+    "FRAMER-BASIC": ["web"],
+    "FRAMER-PRO": ["web"],
+    "FRAMER-SCALE": ["web"],
+    "ADOBE-DW": ["web"],
 
     "CANVA-ENT": ["ai-marketing"],
     "CAPCUT-PRO": ["ai-marketing"],
     "CAPCUT-TEAM": ["ai-marketing"],
     "RECRAFT-ENT": ["ai-marketing"],
     "HEYGEN-ENT": ["ai-marketing"],
+    "ADOBE-EXPRESS": ["ai-marketing"],
+    "ADOBE-EXPRESS-TEAM": ["ai-marketing"],
+    "CANVA-PRO": ["ai-marketing"],
+    "CANVA-BUSINESS": ["ai-marketing"],
+
+    "TOPAZ-GIGAPIXEL": ["ai-image"],
+    "TOPAZ-PHOTO": ["ai-image"],
+    "FREEPIK-PREMIUM": ["ai-image"],
+    "FREEPIK-PREMIUM-PLUS": ["ai-image"],
+    "TOPAZ-STUDIO": ["ai-image", "ai-video"],
+
+    "TOPAZ-VIDEO": ["ai-video"],
 
     "MAXON-REDSHIFT": ["architecture"],
     "MAXON-REDSHIFT-TEAMS": ["architecture"],
+    "ADSK-3DSMAX": ["architecture"],
+    "INT-ENG-AUTOCAD": ["architecture"],
 
     "SKETCHUP-PRO-CIVIL": ["engineering"],
     "SKETCHUP-PRO-SCAN": ["engineering"],
 
     "IZOTOPE-RX-STANDARD": ["ai-audio"],
-    "DSCRPT-ENT": ["ai-audio"]
+    "DSCRPT-ENT": ["ai-audio"],
+    "IZOTOPE-NEUTRON": ["ai-audio"],
+    "IZOTOPE-OZONE-STANDARD": ["ai-audio"],
+    "IZOTOPE-OZONE-ADVANCED": ["ai-audio"],
+    "NI-RX-ADV": ["ai-audio"]
   }
 }
