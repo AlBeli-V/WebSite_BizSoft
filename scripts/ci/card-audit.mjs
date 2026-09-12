@@ -43,7 +43,8 @@ for (const p of paths) {
       chips: all('.col-hero .chip').map(t),
       vendorline: t(document.querySelector('.vendorline')),
       subtitle: t(document.querySelector('.subtitle')),
-      lede: t(document.querySelector('.lede')).slice(0, 90),
+      crumbs: all('.breadcrumbs li').map(t).join(' '),
+      lede: t(document.querySelector('.lede')),
       facts: all('.hero-facts div').map((d) => `${t(d.querySelector('dt'))} = ${t(d.querySelector('dd'))}`),
       price: t(document.querySelector('.pz-sum b')),
       priceNotes: all('.pz-sum span').map(t),
@@ -73,11 +74,12 @@ for (const p of paths) {
 
   console.log(`\n================ ${p} (HTTP ${res?.status()}) ================`);
   console.log(`вид позиции: ${a.composition}   прокрутка вбок: ${a.overflow}px`);
+  console.log(`крошки: ${a.crumbs || '⟨нет⟩'}`);
   console.log(`H1: ${a.h1}`);
   console.log(`маркеры: ${a.chips.join(' | ')}`);
   console.log(`производитель: ${a.vendorline}`);
   console.log(`подзаголовок: ${a.subtitle || '⟨нет⟩'}`);
-  console.log(`описание: ${a.lede}…`);
+  console.log(`описание: ${a.lede || '⟨нет⟩'}`);
   console.log(`факты: ${a.facts.join(' | ') || '⟨нет⟩'}`);
   console.log(`цена: ${a.price || '⟨нет⟩'}  подписи: ${a.priceNotes.join(' / ')}`);
   console.log(`за что: ${a.priceWhat.join(' | ') || '⟨нет⟩'}`);

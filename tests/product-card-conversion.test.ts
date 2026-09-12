@@ -308,4 +308,14 @@ describe('путь до карточки', () => {
     // Раздел каталога остаётся запасным вариантом для позиций без вендора.
     expect(page).toContain('vendorCrumb ? [vendorCrumb] : category');
   });
+
+  it('путь короткий: главная → производитель → продукт', () => {
+    // Раздел каталога и происхождение из пути убраны (макет 12.09.2026):
+    // покупатель выбирает карточку у производителя и туда же возвращается.
+    const crumbs = page.slice(page.indexOf('<Breadcrumbs'), page.indexOf('/>', page.indexOf('<Breadcrumbs')));
+    expect(crumbs).not.toContain('ORIGIN_LABEL');
+    expect(crumbs).not.toContain("{ name: 'Каталог', url: '/catalog' },");
+    // Последний уровень — короткое имя, как в заголовке страницы.
+    expect(crumbs).toContain('{ name: h1Text, url: `/product/${product.slug}` }');
+  });
 });

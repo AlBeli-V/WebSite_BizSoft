@@ -12,7 +12,7 @@ import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, getProd
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import { productSchema, giftCardProductSchema, canonicalUrl } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
-import { ORIGIN_LABEL, LICENSE_LABEL, listValues } from '../../lib/types';
+import { LICENSE_LABEL, listValues } from '../../lib/types';
 import { vendorLegal, productNoindex, isGiftCard, isVariant } from '../../lib/catalog';
 import { groupGiftCardVariants, giftCardPriceRange, pickInitialVariant, variantLabel, type GiftCardRegion } from '../../lib/gift-cards';
 import { giftCardContent } from '../../data/gift-cards';
@@ -273,12 +273,15 @@ try {
 >
   {productLd && <JsonLd schema={productLd} />}
   <div class="container-page section">
+    {/* Путь из трёх уровней: главная → производитель → продукт. Раздел
+        каталога и происхождение из пути убраны — покупатель выбирает
+        карточку у производителя и туда же возвращается сравнивать редакции;
+        ссылка на раздел осталась маркером над заголовком. Позиция без
+        вендора падает на раздел каталога, иначе путь оборвётся на главной. */}
     <Breadcrumbs
       items={[
-        { name: 'Каталог', url: '/catalog' },
-        ...(product.origin ? [{ name: ORIGIN_LABEL[product.origin], url: `/catalog/${product.origin}` }] : []),
-        ...(vendorCrumb ? [vendorCrumb] : category ? [{ name: category.name, url: `/catalog/${category.slug}` }] : []),
-        { name: product.name, url: `/product/${product.slug}` },
+        ...(vendorCrumb ? [vendorCrumb] : category ? [{ name: category.name, url: `/catalog/${category.slug}` }] : [{ name: 'Каталог', url: '/catalog' }]),
+        { name: h1Text, url: `/product/${product.slug}` },
       ]}
     />
 
