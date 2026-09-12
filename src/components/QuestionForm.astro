@@ -9,7 +9,10 @@ const { source = 'question' } = Astro.props as { source?: string };
 <dialog class="qf-dialog" data-question-dialog aria-label="Задать вопрос">
   <form class="qf-form" data-question-form>
     <button type="button" class="qf-close" data-close aria-label="Закрыть">✕</button>
-    <h2>Задать вопрос</h2>
+    {/* Заголовок называет то, за чем пришли: кнопка «Получить КП» не должна
+        открывать окно «Задать вопрос». Состав полей при этом один и тот же —
+        заявка и КП собирают одинаковые реквизиты (решение 28.08.2026). */}
+    <h2 data-dialog-title>Задать вопрос</h2>
 
     <div class="qf-product" data-product-line hidden>
       Вопрос по товару: <strong data-product-name></strong>
@@ -110,6 +113,8 @@ const { source = 'question' } = Astro.props as { source?: string };
     const productName = dialog.querySelector('[data-product-name]') as HTMLElement;
     const productRef = dialog.querySelector('[data-product-ref]') as HTMLInputElement;
     const status = dialog.querySelector('[data-status]') as HTMLElement;
+    const heading = dialog.querySelector('[data-dialog-title]') as HTMLElement | null;
+    const defaultTitle = heading?.textContent || 'Задать вопрос';
 
     // Шаги воронки считаются один раз на страницу: повторное открытие той
     // же формы одним посетителем — не новый шаг.
@@ -120,10 +125,13 @@ const { source = 'question' } = Astro.props as { source?: string };
       btn.addEventListener('click', () => {
         const el = btn as HTMLElement;
         const name = el.dataset.product;
+        if (heading) heading.textContent = el.dataset.dialogTitle || defaultTitle;
         if (name) {
           productLine.hidden = false;
           productName.textContent = name;
-          productRef.value = el.dataset.sku ? `${name} (${el.dataset.sku})` : name;
+          // Готовая подпись позиции (с количеством) — от кнопки расчёта:
+          // менеджер видит, на сколько мест нужен счёт, без переписки.
+          productRef.value = el.dataset.ref || (el.dataset.sku ? `${name} (${el.dataset.sku})` : name);
         } else {
           productLine.hidden = true;
           productRef.value = '';
