@@ -40,7 +40,7 @@ const { stats, title = 'Мы в цифрах' } = Astro.props;
   .digits-grid { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
   .digits-cap { color: var(--color-accent); font-weight: 700; font-size: 1.02rem; margin: 0.4rem 0 0; }
   .digits-cap span { margin-right: 0.35rem; }
-  .digits-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.6rem 2rem; }
+  .digits-items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.6rem 2rem; }
   .digit b {
     display: block;
     font-family: var(--font-display);
@@ -63,10 +63,10 @@ const { stats, title = 'Мы в цифрах' } = Astro.props;
   .d-label { display: block; color: #6d6d72; font-size: 0.98rem; margin-top: 0.7rem; }
   @media (max-width: 960px) {
     .digits-grid { grid-template-columns: 1fr; gap: 1.2rem; }
-    .digits-items { grid-template-columns: repeat(2, 1fr); gap: 1.8rem 1.4rem; }
+    .digits-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.8rem 1.4rem; }
   }
   @media (max-width: 480px) {
-    .digits-items { grid-template-columns: 1fr 1fr; }
+    .digits-items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 </style>
 
