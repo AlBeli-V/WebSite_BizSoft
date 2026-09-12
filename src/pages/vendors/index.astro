@@ -4,36 +4,41 @@ export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import CatalogTabs from '../../components/CatalogTabs.astro';
-import HeroSteps from '../../components/HeroSteps.astro';
 import CTASection from '../../components/CTASection.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { getVendors } from '../../lib/directus';
+import VendorIcon from '../../components/VendorIcon.astro';
+import { getVendors, getCatalogFacets, getCategories } from '../../lib/directus';
 import { logoFile } from '../../data/logos';
 import { vendorIcon } from '../../data/vendor-icons';
-import VendorIcon from '../../components/VendorIcon.astro';
-import { VENDORS } from '../../data/vendors';
+import { vendorSlug } from '../../lib/vendor-links';
+import { groupVendors, vendorTier } from '../../lib/vendor-groups';
+import { TOP_VENDORS } from '../../data/vendor-top';
+import vendorDemand from '../../data/vendor-demand.json';
 import { vendorLandings, site } from '../../config/site';
 
-// ── Слаги и лендинги: VENDORS + bespoke-страницы + AI-вендоры без лендингов ──
-const slugByName = new Map<string, string>();
-const landingSlugs = new Set<string>();
-for (const v of VENDORS) {
-  slugByName.set(v.vendor.toLowerCase(), v.slug);
-  if (v.title) slugByName.set(v.title.toLowerCase(), v.slug);
-  landingSlugs.add(v.slug);
-}
-for (const l of vendorLandings) {
-  slugByName.set(l.name.toLowerCase(), l.slug);
-  landingSlugs.add(l.slug);
-}
-const AI_SLUGS: Record<string, string> = {
-  openai: 'openai', anthropic: 'anthropic', github: 'github', cursor: 'cursor',
-  microsoft: 'microsoft', google: 'google', perplexity: 'perplexity', notion: 'notion',
-  gamma: 'gamma', grammarly: 'grammarly', jasper: 'jasper',
-  // Ребрендинг: сервис Freepik переименован в Magnific (юрлицо то же — Freepik Company S.L.U.)
-  magnific: 'freepik', 'magnific (freepik)': 'freepik',
-};
+// ── Живой список вендоров из каталога ──
+// Список, назначения и разделы читаются одним заходом: три последовательных
+// запроса к базе на странице, которая рендерится на каждый визит, стоят
+// дороже самой страницы.
+let rows: { vendor: string; count: number }[] = [];
+let facets: { vendor: string | null; category: { slug: string } | null }[] = [];
+let categoryNames: Record<string, string> = {};
+const [rowsRes, facetsRes, catsRes] = await Promise.allSettled([
+  getVendors(), getCatalogFacets(), getCategories(),
+]);
+if (rowsRes.status === 'fulfilled') rows = rowsRes.value;
+else console.error('vendors list error', rowsRes.reason);
+// Назначение и подписи разделов — не критичны: без них страница работает,
+// просто без фильтра. Падать из-за них нельзя.
+if (facetsRes.status === 'fulfilled') facets = facetsRes.value;
+else console.error('vendors facets error', facetsRes.reason);
+if (catsRes.status === 'fulfilled') {
+  categoryNames = Object.fromEntries(catsRes.value.map((c) => [c.slug, c.name]));
+} else console.error('vendors categories error', catsRes.reason);
+
+const { groupByVendor, groups, labelOf } = groupVendors(facets, categoryNames);
+
 // Вендоры, у которых в общем списке показывается полное написание, а
 // квадратный знак остаётся лендингу и карточкам товара: у Lansweeper знак
 // «Ls» рядом со словесными логотипами соседей не читается как название.
@@ -42,18 +47,12 @@ const WORDMARK_TILE = new Set(['lansweeper']);
 const DUAL_LOGO: Record<string, { main: string; prev: string }> = {
   freepik: { main: '/brand-logos/magnific-logo.svg', prev: '/brand-logos/freepik-logo.svg' },
 };
-const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-const vendorSlug = (name: string) => slugByName.get(name.toLowerCase()) || AI_SLUGS[name.toLowerCase()] || slugify(name);
 
-// ── Живой список вендоров из каталога ──
-let rows: { vendor: string; count: number }[] = [];
-try {
-  rows = await getVendors();
-} catch (e) {
-  console.error('vendors list error', e);
-}
-
-const TOP = new Set(['openai', 'anthropic', 'microsoft', 'google', 'github', 'adobe', 'figma', 'jetbrains', 'zoom', 'canva', 'autodesk', 'midjourney']);
+// Короткая строка о вендоре для карточек топа: та же, что на его лендинге.
+// Своего текста страница не заводит — разъедется с лендингом на второй правке.
+const taglineBySlug = new Map(vendorLandings.map((l) => [l.slug, l.description]));
+/** Измеренный спрос Вордстата (src/data/vendor-demand.json) — режим сортировки. */
+const DEMAND: Record<string, number> = vendorDemand.vendors;
 
 const items = rows.map((r) => {
   const slug = vendorSlug(r.vendor);
@@ -61,25 +60,43 @@ const items = rows.map((r) => {
   // «Новое имя (прежнее)» → новое крупно, прежнее мельче под ним.
   const renamed = r.vendor.match(/^(.+?)\s*\((.+)\)$/);
   const dual = DUAL_LOGO[slug];
+  const group = groupByVendor.get(r.vendor) ?? '';
   return {
     name: renamed ? renamed[1] : r.vendor,
     prevName: renamed ? renamed[2] : null,
     count: r.count,
     slug,
     letter,
-    top: TOP.has(slug),
+    group,
+    groupLabel: group ? labelOf(group) : '',
+    tier: vendorTier(r.count),
+    demand: DEMAND[r.vendor] ?? 0,
+    tagline: taglineBySlug.get(slug) ?? '',
+    top: TOP_VENDORS.includes(slug),
     href: `/vendors/${slug}`,
     pack: Boolean(vendorIcon(slug)) && !WORDMARK_TILE.has(slug),
     logo: dual?.main ?? logoFile(slug),
     prevLogo: dual?.prev ?? null,
   };
-}).sort((a, b) => a.name.localeCompare(b.name, 'en'));
+});
+
+// Порядок в разметке — по числу позиций: он же порядок по умолчанию на
+// экране, и он же расставляет приоритет для робота (крупные вендоры выше).
+const byCount = [...items].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'en'));
+// Топ — в порядке редакторского списка, общего с мега-меню шапки.
+const topItems = TOP_VENDORS.map((slug) => items.find((i) => i.slug === slug)).filter(Boolean) as typeof items;
 
 // Все вендоры зарубежные — алфавит только английский.
 const ALPHABET = '0-9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'.split(' ');
 const present = new Set(items.map((i) => i.letter));
 
-const plural = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'товар' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'товара' : 'товаров');
+// Числа витрины считаются из каталога: вписанное в шаблон число устаревает
+// молча и превращается в обещание без срока годности.
+const totalPositions = items.reduce((sum, i) => sum + i.count, 0);
+
+const plural = (n: number, one: string, few: string, many: string) =>
+  (n % 10 === 1 && n % 100 !== 11 ? one : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? few : many);
+const positions = (n: number) => plural(n, 'позиция', 'позиции', 'позиций');
 
 const crumbs = [{ name: 'Каталог', url: '/catalog' }, { name: 'Производители', url: '/vendors' }];
 // BreadcrumbList не дублируем: его выводит компонент Breadcrumbs.
@@ -87,11 +104,14 @@ const ld = [
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Производители ПО и SaaS — каталог BIZSoft',
+    name: 'Производители ПО и веб-сервисов — каталог BIZSoft',
     url: `${site.url}/vendors`,
     mainEntity: {
       '@type': 'ItemList',
-      itemListElement: items.slice(0, 60).map((v, i) => ({ '@type': 'ListItem', position: i + 1, name: v.name, url: `${site.url}${v.href}` })),
+      numberOfItems: byCount.length,
+      // Список полный. Раньше в разметку уходили первые 60 имён из 110+, и
+      // половина раздела для робота на этой странице не существовала.
+      itemListElement: byCount.map((v, i) => ({ '@type': 'ListItem', position: i + 1, name: v.name, url: `${site.url}${v.href}` })),
     },
   },
 ];
@@ -103,49 +123,130 @@ const ld = [
   <JsonLd schema={ld} />
   <div class="container-page section">
     <Breadcrumbs items={crumbs} />
-    <div class="hero-cols v-hero">
-      <div>
-        <h1>Каталог (ПО) программного обеспечения и web&#8209;сервисов</h1>
-        <p class="lead">В каталоге представлены вендоры, чьи подписки мы подключаем в интересах российских компаний: бессрочные лицензии, годовые подписки, API-ключи и токены пополнения балансов.</p>
-      </div>
-      <HeroSteps />
-    </div>
+
+    <h1>Производители ПО и веб&#8209;сервисов</h1>
+    <p class="lead">Вендоры, чьи подписки и лицензии мы оформляем на российские юрлица: бессрочные лицензии, годовые подписки, API-ключи и токены пополнения балансов. Договор, счёт в рублях, закрывающие через ЭДО.</p>
+
+    {items.length > 0 && (
+      <p class="v-facts">
+        <span><b>{items.length}</b> {plural(items.length, 'производитель', 'производителя', 'производителей')}</span>
+        <span><b>{totalPositions.toLocaleString('ru-RU')}</b> {positions(totalPositions)} в каталоге</span>
+        {groups.length > 0 && <span><b>{groups.length}</b> {plural(groups.length, 'назначение', 'назначения', 'назначений')}</span>}
+      </p>
+    )}
 
     <CatalogTabs active="vendors" />
 
-    <!-- Алфавитный фильтр (все вендоры зарубежные — только латиница) -->
-    <div class="alpha card" role="group" aria-label="Фильтр по алфавиту">
-      <span class="alpha-cap">Фильтр:</span>
-      <button class="alpha-btn all active" data-letter="all">Все</button>
-      <button class="alpha-btn top" data-letter="top">Топ</button>
-      {ALPHABET.map((l) => (
-        <button class="alpha-btn" data-letter={l} disabled={!present.has(l)}>{l}</button>
-      ))}
-    </div>
-
     {items.length > 0 ? (
-      <div class="v-grid" data-vendor-grid>
-        {items.map((v) => (
-          <a href={v.href} class="card card-hover v-card" data-letter={v.letter} data-top={v.top ? '1' : undefined} aria-label={`${v.name}${v.prevName ? ` (ранее ${v.prevName})` : ''} — купить для юрлица`}>
-            {v.pack ? (
-              <VendorIcon slug={v.slug} name={v.name} size={56} />
-            ) : v.logo ? (
-              <img src={v.logo} alt={`Логотип ${v.name} — ПО ${v.name} для юрлица`} width="56" height="56" loading="lazy" decoding="async" class="v-logo" />
-            ) : (
-              <span class="v-letter" aria-hidden="true">{v.name.charAt(0).toUpperCase()}</span>
-            )}
-            <b>{v.name}</b>
-            {v.prevName && (
-              <span class="v-prev">
-                {v.prevLogo && <img src={v.prevLogo} alt={`Логотип ${v.prevName} — прежнее название ${v.name}`} width="16" height="16" loading="lazy" decoding="async" />}
-                ({v.prevName})
-              </span>
-            )}
-            <span class="v-count">{v.count} {plural(v.count)}</span>
-          </a>
-        ))}
-        <p class="v-empty" data-empty hidden>По этой букве вендоров нет. <button class="link-btn" data-letter-reset>Показать всех →</button></p>
+      <>
+      <div class="v-tools card">
+        <label class="v-search">
+          <span class="sr-only">Поиск по производителям</span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+          <input type="search" id="vendor-search" name="vendor-search" autocomplete="off"
+                 placeholder="Найдите производителя — Adobe, JetBrains, OpenAI…" data-vendor-search />
+          <button type="button" class="v-clear" data-search-clear hidden aria-label="Очистить поиск">✕</button>
+        </label>
+        <div class="v-sort" role="group" aria-label="Порядок показа">
+          <button type="button" class="v-sort-btn active" data-sort="count">По числу позиций</button>
+          <button type="button" class="v-sort-btn" data-sort="demand">По спросу</button>
+          <button type="button" class="v-sort-btn" data-sort="alpha">A–Z</button>
+        </div>
       </div>
+
+      {groups.length > 0 && (
+        <div class="v-chips" role="group" aria-label="Фильтр по назначению">
+          <button type="button" class="v-chip active" data-group="all">Все<span>{items.length}</span></button>
+          {groups.map((g) => (
+            <button type="button" class="v-chip" data-group={g.key}>{g.label}<span>{g.vendors}</span></button>
+          ))}
+        </div>
+      )}
+
+      <!-- Алфавитный указатель: показывается в режиме A–Z -->
+      <div class="alpha card" role="group" aria-label="Фильтр по алфавиту" data-alpha hidden>
+        <span class="alpha-cap">Буква:</span>
+        <button type="button" class="alpha-btn all active" data-letter="all">Все</button>
+        {ALPHABET.map((l) => (
+          <button type="button" class="alpha-btn" data-letter={l} disabled={!present.has(l)}>{l}</button>
+        ))}
+      </div>
+
+      {topItems.length > 0 && (
+        <section class="v-top-sec" data-top-section>
+          <div class="v-sec-head">
+            <h2>Чаще всего спрашивают</h2>
+            <span class="v-sec-cnt">{topItems.length} из {items.length}</span>
+          </div>
+          <div class="v-top">
+            {topItems.map((v) => (
+              <article class="card card-hover v-card" data-vendor-top data-slug={v.slug} data-name={v.name}>
+                <a href={v.href} class="v-card-link" data-vendor-link data-slug={v.slug} data-place="top">
+                  <span class="v-card-head">
+                    {v.pack ? <VendorIcon slug={v.slug} name={v.name} size={40} />
+                      : v.logo ? <img src={v.logo} alt={`Логотип ${v.name} — ПО ${v.name} для юрлица`} width="40" height="40" loading="lazy" decoding="async" class="v-logo" />
+                      : <span class="v-letter" aria-hidden="true">{v.name.charAt(0).toUpperCase()}</span>}
+                    <b>{v.name}</b>
+                  </span>
+                  {v.tagline && <span class="v-tagline">{v.tagline}</span>}
+                  <span class="v-count">{v.count} {positions(v.count)}</span>
+                </a>
+                <button type="button" class="v-pick" data-pick data-slug={v.slug} data-name={v.name}
+                        aria-pressed="false" aria-label={`Добавить ${v.name} в подбор`}>
+                  <span class="v-box" aria-hidden="true"></span><span class="v-pick-label">В подбор</span>
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section class="v-all-sec">
+        <div class="v-sec-head">
+          <h2>Все производители</h2>
+          <span class="v-sec-cnt" data-shown-count>{items.length}</span>
+        </div>
+        <div class="v-list" data-vendor-list>
+          {byCount.map((v) => (
+            <div class="v-row" data-vendor data-slug={v.slug} data-name={v.name.toLowerCase()}
+                 data-group={v.group} data-count={v.count} data-demand={v.demand}
+                 data-letter={v.letter} data-tier={v.tier} data-top={v.top ? '1' : undefined}>
+              <button type="button" class="v-pick v-pick-sm" data-pick data-slug={v.slug} data-name={v.name}
+                      aria-pressed="false" aria-label={`Добавить ${v.name} в подбор`}>
+                <span class="v-box" aria-hidden="true"></span>
+              </button>
+              <a href={v.href} class="v-row-link" data-vendor-link data-slug={v.slug} data-place="list"
+                 aria-label={`${v.name}${v.prevName ? ` (ранее ${v.prevName})` : ''} — купить для юрлица`}>
+                {v.pack ? <VendorIcon slug={v.slug} name={v.name} size={v.tier === 'major' ? 32 : 24} />
+                  : v.logo ? <img src={v.logo} alt={`Логотип ${v.name} — ПО ${v.name} для юрлица`} width={v.tier === 'major' ? 32 : 24} height={v.tier === 'major' ? 32 : 24} loading="lazy" decoding="async" class="v-logo" />
+                  : <span class="v-letter" aria-hidden="true">{v.name.charAt(0).toUpperCase()}</span>}
+                <b>{v.name}</b>
+                {v.prevName && (
+                  <span class="v-prev">
+                    {v.prevLogo && <img src={v.prevLogo} alt={`Логотип ${v.prevName} — прежнее название ${v.name}`} width="14" height="14" loading="lazy" decoding="async" />}
+                    ({v.prevName})
+                  </span>
+                )}
+                {v.groupLabel && <span class="v-cat">{v.groupLabel}</span>}
+                <span class="v-count">{v.count}</span>
+              </a>
+            </div>
+          ))}
+        </div>
+        <p class="v-empty" data-empty hidden>Ничего не нашли. <button type="button" class="link-btn" data-reset>Показать всех →</button></p>
+      </section>
+
+      <!-- Панель подбора: появляется, когда отмечен хотя бы один вендор -->
+      <div class="v-bar" data-picks-bar hidden>
+        <div class="v-bar-in container-page">
+          <span class="v-bar-cnt" data-picks-count>0</span>
+          <span class="v-bar-names" data-picks-names></span>
+          <button type="button" class="btn btn-ghost btn-sm" data-picks-clear>Очистить</button>
+          <button type="button" class="btn btn-primary btn-sm" data-open-question data-picks-submit
+                  data-product="Подбор производителей">Запросить общий расчёт</button>
+        </div>
+      </div>
+      </>
     ) : (
       <p class="lead">Список загружается. <a href="/catalog">Перейти в категории →</a></p>
     )}
@@ -165,60 +266,392 @@ const ld = [
   .section { padding: 2rem 0 4rem; }
   h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
   .lead { color: var(--color-text-muted); max-width: 70ch; }
-  .v-hero { margin-bottom: 1.6rem; }
-  /* Алфавит: на десктопе строго в одну строку (буквы ужимаются),
-     на мобильных допускается перенос. */
-  .alpha { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; padding: 0.9rem 1.1rem; margin-bottom: 1.6rem; }
-  .alpha-cap { color: var(--color-text-muted); font-size: 0.9rem; margin-right: 0.4rem; }
+
+  /* Строка чисел каталога: масштаб виден до первой карточки */
+  .v-facts {
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.8rem; align-items: baseline;
+    margin: 1rem 0 0.2rem; padding-bottom: 0.9rem;
+    color: var(--color-text-dim); font-size: 0.86rem;
+  }
+  .v-facts b {
+    font-family: var(--font-display); font-weight: 400; font-size: 1.32rem;
+    color: var(--color-text); margin-right: 0.35rem; font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Панель инструментов: поиск + порядок ── */
+  .v-tools { display: flex; gap: 0.7rem; align-items: center; padding: 0.7rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
+  .v-search {
+    flex: 1 1 320px; min-width: 0; display: flex; align-items: center; gap: 0.6rem;
+    border: 1.5px solid var(--color-border-strong); border-radius: var(--radius);
+    padding: 0.55rem 0.8rem; background: var(--color-bg); color: var(--color-text-dim);
+    transition: border-color 0.15s ease;
+  }
+  .v-search:focus-within { border-color: var(--color-accent); }
+  .v-search input {
+    flex: 1 1 auto; min-width: 0; border: none; background: none; outline: none;
+    font: inherit; font-size: 0.95rem; color: var(--color-text);
+  }
+  .v-search input::-webkit-search-cancel-button { display: none; }
+  .v-clear { border: none; background: none; cursor: pointer; color: var(--color-text-dim); font-size: 0.9rem; padding: 0 0.2rem; }
+  .v-sort { display: flex; gap: 0.2rem; flex: 0 0 auto; }
+  .v-sort-btn {
+    border: 1px solid transparent; background: none; cursor: pointer; font: inherit;
+    font-size: 0.84rem; font-weight: 700; color: var(--color-text-muted);
+    padding: 0.5rem 0.8rem; border-radius: var(--radius-sm);
+  }
+  .v-sort-btn:hover { color: var(--color-accent); }
+  .v-sort-btn.active { background: var(--color-text); color: #fff; }
+
+  /* ── Фильтр по назначению ── */
+  .v-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.1rem; }
+  .v-chip {
+    border: 1px solid var(--color-border); background: var(--color-bg-elevated);
+    border-radius: 22px; padding: 0.38rem 0.85rem; cursor: pointer; font: inherit;
+    font-size: 0.86rem; font-weight: 600; color: var(--color-text-muted);
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .v-chip span { color: var(--color-text-dim); font-size: 0.76rem; margin-left: 0.4rem; font-variant-numeric: tabular-nums; }
+  .v-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .v-chip.active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+  .v-chip.active span { color: #ffd9c9; }
+
+  /* ── Алфавит (режим A–Z) ── */
+  .alpha { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; padding: 0.7rem 0.9rem; margin-bottom: 1.1rem; }
+  .alpha-cap { color: var(--color-text-muted); font-size: 0.86rem; margin-right: 0.3rem; }
   .alpha-btn {
-    min-width: 30px; padding: 0.32rem 0.5rem; border: none; background: none; cursor: pointer;
-    font: inherit; font-size: 0.88rem; font-weight: 700; color: var(--color-text-muted);
+    min-width: 28px; padding: 0.3rem 0.45rem; border: none; background: none; cursor: pointer;
+    font: inherit; font-size: 0.86rem; font-weight: 700; color: var(--color-text-muted);
     border-radius: 8px; transition: color 0.12s ease, background 0.12s ease;
   }
   .alpha-btn:hover:not(:disabled) { color: var(--color-accent); }
   .alpha-btn.active { background: var(--color-accent); color: #fff; }
   .alpha-btn:disabled { opacity: 0.28; cursor: default; }
-  .alpha-btn.all, .alpha-btn.top { text-transform: uppercase; letter-spacing: 0.04em; padding-inline: 0.7rem; }
+  .alpha-btn.all { text-transform: uppercase; letter-spacing: 0.04em; padding-inline: 0.6rem; }
   @media (min-width: 861px) {
-    .alpha { flex-wrap: nowrap; gap: 0.1rem; padding: 0.9rem 0.9rem; }
-    .alpha-cap, .alpha-btn.all, .alpha-btn.top { flex: 0 0 auto; }
-    .alpha-btn { flex: 1 1 0; min-width: 0; padding-inline: 0.1rem; font-size: clamp(0.72rem, 1vw, 0.88rem); text-align: center; }
-    .alpha-btn.all, .alpha-btn.top { padding-inline: 0.65rem; }
+    .alpha { flex-wrap: nowrap; gap: 0.1rem; }
+    .alpha-cap, .alpha-btn.all { flex: 0 0 auto; }
+    .alpha-btn { flex: 1 1 0; min-width: 0; padding-inline: 0.1rem; font-size: clamp(0.72rem, 1vw, 0.86rem); text-align: center; }
+    .alpha-btn.all { padding-inline: 0.6rem; }
   }
-  @media (min-width: 861px) and (max-width: 1080px) {
-    .alpha-cap { display: none; }
+
+  /* ── Заголовки секций ── */
+  .v-sec-head { display: flex; align-items: baseline; gap: 0.8rem; margin: 1.6rem 0 0.8rem; }
+  .v-sec-head h2 { font-size: 1.22rem; }
+  .v-sec-cnt { color: var(--color-text-dim); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+
+  /* ── Топ: крупные карточки ── */
+  .v-top { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 232px), 1fr)); gap: 0.8rem; }
+  .v-card { position: relative; padding: 1rem 1.1rem 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .v-card-link { display: flex; flex-direction: column; gap: 0.45rem; color: inherit; }
+  .v-card-link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg); }
+  .v-card-head { display: flex; align-items: center; gap: 0.7rem; }
+  .v-card-head b { font-size: 1.02rem; line-height: 1.2; }
+  /* Три строки: описания у вендоров разной длины, карточки в ряду — одной высоты */
+  .v-tagline {
+    color: var(--color-text-muted); font-size: 0.82rem; line-height: 1.4; min-height: 2.3em;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
-  /* Карточки вендоров */
-  .v-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1rem; }
-  .v-card { padding: 1.6rem 1.2rem 1.3rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.55rem; }
-  .v-logo { width: 56px; height: 56px; object-fit: contain; }
-  .v-letter { width: 56px; height: 56px; border-radius: 14px; background: var(--color-bg-elevated); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5rem; color: var(--color-text-muted); }
-  .v-card b { font-size: 1rem; color: var(--color-text); line-height: 1.25; }
-  .v-prev { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--color-text-muted); font-size: 0.8rem; margin-top: -0.25rem; }
-  .v-prev img { width: 16px; height: 16px; object-fit: contain; border-radius: 4px; }
-  .v-count { color: var(--color-text-dim); font-size: 0.82rem; }
-  .v-empty { grid-column: 1 / -1; color: var(--color-text-muted); }
+  .v-card .v-count { color: var(--color-text-dim); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+  .v-card .v-pick { position: relative; z-index: 1; align-self: flex-start; }
+
+  /* ── Отметка «в подбор» ── */
+  .v-pick {
+    display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer;
+    border: 1px solid var(--color-border-strong); background: var(--color-bg);
+    border-radius: var(--radius-sm); padding: 0.32rem 0.6rem; font: inherit;
+    font-size: 0.8rem; font-weight: 600; color: var(--color-text-muted);
+  }
+  .v-pick:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .v-pick[aria-pressed='true'] { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-soft); }
+  .v-box { width: 14px; height: 14px; border: 1.5px solid currentColor; border-radius: 4px; flex: 0 0 auto; }
+  .v-pick[aria-pressed='true'] .v-box { background: var(--color-accent); border-color: var(--color-accent); position: relative; }
+  .v-pick[aria-pressed='true'] .v-box::after {
+    content: '✓'; position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; color: #fff; font-size: 10px; font-weight: 800; line-height: 1;
+  }
+  .v-pick-sm { border: none; background: none; padding: 0.3rem; }
+  .v-pick-sm:hover { background: none; }
+  .v-pick[aria-pressed='true'].v-pick-sm { background: none; }
+
+  /* ── Полный список: три колонки, три ступени веса ── */
+  .v-list { columns: 3; column-gap: 1.8rem; }
+  .v-row {
+    position: relative; display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.32rem 0; border-bottom: 1px solid var(--color-border);
+    break-inside: avoid; -webkit-column-break-inside: avoid;
+  }
+  .v-row-link { display: flex; align-items: center; gap: 0.55rem; flex: 1 1 auto; min-width: 0; color: var(--color-text); }
+  .v-row-link::after { content: ''; position: absolute; inset: 0; }
+  .v-row-link b { font-size: 0.92rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .v-row:hover { border-bottom-color: var(--color-accent); }
+  .v-row:hover .v-row-link b { color: var(--color-accent); }
+  .v-row .v-logo { object-fit: contain; }
+  .v-cat { color: var(--color-text-dim); font-size: 0.7rem; border: 1px solid var(--color-border); border-radius: 5px; padding: 0 0.3rem; white-space: nowrap; }
+  .v-row .v-count { margin-left: auto; color: var(--color-text-dim); font-size: 0.78rem; font-variant-numeric: tabular-nums; padding-left: 0.4rem; }
+  /* Вес вендора: сотни позиций и одна позиция больше не выглядят одинаково */
+  .v-row[data-tier='major'] { padding: 0.5rem 0; }
+  .v-row[data-tier='major'] .v-row-link b { font-size: 1.04rem; }
+  .v-row[data-tier='major'] .v-count { color: var(--color-text); font-weight: 700; }
+  .v-row[data-tier='niche'] .v-row-link b { font-size: 0.86rem; font-weight: 600; color: var(--color-text-muted); }
+  .v-prev { display: inline-flex; align-items: center; gap: 0.25rem; color: var(--color-text-dim); font-size: 0.74rem; white-space: nowrap; }
+  .v-prev img { width: 14px; height: 14px; object-fit: contain; border-radius: 3px; }
+  .v-letter {
+    width: 24px; height: 24px; border-radius: 7px; background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.8rem; color: var(--color-text-muted); flex: 0 0 auto;
+  }
+  .v-card .v-letter { width: 40px; height: 40px; border-radius: 12px; font-size: 1.15rem; }
+  /* Скрытая строка остаётся в разметке: её не видит посетитель, но видит робот */
+  .v-row[hidden], .v-top-sec[hidden], .v-bar[hidden] { display: none; }
+  .v-empty { color: var(--color-text-muted); margin-top: 1rem; }
   .link-btn { background: none; border: none; padding: 0; font: inherit; color: var(--color-accent); font-weight: 600; cursor: pointer; }
-  @media (max-width: 640px) { .v-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } }
+
+  /* ── Панель подбора ── */
+  .v-bar { position: sticky; bottom: 0.8rem; z-index: 20; margin-top: 1.4rem; }
+  .v-bar-in {
+    display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1rem;
+    background: var(--color-text); color: #fff; border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+  }
+  .v-bar-cnt {
+    flex: 0 0 auto; min-width: 26px; height: 26px; border-radius: 8px; background: var(--color-accent);
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.84rem;
+  }
+  .v-bar-names { flex: 1 1 auto; min-width: 0; font-size: 0.88rem; color: #e8e8ed; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .v-bar .btn-sm { padding: 0.45rem 0.85rem; font-size: 0.84rem; }
+  .v-bar .btn-ghost { color: #fff; border-color: rgba(255, 255, 255, 0.35); background: transparent; }
+  .v-bar .btn-ghost:hover { border-color: #fff; color: #fff; }
+
+  @media (max-width: 1080px) { .v-list { columns: 2; } }
+  @media (max-width: 640px) {
+    .v-list { columns: 1; }
+    .v-row { padding: 0.45rem 0; }
+    .v-pick-sm { padding: 0.5rem 0.35rem; }
+    .v-tools { padding: 0.6rem; }
+    .v-sort { width: 100%; }
+    .v-sort-btn { flex: 1 1 0; padding-inline: 0.4rem; }
+    .v-chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.3rem; }
+    .v-chip { flex: 0 0 auto; }
+    .v-bar-names { display: none; }
+    .v-top { grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+    .v-tagline { display: none; }
+  }
 </style>
 
 <script>
-  // Фильтр по алфавиту: показ/скрытие карточек без перезагрузки.
-  const grid = document.querySelector('[data-vendor-grid]');
-  const buttons = document.querySelectorAll<HTMLButtonElement>('.alpha-btn');
-  const cards = grid ? Array.from(grid.querySelectorAll<HTMLElement>('.v-card')) : [];
-  const empty = grid?.querySelector<HTMLElement>('[data-empty]');
+  // Страница-инструмент: поиск, фильтр по назначению, порядок показа и
+  // отметки «в подбор». Всё — над готовой разметкой: карточки прячутся
+  // атрибутом hidden, из HTML не исчезает ни одна ссылка на /vendors/<slug>.
+  // Это не мелочь верстки: список — главный донор внутренних ссылок для
+  // всего раздела, вторая точка входа — только мега-меню шапки.
+  import { trackGoal } from '@/lib/analytics';
+  import { readPicks, togglePick, clearPicks, picksSummary, hasPick } from '@/lib/vendor-picks';
 
-  function apply(letter: string) {
-    let shown = 0;
-    for (const c of cards) {
-      const show = letter === 'all' || (letter === 'top' ? c.dataset.top === '1' : c.dataset.letter === letter);
-      c.hidden = !show;
-      if (show) shown++;
+  const list = document.querySelector<HTMLElement>('[data-vendor-list]');
+  if (list) {
+    const rows = Array.from(list.querySelectorAll<HTMLElement>('[data-vendor]'));
+    const searchInput = document.querySelector<HTMLInputElement>('[data-vendor-search]');
+    const searchClear = document.querySelector<HTMLElement>('[data-search-clear]');
+    const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-group]'));
+    const sortBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-sort]'));
+    const alpha = document.querySelector<HTMLElement>('[data-alpha]');
+    const letterBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-letter]'));
+    const topSection = document.querySelector<HTMLElement>('[data-top-section]');
+    const shownCount = document.querySelector<HTMLElement>('[data-shown-count]');
+    const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+    let query = '';
+    let group = 'all';
+    let letter = 'all';
+    let sort = 'count';
+
+    // ── Поиск, который прощает написание ──────────────────────────────
+    // Имена вендоров латинские, а ищут их и по-русски, и не переключив
+    // раскладку. Оба случая лечатся общими правилами, без словаря имён:
+    // словарь пришлось бы пополнять на каждого нового вендора.
+    const LAYOUT: Record<string, string> = {
+      й: 'q', ц: 'w', у: 'e', к: 'r', е: 't', н: 'y', г: 'u', ш: 'i', щ: 'o', з: 'p',
+      ф: 'a', ы: 's', в: 'd', а: 'f', п: 'g', р: 'h', о: 'j', л: 'k', д: 'l',
+      я: 'z', ч: 'x', с: 'c', м: 'v', и: 'b', т: 'n', ь: 'm', х: '[', ъ: ']', ж: ';', э: "'", б: ',', ю: '.',
+    };
+    const TRANSLIT: [RegExp, string][] = [
+      [/дж/g, 'j'], [/кс/g, 'x'], [/ь|ъ/g, ''], [/щ/g, 'sch'], [/ш/g, 'sh'], [/ч/g, 'ch'],
+      [/ж/g, 'zh'], [/ц/g, 'ts'], [/ю/g, 'yu'], [/я/g, 'ya'], [/ё/g, 'e'], [/э/g, 'e'],
+      [/й/g, 'y'], [/ы/g, 'y'], [/а/g, 'a'], [/б/g, 'b'], [/в/g, 'v'], [/г/g, 'g'], [/д/g, 'd'],
+      [/е/g, 'e'], [/з/g, 'z'], [/и/g, 'i'], [/к/g, 'k'], [/л/g, 'l'], [/м/g, 'm'], [/н/g, 'n'],
+      [/о/g, 'o'], [/п/g, 'p'], [/р/g, 'r'], [/с/g, 's'], [/т/g, 't'], [/у/g, 'u'], [/ф/g, 'f'],
+      [/х/g, 'h'],
+    ];
+    const byLayout = (s: string) => s.replace(/[а-яё]/g, (c) => LAYOUT[c] ?? c);
+    const translit = (s: string) => TRANSLIT.reduce((acc, [re, to]) => acc.replace(re, to), s);
+    /** Скелет из согласных: «джетбрейнс» → jtbrns, «jetbrains» → jtbrns. */
+    const skeleton = (s: string) => s.replace(/[^a-z]/g, '').replace(/[aeiouy]/g, '');
+
+    function matches(name: string, q: string): boolean {
+      if (name.includes(q)) return true;
+      const lay = byLayout(q);
+      if (lay !== q && name.includes(lay)) return true;
+      const tr = translit(q);
+      if (tr !== q && name.includes(tr)) return true;
+      // Последняя попытка — по согласным: «джетбрейнс» и «jetbrains»
+      // совпадают скелетом, но не буква в букву.
+      if (q.length >= 4) {
+        const sk = skeleton(tr);
+        if (sk.length >= 3 && skeleton(name).includes(sk)) return true;
+      }
+      return false;
     }
-    if (empty) empty.hidden = shown > 0;
-    buttons.forEach((b) => b.classList.toggle('active', b.dataset.letter === letter));
+
+    function apply() {
+      let shown = 0;
+      for (const row of rows) {
+        const name = row.dataset.name || '';
+        const okQuery = !query || matches(name, query);
+        const okGroup = group === 'all' || row.dataset.group === group;
+        const okLetter = letter === 'all' || row.dataset.letter === letter;
+        const show = okQuery && okGroup && okLetter;
+        row.hidden = !show;
+        if (show) shown++;
+      }
+      if (shownCount) shownCount.textContent = String(shown);
+      if (empty) empty.hidden = shown > 0;
+      // Топ — редакторский блок, он не подчиняется фильтру. Пока фильтр или
+      // поиск активны, он вводил бы в заблуждение, поэтому убирается.
+      if (topSection) topSection.hidden = Boolean(query) || group !== 'all' || letter !== 'all';
+      if (searchClear) searchClear.hidden = !query;
+    }
+
+    function reorder() {
+      const order = [...rows].sort((a, b) => {
+        const numA = Number(a.dataset[sort === 'demand' ? 'demand' : 'count'] || 0);
+        const numB = Number(b.dataset[sort === 'demand' ? 'demand' : 'count'] || 0);
+        if (sort === 'alpha') return (a.dataset.name || '').localeCompare(b.dataset.name || '', 'en');
+        return numB - numA || (a.dataset.name || '').localeCompare(b.dataset.name || '', 'en');
+      });
+      const frag = document.createDocumentFragment();
+      for (const row of order) frag.appendChild(row);
+      list!.appendChild(frag);
+    }
+
+    // ── Поиск ──
+    let searchTimer = 0;
+    let lastTracked = '';
+    searchInput?.addEventListener('input', () => {
+      query = (searchInput.value || '').trim().toLowerCase();
+      apply();
+      window.clearTimeout(searchTimer);
+      // Цель шлётся, когда запрос дописан: иначе одно слово даёт десять
+      // событий и отчёт по спросу превращается в мусор.
+      searchTimer = window.setTimeout(() => {
+        if (query.length < 2 || query === lastTracked) return;
+        lastTracked = query;
+        const found = rows.filter((r) => !r.hidden).length;
+        trackGoal('vendors_search', { query, found });
+      }, 800);
+    });
+    searchClear?.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      query = '';
+      apply();
+      searchInput?.focus();
+    });
+
+    // ── Фильтр по назначению ──
+    for (const chip of chips) {
+      chip.addEventListener('click', () => {
+        group = chip.dataset.group || 'all';
+        chips.forEach((c) => c.classList.toggle('active', c === chip));
+        apply();
+        trackGoal('vendors_filter_click', { filter_group: group, filter_label: chip.textContent?.trim() || '' });
+      });
+    }
+
+    // ── Порядок показа. A–Z открывает алфавитный указатель ──
+    for (const btn of sortBtns) {
+      btn.addEventListener('click', () => {
+        sort = btn.dataset.sort || 'count';
+        sortBtns.forEach((b) => b.classList.toggle('active', b === btn));
+        if (alpha) alpha.hidden = sort !== 'alpha';
+        if (sort !== 'alpha' && letter !== 'all') {
+          letter = 'all';
+          letterBtns.forEach((b) => b.classList.toggle('active', b.dataset.letter === 'all'));
+        }
+        reorder();
+        apply();
+        trackGoal('vendors_filter_click', { filter_group: `sort:${sort}`, filter_label: btn.textContent?.trim() || '' });
+      });
+    }
+    for (const btn of letterBtns) {
+      btn.addEventListener('click', () => {
+        letter = btn.dataset.letter || 'all';
+        letterBtns.forEach((b) => b.classList.toggle('active', b === btn));
+        apply();
+      });
+    }
+    document.querySelector('[data-reset]')?.addEventListener('click', () => {
+      query = '';
+      group = 'all';
+      letter = 'all';
+      if (searchInput) searchInput.value = '';
+      chips.forEach((c) => c.classList.toggle('active', c.dataset.group === 'all'));
+      letterBtns.forEach((b) => b.classList.toggle('active', b.dataset.letter === 'all'));
+      apply();
+    });
+
+    // ── Переход на страницу вендора ──
+    for (const link of document.querySelectorAll<HTMLElement>('[data-vendor-link]')) {
+      link.addEventListener('click', () => {
+        trackGoal('vendors_card_click', { vendor: link.dataset.slug || '', place: link.dataset.place || 'list' });
+      });
+    }
+
+    // ── Подбор нескольких вендоров ──
+    const bar = document.querySelector<HTMLElement>('[data-picks-bar]');
+    const barCount = document.querySelector<HTMLElement>('[data-picks-count]');
+    const barNames = document.querySelector<HTMLElement>('[data-picks-names]');
+    const submit = document.querySelector<HTMLElement>('[data-picks-submit]');
+    const pickBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-pick]'));
+
+    function renderPicks() {
+      const picks = readPicks();
+      for (const btn of pickBtns) {
+        const on = hasPick(btn.dataset.slug || '', picks);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        const label = btn.querySelector('.v-pick-label');
+        if (label) label.textContent = on ? 'В подборе' : 'В подбор';
+      }
+      if (bar) bar.hidden = picks.length === 0;
+      if (barCount) barCount.textContent = String(picks.length);
+      if (barNames) barNames.textContent = picksSummary(picks);
+      // Форма вопроса читает data-product в момент клика — держим его
+      // в актуальном состоянии, чтобы в заявку попал весь список.
+      if (submit) submit.dataset.product = picks.length ? `Подбор производителей: ${picksSummary(picks)}` : 'Подбор производителей';
+    }
+
+    for (const btn of pickBtns) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const slug = btn.dataset.slug || '';
+        const name = btn.dataset.name || '';
+        if (!slug || !name) return;
+        const added = togglePick({ slug, name });
+        if (added) trackGoal('vendors_multiselect_add', { vendor: slug, picked: readPicks().length });
+      });
+    }
+    document.querySelector('[data-picks-clear]')?.addEventListener('click', () => clearPicks());
+    submit?.addEventListener('click', () => {
+      const picks = readPicks();
+      trackGoal('vendors_multiselect_submit', { picked: picks.length, vendors: picksSummary(picks) });
+      // Предзаполняем предмет запроса: посетитель уже назвал вендоров
+      // отметками, и переписывать их руками в форме — лишний барьер.
+      const message = document.querySelector<HTMLTextAreaElement>('[data-question-form] textarea[name="message"]');
+      if (message && !message.value) {
+        message.value = `Нужен расчёт по производителям: ${picksSummary(picks)}.`;
+      }
+    });
+
+    window.addEventListener('vendorpicks:change', renderPicks);
+    renderPicks();
+    apply();
   }
-  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.letter || 'all')));
-  document.querySelector('[data-letter-reset]')?.addEventListener('click', () => apply('all'));
 </script>
