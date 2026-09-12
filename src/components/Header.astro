@@ -92,12 +92,20 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     </div>
 
     <div class="header-actions">
-      <a href="/cart" class="cart-link" aria-label="Избранное — сформировать КП">
+      <a href="/cart" class="cart-link" aria-label="Спецификация КП — состав и переход к предложению">
+        <!-- Лист со строками, а не сердечко: список ведёт к коммерческому
+             предложению, это спецификация закупки, а не закладки «на потом». -->
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+          <path d="M14 3v5h5"></path>
+          <line x1="9" y1="13" x2="15" y2="13"></line>
+          <line x1="9" y1="17" x2="13" y2="17"></line>
         </svg>
+        <!-- Счётчик привязан к знаку, а не к ссылке целиком: с длинной
+             подписью «Спецификация КП» он иначе уезжал на её последние
+             буквы и упирался в соседнюю кнопку. -->
         <span class="cart-count" data-cart-count hidden>0</span>
-        <span class="cart-label">Избранное</span>
+        <span class="cart-label">Спецификация КП</span>
       </a>
       <a href="/cart" class="btn btn-primary btn-kp" data-goal="header_kp">Получить КП</a>
       <button class="burger" aria-label="Меню" aria-expanded="false" data-burger>
@@ -199,7 +207,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     {navRest.map((item) => (
       <a href={item.href} class:list={['mobile-link', { active: isActive(item.href) }]}>{item.label}</a>
     ))}
-    <a href="/cart" class="mobile-link">Избранное · КП</a>
+    <a href="/cart" class="mobile-link">Спецификация КП</a>
     <a href={`tel:${seller.phoneHref}`} class="mobile-link m-phone">{seller.phone}</a>
   </nav>
 </header>
@@ -316,13 +324,17 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   .cart-link:hover {
     color: var(--color-accent);
   }
-  /* Сердечко избранного: пустой контур, при добавленных позициях — красная заливка */
-  .cart-link.has-items svg { fill: #e5322d; stroke: #e5322d; }
-  .cart-link .cart-count { background: #e5322d; }
+  /* Непустая спецификация подсвечивается фирменным акцентом: знак и
+     счётчик одного цвета с остальными действиями сайта. Прежняя красная
+     заливка досталась от сердечка «избранного» и к списку закупки
+     отношения не имеет. */
+  .cart-link.has-items { color: var(--color-accent); }
   .cart-count {
     position: absolute;
-    top: -8px;
-    right: -10px;
+    top: -7px;
+    /* Отсчёт от левого края ссылки: знак стоит первым и его ширина
+       известна, а правый край зависит от длины подписи. */
+    left: 11px;
     min-width: 16px;
     height: 16px;
     padding: 0 4px;
@@ -398,7 +410,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     .cat-btn { display: none; }
     .btn-kp { display: none; }
     .burger { display: flex; }
-    /* Поиск/телефон скрыты — прижимаем избранное и бургер к правому краю */
+    /* Поиск/телефон скрыты — прижимаем спецификацию и бургер к правому краю */
     .header-inner { justify-content: flex-end; }
     .header-actions { margin-left: auto; }
     .mobile-nav[data-open] { display: flex; }
@@ -480,7 +492,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
       const raw = localStorage.getItem('bizsoft_cart');
       const items = raw ? JSON.parse(raw) : [];
       const count = Array.isArray(items) ? items.reduce((s, i) => s + (i.qty || 0), 0) : 0;
-      // Сердечко избранного: закрашено, когда есть добавленные позиции
+      // Знак спецификации подсвечен, когда в ней есть позиции
       document.querySelectorAll('.cart-link').forEach((el) => el.classList.toggle('has-items', count > 0));
       document.querySelectorAll('[data-cart-count]').forEach((el) => {
         const node = el as HTMLElement;

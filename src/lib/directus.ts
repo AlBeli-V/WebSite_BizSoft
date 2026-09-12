@@ -441,7 +441,7 @@ export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
       // ProductCard печатает артикул и приписку к цене, effectivePrice —
       // подпись акции. Без них главная не смогла бы обойтись этой выборкой.
       // price_from, product_type и parent_sku — для карточек подарочных карт
-      // («от», кнопка выбора номинала вместо избранного); поля есть в схеме
+      // («от», кнопка выбора номинала вместо спецификации); поля есть в схеме
       // с 05.09.2026 (ops-directus-schema применён до этого кода).
       fields: 'id,name,sku,slug,vendor,origin,short_description,price,price_note,promo_price,promo_label,promo_start,promo_end,currency,license_type,image,price_from,product_type,parent_sku',
       filter: JSON.stringify({ slug: { _in: slugs }, status: { _eq: 'published' } }),

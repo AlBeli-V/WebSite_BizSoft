@@ -57,7 +57,7 @@ const cards = listingProducts(products).map((p) => {
     features: feats,
     plan: planType(p.name, p.short_description || ''),
     icon: productIcons(p.slug).length > 0,
-    // Подарочная карта: цена «от» минимального номинала, в избранное — со
+    // Подарочная карта: цена «от» минимального номинала, в спецификацию — со
     // страницы карты после выбора региона и номинала.
     gift: isGiftCard(p),
     priceFrom: Boolean(p.price_from),

@@ -13,14 +13,14 @@ try {
   presets = await getPresets();
 } catch { /* без пресетов страница работает как раньше */ }
 ---
-<BaseLayout title="Избранное" description="Избранное BIZSoft: соберите подписки и получите коммерческое предложение с реквизитами." noindex={true}>
+<BaseLayout title="Спецификация КП" description="Спецификация КП BIZSoft: соберите подписки и получите коммерческое предложение с реквизитами." noindex={true}>
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'Избранное', url: '/cart' }]} />
-    <h1 class="h1-spec">Избранное: редактирование спецификации для подготовки КП</h1>
+    <Breadcrumbs items={[{ name: 'Спецификация КП', url: '/cart' }]} />
+    <h1 class="h1-spec">Спецификация КП: состав, количество и суммы</h1>
 
     <div class="cart-layout">
       <div class="cart-items" data-cart-items>
-        <p class="empty" data-empty>В избранном пока пусто. <a href="/catalog">Перейти в каталог →</a></p>
+        <p class="empty" data-empty>Спецификация пока пуста. <a href="/catalog">Перейти в каталог →</a></p>
         <!-- КП-таблица: состав, количество (ввод/кнопки), цены и суммы с НДС -->
         <div class="table-wrap" data-cart-table hidden>
           <table class="kp-table">
@@ -49,7 +49,7 @@ try {
         <div class="sum-row total"><span>ИТОГО:</span><span data-total>0 ₽</span></div>
         <button class="btn btn-primary" data-open-kp>Получить КП</button>
         <button class="btn btn-ghost" data-share>Поделиться списком</button>
-        <p class="share-note" data-share-note hidden>Ссылка скопирована — перешлите её коллеге или руководителю: подборка откроется у него без регистрации.</p>
+        <p class="share-note" data-share-note hidden>Ссылка скопирована — перешлите её коллеге или руководителю: спецификация откроется у него без регистрации.</p>
         <ol class="cart-steps">
           <li>100% аванс</li>
           <li>Поставка 1–5 дней</li>
@@ -61,7 +61,7 @@ try {
     {presets.length > 0 && (
       <section class="presets">
         <h2>Готовые наборы</h2>
-        <p class="presets-lead">Добавьте набор в избранное в один клик — количество мест уточним в КП.</p>
+        <p class="presets-lead">Добавьте набор в спецификацию в один клик — количество мест уточним в КП.</p>
         <PresetCards presets={presets} />
       </section>
     )}
@@ -130,8 +130,8 @@ try {
   import { trackGoal } from '@/lib/analytics';
   import { readCart, setQty, removeFromCart, cartTotal, addToCart } from '../../lib/cart-client';
 
-  // Открыли подборку. Знаменатель для формы КП: видно, сколько дошло до
-  // корзины и сколько из них вообще начало заполнять форму.
+  // Открыли спецификацию. Знаменатель для формы КП: видно, сколько дошло
+  // до неё и сколько из них вообще начало заполнять форму.
   trackGoal('view_cart', { items: readCart().length, total: cartTotal() });
   import { formatRub } from '../../lib/pricing';
   import { moneyFmt, vatIncluded, totalWithVatWords } from '../../lib/rub-words';
@@ -220,7 +220,7 @@ try {
       }
       history.replaceState(null, '', '/cart');
     }
-  } catch { /* битая ссылка — просто показываем текущую подборку */ }
+  } catch { /* битая ссылка — просто показываем текущую спецификацию */ }
 
   document.querySelector('[data-share]')?.addEventListener('click', async () => {
     const items = readCart();
@@ -228,7 +228,7 @@ try {
     const payload = items.map((i) => ({ sku: i.sku, slug: i.slug, name: i.name, vendor: i.vendor || '', price: i.price, qty: i.qty }));
     const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     const url = `${location.origin}/cart?share=${b64}`;
-    try { await navigator.clipboard.writeText(url); } catch { prompt('Скопируйте ссылку на подборку:', url); }
+    try { await navigator.clipboard.writeText(url); } catch { prompt('Скопируйте ссылку на спецификацию:', url); }
     const note = document.querySelector<HTMLElement>('[data-share-note]');
     if (note) note.hidden = false;
   });
