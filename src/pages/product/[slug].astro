@@ -540,7 +540,9 @@ try {
 
 <style>
   .section { padding-top: 2rem; }
-  .product-layout { display: grid; grid-template-columns: 1fr 360px; gap: 3rem; align-items: start; }
+  /* minmax(0, …) — право колонки сжаться: колонка шириной 1fr не уходит уже
+     своего содержимого, и длинное название товара распирало страницу. */
+  .product-layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 3rem; align-items: start; }
   .badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.7rem; }
   .badge { font-size: 0.74rem; font-weight: 600; padding: 0.18rem 0.55rem; border-radius: 6px; background: var(--color-bg-elevated); color: var(--color-text-muted); }
   .badge[data-origin='domestic'] { background: color-mix(in srgb, var(--color-success) 18%, transparent); color: var(--color-success); }
@@ -623,7 +625,7 @@ try {
   .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.12); border: none; color: #fff; font-size: 2rem; width: 48px; height: 48px; border-radius: 999px; cursor: pointer; }
   .lb-prev { left: 1rem; } .lb-next { right: 1rem; }
   @media (max-width: 900px) {
-    .product-layout { grid-template-columns: 1fr; }
+    .product-layout { grid-template-columns: minmax(0, 1fr); }
     .product-aside { position: static; }
     /* Подарочная карта: выбор региона и номинала — первым экраном, до описания */
     .product-layout.gift .product-aside { order: -1; }
