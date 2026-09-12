@@ -18,7 +18,7 @@ if (!raw.trim() && process.env.PATHS_FILE && existsSync(process.env.PATHS_FILE))
 const paths = raw.split(/[,\n]/).map((s) => s.trim()).filter((s) => s && !s.startsWith('#'));
 if (paths.length === 0) throw new Error('список адресов пуст');
 
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.PLAYWRIGHT_EXEC ? { executablePath: process.env.PLAYWRIGHT_EXEC } : {});
 for (const p of paths) {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   const res = await page.goto(`${SITE}${p}`, { waitUntil: 'networkidle', timeout: 60000 });

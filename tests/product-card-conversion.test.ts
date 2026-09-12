@@ -167,6 +167,56 @@ describe('вид позиции задаёт композицию', () => {
   });
 });
 
+describe('расхождения выката 12.09.2026 закрыты', () => {
+  const topup = { sku: 'OPENAI-CREDITS-100', price: 19531, product_type: null, parent_sku: null };
+
+  it('у пополнения баланса призыв не обещает лицензию', () => {
+    // На живой карточке стояло «Получить КП на 1 лицензию» и «Количество
+    // лицензий»: лицензий у пополнения баланса нет.
+    const s = commerceState({ price: 19531 });
+    expect(quoteCtaLabel(s, 1, false)).toBe('Получить КП');
+    expect(quoteProductRef('Пополнение', 'OPENAI-CREDITS-100', s, 2, false))
+      .toBe('Пополнение (OPENAI-CREDITS-100) — 2 шт.');
+    expect(cardComposition(topup)).not.toBe('unit_subscription');
+    expect(page).toContain("isUnitPlan ? `Количество ${commerce.qtyLabel.toLowerCase()}` : 'Количество'");
+    expect(page).toContain('quoteCtaLabel(commerce, commerce.minQty, isUnitPlan)');
+    // Клиентский скрипт пересчитывает подпись тем же правилом.
+    expect(page).toContain("const namedUnit = layout?.dataset.composition === 'unit_subscription'");
+    expect(page).toContain('quoteCtaLabel(commerce, q, namedUnit)');
+  });
+
+  it('подзаголовок не тянет тематическую плашку вендора', () => {
+    // `badge` — подпись линейки («VFX и моушн», «для команд», «API»), из
+    // неё получалось «Командный план · VFX и моушн».
+    expect(page).toContain('const subtitleParts = [planMarker]');
+    expect(page).not.toContain('cardMeta?.badge');
+  });
+
+  it('строка типа использования не выводится без подписи', () => {
+    expect(page).toContain('product.license_type && LICENSE_LABEL[product.license_type]');
+  });
+
+  it('хвостовой призыв страницы убран: он дублирует помощь с выбором', () => {
+    expect(page).not.toContain('CTASection');
+  });
+
+  it('доверительные признаки есть и у подарочной карты', () => {
+    const gift = page.slice(page.indexOf('<GiftCardSelector'), page.indexOf('class="card buy-card"'));
+    expect(gift).toContain('TRUST_LINES');
+  });
+
+  it('командные планы Maxon считаются местами, а не лицензиями', () => {
+    // Состав плана в контенте вендора сам называет единицу: «места
+    // принадлежат компании и переназначаются».
+    const maxon = VENDOR_CONTENT['maxon']?.cards || {};
+    for (const [sku, meta] of Object.entries(maxon)) {
+      if (!sku.endsWith('-TEAMS')) continue;
+      if (!(meta?.features || []).some((f) => f.includes('еста'))) continue;
+      expect(meta.qtyLabel, sku).toBe('Мест');
+    }
+  });
+});
+
 describe('композиция, одобренная 12.09.2026', () => {
   it('разделы страницы идут в утверждённом порядке', () => {
     const order = [

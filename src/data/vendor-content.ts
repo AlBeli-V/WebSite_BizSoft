@@ -8170,7 +8170,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Cinema 4D, Redshift, ZBrush, Red Giant и Universe",
           "Места принадлежат компании и переназначаются",
           "Управление лицензиями из единой консоли"
-        ]
+        ],
+        "qtyLabel": "Мест"
       },
       "MAXON-C4D-TEAMS": {
         "badge": "3D и анимация",
@@ -8179,7 +8180,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "3D-моделирование, анимация и симуляция",
           "Redshift для Cinema 4D включён",
           "Места переназначаются между сотрудниками"
-        ]
+        ],
+        "qtyLabel": "Мест"
       },
       "MAXON-REDGIANT-TEAMS": {
         "badge": "VFX и моушн",
@@ -8188,7 +8190,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Trapcode, Magic Bullet, VFX и Universe",
           "Плагины для After Effects и Premiere Pro",
           "Места переназначаются между сотрудниками"
-        ]
+        ],
+        "qtyLabel": "Мест"
       },
       "MAXON-REDSHIFT-TEAMS": {
         "badge": "GPU-рендер",
@@ -8197,7 +8200,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Рендер продакшн-качества на GPU",
           "C4D, Maya, 3ds Max, Houdini, Blender, Katana",
           "Места переназначаются между сотрудниками"
-        ]
+        ],
+        "qtyLabel": "Мест"
       },
       "MAXON-ZBRUSH-TEAMS": {
         "badge": "скульптинг",
@@ -8206,7 +8210,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Индустриальный стандарт скульптинга",
           "ZBrush для iPad включён",
           "Места переназначаются между сотрудниками"
-        ]
+        ],
+        "qtyLabel": "Мест"
       }
     },
     "order": [
