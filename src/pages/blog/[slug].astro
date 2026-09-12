@@ -149,7 +149,7 @@ const articleSchema = {
 
   .section { padding-top: 2rem; }
   .article { max-width: 760px; }
-  .tags { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
   .tags a { background: var(--color-bg-elevated); color: var(--color-text-muted); font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 6px; text-decoration: none; }
   .tags a:hover { color: var(--color-text); }
   h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
@@ -159,6 +159,6 @@ const articleSchema = {
   .summary strong { color: var(--color-text); }
   .related { margin-top: 3rem; }
   .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
-  .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 1rem; }
   .rel { padding: 1.1rem 1.3rem; font-weight: 600; color: var(--color-accent); }
 </style>

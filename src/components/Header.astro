@@ -296,7 +296,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   .dd-all { color: var(--color-accent); font-weight: 600; border-top: 1px solid var(--color-border); margin-top: 2px; }
   /* Длинные списки: помещаются на экран, иначе листаются */
   .dd-scroll { max-height: min(64vh, 560px); overflow-y: auto; overscroll-behavior: contain; }
-  .dd-cols { display: grid; grid-template-columns: repeat(2, minmax(180px, 1fr)); gap: 2px; min-width: 420px; }
+  .dd-cols { display: grid; grid-template-columns: repeat(2, minmax(min(100%, 180px), 1fr)); gap: 2px; min-width: 420px; }
   .dd-cols .dd-all { grid-column: 1 / -1; }
   .dd-logo-item { display: flex; align-items: center; gap: 0.55rem; }
   .dd-logo-item img { width: 18px; height: 18px; object-fit: contain; border-radius: 4px; flex-shrink: 0; }

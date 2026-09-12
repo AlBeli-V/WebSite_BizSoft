@@ -600,7 +600,7 @@ try {
   .gift-warn { margin: 0; padding: 0.8rem 1rem; border-radius: 10px; font-weight: 600; line-height: 1.45; max-width: 70ch;
     background: color-mix(in srgb, #e07b00 14%, transparent); border: 1px solid color-mix(in srgb, #e07b00 45%, transparent); }
   .small-note { font-size: 0.88rem; }
-  .gift-denoms { list-style: none; padding: 0; margin: 0.8rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.4rem; }
+  .gift-denoms { list-style: none; padding: 0; margin: 0.8rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 0.4rem; }
   .gift-pick { width: 100%; display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0.5rem; text-align: left; padding: 0.5rem 0.8rem;
     border-radius: 10px; border: 1px solid var(--color-border); background: var(--color-bg-card); color: var(--color-text); font: inherit; cursor: pointer; }
   .gift-pick:hover { border-color: var(--color-accent); }
@@ -608,11 +608,11 @@ try {
   .gp-nom { font-weight: 700; font-variant-numeric: tabular-nums; }
   .gp-arrow { color: var(--color-text-dim); }
   .gp-price { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .ai-interlinks { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem; }
+  .ai-interlinks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 1.2rem; }
   .ai-interlinks h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-dim); margin-bottom: 0.6rem; }
   .ai-interlinks ul { list-style: none; padding: 0; display: grid; gap: 0.4rem; }
   .ai-interlinks a { color: var(--color-accent); font-weight: 600; font-size: 0.92rem; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.8rem; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 0.8rem; }
   .related-card { padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.2rem; }
   .related-card strong { font-size: 0.98rem; }
   .related-card span { color: var(--color-text-dim); font-size: 0.8rem; }
