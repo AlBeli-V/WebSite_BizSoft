@@ -482,12 +482,17 @@ def coverage_state(snapshot: dict) -> tuple[str, str]:
     return "ок", note
 
 
-def verdict(kpi: Kpi, history: list[float] | None = None,
-            core_note: str = "") -> tuple[str, str]:
+def verdict(kpi: Kpi, history: list[float] | None = None) -> tuple[str, str]:
     """Динамический вердикт: усиливаемся, слабеем или движения нет.
 
     Требует шести сравнимых измерений — раньше динамики не существует.
     Структурная картина при этом доступна всегда, её даёт structural_verdict().
+
+    Методическая оговорка про основание ряда (строгий или сцепленный,
+    пересечение составов, звенья цепи) в вердикт не входит: 11.09.2026 она
+    занимала 141 символ из 1075 и вместе с остальным текстом выводила письмо
+    за лимит первого экрана. Оговорка живёт в детализации, в разделе условий
+    расчёта — решение руководителя 11.09.2026.
     """
     if not kpi.coverage_ok:
         return VERDICT_NO_DATA, ("Данные неполные: срез выдачи не собран — "
@@ -504,8 +509,6 @@ def verdict(kpi: Kpi, history: list[float] | None = None,
         why = (f"Недостаточно данных для оценки динамики: нужно "
                f"{MIN_OBSERVATIONS_FOR_TREND} сравнимых измерений, "
                f"есть {len(history)}, не хватает {need}")
-        if core_note:
-            why += f" ({core_note})"
         return VERDICT_NO_DATA, why
 
     change = trend_change(history)

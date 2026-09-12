@@ -71,8 +71,11 @@ const messagePlaceholder = compact
       проверкой «h1→h3»). Вне компактного вида выше по странице всегда есть
       h2, и h3 остаётся корректным. */}
   {compact ? <p class="lf-title">{title}</p> : <h3>{title}</h3>}
+  {/* Имени у списка тарифов нет намеренно: поле заявки одно — скрытое
+      product_ref ниже. Пока их было два с одним именем, браузер отправлял
+      оба, а /api/lead читал последнее — выбор посетителя молча терялся. */}
   {plans && plans.length > 0 && (
-    <label class="lf-plan">Что рассчитать:<select name="product_ref" data-lead-plan>
+    <label class="lf-plan">Что рассчитать:<select data-lead-plan>
       <option value="">Подберите под задачу</option>
       {plans.map((p) => <option value={p.value}>{p.label}</option>)}
     </select></label>
@@ -241,6 +244,10 @@ const messagePlaceholder = compact
       // отправка после ошибки дописала бы количество второй раз.
       const ref = form.querySelector('[data-product-ref]') as HTMLInputElement | null;
       if (ref) {
+        // Выбор из списка тарифов — такой же источник состава, как кнопка
+        // страницы: чей выбор свежее, тот и уходит в заявку.
+        const picked = (form.querySelector('[data-lead-plan]') as HTMLSelectElement | null)?.value;
+        if (picked) ref.dataset.base = picked;
         const seats = (form.elements.namedItem('seats') as HTMLInputElement | null)?.value?.trim();
         ref.value = [ref.dataset.base || '', seats ? `количество: ${seats}` : '']
           .filter(Boolean).join(' · ').slice(0, 300);
