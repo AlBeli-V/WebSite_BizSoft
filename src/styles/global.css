@@ -437,8 +437,16 @@
     text-decoration: underline;
     text-underline-offset: 3px;
   }
+  /* Таблица статьи прокручивается внутри себя, а не тянет за собой страницу.
+     Три колонки регионов в сравнении подарочных карт не сжимаются ниже
+     456px, и на телефоне документ становился шире экрана — сайт съезжал
+     к левому краю. Обёртки вокруг таблицы нет и не будет: разметку статей
+     рисует markdown, поэтому скроллером служит сама таблица. */
   .prose-bizsoft table {
+    display: block;
     width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
     border-collapse: collapse;
     margin: 1.4rem 0;
     font-size: 0.95rem;

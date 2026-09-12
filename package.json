@@ -17,7 +17,7 @@
     "smoke": "node scripts/ci/smoke.mjs",
     "check:metrika": "node scripts/ci/metrika-check.mjs",
     "test:webmcp-browser": "node scripts/ci/webmcp-browser.mjs",
-    "check:mobile": "node scripts/ci/mobile-layout.mjs",
+    "check:mobile": "node scripts/ci/mobile-layout.mjs --sweep-width=375",
     "check:artifacts": "node scripts/ci/check-artifacts.mjs",
     "verify": "pnpm test && pnpm typecheck && pnpm build && pnpm check:artifacts && pnpm smoke && pnpm check:metrika",
     "directus:schema": "node scripts/directus-setup.mjs",

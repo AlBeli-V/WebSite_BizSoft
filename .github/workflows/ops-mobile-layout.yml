@@ -28,6 +28,10 @@ on:
         description: "Адреса через запятую (пусто — взять из карты сайта)"
         required: false
         default: ""
+      sweep_width:
+        description: "Ширина сплошного прохода по всем адресам карты, px"
+        required: false
+        default: "375"
   schedule:
     # 06:20 UTC = 09:20 МСК, по понедельникам: дефект вёрстки живёт до
     # первого взгляда, и неделя — приемлемый срок обнаружения.
@@ -64,10 +68,11 @@ jobs:
           SITE: ${{ inputs.url || 'https://biz-soft.pro' }}
           WIDTHS: ${{ inputs.widths || '440,393,375,320' }}
           PATHS: ${{ inputs.paths }}
+          SWEEP: ${{ inputs.sweep_width || '375' }}
         run: |
           set -o pipefail
           node scripts/ci/mobile-layout.mjs \
-            --base="$SITE" --widths="$WIDTHS" \
+            --base="$SITE" --widths="$WIDTHS" --sweep-width="$SWEEP" \
             ${PATHS:+--paths="$PATHS"} 2>&1 | tee /tmp/mobile-layout.log
 
       - name: Save log for issue
