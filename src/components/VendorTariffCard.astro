@@ -1,0 +1,98 @@
+---
+/**
+ * Карточка тарифа на странице производителя.
+ *
+ * Вынесена из VendorLanding, когда сетка научилась разделам линейки: тот же
+ * вид карточки нужен и в общем списке, и внутри раздела, а две копии
+ * разметки разъехались бы при первой же правке.
+ */
+import ProductIcon from './ProductIcon.astro';
+import AddToCartButton from './AddToCartButton.astro';
+import TariffQty from './TariffQty.astro';
+import { PLAN_LABEL, type PlanType } from '../lib/plan-type';
+
+export interface TariffCard {
+  seg: string;
+  minQty: number;
+  qtyLabel: string;
+  check: string;
+  badge: string;
+  name: string;
+  slug: string;
+  sku: string;
+  price: number;
+  priceText: string;
+  note: string;
+  byRequest: boolean;
+  short: string;
+  features: string[];
+  plan: PlanType | null;
+  icon: boolean;
+  gift: boolean;
+  priceFrom: boolean;
+}
+
+interface Props {
+  card: TariffCard;
+  /** Отображаемое имя вендора — в подпись выбора для формы. */
+  title: string;
+  /** Точное значение поля vendor в каталоге — уходит в подборку. */
+  vendor: string;
+}
+const { card: c, title, vendor } = Astro.props;
+---
+<article class="card vcard" data-qty-scope data-seg-card={c.seg || undefined}>
+  {c.badge && <span class="vbadge">{c.badge}</span>}
+  <div class="vc-head">
+    {c.icon && <ProductIcon slug={c.slug} name={c.name} size={38} />}
+    <h3>{c.name}</h3>
+  </div>
+  {/* Своя плашка отменяет автоматическую: две подряд («для команд» и
+      «Для организации») говорят об одном и том же. */}
+  {!c.badge && c.plan && <span class="plan-tag" data-plan={c.plan}>{PLAN_LABEL[c.plan]}</span>}
+  {c.short && <p class="forwhom">{c.short}</p>}
+  <div class="vprice">
+    {c.byRequest
+      ? <span class="req">Цена по запросу</span>
+      : <span class="pv"><b>{c.priceFrom ? `от ${c.priceText}` : c.priceText}</b> <span class="note">{c.note}</span></span>}
+  </div>
+  {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
+  {c.check && <p class="vcheck">⚠ {c.check}</p>}
+  {!c.byRequest && !c.gift && (
+    <TariffQty price={c.price} minQty={c.minQty} qtyLabel={c.qtyLabel} name={c.name} />
+  )}
+  <div class="vactions">
+    {c.byRequest ? (
+      /* Цена по запросу тоже ведёт к форме страницы, а не в модальное окно:
+         путь заявки один, и выбор уезжает в неё сам. */
+      <a href="#lead" class="btn btn-primary btn-sm" data-quote-cta data-context={`${title} — ${c.name}`} data-ev="click_get_quote">Запросить цену</a>
+    ) : c.gift ? (
+      <a href={`/product/${c.slug}`} class="btn btn-primary btn-sm" data-ev="click_product_card">Выбрать регион и номинал</a>
+    ) : (
+      <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor={vendor} price={c.price} compact />
+    )}
+    <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
+  </div>
+</article>
+
+<style>
+  .vcard { padding: 1.4rem; display: flex; flex-direction: column; }
+  .vbadge { align-self: flex-start; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; background: color-mix(in srgb, var(--vc, var(--color-accent)) 16%, transparent); color: var(--vc, var(--color-accent)); margin-bottom: 0.5rem; }
+  /* Значок слева перед названием; у составных позиций — несколько значков */
+  .vc-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+  .vcard h3 { font-size: 1.1rem; margin-bottom: 0; }
+  .forwhom { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 0.6rem; }
+  /* Кому адресован тариф */
+  .plan-tag { align-self: flex-start; font-size: 0.72rem; padding: 0.14rem 0.55rem; border-radius: 6px; margin-bottom: 0.5rem; }
+  .plan-tag[data-plan='team'] { color: var(--vc, var(--color-accent)); background: color-mix(in srgb, var(--vc, var(--color-accent)) 12%, transparent); font-weight: 700; }
+  .plan-tag[data-plan='individual'] { color: var(--color-text-muted); border: 1px solid var(--color-border-strong); font-weight: 600; }
+  .vprice { margin: 0.3rem 0 0.7rem; }
+  .vprice b { font-size: 1.2rem; }
+  .vprice .note { color: var(--color-text-dim); font-size: 0.8rem; }
+  .vprice .req { font-weight: 700; }
+  .vfeat { list-style: none; padding: 0; margin: 0 0 0.7rem; display: grid; gap: 0.3rem; }
+  .vfeat li { padding-left: 1.3rem; position: relative; color: var(--color-text); font-size: 0.88rem; }
+  .vfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--vc, var(--color-accent)); font-weight: 700; }
+  .vcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.6rem; }
+  .vactions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+</style>
