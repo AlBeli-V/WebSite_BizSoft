@@ -7,6 +7,14 @@
 # Снимки уезжают артефактом прогона, в журнал ничего не пишется.
 name: ops-card-shot
 on:
+  # Прогон запускается пушем в рабочую ветку: workflow_dispatch доступен
+  # только для файлов, уже лежащих в main, а сверка нужна до слияния.
+  push:
+    branches: ['claude/**']
+    paths:
+      - '.github/workflows/ops-card-shot.yml'
+      - 'scripts/ci/card-shot.mjs'
+      - 'shots-request.txt'
   workflow_dispatch:
     inputs:
       paths:
@@ -38,7 +46,8 @@ jobs:
       - name: Shoot
         env:
           SITE: ${{ inputs.url || 'https://biz-soft.pro' }}
-          PATHS: ${{ inputs.paths }}
+          PATHS: ${{ inputs.paths || '' }}
+          PATHS_FILE: shots-request.txt
         run: node scripts/ci/card-shot.mjs
       - name: Upload
         uses: actions/upload-artifact@v4

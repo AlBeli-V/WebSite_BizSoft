@@ -6,11 +6,17 @@
  * Кроме снимков сохраняется сам HTML — по нему видно, какие блоки пришли
  * на страницу, а какие нет.
  */
+import { existsSync, readFileSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const SITE = (process.env.SITE || 'https://biz-soft.pro').replace(/\/$/, '');
-const paths = (process.env.PATHS || '').split(',').map((s) => s.trim()).filter(Boolean);
+let raw = process.env.PATHS || '';
+// При запуске пушем адреса берутся из файла-заявки: входов у push-прогона нет.
+if (!raw.trim() && process.env.PATHS_FILE && existsSync(process.env.PATHS_FILE)) {
+  raw = readFileSync(process.env.PATHS_FILE, 'utf8');
+}
+const paths = raw.split(/[,\n]/).map((s) => s.trim()).filter((s) => s && !s.startsWith('#'));
 if (paths.length === 0) throw new Error('PATHS пуст');
 
 await mkdir('shots', { recursive: true });
