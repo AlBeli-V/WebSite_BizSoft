@@ -1,0 +1,440 @@
+{
+ "mode": "weekly",
+ "mode_label": "еженедельный",
+ "send_date": "2026-09-12",
+ "from": "2026-09-05",
+ "to": "2026-09-11",
+ "prev_from": "2026-08-29",
+ "prev_to": "2026-09-04",
+ "title_period": "за период 05.09 по 11.09.2026",
+ "subject": "BIZSoft Growth Intelligence — еженедельный за период 05.09 по 11.09.2026",
+ "metrics": {
+  "yandex_impressions": {
+   "label": "Яндекс, показы",
+   "total": 7452.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_clicks": {
+   "label": "Яндекс, клики",
+   "total": 80.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "gsc_impressions": {
+   "label": "Google, показы",
+   "total": 83.0,
+   "covered_days": 5,
+   "days": 7
+  },
+  "gsc_clicks": {
+   "label": "Google, клики",
+   "total": 0.0,
+   "covered_days": 5,
+   "days": 7
+  },
+  "visits_all": {
+   "label": "Визиты сайта, все",
+   "total": 528.0,
+   "covered_days": 6,
+   "days": 7
+  },
+  "visits_organic": {
+   "label": "Визиты, органика",
+   "total": 31.0,
+   "covered_days": 4,
+   "days": 7
+  },
+  "goals_organic": {
+   "label": "Достижения целей (органика)",
+   "total": 97.0,
+   "covered_days": 4,
+   "days": 7
+  },
+  "ga4_sessions": {
+   "label": "GA4, органические сессии",
+   "total": 56.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_ctr": {
+   "label": "Яндекс, CTR",
+   "total": 0.010735373054213635,
+   "covered_days": 7,
+   "days": 7,
+   "is_ratio": true
+  },
+  "_extremes": {
+   "yandex_clicks": {
+    "best": {
+     "date": "2026-09-07",
+     "value": 26.0
+    },
+    "worst": {
+     "date": "2026-09-11",
+     "value": 0.0
+    }
+   },
+   "goals": {
+    "best": {
+     "date": "2026-09-08",
+     "value": 32.0
+    },
+    "worst": {
+     "date": "2026-09-10",
+     "value": 10.0
+    }
+   }
+  }
+ },
+ "prev_metrics": {
+  "yandex_impressions": {
+   "label": "Яндекс, показы",
+   "total": 4415.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_clicks": {
+   "label": "Яндекс, клики",
+   "total": 32.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "gsc_impressions": {
+   "label": "Google, показы",
+   "total": 80.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "gsc_clicks": {
+   "label": "Google, клики",
+   "total": 0.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "visits_all": {
+   "label": "Визиты сайта, все",
+   "total": 389.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "visits_organic": {
+   "label": "Визиты, органика",
+   "total": 18.0,
+   "covered_days": 6,
+   "days": 7
+  },
+  "goals_organic": {
+   "label": "Достижения целей (органика)",
+   "total": 27.0,
+   "covered_days": 6,
+   "days": 7
+  },
+  "ga4_sessions": {
+   "label": "GA4, органические сессии",
+   "total": 25.0,
+   "covered_days": 5,
+   "days": 7
+  },
+  "yandex_ctr": {
+   "label": "Яндекс, CTR",
+   "total": 0.0072480181200453,
+   "covered_days": 7,
+   "days": 7,
+   "is_ratio": true
+  },
+  "_extremes": {
+   "yandex_clicks": {
+    "best": {
+     "date": "2026-09-01",
+     "value": 8.0
+    },
+    "worst": {
+     "date": "2026-08-29",
+     "value": 0.0
+    }
+   },
+   "goals": {
+    "best": {
+     "date": "2026-09-02",
+     "value": 11.0
+    },
+    "worst": {
+     "date": "2026-08-31",
+     "value": 0.0
+    }
+   }
+  }
+ },
+ "ads": {
+  "available": true,
+  "campaign": "bs-test-2026-09",
+  "cost": 5596.360000000001,
+  "clicks": 687,
+  "impressions": 29862,
+  "cpc": 8.14608442503639,
+  "groups": [
+   {
+    "name": "Оплата подписок Apple из России",
+    "imp": 20977,
+    "clicks": 347,
+    "cost": 1798.96,
+    "cpc": 5.184322766570605
+   },
+   {
+    "name": "Adobe",
+    "imp": 678,
+    "clicks": 44,
+    "cost": 1044.7,
+    "cpc": 23.74318181818182
+   },
+   {
+    "name": "Подарочная карта Apple",
+    "imp": 3343,
+    "clicks": 80,
+    "cost": 489.13,
+    "cpc": 6.114125
+   },
+   {
+    "name": "Midjourney",
+    "imp": 169,
+    "clicks": 18,
+    "cost": 463.62,
+    "cpc": 25.756666666666668
+   },
+   {
+    "name": "Пополнить Apple ID и баланс App Store",
+    "imp": 1635,
+    "clicks": 52,
+    "cost": 361.06000000000006,
+    "cpc": 6.9434615384615395
+   },
+   {
+    "name": "Cursor",
+    "imp": 255,
+    "clicks": 12,
+    "cost": 349.27000000000004,
+    "cpc": 29.105833333333337
+   },
+   {
+    "name": "Apple Gift Card",
+    "imp": 1134,
+    "clicks": 42,
+    "cost": 278.96,
+    "cpc": 6.641904761904762
+   },
+   {
+    "name": "Claude",
+    "imp": 253,
+    "clicks": 16,
+    "cost": 259.76,
+    "cpc": 16.235
+   },
+   {
+    "name": "Подарочные карты сотрудникам",
+    "imp": 942,
+    "clicks": 65,
+    "cost": 242.37,
+    "cpc": 3.728769230769231
+   },
+   {
+    "name": "Atlassian",
+    "imp": 366,
+    "clicks": 6,
+    "cost": 145.82999999999998,
+    "cpc": 24.304999999999996
+   },
+   {
+    "name": "Зарубежное ПО для юрлица",
+    "imp": 21,
+    "clicks": 2,
+    "cost": 95.14,
+    "cpc": 47.57
+   },
+   {
+    "name": "Claude Code",
+    "imp": 54,
+    "clicks": 3,
+    "cost": 67.56,
+    "cpc": 22.52
+   },
+   {
+    "name": "Descript",
+    "imp": 31,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Box и Dropbox",
+    "imp": 4,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   }
+  ]
+ },
+ "prev_ads": {
+  "available": true,
+  "campaign": "bs-test-2026-09",
+  "cost": 4066.61,
+  "clicks": 243,
+  "impressions": 3395,
+  "cpc": 16.73502057613169,
+  "groups": [
+   {
+    "name": "Adobe",
+    "imp": 800,
+    "clicks": 61,
+    "cost": 950.62,
+    "cpc": 15.583934426229508
+   },
+   {
+    "name": "ChatGPT Business",
+    "imp": 763,
+    "clicks": 41,
+    "cost": 884.7,
+    "cpc": 21.578048780487805
+   },
+   {
+    "name": "Claude",
+    "imp": 551,
+    "clicks": 32,
+    "cost": 688.23,
+    "cpc": 21.5071875
+   },
+   {
+    "name": "Claude Code",
+    "imp": 854,
+    "clicks": 76,
+    "cost": 653.8299999999999,
+    "cpc": 8.603026315789473
+   },
+   {
+    "name": "Cursor",
+    "imp": 185,
+    "clicks": 13,
+    "cost": 395.85,
+    "cpc": 30.450000000000003
+   },
+   {
+    "name": "Зарубежное ПО для юрлица",
+    "imp": 122,
+    "clicks": 13,
+    "cost": 356.78,
+    "cpc": 27.444615384615382
+   },
+   {
+    "name": "Midjourney",
+    "imp": 56,
+    "clicks": 4,
+    "cost": 61.36,
+    "cpc": 15.34
+   },
+   {
+    "name": "Descript",
+    "imp": 25,
+    "clicks": 2,
+    "cost": 53.92,
+    "cpc": 26.96
+   },
+   {
+    "name": "Box и Dropbox",
+    "imp": 24,
+    "clicks": 1,
+    "cost": 21.32,
+    "cpc": 21.32
+   },
+   {
+    "name": "Atlassian",
+    "imp": 15,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   }
+  ]
+ },
+ "indexation": {
+  "available": true,
+  "start": {
+   "indexed": 476,
+   "known": 526
+  },
+  "end": {
+   "indexed": 449,
+   "known": 1313
+  },
+  "start_missing": false
+ },
+ "events": {
+  "experiment_verdicts": [
+   {
+    "ticket": "CONTENT-003",
+    "date": "2026-09-09",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "CONTENT-005",
+    "date": "2026-09-10",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "CONTENT-004",
+    "date": "2026-09-10",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "CONTENT-002",
+    "date": "2026-09-09",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "PAGES-EXP-001",
+    "date": "2026-09-06",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "SEO-EXP-003",
+    "date": "2026-09-05",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "SEO-EXP-005",
+    "date": "2026-09-09",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "SEO-EXP-002-R",
+    "date": "2026-09-10",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "SEO-EXP-006",
+    "date": "2026-09-10",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   },
+   {
+    "ticket": "SEO-EXP-004",
+    "date": "2026-09-08",
+    "verdict": "INSUFFICIENT_DATA",
+    "recommendation": "EXTEND"
+   }
+  ],
+  "ppc_decisions": []
+ },
+ "summary": "За период клики из Яндекса выросли (32 → 80, +150%); достижений целей 97 против 27 прошлым периодом; реклама: 5596 ₽ и 687 кликов.",
+ "attention": [
+  "Google, клики: данные за 5 из 7 дней — хвост периода дозреет у источника, цифры уточнятся",
+  "Визиты сайта, все: данные за 6 из 7 дней — хвост периода дозреет у источника, цифры уточнятся",
+  "последние ~3 дня периода у Яндекс.Вебмастера и GSC дозревают задним числом — суммы по поиску могут вырасти при уточнении"
+ ]
+}
