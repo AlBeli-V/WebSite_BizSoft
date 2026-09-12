@@ -49,9 +49,12 @@ describe('страховка от распирающего содержимог�
   const css = readFileSync(resolve(ROOT, 'src/styles/global.css'), 'utf8');
 
   it('длинное слово без пробелов переносится, а не раздвигает страницу', () => {
-    // Артикулы подарочных карт вида APP-STORE-ITUNES-GIFT-CARD-RU-1000
-    // длиннее любой колонки на телефоне.
-    expect(css).toMatch(/overflow-wrap:\s*break-word/);
+    // Артикулы подарочных карт вида APP-STORE-ITUNES-GIFT-CARD-RU-1000 и
+    // названия вроде Enterprise(Distributed) длиннее любой колонки на
+    // телефоне. Именно anywhere: break-word разрывает слово, но ширину
+    // колонки не уменьшает — сетка всё равно растягивается под слово.
+    expect(css).toMatch(/overflow-wrap:\s*anywhere/);
+    expect(css).not.toMatch(/overflow-wrap:\s*break-word/);
   });
 
   it('картинка не шире своей колонки', () => {

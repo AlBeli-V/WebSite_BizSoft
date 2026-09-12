@@ -132,7 +132,7 @@ const MEASURE = () => {
     return false;
   };
 
-  const seen = new Set();
+  const out = [];
   for (const el of document.querySelectorAll('body *')) {
     const r = el.getBoundingClientRect();
     if (r.width === 0 || r.height === 0) continue;
@@ -140,9 +140,19 @@ const MEASURE = () => {
     if (r.right <= 0) continue;
     if (getComputedStyle(el).position === 'fixed') continue;
     if (inScroller(el)) continue;
+    out.push(el);
+  }
+  // Родитель выходит за край всегда, когда за край выходит ребёнок, и список
+  // предков только прячет виновника. Показываются листья — те, у кого за край
+  // не выходит ни один ребёнок.
+  const set = new Set(out);
+  const seen = new Set();
+  for (const el of out) {
+    if ([...el.children].some((c) => set.has(c))) continue;
     const key = path(el);
     if (seen.has(key)) continue;
     seen.add(key);
+    const r = el.getBoundingClientRect();
     result.offenders.push({
       path: key,
       left: Math.round(r.left),
