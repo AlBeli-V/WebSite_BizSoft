@@ -1,0 +1,94 @@
+# Сторож вёрстки на узких экранах: не уехала ли страница вбок.
+#
+# Горизонтальная прокрутка на телефоне выглядит не как прокрутка, а как
+# поломка сайта: Safari отдаёт странице всю ширину документа, содержимое
+# съезжает к левому краю, справа остаётся пустая полоса. Так дефект и был
+# найден — не проверкой, а глазами руководителя на iPhone 12.09.2026.
+#
+# Проверка в CI (pnpm check:mobile) меряет стенд со стабом Directus: она
+# ловит наши правила вёрстки, но не настоящий контент. Распирает макет как
+# раз он — длинный артикул, таблица из карточки, широкая картинка из базы.
+# Поэтому здесь меряется живой сайт: адреса берутся из его карты сайта.
+#
+# Тишина при успехе: запись в журнал идёт только при сбое (правило
+# docs/rules/report-integrity.md).
+name: ops-mobile-layout
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Адрес сайта"
+        required: false
+        default: "https://biz-soft.pro"
+      widths:
+        description: "Ширины экрана через запятую, px"
+        required: false
+        default: "440,393,375,320"
+      paths:
+        description: "Адреса через запятую (пусто — взять из карты сайта)"
+        required: false
+        default: ""
+      sweep_width:
+        description: "Ширина сплошного прохода по всем адресам карты, px"
+        required: false
+        default: "375"
+  schedule:
+    # 06:20 UTC = 09:20 МСК, по понедельникам: дефект вёрстки живёт до
+    # первого взгляда, и неделя — приемлемый срок обнаружения.
+    - cron: "20 6 * * 1"
+permissions:
+  contents: read
+  issues: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Версия pnpm берётся из packageManager в package.json: указать её
+      # ещё и здесь — значит получить отказ «Multiple versions of pnpm».
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Measure live layout
+        id: run
+        env:
+          SITE: ${{ inputs.url || 'https://biz-soft.pro' }}
+          WIDTHS: ${{ inputs.widths || '440,393,375,320' }}
+          PATHS: ${{ inputs.paths }}
+          SWEEP: ${{ inputs.sweep_width || '375' }}
+        run: |
+          set -o pipefail
+          node scripts/ci/mobile-layout.mjs \
+            --base="$SITE" --widths="$WIDTHS" --sweep-width="$SWEEP" \
+            ${PATHS:+--paths="$PATHS"} 2>&1 | tee /tmp/mobile-layout.log
+
+      - name: Save log for issue
+        if: always()
+        run: |
+          [ -f /tmp/mobile-layout.log ] || echo "(лог не создан)" > /tmp/mobile-layout.log
+
+      # При успехе журнал молчит: еженедельная запись «всё хорошо» тонет
+      # среди прочих и перестаёт читаться.
+      - name: Post to issue on failure
+        if: failure()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-mobile-layout — страница уезжает вбок на узком экране"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/mobile-layout.log
+          format: code
+          issue: "22"
+          fail-on-error: "false"

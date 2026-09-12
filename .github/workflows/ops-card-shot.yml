@@ -1,0 +1,67 @@
+# expires: 2026-10-13 — разовый снимок живой карточки для сверки с макетом.
+#
+# Зачем. Сессия ходить в прод не может (docs/rules/prod-access.md), а сверять
+# выкаченную карточку с утверждённым макетом нужно по картинке, а не по
+# догадке. Workflow только читает публичные страницы по HTTP: ни SSH, ни
+# Directus, ни почты, ни записи — поэтому запускается с рабочей ветки.
+# Снимки уезжают артефактом прогона, в журнал ничего не пишется.
+name: ops-card-shot
+on:
+  # Прогон запускается пушем в рабочую ветку: workflow_dispatch доступен
+  # только для файлов, уже лежащих в main, а сверка нужна до слияния.
+  push:
+    branches: ['claude/**']
+    paths:
+      - '.github/workflows/ops-card-shot.yml'
+      - 'scripts/ci/card-shot.mjs'
+      - 'scripts/ci/card-audit.mjs'
+      - 'shots-request.txt'
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: "Адреса страниц через запятую (от корня сайта)"
+        required: true
+        default: "/product/maxon-redgiant-teams"
+      url:
+        description: "Адрес сайта"
+        required: false
+        default: "https://biz-soft.pro"
+permissions:
+  contents: read
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+      # Отчёт печатается в лог: артефакты прогона из сессии не скачиваются,
+      # блоб-хранилище закрыто прокси.
+      - name: Audit
+        env:
+          SITE: ${{ inputs.url || 'https://biz-soft.pro' }}
+          PATHS: ${{ inputs.paths || '' }}
+          PATHS_FILE: shots-request.txt
+        run: node scripts/ci/card-audit.mjs
+
+      - name: Shoot
+        env:
+          SITE: ${{ inputs.url || 'https://biz-soft.pro' }}
+          PATHS: ${{ inputs.paths || '' }}
+          PATHS_FILE: shots-request.txt
+        run: node scripts/ci/card-shot.mjs
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: card-shots
+          path: shots/
+          retention-days: 7
