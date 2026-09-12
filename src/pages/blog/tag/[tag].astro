@@ -93,7 +93,7 @@ function fmtDate(d: Date) {
   .chip:hover { color: var(--color-text); border-color: var(--color-border, rgba(0,0,0,0.12)); }
   .chip.active { background: var(--color-accent); color: #fff; }
   .chip .n { font-size: 0.72rem; opacity: 0.75; }
-  .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
+  .posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1.2rem; }
   .post { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
   .thumb {
     width: calc(100% + 3.2rem);
