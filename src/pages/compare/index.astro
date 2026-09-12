@@ -66,7 +66,7 @@ const ld = sectionListSchema({
   .section { padding-top: 2rem; }
   .group { margin-top: 2rem; }
   .group h2 { font-size: 1.35rem; margin-bottom: 1rem; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1.2rem; }
   .cmp { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.55rem; }
   .cmp h3 { font-size: 1.15rem; }
   .cmp p { color: var(--color-text-muted); font-size: 0.9rem; flex-grow: 1; }
