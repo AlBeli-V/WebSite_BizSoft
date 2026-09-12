@@ -28,14 +28,14 @@ try {
   }).filter((pr) => pr.items.length >= 2);
 } catch { /* без пресетов страница работает как раньше */ }
 ---
-<BaseLayout title="Избранное" description="Избранное BIZSoft: соберите подписки и получите коммерческое предложение с реквизитами." noindex={true}>
+<BaseLayout title="Расчёт" description="Расчёт BIZSoft: соберите подписки и получите коммерческое предложение с реквизитами." noindex={true}>
   <div class="container-page section">
-    <Breadcrumbs items={[{ name: 'Избранное', url: '/cart' }]} />
-    <h1 class="h1-spec">Избранное: редактирование спецификации для подготовки КП</h1>
+    <Breadcrumbs items={[{ name: 'Расчёт', url: '/cart' }]} />
+    <h1 class="h1-spec">Расчёт: спецификация для подготовки КП</h1>
 
     <div class="cart-layout">
       <div class="cart-items" data-cart-items>
-        <p class="empty" data-empty>В избранном пока пусто. <a href="/catalog">Перейти в каталог →</a></p>
+        <p class="empty" data-empty>В расчёте пока пусто. <a href="/catalog">Перейти в каталог →</a></p>
         <!-- КП-таблица: состав, количество (ввод/кнопки), цены и суммы с НДС -->
         <div class="table-wrap" data-cart-table hidden>
           <table class="kp-table">
@@ -76,7 +76,7 @@ try {
     {presets.length > 0 && (
       <section class="presets">
         <h2>Готовые наборы</h2>
-        <p class="presets-lead">Добавьте набор в избранное в один клик — количество мест уточним в КП.</p>
+        <p class="presets-lead">Добавьте набор в расчёт в один клик — количество мест уточним в КП.</p>
         <div class="presets-grid">
           {presets.map((pr) => (
             <div class="card preset-card">
@@ -136,7 +136,7 @@ try {
   .presets { margin-top: 3rem; }
   .presets h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); margin-bottom: 0.4rem; }
   .presets-lead { color: var(--color-text-muted); margin-bottom: 1.2rem; }
-  .presets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+  .presets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1.2rem; }
   .preset-card { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
   .preset-card h3 { font-size: 1.08rem; }
   .pc-note { color: var(--color-text-dim); font-size: 0.85rem; margin: 0; }
@@ -511,6 +511,12 @@ try {
         + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
       status.className = 'kp-status ok';
       trackGoal('quote_pdf', { form_source: 'quote', quote_no: quoteNo });
+      // Тот же шаг в разрезе производителей: воронка лендинга вендора
+      // заканчивается здесь, а не на его странице.
+      trackGoal('vendor_kp_download', {
+        quote_no: quoteNo,
+        vendors: Array.from(new Set(readCart().map((i) => i.vendor).filter(Boolean))).join(','),
+      });
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';
