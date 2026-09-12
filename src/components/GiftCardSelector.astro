@@ -116,7 +116,7 @@ const singleRegion = regions.length === 1;
   .gc-step { display: flex; flex-direction: column; gap: 0.6rem; }
   .gc-cap { font-size: 0.9rem; color: var(--color-text-muted); }
   .gc-cap b { color: var(--color-text); }
-  .gc-regions { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 0.4rem; }
+  .gc-regions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 90px), 1fr)); gap: 0.4rem; }
   .gc-single { margin: 0; }
   .gc-single .gc-region { cursor: default; width: 100%; }
   .gc-region { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; padding: 0.55rem 0.4rem; border-radius: 10px;
