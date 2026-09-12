@@ -21,6 +21,12 @@ export const PLAN_MARKER: Record<PlanType, string> = {
   individual: 'Индивидуальный план',
 };
 
+/** Значение строки «Тип плана» в параметрах: там слово «план» уже в подписи. */
+export const PLAN_SHORT: Record<PlanType, string> = {
+  team: 'Командный',
+  individual: 'Индивидуальный',
+};
+
 export function planType(name: string, extra = ''): PlanType | null {
   const s = `${name} ${extra}`.toLowerCase();
   if (/\b(teams?|business|enterprise|corporate|company|organizations?|workspace)\b|организаци|команд|корпоратив/.test(s)) return 'team';

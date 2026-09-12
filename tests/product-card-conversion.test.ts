@@ -13,7 +13,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, UNIT_FORMS } from '../src/lib/product-commerce';
+import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, UNIT_FORMS } from '../src/lib/product-commerce';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../src/data/policies';
 import { cardComposition } from '../src/lib/product-composition';
 import { VENDOR_CONTENT } from '../src/data/vendor-content';
@@ -188,7 +188,8 @@ describe('расхождения выката 12.09.2026 закрыты', () => 
   it('подзаголовок не тянет тематическую плашку вендора', () => {
     // `badge` — подпись линейки («VFX и моушн», «для команд», «API»), из
     // неё получалось «Командный план · VFX и моушн».
-    expect(page).toContain('const subtitleParts = [planMarker]');
+    // Срок берётся из контента вендора, плашка линейки в подзаголовок не идёт.
+    expect(page).toContain('const subtitleParts = [planMarker, cardMeta?.term]');
     expect(page).not.toContain('cardMeta?.badge');
   });
 
@@ -212,7 +213,7 @@ describe('расхождения выката 12.09.2026 закрыты', () => 
     for (const [sku, meta] of Object.entries(maxon)) {
       if (!sku.endsWith('-TEAMS')) continue;
       if (!(meta?.features || []).some((f) => f.includes('еста'))) continue;
-      expect(meta.qtyLabel, sku).toBe('Мест');
+      expect(meta.qtyLabel, sku).toBe('Рабочих мест');
     }
   });
 });
@@ -254,8 +255,36 @@ describe('композиция, одобренная 12.09.2026', () => {
     expect(page).not.toMatch(/vendor === '/);
   });
 
+  it('карточка 1:1 с макетом: срок, переназначение, состав и вопросы', () => {
+    // Ничего из этого нет в схеме каталога — всё ведётся в контенте вендора.
+    const rg = VENDOR_CONTENT['maxon']?.cards?.['MAXON-REDGIANT-TEAMS'];
+    expect(rg?.term).toBe('1Y / 1 (один) год');
+    expect(rg?.termShort).toBe('1 год');
+    expect(rg?.reassign).toBe('Да');
+    expect(rg?.management).toBe('Централизованная консоль');
+    expect(rg?.shortName).toBe('Red Giant');
+    expect(rg?.includes).toHaveLength(5);
+    expect(rg?.faq).toHaveLength(9);
+    // Шаблон обязан их показывать, а не молча игнорировать.
+    expect(page).toContain("k: 'Срок', v: cardMeta.termShort");
+    expect(page).toContain("k: 'Переназначение', v: cardMeta.reassign");
+    expect(page).toContain('Переназначение пользователей:');
+    expect(page).toContain('Управление:');
+    expect(page).toContain('cardMeta.includes.map');
+    expect(page).toContain('cardMeta?.faq');
+  });
+
+  it('короткое имя меняет только H1, разметка называет товар полностью', () => {
+    // Иначе microdata назвала бы товар иначе, чем JSON-LD, и слои разошлись.
+    expect(page).toContain('const h1Text = cardMeta?.shortName || product.name');
+    expect(page).toContain('h1Text !== product.name && <meta itemprop="name"');
+  });
+
   it('единица расчёта названа одним словом, а не винительным падежом', () => {
     expect(unitNoun('Мест')).toBe('Рабочее место');
+    expect(unitNoun('Рабочих мест')).toBe('Рабочее место');
+    expect(unitPhrase(1, 'Рабочих мест')).toBe('1 рабочее место');
+    expect(unitPhrase(3, 'Рабочих мест')).toBe('3 рабочих места');
     expect(unitNoun('Лицензий')).toBe('Лицензия');
     // Незнакомая подпись возвращается как есть, а не подменяется догадкой.
     expect(unitNoun('Серверов')).toBe('Серверов');
