@@ -187,13 +187,13 @@ const ld = [
   .z-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
   .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--color-accent); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 0 0 2.2rem; }
   .z-groups h2, .z-products h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); margin-bottom: 1.2rem; }
-  .z-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2.4rem; }
+  .z-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 1rem; margin-bottom: 2.4rem; }
   .z-card { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.1rem 1.2rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); text-decoration: none; color: inherit; transition: border-color 0.15s, transform 0.15s; }
   .z-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
   .z-card h3 { font-size: 1.05rem; margin: 0; }
   .z-card p { color: var(--color-text-muted); font-size: 0.9rem; margin: 0; line-height: 1.5; }
   .z-count { color: var(--color-text-dim); font-size: 0.82rem; margin-top: auto; padding-top: 0.4rem; }
   .z-count em { font-style: normal; }
-  .z-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+  .z-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
   .z-source { color: var(--color-text-dim); font-size: 0.85rem; margin: 0 0 2rem; }
 </style>
