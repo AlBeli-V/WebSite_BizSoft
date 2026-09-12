@@ -89,7 +89,8 @@ export const GOALS: Record<string, GoalSpec> = {
   // по view_product нельзя было сказать, дошёл ли посетитель до цен и
   // считал ли бюджет вообще. Раз на страницу, вид действия — в параметре
   // kind (qty, team_preset, faq, description). Решение руководителя
-  // 12.09.2026; цель нужно завести в кабинете Метрики вручную.
+  // 12.09.2026. В кабинеты цель заводит seo-goals-sync из этого реестра
+  // (с main, сначала сухим прогоном) — руками её заводить не нужно.
   product_interaction: { ga4: 'product_interaction', key: false,
     meaning: 'Первое осмысленное действие в карточке товара — счётчик, прикидка на команду, вопрос, описание' },
   view_vendor_landing: { ga4: 'view_item_list', key: false,
