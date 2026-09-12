@@ -1,6 +1,6 @@
 # Точечная правка полей одной товарной позиции в прод-Directus по слагу.
 # Патчатся только переданные поля (name / short_description / price_note /
-# license_type). Пример: slug=chatgpt-business, price_note="за пользователя
+# license_type / vendor). Пример: slug=chatgpt-business, price_note="за пользователя
 # в год, минимум 2 пользователя"; license_type=individual.
 # Результат (было/стало по каждому полю) — комментарий в журнал-issue #22.
 name: ops-patch-product
@@ -21,6 +21,13 @@ on:
         required: false
       license_type:
         description: 'Тип лицензии: org | individual | student (пусто — не менять)'
+        required: false
+      # Выборка по вендору точная (docs/rules/catalog.md): одна лишняя буква —
+      # и карточка пропадает со страницы производителя и из фасета раздела,
+      # оставаясь видимой в каталоге. Разбор описаний 12.09.2026 нашёл такую:
+      # iZotope RX 12 Advanced лежал с вендором «Native Instruments».
+      vendor:
+        description: 'Производитель — точное значение поля vendor (пусто — не менять)'
         required: false
 permissions:
   # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
@@ -51,11 +58,12 @@ jobs:
           P_SHORT: ${{ inputs.short_description }}
           P_NOTE: ${{ inputs.price_note }}
           P_LICENSE: ${{ inputs.license_type }}
+          P_VENDOR: ${{ inputs.vendor }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_SLUG,P_NAME,P_SHORT,P_NOTE,P_LICENSE
+          envs: P_SLUG,P_NAME,P_SHORT,P_NOTE,P_LICENSE,P_VENDOR
           capture_stdout: true
           script: |
             set -e
@@ -78,14 +86,15 @@ jobs:
             fields = {'name': os.environ.get('P_NAME', ''),
                       'short_description': os.environ.get('P_SHORT', ''),
                       'price_note': os.environ.get('P_NOTE', ''),
-                      'license_type': os.environ.get('P_LICENSE', '')}
+                      'license_type': os.environ.get('P_LICENSE', ''),
+                      'vendor': os.environ.get('P_VENDOR', '')}
             payload = {k: v for k, v in fields.items() if v}
             if not payload:
                 print('не передано ни одного поля для правки'); raise SystemExit(1)
             lic = payload.get('license_type')
             if lic and lic not in ('org', 'individual', 'student'):
                 print(f'недопустимый license_type: {lic} (ожидается org | individual | student)'); raise SystemExit(1)
-            items = req('GET', f'/items/products?filter[slug][_eq]={slug}&fields=id,slug,name,short_description,price_note,license_type', token=tok)['data']
+            items = req('GET', f'/items/products?filter[slug][_eq]={slug}&fields=id,slug,name,short_description,price_note,license_type,vendor', token=tok)['data']
             if not items:
                 print(f'товар со слагом {slug} не найден'); raise SystemExit(1)
             it = items[0]

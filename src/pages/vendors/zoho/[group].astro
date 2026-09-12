@@ -115,7 +115,7 @@ const others = ZOHO_GROUPS.filter((g) => g.slug !== group.slug && g.families.len
   .lead { color: var(--color-text-muted); font-size: 1.02rem; }
   .g-section { margin-bottom: 2.2rem; }
   .g-section h2 { font-size: 1.15rem; margin-bottom: 0.9rem; color: var(--color-text-muted); font-weight: 600; }
-  .g-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .g-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 1rem; }
   .g-card { display: flex; flex-direction: column; gap: 0.45rem; padding: 1rem 1.1rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); text-decoration: none; color: inherit; transition: border-color 0.15s, transform 0.15s; }
   .g-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
   .g-card h3 { font-size: 1rem; margin: 0; }
