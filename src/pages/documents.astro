@@ -57,13 +57,13 @@ const docs = [
   .head { max-width: 720px; margin-bottom: 2.5rem; }
   h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 1rem; }
   .lead { color: var(--color-text-muted); font-size: 1.08rem; }
-  .docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+  .docs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
   .doc { padding: 1.6rem; }
   .doc h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
   .doc p { color: var(--color-text-muted); font-size: 0.94rem; }
   .req { padding: 1.8rem; }
   .req h2 { font-size: 1.4rem; margin-bottom: 1.2rem; }
-  dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem 2rem; margin: 0; }
+  dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 0.8rem 2rem; margin: 0; }
   dl > div { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; }
   dt { color: var(--color-text-muted); font-size: 0.9rem; }
   dd { margin: 0; text-align: right; font-size: 0.9rem; }

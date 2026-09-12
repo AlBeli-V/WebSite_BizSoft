@@ -23,7 +23,8 @@ import { productKind, listingProducts, isGiftCard } from '../lib/catalog';
 import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
 import AddToCartButton from './AddToCartButton.astro';
-import TariffQty from './TariffQty.astro';
+import VendorTariffCard from './VendorTariffCard.astro';
+import VendorSections from './VendorSections.astro';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
 import { vendorContent } from '../data/vendor-content';
 import type { Product } from '../lib/types';
@@ -65,6 +66,11 @@ const cards = listingProducts(products)
     ? meta.features.slice(0, 5)
     : (Array.isArray(p.features) ? p.features.slice(0, 5) : []);
   return {
+    // Случай позиции: из её меты либо из состава случая — там, где
+    // редактору удобнее перечислить позиции одним списком.
+    seg: meta?.seg
+      || (content.segments || []).find((sg) => (sg.keys || []).some((k) => k === p.slug || k === p.sku))?.id
+      || '',
     minQty: Math.max(1, meta?.minQty ?? 1),
     qtyLabel: meta?.qtyLabel || 'Лицензий',
     check: meta?.check || '',
@@ -91,6 +97,38 @@ const cards = listingProducts(products)
 if (!content.order?.length) {
   cards.sort((a, b) => Number(a.byRequest) - Number(b.byRequest));
 }
+// Номиналы пополнения (варианты родительской позиции) в сетку не идут:
+// одиннадцать почти одинаковых карточек заменили бы собой страницу. Они
+// показываются полосой плиток под сеткой.
+const denom = content.denominations;
+const denomParent = denom
+  ? products.find((p) => p.slug === denom.parent || p.sku === denom.parent)
+  : undefined;
+const topups = denom && denomParent
+  ? products
+    .filter((p) => p.parent_sku === denomParent.sku)
+    .map((p) => ({
+      name: p.name,
+      slug: p.slug,
+      sku: p.sku,
+      price: effectivePrice(p).price,
+      priceText: formatRub(effectivePrice(p).price),
+      // Номинал вытаскивается из артикула: <PREFIX>-CREDITS-<номинал>.
+      nominal: Number((p.sku.match(/-(\d+)$/) || [])[1] || 0),
+    }))
+    .filter((p) => p.price > 0)
+    .sort((a, b) => a.nominal - b.nominal)
+  : [];
+
+// Разделы линейки: личные и командные планы, редакции. Карточка без раздела
+// уходит в общий список — правка раздела не должна уносить её со страницы.
+const groupItems = (ids: string[]) => cards.filter((c) => ids.includes(c.slug) || ids.includes(c.sku));
+const groups = (content.groups || [])
+  .map((g) => ({ ...g, cards: groupItems(g.items) }))
+  .filter((g) => g.cards.length > 0);
+const grouped = new Set(groups.flatMap((g) => g.cards));
+const ungrouped = cards.filter((c) => !grouped.has(c));
+
 const priced = cards.filter((c) => !c.byRequest);
 // «Цены от … в год» — по основным продуктам (тарифам): дополнения — пакеты
 // кредитов и плагины — разовые и дешевле любого тарифа, минимум по ним выдал бы
@@ -237,52 +275,108 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
     </section>
   )}
 
+  {/* Выбор ситуации: покупатель выбирает не между тарифами, а между
+      случаями. Отмеченный случай сужает сетку; без JavaScript видны все
+      карточки — фильтр только прячет лишнее атрибутом hidden. */}
+  {(content.segments || []).length > 0 && (
+    <section class="block" id="choose">
+      <h2>С чего начать: выберите свой случай</h2>
+      <p class="muted lead-note">Отметьте свою ситуацию — в списке ниже останется только подходящее.</p>
+      <div class="segs" role="group" aria-label="Выбор ситуации">
+        {content.segments!.map((sg) => (
+          <button type="button" class="card card-hover seg" data-seg-btn={sg.id} aria-pressed="false">
+            <b>{sg.title}</b>
+            <span class="muted">{sg.text}</span>
+            {sg.hint && <em>{sg.hint}</em>}
+          </button>
+        ))}
+      </div>
+      {content.segments!.filter((sg) => sg.why).map((sg) => (
+        <p class="seg-why" data-seg-why={sg.id} hidden>{sg.why}</p>
+      ))}
+      <button type="button" class="btn btn-ghost btn-sm seg-reset" data-seg-reset hidden>Показать все варианты</button>
+    </section>
+  )}
+
+  {/* Быстрый подбор: ярлык задачи или стека → продукт. Один клик, а не
+      опросник: подставляет выбор в форму и ведёт к карточке. */}
+  {content.picks && content.picks.items.length > 0 && (
+    <section class="block" id="quick">
+      <h2>{content.picks.title}</h2>
+      {content.picks.note && <p class="muted">{content.picks.note}</p>}
+      <div class="picks">
+        {content.picks.items.map((pk) => (
+          <a
+            href={pk.target ? (pk.target.startsWith('#') ? pk.target : `#${pk.target}`) : '#products'}
+            class="card card-hover pick"
+            data-quote-cta
+            data-context={`${title} — ${pk.query}`}
+            data-ev="click_pick_licenses"
+          >
+            <span class="pick-lang">{pk.label}</span>
+            <span class="pick-prod">{pk.product}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <VendorSections sections={content.sections || []} place="before-products" vendor={title} />
+
   <!-- Карточки продуктов -->
   {hasCards ? (
     <section class="block" id="products">
       <h2>Тарифы и продукты {title}</h2>
-      <div class="vgrid">
-        {cards.map((c) => (
-          <article class="card vcard" data-qty-scope>
-            {c.badge && <span class="vbadge">{c.badge}</span>}
-            <div class="vc-head">
-              {c.icon && <ProductIcon slug={c.slug} name={c.name} size={38} />}
-              <h3>{c.name}</h3>
+      {groups.length > 0 ? (
+        <div class="vgroups">
+          {groups.map((g) => (
+            <div class="vgroup" id={g.id}>
+              <h3 class="vgroup-title">{g.title}</h3>
+              {g.note && <p class="muted small vgroup-note">{g.note}</p>}
+              <div class="vgrid">
+                {g.cards.map((c) => <VendorTariffCard card={c} title={title} vendor={entry.vendor} />)}
+              </div>
             </div>
-            {/* Своя плашка отменяет автоматическую: две подряд («для команд»
-                и «Для организации») говорят об одном и том же. */}
-            {!c.badge && c.plan && <span class="plan-tag" data-plan={c.plan}>{PLAN_LABEL[c.plan]}</span>}
-            {c.short && <p class="forwhom">{c.short}</p>}
-            <div class="vprice">
-              {c.byRequest
-                ? <span class="req">Цена по запросу</span>
-                : <span class="pv"><b>{c.priceFrom ? `от ${c.priceText}` : c.priceText}</b> <span class="note">{c.note}</span></span>}
+          ))}
+          {ungrouped.length > 0 && (
+            <div class="vgroup">
+              <h3 class="vgroup-title">Остальные позиции</h3>
+              <div class="vgrid">
+                {ungrouped.map((c) => <VendorTariffCard card={c} title={title} vendor={entry.vendor} />)}
+              </div>
             </div>
-            {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
-            {c.check && <p class="vcheck">⚠ {c.check}</p>}
-            {!c.byRequest && !c.gift && (
-              <TariffQty price={c.price} minQty={c.minQty} qtyLabel={c.qtyLabel} name={c.name} />
-            )}
-            <div class="vactions">
-              {c.byRequest ? (
-                <button class="btn btn-primary btn-sm" data-open-question data-product={`${title} — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">Запросить цену</button>
-              ) : c.gift ? (
-                <a href={`/product/${c.slug}`} class="btn btn-primary btn-sm" data-ev="click_product_card">Выбрать регион и номинал</a>
-              ) : (
-                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor={entry.vendor} price={c.price} compact />
-              )}
-              <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
-            </div>
-          </article>
-        ))}
-      </div>
+          )}
+        </div>
+      ) : (
+        <div class="vgrid">
+          {cards.map((c) => <VendorTariffCard card={c} title={title} vendor={entry.vendor} />)}
+        </div>
+      )}
       <p class="muted small">Стоимость в рублях пересчитывается по курсу ЦБ РФ на дату счёта.</p>
+
+      {topups.length > 0 && denom && (
+        <div class="topups" data-seg-card={content.cards?.[denom.parent]?.seg || undefined}>
+          <h3>{denom.title}</h3>
+          {denom.note && <p class="muted small topups-note">{denom.note}</p>}
+          <ul class="topup-list">
+            {topups.map((t) => (
+              <li class="topup" data-qty-scope>
+                <a class="topup-name" href={`/product/${t.slug}`} data-ev="click_product_card">
+                  {t.nominal.toLocaleString('ru-RU')}{denom.unit ? ` ${denom.unit}` : ''}
+                </a>
+                <b class="topup-price">{t.priceText}</b>
+                <AddToCartButton sku={t.sku} slug={t.slug} name={t.name} vendor={entry.vendor} price={t.price} compact />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   ) : (
     <section class="block" id="products">
       <h2>Тарифы и продукты {title}</h2>
       <p class="muted">Подберём и рассчитаем нужные лицензии {title} под вашу задачу. Оставьте заявку — подготовим КП.</p>
-      <button class="btn btn-primary" data-open-question data-product={`${title} — расчёт`} data-ev="click_get_quote">Запросить расчёт</button>
+      <a href="#lead" class="btn btn-primary" data-quote-cta data-context={`${title} — расчёт`} data-ev="click_get_quote">Запросить расчёт</a>
     </section>
   )}
 
@@ -305,7 +399,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
       <div class="table-wrap">
         <table class="cmp decision">
           <thead><tr><th class="sticky">Сценарий</th><th>Рекомендуем</th><th>Почему</th></tr></thead>
-          <tbody>{content.decision!.map((d) => (<tr><th class="sticky">{d.scenario}</th><td>{d.product}</td><td class="muted">{d.note}</td></tr>))}</tbody>
+          <tbody>{content.decision!.map((d) => (<tr><th class="sticky">{d.scenario}</th><td>{d.slug ? <a href={`/product/${d.slug}`}>{d.product}</a> : d.product}</td><td class="muted">{d.note}</td></tr>))}</tbody>
         </table>
       </div>
     </section>
@@ -340,6 +434,8 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
     <div class="prose-bizsoft"><p>{entry.about} Решение востребовано у {audience}. BIZSoft оформит поставку на организацию с полным пакетом документов.</p></div>
   </section>
 
+  <VendorSections sections={content.sections || []} place="after-compare" vendor={title} />
+
   {/* Безопасность и данные: у корпоративных тарифов покупку согласует не
       только закупка, но и ИБ, и вопросы у неё свои. */}
   {content.security && (
@@ -349,6 +445,8 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
       <button class="btn btn-ghost" data-open-question data-product={`${title} — требования ИБ`} data-ev="click_clarify_price">{content.security.cta || 'Обсудить требования ИБ'}</button>
     </section>
   )}
+
+  <VendorSections sections={content.sections || []} place="before-buy" vendor={title} />
 
   <!-- Как купить -->
   <section class="block">
@@ -374,7 +472,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   </section>
 
   <!-- FAQ -->
-  <FAQ items={faq} title={faqTitle} />
+  <FAQ items={faq} groups={content.faqGroups} title={faqTitle} />
 
   {/* Единственная форма страницы: сюда ведут все призывы, и состав
       расчёта попадает в заявку сам. Модальное окно «Задать вопрос»
@@ -427,7 +525,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   .hero-split {
     max-width: none;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+    grid-template-columns: minmax(0, 1fr) minmax(min(100%, 340px), 420px);
     grid-template-areas: 'head form' 'rest form';
     gap: 0.4rem 2rem;
     align-items: start;
@@ -463,45 +561,56 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
      куда попал. */
   #products, #lead, #security { scroll-margin-top: 96px; }
   .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
-  .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
-  .vcard { padding: 1.4rem; display: flex; flex-direction: column; }
-  /* Значок слева перед названием; у составных позиций — несколько значков */
-  .vc-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
-  .vcard h3 { font-size: 1.1rem; margin-bottom: 0; }
-  .forwhom { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 0.6rem; }
-  /* Кому адресован тариф */
-  .plan-tag { align-self: flex-start; font-size: 0.72rem; padding: 0.14rem 0.55rem; border-radius: 6px; margin-bottom: 0.5rem; }
-  .plan-tag[data-plan='team'] { color: var(--vc, var(--color-accent)); background: color-mix(in srgb, var(--vc, var(--color-accent)) 12%, transparent); font-weight: 700; }
-  .plan-tag[data-plan='individual'] { color: var(--color-text-muted); border: 1px solid var(--color-border-strong); font-weight: 600; }
-  .vprice { margin: 0.3rem 0 0.7rem; }
-  .vprice b { font-size: 1.2rem; }
-  .vprice .note { color: var(--color-text-dim); font-size: 0.8rem; }
-  .vprice .req { font-weight: 700; }
+  .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 1.2rem; }
+  /* Выбор ситуации */
+  .lead-note { max-width: 70ch; margin-bottom: 1rem; }
+  .segs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 1rem; }
+  .seg { text-align: left; padding: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; cursor: pointer; font: inherit; color: var(--color-text); }
+  .seg b { font-size: 1rem; }
+  .seg .muted { font-size: 0.88rem; line-height: 1.45; }
+  .seg em { font-style: normal; font-size: 0.82rem; color: var(--vc, var(--color-accent)); font-weight: 600; }
+  .seg[aria-pressed='true'] { border-color: var(--vc, var(--color-accent)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--vc, var(--color-accent)) 16%, transparent); }
+  .seg-why { margin-top: 1rem; color: var(--color-text-muted); font-size: 0.92rem; }
+  .seg-reset { margin-top: 1rem; }
+  /* Быстрый подбор */
+  .picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 0.7rem; }
+  .pick { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.8rem 1rem; text-decoration: none; }
+  .pick-lang { font-weight: 700; color: var(--color-text); }
+  .pick-prod { font-size: 0.85rem; color: var(--color-text-muted); }
+  /* Разделы линейки */
+  .vgroups { display: grid; gap: 2.2rem; }
+  .vgroup-title { font-size: 1.15rem; margin-bottom: 0.4rem; }
+  .vgroup-note { margin: 0 0 0.9rem; }
+  /* Полоса номиналов: плитками, а не карточками */
+  .topups { margin-top: 2rem; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.2rem; }
+  .topups h3 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+  .topups-note { margin: 0 0 0.9rem; max-width: 78ch; }
+  .topup-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 0.6rem; }
+  .topup { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; background: var(--color-bg-elevated); border-radius: var(--radius-sm); padding: 0.55rem 0.8rem; }
+  .topup-name { font-weight: 700; color: var(--color-text); text-decoration: none; }
+  .topup-price { font-variant-numeric: tabular-nums; color: var(--color-text-muted); font-weight: 400; font-size: 0.9rem; margin-right: auto; }
   .vfeat { list-style: none; padding: 0; margin: 0 0 0.7rem; display: grid; gap: 0.3rem; }
   .vfeat li { padding-left: 1.3rem; position: relative; color: var(--color-text); font-size: 0.88rem; }
   .vfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--vc, var(--color-accent)); font-weight: 700; }
-  .vbadge { align-self: flex-start; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; background: color-mix(in srgb, var(--vc, var(--color-accent)) 16%, transparent); color: var(--vc, var(--color-accent)); margin-bottom: 0.5rem; }
-  .vcheck { color: var(--color-text-dim); font-size: 0.78rem; margin: 0 0 0.6rem; }
   /* Третий призыв первого экрана — текстовая ссылка, а не кнопка: это
      запасной лёгкий канал, и спорить с главным призывом он не должен. */
   .btn-link { background: none; border: none; padding: 0.55rem 0; color: var(--color-accent); font: inherit; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   .btn-link:hover { color: var(--color-accent-hover); }
-  .vactions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
   .muted { color: var(--color-text-muted); }
   .small { font-size: 0.82rem; margin-top: 0.6rem; }
   .steps { padding-left: 1.2rem; color: var(--color-text); display: grid; gap: 0.5rem; margin-bottom: 1.2rem; max-width: 800px; }
   .final-grid { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
-  .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
+  .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 0.6rem; }
   .links a { color: var(--color-accent); font-size: 0.92rem; padding: 0.5rem 0; }
   .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table.cmp { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.92rem; }
   table.cmp th, table.cmp td { border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; text-align: left; }
   table.cmp thead th { background: var(--color-bg-elevated); }
   table.cmp .sticky { position: sticky; left: 0; background: var(--color-bg-card); font-weight: 600; }
-  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 1rem; }
   .cell { padding: 1.3rem; } .cell h3 { font-size: 1.05rem; margin-bottom: 0.4rem; } .cell p { color: var(--color-text-muted); font-size: 0.9rem; }
   @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
-  .sol-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .sol-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem; margin-top: 1rem; }
   .sol-tile { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem; }
   .sol-tile b { font-size: 1rem; }
   .sol-tile .muted { font-size: 0.9rem; line-height: 1.45; }
@@ -510,9 +619,39 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
 <script>
   import { trackGoal } from '@/lib/analytics';
   // Единый путь заявки (счётчик, состав расчёта, перенос выбора в форму)
-  // живёт в VendorQuotePath: тем же кодом пользуются bespoke-страницы.
+  // живёт в VendorQuotePath: тем же кодом пользуются остальные страницы.
+  // Клики по data-ev считает общий обработчик макета: держать его здесь
+  // значило бы задваивать цель на страницах, где он тоже есть.
   trackGoal('view_vendor_landing', { page_url: location.pathname });
-  document.querySelectorAll('[data-ev]').forEach((el) => {
-    el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { page_url: location.pathname }));
-  });
+
+  // ── Выбор ситуации сужает сетку ─────────────────────────────────────
+  // Фильтр только прячет лишнее атрибутом hidden: без JavaScript и для
+  // поискового робота на странице видны все карточки и весь текст.
+  const segBtns = Array.from(document.querySelectorAll('[data-seg-btn]')) as HTMLElement[];
+  if (segBtns.length > 0) {
+    const segCards = Array.from(document.querySelectorAll('[data-seg-card]')) as HTMLElement[];
+    const whys = Array.from(document.querySelectorAll('[data-seg-why]')) as HTMLElement[];
+    const reset = document.querySelector('[data-seg-reset]') as HTMLElement | null;
+
+    function applySegment(id: string) {
+      segBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.segBtn === id)));
+      // Позиция без пометки видна всегда: правка сегмента не должна тихо
+      // уносить карточку со страницы.
+      segCards.forEach((c) => { c.hidden = Boolean(id) && c.dataset.segCard !== id; });
+      whys.forEach((w) => { w.hidden = w.dataset.segWhy !== id; });
+      if (reset) reset.hidden = !id;
+    }
+
+    segBtns.forEach((b) => b.addEventListener('click', () => {
+      const id = b.getAttribute('aria-pressed') === 'true' ? '' : (b.dataset.segBtn || '');
+      applySegment(id);
+      trackGoal('vendor_selector_step', {
+        page_url: location.pathname, segment: id || 'сброшен',
+      });
+    }));
+    reset?.addEventListener('click', () => {
+      applySegment('');
+      trackGoal('vendor_selector_step', { page_url: location.pathname, segment: 'сброшен' });
+    });
+  }
 </script>
