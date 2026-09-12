@@ -126,7 +126,7 @@ const uid = Math.random().toString(36).slice(2, 8);
   .cr-form .btn { border-radius: 999px; padding-inline: 1.4rem; white-space: nowrap; }
 
   .cr-steps {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
     gap: 0.7rem 1.4rem; margin: 0.3rem 0 0; padding: 0;
     list-style: none; counter-reset: cr;
   }
