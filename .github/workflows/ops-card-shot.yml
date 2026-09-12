@@ -14,6 +14,7 @@ on:
     paths:
       - '.github/workflows/ops-card-shot.yml'
       - 'scripts/ci/card-shot.mjs'
+      - 'scripts/ci/card-audit.mjs'
       - 'shots-request.txt'
   workflow_dispatch:
     inputs:
@@ -43,6 +44,15 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Install Chromium
         run: pnpm exec playwright install --with-deps chromium
+      # Отчёт печатается в лог: артефакты прогона из сессии не скачиваются,
+      # блоб-хранилище закрыто прокси.
+      - name: Audit
+        env:
+          SITE: ${{ inputs.url || 'https://biz-soft.pro' }}
+          PATHS: ${{ inputs.paths || '' }}
+          PATHS_FILE: shots-request.txt
+        run: node scripts/ci/card-audit.mjs
+
       - name: Shoot
         env:
           SITE: ${{ inputs.url || 'https://biz-soft.pro' }}
