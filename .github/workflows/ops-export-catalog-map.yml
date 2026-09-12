@@ -42,6 +42,23 @@ jobs:
             exit 1
           fi
 
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Реестр второй привязки нужен на сервере: только там можно сверить его
+      # с боевой базой. Тест этого не может — сети у него нет, и артикул с
+      # опечаткой молча не совпадает ни с чем (так в реестр попал
+      # несуществующий M365-COPILOT-BUSINESS-ADDON).
+      - name: Copy cross-listing registry to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: data/catalog/cross-listing.json
+          target: /tmp/bz-cross/
+          strip_components: 2
+
       - name: Export map from Directus
         id: run
         uses: appleboy/ssh-action@v1
@@ -116,6 +133,32 @@ jobs:
                 org = r.get('origin') or '—'
                 print(f"{r.get('sku') or '—'} | {r.get('slug')} | {org} | "
                       f"{r.get('vendor') or '—'} | {r.get('name')} | {sd or '—'}")
+
+            # ── Сверка реестра второй привязки с базой ──
+            # Единственное место, где это вообще можно проверить: реестр лежит
+            # в репозитории, товары — в базе, и разъезжаются они молча.
+            # Полную сверку делает только прогон по всему каталогу.
+            if not only:
+                try:
+                    reg = json.load(open('/tmp/bz-cross/cross-listing.json'))['also']
+                except Exception as e:
+                    print(f'\nРЕЕСТР ВТОРОЙ ПРИВЯЗКИ: не прочитан ({e})')
+                else:
+                    home = {}
+                    for r in rows:
+                        home[(r.get('sku') or '').upper()] = (r.get('category') or {}).get('slug') or ''
+                    problems = []
+                    for sku, targets in reg.items():
+                        key = sku.upper()
+                        if key not in home:
+                            problems.append(f'{sku}: артикула нет среди опубликованных')
+                            continue
+                        for t in targets:
+                            if t == home[key]:
+                                problems.append(f'{sku}: раздел «{t}» и так домашний — привязка лишняя')
+                    print(f'\nРЕЕСТР ВТОРОЙ ПРИВЯЗКИ: записей {len(reg)}, расхождений {len(problems)}')
+                    for p in problems:
+                        print(f'  ✗ {p}')
             PYEOF
 
       # Вывод больше лимита env-переменной процесса (Argument list too long) —
