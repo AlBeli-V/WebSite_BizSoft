@@ -34,6 +34,15 @@ describe('имя продукта в заголовке', () => {
     expect(displayName('ManageEngine OpManager Standard, 10 устройств и 2 пользователя, вечная лицензия'))
       .toBe('ManageEngine OpManager Standard, 10 устройств и 2 пользователя');
     expect(displayName('Discord Nitro, 12 месяцев (Все страны (Global))')).toBe('Discord Nitro (Все страны (Global))');
+    expect(displayName('Houdini FX (полная, годовая)')).toBe('Houdini FX (полная)');
+    expect(displayName('SketchUp Pro Scan (годовая подписка)')).toBe('SketchUp Pro Scan');
+    expect(displayName('VEGAS Pro Edit (подписка 365)')).toBe('VEGAS Pro Edit');
+    expect(displayName('Shutterstock 10 изображений/мес (год)')).toBe('Shutterstock 10 изображений/мес');
+    expect(displayName('Avid Media Composer (подписка)')).toBe('Avid Media Composer');
+    expect(displayName('Marmoset Toolbag (подписка, Individual)')).toBe('Marmoset Toolbag');
+    expect(displayName('Clip Studio Paint EX (подписка, 1 устройство)')).toBe('Clip Studio Paint EX (1 устройство)');
+    expect(displayName('JetBrains CLion (личная лицензия)')).toBe('JetBrains CLion');
+    expect(displayName('Mari (для команд)')).toBe('Mari');
   });
 
   it('тип места остаётся: у продукта их несколько, и они различают товары', () => {
@@ -62,6 +71,9 @@ describe('срок в строке под заголовком', () => {
     expect(termLabel({ sku: 'X', name: 'Acronis Cyber Protect Standard Server (1 год)' }, sub)).toBe(TERM.year);
     expect(termLabel({ sku: 'DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-1M', name: 'Discord Nitro, 1 месяц (Все страны (Global))' }, 'balance_topup')).toBe('1 месяц');
     expect(termLabel({ sku: 'X-3Y', name: 'Продукт' }, sub)).toBe('36 месяцев');
+    expect(termLabel({ sku: 'X', name: 'Houdini Core (годовая)' }, sub)).toBe(TERM.year);
+    expect(termLabel({ sku: 'X', name: 'VEGAS Pro Edit (подписка 365)' }, sub)).toBe(TERM.year);
+    expect(termLabel({ sku: 'X', name: 'SOLIDWORKS xDesign Online (квартальная подписка)' }, sub)).toBe('3 месяца');
   });
 
   it('бессрочность читается из артикула, названия и описания', () => {
