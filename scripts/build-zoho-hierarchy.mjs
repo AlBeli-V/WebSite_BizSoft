@@ -103,6 +103,8 @@ const groups = taxonomy.groups.map((tg) => {
           variants: o.variants.map((v) => {
             const pos = positionIndex.get(`${m.family_slug}|${o.offer_slug}|${v.variant_name}`);
             const sku = pos?.sku ?? '';
+            // Адрес позиции — прежний артикул в нижнем регистре (модель хранит его в legacySku).
+            const slug = (pos?.legacySku ?? sku).toLowerCase();
             return {
               name: v.variant_name,
               metric: v.metric,
@@ -110,7 +112,7 @@ const groups = taxonomy.groups.map((tg) => {
               priceStatus: v.price_status,
               maintenance: v.maintenance,
               sku,
-              slug: sku.toLowerCase(),
+              slug,
               // Вечная лицензия и её сопровождение продаются только парой:
               // здесь артикул парного контракта, если вендор его публикует.
               amsSku: pos?.amsSku ?? null,

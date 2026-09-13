@@ -49,7 +49,7 @@ describe('страховка от распирающего содержимог�
   const css = readFileSync(resolve(ROOT, 'src/styles/global.css'), 'utf8');
 
   it('длинное слово без пробелов переносится, а не раздвигает страницу', () => {
-    // Артикулы подарочных карт вида APP-STORE-ITUNES-GIFT-CARD-RU-1000 и
+    // Артикулы подарочных карт вида APPL-GFT-APPSTORE-UNI-BAL-NOM-RU1000 и
     // названия вроде Enterprise(Distributed) длиннее любой колонки на
     // телефоне. Именно anywhere: break-word разрывает слово, но ширину
     // колонки не уменьшает — сетка всё равно растягивается под слово.
