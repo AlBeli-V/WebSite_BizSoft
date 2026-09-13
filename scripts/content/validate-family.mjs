@@ -19,7 +19,9 @@ const LIB = new Set(['CAPABILITIES','INCLUDED','ADDON_SCOPE','CREDIT_USAGE','PER
 const RULES = [
   { when: (c) => c.nature === 'mono', req: ['CAPABILITIES', 'FIT'], forb: ['INCLUDED'] },
   { when: (c) => c.nature === 'suite', req: ['INCLUDED', 'FIT|INDIVIDUAL_MODEL'], forb: [] },
-  { when: (c) => c.ownership === 'team', req: ['TEAM_MODEL', 'TRADEOFFS'], forb: [] },
+  // team: у дополнения (addon) командная модель принадлежит базовому продукту — достаточно TRADEOFFS со ссылкой
+  { when: (c) => c.ownership === 'team' && c.nature !== 'addon', req: ['TEAM_MODEL', 'TRADEOFFS'], forb: [] },
+  { when: (c) => c.ownership === 'team' && c.nature === 'addon', req: ['TRADEOFFS'], forb: [] },
   { when: (c) => c.ownership === 'individual', req: ['INDIVIDUAL_MODEL'], forb: [] },
   { when: (c) => c.nature === 'addon', req: ['ADDON_SCOPE', 'DEPENDENCIES', 'FIT'], forb: ['INCLUDED', 'TEAM_MODEL'] },
   { when: (c) => c.nature === 'credit', req: ['CREDIT_USAGE', 'PLAN_COMPARE', 'FIT', 'BEFORE_ORDER'], forb: ['INCLUDED', 'TEAM_MODEL'] },
