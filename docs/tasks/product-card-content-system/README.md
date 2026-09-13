@@ -50,7 +50,7 @@ DATA GAP) и `bizsoft-product-nonstandard-cards`. Ничего из описан
 **Готовая база классификации есть:** `data/catalog/sku-assignment.json`
 (1561 позиций) уже несёт четыре оси — `kind` (LIC/ADD/CRD/GFT), `plan`
 (TEAM/IND/UNI), `term` (1Y/PERP/BAL…), `unit` (USER/PACK/NOM/DEV/ORG/SRV/PROJ/CCU).
-На проде ещё старые артикулы (`MAXON-REDGIANT-TEAMS`), новая система заведена
+На проде ещё старые артикулы (`MAXN-LIC-REDGIANT-TEAM-1Y-USER`), новая система заведена
 13.09.2026.
 
 Ограничения репо, которые постановка обязана соблюдать: Design Approval Gate
