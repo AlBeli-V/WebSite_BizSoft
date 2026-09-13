@@ -6,6 +6,7 @@ import type { Product } from './types';
 import { computePegRub, defaultMarkupCoeff, type Rates } from './pricing';
 import { buildSku, validateSkuParts, type SkuKind, type SkuPlan, type SkuUnit } from './sku';
 import SKU_VENDORS from '../../data/catalog/sku-vendors.json';
+import { legacySku } from './sku-map';
 
 export interface RawRow { [key: string]: string | number | null | undefined }
 
@@ -131,7 +132,14 @@ export function buildPlan(
   categoryResolver: (key: string) => (string | number | null),
   opts: BuildOpts = {},
 ): BulkPlan {
+  // Существующие позиции — и по текущему артикулу, и по старому: строка с
+  // новым артикулом обновляет карточку, которая в базе ещё под старым
+  // (переходная карта lib/sku-map), а не заводит дубль.
   const bySku = new Map(existing.map((p) => [p.sku, p]));
+  for (const p of existing) {
+    const legacy = legacySku(p.sku);
+    if (legacy && !bySku.has(legacy)) bySku.set(legacy, p);
+  }
   const items: PlanItem[] = [];
   let create = 0, update = 0, errors = 0;
 
@@ -146,7 +154,7 @@ export function buildPlan(
     }
     if (!sku) { items.push({ sku: '', name: row.name || '', mode: 'skip', payload: {}, changes: [], errors: ['пустой sku'] }); errors++; continue; }
 
-    const cur = bySku.get(sku);
+    const cur = bySku.get(sku) ?? bySku.get(legacySku(sku) ?? '');
     const mode: 'create' | 'update' = cur ? 'update' : 'create';
     const payload: Record<string, unknown> = {};
     const changes: { field: string; before: string; after: string }[] = [];
@@ -161,6 +169,8 @@ export function buildPlan(
       if (mode === 'create' || beforeStr !== afterStr) changes.push({ field, before: beforeStr || '—', after: afterStr });
     };
 
+    // Карточка найдена по старому артикулу — строка переводит её на новый.
+    if (cur && cur.sku !== sku) { payload.sku = sku; changes.push({ field: 'sku', before: cur.sku, after: sku }); }
     // простые строковые поля
     for (const f of ['name', 'vendor', 'short_description', 'description', 'keywords', 'price_note', 'promo_label', 'currency',
       'parent_sku', 'region_code', 'region_name', 'denomination_currency', 'variant_label']) {

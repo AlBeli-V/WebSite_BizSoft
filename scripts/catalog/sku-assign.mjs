@@ -5,6 +5,7 @@
 //        data/catalog/sku-legacy-rules.json   — правила перевода старых артикулов
 //        data/catalog/sku-vendors.json        — коды вендоров
 // Выход: data/catalog/sku-assignment.json     — старый артикул → новый, с сегментами
+//        data/catalog/sku-map.json            — компактная карта старый → новый
 //        data/catalog/sku-assignment.csv      — то же для просмотра в Excel
 //        data/catalog/sku-products.json       — реестр кодов продуктов (обновляется)
 //
@@ -18,7 +19,9 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { buildSku, findDuplicateSkus, proposeProductCode, validateSkuParts } from '../../src/lib/sku.ts';
+import { readdirSync } from 'node:fs';
+import { buildSku, findDuplicateSkus, parseSku, proposeProductCode, validateSkuParts } from '../../src/lib/sku.ts';
+import { buildPositions, skuCodes } from '../lib/zoho-model.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const P = (rel) => resolve(ROOT, rel);
@@ -30,9 +33,18 @@ const exportData = readJson('data/catalog/sku-legacy-export.json');
 const rules = readJson('data/catalog/sku-legacy-rules.json');
 const vendorCodes = readJson('data/catalog/sku-vendors.json').vendors;
 let registry;
-try { registry = readJson('data/catalog/sku-products.json'); } catch { registry = { _note: '', products: {}, plugins: {} }; }
+try { registry = readJson('data/catalog/sku-products.json'); } catch { registry = { _note: '', products: {}, plugins: {}, zoho: {} }; }
 registry.products ||= {};
 registry.plugins ||= {};
+registry.zoho ||= {};
+
+// ── Раздел ManageEngine: все позиции модели (карточки, скрытые, сопровождение) ──
+// Артикулы считает сама модель (scripts/lib/zoho-model.mjs → sku-legacy-zoho.mjs)
+// из последнего снимка магазина вендора; здесь — соответствие старый → новый.
+const ME_SRC = P('data/sources/manageengine');
+const meDay = readdirSync(ME_SRC).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)).sort().pop();
+const mePositions = buildPositions(readJson(`data/sources/manageengine/${meDay}/manifest.json`));
+const zohoByLegacy = new Map(mePositions.map((pos) => [pos.legacySku, pos]));
 
 // ── Эвристики для короткой записи правил (только код продукта) ─────────────
 const TEAM_RE = /\b(teams?|business|enterprise|corporate|company|organizations?|workspace|studio|msp)\b|для команд|для организаций|организаци|команд|корпоратив/i;
@@ -117,17 +129,10 @@ function translate(row) {
     parts = { vendor: vcode, kind: rules.jetbrains.kind, product, plan: jb[2] === 'ORG' ? 'TEAM' : 'IND', term: rules.jetbrains.term, unit: rules.jetbrains.unit, variant: null };
     source = 'jetbrains';
   } else if (me) {
-    const toks = me[1].split('-');
-    const cut = toks.findIndex((t) => /^\d+$/.test(t) || t === 'SINGLE');
-    const head = (cut < 0 ? toks : toks.slice(0, cut)).join('-');
-    const tail = (cut < 0 ? [] : toks.slice(cut)).join('-');
-    const prodRule = rules.zoho.products[head];
-    if (!prodRule) throw new Error(`ManageEngine: нет кода продукта для «${head}» — ${sku}`);
-    if (!(tail in rules.zoho.volumes)) throw new Error(`ManageEngine: нет кода объёма для «${tail}» — ${sku}`);
-    const [product, ml] = prodRule.split(/\s+/);
-    const variant = `${rules.zoho.volumes[tail]}${ml || ''}` || null;
-    const kind = rules.zoho.addons.includes(product) ? 'ADD' : 'LIC';
-    parts = { vendor: vcode, kind, product, plan: rules.zoho.plan, term: me[2] ? 'PERP' : '1Y', unit: rules.zoho.unit, variant };
+    const pos = zohoByLegacy.get(sku);
+    if (!pos) throw new Error(`ManageEngine: позиции «${sku}» нет в модели (снимок ${meDay})`);
+    parts = parseSku(pos.sku);
+    if (!parts) throw new Error(`ManageEngine: модель дала не системный артикул «${pos.sku}» для ${sku}`);
     source = 'zoho';
   } else {
     throw new Error(`нет правила для артикула ${sku} (${vendor} — ${name})`);
@@ -147,6 +152,20 @@ const ordered = exportData.products
   .map((row, idx) => ({ row, idx }))
   .sort((a, b) => Number(!rules.legacy[a.row.sku]) - Number(!rules.legacy[b.row.sku]) || a.idx - b.idx);
 const items = ordered.map(({ row, idx }) => ({ ...translate(row), idx })).sort((a, b) => a.idx - b.idx).map(({ idx, ...i }) => i);
+// Позиции ManageEngine вне выгрузки: скрытые строки конфигуратора и контракты
+// сопровождения. Они тоже живут в Directus (черновики) и переводятся той же картой.
+const exported = new Set(items.map((i) => i.old));
+for (const pos of mePositions) {
+  if (exported.has(pos.legacySku)) continue;
+  const parts = parseSku(pos.sku);
+  if (!parts) throw new Error(`ManageEngine: не системный артикул «${pos.sku}» у скрытой позиции ${pos.legacySku}`);
+  const { vendor: vendor_code, ...segments } = parts;
+  const name = `ManageEngine ${pos.familyName}${pos.edition ? ` ${pos.edition}` : ''}, ${pos.variantName}${pos.isAms ? ' — сопровождение' : pos.licenseModel === 'perpetual' ? ', вечная лицензия' : ''}`;
+  items.push({ old: pos.legacySku, new: pos.sku, vendor: 'Zoho', vendor_code, name, ...segments, source: 'zoho-hidden', review: [] });
+}
+// Автокоды продуктов ManageEngine закрепляются в реестре: выданный код не меняется.
+for (const [head, code] of skuCodes) if (!registry.zoho[head]) registry.zoho[head] = code;
+
 const dups = findDuplicateSkus(items.map((i) => i.new));
 if (dups.length) {
   for (const d of dups) console.error(`ДУБЛЬ ${d}: ${items.filter((i) => i.new === d).map((i) => `${i.old} (${i.name})`).join(' | ')}`);
@@ -165,15 +184,21 @@ const output = {
 const csv = ['old_sku;new_sku;vendor;name;kind;product;plan;term;unit;variant']
   .concat(items.map((i) => [i.old, i.new, i.vendor, i.name.replace(/;/g, ','), i.kind, i.product, i.plan, i.term, i.unit, i.variant || ''].join(';')))
   .join('\n') + '\n';
-registry._note = 'Реестр кодов продуктов для артикулов (docs/rules/sku-system.md). products: код вендора → код продукта (2–12 знаков A–Z/0–9, уникален у вендора) → название линейки, под которым код выдан. plugins: slug плагина JetBrains Marketplace → его код (закреплён, при перегенерации не меняется). Ведёт scripts/catalog/sku-assign.mjs; код новой позиции оператор берёт отсюда или заводит новый — тем же словом, что у вендора.';
-const sortedRegistry = { _note: registry._note, products: {}, plugins: {} };
+registry._note = 'Реестр кодов продуктов для артикулов (docs/rules/sku-system.md). products: код вендора → код продукта (2–12 знаков A–Z/0–9, уникален у вендора) → название линейки, под которым код выдан. plugins: slug плагина JetBrains Marketplace → его код (закреплён, при перегенерации не меняется). zoho: голова старого артикула ManageEngine (семейство и предложение) → автокод продукта позиций конфигуратора. Ведёт scripts/catalog/sku-assign.mjs; код новой позиции оператор берёт отсюда или заводит новый — тем же словом, что у вендора.';
+const sortedRegistry = { _note: registry._note, products: {}, plugins: {}, zoho: {} };
 for (const v of Object.keys(registry.products).sort()) {
   sortedRegistry.products[v] = Object.fromEntries(Object.entries(registry.products[v]).sort(([a], [b]) => a.localeCompare(b)));
 }
 sortedRegistry.plugins = Object.fromEntries(Object.entries(registry.plugins).sort(([a], [b]) => a.localeCompare(b)));
+sortedRegistry.zoho = Object.fromEntries(Object.entries(registry.zoho).sort(([a], [b]) => a.localeCompare(b)));
 
+const skuMap = {
+  _note: 'Карта старый артикул → новый для перехода каталога (docs/rules/sku-system.md): её читает слой Directus (src/lib/sku-map.ts), скрипт переписывания ссылок и workflow ops-sku-migrate. Генерируется sku-assign.mjs из sku-assignment.json.',
+  map: Object.fromEntries(items.map((i) => [i.old, i.new])),
+};
 const outputs = [
   ['data/catalog/sku-assignment.json', JSON.stringify(output, null, 1) + '\n'],
+  ['data/catalog/sku-map.json', JSON.stringify(skuMap, null, 1) + '\n'],
   ['data/catalog/sku-assignment.csv', csv],
   ['data/catalog/sku-products.json', JSON.stringify(sortedRegistry, null, 1) + '\n'],
 ];

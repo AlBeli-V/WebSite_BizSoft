@@ -18,7 +18,7 @@
     ]
   },
   "cards": {
-    "FIGMA-PROF-FULL": {
+    "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-FULL": {
       "badge": "Professional",
       "forWhom": "Дизайнеры небольших команд",
       "features": [
@@ -30,7 +30,7 @@
       "qtyLabel": "Мест",
       "marker": "team"
     },
-    "FIGMA-PROF-DEV": {
+    "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-DEV": {
       "badge": "Professional",
       "forWhom": "Разработчики, хендофф",
       "features": [
@@ -42,7 +42,7 @@
       "qtyLabel": "Мест",
       "marker": "team"
     },
-    "FIGMA-PROF-COLLAB": {
+    "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-COLLAB": {
       "badge": "Professional",
       "forWhom": "Стейкхолдеры, менеджеры",
       "features": [
@@ -54,7 +54,7 @@
       "qtyLabel": "Мест",
       "marker": "team"
     },
-    "FIGMA-ORG-FULL": {
+    "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-FULL": {
       "badge": "Organization",
       "forWhom": "Дизайн-команды организации",
       "features": [
@@ -66,7 +66,7 @@
       "qtyLabel": "Мест",
       "marker": "team"
     },
-    "FIGMA-ORG-DEV": {
+    "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-DEV": {
       "badge": "Organization",
       "forWhom": "Разработчики организации",
       "features": [
@@ -78,7 +78,7 @@
       "qtyLabel": "Мест",
       "marker": "team"
     },
-    "FIGMA-ORG-COLLAB": {
+    "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-COLLAB": {
       "badge": "Organization",
       "forWhom": "Стейкхолдеры организации",
       "features": [
@@ -101,7 +101,7 @@
       ],
       "qtyLabel": "Мест"
     },
-    "FIGMA-ENT-FULL": {
+    "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-FULL": {
       "badge": "Enterprise",
       "forWhom": "Крупные дизайн-организации",
       "features": [
@@ -113,7 +113,7 @@
       "qtyLabel": "Мест",
       "marker": "team"
     },
-    "FIGMA-ENT-DEV": {
+    "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-DEV": {
       "badge": "Enterprise",
       "forWhom": "Разработчики Enterprise",
       "features": [
@@ -125,7 +125,7 @@
       "qtyLabel": "Мест",
       "marker": "team"
     },
-    "FIGMA-ENT-COLLAB": {
+    "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-COLLAB": {
       "badge": "Enterprise",
       "forWhom": "Стейкхолдеры Enterprise",
       "features": [
@@ -137,21 +137,21 @@
       "qtyLabel": "Мест",
       "marker": "team"
     },
-    "INT-DESIGN-FIGMA": {
+    "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER": {
       "marker": "team"
     }
   },
   "order": [
-    "FIGMA-PROF-FULL",
-    "FIGMA-PROF-DEV",
-    "FIGMA-PROF-COLLAB",
-    "FIGMA-ORG-FULL",
-    "FIGMA-ORG-DEV",
-    "FIGMA-ORG-COLLAB",
+    "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-FULL",
+    "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-DEV",
+    "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-COLLAB",
+    "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-FULL",
+    "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-DEV",
+    "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-COLLAB",
     "int-design-figma",
-    "FIGMA-ENT-FULL",
-    "FIGMA-ENT-DEV",
-    "FIGMA-ENT-COLLAB"
+    "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-FULL",
+    "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-DEV",
+    "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-COLLAB"
   ],
   "comparison": {
     "cols": [

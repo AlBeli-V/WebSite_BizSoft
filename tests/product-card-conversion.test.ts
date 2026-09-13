@@ -261,7 +261,7 @@ describe('вид позиции задаёт композицию', () => {
   it('дополнение к основному продукту опознаётся по артикулу', () => {
     expect(cardComposition({ ...base, sku: 'JB-PLG-RIDER' })).toBe('addon');
     expect(cardComposition({ ...base, sku: 'ZOOM-PHONE-PRO' })).toBe('addon');
-    expect(cardComposition({ ...base, sku: 'OPENAI-CREDITS-100' })).toBe('addon');
+    expect(cardComposition({ ...base, sku: 'OPAI-CRD-API-UNI-BAL-NOM-100' })).toBe('addon');
   });
 
   it('позиция без цены — договорная, а не подписка', () => {
@@ -278,15 +278,15 @@ describe('вид позиции задаёт композицию', () => {
 });
 
 describe('расхождения выката 12.09.2026 закрыты', () => {
-  const topup = { sku: 'OPENAI-CREDITS-100', price: 19531, product_type: null, parent_sku: null };
+  const topup = { sku: 'OPAI-CRD-API-UNI-BAL-NOM-100', price: 19531, product_type: null, parent_sku: null };
 
   it('у пополнения баланса призыв не обещает лицензию', () => {
     // На живой карточке стояло «Получить КП на 1 лицензию» и «Количество
     // лицензий»: лицензий у пополнения баланса нет.
     const s = commerceState({ price: 19531 });
     expect(quoteCtaLabel(s, 1, false)).toBe('Получить КП');
-    expect(quoteProductRef('Пополнение', 'OPENAI-CREDITS-100', s, 2, false))
-      .toBe('Пополнение (OPENAI-CREDITS-100) — 2 шт.');
+    expect(quoteProductRef('Пополнение', 'OPAI-CRD-API-UNI-BAL-NOM-100', s, 2, false))
+      .toBe('Пополнение (OPAI-CRD-API-UNI-BAL-NOM-100) — 2 шт.');
     expect(cardComposition(topup)).not.toBe('unit_subscription');
     expect(page).toContain("isUnitPlan ? `Количество ${unitPlural(commerce.qtyLabel)}` : 'Количество'");
     expect(page).toContain('quoteCtaLabel(commerce, commerce.minQty, isUnitPlan)');
@@ -369,7 +369,7 @@ describe('композиция, одобренная 12.09.2026', () => {
     // Ничего из этого нет в схеме каталога — всё ведётся в контенте вендора.
     // Срок с 13.09.2026 карточка считает сама (правило card-title.md):
     // у Red Giant он читается из «1Y» в названии, ручного поля больше нет.
-    const rg = VENDOR_CONTENT['maxon']?.cards?.['MAXON-REDGIANT-TEAMS'];
+    const rg = VENDOR_CONTENT['maxon']?.cards?.['MAXN-LIC-REDGIANT-TEAM-1Y-USER'];
     expect(rg).not.toHaveProperty('term');
     expect(rg?.reassign).toBe('Да');
     expect(rg?.management).toBe('Централизованная консоль');

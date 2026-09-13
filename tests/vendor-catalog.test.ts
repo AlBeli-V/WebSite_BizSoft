@@ -5,6 +5,7 @@
  * контрольные расчёты цены по штатной формуле computePegRub.
  */
 import { describe, expect, it } from 'vitest';
+import { isSystemSku } from '../src/lib/sku';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { resolve, basename } from 'node:path';
 import { VENDORS } from '../src/data/vendors';
@@ -100,10 +101,14 @@ describe('пакеты scripts/catalog', () => {
     }
   });
 
-  it('обязательные поля SKU заполнены, sku = slug в верхнем регистре', () => {
+  it('обязательные поля SKU заполнены, артикул — единой системы, слаг на месте', () => {
     for (const { pkg } of packages) {
       for (const p of pkg.products) {
-        expect(p.sku).toBe(String(p.slug).toUpperCase());
+        // Архивные стабы снимают с витрины позиции под прежними артикулами;
+        // черновики, не выложенные на витрину, переводятся при публикации.
+        if (p.archive || p.status === 'draft') continue;
+        expect(isSystemSku(p.sku), `${p.slug}: артикул «${p.sku}» не по единой системе`).toBe(true);
+        expect(String(p.slug)).toMatch(/^[a-z0-9-]+$/);
         expect(ALLOWED_CATEGORIES, `категория ${p.category} (${p.slug})`).toContain(p.category);
         expect(['published', 'draft']).toContain(p.status);
         // Скрытая позиция конфигуратора страницы не имеет и в поиск не идёт:

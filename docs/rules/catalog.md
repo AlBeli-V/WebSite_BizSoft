@@ -4,7 +4,7 @@
   поля `vendor` (сверять с `src/data/vendors.ts`, поле `vendor` записи).
 - На bespoke-страницах (`vendors/openai|figma|zoom|jetbrains.astro`) НЕ
   фильтровать товары по префиксу sku: часть товаров живёт под
-  «интеграционными» sku (INT-AI-CHATGPT, INT-DESIGN-FIGMA). Ключи меты и
+  «интеграционными» sku (OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD, FIGM-LIC-ORGANIZATION-TEAM-1Y-USER). Ключи меты и
   порядка карточек — slug ИЛИ sku.
 - Живую выгрузку каталога (vendor/name/slug/sku/price) даёт workflow
   `ops-export-products` (комментарий в issue #22).

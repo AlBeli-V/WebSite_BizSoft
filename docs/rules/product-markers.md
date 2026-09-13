@@ -59,7 +59,7 @@ Core, Photon Fusion CCU и подобные, где план один для в�
 Поле `marker` в контенте вендора (`VendorCardMeta`) старше эвристики:
 
 ```json
-"cards": { "MAXON-REDGIANT-TEAMS": { "marker": "team" } }
+"cards": { "MAXN-LIC-REDGIANT-TEAM-1Y-USER": { "marker": "team" } }
 ```
 
 Значения: `team`, `individual`, `universal`, `addon`.

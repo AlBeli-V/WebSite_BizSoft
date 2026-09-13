@@ -28,6 +28,7 @@ export const SKU_KINDS = {
   ADD: 'Дополнение к продукту: плагин, надстройка, add-on',
   CRD: 'Кредиты и пополнение баланса (API, генерации)',
   GFT: 'Подарочная карта, ваучер',
+  SVC: 'Услуга вендора: сопровождение, внедрение, обучение',
 } as const;
 export type SkuKind = keyof typeof SKU_KINDS;
 
