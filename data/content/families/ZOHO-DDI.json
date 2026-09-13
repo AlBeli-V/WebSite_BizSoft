@@ -1,0 +1,474 @@
+{
+  "family_key": "ZOHO-DDI",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers",
+  "classification_notes": [
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы нет — OWNERSHIP = universal.",
+    "Две редакции одного продукта (Professional / Enterprise) — packaging edition_tier; объём пакета — кластеры DNS и DHCP и серверы NTP (из слага), в артикуле — только число DNS-кластеров.",
+    "Названия витрины и артикулы согласованы (2 и 5 кластеров DNS); состав редакций — по знанию модели, спорное вынесено в uncertainties.",
+    "Сайт вендора в сессии не открывался."
+  ],
+  "products": {
+    "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers": {
+      "sku": "ZOHO-LIC-DDIPRO-TEAM-1Y-PACK-2DNS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "2 кластера DNS, 2 кластера DHCP, 3 сервера NTP",
+      "unit_label": "пакет: 2 кластера DNS, 2 кластера DHCP, 3 сервера NTP",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DDI Central Professional — годовая подписка на систему управления DNS, DHCP и IP-адресами ManageEngine на собственных серверах: зоны и записи, области и резервирования, реестр подсетей — из одной консоли вместо правки конфигураций на каждом сервере. Пакет на 2 кластера DNS, 2 кластера DHCP и 3 сервера NTP.\n\nЛицензия считается по кластерам: кластер — основной сервер с его вторичными, которые система разворачивает и обслуживает через агент. Professional закрывает одну площадку с резервированием; Enterprise рассчитан на пять кластеров каждого вида и распределённую сеть.\n\nСрок — 1 год, обновления и поддержка включены. Другие наборы кластеров — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет DDI Central Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "DNS",
+              "d": "Прямые и обратные зоны, записи всех типов, представления (views) для внутренних и внешних клиентов, пересылка и условная пересылка, DNSSEC-подпись зон; серверы на базе BIND, развёрнутые системой."
+            },
+            {
+              "t": "DHCP",
+              "d": "Области IPv4 и IPv6, резервирования по MAC, опции для клиентов, исключения, отказоустойчивая пара серверов с общим пулом; журнал аренд."
+            },
+            {
+              "t": "Учёт адресов",
+              "d": "Реестр подсетей, состояние каждого адреса с привязкой к записи DNS и аренде DHCP, поиск конфликтов и неучтённых адресов по сканированию."
+            },
+            {
+              "t": "Кластеры и агенты",
+              "d": "Основной и вторичные серверы DNS и DHCP собираются в кластер: система ставит агент, раскатывает конфигурацию, следит за репликацией зон и синхронизацией аренд."
+            },
+            {
+              "t": "NTP",
+              "d": "Управление серверами времени: источники, клиенты, состояние синхронизации — в той же консоли."
+            },
+            {
+              "t": "Контроль и аудит",
+              "d": "Роли и права по зонам и областям, журнал изменений с автором и временем, отчёты по использованию пулов и зон, оповещения об ошибках репликации и исчерпании пулов."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Professional или Enterprise",
+          "kind": "compare",
+          "body": "Обе редакции управляют DNS, DHCP и адресами одинаково; различие — в числе кластеров и в функциях для распределённой сети.",
+          "rows": [
+            {
+              "label": "Кластеры DNS / DHCP / серверы NTP",
+              "values": {
+                "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers": "2 / 2 / 3",
+                "me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers": "5 / 5 / 5"
+              }
+            },
+            {
+              "label": "Зоны, области, учёт адресов, аудит",
+              "values": {
+                "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers": "да",
+                "me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers": "да"
+              }
+            },
+            {
+              "label": "Отказоустойчивость DNS и DHCP внутри кластера",
+              "values": {
+                "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers": "да",
+                "me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers": "да"
+              }
+            },
+            {
+              "label": "Несколько площадок с локальными кластерами",
+              "values": {
+                "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers": "ограниченно, в пределах двух кластеров",
+                "me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers": "да"
+              }
+            },
+            {
+              "label": "Расширенная защита DNS (фильтрация ответов, политики)",
+              "values": {
+                "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers": "по матрице вендора",
+                "me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers": "да"
+              }
+            }
+          ],
+          "links": [
+            "me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Организации, которая держит внутренний DNS и DHCP на своих серверах Linux и хочет управлять ими через консоль с правами и журналом, а не через файлы зон и ручные правки. Двух кластеров хватает на основную площадку и резервный ЦОД."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если DNS и DHCP живут на контроллерах домена Windows и переезжать с них не планируется — нужен продукт, который управляет службами Microsoft, а не разворачивает свои; уточните у вендора поддержку такой схемы. Если нужен только реестр адресов и карта портов без управления серверами — это OpUtils."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое кластер",
+              "d": "Группа серверов одной службы под общим управлением: основной DNS с вторичными или пара DHCP с общим пулом. Число зон, записей, областей и адресов внутри кластера на лицензию не влияет."
+            },
+            {
+              "t": "Серверы служб",
+              "d": "Машины Linux под DNS и DHCP, на которые система ставит агент и службы; существующие серверы BIND и ISC DHCP подключаются с импортом конфигурации."
+            },
+            {
+              "t": "Сервер консоли",
+              "d": "Отдельный сервер Windows или Linux для DDI Central со встроенной базой; пробный период — 30 дней."
+            },
+            {
+              "t": "Пользователи консоли",
+              "d": "Число учётных записей в артикуле не задано — по матрице вендора; дополнительные — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте кластеры, а не серверы",
+              "d": "Основной DNS с двумя вторичными — один кластер; вторая пара для резервного ЦОД — второй. Если нужен третий, переходят на Enterprise или запрашивают промежуточный набор; доплата — разницей между пакетами."
+            },
+            {
+              "t": "Текущие службы",
+              "d": "Определите, что переносится: BIND и ISC DHCP импортируются; для служб Microsoft и облачных DNS порядок подключения подтверждается у вендора."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Разовая оплата с ежегодным AMS 20 % — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "DDI Central Enterprise, 5 кластеров DNS",
+              "d": "Тот же продукт на пять кластеров каждого вида для распределённой сети.",
+              "link": "me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers"
+            },
+            {
+              "t": "OpUtils Professional, 250 портов",
+              "d": "Учёт адресов и портов коммутаторов без управления самими DNS- и DHCP-серверами — заметно дешевле, если серверы менять не нужно.",
+              "link": "me-oputils-professional-every-additional-250-used-ports-in-switch-po"
+            },
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Если DNS- и DHCP-серверы надо только наблюдать — доступность, нагрузка, службы, — а не администрировать.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Кластер — это сколько серверов?",
+          "a": "Сколько нужно: основной и любое число вторичных под общим управлением. Лицензия считает кластеры, а не серверы в них."
+        },
+        {
+          "q": "Можно ли подключить уже работающий BIND?",
+          "a": "Да, существующие серверы BIND и ISC DHCP подключаются агентом с импортом зон и областей; они становятся частью кластера."
+        },
+        {
+          "q": "Что делать, если кластеров нужно три?",
+          "a": "Переход на Enterprise доплатой разницы либо запрос промежуточного набора у вендора — уточняем при заказе."
+        }
+      ],
+      "related_products": [
+        "me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers",
+        "me-oputils-professional-every-additional-250-used-ports-in-switch-po",
+        "me-opmanager-professional-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "DDI Central Professional, 2 кластера DNS | BIZSoft",
+      "meta_description": "ManageEngine DDI Central Professional: управление DNS, DHCP и IP-адресами на своих серверах. Пакет на 2 кластера DNS, 2 кластера DHCP, 3 сервера NTP, год.",
+      "seo_intents": [
+        "ddi central купить / manageengine ddi лицензия — hero, meta",
+        "ddi central professional vs enterprise — PLAN_COMPARE",
+        "управление dns dhcp ipam on-premises — CAPABILITIES, FIT",
+        "ddi central лицензирование кластеры — DEPENDENCIES, FAQ"
+      ],
+      "uncertainties": [
+        "Управление службами Microsoft DNS/DHCP и облачными DNS в DDI Central — не подтверждено; в тексте — «уточните у вендора».",
+        "Наличие расширенной защиты DNS (фильтрация ответов, политики) в Professional — по матрице вендора; в таблице так и обозначено.",
+        "Число пользователей консоли в пакете — в артикуле отсутствует.",
+        "Возможность промежуточных наборов кластеров (3–4) — предположение по общей практике вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ FIT и DEPENDENCIES; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает продукт",
+          "new_information": "шесть групп: DNS, DHCP, адреса, кластеры, NTP, аудит",
+          "sibling_overlap": "носитель; сосед — дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "ddi central возможности",
+          "source": "uncertain (ddi central features, по знанию модели)"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли Professional",
+          "new_information": "пять строк различий",
+          "sibling_overlap": "сосед ссылается",
+          "decision": "COMPARE",
+          "seo_intent": "ddi central editions",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль своих серверов Linux, два выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "управление dns dhcp из одной консоли",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и что нужно",
+          "new_information": "кластер, серверы служб, сервер консоли, пользователи",
+          "sibling_overlap": "сосед ссылается",
+          "decision": "VALIDATE",
+          "seo_intent": "ddi central что такое кластер",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "счёт кластеров, перенос служб, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "ddi central ams",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "сосед, OpUtils, OpManager",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers": {
+      "sku": "ZOHO-LIC-DDIENT-TEAM-1Y-PACK-5DNS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "5 кластеров DNS, 5 кластеров DHCP, 5 серверов NTP",
+      "unit_label": "пакет: 5 кластеров DNS, 5 кластеров DHCP, 5 серверов NTP",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DDI Central Enterprise — годовая подписка на старшую редакцию системы управления DNS, DHCP и адресами ManageEngine: пакет на 5 кластеров DNS, 5 кластеров DHCP и 5 серверов NTP для сети с несколькими площадками, где у каждой — свои серверы имён и выдачи адресов под общим управлением.\n\nОт Professional отличается объёмом и функциями для распределённой инфраструктуры: локальные кластеры в филиалах при единой консоли, расширенная защита DNS с политиками ответов и делегирование администрирования площадкам.\n\nСрок — 1 год с обновлениями и поддержкой. Больше пяти кластеров — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Enterprise",
+          "kind": "items",
+          "body": "Управление зонами, областями и адресами — как в Professional. Ниже — только дельта.",
+          "items": [
+            {
+              "t": "Пять кластеров каждого вида",
+              "d": "Достаточно для центрального ЦОД, резервного и трёх крупных площадок с собственными DNS и DHCP — либо для разделения служб по подразделениям."
+            },
+            {
+              "t": "Площадки и делегирование",
+              "d": "Кластеры группируются по площадкам; администратор филиала управляет своими зонами и областями, центральная служба видит всё и задаёт общие политики."
+            },
+            {
+              "t": "Защита DNS",
+              "d": "Политики ответов (блокировка и подмена ответов для опасных доменов), ограничение частоты запросов, отчёты о подозрительных обращениях."
+            },
+            {
+              "t": "Отчётность по сети целиком",
+              "d": "Сводные отчёты по использованию адресов и пулов всех площадок, единый аудит изменений."
+            }
+          ],
+          "links": [
+            "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Enterprise, а когда нет",
+          "kind": "items",
+          "body": "Сводная таблица редакций — на карточке Professional. Здесь — правило выбора.",
+          "items": [
+            {
+              "t": "Берите Enterprise",
+              "d": "Площадок с собственными DNS и DHCP больше двух, администрируют их разные люди, и требования безопасности предполагают фильтрацию DNS-ответов."
+            },
+            {
+              "t": "Хватит Professional",
+              "d": "Одна площадка с резервным ЦОД: два кластера DNS и два DHCP закрывают её с отказоустойчивостью, а набор функций управления тот же."
+            }
+          ],
+          "links": [
+            "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Распределённой организации — сеть филиалов, несколько ЦОД, группа компаний, — где в каждой точке стоят свои DNS и DHCP, а центральная служба обязана видеть все зоны и пулы, задавать политики и вести единый журнал изменений.\n\nЕсли всё умещается в два кластера, старшая редакция даст только неиспользованный запас."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём и определение кластера",
+              "d": "Пять кластеров DNS и DHCP, пять серверов NTP. Что считается кластером и какие серверы нужны — на карточке Professional.",
+              "link": "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers"
+            },
+            {
+              "t": "Схема площадок",
+              "d": "Заранее решите, где кластер локальный, а где площадка обслуживается из центра: от этого зависит число агентов и серверов."
+            },
+            {
+              "t": "Переход с Professional",
+              "d": "Доплатой разницы на оставшийся срок; кластеры и данные сохраняются."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Разовая оплата плюс AMS 20 % в год — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "DDI Central Professional, 2 кластера DNS",
+              "d": "Тот же продукт для одной площадки с резервом.",
+              "link": "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers"
+            },
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Если распределённая сеть требует мониторинга, а DNS и DHCP остаются как есть — наблюдение за серверами служб вместо управления ими.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли взять четыре кластера DNS и два DHCP?",
+          "a": "Пакеты витрины фиксированы (2/2/3 и 5/5/5); несимметричные наборы запрашиваются у вендора отдельно — уточняем при заказе."
+        },
+        {
+          "q": "Серверы NTP лицензируются отдельно?",
+          "a": "Нет, пять серверов NTP входят в пакет; сверх этого — по запросу."
+        }
+      ],
+      "related_products": [
+        "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers",
+        "me-opmanager-professional-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "DDI Central Enterprise, 5 кластеров DNS — подписка | BIZSoft",
+      "meta_description": "ManageEngine DDI Central Enterprise: DNS, DHCP и адреса нескольких площадок под единым управлением. Пакет на 5 кластеров DNS, 5 DHCP и 5 серверов NTP, год.",
+      "seo_intents": [
+        "ddi central enterprise купить — hero, meta",
+        "ddi central enterprise vs professional — PLAN_COMPARE",
+        "dns firewall политики ответов ddi — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Состав дельты Enterprise (делегирование по площадкам, политики ответов DNS, ограничение частоты запросов) — по знанию модели о продукте, у вендора не проверено.",
+        "Возможность несимметричных наборов кластеров — предположение; на витрине только два фиксированных пакета."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (дельта); опустошить",
+        "description": "→ FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю",
+          "new_information": "объём, площадки, защита DNS, сводная отчётность",
+          "sibling_overlap": "база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "ddi central enterprise что входит",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "Enterprise или Professional",
+          "new_information": "два правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "enterprise vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль распределённой организации",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "dns dhcp филиалов централизованно",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "схема площадок, переход, perpetual",
+          "sibling_overlap": "кластер — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "сосед и OpManager",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}
