@@ -65,6 +65,18 @@
   основного скрипта запрещены: вывод в output, шаг завершается кодом
   скрипта. Храповик — `tests/workflows-lint.test.ts`, база
   `data/reports/workflow-lint-baseline.json` только убывает.
+- **Шаг по SSH — через `./.github/actions/ssh-run`**, а не `appleboy/ssh-action`
+  с `capture_stdout` напрямую. Entrypoint ssh-action пишет вывод в
+  `GITHUB_OUTPUT` блоком `stdout<<EOF … EOF` под `bash -e -o pipefail`:
+  ненулевой код скрипта обрывает его до закрывающей строки, раннер
+  отбрасывает блок, и журнал получает «(нет вывода)» ровно при сбое
+  (13.09.2026: ops-yandex-recrawl с HTTP 429 по каждому URL — запись ✗ без
+  причины; seo-recrawl-sweep при одном отклонённом адресе терял курсор и
+  повторял партию, issue #542). Обёртка выполняет скрипт в подоболочке,
+  печатает код маркером и завершает сеанс нулём; `outcome`, `stdout` и
+  `body-file` — в её выходах, красный статус ставит journal-post. Правила
+  R8/R9 того же храповика; переведены `ops-yandex-recrawl`, `ops-indexnow`,
+  `ops-backup`, `seo-recrawl-sweep`, остальные — по мере правок.
 - **Реестр секретов** `ops/secrets/registry.json`: каждое `secrets.X`
   зарегистрировано с назначением (`tests/secrets-registry.test.ts`); второе
   имя одного токена — долг с `resolve_by`.

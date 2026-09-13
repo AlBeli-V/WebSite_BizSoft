@@ -1,0 +1,708 @@
+{
+  "family_key": "ZOHO-OPMANAGER",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-opmanager-standard-10-devices-pack-with-2-users",
+  "classification_notes": [
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы у OpManager нет — ось OWNERSHIP = universal, модуль TEAM_MODEL не применяется.",
+    "Пакет объёма — единица товара; счётчик количества для volume_tier — неверный вопрос: рост объёма идёт переходом на следующий пакет с доплатой разницы (DATA GAP: выбор объёма вместо счётчика).",
+    "Бессрочные сиблинги (*-PERP) существуют вне индекса; в тексте — «по запросу», без ссылок."
+  ],
+  "products": {
+    "me-opmanager-standard-10-devices-pack-with-2-users": {
+      "sku": "ZOHO-LIC-OPMGRSTD-TEAM-1Y-PACK-10DEV2USR",
+      "legacy_sku": "ZOHO-LIC-OPMGRSTD-TEAM-1Y-PACK-10DEV2USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "10 устройств, 2 пользователя",
+      "unit_label": "пакет: 10 устройств, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OpManager Standard — годовая подписка на систему мониторинга сети и серверов ManageEngine: доступность узлов, загрузка интерфейсов и процессоров, состояние дисков и служб, карты сети и оповещения. Пакет на 10 наблюдаемых устройств и 2 пользователей консоли; устанавливается на собственный сервер организации.\n\nЛицензия считается по устройствам: интерфейсы, порты, диски и метрики каждого устройства в неё входят без ограничения. Standard — младшая из трёх редакций: базовый набор без виртуализации, AIOps и API; при росте задач переходят на Professional доплатой разницы.\n\nСрок — 1 год, обновления и поддержка производителя включены. Другие объёмы (25, 50, 100 и больше устройств) — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет OpManager Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение и инвентарь",
+              "d": "Сканирование сети по диапазону, импорт из CSV, добавление узлов по одному; 600+ шаблонов устройств Cisco, HP, Juniper, Dell и других."
+            },
+            {
+              "t": "Доступность и производительность",
+              "d": "Опрос по SNMP, WMI/WinRM и CLI: отклик, загрузка CPU и памяти, трафик интерфейсов, диски, процессы, службы Windows, TCP-порты, скрипты."
+            },
+            {
+              "t": "Журналы и ловушки",
+              "d": "Приём SNMP-trap, Syslog и журналов событий Windows с превращением в аларм по правилу."
+            },
+            {
+              "t": "Карты и панели",
+              "d": "Бизнес-представления сети, пользовательские дашборды, мобильное приложение для Android и iOS."
+            },
+            {
+              "t": "Оповещения и реакция",
+              "d": "Пороги, эскалация, письма и SMS, интеграции с внешними системами, рабочие процессы автоматического реагирования."
+            },
+            {
+              "t": "Хранение данных",
+              "d": "Сырые метрики хранятся 7 дней (у Professional — 60), агрегированные — дольше."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard, Professional или Enterprise",
+          "kind": "compare",
+          "body": "Все три редакции считают лицензию по устройствам и ставятся на свой сервер. Разница — в глубине мониторинга и масштабе.",
+          "rows": [
+            {
+              "label": "Стартовый пакет",
+              "values": {
+                "me-opmanager-standard-10-devices-pack-with-2-users": "10 устройств",
+                "me-opmanager-professional-10-devices-pack-with-2-users": "10 устройств"
+              }
+            },
+            {
+              "label": "Масштаб одного сервера",
+              "values": {
+                "me-opmanager-standard-10-devices-pack-with-2-users": "до 1000 устройств",
+                "me-opmanager-professional-10-devices-pack-with-2-users": "до 1000 устройств"
+              }
+            },
+            {
+              "label": "Виртуализация (VMware, Hyper-V, Xen, Nutanix)",
+              "values": {
+                "me-opmanager-standard-10-devices-pack-with-2-users": "нет",
+                "me-opmanager-professional-10-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Active Directory, Exchange, MS SQL, аппаратные датчики",
+              "values": {
+                "me-opmanager-standard-10-devices-pack-with-2-users": "нет",
+                "me-opmanager-professional-10-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "AIOps: адаптивные пороги, прогноз, корреляция",
+              "values": {
+                "me-opmanager-standard-10-devices-pack-with-2-users": "нет",
+                "me-opmanager-professional-10-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "REST API, AD/Radius-аутентификация, NOC-вид",
+              "values": {
+                "me-opmanager-standard-10-devices-pack-with-2-users": "нет",
+                "me-opmanager-professional-10-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Отчёты по расписанию, сырые данные",
+              "values": {
+                "me-opmanager-standard-10-devices-pack-with-2-users": "нет · 7 дней",
+                "me-opmanager-professional-10-devices-pack-with-2-users": "да · 60 дней"
+              }
+            },
+            {
+              "label": "Бесплатные квоты дополнений",
+              "values": {
+                "me-opmanager-standard-10-devices-pack-with-2-users": "нет",
+                "me-opmanager-professional-10-devices-pack-with-2-users": "2 устройства NCM, 2 интерфейса NetFlow, 50 IP, 50 портов"
+              }
+            }
+          ],
+          "links": [
+            "me-opmanager-professional-10-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Компаниям с собственной сетью до нескольких десятков коммутаторов, серверов и принтеров, где важно узнать о падении канала или сервера раньше пользователей, а виртуализация и приложения либо отсутствуют, либо наблюдаются другими средствами."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если в сети есть VMware или Hyper-V, домен Active Directory, Exchange или SQL Server, которые нужно видеть в той же консоли, — это Professional. Если площадок несколько и устройств больше тысячи — Enterprise с центральным сервером и пробами. Для наблюдения за приложениями (Tomcat, Oracle, 1С-сервер, веб-сервисы) к любой редакции докупается APM Plug-in."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое устройство",
+              "d": "Всё, что имеет IP-адрес: маршрутизатор, коммутатор, межсетевой экран, сервер, виртуальная машина, принтер, СХД. Число интерфейсов, портов и дисков на устройстве не ограничено."
+            },
+            {
+              "t": "Lite-устройства",
+              "d": "Точки доступа, URL и адреса, за которыми следят только по доступности, могут учитываться отдельным дополнением и не расходовать полную лицензию."
+            },
+            {
+              "t": "Пользователи консоли",
+              "d": "В пакет входят 2 учётные записи; дополнительные — по запросу."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server или Linux на площадке организации, встроенная PostgreSQL — отдельная СУБД не требуется. Пробная версия 30 дней, бесплатная редакция на 3 устройства."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте устройства, а не интерфейсы",
+              "d": "В пакет входят 10 устройств; если их 14 — нужен следующий пакет (25), а не два по 10. При переходе на больший пакет в течение срока оплачивается разница."
+            },
+            {
+              "t": "Подписка или бессрочная лицензия",
+              "d": "Годовая подписка включает обновления и поддержку. Бессрочная лицензия оплачивается один раз, обновления и поддержка — через ежегодный AMS в 20 % от её стоимости; оформляется по запросу."
+            },
+            {
+              "t": "Дополнения",
+              "d": "Трафик NetFlow, конфигурации NCM, IPAM/SPM, межсетевые экраны, отказоустойчивость — платные модули. Если нужны три и больше, посчитаем OpManager Nexus: объединённая лицензия выходит до 40 % дешевле."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Та же модель лицензии плюс виртуализация, AD/Exchange/SQL, AIOps и API.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "APM Plug-in, 10 мониторов",
+              "d": "Дополнение к OpManager для наблюдения за приложениями и СУБД; 5 мониторов доступны без покупки.",
+              "link": "me-opmanager-apm-plugin-10-monitors-apm-plugin"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "У нас 12 коммутаторов и 3 сервера — какой пакет нужен?",
+          "a": "15 устройств — это пакет на 25. Пакеты не суммируются: два по 10 не оформляются, а переход с 10 на 25 в течение срока оплачивается разницей между ними."
+        },
+        {
+          "q": "Считаются ли интерфейсы коммутатора отдельно?",
+          "a": "Нет. Лицензия считает устройство целиком: 48-портовый коммутатор — одно устройство, все порты, VLAN и метрики входят."
+        },
+        {
+          "q": "Можно ли перейти со Standard на Professional, не дожидаясь конца срока?",
+          "a": "Да, переход между редакциями оформляется доплатой; срок новой редакции выравнивается с действующей подпиской."
+        }
+      ],
+      "related_products": [
+        "me-opmanager-professional-10-devices-pack-with-2-users",
+        "me-opmanager-apm-plugin-10-monitors-apm-plugin"
+      ],
+      "meta_title": "OpManager Standard, 10 устройств — подписка на год | BIZSoft",
+      "meta_description": "ManageEngine OpManager Standard: мониторинг сети и серверов, пакет на 10 устройств и 2 пользователей, лицензия по устройствам. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "opmanager standard купить / manageengine opmanager лицензия — hero, meta",
+        "opmanager standard vs professional / редакции opmanager — PLAN_COMPARE",
+        "opmanager лицензирование по устройствам / сколько устройств — DEPENDENCIES, FAQ",
+        "opmanager бессрочная лицензия ams — BEFORE_ORDER (заменяет noindex-карточку *-PERP)",
+        "opmanager nexus — BEFORE_ORDER"
+      ],
+      "uncertainties": [
+        "Дополнительные пользователи консоли: шаг и цена не подтверждены — «по запросу».",
+        "Ряд пакетов 25/50/100 подтверждён магазином вендора; на витрине не заведён."
+      ],
+      "legacy_disposition": {
+        "features": "5 строк → CAPABILITIES; поле опустошить",
+        "description": "«типичный сценарий» и «чем отличается» → FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине; интенты покрыты"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что именно умеет младшая редакция",
+          "new_information": "шесть групп функций из матрицы редакций",
+          "sibling_overlap": "носитель; у Professional — только дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "opmanager возможности",
+          "source": "opmanager-editions.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли Standard",
+          "new_information": "восемь строк различий, единый источник для семейства",
+          "sibling_overlap": "у Professional — ссылка на эту таблицу и список дельты",
+          "decision": "COMPARE",
+          "seo_intent": "standard vs professional",
+          "source": "opmanager-editions.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли это случай",
+          "new_information": "профиль «да», три выхода «нет»",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "мониторинг сети для небольшой компании",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и где ставить",
+          "new_information": "определение устройства, lite, пользователи, сервер",
+          "sibling_overlap": "у Professional и плагина — ссылка",
+          "decision": "VALIDATE",
+          "seo_intent": "opmanager что считается устройством",
+          "source": "opmanager-licensing.html"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "пакеты не суммируются, perpetual+AMS, Nexus",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "opmanager ams / nexus",
+          "source": "opmanager-licensing.html, store"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "два соседа с причиной",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-opmanager-professional-10-devices-pack-with-2-users": {
+      "sku": "ZOHO-LIC-OPMGRPRO-TEAM-1Y-PACK-10DEV2USR",
+      "legacy_sku": "ZOHO-LIC-OPMGRPRO-TEAM-1Y-PACK-10DEV2USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "10 устройств, 2 пользователя",
+      "unit_label": "пакет: 10 устройств, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OpManager Professional — годовая подписка на среднюю редакцию системы мониторинга ManageEngine: к наблюдению за сетью и серверами добавляются виртуальные среды, Active Directory, Exchange и SQL Server, аппаратные датчики, AIOps и REST API. В пакете — 10 устройств под наблюдение и две учётные записи консоли.\n\nЛицензия считается по устройствам, как у Standard; отличие — в глубине: обнаружение по расписанию и по Layer 2, агентный мониторинг, адаптивные пороги и прогноз нагрузки, отчёты по расписанию, сырые данные за 60 дней. Для сетей больше тысячи устройств и нескольких площадок есть Enterprise.\n\nСрок — 1 год с обновлениями и поддержкой. Более крупные пакеты (от 25 устройств) считаем по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Professional",
+          "kind": "items",
+          "body": "Базовые функции — обнаружение, опрос по SNMP/WMI/CLI, карты, оповещения — те же, что в Standard. Ниже только то, чего в младшей редакции нет.",
+          "items": [
+            {
+              "t": "Виртуализация и гипервизоры",
+              "d": "Хосты и ВМ VMware, Hyper-V, Xen, Nutanix, Cisco UCS с картами виртуальной среды."
+            },
+            {
+              "t": "Инфраструктура Microsoft",
+              "d": "Active Directory, Exchange, MS SQL и аппаратные датчики серверов в той же консоли."
+            },
+            {
+              "t": "Обнаружение по правилам",
+              "d": "Сканирование по расписанию, Layer 2-топология, движок правил обнаружения, агентный мониторинг для узлов без SNMP."
+            },
+            {
+              "t": "AIOps",
+              "d": "Адаптивные пороги вместо ручных, прогноз трендов и отчёты-прогнозы, корреляция событий в одну причину."
+            },
+            {
+              "t": "Интеграция и представление",
+              "d": "REST API, аутентификация через AD и Radius, NOC-вид и real-time виджеты, карты Google/Zoho, 3D-вид ЦОД, ребрендинг консоли, многоязычность."
+            },
+            {
+              "t": "Эксплуатация",
+              "d": "Отчёты по расписанию, сырые данные 60 дней, встроенные RDP/SSH; часть дополнений — без оплаты в небольших квотах (NCM, NetFlow, IPAM, SPM)."
+            }
+          ],
+          "links": [
+            "me-opmanager-standard-10-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Professional, а когда нет",
+          "kind": "items",
+          "body": "Полная таблица трёх редакций — на карточке Standard. Здесь — правило выбора.",
+          "items": [
+            {
+              "t": "Берите Professional",
+              "d": "Есть гипервизоры, домен AD или Exchange/SQL, которые должны быть в одной консоли с сетью; нужны API для интеграции с ITSM; отчёты должны приходить сами."
+            },
+            {
+              "t": "Хватит Standard",
+              "d": "Сеть из физических коммутаторов и серверов без виртуализации, пороги настраиваются руками, отчёты смотрят в консоли."
+            },
+            {
+              "t": "Нужен Enterprise",
+              "d": "Больше 1000 устройств или несколько площадок с центральным сервером и пробами; стартовый пакет — 250 устройств, по запросу."
+            }
+          ],
+          "links": [
+            "me-opmanager-standard-10-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-отделу компании с виртуализированной инфраструктурой на десятки узлов: несколько хостов, домен, почта и базы данных — и один дежурный, который должен видеть причину сбоя, а не только факт недоступности.\n\nТиповой размер — от 10 до нескольких сотен устройств на одной площадке. Для наблюдения за самими приложениями (серверы приложений, СУБД на уровне запросов, веб-сервисы) к Professional добавляется APM Plug-in; за трафиком по NetFlow — дополнение или объединённая лицензия Nexus."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём",
+              "d": "10 устройств в пакете; следующий пакет — 25. Как считается устройство и пользователи консоли — на карточке Standard, правила общие для редакций.",
+              "link": "me-opmanager-standard-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Переход с более ранней подписки",
+              "d": "Со Standard на Professional — доплатой разницы в течение срока; с пробной версии — сохраняя настройки."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Разовая оплата плюс AMS 20 % в год за обновления и поддержку — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OpManager Standard, 10 устройств",
+              "d": "Если виртуализация и AIOps не нужны — дешевле при той же модели лицензии.",
+              "link": "me-opmanager-standard-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "APM Plug-in, 10 мониторов",
+              "d": "Дополнение для мониторинга приложений и СУБД внутри той же консоли; пять мониторов уже входят в OpManager.",
+              "link": "me-opmanager-apm-plugin-10-monitors-apm-plugin"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Виртуальные машины считаются устройствами?",
+          "a": "Да. Каждая наблюдаемая ВМ — устройство, как и физический хост. При 3 хостах и 20 ВМ нужен пакет на 25."
+        },
+        {
+          "q": "Есть ли API, чтобы забирать алармы в свою систему заявок?",
+          "a": "Да, REST API входит в Professional и Enterprise; в Standard его нет."
+        }
+      ],
+      "related_products": [
+        "me-opmanager-standard-10-devices-pack-with-2-users",
+        "me-opmanager-apm-plugin-10-monitors-apm-plugin"
+      ],
+      "meta_title": "OpManager Professional, 10 устройств — подписка | BIZSoft",
+      "meta_description": "ManageEngine OpManager Professional: сеть, серверы, виртуализация, AD и SQL, AIOps и API. Пакет на 10 устройств и 2 пользователей. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "opmanager professional купить — hero, meta",
+        "opmanager professional что входит / отличие от standard — CAPABILITIES, PLAN_COMPARE",
+        "opmanager vmware hyper-v мониторинг — CAPABILITIES, FAQ",
+        "opmanager rest api — CAPABILITIES, FAQ"
+      ],
+      "uncertainties": [
+        "Условия перехода с пробной версии с сохранением настроек — общая практика вендора, в первоисточнике для OpManager отдельно не описана."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (только дельта); поле опустошить",
+        "description": "→ FIT; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю относительно Standard",
+          "new_information": "только дельта редакции, шесть групп",
+          "sibling_overlap": "база — на носителе, здесь не повторяется",
+          "decision": "UNDERSTAND",
+          "seo_intent": "opmanager professional что входит",
+          "source": "opmanager-editions.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "мне Professional или соседи",
+          "new_information": "три правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "standard vs professional",
+          "source": "профиль"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль инфраструктуры и размер",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "мониторинг виртуальной инфраструктуры",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "переход с более ранней подписки",
+          "sibling_overlap": "правила лицензии — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "opmanager upgrade",
+          "source": "opmanager-licensing.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "два соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-opmanager-apm-plugin-10-monitors-apm-plugin": {
+      "sku": "ZOHO-ADD-OPMGRAPM-TEAM-1Y-PACK-10MON",
+      "legacy_sku": "ZOHO-ADD-OPMGRAPM-TEAM-1Y-PACK-10MON",
+      "classification": {
+        "nature": "addon",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "volume_tier"
+      },
+      "addon_source": "vendor",
+      "license_model": "annual",
+      "fallback": false,
+      "requires": [
+        "OpManager Standard, Professional или Enterprise совместимой сборки"
+      ],
+      "volume_label": "10 мониторов",
+      "unit_label": "пакет: 10 мониторов",
+      "min_qty": 1,
+      "base_product_sku": "ZOHO-LIC-OPMGRSTD-TEAM-1Y-PACK-10DEV2USR",
+      "short_description": "APM Plug-in — дополнение к OpManager, которое добавляет в его консоль мониторинг приложений: серверы приложений, СУБД, веб-сервисы, ERP, контейнеры и облачные сервисы. Годовая подписка на пакет из 10 мониторов; без установленного OpManager дополнение не работает.\n\nМонитор — один наблюдаемый экземпляр: сервер Tomcat, инстанс SQL Server, URL. Пять мониторов есть в любой редакции OpManager без покупки; этот пакет расширяет лимит до 15. Внутри — Applications Manager редакции Professional с 100+ типами мониторов, встроенный в интерфейс OpManager.\n\nСрок — 1 год; удобно выравнивать с подпиской на OpManager, чтобы продлевать одним заказом.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что добавляет APM Plug-in",
+          "kind": "items",
+          "body": "OpManager видит устройство: доступен ли сервер и как загружен. Дополнение смотрит внутрь — работает ли на нём приложение и почему медленно.",
+          "items": [
+            {
+              "t": "Серверы приложений и СУБД",
+              "d": "Tomcat, JBoss, WebLogic, WebSphere, IIS; Oracle, MS SQL, MySQL, PostgreSQL, MongoDB — состояние, сессии, медленные запросы, блокировки."
+            },
+            {
+              "t": "Веб и транзакции",
+              "d": "Доступность и время отклика URL, последовательности шагов, синтетические проверки; APM Insight для Java-транзакций — отдельное дополнение."
+            },
+            {
+              "t": "ERP, контейнеры, облако",
+              "d": "SAP, Exchange, Docker и Kubernetes, AWS и Azure — из готового набора 100+ типов мониторов."
+            },
+            {
+              "t": "Одна консоль",
+              "d": "Алармы приложений приходят в OpManager с той же серьёзностью и попадают в его дашборды, карты и рабочие процессы."
+            },
+            {
+              "t": "Модель лицензии",
+              "d": "Годовая подписка на число мониторов; по окончании срока мониторы сверх пяти бесплатных перестают опрашиваться, данные OpManager это не затрагивает."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что требуется",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовый продукт",
+              "d": "Установленный OpManager любой редакции; для Standalone ставится плагин редакции Professional, для Central/Probe в Enterprise — редакции Enterprise.",
+              "link": "me-opmanager-standard-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Совместимая сборка",
+              "d": "Версии OpManager и плагина связаны попарно: перед покупкой сверьте сборку OpManager с таблицей совместимости вендора; обновляются они тоже вместе."
+            },
+            {
+              "t": "Установка",
+              "d": "Отдельный установщик для Windows или Linux со своей базой данных; запускается со страницы Applications в OpManager, обнаружение серверов и приложений — автоматически при первом старте."
+            },
+            {
+              "t": "Пользователи",
+              "d": "Работают в консоли OpManager под теми же учётными записями; отдельных лицензий пользователей плагин не требует."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Когда нужен — и когда нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Нужен",
+              "d": "Когда о сбое узнают не по «сервер недоступен», а по «сайт отвечает 8 секунд» или «база заблокирована», и ответ нужен в той же консоли, где сеть."
+            },
+            {
+              "t": "Не нужен",
+              "d": "Если приложений не больше пяти — они уже покрыты бесплатным лимитом OpManager. Если наблюдение за приложениями — основная задача, а OpManager нет, рациональнее самостоятельный Applications Manager: плагин без OpManager не работает."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте мониторы",
+              "d": "Каждый инстанс приложения или СУБД — один монитор; 3 сервера Tomcat и 4 базы — 7 мониторов, вместе с пятью бесплатными их станет 12. Пакеты 25 и 50 мониторов — по запросу; переход между пакетами — доплатой разницы."
+            },
+            {
+              "t": "Сроки",
+              "d": "Подписка плагина независима от подписки OpManager; при оформлении через BIZSoft срок можно выровнять с основной, чтобы продление шло одним счётом."
+            },
+            {
+              "t": "Бессрочный вариант",
+              "d": "Плагин доступен и как бессрочная лицензия с AMS 20 % в год — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Базовая система, в которую ставится плагин; сама по себе покрывает серверы на уровне ОС.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "OpManager Standard, 10 устройств",
+              "d": "Младшая база; плагин работает и с ней.",
+              "link": "me-opmanager-standard-10-devices-pack-with-2-users"
+            }
+          ],
+          "body": "Самостоятельный Applications Manager того же объёма стоит примерно на четверть дороже плагина и не требует OpManager — считаем по запросу."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно купить плагин без OpManager?",
+          "a": "Нет. Плагин устанавливается в OpManager и без него не запускается. Для мониторинга приложений без OpManager есть самостоятельный Applications Manager."
+        },
+        {
+          "q": "Что считается одним монитором?",
+          "a": "Один наблюдаемый экземпляр: сервер приложений, инстанс СУБД, URL или облачный сервис. Кластер из трёх узлов Tomcat — три монитора."
+        },
+        {
+          "q": "Пять бесплатных мониторов остаются при покупке пакета?",
+          "a": "Да. Пакет на 10 добавляется к пяти, доступным в любой редакции OpManager: всего 15."
+        }
+      ],
+      "related_products": [
+        "me-opmanager-professional-10-devices-pack-with-2-users",
+        "me-opmanager-standard-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "APM Plug-in для OpManager, 10 мониторов — подписка | BIZSoft",
+      "meta_description": "ManageEngine APM Plug-in: мониторинг приложений и СУБД внутри OpManager, пакет на 10 мониторов, требуется установленный OpManager. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "opmanager apm plugin купить / лицензия — hero, meta",
+        "apm plugin что такое монитор — FAQ, BEFORE_ORDER",
+        "apm plugin требования / совместимость opmanager — DEPENDENCIES",
+        "applications manager vs apm plugin — FIT, ALTERNATIVES"
+      ],
+      "uncertainties": [
+        "Поведение мониторов сверх лимита после окончания подписки описано по общей политике ManageEngine (лицензия истекает — мониторы за пределами лимита не опрашиваются); прямой формулировки для плагина в первоисточнике нет.",
+        "Разница цены плагина и самостоятельного Applications Manager — «около четверти» по данным магазина вендора (−20 % для плагина)."
+      ],
+      "legacy_disposition": {
+        "features": "описывали базовый OpManager, а не плагин — удалить; поле опустошить",
+        "description": "описание OpManager → удалить; сценарий «ночью падает канал» не о плагине",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "что добавляет и к чему",
+          "new_information": "пять групп мониторов, модель лицензии, что после срока",
+          "sibling_overlap": "нет",
+          "decision": "UNDERSTAND",
+          "seo_intent": "apm plugin opmanager",
+          "source": "apm-plugin-faq, applications-manager-plugin-build"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "заработает ли у меня",
+          "new_information": "редакции плагина, парные сборки, установка, пользователи",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "apm plugin compatible opmanager version",
+          "source": "applications-manager-plugin-build"
+        },
+        {
+          "module": "FIT",
+          "question": "нужен ли вообще",
+          "new_information": "бесплатные 5 мониторов, standalone-альтернатива",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "applications manager vs plugin",
+          "source": "opmanager-editions (Default 5 Monitors)"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что посчитать",
+          "new_information": "арифметика мониторов, независимость сроков, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "apm plugin pricing monitors",
+          "source": "store get-quote"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "две базы, standalone",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "store applications_manager"
+        }
+      ]
+    }
+  }
+}
