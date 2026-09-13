@@ -1,0 +1,226 @@
+{
+  "family_key": "ZOHO-APPCTRL",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-application-control-plus-professional-100-workstations",
+  "classification_notes": [
+    "Единственная позиция продукта на витрине — packaging single, носитель — она сама; ownership universal (организационная лицензия).",
+    "Тот же функционал входит модулем в Endpoint Central Security — честное сравнение вынесено в BEFORE_ORDER и ALTERNATIVES.",
+    "Бессрочный сиблинг (*-PERP) — вне индекса, в тексте «по запросу»."
+  ],
+  "products": {
+    "me-application-control-plus-professional-100-workstations": {
+      "sku": "ZOHO-LIC-APPCTRLPRO-TEAM-1Y-PACK-100WS",
+      "legacy_sku": "ZOHO-LIC-APPCTRLPRO-TEAM-1Y-PACK-100WS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "single"
+      },
+      "edition_label": "Professional",
+      "volume_label": "100 рабочих станций",
+      "unit_label": "пакет: 100 рабочих станций",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Application Control Plus Professional — годовая подписка на контроль запуска программ на компьютерах Windows: обнаружение всего установленного ПО, списки разрешённых и запрещённых приложений, запуск отдельных программ с повышенными правами без прав администратора у пользователя. Пакет на 100 рабочих станций; сервер — свой.\n\nПлатная редакция одна — Professional; бесплатная версия ограничена 25 компьютерами. Тот же модуль входит в состав Endpoint Central Security — когда выгоднее отдельный продукт, разобрано ниже.\n\nСрок — 1 год, обновления и поддержка вендора включены; пакеты другого объёма — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Application Control Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение приложений",
+              "d": "Агент собирает все исполняемые файлы на рабочих станциях и группирует их по издателю, продукту и версии — видно, что реально запускается в сети, включая портативные программы вне «Установки и удаления»."
+            },
+            {
+              "t": "Списки разрешённого",
+              "d": "Правила по сертификату издателя, хешу файла, пути или имени продукта; готовые наборы для распространённого ПО. Всё, что не в списке, не запускается."
+            },
+            {
+              "t": "Списки запрещённого и режимы",
+              "d": "Блокировка отдельных программ при разрешённом остальном; режим аудита показывает, что было бы заблокировано, до включения строгого режима."
+            },
+            {
+              "t": "Права приложений",
+              "d": "Локальные права администратора у пользователей отзываются, а конкретным программам разрешается работать с повышенными правами; контроль дочерних процессов, чтобы разрешённое приложение не запустило запрещённое."
+            },
+            {
+              "t": "Запросы и исключения",
+              "d": "Пользователь запрашивает доступ к заблокированной программе из уведомления, техник одобряет разово или добавляет правило."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Попытки запуска запрещённого, приложения без правил, машины с локальными администраторами — для проверок ИБ."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Организациям, где ИБ требует запретить запуск всего, что не согласовано, — банки, госсектор, производство с АСУ ТП, — и где нужно снять у пользователей права локального администратора, не ломая работу программ, которым они нужны."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если задача — не ограничить запуск, а найти уязвимое ПО и обновить его, это Vulnerability Manager Plus или Patch Manager Plus. Если кроме контроля приложений нужны ещё контроль USB, защита браузера и антивирусный модуль, отдельные продукты складываются в стоимость выше редакции Endpoint Central Security."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое рабочая станция",
+              "d": "Компьютер или ноутбук Windows с установленным агентом. Серверы Windows лицензируются отдельной строкой по матрице вендора — на витрине не заведены, считаем по запросу."
+            },
+            {
+              "t": "Техники",
+              "d": "Артикул не выделяет техников; число администраторов консоли в базовой лицензии уточняется при заказе."
+            },
+            {
+              "t": "Сервер и агент",
+              "d": "Windows Server на площадке организации, встроенная СУБД. Агент общий с другими продуктами линейки Endpoint Central: если он уже стоит, второй не ставится."
+            },
+            {
+              "t": "Платформы",
+              "d": "Основная — Windows; поддержка macOS и Linux — по матрице вендора на дату заказа."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Отдельный продукт или Endpoint Central Security",
+              "d": "Отдельный Application Control Plus выгоден, когда нужен только контроль запуска, а управление компьютерами ведётся другой системой или не ведётся. Security берут, когда нужны два-три модуля безопасности и патчи в одной консоли — по серверам она лицензируется на витрине, рабочие станции — по запросу.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Уже есть Endpoint Central?",
+              "d": "Контроль приложений подключается к действующей инсталляции как надстройка — оформляется по запросу, отдельный сервер не нужен."
+            },
+            {
+              "t": "Объём и бессрочность",
+              "d": "Больше 100 рабочих станций — следующий пакет с доплатой разницы, не второй такой же. Бессрочная лицензия с AMS 20 % в год — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central Security",
+              "d": "Контроль приложений плюс устройства, браузер, уязвимости, BitLocker и защита от вымогателей в одной редакции с управлением парком.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Device Control Plus",
+              "d": "Соседний продукт той же линейки: контроль USB и портов вместо контроля запуска.",
+              "link": "me-device-control-plus-professional-100-computers"
+            },
+            {
+              "t": "Browser Security Plus",
+              "d": "Политики и изоляция браузеров — если риск в веб-приложениях, а не в исполняемых файлах.",
+              "link": "me-browser-security-plus-professional-50-computers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли серверы в пакете на 100 рабочих станций?",
+          "a": "Нет, серверы лицензируются отдельной позицией по прайсу вендора; в этом пакете — только рабочие станции."
+        },
+        {
+          "q": "Можно ли снять права администратора у пользователей, не сломав старое ПО?",
+          "a": "Для этого и нужен контроль привилегий: права снимаются у учётной записи, а конкретным программам выдаётся повышение — пользователь этого не замечает."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-device-control-plus-professional-100-computers",
+        "me-browser-security-plus-professional-50-computers-and-single-user-license"
+      ],
+      "meta_title": "Application Control Plus, 100 станций — подписка | BIZSoft",
+      "meta_description": "ManageEngine Application Control Plus Professional: списки разрешённого ПО и контроль прав приложений на 100 рабочих станциях Windows. Договор, ЭДО.",
+      "seo_intents": [
+        "application control plus купить / manageengine контроль приложений — hero, meta",
+        "белые списки приложений windows / application whitelisting — CAPABILITIES",
+        "снять права локального администратора / privilege management — CAPABILITIES, FAQ",
+        "application control plus vs endpoint central security — BEFORE_ORDER, ALTERNATIVES"
+      ],
+      "uncertainties": [
+        "Число техников в базовой лицензии Application Control Plus — артикул не выделяет; уточняется при заказе.",
+        "Поддержка macOS и Linux и отдельная серверная строка — по матрице вендора; страница в сессии не открывалась.",
+        "Подключение к действующему Endpoint Central как надстройки — по общей модели линейки; условия уточняются у вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "абзац «Что входит:» → CAPABILITIES, абзац о подписке → BEFORE_ORDER; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что умеет продукт",
+          "new_information": "шесть групп: обнаружение, allow/block, режимы, привилегии, запросы, отчёты",
+          "sibling_overlap": "одиночка",
+          "decision": "UNDERSTAND",
+          "seo_intent": "application control plus возможности",
+          "source": "https://www.manageengine.com/application-control/pricing.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль ИБ-требований, два выхода «нет»",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "запрет запуска программ в организации",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и где ставить",
+          "new_information": "рабочая станция vs сервер, техники, общий агент, платформы",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "application control plus лицензирование",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "отдельный продукт или Security",
+          "new_information": "правило выбора, надстройка к EC, объём, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "application control plus vs endpoint central security",
+          "source": "https://www.manageengine.com/products/desktop-central/edition-comparison-matrix.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа с причиной",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

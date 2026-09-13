@@ -1,0 +1,223 @@
+{
+  "family_key": "ZOHO-RANSOMPROT",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-ransomware-protection-plus-enterprise-10-servers",
+  "classification_notes": [
+    "Единственная позиция продукта — packaging single; витрина показывает «Командный план» — по правилам проекта ownership universal.",
+    "Серверная позиция (10SRV); рабочие станции — отдельная строка вендора, на витрине нет (DATA GAP).",
+    "Бессрочный сиблинг (*-PERP) — вне индекса."
+  ],
+  "products": {
+    "me-ransomware-protection-plus-enterprise-10-servers": {
+      "sku": "ZOHO-LIC-RANSOMPROT-TEAM-1Y-PACK-10SRV",
+      "legacy_sku": "ZOHO-LIC-RANSOMPROT-TEAM-1Y-PACK-10SRV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "single"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "10 серверов",
+      "unit_label": "пакет: 10 серверов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Ransomware Protection Plus Enterprise — подписка на год на защиту от программ-вымогателей ManageEngine: обнаружение шифрования по поведению процесса, остановка и изоляция заражённой машины, откат зашифрованных файлов из теневых копий, разбор инцидента в общей консоли продуктов Endpoint Central. Объём — 10 серверов.\n\nПродукт не подменяет антивирус: он ловит то, что тот пропустил, — по признакам массового изменения файлов, а не по сигнатуре. Рабочие станции лицензируются отдельно и считаются по запросу; модуль входит и в Endpoint Central Security.\n\nСрок — 1 год, обновления и поддержка вендора включены.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Ransomware Protection Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение по поведению",
+              "d": "Агент следит за процессами, которые массово читают, переписывают и переименовывают файлы, и останавливает их до того, как зашифрован весь диск; сигнатуры не нужны, поэтому ловятся и новые семейства."
+            },
+            {
+              "t": "Откат файлов",
+              "d": "Зашифрованные файлы восстанавливаются из теневых копий тома Windows, которые продукт защищает от удаления вымогателем; восстановление запускается из консоли по одному инциденту."
+            },
+            {
+              "t": "Изоляция",
+              "d": "Заражённый сервер отключается от сети одним действием, чтобы шифровальщик не ушёл по общим папкам; возврат в сеть — после разбора."
+            },
+            {
+              "t": "Разбор инцидента",
+              "d": "Цепочка: какой процесс, из какого файла, под какой учётной записью, что затронул — для отчёта ИБ и для решения, ложное ли срабатывание."
+            },
+            {
+              "t": "Консоль",
+              "d": "Общие агент и консоль с другими продуктами линейки Endpoint Central; оповещения по почте и в панели."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Компаниям с файловыми серверами и общими папками, где один заражённый ноутбук может зашифровать данные всего отдела, — как второй эшелон поверх действующего антивируса, который не обязан быть от ManageEngine."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если антивируса на серверах нет вовсе, начинать нужно с него — Malware Protection Plus или сторонний; защита от вымогателей закрывает один класс угроз. Если резервные копии серверов отсутствуют, откат из теневых копий не заменяет бэкап — это средство первой помощи, а не стратегия восстановления."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое сервер",
+              "d": "Физическая или виртуальная машина с серверной ОС Windows и агентом; каждая — отдельно. Рабочие станции — другая строка прайса вендора."
+            },
+            {
+              "t": "Теневые копии",
+              "d": "Откат опирается на службу теневого копирования тома Windows: на защищаемых дисках должно быть место под снимки, иначе восстанавливать будет не из чего."
+            },
+            {
+              "t": "Сервер управления",
+              "d": "Windows Server организации, встроенная СУБД; при наличии Endpoint Central или соседнего продукта линейки — общий."
+            },
+            {
+              "t": "Платформы",
+              "d": "Windows; Linux и macOS — уточняется по матрице вендора при заказе."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Один модуль или редакция Security",
+              "d": "Десяток серверов под чужим антивирусом и нужна только защита от шифровальщиков — эта позиция. Если планируется закрывать уязвимости, приложения, устройства и антивирус от одного вендора, Endpoint Central Security даёт всё это по тем же серверам.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Пара с Malware Protection Plus",
+              "d": "Два продукта дополняют друг друга: один ловит по сигнатурам и поведению исполняемых файлов, другой — по признакам шифрования. Оба отдельно по стоимости приближаются к редакции Security — сравните до заказа.",
+              "link": "me-malware-protection-plus-enterprise-10-servers"
+            },
+            {
+              "t": "Объём и бессрочность",
+              "d": "Больше 10 серверов — следующий пакет с доплатой разницы; рабочие станции — по запросу. Бессрочная лицензия и AMS 20 % в год — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Malware Protection Plus Enterprise",
+              "d": "Антивирусный модуль той же линейки — если защиты от вредоносного ПО на серверах ещё нет.",
+              "link": "me-malware-protection-plus-enterprise-10-servers"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Защита от вымогателей в одной редакции с антивирусом, уязвимостями и контролем приложений.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Vulnerability Manager Plus Enterprise",
+              "d": "Уменьшить число путей заражения патчами и настройками — до, а не после инцидента.",
+              "link": "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли продукт вместе со сторонним антивирусом?",
+          "a": "Да, он рассчитан на работу поверх антивируса: следит за поведением файловых операций, а не сканирует файлы, поэтому конфликтов с проверкой в реальном времени, как правило, нет."
+        },
+        {
+          "q": "Откатит ли он файлы на сетевом диске, зашифрованные с заражённой рабочей станции?",
+          "a": "Откат делается на том сервере, где стоит агент и включены теневые копии, — файлы общей папки на нём восстановить можно, если сервер лицензирован."
+        }
+      ],
+      "related_products": [
+        "me-malware-protection-plus-enterprise-10-servers",
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Ransomware Protection Plus, 10 серверов — подписка | BIZSoft",
+      "meta_description": "ManageEngine Ransomware Protection Plus Enterprise: поведенческое обнаружение шифровальщиков, изоляция, откат из теневых копий; 10 серверов. Договор, ЭДО.",
+      "seo_intents": [
+        "ransomware protection plus купить / manageengine защита от шифровальщиков — hero, meta",
+        "защита от вымогателей для файлового сервера / откат файлов — CAPABILITIES, FAQ",
+        "ransomware protection plus vs malware protection plus — BEFORE_ORDER, ALTERNATIVES",
+        "anti-ransomware поверх антивируса — FIT, FAQ"
+      ],
+      "uncertainties": [
+        "Механизм отката через теневые копии тома Windows и защита снимков от удаления — по описанию продукта у вендора; страница в сессии не открывалась.",
+        "Отсутствие конфликтов со сторонним антивирусом — общее свойство поведенческих средств, отдельной гарантии вендора в первоисточнике не приводится.",
+        "Поддержка Linux и macOS — по матрице вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "абзац «Что входит:» → CAPABILITIES, абзац о подписке → BEFORE_ORDER; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что умеет продукт",
+          "new_information": "обнаружение по поведению, откат, изоляция, разбор, консоль",
+          "sibling_overlap": "одиночка",
+          "decision": "UNDERSTAND",
+          "seo_intent": "ransomware protection plus возможности",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "второй эшелон поверх антивируса; два выхода «нет»",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "защита файлового сервера от шифровальщиков",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и что подготовить",
+          "new_information": "сервер, теневые копии, консоль, платформы",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "ransomware protection plus требования",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "отдельно, в паре или Security",
+          "new_information": "три правила, арифметика пары, объём, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "ransomware protection plus vs endpoint central security",
+          "source": "https://www.manageengine.com/products/desktop-central/edition-comparison-matrix.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,480 @@
+{
+  "family_key": "ZOHO-NCM",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-network-configuration-manager-professional-10-devices-pack-with-2-users",
+  "classification_notes": [
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы нет — OWNERSHIP = universal.",
+    "Две редакции одного продукта (Professional / Enterprise) — packaging edition_tier; объём пакета — устройства под управлением конфигурацией.",
+    "Enterprise на витрине назван «10 устройств», артикул — 250DEV, закупка соответствует крупному пакету: текст по артикулу, needs_operator.",
+    "Сайт вендора в сессии не открывался; состав редакций — по знанию модели."
+  ],
+  "products": {
+    "me-network-configuration-manager-professional-10-devices-pack-with-2-users": {
+      "sku": "ZOHO-LIC-NCMPRO-TEAM-1Y-PACK-10DEV2USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "10 устройств, 2 пользователя",
+      "unit_label": "пакет: 10 устройств, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Network Configuration Manager Professional — годовая подписка на систему управления конфигурациями сетевого оборудования ManageEngine: резервные копии, история версий, контроль изменений, массовые правки по шаблонам и проверка на соответствие политикам. Пакет на 10 устройств и 2 пользователей консоли; ставится на сервер организации.\n\nЛицензия считается по устройствам, конфигурации которых система хранит: коммутатор, маршрутизатор, межсетевой экран, контроллер Wi-Fi. Professional — редакция для одной площадки; Enterprise добавляет центральный сервер и пробы для распределённых сетей и большие пакеты.\n\nСрок — 1 год, обновления и поддержка включены. Пакеты на 25, 50, 100 устройств — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Network Configuration Manager Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Резервные копии",
+              "d": "Снятие стартовой и текущей конфигурации по расписанию и по событию изменения (по syslog-триггеру); поддержка Cisco, Juniper, HP и Aruba, Huawei, Fortinet, Palo Alto, MikroTik и ещё двух сотен производителей через шаблоны устройств."
+            },
+            {
+              "t": "История и сравнение",
+              "d": "Версии конфигурации с построчным сравнением, помеченная базовая версия, откат к любой сохранённой одним действием."
+            },
+            {
+              "t": "Контроль изменений",
+              "d": "Уведомление о каждом изменении с указанием, кто, когда и что поменял; настройка, что делать при несанкционированной правке — оповестить или откатить."
+            },
+            {
+              "t": "Configlets",
+              "d": "Шаблоны команд с параметрами для массовых операций: смена паролей, добавление VLAN, обновление ACL или SNMP-строк на десятках устройств за один запуск."
+            },
+            {
+              "t": "Соответствие политикам",
+              "d": "Проверка конфигураций на правила — встроенные (PCI DSS, SOX, HIPAA, Cisco IOS best practices) и свои; отчёт о нарушениях с возможностью исправить configlet-ом."
+            },
+            {
+              "t": "Прошивки и уязвимости",
+              "d": "Сопоставление версий ОС устройств с базой NVD: какие уязвимости открыты в сети и на каких устройствах; централизованное обновление прошивок."
+            },
+            {
+              "t": "Доступ и аудит",
+              "d": "Роли пользователей, согласование изменений старшим администратором перед применением, полный журнал действий, REST API."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Professional или Enterprise",
+          "kind": "compare",
+          "body": "Обе редакции считают лицензию по устройствам и делают одно и то же с конфигурацией. Разница — в архитектуре и объёме пакета.",
+          "rows": [
+            {
+              "label": "Стартовый пакет",
+              "values": {
+                "me-network-configuration-manager-professional-10-devices-pack-with-2-users": "10 устройств",
+                "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users": "250 устройств (по артикулу)"
+              }
+            },
+            {
+              "label": "Резервные копии, версии, откат, configlets",
+              "values": {
+                "me-network-configuration-manager-professional-10-devices-pack-with-2-users": "да",
+                "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Соответствие политикам, уязвимости прошивок",
+              "values": {
+                "me-network-configuration-manager-professional-10-devices-pack-with-2-users": "да",
+                "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Центральный сервер и пробы на площадках",
+              "values": {
+                "me-network-configuration-manager-professional-10-devices-pack-with-2-users": "нет",
+                "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Масштаб одной инсталляции",
+              "values": {
+                "me-network-configuration-manager-professional-10-devices-pack-with-2-users": "одна площадка, сотни устройств",
+                "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users": "несколько площадок, тысячи устройств"
+              }
+            }
+          ],
+          "links": [
+            "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Сетевой службе одной площадки с десятком-другим управляемых коммутаторов и маршрутизаторов, где конфигурации правят несколько человек, а восстановление после сбоя устройства сейчас идёт «по памяти» или из файлов на чьём-то ноутбуке."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если оборудование стоит в филиалах за медленными или закрытыми каналами — нужен Enterprise с пробами на местах. Если задача только про межсетевые экраны с аудитом правил — это Firewall Analyzer Professional. Если OpManager уже стоит, конфигурации дешевле подключить к нему дополнением NCM или в составе Nexus."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое устройство",
+              "d": "Любое сетевое устройство, чью конфигурацию система снимает и хранит: коммутатор, маршрутизатор, межсетевой экран, балансировщик, контроллер беспроводной сети. Число портов и модулей на лицензию не влияет."
+            },
+            {
+              "t": "Доступ к устройствам",
+              "d": "SSH или Telnet с учётной записью, которой разрешено читать конфигурацию, плюс SNMP для обнаружения; для снятия по событию — отправка syslog с устройств на сервер системы. Для нестандартных моделей шаблон устройства создаётся вручную."
+            },
+            {
+              "t": "Пользователи консоли",
+              "d": "В пакете две учётные записи с ролями администратора, оператора и наблюдателя; дополнительные — по запросу."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server или Linux, встроенная PostgreSQL; пробный период — 30 дней, бесплатная редакция ограничена несколькими устройствами."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте управляемые устройства",
+              "d": "В пакет входят 10; при 12 нужен следующий пакет (25), два по 10 не оформляются. Переход на больший объём в течение срока — доплатой разницы. Неуправляемые коммутаторы без CLI в лицензии не участвуют."
+            },
+            {
+              "t": "Подписка или бессрочная лицензия",
+              "d": "Годовая подписка уже включает обновления и поддержку. Бессрочный вариант с AMS 20 % в год — по запросу."
+            },
+            {
+              "t": "Связка с OpManager",
+              "d": "Если планируется и мониторинг, и конфигурации, посчитайте OpManager Nexus: объединённая лицензия обходится дешевле двух отдельных продуктов."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Network Configuration Manager Enterprise, 250 устройств",
+              "d": "Та же система для распределённой сети с пробами и крупным пакетом.",
+              "link": "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users"
+            },
+            {
+              "t": "OpManager Standard, 10 устройств",
+              "d": "Мониторинг доступности и производительности тех же устройств; управление конфигурациями подключается к нему дополнением.",
+              "link": "me-opmanager-standard-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Firewall Analyzer Professional, 1 устройство",
+              "d": "Если контроль конфигурации нужен только межсетевому экрану, а вместе с ним — аудит правил и журналы.",
+              "link": "me-firewall-analyzer-professional-1-device-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Стек из четырёх коммутаторов — одно устройство или четыре?",
+          "a": "Стек с одной управляющей конфигурацией и одним адресом управления считается одним устройством. Отдельно настраиваемые коммутаторы — отдельно."
+        },
+        {
+          "q": "Работает ли система с оборудованием, которого нет в списке вендора?",
+          "a": "Да, если у устройства есть CLI по SSH или Telnet: шаблон команд для снятия и загрузки конфигурации описывается вручную в консоли."
+        },
+        {
+          "q": "Можно ли увеличить пакет в середине срока?",
+          "a": "Да, доплатой разницы между пакетами; срок увеличенного пакета совпадает с действующей подпиской."
+        }
+      ],
+      "related_products": [
+        "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users",
+        "me-opmanager-standard-10-devices-pack-with-2-users",
+        "me-firewall-analyzer-professional-1-device-pack-with-2-users"
+      ],
+      "meta_title": "NCM Professional, 10 устройств — конфигурации сети | BIZSoft",
+      "meta_description": "ManageEngine Network Configuration Manager Professional: резервные копии и контроль изменений конфигураций сети. Пакет на 10 устройств и 2 пользователей.",
+      "seo_intents": [
+        "network configuration manager купить / manageengine ncm лицензия — hero, meta",
+        "ncm professional vs enterprise — PLAN_COMPARE",
+        "резервное копирование конфигураций cisco juniper — CAPABILITIES",
+        "ncm лицензирование по устройствам — DEPENDENCIES, FAQ",
+        "ncm бессрочная лицензия ams / opmanager nexus — BEFORE_ORDER"
+      ],
+      "uncertainties": [
+        "Ряд пакетов устройств (10/25/50/100/250 и далее) — по общей практике вендора; на витрине не заведён.",
+        "Учёт стека коммутаторов как одного устройства — по логике лицензии «по управляемому устройству»; в первоисточнике для NCM отдельно не проверено.",
+        "Лимит бесплатной редакции и число производителей в шаблонах — по знанию модели, точные цифры не приводятся."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ FIT и PLAN_COMPARE; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает продукт",
+          "new_information": "семь групп функций управления конфигурациями",
+          "sibling_overlap": "носитель; сосед — дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "network configuration manager возможности",
+          "source": "uncertain (ncm features, по знанию модели)"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли Professional",
+          "new_information": "пять строк различий",
+          "sibling_overlap": "сосед ссылается",
+          "decision": "COMPARE",
+          "seo_intent": "ncm professional vs enterprise",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль одной площадки, три выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "управление конфигурациями сети",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и что нужно",
+          "new_information": "устройство, доступ по SSH/SNMP/syslog, пользователи, сервер",
+          "sibling_overlap": "сосед ссылается",
+          "decision": "VALIDATE",
+          "seo_intent": "ncm требования доступ к устройствам",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "арифметика пакетов, perpetual, Nexus",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "ncm ams / nexus",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "сосед, OpManager, Firewall Analyzer",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-network-configuration-manager-enterprise-250-devices-pack-with-2-users": {
+      "sku": "ZOHO-LIC-NCMENT-TEAM-1Y-PACK-250DEV2USR",
+      "needs_operator": true,
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "250 устройств, 2 пользователя",
+      "unit_label": "пакет: 250 устройств, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Network Configuration Manager Enterprise — годовая подписка на распределённую редакцию ManageEngine: пробы на площадках снимают конфигурации у местного оборудования, центральный сервер хранит версии, политики и отчёты по всей сети. По артикулу пакет рассчитан на 250 устройств и 2 пользователей консоли.\n\nСодержательно это тот же продукт, что Professional: резервные копии, откат, configlets, соответствие политикам, уязвимости прошивок. Доплата — за архитектуру с пробами и за объём: 250 устройств — уровень корпоративной сети с филиалами или нескольких ЦОД.\n\nСрок — 1 год с обновлениями и поддержкой. Пакеты на 500 и 1000 устройств — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Enterprise",
+          "kind": "items",
+          "body": "Работа с конфигурацией описана на карточке Professional и здесь не повторяется. Ниже — что отличает старшую редакцию.",
+          "items": [
+            {
+              "t": "Пробы на площадках",
+              "d": "Проба ставится в филиале или ЦОД, сама ходит по SSH к местным устройствам и принимает их syslog; наверх передаются конфигурации и события, а не сессии к каждому устройству через WAN."
+            },
+            {
+              "t": "Центральный сервер",
+              "d": "Одна консоль на всю сеть: пользователи, политики соответствия, configlets и отчёты задаются один раз и применяются ко всем пробам; оператор площадки видит только свои устройства."
+            },
+            {
+              "t": "Изолированные сегменты",
+              "d": "Проба работает в сегменте, куда у центра нет прямого доступа — например, в сети АСУ ТП или у дочерней компании с собственным периметром."
+            },
+            {
+              "t": "Масштаб",
+              "d": "Тысячи устройств на одной инсталляции; стартовый пакет по артикулу — 250 устройств, далее 500 и 1000."
+            }
+          ],
+          "links": [
+            "me-network-configuration-manager-professional-10-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Enterprise, а когда нет",
+          "kind": "items",
+          "body": "Сводная таблица двух редакций — на карточке Professional. Здесь — правило выбора.",
+          "items": [
+            {
+              "t": "Берите Enterprise",
+              "d": "Управляемое оборудование стоит на нескольких площадках, между ними WAN или закрытые сегменты, и устройств действительно сотни."
+            },
+            {
+              "t": "Хватит Professional",
+              "d": "Всё оборудование в одной локальной сети или в одном ЦОД, до нескольких десятков устройств; один сервер справляется без проб, функции те же."
+            }
+          ],
+          "links": [
+            "me-network-configuration-manager-professional-10-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Центральной сетевой службе холдинга, банка, розничной сети или промышленного предприятия с филиалами: конфигурации сотен коммутаторов и маршрутизаторов на местах должны храниться и проверяться на политики централизованно, а доступ к устройствам из центра ограничен или нежелателен.\n\nДля одной площадки с парой десятков устройств позиция избыточна и по объёму, и по цене."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём пакета",
+              "d": "По артикулу — 250 устройств; название на витрине говорит о 10, закупка соответствует крупному пакету. Расхождение снимается до выставления КП. Что считается устройством — на карточке Professional.",
+              "link": "me-network-configuration-manager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Схема проб",
+              "d": "Число проб определяется числом площадок и сегментов; пробы входят в лицензию, каждой нужен свой сервер или ВМ с доступом по SSH к местным устройствам."
+            },
+            {
+              "t": "Переход с Professional",
+              "d": "Доплатой разницы на оставшийся срок; существующая инсталляция становится центральным сервером, история конфигураций сохраняется."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Разовая оплата плюс AMS 20 % в год — по запросу; на таком объёме стоит сравнить с подпиской на горизонте трёх лет."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Network Configuration Manager Professional, 10 устройств",
+              "d": "Для одной площадки — тот же функционал без проб и с малым пакетом.",
+              "link": "me-network-configuration-manager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Если в распределённой сети нужен прежде всего мониторинг, а конфигурации — второй задачей: к OpManager Enterprise конфигурации добавляются дополнением, вместе считаются как Nexus.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Пробы лицензируются отдельно?",
+          "a": "Нет, пробы входят в лицензию Enterprise; считаются только устройства, чьи конфигурации хранятся."
+        },
+        {
+          "q": "Сколько устройств покрывает эта позиция?",
+          "a": "По артикулу — 250. Название на витрине указывает 10; расхождение уточняется при подтверждении заказа."
+        }
+      ],
+      "related_products": [
+        "me-network-configuration-manager-professional-10-devices-pack-with-2-users",
+        "me-opmanager-professional-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "NCM Enterprise, 250 устройств — конфигурации сети | BIZSoft",
+      "meta_description": "ManageEngine Network Configuration Manager Enterprise: конфигурации сети нескольких площадок, пробы и центральный сервер. Пакет на 250 устройств, год.",
+      "seo_intents": [
+        "network configuration manager enterprise купить — hero, meta",
+        "ncm distributed / probe central — CAPABILITIES",
+        "ncm enterprise vs professional — PLAN_COMPARE"
+      ],
+      "uncertainties": [
+        "Название витрины расходится с артикулом: h1 «10 устройств и 2 пользователя», sku …250DEV2USR — текст по артикулу, needs_operator.",
+        "Стартовый объём Enterprise у вендора (250 устройств) и ряд 500/1000 — по знанию модели, первоисточником не подтверждены.",
+        "Работа пробы в изолированном сегменте описана по общей архитектуре probe-central у ManageEngine."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (дельта); опустошить",
+        "description": "→ FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю",
+          "new_information": "пробы, центральный сервер, изолированные сегменты, масштаб",
+          "sibling_overlap": "функции — ссылка на носитель",
+          "decision": "UNDERSTAND",
+          "seo_intent": "ncm enterprise что входит",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "Enterprise или Professional",
+          "new_information": "два правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "enterprise vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль распределённой организации",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "конфигурации сети филиалов",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "расхождение объёма, схема проб, переход, perpetual",
+          "sibling_overlap": "устройство — ссылка",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "инвентарь витрины"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "сосед и OpManager",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}
