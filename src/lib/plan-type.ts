@@ -3,6 +3,8 @@
  * или индивидуальный. Показываем бейдж только при уверенном совпадении,
  * чтобы не маркировать карточки неверно.
  */
+import { parseSku } from './sku';
+
 export type PlanType = 'team' | 'individual';
 
 export const PLAN_LABEL: Record<PlanType, string> = {
@@ -45,6 +47,11 @@ export const PLAN_SHORT: Record<PlanType, string> = {
  * эвристики по названию и описанию.
  */
 function planBySku(sku: string): PlanType | null {
+  // Артикул новой системы называет план сегментом; UNI — деления нет,
+  // и тогда эвристика по названию тоже не нужна: вернуть null здесь
+  // значило бы отдать решение регуляркам, которые сегмент и заменяет.
+  const parsed = parseSku(sku);
+  if (parsed) return parsed.plan === 'TEAM' ? 'team' : parsed.plan === 'IND' ? 'individual' : null;
   if (/-(ORG|TEAMS?)$/i.test(sku)) return 'team';
   if (/-(IND|INDIVIDUALS?)$/i.test(sku)) return 'individual';
   return null;
@@ -65,6 +72,7 @@ function planByDescription(extra: string): PlanType | null {
 }
 
 export function planType(name: string, extra = '', sku = ''): PlanType | null {
+  if (sku && parseSku(sku)) return planBySku(sku);
   const bySku = sku ? planBySku(sku) : null;
   if (bySku) return bySku;
   const s = name.toLowerCase();

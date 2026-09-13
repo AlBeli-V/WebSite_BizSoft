@@ -414,7 +414,8 @@ export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
  * базе, включая неготовые карточки других вендоров, стало бы можно
  * подставить в корзину по угаданному sku.
  */
-const ZOHO_SKU_PREFIX = /^(ME-|MANAGEENGINE-)/;
+// ZOHO- — артикулы новой системы (docs/rules/sku-system.md), ME-/MANAGEENGINE- — старые.
+const ZOHO_SKU_PREFIX = /^(ME-|MANAGEENGINE-|ZOHO-)/;
 
 export function isZohoConfiguratorSku(sku: string): boolean {
   return ZOHO_SKU_PREFIX.test(sku);

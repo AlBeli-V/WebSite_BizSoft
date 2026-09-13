@@ -4,6 +4,7 @@
  * Phone/Webinars/Rooms/Large Meeting/Events/AI Companion). Остальное — основной продукт.
  */
 import { productCategories } from './cross-listing';
+import { parseSku } from './sku';
 import type { Product } from './types';
 
 export type ProductKind = 'main' | 'addon';
@@ -30,8 +31,21 @@ const CREDITS_PACK = /-CREDITS-\d+$/;
  */
 const GIFT_CARD_VARIANT = /-GIFT-CARD-[A-Z]{2,6}-[A-Z0-9-]+$/;
 
-/** Классифицировать товар по контексту (sku). */
+/**
+ * Классифицировать товар по артикулу. Артикул новой системы
+ * (docs/rules/sku-system.md) называет вид позиции сегментом: ADD и номинал
+ * CRD — дополнение, LIC, GFT и родитель линейки CRD — основной продукт.
+ * Старые артикулы — по префиксам, пока не переведены.
+ */
 export function productKind(p: Pick<Product, 'sku'>): ProductKind {
+  const parsed = parseSku(p.sku);
+  if (parsed) {
+    if (parsed.kind === 'ADD') return 'addon';
+    // Номинал кредитов (с вариантом) — дополнение; родитель линейки без
+    // варианта — страница пополнения баланса, самостоятельная позиция.
+    if (parsed.kind === 'CRD') return parsed.variant ? 'addon' : 'main';
+    return 'main';
+  }
   const sku = (p.sku || '').toUpperCase();
   if (sku.startsWith('JB-PLG-')) return 'addon';
   if (ZOOM_ADDON.test(sku)) return 'addon';
@@ -144,6 +158,8 @@ export function vendorLegal(vendor?: string | null): string {
  * Основные продукты для организаций, AI и командные инструменты — индексируются.
  */
 export function productNoindex(sku?: string | null): boolean {
+  const parsed = parseSku(sku);
+  if (parsed) return systemSkuNoindex(parsed);
   const s = (sku || '').toUpperCase();
   if (s.startsWith('JB-PLG-')) return true;               // 867 плагинов Marketplace
   // Личные лицензии (*-IND) любого вендора: сайт продаёт юрлицам, а срез
@@ -175,6 +191,22 @@ export function productNoindex(sku?: string | null): boolean {
   // кредитов. Страница варианта отдаёт 301 на родительскую карточку; в поиск
   // идёт только она.
   if (GIFT_CARD_VARIANT.test(s)) return true;
+  return false;
+}
+
+/**
+ * Та же индексная матрица для артикулов новой системы — по сегментам, а не
+ * по префиксам: плагины Marketplace — JB + ADD; личные лицензии — план IND;
+ * бессрочные дубли ManageEngine — ZOHO + PERP; продления — вариант RENEWAL;
+ * номиналы кредитов и подарочных карт — CRD/GFT с вариантом (родитель без
+ * варианта — страница линейки, она индексируется).
+ */
+function systemSkuNoindex(p: NonNullable<ReturnType<typeof parseSku>>): boolean {
+  if (p.vendor === 'JB' && p.kind === 'ADD') return true;
+  if (p.plan === 'IND') return true;
+  if (p.vendor === 'ZOHO' && p.term === 'PERP') return true;
+  if (p.variant === 'RENEWAL') return true;
+  if ((p.kind === 'CRD' || p.kind === 'GFT') && p.variant) return true;
   return false;
 }
 
