@@ -7,7 +7,8 @@
   "carrier_slug": "me-servicedesk-plus-professional-2-technicians",
   "classification_notes": [
     "Трёхмерное семейство: редакция (Standard/Professional/Enterprise) × язык (английский/многоязычный) × линия (ServiceDesk Plus / ServiceDesk Plus MSP). Носитель — Professional 2 техника (EN): таблица редакций, правило подсчёта техников и активов, надстройки. Многоязычные и MSP-позиции несут дельту (что меняет язык, что меняет MSP) и ссылку.",
-    "Единица — пакет (полоса техников + активов); рост — переходом на следующую полосу доплатой, счётчик количества неверен (DATA GAP volume_tier)."
+    "Единица — пакет (полоса техников + активов); рост — переходом на следующую полосу доплатой, счётчик количества неверен (DATA GAP volume_tier).",
+    "Английская Standard на 10 техников живёт под устаревшим слагом manageengine-servicedesk-standard-10 (карточка — из волны 2); в таблице редакций носителя — третья колонка, у многоязычной Standard ссылка на неё."
   ],
   "products": {
     "me-servicedesk-plus-professional-2-technicians": {
@@ -62,6 +63,7 @@
             {
               "label": "Состав",
               "values": {
+                "manageengine-servicedesk-standard-10": "help desk",
                 "me-servicedesk-plus-professional-2-technicians": "help desk + ИТ-активы",
                 "me-servicedesk-plus-enterprise-2-technicians": "help desk + активы + ITIL (проблемы, изменения, релизы, проекты) + CMDB"
               }
@@ -69,6 +71,7 @@
             {
               "label": "Лицензируются ИТ-активы",
               "values": {
+                "manageengine-servicedesk-standard-10": "нет",
                 "me-servicedesk-plus-professional-2-technicians": "да, по полосе",
                 "me-servicedesk-plus-enterprise-2-technicians": "да, полосы шире (1000 активов от 20 техников)"
               }
@@ -76,6 +79,7 @@
             {
               "label": "Каталог услуг, проблемы, проекты",
               "values": {
+                "manageengine-servicedesk-standard-10": "каталог и проблемы — надстройки",
                 "me-servicedesk-plus-professional-2-technicians": "надстройки",
                 "me-servicedesk-plus-enterprise-2-technicians": "из коробки"
               }
@@ -83,6 +87,7 @@
             {
               "label": "Изменения и релизы",
               "values": {
+                "manageengine-servicedesk-standard-10": "надстройка",
                 "me-servicedesk-plus-professional-2-technicians": "надстройка",
                 "me-servicedesk-plus-enterprise-2-technicians": "из коробки"
               }
@@ -90,6 +95,7 @@
             {
               "label": "CMDB",
               "values": {
+                "manageengine-servicedesk-standard-10": "нет",
                 "me-servicedesk-plus-professional-2-technicians": "надстройка",
                 "me-servicedesk-plus-enterprise-2-technicians": "из коробки"
               }
@@ -97,6 +103,7 @@
             {
               "label": "Стартовый пакет",
               "values": {
+                "manageengine-servicedesk-standard-10": "10 техников (до 5 — бесплатно)",
                 "me-servicedesk-plus-professional-2-technicians": "2 техника, 250 активов",
                 "me-servicedesk-plus-enterprise-2-technicians": "2 техника, 250 активов"
               }
@@ -104,7 +111,8 @@
           ],
           "links": [
             "me-servicedesk-plus-enterprise-2-technicians",
-            "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians",
+            "manageengine-servicedesk-standard-10"
           ]
         },
         {
@@ -502,9 +510,9 @@
           "title": "Многоязычная или английская",
           "kind": "prose",
           "links": [
-            "me-servicedesk-plus-professional-2-technicians"
+            "manageengine-servicedesk-standard-10"
           ],
-          "body": "Если техники работают на английском, а сотрудникам достаточно писать в почту, английская редакция Standard закроет задачу дешевле; на витрине английский Standard заведён у MSP-линии, обычную версию считаем по запросу."
+          "body": "Если техники работают на английском, а сотрудникам достаточно писать в почту, английская редакция Standard закроет задачу дешевле — она заведена отдельной позицией на те же 10 техников."
         },
         {
           "code": "FIT",

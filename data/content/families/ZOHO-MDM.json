@@ -1,0 +1,908 @@
+{
+  "family_key": "ZOHO-MDM",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices",
+  "classification_notes": [
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы у Mobile Device Manager Plus нет — ось OWNERSHIP = universal, TEAM_MODEL не применяется.",
+    "Оси семейства: редакция (Standard / Professional) × версия (обычная / MSP) — четыре позиции, packaging edition_tier; носитель — Standard как младшая по закупке.",
+    "Пакет «50 мобильных устройств + 1 техник» — единица товара; рост объёма — переход на следующий пакет с доплатой разницы, счётчик количества — неверный вопрос (DATA GAP, как у OpManager).",
+    "Бессрочные сиблинги (*-PERP) — вне индекса; в тексте «по запросу» без ссылок."
+  ],
+  "products": {
+    "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices": {
+      "sku": "ZOHO-LIC-MDMSTD-TEAM-1Y-PACK-50MDEV1USR",
+      "legacy_sku": "ZOHO-LIC-MDMSTD-TEAM-1Y-PACK-50MDEV1USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "50 мобильных устройств, 1 техник",
+      "unit_label": "пакет: 50 мобильных устройств, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Mobile Device Manager Plus Standard — годовая подписка на систему управления мобильными устройствами ManageEngine: регистрация смартфонов и планшетов iOS, Android и Windows, профили и ограничения, раздача приложений, блокировка и стирание при утере. Пакет на 50 устройств и одного техника; сервер — свой.\n\nЛицензия считается по зарегистрированным устройствам, техник — учётная запись администратора консоли. Standard — младшая из двух редакций: без раздачи документов, режима киоска, геозон и управления обновлениями ОС; это добавляет Professional доплатой разницы.\n\nСрок — 1 год, обновления и поддержка включены. Бесплатная редакция — до 25 устройств; пакеты на 100 и больше устройств — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Mobile Device Manager Plus Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Регистрация",
+              "d": "Apple Business Manager, Android Enterprise и Zero-touch, Samsung Knox, Windows Autopilot; приглашение по почте или QR-коду, самостоятельная регистрация сотрудника; корпоративные устройства и личные (BYOD) в одном парке."
+            },
+            {
+              "t": "Профили и ограничения",
+              "d": "Пароль, Wi-Fi, VPN, почта и Exchange, сертификаты, запрет камеры, магазина приложений и обмена данными — политики назначаются группам по отделам и платформам."
+            },
+            {
+              "t": "Приложения",
+              "d": "Тихая установка корпоративных и магазинных приложений, каталог для сотрудников, чёрные и белые списки, лицензии Apple VPP и managed Google Play."
+            },
+            {
+              "t": "Защита при утере",
+              "d": "Удалённая блокировка, сброс пароля, полное или корпоративное стирание, определение местоположения, обнаружение jailbreak и root."
+            },
+            {
+              "t": "Инвентарь и отчёты",
+              "d": "Модель, версия ОС, установленное ПО, сертификаты, расход трафика; отчёты по расписанию и выгрузка."
+            },
+            {
+              "t": "Платформы",
+              "d": "iOS и iPadOS, Android, Windows, macOS, ChromeOS, tvOS. Ноутбук, зарегистрированный как устройство MDM, расходует ту же лицензию, что и смартфон."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard, Professional или версия MSP",
+          "kind": "compare",
+          "body": "Четыре позиции — один продукт. Редакция задаёт глубину управления, версия MSP — работу с несколькими заказчиками в одной консоли. Лицензия везде считается по устройствам и техникам.",
+          "rows": [
+            {
+              "label": "Стартовый пакет",
+              "values": {
+                "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices": "50 устройств, 1 техник",
+                "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices": "50 устройств, 1 техник",
+                "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": "50 устройств, 1 техник",
+                "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": "50 устройств, 1 техник"
+              }
+            },
+            {
+              "label": "Регистрация, профили, приложения, блокировка и стирание",
+              "values": {
+                "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices": "да",
+                "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices": "да",
+                "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": "да",
+                "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": "да"
+              }
+            },
+            {
+              "label": "Раздача документов, режим киоска, геозоны",
+              "values": {
+                "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices": "да",
+                "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": "да"
+              }
+            },
+            {
+              "label": "Управление обновлениями ОС, удалённый экран и устранение неполадок",
+              "values": {
+                "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices": "да",
+                "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": "да"
+              }
+            },
+            {
+              "label": "Контейнер корпоративных данных и условный доступ к почте",
+              "values": {
+                "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices": "да",
+                "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": "да"
+              }
+            },
+            {
+              "label": "Несколько заказчиков в одной консоли, техники по клиентам",
+              "values": {
+                "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": "да",
+                "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": "да"
+              }
+            },
+            {
+              "label": "Отчёты и портал под брендом провайдера",
+              "values": {
+                "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices": "нет",
+                "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": "да",
+                "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": "да"
+              }
+            }
+          ],
+          "links": [
+            "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices",
+            "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices",
+            "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Компании с парком корпоративных смартфонов и планшетов от нескольких десятков штук — торговые представители, склад, выездной сервис, — где нужно раздать приложения и настройки без ручной настройки каждого аппарата и стереть данные, если устройство потеряно."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если на планшетах работают терминалы самообслуживания или сканеры в режиме одного приложения, нужны геозоны или отложенные обновления iOS — это Professional. Если ноутбуки и серверы уже под Endpoint Central, отдельный MDM не нужен: мобильные устройства входят в редакции UEM и выше. Провайдеру, обслуживающему чужие парки, — версия MSP."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое устройство",
+              "d": "Любой зарегистрированный аппарат: смартфон, планшет, ноутбук, телевизор. У сотрудника с телефоном и планшетом — два устройства. Устройство, снятое с управления, освобождает место в лицензии."
+            },
+            {
+              "t": "Техник",
+              "d": "Учётная запись администратора консоли, а не сотрудник с телефоном. В пакет входит один; дополнительные техники — по запросу."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server или Linux на площадке организации, встроенная СУБД. Облачная редакция у вендора считается по другому прайсу — уточняется при заказе."
+            },
+            {
+              "t": "Связь с Apple и Google",
+              "d": "Для iOS нужен сертификат APNs и, для автоматической регистрации, аккаунт Apple Business Manager; для Android — корпоративный аккаунт Google в Android Enterprise. Всё оформляется бесплатно, но до внедрения."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте устройства, включая ноутбуки",
+              "d": "В пакет входят 50; если планируется 70, нужен следующий объём, а не два пакета по 50. Переход на больший объём в течение срока оплачивается разницей."
+            },
+            {
+              "t": "Подписка или бессрочная лицензия",
+              "d": "Годовая подписка уже содержит обновления и поддержку. Бессрочный вариант оплачивается один раз, к нему ежегодно добавляется AMS в 20 % от стоимости лицензии — оформляем по запросу."
+            },
+            {
+              "t": "Есть Endpoint Central?",
+              "d": "Редакции UEM и Security уже управляют мобильными устройствами; отдельный MDM берут, когда управление компьютерами ведётся другой системой или его нет вовсе."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mobile Device Manager Plus Professional",
+              "d": "Тот же пакет плюс контент, киоск, геозоны, обновления ОС и удалённый экран.",
+              "link": "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices"
+            },
+            {
+              "t": "Endpoint Central UEM",
+              "d": "Мобильные устройства вместе с серверами, ПК и ноутбуками в одной консоли; лицензия по серверам, рабочие станции — по запросу.",
+              "link": "me-endpoint-central-uem-10-servers-and-single-user-license"
+            },
+            {
+              "t": "MDM Plus MSP Standard",
+              "d": "Те же функции для провайдера с несколькими клиентами.",
+              "link": "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Ноутбук на Windows или macOS считается мобильным устройством?",
+          "a": "Да, если он зарегистрирован в MDM. Каждый зарегистрированный аппарат занимает одно место в лицензии независимо от типа."
+        },
+        {
+          "q": "У нас 60 телефонов — можно взять один пакет и докупить десять?",
+          "a": "Нет, пакеты не суммируются. Берётся следующий объём; при росте парка в течение года доплачивается разница между пакетами."
+        },
+        {
+          "q": "Что происходит с устройствами по окончании подписки?",
+          "a": "Они остаются зарегистрированными, но консоль перестаёт принимать новые политики и обновления до продления — по общей практике вендора, детали уточняются при заказе."
+        }
+      ],
+      "related_products": [
+        "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices",
+        "me-endpoint-central-uem-10-servers-and-single-user-license",
+        "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices"
+      ],
+      "meta_title": "MDM Plus Standard, 50 устройств — подписка на год | BIZSoft",
+      "meta_description": "ManageEngine Mobile Device Manager Plus Standard: управление смартфонами и планшетами iOS, Android, Windows; пакет на 50 устройств и техника. Договор, ЭДО.",
+      "seo_intents": [
+        "mobile device manager plus купить / manageengine mdm лицензия — hero, meta",
+        "mdm plus standard vs professional / редакции — PLAN_COMPARE",
+        "mdm plus лицензирование по устройствам / ноутбук как устройство — DEPENDENCIES, FAQ",
+        "mdm plus бессрочная лицензия ams — BEFORE_ORDER (заменяет noindex-карточку *-PERP)",
+        "mdm vs endpoint central uem — FIT, ALTERNATIVES"
+      ],
+      "uncertainties": [
+        "Разбивка функций по редакциям (контент, киоск, геозоны, обновления ОС, контейнер, удалённый экран) — по матрице вендора на дату; страница в сессии не открывалась.",
+        "Поведение устройств после окончания подписки описано по общей политике ManageEngine, не по документации MDM.",
+        "Ряд пакетов сверх 50 устройств и шаг дополнительных техников — «по запросу»."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "абзац «Что входит:» → CAPABILITIES, абзац о подписке → BEFORE_ORDER; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что умеет младшая редакция",
+          "new_information": "шесть групп функций, платформы, ноутбук как устройство",
+          "sibling_overlap": "носитель; у соседей — только дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "mdm plus возможности",
+          "source": "https://www.manageengine.com/mobile-device-management/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "какую из четырёх позиций брать",
+          "new_information": "таблица редакция × MSP, единый источник семейства",
+          "sibling_overlap": "у соседей — ссылка и правило выбора",
+          "decision": "COMPARE",
+          "seo_intent": "mdm standard vs professional",
+          "source": "https://www.manageengine.com/mobile-device-management/pricing.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль парка «да», три выхода «нет»",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "управление корпоративными телефонами",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и что подготовить",
+          "new_information": "определение устройства, техник, сервер, APNs и Android Enterprise",
+          "sibling_overlap": "у соседей — ссылка",
+          "decision": "VALIDATE",
+          "seo_intent": "mdm plus лицензирование",
+          "source": "https://store.manageengine.com/mobile-device-management/"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "пакеты не суммируются, perpetual+AMS, пересечение с Endpoint Central",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "mdm plus ams",
+          "source": "https://store.manageengine.com/mobile-device-management/"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "три соседа с причиной",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices": {
+      "sku": "ZOHO-LIC-MDMPRO-TEAM-1Y-PACK-50MDEV1USR",
+      "legacy_sku": "ZOHO-LIC-MDMPRO-TEAM-1Y-PACK-50MDEV1USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "50 мобильных устройств, 1 техник",
+      "unit_label": "пакет: 50 мобильных устройств, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Mobile Device Manager Plus Professional — годовая подписка на старшую редакцию MDM от ManageEngine: к регистрации, профилям и приложениям добавляются раздача документов, режим киоска, геозоны, управление обновлениями ОС, контейнер корпоративных данных и удалённый экран. Объём — 50 устройств, один техник консоли.\n\nПо сравнению со Standard это редакция для устройств, которые работают без присмотра — терминалы, сканеры, планшеты курьеров: их можно запереть в одном приложении, отслеживать по зоне и обновлять по расписанию.\n\nСрок — 1 год с обновлениями и поддержкой; пакеты на 100 и более устройств считаем по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Professional",
+          "kind": "items",
+          "body": "Регистрация, профили, приложения, блокировка и стирание — как в Standard, описаны на её карточке. Ниже — только то, за что доплачивают.",
+          "items": [
+            {
+              "t": "Документы на устройствах",
+              "d": "Раздача файлов и папок с правами «только просмотр», отзыв документа с устройства, ограничение копирования в сторонние приложения."
+            },
+            {
+              "t": "Киоск",
+              "d": "Устройство запирается в одном приложении или наборе приложений: касса, сканер склада, информационный терминал; на Android и iOS — с блокировкой кнопок и настроек."
+            },
+            {
+              "t": "Геозоны и обновления ОС",
+              "d": "Действие при выходе устройства из заданной зоны — оповещение или блокировка; обновления iOS, Android и Windows откладываются и разворачиваются волнами по расписанию."
+            },
+            {
+              "t": "Контейнер и удалённый экран",
+              "d": "Корпоративные приложения и почта отделены от личных на BYOD, условный доступ к Exchange только с управляемых устройств; техник видит экран сотрудника и управляет им при разборе проблемы."
+            }
+          ],
+          "links": [
+            "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Professional, а когда нет",
+          "kind": "items",
+          "body": "Таблица всех четырёх позиций — на карточке Standard. Здесь — правило выбора.",
+          "items": [
+            {
+              "t": "Берите Professional",
+              "d": "Устройства работают без пользователя-владельца (киоски, сканеры, сменные планшеты), парк выезжает за пределы площадки, обновления ОС нужно контролировать, а BYOD требует разделения данных."
+            },
+            {
+              "t": "Хватит Standard",
+              "d": "Телефоны выданы сотрудникам поимённо, задача — настроить почту и Wi-Fi, поставить пять приложений и уметь стереть аппарат при увольнении."
+            },
+            {
+              "t": "Нужна версия MSP",
+              "d": "Вы обслуживаете парки нескольких компаний и должны показывать каждой отчёты только по её устройствам."
+            }
+          ],
+          "links": [
+            "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices",
+            "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Розничным сетям, логистике, производству и медицине — везде, где планшет или терминал закреплён за рабочим местом, а не за человеком, и где ИТ-отдел должен видеть устройство на карте и чинить его удалённо.\n\nВторой профиль — компании с политикой BYOD: сотрудники работают с личных телефонов, и корпоративная почта с документами должны жить в контейнере, который стирается отдельно от личных фотографий."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём",
+              "d": "50 устройств в пакете; следующий объём берётся целиком. Что считается устройством и как учитывается техник — на карточке Standard, правила общие для редакций.",
+              "link": "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices"
+            },
+            {
+              "t": "Переход со Standard",
+              "d": "Оформляется доплатой разницы между редакциями в течение действующего срока; настройки и зарегистрированные устройства сохраняются."
+            },
+            {
+              "t": "Бессрочный вариант",
+              "d": "Разовая оплата плюс ежегодный AMS 20 % за обновления и поддержку — считаем по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mobile Device Manager Plus Standard",
+              "d": "Дешевле при той же модели лицензии, если киоск, геозоны и контейнер не нужны.",
+              "link": "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices"
+            },
+            {
+              "t": "Endpoint Central UEM",
+              "d": "Когда нужно управлять и компьютерами: мобильные устройства входят в редакцию.",
+              "link": "me-endpoint-central-uem-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Mobile Device Manager Plus MSP Professional",
+              "d": "Та же редакция для сервис-провайдера.",
+              "link": "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли запереть Android-планшет в одном приложении?",
+          "a": "Да, режим киоска входит в Professional: одно приложение или набор, с блокировкой кнопок и системных настроек. В Standard киоска нет."
+        },
+        {
+          "q": "Считаются ли личные телефоны сотрудников (BYOD) устройствами?",
+          "a": "Да, каждый зарегистрированный телефон — устройство в лицензии, корпоративный он или личный."
+        }
+      ],
+      "related_products": [
+        "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices",
+        "me-endpoint-central-uem-10-servers-and-single-user-license",
+        "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices"
+      ],
+      "meta_title": "MDM Plus Professional, 50 устройств — подписка | BIZSoft",
+      "meta_description": "ManageEngine Mobile Device Manager Plus Professional: киоск, геозоны, документы, обновления ОС, контейнер BYOD. Пакет на 50 устройств и техника. Договор, ЭДО.",
+      "seo_intents": [
+        "mdm plus professional купить — hero, meta",
+        "mdm plus professional что входит / отличие от standard — CAPABILITIES, PLAN_COMPARE",
+        "mdm киоск android / kiosk mode — CAPABILITIES, FAQ",
+        "mdm byod контейнер — CAPABILITIES, FIT, FAQ"
+      ],
+      "uncertainties": [
+        "Состав дельты Professional (контент, киоск, геозоны, обновления ОС, контейнер, удалённый экран) — по матрице вендора; точная граница между редакциями подтверждается при заказе.",
+        "Сохранение настроек при переходе со Standard — общая практика вендора, отдельно для MDM в первоисточнике не описана."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (только дельта); поле опустошить",
+        "description": "абзац «Что входит:» → CAPABILITIES дельтой, остальное → BEFORE_ORDER; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю относительно Standard",
+          "new_information": "четыре группы дельты",
+          "sibling_overlap": "база — на носителе, не повторяется",
+          "decision": "UNDERSTAND",
+          "seo_intent": "mdm plus professional что входит",
+          "source": "https://www.manageengine.com/mobile-device-management/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "мне Professional или соседи",
+          "new_information": "три правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "mdm standard vs professional",
+          "source": "профиль"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "два профиля: устройства без владельца и BYOD",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "mdm для киосков и byod",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "переход со Standard, объём, perpetual",
+          "sibling_overlap": "правила лицензии — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "mdm plus upgrade",
+          "source": "https://store.manageengine.com/mobile-device-management/"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices": {
+      "sku": "ZOHO-LIC-MDMMSPSTD-TEAM-1Y-PACK-50MDEV1USR",
+      "legacy_sku": "ZOHO-LIC-MDMMSPSTD-TEAM-1Y-PACK-50MDEV1USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP Standard",
+      "volume_label": "50 мобильных устройств, 1 техник",
+      "unit_label": "пакет: 50 мобильных устройств, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Mobile Device Manager Plus MSP Standard — годовая подписка на версию MDM для сервис-провайдеров: парки смартфонов и планшетов нескольких заказчиков ведутся в одной консоли с изоляцией клиентов, отдельными техниками и отчётами. В пакете 50 устройств и один техник; сервер разворачивается у провайдера.\n\nНабор функций — как у обычной редакции Standard: регистрация, профили, приложения, блокировка и стирание. Отличие версии MSP — мультиклиентность, а не глубина управления; киоск и геозоны есть только в MSP Professional.\n\nСрок — 1 год, обновления и поддержка вендора входят. Объём считается суммарно по всем клиентам провайдера.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт версия MSP",
+          "kind": "items",
+          "body": "Управление устройствами — то же, что в редакции Standard; её карточка описывает состав. Здесь — надстройка для провайдера.",
+          "items": [
+            {
+              "t": "Клиенты изолированы",
+              "d": "У каждого заказчика свои устройства, группы, политики и приложения; техник одного клиента не видит устройства другого."
+            },
+            {
+              "t": "Техники и роли по заказчикам",
+              "d": "Права выдаются в разрезе клиента: инженер провайдера сопровождает несколько компаний, администратор клиента — только свою."
+            },
+            {
+              "t": "Отчёты и бренд",
+              "d": "Отчёты формируются по каждому заказчику отдельно, портал самообслуживания и уведомления оформляются под бренд провайдера."
+            },
+            {
+              "t": "Лицензия одна на всех",
+              "d": "50 устройств распределяются между клиентами в любых пропорциях; рост парка любого из них расходует общий пул."
+            }
+          ],
+          "links": [
+            "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "MSP или обычная версия, Standard или Professional",
+          "kind": "items",
+          "body": "Полная таблица четырёх позиций — на карточке Mobile Device Manager Plus Standard.",
+          "items": [
+            {
+              "t": "Версия MSP",
+              "d": "Вы обслуживаете устройства чужих компаний и должны разделять их данные и отчёты. Для собственного парка мультиклиентность не нужна — обычная редакция дешевле.",
+              "link": "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices"
+            },
+            {
+              "t": "MSP Professional",
+              "d": "Если у клиентов есть киоски и терминалы, нужны геозоны, отложенные обновления ОС или удалённый экран — старшая редакция.",
+              "link": "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices"
+            }
+          ],
+          "links": [
+            "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices",
+            "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-аутсорсерам и интеграторам, которые взяли на сопровождение телефоны и планшеты нескольких небольших компаний: настроить почту и Wi-Fi, раздать приложения, стереть аппарат уволенного сотрудника — и отчитаться перед каждым заказчиком только по его устройствам.\n\nЕсли те же клиенты уже обслуживаются через Endpoint Central MSP, отдельный MDM MSP дублирует его мобильный модуль — сначала проверьте, что есть в действующей лицензии."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Сложите парки клиентов",
+              "d": "Лицензия считает устройства всех заказчиков вместе. Когда сумма перерастёт 50, берётся следующий объём с доплатой разницы, а не второй такой же пакет."
+            },
+            {
+              "t": "Техники",
+              "d": "Один в пакете; инженеры провайдера и администраторы клиентов — это отдельные учётные записи, дополнительные — по запросу."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Для версии MSP также доступна: единовременная оплата и ежегодный AMS 20 % — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mobile Device Manager Plus MSP Professional",
+              "d": "Киоск, геозоны, документы и удалённый экран для клиентских парков.",
+              "link": "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices"
+            },
+            {
+              "t": "Mobile Device Manager Plus Standard",
+              "d": "Для собственного парка без мультиклиентности.",
+              "link": "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices"
+            },
+            {
+              "t": "Endpoint Central MSP",
+              "d": "Компьютеры и мобильные устройства клиентов в одной системе.",
+              "link": "me-endpoint-central-msp-50-endpoints-and-1-technician"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли распределить 50 устройств между пятью клиентами?",
+          "a": "Да, в любых пропорциях: пул общий, разделение по клиентам — организационное, внутри консоли."
+        },
+        {
+          "q": "Видит ли администратор заказчика устройства других клиентов провайдера?",
+          "a": "Нет. Роль администратора клиента ограничена его аккаунтом; сквозной доступ есть только у техников провайдера."
+        }
+      ],
+      "related_products": [
+        "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices",
+        "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices",
+        "me-endpoint-central-msp-50-endpoints-and-1-technician"
+      ],
+      "meta_title": "MDM Plus MSP Standard, 50 устройств — подписка | BIZSoft",
+      "meta_description": "ManageEngine Mobile Device Manager Plus MSP Standard: MDM для провайдера — парки нескольких клиентов в одной консоли, 50 устройств и техник. Договор, ЭДО.",
+      "seo_intents": [
+        "mdm msp manageengine купить — hero, meta",
+        "mdm для сервис-провайдера / мультиклиентность — CAPABILITIES, FIT",
+        "mdm msp лицензия общий пул устройств — BEFORE_ORDER, FAQ"
+      ],
+      "uncertainties": [
+        "Оформление портала под бренд провайдера — по описанию версии MSP у вендора; объём ребрендинга уточняется при заказе.",
+        "Распределение пула устройств между клиентами без ограничений — по общей модели MSP-продуктов ManageEngine."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (надстройка MSP); поле опустошить",
+        "description": "абзац о разделении клиентов → CAPABILITIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что отличает MSP от обычной версии",
+          "new_information": "изоляция клиентов, роли, отчёты, общий пул",
+          "sibling_overlap": "функции управления — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "mdm msp что такое",
+          "source": "https://www.manageengine.com/mobile-device-management-msp/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "MSP или обычная, Standard или Professional",
+          "new_information": "два правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "mdm msp vs mdm",
+          "source": "профиль"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль аутсорсера, пересечение с EC MSP",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "mdm для аутсорсинга",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "суммарный подсчёт, техники, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "mdm msp лицензирование",
+          "source": "https://www.manageengine.com/mobile-device-management-msp/pricing.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": {
+      "sku": "ZOHO-LIC-MDMMSPPRO-TEAM-1Y-PACK-50MDEV1USR",
+      "legacy_sku": "ZOHO-LIC-MDMMSPPRO-TEAM-1Y-PACK-50MDEV1USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP Professional",
+      "volume_label": "50 мобильных устройств, 1 техник",
+      "unit_label": "пакет: 50 мобильных устройств, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Mobile Device Manager Plus MSP Professional — годовая подписка на старшую редакцию MDM для сервис-провайдеров: устройства нескольких заказчиков в одной консоли плюс киоск, геозоны, раздача документов, обновления ОС, контейнер BYOD и удалённый экран. Пакет на 50 устройств и одного техника.\n\nОт MSP Standard отличается глубиной: клиентские терминалы и сканеры запираются в одном приложении, планшеты курьеров отслеживаются по зонам, инженер провайдера разбирает проблему, глядя на экран устройства.\n\nСрок — 1 год; обновления и поддержка входят. Пул устройств общий для всех клиентов провайдера.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет MSP Professional",
+          "kind": "items",
+          "body": "Мультиклиентность и базовое управление описаны на карточках MSP Standard и Standard. Здесь — функции старшей редакции в применении к клиентским паркам.",
+          "items": [
+            {
+              "t": "Киоск у клиентов",
+              "d": "Кассы, терминалы и сканеры заказчика работают в одном приложении; шаблон киоска настраивается один раз и тиражируется по клиентам."
+            },
+            {
+              "t": "Геозоны и обновления ОС",
+              "d": "Реакция на выход устройства из зоны и волновые обновления iOS и Android — отдельно для каждого заказчика по его окну обслуживания."
+            },
+            {
+              "t": "Документы и контейнер",
+              "d": "Раздача файлов с правом только просмотра и разделение корпоративных данных на личных телефонах сотрудников клиента."
+            },
+            {
+              "t": "Удалённый экран",
+              "d": "Инженер провайдера видит экран устройства и управляет им, не выезжая к заказчику."
+            }
+          ],
+          "links": [
+            "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices",
+            "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда нужна старшая редакция MSP",
+          "kind": "items",
+          "body": "Сводная таблица редакций и версий — на карточке Standard; правило выбора ниже.",
+          "items": [
+            {
+              "t": "MSP Professional",
+              "d": "Хотя бы у одного клиента есть устройства без владельца, выездной персонал или BYOD; поддержка второй линии работает удалённо."
+            },
+            {
+              "t": "MSP Standard",
+              "d": "Клиентам достаточно почты, Wi-Fi, приложений и стирания при утере — доплата за старшую редакцию не окупится.",
+              "link": "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices"
+            },
+            {
+              "t": "Обычный Professional",
+              "d": "Заказчик один — вы сами; мультиклиентность не нужна.",
+              "link": "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices"
+            }
+          ],
+          "links": [
+            "me-mobile-device-manager-plus-standard-single-user-license-with-50-mobile-devices",
+            "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices",
+            "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Провайдерам, у которых среди заказчиков — розница, логистика или сервисные компании с терминалами и планшетами в поле. Одна редакция на всех клиентов: функции киоска и геозон включены в пул, даже если пользуются ими двое из десяти заказчиков.\n\nЕсли у клиентов преобладают компьютеры, а мобильных устройств немного, рациональнее Endpoint Central MSP: мобильный модуль там есть, а серверы и ПК управляются той же лицензией."
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Редакция общая для всех клиентов",
+              "d": "Нельзя держать одного заказчика на Standard, а другого на Professional внутри одной инсталляции — доплачивается весь пул."
+            },
+            {
+              "t": "Рост пула",
+              "d": "Пакет на 50 не удваивается покупкой второго; при переходе на больший объём в течение срока доплачивается разница."
+            },
+            {
+              "t": "Бессрочный вариант",
+              "d": "Существует и для MSP Professional: разовая оплата и AMS 20 % ежегодно — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mobile Device Manager Plus MSP Standard",
+              "d": "Мультиклиентность без киоска, геозон и контейнера.",
+              "link": "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices"
+            },
+            {
+              "t": "Mobile Device Manager Plus Professional",
+              "d": "Те же функции для одной организации.",
+              "link": "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices"
+            },
+            {
+              "t": "Endpoint Central MSP",
+              "d": "Если у клиентов важнее компьютеры, чем телефоны.",
+              "link": "me-endpoint-central-msp-50-endpoints-and-1-technician"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли включить киоск только у части клиентов?",
+          "a": "Да. Редакция общая на инсталляцию, но политики назначаются по каждому заказчику отдельно: киоск включается там, где нужен."
+        },
+        {
+          "q": "Считается ли техник клиента в лицензии провайдера?",
+          "a": "Да, любая учётная запись администратора консоли — техник; в пакет входит один, остальные — по запросу."
+        }
+      ],
+      "related_products": [
+        "me-mobile-device-manager-plus-msp-standard-single-user-license-with-50-mobile-devices",
+        "me-mobile-device-manager-plus-professional-single-user-license-with-50-mobile-devices",
+        "me-endpoint-central-msp-50-endpoints-and-1-technician"
+      ],
+      "meta_title": "MDM Plus MSP Professional, 50 устройств — подписка | BIZSoft",
+      "meta_description": "ManageEngine Mobile Device Manager Plus MSP Professional: MDM для провайдера с киоском, геозонами, контейнером BYOD; 50 устройств и техник. Договор, ЭДО.",
+      "seo_intents": [
+        "mdm msp professional купить — hero, meta",
+        "mdm msp professional vs standard — PLAN_COMPARE, TRADEOFFS",
+        "mdm киоск для клиентов провайдера — CAPABILITIES, FAQ"
+      ],
+      "uncertainties": [
+        "Единая редакция на инсталляцию MSP (без смешения Standard и Professional по клиентам) — по модели лицензирования MSP-продуктов вендора; подтверждается при заказе.",
+        "Состав дельты Professional — как у обычной редакции, по матрице вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (дельта для MSP); поле опустошить",
+        "description": "абзацы о клиентах и Professional → CAPABILITIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что даёт старшая редакция провайдеру",
+          "new_information": "четыре функции Professional в разрезе клиентов",
+          "sibling_overlap": "мультиклиентность — на MSP Standard, база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "mdm msp professional что входит",
+          "source": "https://www.manageengine.com/mobile-device-management-msp/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "MSP Professional или соседи",
+          "new_information": "три правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "mdm msp professional vs standard",
+          "source": "профиль"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль клиентов, порог перехода на EC MSP",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "mdm для провайдера розницы",
+          "source": "—"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "какие ограничения владения",
+          "new_information": "единая редакция на пул, рост пула, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "mdm msp лицензия",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}
