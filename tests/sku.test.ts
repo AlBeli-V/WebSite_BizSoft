@@ -11,7 +11,7 @@ import {
   buildSku, findDuplicateSkus, isSystemSku, parseSku, proposeProductCode, termMonths, validateSkuParts,
   SKU_KINDS, SKU_PLANS, SKU_UNITS,
 } from '../src/lib/sku';
-import { productKind, productNoindex } from '../src/lib/catalog';
+import { productNoindex } from '../src/lib/catalog';
 import { planType } from '../src/lib/plan-type';
 import { termLabel, TERM } from '../src/lib/card-display';
 import { cardComposition } from '../src/lib/product-composition';
@@ -138,25 +138,6 @@ describe('расстановка по каталогу (data/catalog/sku-assignm
     }
   });
 
-  it('вид позиции читается из новых артикулов так же, как из старых, кроме исправленных', () => {
-    // Старая схема не называла вид у этих позиций; новая ставит ADD/CRD по
-    // сути: надстройка AnyDesk, продление обновлений Principle, пакет
-    // изображений Depositphotos, дополнения OpManager и OpUtils.
-    const corrected = /^(ANYDESK-NAMESPACE|PRINCIPLE-UPDATES|DEPOSIT-PACK-100|ME-OPMANAGER-(NEXUS-FLOW|APM)-|ME-OPUTILS-)/;
-    // Скрытые позиции конфигуратора ManageEngine старой схемой не различались вовсе.
-    const diff = assignment.items.filter((i) => i.source !== 'zoho-hidden' && productKind({ sku: i.new }) !== productKind({ sku: i.old }) && !corrected.test(i.old));
-    expect(diff.map((i) => `${i.old} → ${i.new}`)).toEqual([]);
-  });
-
-  it('индексная матрица: единственное расхождение со старой — личные планы без суффикса -IND', () => {
-    // Старое правило ловило личные лицензии только по суффиксу -IND; новая
-    // система называет план сегментом, и правило «личные лицензии любого
-    // вендора — noindex» начинает действовать на все личные планы. Это
-    // осознанное расхождение; любое другое — ошибка перевода.
-    const other = assignment.items.filter((i) => i.source !== 'zoho-hidden' && productNoindex(i.new) !== productNoindex(i.old) && !(i.plan === 'IND' && !/-IND$/.test(i.old)) && i.old !== 'DEPOSIT-PACK-100');
-    expect(other.map((i) => `${i.old} → ${i.new}`)).toEqual([]);
-  });
-
   it('коды продуктов уникальны у вендора, плагины закреплены', () => {
     for (const [v, codes] of Object.entries(registry.products)) {
       for (const c of Object.keys(codes)) expect(c, `${v}/${c}`).toMatch(/^[A-Z0-9]{2,12}$/);
@@ -217,9 +198,9 @@ describe('карточка читает сегменты нового артик
     expect(productNoindex('APPL-GFT-APPSTORE-UNI-BAL-NOM')).toBe(false);
   });
 
-  it('конфигуратор ManageEngine принимает и старые, и новые артикулы', () => {
+  it('конфигуратор ManageEngine принимает только артикулы вендора ZOHO', () => {
     expect(isZohoConfiguratorSku('ZOHO-LIC-ADAUDITSTD-TEAM-1Y-PACK-2DC')).toBe(true);
-    expect(isZohoConfiguratorSku('ME-ADAUDIT-PLUS-STANDARD-2-DOMAIN-CONTROLLERS')).toBe(true);
+    expect(isZohoConfiguratorSku('ME-ADAUDIT-PLUS-STANDARD-2-DOMAIN-CONTROLLERS')).toBe(false);
     expect(isZohoConfiguratorSku('ADBE-LIC-PHOTOSHOP-TEAM-1Y-USER')).toBe(false);
   });
 });

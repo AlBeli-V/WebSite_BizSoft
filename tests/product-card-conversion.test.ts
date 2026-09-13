@@ -259,8 +259,8 @@ describe('вид позиции задаёт композицию', () => {
   });
 
   it('дополнение к основному продукту опознаётся по артикулу', () => {
-    expect(cardComposition({ ...base, sku: 'JB-PLG-RIDER' })).toBe('addon');
-    expect(cardComposition({ ...base, sku: 'ZOOM-PHONE-PRO' })).toBe('addon');
+    expect(cardComposition({ ...base, sku: 'JB-ADD-RIDER-TEAM-1Y-USER' })).toBe('addon');
+    expect(cardComposition({ ...base, sku: 'ZOOM-ADD-PHONE-UNI-1Y-USER-GLOBAL' })).toBe('addon');
     expect(cardComposition({ ...base, sku: 'OPAI-CRD-API-UNI-BAL-NOM-100' })).toBe('addon');
   });
 

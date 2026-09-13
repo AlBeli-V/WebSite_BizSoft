@@ -207,8 +207,8 @@ describe('индексная матрица и списки', () => {
   it('варианты не индексируются, родитель индексируется', () => {
     for (const v of variants) expect(productNoindex(v.sku), v.sku).toBe(true);
     expect(productNoindex(parent.sku)).toBe(false);
-    expect(productNoindex('STEAM-GIFT-CARD-RU-1000')).toBe(true);
-    expect(productNoindex('STEAM-GIFT-CARD')).toBe(false);
+    expect(productNoindex('STM-GFT-WALLET-UNI-BAL-NOM-RU1000')).toBe(true);
+    expect(productNoindex('STM-GFT-WALLET-UNI-BAL-NOM')).toBe(false);
     // Регион Global и вариант-подписка (код тарифа вместо номинала).
     expect(productNoindex('DISC-GFT-NITRO-UNI-12M-NOM-GL')).toBe(true);
     expect(productNoindex('BNCE-GFT-USDT-UNI-BAL-NOM-GL500')).toBe(true);

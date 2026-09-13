@@ -80,9 +80,11 @@ export function displayName(name: string): string {
 
 interface TermSource { sku: string; name: string; short_description?: string | null }
 
-/** Явный срок, названный в артикуле или названии; null — не назван. */
+/**
+ * Явный срок: сегмент срока артикула единой системы (<n>M/<n>Y, PERP, BAL);
+ * у позиции без системного артикула — маркеры в названии. null — не назван.
+ */
 function explicitTerm(p: TermSource): string | null {
-  // Артикул новой системы несёт срок сегментом: <n>M/<n>Y, PERP, BAL.
   const parsed = parseSku(p.sku);
   if (parsed) {
     if (parsed.term === 'PERP') return TERM.perpetual;
@@ -90,15 +92,12 @@ function explicitTerm(p: TermSource): string | null {
     const months = termMonths(parsed.term);
     return months == null ? null : monthsLabel(months);
   }
-  const sku = p.sku.toUpperCase();
   const name = p.name;
   const desc = (p.short_description || '').toLowerCase();
-  if (/-PERP\b/.test(sku) || /бессрочн|вечная лицензия|perpetual/i.test(name)) return TERM.perpetual;
+  if (/бессрочн|вечная лицензия|perpetual/i.test(name)) return TERM.perpetual;
   const months = name.match(/(?:^|[\s,(])(\d+)\s*(?:месяц(?:а|ев)?|мес\.)(?=[\s,)]|$)/i);
   if (months) return monthsLabel(Number(months[1]));
-  const skuMonths = sku.match(/-(\d+)M\b/);
-  if (skuMonths) return monthsLabel(Number(skuMonths[1]));
-  const years = name.match(/\b(\d)Y\b/) || sku.match(/-(\d)Y\b/);
+  const years = name.match(/\b(\d)Y\b/);
   if (years) return monthsLabel(12 * Number(years[1]));
   if (/квартальн/i.test(name)) return monthsLabel(3);
   if (/полугодов/i.test(name)) return monthsLabel(6);
@@ -133,7 +132,7 @@ export function termLabel(p: TermSource, composition: CardComposition): string |
 function isCreditsPack(p: TermSource): boolean {
   const parsed = parseSku(p.sku);
   if (parsed) return parsed.kind === 'CRD';
-  return /-CREDITS-\d+$/i.test(p.sku) || /пополнение баланса|пакет [\d\s]+кредитов|\bcredits\b/i.test(p.name);
+  return /пополнение баланса|пакет [\d\s]+кредитов|\bcredits\b/i.test(p.name);
 }
 
 /** Считается ли срок по умолчанию (для перечня на проверку руководителю). */

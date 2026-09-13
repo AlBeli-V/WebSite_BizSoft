@@ -67,7 +67,7 @@ check('sitemap не содержит noindex-товар', async () => {
   const r = await req('/sitemap.xml');
   return { ok: !r.body.includes('/product/tovar-noindex'), got: r.body.includes('/product/tovar-noindex') ? 'ЕСТЬ (не должно)' : 'нет' };
 });
-check('sitemap не содержит плагин JB-PLG', async () => {
+check('sitemap не содержит плагин JetBrains (JB + ADD)', async () => {
   const r = await req('/sitemap.xml');
   return { ok: !r.body.includes('/product/plagin-skrytyj'), got: r.body.includes('/product/plagin-skrytyj') ? 'ЕСТЬ (не должно)' : 'нет' };
 });

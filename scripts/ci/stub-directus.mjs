@@ -71,7 +71,7 @@ const PRODUCTS = [
   // смоук видит и сам механизм, и то, что он не задваивает товар в своём
   // разделе.
   product({ id: 110, name: 'Cloudflare Pro', sku: 'CFLR-LIC-PRO-UNI-1Y-ORG', vendor: 'Cloudflare', slug: 'cloudflare-pro', category: CATEGORIES[1] }),
-  product({ id: 103, name: 'Плагин скрытый', sku: 'JB-PLG-HIDDEN', vendor: 'JetBrains', slug: 'plagin-skrytyj' }),
+  product({ id: 103, name: 'Плагин скрытый', sku: 'JB-ADD-HIDDEN-TEAM-1Y-USER', vendor: 'JetBrains', slug: 'plagin-skrytyj' }),
   product({ id: 104, name: 'Товар noindex', sku: 'NOIDX-1', vendor: 'OpenAI', slug: 'tovar-noindex', noindex: true }),
   product({ id: 105, name: 'Черновик', sku: 'DRAFT-1', vendor: 'OpenAI', slug: 'chernovik', status: 'draft' }),
   // Сценарии структурированных данных: «цена по запросу» и активная акция.

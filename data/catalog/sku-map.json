@@ -1,5 +1,5 @@
 {
- "_note": "Карта старый артикул → новый для перехода каталога (docs/rules/sku-system.md): её читает слой Directus (src/lib/sku-map.ts), скрипт переписывания ссылок и workflow ops-sku-migrate. Генерируется sku-assign.mjs из sku-assignment.json.",
+ "_note": "Карта старый артикул → новый для перехода каталога (docs/rules/sku-system.md): её читают скрипт переписывания ссылок и workflow ops-sku-migrate. Генерируется sku-assign.mjs из sku-assignment.json.",
  "map": {
   "ABLETON-LIVE-INTRO": "ABLT-LIC-LIVE12INTRO-UNI-PERP-USER",
   "ABLETON-LIVE-STANDARD": "ABLT-LIC-LIVE12STD-UNI-PERP-USER",

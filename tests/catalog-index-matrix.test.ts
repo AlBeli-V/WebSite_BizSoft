@@ -28,13 +28,12 @@ describe('productNoindex', () => {
   it('пакеты кредитов не индексируются', () => {
     expect(productNoindex('KLNG-CRD-CREDITS-UNI-BAL-NOM-330')).toBe(true);
     expect(productNoindex('KLNG-CRD-CREDITS-UNI-BAL-NOM-96000')).toBe(true);
-    expect(productNoindex('kling-credits-3500')).toBe(true);
+    expect(productNoindex('KLNG-CRD-CREDITS-UNI-BAL-NOM')).toBe(false); // родитель линейки — страница
   });
 
   it('личные лицензии любого вендора не индексируются (03.09.2026)', () => {
     expect(productNoindex('BITD-LIC-TOTALSEC-IND-1Y-PACK-SINGLE')).toBe(true);
     expect(productNoindex('MONO-LIC-FONTSPRO-IND-1Y-USER')).toBe(true);    // сегмент плана IND — личная
-    expect(productNoindex('MONO-IND-PRO')).toBe(false);   // старая схема: -IND- в середине — не суффикс
     expect(productNoindex('MRMS-LIC-TOOLBAG5-IND-PERP-USER')).toBe(true);
     expect(productNoindex('MONO-LIC-FONTS-IND-1Y-USER')).toBe(true);
   });
@@ -46,9 +45,10 @@ describe('productNoindex', () => {
   });
 
   it('прежние правила не сломаны', () => {
-    expect(productNoindex('JB-PLG-12345')).toBe(true);
-    expect(productNoindex('JB-IDEA-IND')).toBe(true);
-    expect(productNoindex('ADOBE-CC-RENEWAL')).toBe(true);
+    expect(productNoindex('JB-ADD-RAINBOW-TEAM-1Y-USER')).toBe(true);
+    expect(productNoindex('JB-LIC-IDEAULT-IND-1Y-USER')).toBe(true);
+    expect(productNoindex('X-1')).toBe(false); // без системного артикула — страницы нет, матрица не нужна
+    expect(productNoindex('ADBE-LIC-CCPRO-TEAM-1Y-USER-RENEWAL')).toBe(true);
   });
 
   it('основные товары индексируются', () => {
@@ -57,7 +57,7 @@ describe('productNoindex', () => {
     expect(productNoindex('KLNG-LIC-STANDARD-UNI-1Y-USER')).toBe(false);
     expect(productNoindex('KLNG-LIC-PRO-UNI-1Y-USER')).toBe(false);
     expect(productNoindex('JB-LIC-ALLPACK-TEAM-1Y-USER')).toBe(false);
-    expect(productNoindex('ACRONIS-CREDITS')).toBe(false); // без объёма — не пакет кредитов
+    expect(productNoindex('ACRN-LIC-CPSTANDARD-TEAM-1Y-DEV-WS')).toBe(false);
   });
 });
 
