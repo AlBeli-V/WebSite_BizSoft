@@ -1,0 +1,482 @@
+{
+  "family_key": "DEEPL",
+  "vendor": "DeepL SE",
+  "vendor_profile": "data/content/vendors/deepl.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "deepl-starter",
+  "classification_notes": [
+    "Pro Starter / Advanced / Business. Носитель — Starter."
+  ],
+  "products": {
+    "deepl-starter": {
+      "sku": "DEPL-LIC-STARTER-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DeepL Pro Starter — командная подписка на 1 год на переводчик DeepL для команды: неограниченный перевод текста, 5 файлов в месяц на пользователя, максимальная защита данных (тексты не хранятся), глоссарии, интеграции в браузер и Office. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт DeepL Pro Starter",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Перевод",
+              "d": "Текст без лимита, 30+ языков, включая русский; DeepL Write для правки."
+            },
+            {
+              "t": "Файлы",
+              "d": "5 документов в месяц на пользователя, до 10 МБ."
+            },
+            {
+              "t": "Данные",
+              "d": "Тексты удаляются после перевода."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Браузер, Windows, macOS, Word, Outlook."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Starter",
+              "d": "Редкий перевод документов."
+            },
+            {
+              "t": "Advanced",
+              "d": "20 файлов в месяц, больший размер, CAT-интеграции.",
+              "link": "deepl-advanced"
+            },
+            {
+              "t": "Business",
+              "d": "100 файлов, приоритет, SSO, API опционально.",
+              "link": "deepl-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Файлы",
+              "d": "Лимит на пользователя."
+            },
+            {
+              "t": "API",
+              "d": "Отдельно."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам с деловой перепиской на иностранных языках."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Хранит ли DeepL переведённые тексты?",
+          "a": "В Pro — нет, удаляются сразу."
+        }
+      ],
+      "related_products": [
+        "deepl-advanced",
+        "deepl-business"
+      ],
+      "meta_title": "DeepL Pro Starter — подписка на год для юрлица | BIZSoft",
+      "meta_description": "DeepL Pro Starter: неограниченный перевод текста, 5 файлов в месяц, глоссарии, защита данных; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "deepl pro купить юрлицо — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "deepl-advanced": {
+      "sku": "DEPL-LIC-ADVANCED-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DeepL Pro Advanced — командная подписка на 1 год на средний план DeepL: 20 файлов в месяц на пользователя, файлы до 20 МБ, интеграция с CAT-инструментами (Trados, memoQ), всё из Starter. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт DeepL Pro Advanced",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Файлы",
+              "d": "20 в месяц, до 20 МБ, с сохранением форматирования."
+            },
+            {
+              "t": "CAT",
+              "d": "Плагины для переводческих систем."
+            },
+            {
+              "t": "Всё из Starter",
+              "d": "Текст без лимита, глоссарии, защита данных."
+            }
+          ],
+          "links": [
+            "deepl-starter"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced",
+              "d": "Регулярный перевод документов."
+            },
+            {
+              "t": "Starter",
+              "d": "Редкий.",
+              "link": "deepl-starter"
+            },
+            {
+              "t": "Business",
+              "d": "Поток документов и SSO.",
+              "link": "deepl-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "На пользователя."
+            },
+            {
+              "t": "SSO",
+              "d": "Только Business."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделам, переводящим договоры и презентации еженедельно."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Поддерживаются ли PDF?",
+          "a": "Да, с сохранением структуры."
+        }
+      ],
+      "related_products": [
+        "deepl-starter",
+        "deepl-business"
+      ],
+      "meta_title": "DeepL Pro Advanced — подписка на год | BIZSoft",
+      "meta_description": "DeepL Pro Advanced: 20 файлов в месяц до 20 МБ, CAT-интеграции, неограниченный текст. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "deepl advanced — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "deepl-business": {
+      "sku": "DEPL-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DeepL Pro Business — командная подписка на 1 год на старший стандартный план: 100 файлов в месяц на пользователя, файлы до 30 МБ, приоритетная обработка, SSO, расширенное администрирование; всё из Advanced. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт DeepL Pro Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Файлы",
+              "d": "100 в месяц, до 30 МБ."
+            },
+            {
+              "t": "Управление",
+              "d": "SSO, роли, статистика."
+            },
+            {
+              "t": "Приоритет",
+              "d": "Обработка и поддержка."
+            },
+            {
+              "t": "Всё из Advanced",
+              "d": "CAT, глоссарии, защита данных."
+            }
+          ],
+          "links": [
+            "deepl-starter"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Поток документов и корпоративный вход."
+            },
+            {
+              "t": "Advanced",
+              "d": "Умеренный объём.",
+              "link": "deepl-advanced"
+            },
+            {
+              "t": "API",
+              "d": "Интеграция перевода в системы — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Advanced."
+            },
+            {
+              "t": "API",
+              "d": "Отдельная подписка."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с переводом как частью процесса."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли API в Business?",
+          "a": "Нет, DeepL API — отдельный продукт."
+        }
+      ],
+      "related_products": [
+        "deepl-starter",
+        "deepl-advanced"
+      ],
+      "meta_title": "DeepL Pro Business — подписка на год | BIZSoft",
+      "meta_description": "DeepL Pro Business: 100 файлов в месяц до 30 МБ, SSO, приоритетная обработка, администрирование. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "deepl business — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

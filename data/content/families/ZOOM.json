@@ -1,0 +1,662 @@
+{
+  "family_key": "ZOOM",
+  "vendor": "Zoom Video Communications",
+  "vendor_profile": "data/content/vendors/zoom.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "zoom-wp-pro",
+  "classification_notes": [
+    "Zoom Workplace: Pro / Business / Business Plus / Enterprise. Носитель — Pro. Числовые лимиты не названы (меняются)."
+  ],
+  "products": {
+    "zoom-wp-pro": {
+      "sku": "ZOOM-LIC-WPPRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Zoom Workplace Pro — командная подписка на 1 год на видеосвязь Zoom для небольшой команды: встречи до 30 часов с участниками по тарифу, облачная запись, Team Chat, Whiteboard и AI Companion в составе. Лицензии на аккаунте организации; минимум — 1 лицензия.\n\nPro — младший платный план: снимает 40-минутный лимит бесплатной версии и даёт запись в облако; администрирование, SSO и большие встречи — в Business и выше.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Zoom Workplace Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Встречи",
+              "d": "До 30 часов, участники по лимиту тарифа, комнаты сессий, опросы, трансляция в соцсети."
+            },
+            {
+              "t": "Запись",
+              "d": "Облачное хранилище записей с транскриптами."
+            },
+            {
+              "t": "Workplace",
+              "d": "Team Chat, Whiteboard, Notes, Clips, AI Companion — сводки встреч и ответы в чате."
+            },
+            {
+              "t": "Лимиты",
+              "d": "Число участников и объём облака — по текущему тарифу Zoom."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Небольшая команда без корпоративного администрирования."
+            },
+            {
+              "t": "Business",
+              "d": "SSO, домены, брендинг, больше участников и облака.",
+              "link": "zoom-wp-business"
+            },
+            {
+              "t": "Business Plus",
+              "d": "Плюс телефония Zoom Phone и расширенные функции.",
+              "link": "zoom-wp-business-plus"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор для больших организаций.",
+              "link": "zoom-wp-enterprise"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимит участников",
+              "d": "На Pro меньше, чем на Business; большие вебинары — отдельный продукт Zoom Webinars."
+            },
+            {
+              "t": "Доступность",
+              "d": "Условия работы сервиса в регионе меняются; уточняйте до заказа."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделам и небольшим компаниям, которым нужны встречи без лимита времени и запись."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли AI Companion?",
+          "a": "Да, в платные планы Workplace без доплаты."
+        },
+        {
+          "q": "Можно ли купить одну лицензию?",
+          "a": "Да, минимум Pro — одна."
+        }
+      ],
+      "related_products": [
+        "zoom-wp-business",
+        "zoom-wp-business-plus",
+        "zoom-wp-enterprise"
+      ],
+      "meta_title": "Zoom Workplace Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Zoom Workplace Pro: встречи без 40-минутного лимита, облачная запись, Team Chat, AI Companion; лицензии на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "zoom pro купить юрлицо — hero, meta"
+      ],
+      "uncertainties": [
+        "Числовые лимиты участников и облака — по текущему прайсу Zoom."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "zoom-wp-business": {
+      "sku": "ZOOM-LIC-WPBUS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Zoom Workplace Business — командная подписка на 1 год на Zoom для компании с администрированием: всё из Pro плюс SSO, управляемые домены, брендинг, больше участников во встречах и больше облачного хранилища; расширенная поддержка. Лицензии на организации.\n\nBusiness — план для ИТ-отдела: единая консоль, политики безопасности, отчёты об использовании.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Zoom Workplace Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Администрирование",
+              "d": "SSO, управление доменами, роли, отчёты об использовании."
+            },
+            {
+              "t": "Встречи",
+              "d": "Больше участников, чем в Pro; брендинг страниц и залов."
+            },
+            {
+              "t": "Хранилище",
+              "d": "Расширенный объём облака записей."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Team Chat, Whiteboard, AI Companion, запись."
+            }
+          ],
+          "links": [
+            "zoom-wp-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Компания с ИТ-администрированием."
+            },
+            {
+              "t": "Pro",
+              "d": "Небольшая команда.",
+              "link": "zoom-wp-pro"
+            },
+            {
+              "t": "Business Plus",
+              "d": "Плюс Zoom Phone.",
+              "link": "zoom-wp-business-plus"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договорные условия.",
+              "link": "zoom-wp-enterprise"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум",
+              "d": "Business у Zoom оформляется от нескольких лицензий — уточняем при заказе."
+            },
+            {
+              "t": "Телефония",
+              "d": "Zoom Phone — только в Business Plus и выше."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям от десятков сотрудников с SSO и требованиями к управлению."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что даёт SSO?",
+          "a": "Вход сотрудников через корпоративный провайдер (Azure AD, Okta) без отдельных паролей Zoom."
+        }
+      ],
+      "related_products": [
+        "zoom-wp-pro",
+        "zoom-wp-business-plus",
+        "zoom-wp-enterprise"
+      ],
+      "meta_title": "Zoom Workplace Business — подписка на год | BIZSoft",
+      "meta_description": "Zoom Workplace Business: SSO, управляемые домены, брендинг, больше участников и облака, расширенная поддержка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "zoom business купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Минимум лицензий Business — по условиям Zoom."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "zoom-wp-business-plus": {
+      "sku": "ZOOM-LIC-WPBUSPLUS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Zoom Workplace Business Plus — командная подписка на 1 год на план Business с телефонией: всё из Business плюс Zoom Phone (номера, звонки, голосовая почта, интеграции), больше облака и расширенные функции Workplace. Лицензии на организации.\n\nЕго берут, когда Zoom становится не только видеосвязью, но и корпоративной АТС.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Zoom Workplace Business Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Zoom Phone",
+              "d": "Облачная телефония: номера, переадресация, голосовая почта, очереди, интеграции с CRM."
+            },
+            {
+              "t": "Всё из Business",
+              "d": "SSO, домены, брендинг, участники, поддержка."
+            },
+            {
+              "t": "Хранилище",
+              "d": "Ещё больше облака для записей."
+            }
+          ],
+          "links": [
+            "zoom-wp-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business Plus",
+              "d": "Нужна телефония в том же аккаунте."
+            },
+            {
+              "t": "Business",
+              "d": "Без телефонии.",
+              "link": "zoom-wp-business"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор.",
+              "link": "zoom-wp-enterprise"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Номера",
+              "d": "Локальные номера и доступность телефонии зависят от страны — уточняйте до заказа."
+            },
+            {
+              "t": "Минимум",
+              "d": "Как у Business."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, которые переводят телефонию в облако вместе с видеосвязью."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли Zoom Phone в России?",
+          "a": "Доступность телефонии по странам определяет Zoom; уточняем при заказе."
+        }
+      ],
+      "related_products": [
+        "zoom-wp-pro",
+        "zoom-wp-business",
+        "zoom-wp-enterprise"
+      ],
+      "meta_title": "Zoom Workplace Business Plus — подписка на год | BIZSoft",
+      "meta_description": "Zoom Workplace Business Plus: план Business плюс облачная телефония Zoom Phone и расширенное хранилище. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "zoom business plus — hero"
+      ],
+      "uncertainties": [
+        "Доступность Zoom Phone по странам — по условиям Zoom."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "zoom-wp-enterprise": {
+      "sku": "ZOOM-LIC-WPENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Zoom Workplace Enterprise — командный план Zoom корпоративного уровня на 1 год: договорные условия для больших организаций, безлимитное облако, до тысяч участников, Zoom Rooms, расширенные функции безопасности и выделенный менеджер. Цена — по запросу под число лицензий.\n\nEnterprise начинается с сотен лицензий и оформляется договором с Zoom.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Zoom Workplace Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Масштаб",
+              "d": "Сотни и тысячи лицензий, большие встречи, вебинары и Rooms в договоре."
+            },
+            {
+              "t": "Облако",
+              "d": "Безлимитное хранилище записей."
+            },
+            {
+              "t": "Управление",
+              "d": "Расширенные политики безопасности, аудит, выделенная поддержка."
+            }
+          ],
+          "links": [
+            "zoom-wp-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Сотни пользователей и договор."
+            },
+            {
+              "t": "Business Plus",
+              "d": "Десятки пользователей с телефонией.",
+              "link": "zoom-wp-business-plus"
+            },
+            {
+              "t": "Business",
+              "d": "Без телефонии.",
+              "link": "zoom-wp-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимумы",
+              "d": "Договор от сотен лицензий."
+            },
+            {
+              "t": "Цикл",
+              "d": "Согласование с Zoom дольше стандартной поставки."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным компаниям с требованиями к безопасности, вебинарам и переговорным."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли минимальное число лицензий?",
+          "a": "Да, Enterprise оформляется от объёма, который задаёт Zoom; уточняем при заказе."
+        }
+      ],
+      "related_products": [
+        "zoom-wp-pro",
+        "zoom-wp-business-plus",
+        "zoom-wp-business"
+      ],
+      "meta_title": "Zoom Workplace Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Zoom Workplace Enterprise: договорной план для больших организаций — безлимитное облако, тысячи участников, Rooms; цена по запросу. Договор, ЭДО.",
+      "seo_intents": [
+        "zoom enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

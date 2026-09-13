@@ -1,0 +1,320 @@
+{
+  "family_key": "MIRO",
+  "vendor": "Miro (RealtimeBoard)",
+  "vendor_profile": "data/content/vendors/miro.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "miro-starter",
+  "classification_notes": [
+    "Starter / Business. Носитель — Starter."
+  ],
+  "products": {
+    "miro-starter": {
+      "sku": "MIRO-LIC-STARTER-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Miro Starter — командная подписка на 1 год на онлайн-доски для одной команды: неограниченные доски, шаблоны, комментарии, таймер и голосования, интеграции с Jira, Slack и Figma, экспорт в высоком качестве. Лицензии на организации.\n\nStarter — первый платный план после бесплатного с тремя досками; SSO и приватные доски — в Business.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Miro Starter",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Доски",
+              "d": "Без лимита, шаблоны воркшопов, диаграмм и ретро."
+            },
+            {
+              "t": "Совместная работа",
+              "d": "Курсоры, комментарии, таймер, голосование, видео-чат."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Jira, Confluence, Slack, Figma, Google Workspace."
+            },
+            {
+              "t": "Экспорт",
+              "d": "PDF и изображения в высоком разрешении."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Starter",
+              "d": "Одна команда."
+            },
+            {
+              "t": "Business",
+              "d": "SSO, несколько команд, приватные доски, гости.",
+              "link": "miro-business"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Одна команда",
+              "d": "Несколько команд с разделением — Business."
+            },
+            {
+              "t": "Гости",
+              "d": "Ограничены по тарифу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продуктовым и дизайн-командам для воркшопов и планирования."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бесплатный Miro?",
+          "a": "Да, три доски; Starter снимает лимит."
+        }
+      ],
+      "related_products": [
+        "miro-business"
+      ],
+      "meta_title": "Miro Starter — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Miro Starter: неограниченные онлайн-доски, шаблоны, интеграции с Jira и Slack; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "miro купить юрлицо — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "miro-business": {
+      "sku": "MIRO-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Miro Business — командная подписка на 1 год для компании: всё из Starter плюс неограниченные команды в одной организации, SAML SSO, приватные доски, гости с правами, диаграммы Miro Advanced. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Miro Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Организация",
+              "d": "Несколько команд, единое администрирование."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SAML SSO, приватные доски, управление гостями."
+            },
+            {
+              "t": "Диаграммы",
+              "d": "Расширенные библиотеки UML, BPMN, AWS."
+            },
+            {
+              "t": "Всё из Starter",
+              "d": "Доски, шаблоны, интеграции."
+            }
+          ],
+          "links": [
+            "miro-starter"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Несколько команд, SSO."
+            },
+            {
+              "t": "Starter",
+              "d": "Одна команда.",
+              "link": "miro-starter"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Starter."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Аудит и SCIM — договор."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, где Miro используют несколько отделов под корпоративным входом."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Даёт ли Business SCIM?",
+          "a": "Нет, только SSO; SCIM — Enterprise."
+        }
+      ],
+      "related_products": [
+        "miro-starter"
+      ],
+      "meta_title": "Miro Business — подписка на год | BIZSoft",
+      "meta_description": "Miro Business: несколько команд, SAML SSO, приватные доски, расширенные диаграммы. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "miro business — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
