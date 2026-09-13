@@ -142,10 +142,17 @@ describe('пакеты scripts/catalog', () => {
     // покупается как и остальные и доступен, его будем добавлять».
     const fromZohoPipeline = (slug: string) =>
       slug.startsWith('me-') || slug.startsWith('manageengine-');
+    // Postman Enterprise — то же послабление, что у ManageEngine: вендор
+    // публикует цену ($49 за пользователя в месяц при годовой оплате,
+    // ops-probe #248 13.09.2026) и продаёт план самообслуживанием.
+    // Руководитель 13.09.2026: «Solo, Teams, Enterprise действуют и
+    // доступны по карте, на сайте оставляем» (docs/rules/catalog.md).
+    const PRICED_ENTERPRISE = new Set(['postman-enterprise']);
     for (const p of all) {
-      if (fromZohoPipeline(p.slug)) {
+      if (fromZohoPipeline(p.slug) || PRICED_ENTERPRISE.has(p.slug)) {
         // Условие послабления: цена карточки взята со страницы вендора.
         expect(p.base_price_usd, `${p.slug}: позиция без цены источника`).toBeGreaterThan(0);
+        expect(p.price_confidence, `${p.slug}: цена не со страницы вендора`).toBe('vendor-page');
         continue;
       }
       expect(p.name.toLowerCase(), `enterprise-тариф ${p.slug}`).not.toContain('enterprise');

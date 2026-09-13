@@ -30,6 +30,8 @@ const readJson = (rel) => JSON.parse(readFileSync(P(rel), 'utf8'));
 const check = process.argv.includes('--check');
 
 const exportData = readJson('data/catalog/sku-legacy-export.json');
+// Позиции, заведённые после среза под старыми артикулами (PR после 12.09.2026).
+try { exportData.products.push(...readJson('data/catalog/sku-legacy-extra.json').products); } catch { /* файла нет */ }
 const rules = readJson('data/catalog/sku-legacy-rules.json');
 const vendorCodes = readJson('data/catalog/sku-vendors.json').vendors;
 let registry;
