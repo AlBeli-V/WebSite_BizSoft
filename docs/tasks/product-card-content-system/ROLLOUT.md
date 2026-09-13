@@ -16,6 +16,7 @@ Design Approval Gate для шаблона пройден; дальнейшие 
 |---|---|---|---|
 | 0 (применяется) | Red Giant, OpManager, Acronis CP, Adobe CC | 25 | maxon, manageengine, acronis, adobe |
 | 1а (готово, патч 2) | Adobe Apps (11), JetBrains IDE/Pack/dotUltimate/ReSharper (13) | 24 | adobe, jetbrains |
+| 1б (готово, патч 3) | Maxon One, Cinema 4D, Redshift, ZBrush, Universe | 7 | maxon |
 | 1 | остальные ManageEngine (ServiceDesk, Endpoint, Password, SupportCenter, ADManager, DataSecurity, Patch, PAM360, Mobile…) | ~95 | manageengine — расширить по семействам |
 | 2 | JetBrains AI/Qodana/TeamCity/YouTrack/Datalore (quote-only, JB-TOOLS); Microsoft; SolidWorks | ~25 | jetbrains (готов), microsoft, dassault |
 | 3 | Adobe Acrobat / Express / Substance / Firefly / Stock; Maxon One / C4D / Redshift / ZBrush / Universe; Figma; Parallels | ~30 | adobe, maxon (готов), figma, parallels |
