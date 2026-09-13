@@ -8,7 +8,8 @@
   "classification_notes": [
     "Реестр артикулов ставит план TEAM; индивидуальной альтернативы у OpManager нет — ось OWNERSHIP = universal, модуль TEAM_MODEL не применяется.",
     "Пакет объёма — единица товара; счётчик количества для volume_tier — неверный вопрос: рост объёма идёт переходом на следующий пакет с доплатой разницы (DATA GAP: выбор объёма вместо счётчика).",
-    "Бессрочные сиблинги (*-PERP) существуют вне индекса; в тексте — «по запросу», без ссылок."
+    "Бессрочные сиблинги (*-PERP) существуют вне индекса; в тексте — «по запросу», без ссылок.",
+    "Линия MSP и объединённая лицензия Nexus добавлены волной 1: MSP — мультитенантная редакция уровня Professional (edition_tier), Nexus — набор OpManager с дополнениями (nature suite), интерфейсы трафика Nexus — дополнение к Nexus (addon, volume_tier)."
   ],
   "products": {
     "me-opmanager-standard-10-devices-pack-with-2-users": {
@@ -701,6 +702,597 @@
           "decision": "COMPARE",
           "seo_intent": "—",
           "source": "store applications_manager"
+        }
+      ]
+    },
+    "me-opmanager-msp-50-devices-pack-with-2-users": {
+      "sku": "ZOHO-LIC-OPMGRMSP-TEAM-1Y-PACK-50DEV2USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP",
+      "volume_label": "50 устройств, 2 пользователя",
+      "unit_label": "пакет: 50 устройств, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OpManager MSP — годовая подписка на версию системы мониторинга ManageEngine для сервис-провайдеров: сети и серверы нескольких клиентов наблюдаются из одной консоли, а каждый клиент изолирован в своём пространстве со своими картами, отчётами и учётными записями. Пакет на 50 устройств и 2 пользователей, установка на сервер провайдера.\n\nОт обычного OpManager отличие одно — мультитенантность: устройства, оповещения и отчёты разнесены по клиентам, провайдер видит сводку по всем. По глубине мониторинга версия соответствует Professional. Одной компании с несколькими площадками MSP не нужен — хватит обычной редакции.\n\nСрок — 1 год с обновлениями и поддержкой; следующие пакеты устройств — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет версия MSP",
+          "kind": "items",
+          "body": "Мониторинг сети, серверов и виртуализации здесь тот же, что у Professional; ниже — то, ради чего берут провайдерскую версию.",
+          "items": [
+            {
+              "t": "Клиент как отдельное пространство",
+              "d": "У каждого клиента свои устройства, карты, пороги, дашборды и пользователи; данные разных клиентов друг другу не видны."
+            },
+            {
+              "t": "Зонды на площадках",
+              "d": "На сети клиента ставится зонд (probe), который опрашивает устройства локально и передаёт данные на центральный сервер провайдера; прямой доступ в сеть клиента не нужен."
+            },
+            {
+              "t": "Сводка провайдера",
+              "d": "Единый экран по всем клиентам: кто в аварии, где нарушен SLA, сколько устройств под наблюдением; фильтр по клиенту в один клик."
+            },
+            {
+              "t": "Портал и отчёты клиента",
+              "d": "Клиенту можно выдать доступ к его части консоли и отправлять отчёты по расписанию под брендом провайдера."
+            },
+            {
+              "t": "Общий пул лицензии",
+              "d": "Устройства всех клиентов считаются суммарно в одном пакете; перераспределять между клиентами можно в любой момент."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "MSP или обычный OpManager",
+          "kind": "items",
+          "body": "Таблица редакций Standard, Professional и Enterprise — на карточке Standard. Здесь — когда выбирают провайдерскую версию.",
+          "items": [
+            {
+              "t": "Берите MSP",
+              "d": "Клиенты — разные юрлица, каждому нужен свой изолированный вид и свои отчёты, а инженеры провайдера обслуживают всех из одной консоли."
+            },
+            {
+              "t": "Хватит Professional",
+              "d": "Сеть одной организации, даже распределённая по филиалам: логическое деление на группы и бизнес-представления там уже есть.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Смотрите Nexus",
+              "d": "Если помимо мониторинга нужны трафик, конфигурации и журналы межсетевых экранов для собственной сети — объединённая лицензия дешевле набора дополнений.",
+              "link": "me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall"
+            }
+          ],
+          "links": [
+            "me-opmanager-standard-10-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аутсорсинговым ИТ-компаниям и операторам, которые ведут сети нескольких заказчиков по договорам SLA и должны показывать каждому его отчёт, не раскрывая соседей. Пакет на 50 устройств покрывает, например, пять небольших клиентов по десять узлов.\n\nНе подходит внутренней ИТ-службе одной компании: изоляция клиентов там лишняя, а доплата за MSP — нет."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте устройства всех клиентов",
+              "d": "В пакет входят 50 устройств суммарно; при 60 нужен следующий пакет, переход в течение срока оплачивается разницей. Что считается устройством и как учитываются lite-узлы — на карточке Standard, правила общие.",
+              "link": "me-opmanager-standard-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Зонды",
+              "d": "Зонд на площадку клиента входит в лицензию; отдельно платить за число зондов не нужно, но каждому требуется своя машина с Windows или Linux."
+            },
+            {
+              "t": "Бессрочный вариант",
+              "d": "MSP-версия есть и в бессрочном исполнении с ежегодным AMS — оформляется по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Та же глубина мониторинга для одной организации, без деления на клиентов.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "RMM Central Enterprise, 50 устройств",
+              "d": "Для провайдеров, которым важнее рабочие станции клиентов: патчи, удалённый доступ и мониторинг в одном продукте.",
+              "link": "me-rmm-central-enterprise-50-devices-with-1-user"
+            },
+            {
+              "t": "Endpoint Central MSP, 50 точек",
+              "d": "Управление компьютерами клиентов без сетевого мониторинга.",
+              "link": "me-endpoint-central-msp-50-endpoints-and-1-technician"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли перенести устройства от одного клиента к другому?",
+          "a": "Да. Лицензия общая на провайдера: устройства закрываются у одного клиента и добавляются другому без обращения к вендору."
+        },
+        {
+          "q": "Нужен ли клиенту свой сервер OpManager?",
+          "a": "Нет. На площадке клиента ставится только зонд; сервер один, у провайдера."
+        }
+      ],
+      "related_products": [
+        "me-opmanager-professional-10-devices-pack-with-2-users",
+        "me-rmm-central-enterprise-50-devices-with-1-user",
+        "me-endpoint-central-msp-50-endpoints-and-1-technician"
+      ],
+      "meta_title": "OpManager MSP, 50 устройств — для провайдера | BIZSoft",
+      "meta_description": "ManageEngine OpManager MSP: мониторинг сетей нескольких клиентов из одной консоли, зонды на площадках, пакет на 50 устройств и 2 пользователей. Договор, ЭДО.",
+      "seo_intents": [
+        "opmanager msp купить / мониторинг сети для провайдера — hero, meta",
+        "opmanager msp vs professional — PLAN_COMPARE",
+        "opmanager msp probe зонд — CAPABILITIES, FAQ"
+      ],
+      "uncertainties": [
+        "Состав функций MSP относительно Professional (виртуализация, AIOps) — по матрице вендора, страница в сессии не открывалась.",
+        "Ограничение на число зондов и клиентов в пакете не подтверждено — «входит в лицензию» сформулировано условно."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; поле опустошить",
+        "description": "→ FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "чем провайдерская версия отличается от обычной",
+          "new_information": "пять групп: тенанты, зонды, сводка, портал, общий пул",
+          "sibling_overlap": "база мониторинга — на носителе, здесь не повторяется",
+          "decision": "UNDERSTAND",
+          "seo_intent": "opmanager msp возможности",
+          "source": "opmanager-msp (uncertain)"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "нужна ли мне MSP",
+          "new_information": "правило выбора и выход на Nexus",
+          "sibling_overlap": "таблица редакций — на Standard",
+          "decision": "COMPARE",
+          "seo_intent": "opmanager msp vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли это случай",
+          "new_information": "профиль провайдера, отказ внутренней ИТ-службе",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "мониторинг сети для аутсорсера",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "суммарный подсчёт, зонды, perpetual",
+          "sibling_overlap": "подсчёт устройства — ссылка на Standard",
+          "decision": "VALIDATE",
+          "seo_intent": "opmanager msp лицензирование",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "три соседа с причиной",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall": {
+      "sku": "ZOHO-LIC-OPMGRNEXUS-TEAM-1Y-PACK-50DEV2USR1FW",
+      "classification": {
+        "nature": "suite",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Nexus",
+      "volume_label": "50 устройств, 2 пользователя, 1 межсетевой экран",
+      "unit_label": "пакет: 50 устройств, 2 пользователя, 1 межсетевой экран",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OpManager Nexus — годовая подписка на объединённую лицензию ManageEngine: мониторинг сети и серверов OpManager вместе с модулями, которые в обычной редакции докупаются по одному, — анализ трафика, резервное копирование конфигураций, учёт IP-адресов и портов, разбор журналов межсетевого экрана. Пакет на 50 устройств, 2 пользователей и один межсетевой экран.\n\nСмысл набора — в цене: когда нужны три модуля и больше, объединённая лицензия выходит до 40 % дешевле их суммы. Интерфейсы, с которых собирается трафик, в пакет не входят и берутся отдельной позицией.\n\nСрок — 1 год с обновлениями и поддержкой.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в OpManager Nexus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OpManager",
+              "d": "Ядро мониторинга: доступность и производительность устройств, виртуализация, оповещения, карты — уровень редакции Professional."
+            },
+            {
+              "t": "Анализ трафика",
+              "d": "Приём NetFlow, sFlow, IPFIX и J-Flow: кто и чем занимает канал, приложения и адреса, отчёты по интерфейсам. Число интерфейсов — отдельным пакетом."
+            },
+            {
+              "t": "Управление конфигурациями",
+              "d": "Резервные копии конфигураций коммутаторов и маршрутизаторов, сравнение версий, откат, проверка на соответствие политикам, массовые изменения."
+            },
+            {
+              "t": "Адреса и порты",
+              "d": "Учёт IP-адресов и подсетей, занятость портов коммутаторов, поиск устройства по MAC, обнаружение неавторизованных узлов."
+            },
+            {
+              "t": "Межсетевой экран",
+              "d": "Сбор и разбор журналов одного межсетевого экрана: правила, трафик по политикам, попытки вторжений; дополнительные экраны — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Nexus или Professional с дополнениями",
+          "kind": "items",
+          "body": "Функции те же, что у OpManager Professional и его платных модулей; различие — в способе лицензирования и итоговой сумме.",
+          "items": [
+            {
+              "t": "Nexus",
+              "d": "Одна лицензия и один срок на все модули; выгодно с третьего модуля. Устройства, экраны и интерфейсы трафика считаются своими пакетами."
+            },
+            {
+              "t": "Professional плюс модули",
+              "d": "Каждый модуль — своя лицензия и свой объём; подходит, когда нужен один-два модуля или объёмы у них сильно разные.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Отдельные продукты",
+              "d": "NetFlow Analyzer, Network Configuration Manager и Firewall Analyzer продаются и как самостоятельные системы — для тех, кому мониторинг OpManager не нужен.",
+              "link": "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+            }
+          ],
+          "links": [
+            "me-opmanager-standard-10-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Сетевой службе средней компании: десятки коммутаторов и маршрутизаторов, межсетевой экран на периметре, регламент резервного копирования конфигураций и вопрос «кто забил канал» каждую неделю. Если из этого списка актуален только мониторинг доступности — переплата; берите Standard или Professional."
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Устройства",
+              "d": "50 узлов под наблюдением по тем же правилам, что у OpManager: любой объект с IP-адресом — одно устройство, его порты и интерфейсы не считаются.",
+              "link": "me-opmanager-standard-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Интерфейсы трафика",
+              "d": "Считаются отдельно от устройств — только те порты, которые экспортируют flow. Пакеты по 10 интерфейсов заведены отдельной позицией.",
+              "link": "me-opmanager-nexus-flow-interfaces-10-flow-interfaces"
+            },
+            {
+              "t": "Межсетевые экраны",
+              "d": "В пакете один; второй и следующие — доплатой по запросу."
+            },
+            {
+              "t": "Сервер",
+              "d": "Один сервер Windows или Linux со встроенной PostgreSQL; модули работают внутри консоли OpManager, отдельных установок не требуют."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Интерфейсы трафика Nexus, 10 штук",
+              "d": "Дополнение к этому пакету для сбора NetFlow.",
+              "link": "me-opmanager-nexus-flow-interfaces-10-flow-interfaces"
+            },
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Только мониторинг, без модулей.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Network Configuration Manager Professional",
+              "d": "Самостоятельное управление конфигурациями без OpManager.",
+              "link": "me-network-configuration-manager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Firewall Analyzer Standard",
+              "d": "Отдельный разбор журналов межсетевых экранов.",
+              "link": "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входят ли интерфейсы для сбора трафика в 50 устройств?",
+          "a": "Нет. Устройства и интерфейсы трафика — разные счётчики: модуль анализа трафика в пакете есть, а интерфейсы к нему добавляются пакетами по 10."
+        },
+        {
+          "q": "Можно ли перейти на Nexus с действующей подписки OpManager Professional?",
+          "a": "Да, переход оформляется доплатой разницы; срок объединённой лицензии выравнивается с текущим."
+        }
+      ],
+      "related_products": [
+        "me-opmanager-nexus-flow-interfaces-10-flow-interfaces",
+        "me-opmanager-professional-10-devices-pack-with-2-users",
+        "me-network-configuration-manager-professional-10-devices-pack-with-2-users",
+        "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+      ],
+      "meta_title": "OpManager Nexus, 50 устройств — одна лицензия | BIZSoft",
+      "meta_description": "ManageEngine OpManager Nexus: мониторинг, трафик, конфигурации, IPAM и журналы межсетевого экрана одной лицензией; 50 устройств, 2 пользователя. Договор, ЭДО.",
+      "seo_intents": [
+        "opmanager nexus купить / opmanager plus лицензия — hero, meta",
+        "opmanager nexus что входит — INCLUDED",
+        "nexus vs professional дополнения — PLAN_COMPARE"
+      ],
+      "uncertainties": [
+        "Уровень ядра (Professional или Enterprise) внутри Nexus и точный перечень модулей — по странице вендора, в сессии не открывалась.",
+        "Экономия «до 40 %» — из профиля вендора (раздел OpManager), на дату не перепроверена."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; поле опустошить",
+        "description": "→ FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "из чего состоит набор",
+          "new_information": "пять компонентов с назначением",
+          "sibling_overlap": "ядро описано на носителе — здесь одной строкой",
+          "decision": "UNDERSTAND",
+          "seo_intent": "opmanager nexus что входит",
+          "source": "opmanager-plus-licensing (uncertain)"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "набор или по отдельности",
+          "new_information": "три варианта комплектации",
+          "sibling_overlap": "таблица редакций — на Standard",
+          "decision": "COMPARE",
+          "seo_intent": "nexus vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли это случай",
+          "new_information": "профиль сетевой службы, отказ при одном мониторинге",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "мониторинг и трафик в одном продукте",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать",
+          "new_information": "три счётчика: устройства, интерфейсы, экраны; сервер",
+          "sibling_overlap": "определение устройства — ссылка на Standard",
+          "decision": "VALIDATE",
+          "seo_intent": "opmanager nexus лицензирование",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "дополнение, ядро, два самостоятельных продукта",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-opmanager-nexus-flow-interfaces-10-flow-interfaces": {
+      "sku": "ZOHO-ADD-OPMGRNXFLOW-TEAM-1Y-PACK-10FLOW",
+      "classification": {
+        "nature": "addon",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "volume_tier"
+      },
+      "edition_label": "Nexus",
+      "volume_label": "10 интерфейсов",
+      "unit_label": "пакет: 10 интерфейсов сбора трафика",
+      "min_qty": 1,
+      "base_product_sku": "ZOHO-LIC-OPMGRNEXUS-TEAM-1Y-PACK-50DEV2USR1FW",
+      "addon_source": "vendor",
+      "license_model": "annual",
+      "short_description": "Интерфейсы сбора трафика — дополнение к OpManager Nexus: пакет на 10 портов маршрутизаторов и коммутаторов, с которых объединённая лицензия принимает NetFlow, sFlow, IPFIX и J-Flow. Без Nexus позиция не работает; в базовый пакет Nexus интерфейсы трафика не входят.\n\nИнтерфейс — порт устройства, экспортирующий поток: WAN-канал маршрутизатора, аплинк коммутатора, канал в ЦОД. Считаются только порты, которые отправляют flow, а не все порты устройства.\n\nСрок — 1 год; удобно выравнивать со сроком подписки Nexus.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что добавляет пакет интерфейсов",
+          "kind": "items",
+          "body": "Требуется: OpManager Nexus. Модуль анализа трафика в Nexus уже есть; пакет открывает в нём места под конкретные порты.",
+          "items": [
+            {
+              "t": "Десять источников потока",
+              "d": "Каждый интерфейс, добавленный в анализ трафика, занимает одно место из десяти; порт можно заменить другим без обращения к вендору."
+            },
+            {
+              "t": "Что видно по интерфейсу",
+              "d": "Кто, куда и каким приложением загружает канал, топ адресов и разговоров, распределение по классам QoS, отчёты за период."
+            },
+            {
+              "t": "Модель лицензии",
+              "d": "Годовая подписка; по окончании срока интерфейсы сверх лицензии перестают приниматься, накопленные отчёты остаются."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что требуется",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовый продукт",
+              "d": "Действующая подписка OpManager Nexus; к обычному OpManager пакет не применяется — там трафик берётся отдельным дополнением.",
+              "link": "me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall"
+            },
+            {
+              "t": "Экспорт на устройствах",
+              "d": "Маршрутизатор или коммутатор должен уметь отдавать NetFlow v5/v9, sFlow, IPFIX или J-Flow и быть настроен на адрес сервера."
+            },
+            {
+              "t": "Нагрузка на сервер",
+              "d": "Десять интерфейсов — небольшой поток; при сотнях интерфейсов вендор рекомендует отдельный коллектор, это обсуждается при заказе."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Когда нужен — и когда нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Нужен",
+              "d": "Когда Nexus уже куплен и вопрос «чем занят канал» надо отвечать по конкретным линкам: периметр, каналы между площадками, аплинки ядра."
+            },
+            {
+              "t": "Не нужен",
+              "d": "Если трафик интересует по десяткам портов доступа — считайте самостоятельный NetFlow Analyzer с большим пакетом; если Nexus нет — этот пакет бесполезен.",
+              "link": "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте экспортирующие порты",
+              "d": "Два WAN-канала и три аплинка — пять интерфейсов; второй пакет нужен с одиннадцатого. Переход на больший объём — доплатой."
+            },
+            {
+              "t": "Срок",
+              "d": "Подписка пакета независима от Nexus; при оформлении через BIZSoft сроки выравниваются, чтобы продлевать одним счётом."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OpManager Nexus, 50 устройств",
+              "d": "Базовая лицензия, к которой относится пакет.",
+              "link": "me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall"
+            },
+            {
+              "t": "NetFlow Analyzer Professional, 10 интерфейсов",
+              "d": "Самостоятельный анализатор трафика для тех, у кого нет Nexus.",
+              "link": "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считается ли интерфейсом каждый порт коммутатора?",
+          "a": "Нет. Считаются только порты, с которых включён экспорт потока; порты доступа обычно не экспортируют и место не занимают."
+        },
+        {
+          "q": "Можно ли купить этот пакет к обычному OpManager Professional?",
+          "a": "Нет, он привязан к Nexus. Для Professional анализ трафика оформляется отдельным дополнением по запросу."
+        }
+      ],
+      "related_products": [
+        "me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall",
+        "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+      ],
+      "meta_title": "Интерфейсы трафика OpManager Nexus, пакет на 10 | BIZSoft",
+      "meta_description": "Дополнение к ManageEngine OpManager Nexus: 10 интерфейсов для сбора NetFlow, sFlow, IPFIX и J-Flow. Требуется подписка Nexus. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "opmanager nexus flow interfaces / netflow интерфейсы opmanager — hero, ADDON_SCOPE",
+        "что считается интерфейсом netflow — DEPENDENCIES, FAQ"
+      ],
+      "uncertainties": [
+        "Поведение по окончании срока (приём потока прекращается, отчёты остаются) — по общей практике вендора, не подтверждено на дату.",
+        "Применимость пакета только к Nexus, а не к обычному OpManager — по артикулу вендора; условие сформулировано как ограничение."
+      ],
+      "legacy_disposition": {
+        "features": "описывали OpManager целиком → удалить; поле опустошить",
+        "description": "→ ADDON_SCOPE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "что добавляет и к чему",
+          "new_information": "места под интерфейсы, что видно, модель лицензии",
+          "sibling_overlap": "модуль трафика описан у Nexus одной строкой",
+          "decision": "UNDERSTAND",
+          "seo_intent": "opmanager nexus интерфейсы трафика",
+          "source": "uncertain"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "что требуется",
+          "new_information": "базовый продукт, экспорт на устройствах, нагрузка",
+          "sibling_overlap": "определение устройства — не нужно",
+          "decision": "VALIDATE",
+          "seo_intent": "netflow экспорт настройка opmanager",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "когда не нужен",
+          "new_information": "два выхода на самостоятельный анализатор",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "подсчёт портов, срок",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "база и самостоятельный продукт",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
         }
       ]
     }

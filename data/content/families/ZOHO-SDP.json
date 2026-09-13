@@ -7,7 +7,8 @@
   "carrier_slug": "me-servicedesk-plus-professional-2-technicians",
   "classification_notes": [
     "Трёхмерное семейство: редакция (Standard/Professional/Enterprise) × язык (английский/многоязычный) × линия (ServiceDesk Plus / ServiceDesk Plus MSP). Носитель — Professional 2 техника (EN): таблица редакций, правило подсчёта техников и активов, надстройки. Многоязычные и MSP-позиции несут дельту (что меняет язык, что меняет MSP) и ссылку.",
-    "Единица — пакет (полоса техников + активов); рост — переходом на следующую полосу доплатой, счётчик количества неверен (DATA GAP volume_tier)."
+    "Единица — пакет (полоса техников + активов); рост — переходом на следующую полосу доплатой, счётчик количества неверен (DATA GAP volume_tier).",
+    "Английская Standard на 10 техников живёт под устаревшим слагом manageengine-servicedesk-standard-10 (добавлена волной 1); в таблице редакций носителя — третья колонка."
   ],
   "products": {
     "me-servicedesk-plus-professional-2-technicians": {
@@ -62,6 +63,7 @@
             {
               "label": "Состав",
               "values": {
+                "manageengine-servicedesk-standard-10": "help desk",
                 "me-servicedesk-plus-professional-2-technicians": "help desk + ИТ-активы",
                 "me-servicedesk-plus-enterprise-2-technicians": "help desk + активы + ITIL (проблемы, изменения, релизы, проекты) + CMDB"
               }
@@ -69,6 +71,7 @@
             {
               "label": "Лицензируются ИТ-активы",
               "values": {
+                "manageengine-servicedesk-standard-10": "нет",
                 "me-servicedesk-plus-professional-2-technicians": "да, по полосе",
                 "me-servicedesk-plus-enterprise-2-technicians": "да, полосы шире (1000 активов от 20 техников)"
               }
@@ -76,6 +79,7 @@
             {
               "label": "Каталог услуг, проблемы, проекты",
               "values": {
+                "manageengine-servicedesk-standard-10": "каталог и проблемы — надстройки",
                 "me-servicedesk-plus-professional-2-technicians": "надстройки",
                 "me-servicedesk-plus-enterprise-2-technicians": "из коробки"
               }
@@ -83,6 +87,7 @@
             {
               "label": "Изменения и релизы",
               "values": {
+                "manageengine-servicedesk-standard-10": "надстройка",
                 "me-servicedesk-plus-professional-2-technicians": "надстройка",
                 "me-servicedesk-plus-enterprise-2-technicians": "из коробки"
               }
@@ -90,6 +95,7 @@
             {
               "label": "CMDB",
               "values": {
+                "manageengine-servicedesk-standard-10": "нет",
                 "me-servicedesk-plus-professional-2-technicians": "надстройка",
                 "me-servicedesk-plus-enterprise-2-technicians": "из коробки"
               }
@@ -97,6 +103,7 @@
             {
               "label": "Стартовый пакет",
               "values": {
+                "manageengine-servicedesk-standard-10": "10 техников (до 5 — бесплатно)",
                 "me-servicedesk-plus-professional-2-technicians": "2 техника, 250 активов",
                 "me-servicedesk-plus-enterprise-2-technicians": "2 техника, 250 активов"
               }
@@ -104,7 +111,8 @@
           ],
           "links": [
             "me-servicedesk-plus-enterprise-2-technicians",
-            "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians",
+            "manageengine-servicedesk-standard-10"
           ]
         },
         {
@@ -502,9 +510,9 @@
           "title": "Многоязычная или английская",
           "kind": "prose",
           "links": [
-            "me-servicedesk-plus-professional-2-technicians"
+            "manageengine-servicedesk-standard-10"
           ],
-          "body": "Если техники работают на английском, а сотрудникам достаточно писать в почту, английская редакция Standard закроет задачу дешевле; на витрине английский Standard заведён у MSP-линии, обычную версию считаем по запросу."
+          "body": "Если техники работают на английском, а сотрудникам достаточно писать в почту, английская редакция Standard закроет задачу дешевле — она заведена отдельной позицией на те же 10 техников."
         },
         {
           "code": "FIT",
@@ -1661,6 +1669,200 @@
           "decision": "COMPARE",
           "seo_intent": "—",
           "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "manageengine-servicedesk-standard-10": {
+      "sku": "ZOHO-LIC-SDPSTD-TEAM-1Y-PACK-10TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "10 техников",
+      "unit_label": "пакет: 10 техников",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus Standard — годовая подписка на help desk ManageEngine с английским интерфейсом: приём заявок из почты и портала, приоритеты и SLA, база знаний, отчёты; десять техников на собственном сервере организации. Модуля ИТ-активов в Standard нет, заявители не лицензируются.\n\nПолоса на 10 техников — первая платная у вендора: до пяти техников редакция Standard отдаётся бесплатно. Учёт техники и лицензий появляется в Professional, ITIL-процессы — в Enterprise или надстройками.\n\nСрок — 1 год с поддержкой; расширение полосы — доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что остаётся в редакции Standard",
+          "kind": "items",
+          "body": "Полный состав платформы описан на карточке Professional; здесь — что именно входит в младшую редакцию.",
+          "items": [
+            {
+              "t": "Приём обращений",
+              "d": "Заявки из почтового ящика, портала, чата и по телефону через оператора; категории, приоритеты, шаблоны, объединение дублей."
+            },
+            {
+              "t": "SLA и эскалация",
+              "d": "Сроки реакции и решения по приоритету и группе, автоматическая эскалация, уведомления техникам и заявителям."
+            },
+            {
+              "t": "Портал и база знаний",
+              "d": "Заявители сами подают и отслеживают обращения, читают статьи; число заявителей не ограничено."
+            },
+            {
+              "t": "Отчёты и панели",
+              "d": "Готовые и настраиваемые отчёты по заявкам, нагрузке техников и SLA; панели для руководителя поддержки."
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Хватит ли Standard",
+          "kind": "items",
+          "body": "Таблица трёх редакций — на карточке Professional.",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Нужен учёт обращений и SLA, парк техники ведётся в другой системе или не ведётся вовсе."
+            },
+            {
+              "t": "Professional",
+              "d": "Кроме заявок нужна инвентаризация рабочих станций, серверов и лицензий ПО с привязкой к обращениям.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Формализованы изменения, релизы и проблемы, нужна CMDB — всё это там из коробки.",
+              "link": "me-servicedesk-plus-enterprise-2-technicians"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службе поддержки до десяти инженеров, которая работает на английском и хочет заменить общий почтовый ящик системой с очередями, сроками и отчётами. Для команды из пяти человек и меньше стоит начать с бесплатной редакции у вендора и перейти на платную полосу, когда техников станет больше."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Полосы техников",
+              "d": "После 10 идут 20, 50, 100 и 200; промежуточные значения — по запросу, переход — доплатой в течение срока."
+            },
+            {
+              "t": "Надстройки к Standard",
+              "d": "Каталог услуг, управление проблемами и изменениями, отказоустойчивость Failover докупаются отдельно; при трёх и больше надстройках дешевле выйдет Enterprise."
+            },
+            {
+              "t": "Русский интерфейс",
+              "d": "Портал и письма на русском — в многоязычной версии Standard, она заведена отдельной позицией.",
+              "link": "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard, многоязычная версия",
+              "d": "Тот же help desk с русским интерфейсом.",
+              "link": "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            },
+            {
+              "t": "ServiceDesk Plus Professional",
+              "d": "Заявки плюс ИТ-активы.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "AssetExplorer, 250 активов",
+              "d": "Если нужен только учёт техники без сервис-деска.",
+              "link": "me-assetexplorer-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли начать с бесплатной версии и потом купить эту полосу?",
+          "a": "Да. Бесплатный Standard ограничен пятью техниками; при покупке полосы на 10 база и настройки сохраняются, меняется только лицензионный ключ."
+        },
+        {
+          "q": "Считаются ли сотрудники, которые только подают заявки?",
+          "a": "Нет. Лицензируются техники — те, кто обрабатывает обращения; заявителей может быть сколько угодно."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians",
+        "me-servicedesk-plus-professional-2-technicians",
+        "me-assetexplorer-250-it-assets"
+      ],
+      "meta_title": "ServiceDesk Plus Standard, 10 техников — подписка | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus Standard: help desk с английским интерфейсом на 10 техников, заявители без ограничений, свой сервер. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus standard купить / лицензия 10 техников — hero, meta",
+        "servicedesk plus standard vs professional — PLAN_COMPARE",
+        "servicedesk plus бесплатная версия 5 техников — FIT, FAQ"
+      ],
+      "uncertainties": [
+        "Перечень надстроек, доступных именно для Standard, — по прайсу вендора из профиля; на дату не перепроверен.",
+        "Сохранение базы при переходе с бесплатной редакции — по общей практике вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что входит в младшую редакцию",
+          "new_information": "четыре группы функций Standard",
+          "sibling_overlap": "полный состав — на Professional, ссылка",
+          "decision": "UNDERSTAND",
+          "seo_intent": "servicedesk plus standard возможности",
+          "source": "service-desk/pricing (профиль)"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли младшей редакции",
+          "new_information": "правило выбора из трёх",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "standard vs professional",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли это случай",
+          "new_information": "профиль службы до 10 техников, выход на бесплатную",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "help desk для небольшой ит-службы",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "полосы, надстройки, язык",
+          "sibling_overlap": "полосы — общие с носителем, здесь только ряд",
+          "decision": "VALIDATE",
+          "seo_intent": "servicedesk plus надстройки standard",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "три соседа с причиной",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
         }
       ]
     }
