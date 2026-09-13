@@ -340,7 +340,7 @@ const ld = [
   .v-sec-cnt { color: var(--color-text-dim); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
 
   /* ── Топ: крупные карточки ── */
-  .v-top { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 0.8rem; }
+  .v-top { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 232px), 1fr)); gap: 0.8rem; }
   .v-card { position: relative; padding: 1rem 1.1rem 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; }
   .v-card-link { display: flex; flex-direction: column; gap: 0.45rem; color: inherit; }
   .v-card-link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg); }
@@ -433,7 +433,7 @@ const ld = [
     .v-chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.3rem; }
     .v-chip { flex: 0 0 auto; }
     .v-bar-names { display: none; }
-    .v-top { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .v-top { grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
     .v-tagline { display: none; }
   }
 </style>
