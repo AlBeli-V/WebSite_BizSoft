@@ -89,7 +89,7 @@ function explicitTerm(p: TermSource): string | null {
   if (years) return monthsLabel(12 * Number(years[1]));
   if (/квартальн/i.test(name)) return monthsLabel(3);
   if (/полугодов/i.test(name)) return monthsLabel(6);
-  if (/\(1\s*\(один\)\s*год\)|\(1 год\)|на 1 \(один\) год|на год\b|,\s*1 год\b|годов(ая|ой)|\(год\)|подписка 365|\b365\b/i.test(name)) return TERM.year;
+  if (/\(1\s*\(один\)\s*год\)|\(1 год\)|на 1 \(один\) год|на год\b|,\s*1 год\b|годов(ая|ой)|\(год\)|подписка 365|(?<!microsoft\s)(?<!m)\b365\b/i.test(name)) return TERM.year;
   // Описание годится только для бессрочности: «в месяц» там означает квоту.
   if (/бессрочн|вечная лицензия/.test(desc)) return TERM.perpetual;
   return null;

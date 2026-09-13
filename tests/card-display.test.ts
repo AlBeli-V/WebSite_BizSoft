@@ -74,6 +74,8 @@ describe('срок в строке под заголовком', () => {
     expect(termLabel({ sku: 'X', name: 'Houdini Core (годовая)' }, sub)).toBe(TERM.year);
     expect(termLabel({ sku: 'X', name: 'VEGAS Pro Edit (подписка 365)' }, sub)).toBe(TERM.year);
     expect(termLabel({ sku: 'X', name: 'SOLIDWORKS xDesign Online (квартальная подписка)' }, sub)).toBe('3 месяца');
+    // «Microsoft 365» — имя продукта, а не срок: срок у него по умолчанию.
+    expect(termIsAssumed({ sku: 'MSCOPILOT-M365', name: 'Microsoft 365 Copilot' }, sub)).toBe(true);
   });
 
   it('бессрочность читается из артикула, названия и описания', () => {
