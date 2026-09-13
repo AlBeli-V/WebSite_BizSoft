@@ -1,0 +1,17 @@
+{
+ "_note": "Позиции, заведённые в Directus после среза sku-legacy-export.json (12.09.2026) под артикулами старой схемы: генератор sku-assign.mjs добавляет их к выгрузке, чтобы карта перехода покрыла и их. Поля как в выгрузке: vendor, name, sku, price.",
+ "products": [
+  {
+   "vendor": "Postman",
+   "name": "Postman Teams",
+   "sku": "POSTMAN-TEAMS",
+   "price": null
+  },
+  {
+   "vendor": "Postman",
+   "name": "Postman Enterprise",
+   "sku": "POSTMAN-ENTERPRISE",
+   "price": null
+  }
+ ]
+}

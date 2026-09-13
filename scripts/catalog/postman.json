@@ -13,7 +13,7 @@
   },
   "products": [
     {
-      "sku": "POSTMAN-SOLO",
+      "sku": "PSTM-LIC-SOLO-IND-1Y-USER",
       "slug": "postman-solo",
       "name": "Postman Solo",
       "official_name": "Postman Solo (годовая оплата)",
@@ -42,7 +42,7 @@
       "sort": null
     },
     {
-      "sku": "POSTMAN-TEAMS",
+      "sku": "PSTM-LIC-TEAMS-TEAM-1Y-USER",
       "slug": "postman-teams",
       "name": "Postman Teams",
       "official_name": "Postman Team (годовая оплата)",
@@ -71,7 +71,7 @@
       "sort": null
     },
     {
-      "sku": "POSTMAN-ENTERPRISE",
+      "sku": "PSTM-LIC-ENTERPRISE-TEAM-1Y-USER",
       "slug": "postman-enterprise",
       "name": "Postman Enterprise",
       "official_name": "Postman Enterprise (годовая оплата)",
@@ -101,7 +101,7 @@
       "sort": null
     },
     {
-      "sku": "POSTMAN-PROFESSIONAL",
+      "sku": "PSTM-LIC-PROFESSIONAL-TEAM-1Y-USER",
       "name": "Postman Professional",
       "archive": true,
       "note": "План снят вендором (страница тарифов 13.09.2026: «Professional plans are no longer available»); преемник — postman-teams, 301 через ops-merge-product (keep=postman-teams, drop=postman-professional)"

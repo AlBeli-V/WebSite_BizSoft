@@ -33,14 +33,14 @@ const GIFT_CARD_VARIANT = /-GIFT-CARD-[A-Z]{2,6}-[A-Z0-9-]+$/;
 
 /**
  * Классифицировать товар по артикулу. Артикул новой системы
- * (docs/rules/sku-system.md) называет вид позиции сегментом: ADD и номинал
+ * (docs/rules/sku-system.md) называет вид позиции сегментом: ADD, SVC и номинал
  * CRD — дополнение, LIC, GFT и родитель линейки CRD — основной продукт.
  * Старые артикулы — по префиксам, пока не переведены.
  */
 export function productKind(p: Pick<Product, 'sku'>): ProductKind {
   const parsed = parseSku(p.sku);
   if (parsed) {
-    if (parsed.kind === 'ADD') return 'addon';
+    if (parsed.kind === 'ADD' || parsed.kind === 'SVC') return 'addon';
     // Номинал кредитов (с вариантом) — дополнение; родитель линейки без
     // варианта — страница пополнения баланса, самостоятельная позиция.
     if (parsed.kind === 'CRD') return parsed.variant ? 'addon' : 'main';

@@ -67,36 +67,38 @@ describe('срок в строке под заголовком', () => {
   const sub = 'unit_subscription' as const;
 
   it('явный срок в названии или артикуле старше умолчания', () => {
-    expect(termLabel({ sku: 'MAXON-C4D-TEAMS', name: 'Cinema 4D 1Y (Teams)' }, sub)).toBe(TERM.year);
+    expect(termLabel({ sku: 'MAXN-LIC-C4D-TEAM-1Y-USER', name: 'Cinema 4D 1Y (Teams)' }, sub)).toBe(TERM.year);
     expect(termLabel({ sku: 'X', name: 'Acronis Cyber Protect Standard Server (1 год)' }, sub)).toBe(TERM.year);
-    expect(termLabel({ sku: 'DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-1M', name: 'Discord Nitro, 1 месяц (Все страны (Global))' }, 'balance_topup')).toBe('1 месяц');
+    expect(termLabel({ sku: 'DISC-GFT-NITRO-UNI-1M-NOM-GL', name: 'Discord Nitro, 1 месяц (Все страны (Global))' }, 'balance_topup')).toBe('1 месяц');
     expect(termLabel({ sku: 'X-3Y', name: 'Продукт' }, sub)).toBe('3 года');
     expect(termLabel({ sku: 'X', name: 'Houdini Core (годовая)' }, sub)).toBe(TERM.year);
     expect(termLabel({ sku: 'X', name: 'VEGAS Pro Edit (подписка 365)' }, sub)).toBe(TERM.year);
     expect(termLabel({ sku: 'X', name: 'SOLIDWORKS xDesign Online (квартальная подписка)' }, sub)).toBe('3 месяца');
     // «Microsoft 365» — имя продукта, а не срок: срок у него по умолчанию.
     expect(termIsAssumed({ sku: 'MSCOPILOT-M365', name: 'Microsoft 365 Copilot' }, sub)).toBe(true);
+    // Артикул единой системы несёт срок сегментом — умолчания нет.
+    expect(termIsAssumed({ sku: 'MSFT-LIC-M365COPILOT-TEAM-1Y-USER', name: 'Microsoft 365 Copilot' }, sub)).toBe(false);
   });
 
   it('бессрочность читается из артикула, названия и описания', () => {
     expect(termLabel({ sku: 'ME-OPMANAGER-STD-PERP', name: 'ManageEngine OpManager Standard, вечная лицензия' }, sub)).toBe(TERM.perpetual);
     expect(termLabel({ sku: 'AVID-MC', name: 'Avid Media Composer (бессрочная)' }, sub)).toBe(TERM.perpetual);
-    expect(termLabel({ sku: 'BMD-RESOLVE-STUDIO', name: 'DaVinci Resolve Studio', short_description: 'Разовая бессрочная лицензия, обновления бесплатны' }, sub)).toBe(TERM.perpetual);
+    expect(termLabel({ sku: 'BMD-LIC-RESOLVESTUD-UNI-PERP-USER', name: 'DaVinci Resolve Studio', short_description: 'Разовая бессрочная лицензия, обновления бесплатны' }, sub)).toBe(TERM.perpetual);
   });
 
   it('«в месяц» в описании — квота, а не срок', () => {
     // Тариф с месячной квотой кредитов продаётся на год.
-    expect(termLabel({ sku: 'KLING-PRO', name: 'Kling AI Pro', short_description: 'Рабочий тариф Kling: 3 000 кредитов в месяц' }, sub)).toBe(TERM.year);
+    expect(termLabel({ sku: 'KLNG-LIC-PRO-UNI-1Y-USER', name: 'Kling AI Pro', short_description: 'Рабочий тариф Kling: 3 000 кредитов в месяц' }, sub)).toBe(TERM.year);
   });
 
   it('вид позиции задаёт срок, когда данных нет', () => {
-    expect(termLabel({ sku: 'APP-STORE-ITUNES-GIFT-CARD', name: 'Apple App Store & iTunes Gift Card' }, 'balance_topup')).toBe(TERM.balance);
-    expect(termLabel({ sku: 'OPENAI-ENTERPRISE', name: 'ChatGPT Enterprise' }, 'quote_only')).toBeNull();
+    expect(termLabel({ sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM', name: 'Apple App Store & iTunes Gift Card' }, 'balance_topup')).toBe(TERM.balance);
+    expect(termLabel({ sku: 'OPAI-LIC-CHATGPTENT-TEAM-1Y-USER', name: 'ChatGPT Enterprise' }, 'quote_only')).toBeNull();
     expect(termLabel({ sku: 'JB-PLG-x-ORG', name: 'JetBrains X' }, 'addon')).toBe(TERM.year);
     // Пакет кредитов — дополнение по композиции, но срок у него как у номинала.
-    expect(termLabel({ sku: 'OPENAI-CREDITS-100', name: 'OpenAI API — пополнение баланса на 100 $' }, 'addon')).toBe(TERM.balance);
-    expect(termLabel({ sku: 'KLING-CREDITS-1320', name: 'Kling AI — пакет 1 320 кредитов' }, 'addon')).toBe(TERM.balance);
-    expect(termLabel({ sku: 'ADOBE-AE', name: 'Adobe After Effects' }, sub)).toBe(TERM.year);
+    expect(termLabel({ sku: 'OPAI-CRD-API-UNI-BAL-NOM-100', name: 'OpenAI API — пополнение баланса на 100 $' }, 'addon')).toBe(TERM.balance);
+    expect(termLabel({ sku: 'KLNG-CRD-CREDITS-UNI-BAL-NOM-1320', name: 'Kling AI — пакет 1 320 кредитов' }, 'addon')).toBe(TERM.balance);
+    expect(termLabel({ sku: 'ADBE-LIC-AFTEREFFECTS-UNI-1Y-USER', name: 'Adobe After Effects' }, sub)).toBe(TERM.year);
   });
 
   it('подписка без явного срока помечается как принятая по умолчанию', () => {
@@ -118,23 +120,23 @@ describe('срок в строке под заголовком', () => {
 
 describe('тип плана по артикулу', () => {
   it('суффикс артикула старше эвристики по названию', () => {
-    expect(planType('JetBrains .log', '', 'JB-PLG-log-ORG')).toBe('team');
-    expect(planType('JetBrains .log (личная)', '', 'JB-PLG-log-IND')).toBe('individual');
-    expect(planType('Red Giant 1Y (Teams)', '', 'MAXON-REDGIANT-TEAMS')).toBe('team');
-    expect(planType('Visual Studio Professional 2022', '', 'MS-VISUAL-STUDIO-PRO-2022')).toBeNull();
+    expect(planType('JetBrains .log', '', 'JB-ADD-LOG-TEAM-1Y-USER')).toBe('team');
+    expect(planType('JetBrains .log (личная)', '', 'JB-ADD-LOG-IND-1Y-USER')).toBe('individual');
+    expect(planType('Red Giant 1Y (Teams)', '', 'MAXN-LIC-REDGIANT-TEAM-1Y-USER')).toBe('team');
+    expect(planType('Visual Studio Professional 2022', '', 'MSFT-LIC-VSPRO-UNI-PERP-USER-2022')).toBeNull();
   });
 
   it('из описания берётся только явное называние типа плана в первом абзаце', () => {
     // «организации», «команда» в любом контексте — не признак: после записи
     // описаний 13.09.2026 такие слова перевели 317 карточек в «Командный план».
     expect(planType('ManageEngine ADAudit Plus Standard', 'Бессрочная лицензия. Единовременная оплата; лицензия принадлежит организации.', 'ME-ADAUDIT-PLUS-STANDARD-PERP')).toBeNull();
-    expect(planType('Hailuo AI Max', 'Подписка на 1 год на старший план. Для команд, где ролики делают ежедневно.', 'HAILUO-MAX')).toBeNull();
-    expect(planType('Canva Pro', 'Canva Pro — индивидуальная подписка на 1 год.\n\nДля команды с общими шаблонами — план Business.', 'CANVA-PRO')).toBe('individual');
+    expect(planType('Hailuo AI Max', 'Подписка на 1 год на старший план. Для команд, где ролики делают ежедневно.', 'HAIL-LIC-MAX-UNI-1Y-USER')).toBeNull();
+    expect(planType('Canva Pro', 'Canva Pro — индивидуальная подписка на 1 год.\n\nДля команды с общими шаблонами — план Business.', 'CANV-LIC-PRO-IND-1Y-USER')).toBe('individual');
     expect(planType('Zoom Rooms', 'Zoom Rooms — командная подписка на 1 год на ПО переговорной.', 'ZOOM-ROOMS')).toBe('team');
     expect(planType('Artlist Pro', 'Artlist Pro — подписка для команд до 50 сотрудников.', 'ARTLST-TEAMS-X')).toBe('team');
     expect(planType('Lovable Pro', 'Lovable Pro — индивидуальная подписка на 1 год.\n\nSSO и командные роли — в Business.', 'LOVABLE-PRO')).toBe('individual');
     // Название сильнее описания.
-    expect(planType('Slack Business+', 'Подписка на 1 год на мессенджер.', 'SLACK-BUSINESS-PLUS')).toBe('team');
+    expect(planType('Slack Business+', 'Подписка на 1 год на мессенджер.', 'SLCK-LIC-BUSINESSPLUS-TEAM-1Y-USER')).toBe('team');
   });
 });
 

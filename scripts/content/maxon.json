@@ -2,7 +2,7 @@
   "summary": "BIZSoft оформляет годовые подписки Maxon (Cinema 4D, ZBrush, Redshift, Red Giant, Universe и пакет Maxon One) для российских юридических лиц: договор, счёт в рублях, закрывающие документы через ЭДО. Планы двух видов: индивидуальные (Individuals) — лицензия на конкретного специалиста, и командные (Teams) — места принадлежат компании, управляются централизованно и переназначаются между сотрудниками. Командные планы дороже, но остаются активом организации при смене состава команды.",
   "intro": "Maxon — экосистема инструментов для 3D-графики, моушн-дизайна, VFX и цифрового скульптинга. В линейке шесть подписок: пакет Maxon One со всем стеком сразу и отдельные продукты — Cinema 4D для 3D-моделирования и анимации, Red Giant для VFX и постпродакшена, GPU-рендер Redshift, скульптинг ZBrush и коллекция эффектов Universe. Каждая подписка продаётся в двух моделях лицензирования: индивидуальный план (Individuals) — лицензия на конкретного специалиста, и командный план (Teams) — места принадлежат компании, управляются из единой консоли и переназначаются между сотрудниками. Исключение — Universe: отдельной командной версии у него нет, для команд он входит в состав Red Giant.",
   "cards": {
-    "MAXON-ONE": {
+    "MAXN-LIC-ONE-IND-1Y-USER": {
       "badge": "весь стек",
       "forWhom": "Специалисту, которому нужно всё: 3D, скульптинг, рендер и VFX",
       "features": [
@@ -11,7 +11,7 @@
         "Лицензия на одного специалиста"
       ]
     },
-    "MAXON-C4D": {
+    "MAXN-LIC-C4D-IND-1Y-USER": {
       "badge": "3D и анимация",
       "forWhom": "Моушн-дизайнеру и 3D-художнику",
       "features": [
@@ -20,7 +20,7 @@
         "Интеграция с After Effects"
       ]
     },
-    "MAXON-REDGIANT": {
+    "MAXN-LIC-REDGIANT-IND-1Y-USER": {
       "badge": "VFX и моушн",
       "forWhom": "Монтажёру и специалисту по постпродакшену",
       "features": [
@@ -29,7 +29,7 @@
         "Цветокоррекция и киношные луки"
       ]
     },
-    "MAXON-REDSHIFT": {
+    "MAXN-LIC-REDSHIFT-IND-1Y-USER": {
       "badge": "GPU-рендер",
       "forWhom": "3D-специалисту с любым основным пакетом",
       "features": [
@@ -38,7 +38,7 @@
         "Объёмные эффекты, волосы, SSS"
       ]
     },
-    "MAXON-ZBRUSH": {
+    "MAXN-LIC-ZBRUSH-IND-1Y-USER": {
       "badge": "скульптинг",
       "forWhom": "Художнику по персонажам и hard-surface",
       "features": [
@@ -47,7 +47,7 @@
         "Экспорт в игровые пайплайны"
       ]
     },
-    "MAXON-UNIVERSE": {
+    "MAXN-LIC-UNIVERSE-IND-1Y-USER": {
       "badge": "эффекты",
       "forWhom": "Монтажёру — самый доступный вход в экосистему Maxon",
       "features": [
@@ -56,7 +56,7 @@
         "Регулярные пополнения коллекции"
       ]
     },
-    "MAXON-ONE-TEAMS": {
+    "MAXN-LIC-ONE-TEAM-1Y-USER": {
       "badge": "весь стек",
       "forWhom": "Студии, где полный стек Maxon нужен на несколько мест",
       "features": [
@@ -67,7 +67,7 @@
       "qtyLabel": "Рабочих мест",
       "minQty": 3
     },
-    "MAXON-C4D-TEAMS": {
+    "MAXN-LIC-C4D-TEAM-1Y-USER": {
       "badge": "3D и анимация",
       "forWhom": "Студии моушн-дизайна и 3D-продакшену",
       "features": [
@@ -78,7 +78,7 @@
       "qtyLabel": "Рабочих мест",
       "minQty": 3
     },
-    "MAXON-REDGIANT-TEAMS": {
+    "MAXN-LIC-REDGIANT-TEAM-1Y-USER": {
       "badge": "VFX и моушн",
       "forWhom": "Постпродакшн-студии и отделу видео",
       "features": [
@@ -152,7 +152,7 @@
       "shortName": "Red Giant",
       "minQty": 3
     },
-    "MAXON-REDSHIFT-TEAMS": {
+    "MAXN-LIC-REDSHIFT-TEAM-1Y-USER": {
       "badge": "GPU-рендер",
       "forWhom": "Студии с общим парком рабочих станций",
       "features": [
@@ -163,7 +163,7 @@
       "qtyLabel": "Рабочих мест",
       "minQty": 3
     },
-    "MAXON-ZBRUSH-TEAMS": {
+    "MAXN-LIC-ZBRUSH-TEAM-1Y-USER": {
       "badge": "скульптинг",
       "forWhom": "Студии персонажки и аутсорс-команде",
       "features": [
@@ -176,17 +176,17 @@
     }
   },
   "order": [
-    "MAXON-ONE",
-    "MAXON-C4D",
-    "MAXON-REDGIANT",
-    "MAXON-REDSHIFT",
-    "MAXON-ZBRUSH",
-    "MAXON-UNIVERSE",
-    "MAXON-ONE-TEAMS",
-    "MAXON-C4D-TEAMS",
-    "MAXON-REDGIANT-TEAMS",
-    "MAXON-REDSHIFT-TEAMS",
-    "MAXON-ZBRUSH-TEAMS"
+    "MAXN-LIC-ONE-IND-1Y-USER",
+    "MAXN-LIC-C4D-IND-1Y-USER",
+    "MAXN-LIC-REDGIANT-IND-1Y-USER",
+    "MAXN-LIC-REDSHIFT-IND-1Y-USER",
+    "MAXN-LIC-ZBRUSH-IND-1Y-USER",
+    "MAXN-LIC-UNIVERSE-IND-1Y-USER",
+    "MAXN-LIC-ONE-TEAM-1Y-USER",
+    "MAXN-LIC-C4D-TEAM-1Y-USER",
+    "MAXN-LIC-REDGIANT-TEAM-1Y-USER",
+    "MAXN-LIC-REDSHIFT-TEAM-1Y-USER",
+    "MAXN-LIC-ZBRUSH-TEAM-1Y-USER"
   ],
   "groups": [
     {
@@ -194,12 +194,12 @@
       "title": "Индивидуальные планы (Individuals)",
       "note": "Лицензия закреплена за конкретным специалистом.",
       "items": [
-        "MAXON-ONE",
-        "MAXON-C4D",
-        "MAXON-REDGIANT",
-        "MAXON-REDSHIFT",
-        "MAXON-ZBRUSH",
-        "MAXON-UNIVERSE"
+        "MAXN-LIC-ONE-IND-1Y-USER",
+        "MAXN-LIC-C4D-IND-1Y-USER",
+        "MAXN-LIC-REDGIANT-IND-1Y-USER",
+        "MAXN-LIC-REDSHIFT-IND-1Y-USER",
+        "MAXN-LIC-ZBRUSH-IND-1Y-USER",
+        "MAXN-LIC-UNIVERSE-IND-1Y-USER"
       ]
     },
     {
@@ -207,11 +207,11 @@
       "title": "Командные планы (Teams)",
       "note": "Места принадлежат компании, управляются из единой консоли и переназначаются между сотрудниками.",
       "items": [
-        "MAXON-ONE-TEAMS",
-        "MAXON-C4D-TEAMS",
-        "MAXON-REDGIANT-TEAMS",
-        "MAXON-REDSHIFT-TEAMS",
-        "MAXON-ZBRUSH-TEAMS"
+        "MAXN-LIC-ONE-TEAM-1Y-USER",
+        "MAXN-LIC-C4D-TEAM-1Y-USER",
+        "MAXN-LIC-REDGIANT-TEAM-1Y-USER",
+        "MAXN-LIC-REDSHIFT-TEAM-1Y-USER",
+        "MAXN-LIC-ZBRUSH-TEAM-1Y-USER"
       ]
     }
   ],

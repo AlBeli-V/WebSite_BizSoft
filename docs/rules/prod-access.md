@@ -9,7 +9,7 @@ ops-* workflows (GitHub Actions → SSH), результаты — в issue #22.
 GitHub Actions скрывает в журнале значение каждого секрета, а одно из
 значений совпадает со словом `deploy`: слаг `me-os-deployer-enterprise-10-servers`
 в журнале выглядит как `me-os-***er-enterprise-10-servers`, артикул
-`JB-PLG-deploy-and-upload-ORG` — как `JB-PLG-***-and-upload-ORG`. Артефакты
+`JB-ADD-DEPLOYAU-TEAM-1Y-USER` — как `JB-PLG-***-and-upload-ORG`. Артефакты
 прогонов из сессии недоступны (хранилище закрыто прокси), поэтому выгрузки
 читаются из журнала — и замаскированные строки попадают в данные.
 

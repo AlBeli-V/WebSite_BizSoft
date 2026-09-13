@@ -24,7 +24,7 @@ const readJson = (rel: string) => JSON.parse(readFileSync(resolve(ROOT, rel), 'u
 const vendors = readJson('data/catalog/sku-vendors.json').vendors as Record<string, string>;
 const assignment = readJson('data/catalog/sku-assignment.json') as {
   total: number;
-  items: { old: string; new: string; vendor: string; name: string; kind: string; plan: string; term: string; unit: string; variant: string | null; review?: string[] }[];
+  items: { old: string; new: string; vendor: string; name: string; kind: string; plan: string; term: string; unit: string; variant: string | null; source: string; review?: string[] }[];
 };
 const registry = readJson('data/catalog/sku-products.json') as { products: Record<string, Record<string, string>>; plugins: Record<string, string> };
 
@@ -143,7 +143,8 @@ describe('расстановка по каталогу (data/catalog/sku-assignm
     // сути: надстройка AnyDesk, продление обновлений Principle, пакет
     // изображений Depositphotos, дополнения OpManager и OpUtils.
     const corrected = /^(ANYDESK-NAMESPACE|PRINCIPLE-UPDATES|DEPOSIT-PACK-100|ME-OPMANAGER-(NEXUS-FLOW|APM)-|ME-OPUTILS-)/;
-    const diff = assignment.items.filter((i) => productKind({ sku: i.new }) !== productKind({ sku: i.old }) && !corrected.test(i.old));
+    // Скрытые позиции конфигуратора ManageEngine старой схемой не различались вовсе.
+    const diff = assignment.items.filter((i) => i.source !== 'zoho-hidden' && productKind({ sku: i.new }) !== productKind({ sku: i.old }) && !corrected.test(i.old));
     expect(diff.map((i) => `${i.old} → ${i.new}`)).toEqual([]);
   });
 
@@ -152,7 +153,7 @@ describe('расстановка по каталогу (data/catalog/sku-assignm
     // система называет план сегментом, и правило «личные лицензии любого
     // вендора — noindex» начинает действовать на все личные планы. Это
     // осознанное расхождение; любое другое — ошибка перевода.
-    const other = assignment.items.filter((i) => productNoindex(i.new) !== productNoindex(i.old) && !(i.plan === 'IND' && !/-IND$/.test(i.old)) && i.old !== 'DEPOSIT-PACK-100');
+    const other = assignment.items.filter((i) => i.source !== 'zoho-hidden' && productNoindex(i.new) !== productNoindex(i.old) && !(i.plan === 'IND' && !/-IND$/.test(i.old)) && i.old !== 'DEPOSIT-PACK-100');
     expect(other.map((i) => `${i.old} → ${i.new}`)).toEqual([]);
   });
 
@@ -169,6 +170,13 @@ describe('расстановка по каталогу (data/catalog/sku-assignm
     const flagged = assignment.items.filter((i) => i.review?.length);
     expect(flagged.length).toBeLessThanOrEqual(20);
     for (const i of flagged) expect(i.vendor).toMatch(/^(Adobe|Autodesk)$/);
+  });
+
+  it('раздел ManageEngine переведён целиком: карточки, скрытые позиции, сопровождение', () => {
+    const zoho = assignment.items.filter((i) => i.vendor === 'Zoho');
+    expect(zoho.length).toBeGreaterThan(4000);
+    expect(zoho.filter((i) => i.kind === 'SVC').length).toBeGreaterThan(1000);
+    for (const i of zoho) expect(parseSku(i.new)?.vendor, i.new).toBe('ZOHO');
   });
 });
 

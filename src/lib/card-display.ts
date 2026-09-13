@@ -115,6 +115,9 @@ function explicitTerm(p: TermSource): string | null {
 export function termLabel(p: TermSource, composition: CardComposition): string | null {
   const override = TERM_OVERRIDE[p.sku];
   if (override) return override;
+  // Договорная позиция срока не несёт даже при сегменте срока в артикуле:
+  // условия — в договоре, а 1Y там — срок предполагаемого контракта.
+  if (composition === 'quote_only' && parseSku(p.sku)) return null;
   const explicit = explicitTerm(p);
   if (explicit) return explicit;
   if (composition === 'balance_topup' || isCreditsPack(p)) return TERM.balance;
