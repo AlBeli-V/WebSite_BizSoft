@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ZOHO_GROUPS, ZOHO_RULES, zohoGroup, zohoFamily, zohoFamilyAnywhere } from '../src/data/zoho-hierarchy';
+import { isSystemSku } from '../src/lib/sku';
 
 /**
  * Иерархия Zoho ManageEngine собирается скриптом из снимков магазина вендора.
@@ -67,21 +68,25 @@ describe('позиции', () => {
     expect(new Set(skus).size).toBe(skus.length);
   });
 
-  it('адрес позиции — это её артикул в нижнем регистре (правило каталога)', () => {
-    for (const v of variants) expect(v.sku).toBe(v.slug.toUpperCase());
+  it('артикул — единой системы, адрес — прежний артикул в нижнем регистре', () => {
+    for (const v of variants) {
+      if (!v.sku) continue; // строка прайса без цены — позиции нет
+      expect(isSystemSku(v.sku), v.sku).toBe(true);
+      expect(v.slug).toMatch(/^(me|manageengine)-[a-z0-9-]+$/);
+    }
   });
 
   it('опубликованные карточки ServiceDesk Plus сохраняют артикул и адрес', () => {
     // Обе позиции проиндексированы. Смена слага дала бы 404 на живой странице.
     const pinned = [
-      { sku: 'MANAGEENGINE-SERVICEDESK-STANDARD-10', name: '10 Technicians' },
-      { sku: 'MANAGEENGINE-SERVICEDESK-PROFESSIONAL-5', name: '5 Technicians (500 IT Assets)' },
+      { sku: 'ZOHO-LIC-SDPSTD-TEAM-1Y-PACK-10TECH', slug: 'manageengine-servicedesk-standard-10', name: '10 Technicians' },
+      { sku: 'ZOHO-LIC-SDPPRO-TEAM-1Y-PACK-5TECH', slug: 'manageengine-servicedesk-professional-5', name: '5 Technicians (500 IT Assets)' },
     ];
     for (const p of pinned) {
       const found = variants.find((v) => v.sku === p.sku);
       expect(found, `нет позиции ${p.sku}`).toBeDefined();
       expect(found!.name).toBe(p.name);
-      expect(found!.slug).toBe(p.sku.toLowerCase());
+      expect(found!.slug).toBe(p.slug);
     }
   });
 

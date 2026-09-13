@@ -1,0 +1,2213 @@
+{
+  "family_key": "MSFT-PERP",
+  "vendor": "Microsoft Corporation",
+  "vendor_profile": "data/content/vendors/microsoft.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "ms-office-proplus-2024",
+  "classification_notes": [
+    "Бессрочные лицензии Microsoft: Office (H&B/Professional Plus, 2021/2024, Win/Mac), Project, Visio, Visual Studio, Windows 11 Pro. Класс perpetual: обязательны PERPETUAL_RULES и PLAN_COMPARE; сроки поддержки — по графику Microsoft. Visual Studio — именная лицензия (USER), остальное — на устройство."
+  ],
+  "products": {
+    "ms-office-hb-2024-win": {
+      "sku": "MSFT-LIC-OFFHB2024-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Office Home & Business 2024 для Windows — бессрочная лицензия на классические настольные Word, Excel, PowerPoint, Outlook и OneNote на одном компьютере: разовая оплата, без подписки и облачных сервисов Microsoft 365. Поставка — ключ активации с привязкой к учётной записи Microsoft.\n\nHome & Business разрешает коммерческое использование; в отличие от Professional Plus нет Access и Publisher, а в отличие от Microsoft 365 — нет Teams, 1 ТБ OneDrive и постоянных обновлений функций.\n\nMicrosoft обещает обслуживать версию 2024 до осени 2029 года по своему графику.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Office Home & Business 2024",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приложения",
+              "d": "Word, Excel, PowerPoint, Outlook, OneNote версии 2024 в долгосрочном канале."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Один ПК с Windows 10/11; перенос на новый компьютер при замене — по условиям Microsoft."
+            },
+            {
+              "t": "Что нет",
+              "d": "Access, Publisher, Teams, облачных сервисов и Copilot."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия остаётся у вас без срока и без подписки; исправления Microsoft выходят до конца её жизненного цикла."
+            },
+            {
+              "t": "Версия фиксирована",
+              "d": "Новые функции 2026 года не появятся; следующая версия покупается отдельно."
+            },
+            {
+              "t": "Учётная запись",
+              "d": "Ключ привязывается к учётной записи Microsoft, повторная установка — через неё."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Home & Business 2024, Mac",
+              "d": "То же для macOS.",
+              "link": "ms-office-hb-2024-mac"
+            },
+            {
+              "t": "Professional Plus 2024",
+              "d": "Плюс Access и Publisher.",
+              "link": "ms-office-proplus-2024"
+            },
+            {
+              "t": "Home & Business 2021",
+              "d": "Предыдущая версия дешевле, поддержка до 2026.",
+              "link": "ms-office-hb-2021-win"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Небольшой компании или ИП с одним-двумя ПК, где Office нужен для документов и почты без облачных сервисов и ежегодных платежей."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional Plus 2024",
+              "d": "С Access и Publisher.",
+              "link": "ms-office-proplus-2024"
+            },
+            {
+              "t": "Home & Business 2024 для Mac",
+              "d": "Для компьютеров Apple.",
+              "link": "ms-office-hb-2024-mac"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли использовать Home & Business в компании?",
+          "a": "Да, в отличие от редакции Home & Student лицензия допускает коммерческое использование."
+        },
+        {
+          "q": "Есть ли обновления?",
+          "a": "Обновления безопасности и стабильности — до конца поддержки версии; новые функции — нет."
+        }
+      ],
+      "related_products": [
+        "ms-office-hb-2024-mac",
+        "ms-office-proplus-2024",
+        "ms-office-hb-2021-win"
+      ],
+      "meta_title": "Office Home & Business 2024 для Windows — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Office Home & Business 2024 для Windows: Word, Excel, PowerPoint, Outlook, OneNote на одном ПК, без подписки. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "office 2024 home business купить лицензия — hero, meta",
+        "office 2024 бессрочный — PERPETUAL_RULES"
+      ],
+      "uncertainties": [
+        "Дата окончания поддержки Office 2024 — по графику Microsoft, в тексте «ориентировочно»."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Home & Business 2024, Windows"
+    },
+    "ms-office-hb-2024-mac": {
+      "sku": "MSFT-LIC-OFFHB2024-UNI-PERP-DEV-MAC",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Office Home & Business 2024 для Mac — бессрочная лицензия на пять настольных приложений Office — Word, Excel, PowerPoint, Outlook, OneNote — для одного компьютера Apple: разовая оплата без подписки, ключ активации через учётную запись Microsoft. Поддерживаются macOS последних версий, включая Apple Silicon.\n\nСостав и правила — как у версии для Windows; версия для Mac не включает Access и Publisher по определению — их для macOS не существует.\n\nПоддержка — по графику Microsoft для Office 2024.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Office Home & Business 2024 для Mac",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приложения",
+              "d": "Word, Excel, PowerPoint, Outlook, OneNote 2024 в нативной сборке для Apple Silicon и Intel."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Один Mac; активация через учётную запись Microsoft."
+            },
+            {
+              "t": "Ограничения",
+              "d": "Без Teams, OneDrive-квоты и Copilot; Access и Publisher на Mac нет ни в одной редакции."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Право использования не истекает; пакет обновляется исправлениями безопасности, пока Microsoft поддерживает версию."
+            },
+            {
+              "t": "Совместимость с macOS",
+              "d": "Microsoft поддерживает три последние версии macOS; на более старых системах установка может быть невозможна."
+            },
+            {
+              "t": "Одна машина",
+              "d": "Перенос на новый Mac — через учётную запись Microsoft."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Home & Business 2024, Windows",
+              "d": "То же для ПК.",
+              "link": "ms-office-hb-2024-win"
+            },
+            {
+              "t": "Home & Business 2021, Mac",
+              "d": "Предыдущая версия дешевле.",
+              "link": "ms-office-hb-2021-mac"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям на Mac, где нужен настольный Office без подписки Microsoft 365."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Home & Business 2024, Windows",
+              "d": "Для ПК.",
+              "link": "ms-office-hb-2024-win"
+            },
+            {
+              "t": "Home & Business 2021, Mac",
+              "d": "Дешевле, поддержка короче.",
+              "link": "ms-office-hb-2021-mac"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли на Apple Silicon?",
+          "a": "Да, Office 2024 собран нативно для M-серии."
+        }
+      ],
+      "related_products": [
+        "ms-office-hb-2024-win",
+        "ms-office-hb-2021-mac"
+      ],
+      "meta_title": "Office Home & Business 2024 для Mac — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Office Home & Business 2024 для Mac: Word, Excel, PowerPoint, Outlook, OneNote на одном компьютере Apple. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "office 2024 mac купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Home & Business 2024, macOS"
+    },
+    "ms-office-hb-2021-win": {
+      "sku": "MSFT-LIC-OFFHB2021-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Office Home & Business 2021 для Windows — бессрочная лицензия на настольные Word, Excel, PowerPoint, Outlook и OneNote версии 2021 на одном ПК: разовая оплата, без подписки. Дешевле версии 2024 при тех же основных функциях.\n\nОтличие от 2024 — не в наборе приложений, а в сроке поддержки и функциях: обновления безопасности Office 2021 заканчиваются в октябре 2026 года, после чего пакет продолжит работать, но без исправлений.\n\nБерут ради экономии на парк ПК с ограниченным сроком службы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Office Home & Business 2021",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приложения",
+              "d": "Word, Excel, PowerPoint, Outlook, OneNote 2021."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Один ПК с Windows 10/11, коммерческое использование разрешено."
+            },
+            {
+              "t": "Функции",
+              "d": "Динамические массивы и XLOOKUP в Excel, тёмная тема; без новых функций 2024 (например, улучшенных динамических диаграмм)."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Лицензия бессрочная: программа работает и после окончания поддержки, но обновления к тому моменту прекращаются."
+            },
+            {
+              "t": "Конец поддержки — октябрь 2026",
+              "d": "После него исправления безопасности не выходят; для машин с выходом в интернет рассчитывайте срок эксплуатации."
+            },
+            {
+              "t": "Учётная запись Microsoft",
+              "d": "Активация и переустановка — через неё."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Home & Business 2024",
+              "d": "Поддержка до 2029, новые функции.",
+              "link": "ms-office-hb-2024-win"
+            },
+            {
+              "t": "Professional Plus 2021",
+              "d": "С Access и Publisher.",
+              "link": "ms-office-proplus-2021"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компании, которая оснащает временные или изолированные рабочие места и не планирует держать их дольше года-двух."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Home & Business 2024",
+              "d": "Дольше поддержка.",
+              "link": "ms-office-hb-2024-win"
+            },
+            {
+              "t": "Home & Business 2021, Mac",
+              "d": "Для Apple.",
+              "link": "ms-office-hb-2021-mac"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Стоит ли брать 2021 в 2026 году?",
+          "a": "Только при ограниченном горизонте использования: поддержка версии заканчивается в октябре 2026."
+        }
+      ],
+      "related_products": [
+        "ms-office-hb-2024-win",
+        "ms-office-proplus-2021",
+        "ms-office-hb-2021-mac"
+      ],
+      "meta_title": "Office Home & Business 2021 для Windows — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Office Home & Business 2021 для Windows: Word, Excel, PowerPoint, Outlook на одном ПК, дешевле 2024, поддержка до 10.2026. Договор, ЭДО.",
+      "seo_intents": [
+        "office 2021 home business купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Дата окончания поддержки Office 2021 (13.10.2026) — по графику Microsoft."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Home & Business 2021, Windows"
+    },
+    "ms-office-hb-2021-mac": {
+      "sku": "MSFT-LIC-OFFHB2021-UNI-PERP-DEV-MAC",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Office Home & Business 2021 для Mac — бессрочная лицензия версии 2021 для одного Mac: Word, Excel, PowerPoint, Outlook и OneNote в настольных сборках, одна покупка без подписки и заметно дешевле, чем 2024.\n\nПоддержка Office 2021 для Mac завершается в октябре 2026; на новых версиях macOS совместимость не гарантируется — это главный аргумент в пользу 2024 при покупке на несколько лет.\n\nАктивация через учётную запись Microsoft.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Office Home & Business 2021 для Mac",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приложения",
+              "d": "Word, Excel, PowerPoint, Outlook, OneNote 2021 для macOS, включая Apple Silicon."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Один Mac, коммерческое использование."
+            },
+            {
+              "t": "Без облака",
+              "d": "OneDrive-квота, Teams и Copilot не входят."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Никаких продлений: купленная версия — ваша навсегда, обновления безопасности — по графику поддержки Microsoft."
+            },
+            {
+              "t": "Конец поддержки — октябрь 2026",
+              "d": "Дальше — без исправлений; новые macOS могут не поддерживаться."
+            },
+            {
+              "t": "Один Mac",
+              "d": "Перенос при замене машины — через учётную запись."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Home & Business 2024, Mac",
+              "d": "Актуальная версия с поддержкой до 2029.",
+              "link": "ms-office-hb-2024-mac"
+            },
+            {
+              "t": "Home & Business 2021, Windows",
+              "d": "Для ПК.",
+              "link": "ms-office-hb-2021-win"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Владельцам Mac с коротким горизонтом использования пакета."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Home & Business 2024, Mac",
+              "d": "Актуальная версия.",
+              "link": "ms-office-hb-2024-mac"
+            },
+            {
+              "t": "Home & Business 2021, Windows",
+              "d": "Та же версия для ПК.",
+              "link": "ms-office-hb-2021-win"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Будет ли Office 2021 работать на новой macOS?",
+          "a": "Microsoft поддерживает три последние версии macOS для актуального Office; для 2021 после окончания поддержки совместимость с новыми системами не гарантируется."
+        }
+      ],
+      "related_products": [
+        "ms-office-hb-2024-mac",
+        "ms-office-hb-2021-win"
+      ],
+      "meta_title": "Office Home & Business 2021 для Mac — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Office Home & Business 2021 для Mac: Word, Excel, PowerPoint, Outlook на одном компьютере Apple, дешевле 2024. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "office 2021 mac купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Home & Business 2021, macOS"
+    },
+    "ms-office-proplus-2024": {
+      "sku": "MSFT-LIC-OFFPP2024-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Office Professional Plus 2024 — бессрочная лицензия на максимальную комплектацию настольного Office 2024 для Windows на одном компьютере: Word, Excel, PowerPoint, Outlook, OneNote плюс Access и Publisher. Разовая оплата, ключ активации, без подписки.\n\nОт Home & Business отличается Access и Publisher и корпоративным каналом обслуживания; от Microsoft 365 — отсутствием облака, Teams и Copilot, зато без ежегодных платежей.\n\nСрок поддержки 2024-й линейки у Microsoft — до 2029 года (по опубликованному графику).",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Office Professional Plus 2024",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приложения",
+              "d": "Word, Excel, PowerPoint, Outlook, OneNote, Access, Publisher 2024."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Один ПК с Windows 10/11; корпоративная редакция долгосрочного канала."
+            },
+            {
+              "t": "Без облака",
+              "d": "Teams, OneDrive-квота и Copilot не входят."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Оплата разовая, срок использования не ограничен; поток исправлений заканчивается вместе с поддержкой версии."
+            },
+            {
+              "t": "Версия фиксирована",
+              "d": "Следующий Office покупается заново."
+            },
+            {
+              "t": "Один ПК",
+              "d": "Перенос при замене компьютера — по условиям лицензии."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Home & Business 2024",
+              "d": "Без Access и Publisher, дешевле.",
+              "link": "ms-office-hb-2024-win"
+            },
+            {
+              "t": "Professional Plus 2021",
+              "d": "Предыдущая версия, поддержка до 2026.",
+              "link": "ms-office-proplus-2021"
+            },
+            {
+              "t": "Project и Visio 2024",
+              "d": "Отдельные продукты, в Office не входят.",
+              "link": "ms-project-pro-2024"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям, где нужны Access для локальных баз и Publisher для печатных материалов, а подписка Microsoft 365 не подходит по бюджету или политике."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Home & Business 2024",
+              "d": "Если Access не нужен.",
+              "link": "ms-office-hb-2024-win"
+            },
+            {
+              "t": "Visio Professional 2024",
+              "d": "Диаграммы и схемы.",
+              "link": "ms-visio-pro-2024"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Access в Home & Business?",
+          "a": "Нет, Access и Publisher есть только в Professional Plus."
+        }
+      ],
+      "related_products": [
+        "ms-office-hb-2024-win",
+        "ms-office-proplus-2021",
+        "ms-project-pro-2024",
+        "ms-visio-pro-2024"
+      ],
+      "meta_title": "Office Professional Plus 2024 — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Office Professional Plus 2024: Word, Excel, PowerPoint, Outlook, OneNote, Access, Publisher на одном ПК. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "office professional plus 2024 купить — hero, meta",
+        "office 2024 с access — FAQ"
+      ],
+      "uncertainties": [
+        "Дата окончания поддержки — по графику Microsoft."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional Plus 2024"
+    },
+    "ms-office-proplus-2021": {
+      "sku": "MSFT-LIC-OFFPP2021-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Office Professional Plus 2021 — бессрочная лицензия на полный настольный Office 2021 для Windows на одном ПК: Word, Excel, PowerPoint, Outlook, OneNote, Access и Publisher. Разовая оплата без подписки; дешевле версии 2024.\n\nПоддержка Office 2021 завершается в октябре 2026 — после этого обновлений безопасности не будет; для рабочих мест с долгим сроком службы рациональнее 2024.\n\nКлюч активации, один компьютер.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Office Professional Plus 2021",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приложения",
+              "d": "Полный набор 2021, включая Access и Publisher."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Один ПК, коммерческое использование."
+            },
+            {
+              "t": "Отличия от 2024",
+              "d": "Нет функций 2024 года и короче поддержка."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Постоянная лицензия на версию: работает бессрочно, обновляется до даты окончания поддержки."
+            },
+            {
+              "t": "Поддержка до октября 2026",
+              "d": "Планируйте замену версии, если ПК остаются в работе дольше."
+            },
+            {
+              "t": "Учётная запись Microsoft",
+              "d": "Активация и переустановка через неё."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional Plus 2024",
+              "d": "Поддержка до 2029.",
+              "link": "ms-office-proplus-2024"
+            },
+            {
+              "t": "Home & Business 2021",
+              "d": "Без Access и Publisher.",
+              "link": "ms-office-hb-2021-win"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям с Access-базами и коротким горизонтом использования рабочих мест."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional Plus 2024",
+              "d": "Актуальная версия.",
+              "link": "ms-office-proplus-2024"
+            },
+            {
+              "t": "Home & Business 2021",
+              "d": "Пять приложений без баз данных и вёрстки.",
+              "link": "ms-office-hb-2021-win"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Совместимы ли базы Access 2021 и 2024?",
+          "a": "Да, формат .accdb общий; отличия — в отдельных функциях."
+        }
+      ],
+      "related_products": [
+        "ms-office-proplus-2024",
+        "ms-office-hb-2021-win"
+      ],
+      "meta_title": "Office Professional Plus 2021 — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Office Professional Plus 2021: полный Office с Access и Publisher на одном ПК, дешевле 2024, поддержка до 10.2026. Договор, ЭДО.",
+      "seo_intents": [
+        "office professional plus 2021 купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Дата окончания поддержки Office 2021 — по графику Microsoft."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional Plus 2021"
+    },
+    "ms-project-pro-2024": {
+      "sku": "MSFT-LIC-PROJECTPRO2024-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Project Professional 2024 — бессрочная лицензия на настольную систему управления проектами на одном ПК: диаграммы Ганта, ресурсы и загрузка, базовые планы, критический путь, отчёты; разовая оплата без подписки. Подключается к Project Server и Project Online при их наличии.\n\nProfessional отличается от Standard возможностями командной работы: управление ресурсами предприятия, синхронизация задач с SharePoint, работа с сервером проектов.\n\nПоддержка версии 2024 — по графику Microsoft, ориентировочно до 2029.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Project Professional 2024",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Планирование",
+              "d": "Гант, зависимости, критический путь, календари, базовые планы и отслеживание."
+            },
+            {
+              "t": "Ресурсы",
+              "d": "Загрузка и выравнивание ресурсов, пул ресурсов предприятия при подключении к серверу."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Встроенные отчёты и экспорт в Excel и Power BI."
+            },
+            {
+              "t": "Совместимость",
+              "d": "Windows 10/11; файлы .mpp читаются в Project Online и Project для веба."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Бессрочное право на установленную версию; после конца поддержки — без патчей, но с работой."
+            },
+            {
+              "t": "Один ПК",
+              "d": "Лицензия на устройство; менеджер на двух компьютерах — две лицензии."
+            },
+            {
+              "t": "Сервер отдельно",
+              "d": "Project Server и Project Online лицензируются отдельно."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Project Standard",
+              "d": "Без серверных функций и управления ресурсами предприятия — по запросу."
+            },
+            {
+              "t": "Planner / Project Online",
+              "d": "Облачные подписки Microsoft вместо настольной лицензии — по запросу."
+            },
+            {
+              "t": "Visio Professional 2024",
+              "d": "Схемы процессов рядом с планами.",
+              "link": "ms-visio-pro-2024"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Руководителям проектов и PMO, которые ведут планы в настольном Project и не хотят подписки."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visio Professional 2024",
+              "d": "Для схем и диаграмм.",
+              "link": "ms-visio-pro-2024"
+            },
+            {
+              "t": "Office Professional Plus 2024",
+              "d": "Основной Office.",
+              "link": "ms-office-proplus-2024"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужна ли подписка Microsoft 365 для Project 2024?",
+          "a": "Нет, настольный Project работает автономно; облачные сервисы — отдельно."
+        }
+      ],
+      "related_products": [
+        "ms-visio-pro-2024",
+        "ms-office-proplus-2024"
+      ],
+      "meta_title": "Microsoft Project Professional 2024 — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Project Professional 2024: Гант, ресурсы, критический путь, отчёты на одном ПК без подписки. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "microsoft project 2024 купить лицензия — hero, meta"
+      ],
+      "uncertainties": [
+        "Дата окончания поддержки — по графику Microsoft."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Project Professional 2024"
+    },
+    "ms-visio-pro-2024": {
+      "sku": "MSFT-LIC-VISIOPRO2024-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Visio Professional 2024 — бессрочная лицензия на редактор диаграмм на одном ПК: блок-схемы, BPMN, схемы сетей и серверных стоек, планы помещений, UML и диаграммы баз данных с привязкой фигур к данным Excel и SQL. Разовая оплата без подписки.\n\nProfessional отличается от Standard расширенными шаблонами (BPMN 2.0, SDL, инженерные и сетевые наборы), связью с данными и совместным редактированием.\n\nОбновления для версии 2024 Microsoft планирует выпускать до 2029 года.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Visio Professional 2024",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Шаблоны",
+              "d": "Блок-схемы, BPMN 2.0, UML, сети, стойки, планы этажей, электрические и P&ID схемы."
+            },
+            {
+              "t": "Данные",
+              "d": "Привязка фигур к Excel, SQL Server, SharePoint; графика данных и обновление по источнику."
+            },
+            {
+              "t": "Совместная работа",
+              "d": "Комментарии, совместное редактирование через SharePoint/OneDrive."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Купили один раз — пользуетесь без ограничений по времени; обновления идут в рамках жизненного цикла версии."
+            },
+            {
+              "t": "Один ПК",
+              "d": "Лицензия на устройство."
+            },
+            {
+              "t": "Форматы",
+              "d": "Файлы .vsdx открываются в Visio для веба и старых версиях."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visio Standard 2021",
+              "d": "Базовые схемы без BPMN 2.0, связи с данными и инженерных наборов — дешевле.",
+              "link": "ms-visio-std-2021"
+            },
+            {
+              "t": "Visio Professional 2019",
+              "d": "Предыдущая версия, поддержка Microsoft завершена.",
+              "link": "ms-visio-pro-2019"
+            },
+            {
+              "t": "Visio Plan 2",
+              "d": "Подписка Microsoft с веб-версией — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аналитикам процессов, ИТ-архитекторам и инженерам, которым нужны стандартизированные схемы с привязкой к данным."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visio Standard 2021",
+              "d": "Дешевле, базовые схемы.",
+              "link": "ms-visio-std-2021"
+            },
+            {
+              "t": "Project Professional 2024",
+              "d": "Планы проектов.",
+              "link": "ms-project-pro-2024"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Professional отличается от Standard?",
+          "a": "BPMN 2.0, инженерные и сетевые шаблоны, привязка к данным и совместное редактирование есть только в Professional."
+        }
+      ],
+      "related_products": [
+        "ms-visio-std-2021",
+        "ms-visio-pro-2019",
+        "ms-project-pro-2024"
+      ],
+      "meta_title": "Microsoft Visio Professional 2024 — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Visio Professional 2024: BPMN, UML, сети, планы, привязка к данным на одном ПК без подписки. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "visio professional 2024 купить — hero, meta",
+        "visio standard vs professional — FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Visio Professional 2024"
+    },
+    "ms-visio-pro-2019": {
+      "sku": "MSFT-LIC-VISIOPRO2019-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Visio Professional 2019 — бессрочная лицензия на предыдущую версию редактора диаграмм на одном ПК: те же категории шаблонов, BPMN и связь с данными, что в Professional 2024, по более низкой цене. Разовая оплата без подписки.\n\nВажно: поддержка Visio 2019 у Microsoft завершена в октябре 2025 — обновлений безопасности нет. Лицензия подходит для изолированных рабочих мест и совместимости с существующими файлами, но не для новых закупок на годы вперёд.\n\nКлюч активации, один компьютер.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Visio Professional 2019",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Шаблоны",
+              "d": "Блок-схемы, BPMN, UML, сети, планы помещений — набор 2019 года."
+            },
+            {
+              "t": "Данные",
+              "d": "Привязка фигур к Excel и SQL Server."
+            },
+            {
+              "t": "Ограничения",
+              "d": "Нет улучшений 2021–2024, нет обновлений безопасности."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Поддержка завершена",
+              "d": "Microsoft прекратил обслуживание Visio 2019 в октябре 2025; версия работает, но без исправлений."
+            },
+            {
+              "t": "Бессрочно",
+              "d": "Лицензия не имеет срока действия; исправления безопасности поставляются до завершения поддержки версии Microsoft."
+            },
+            {
+              "t": "Один ПК",
+              "d": "Лицензия на устройство."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visio Professional 2024",
+              "d": "Актуальная версия с поддержкой.",
+              "link": "ms-visio-pro-2024"
+            },
+            {
+              "t": "Visio Standard 2021",
+              "d": "Базовая, но поддерживаемая.",
+              "link": "ms-visio-std-2021"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, которым нужна совместимость с существующими файлами 2019 на изолированных машинах и минимальная цена."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visio Professional 2024",
+              "d": "Поддерживаемая версия.",
+              "link": "ms-visio-pro-2024"
+            },
+            {
+              "t": "Visio Standard 2021",
+              "d": "Базовая, но поддерживаемая версия.",
+              "link": "ms-visio-std-2021"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли открыть файлы 2024 в Visio 2019?",
+          "a": "Да, формат .vsdx общий; фигуры новых шаблонов могут отображаться упрощённо."
+        }
+      ],
+      "related_products": [
+        "ms-visio-pro-2024",
+        "ms-visio-std-2021"
+      ],
+      "meta_title": "Microsoft Visio Professional 2019 — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Visio Professional 2019 на одном ПК по низкой цене; поддержка Microsoft завершена в 10.2025 — для совместимости. Договор, ЭДО.",
+      "seo_intents": [
+        "visio 2019 купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Дата окончания поддержки Visio 2019 (14.10.2025) — по графику Microsoft."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Visio Professional 2019"
+    },
+    "ms-visio-std-2021": {
+      "sku": "MSFT-LIC-VISIOSTD2021-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Visio Standard 2021 — бессрочная лицензия на базовую редакцию редактора диаграмм на одном ПК: блок-схемы, организационные диаграммы, простые схемы сетей и планы помещений с готовыми фигурами. Разовая оплата, без подписки; дешевле Professional.\n\nStandard хватает для схем «как есть» без BPMN 2.0, привязки к данным и инженерных наборов. Поддержка версии 2021 — до октября 2026.\n\nКлюч активации, один компьютер.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Visio Standard 2021",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Шаблоны",
+              "d": "Блок-схемы, оргдиаграммы, базовые сетевые и офисные планы, временные шкалы."
+            },
+            {
+              "t": "Работа",
+              "d": "Экспорт в PDF и изображения, совместимость файлов с Professional."
+            },
+            {
+              "t": "Чего нет",
+              "d": "BPMN 2.0, UML в полном объёме, связи с данными, инженерных шаблонов."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Разовая покупка без подписки; версия остаётся работоспособной навсегда, обновления — пока идёт поддержка."
+            },
+            {
+              "t": "Поддержка до октября 2026",
+              "d": "Как у всей линейки 2021."
+            },
+            {
+              "t": "Один ПК",
+              "d": "Лицензия на устройство."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visio Professional 2024",
+              "d": "Полный набор шаблонов и данные.",
+              "link": "ms-visio-pro-2024"
+            },
+            {
+              "t": "Visio Professional 2019",
+              "d": "Старая Professional без поддержки.",
+              "link": "ms-visio-pro-2019"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Менеджерам и аналитикам, которым нужны понятные блок-схемы и оргструктуры без моделирования процессов по стандарту."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visio Professional 2024",
+              "d": "Для BPMN и данных.",
+              "link": "ms-visio-pro-2024"
+            },
+            {
+              "t": "Visio Professional 2019",
+              "d": "Полный набор шаблонов по низкой цене, без поддержки.",
+              "link": "ms-visio-pro-2019"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли сделать BPMN-схему в Standard?",
+          "a": "Нарисовать блок-схему — да; шаблона BPMN 2.0 с валидацией в Standard нет."
+        }
+      ],
+      "related_products": [
+        "ms-visio-pro-2024",
+        "ms-visio-pro-2019"
+      ],
+      "meta_title": "Microsoft Visio Standard 2021 — лицензия | BIZSoft",
+      "meta_description": "Бессрочный Microsoft Visio Standard 2021: блок-схемы, оргдиаграммы, базовые планы на одном ПК без подписки; дешевле Professional. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "visio standard 2021 купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Visio Standard 2021"
+    },
+    "ms-visual-studio-pro-2022": {
+      "sku": "MSFT-LIC-VS2022PRO-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на разработчика",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Visual Studio Professional 2022 — бессрочная лицензия на профессиональную IDE Microsoft на одном компьютере: разработка на C#, C++, .NET, Python, веб и мобильных приложений, отладка, тесты, интеграция с Git и Azure DevOps. Разовая оплата без подписки; поставка ключом активации.\n\nProfessional отличается от бесплатной Community правом коммерческого использования в организациях любого размера и функциями командной работы (CodeLens и др.); от Enterprise — отсутствием расширенных тестов и профилирования.\n\nПоддержка версии 2022 — по графику Microsoft.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Visual Studio Professional 2022",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Языки и платформы",
+              "d": "C#, VB, C++, F#, Python, JavaScript/TypeScript; .NET, Windows, веб, Xamarin/MAUI, Unity."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Отладчик, IntelliSense и IntelliCode, CodeLens, Live Share, интеграция с GitHub и Azure DevOps."
+            },
+            {
+              "t": "Расширения",
+              "d": "ReSharper и другие плагины из Marketplace."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Постоянное право использования; обновления безопасности — до даты, объявленной Microsoft для этой версии."
+            },
+            {
+              "t": "Standard-лицензия",
+              "d": "Бессрочное право на версию 2022; подписки Visual Studio с кредитами Azure — отдельный продукт."
+            },
+            {
+              "t": "Один разработчик",
+              "d": "Лицензия именная по правилам Microsoft: один пользователь на любом числе своих устройств."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visual Studio Professional 2019",
+              "d": "Предыдущая версия дешевле.",
+              "link": "ms-visual-studio-pro-2019"
+            },
+            {
+              "t": "Visual Studio Enterprise",
+              "d": "Расширенные тесты и профилирование — по запросу."
+            },
+            {
+              "t": "JetBrains Rider",
+              "d": "Кроссплатформенная альтернатива для .NET.",
+              "link": "jb-rider-org"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": ".NET- и C++-разработчикам в компаниях, которым Community-редакция не разрешена по условиям лицензии (свыше пяти разработчиков или выручки/численности порогов Microsoft)."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ReSharper",
+              "d": "Расширение для Visual Studio.",
+              "link": "jb-resharper-org"
+            },
+            {
+              "t": "Visual Studio Professional 2019",
+              "d": "Старая версия.",
+              "link": "ms-visual-studio-pro-2019"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Когда нельзя использовать бесплатную Community?",
+          "a": "В организациях, превышающих пороги Microsoft по числу разработчиков, численности или выручке, и в ряде корпоративных сценариев — тогда нужна Professional."
+        },
+        {
+          "q": "Это подписка или бессрочная лицензия?",
+          "a": "Бессрочная standard-лицензия на версию 2022; подписки Visual Studio с сервисами Azure — по запросу."
+        }
+      ],
+      "related_products": [
+        "ms-visual-studio-pro-2019",
+        "jb-rider-org",
+        "jb-resharper-org"
+      ],
+      "meta_title": "Visual Studio Professional 2022 — лицензия | BIZSoft",
+      "meta_description": "Бессрочная Microsoft Visual Studio Professional 2022: IDE для C#, C++, .NET, веб и мобильной разработки с правом коммерческого использования. Договор, ЭДО.",
+      "seo_intents": [
+        "visual studio professional 2022 купить — hero, meta",
+        "visual studio community или professional — FAQ"
+      ],
+      "uncertainties": [
+        "Лицензия Visual Studio — по пользователю (именная); в единице расчёта «устройство» по данным витрины — уточнить при применении."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Visual Studio Professional 2022"
+    },
+    "ms-visual-studio-pro-2019": {
+      "sku": "MSFT-LIC-VS2019PRO-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на разработчика",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Visual Studio Professional 2019 — бессрочная лицензия на предыдущую версию профессиональной IDE Microsoft: C#, C++, .NET Framework и .NET Core 3.x, веб и мобильная разработка. Дешевле версии 2022; подходит проектам, привязанным к старым тулчейнам.\n\nОсновная поддержка 2019 завершена в 2024 году, расширенная продолжается до апреля 2029 — исправления безопасности выходят, новых функций нет; .NET 6 и новее требуют Visual Studio 2022.\n\nКлюч активации.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Visual Studio Professional 2019",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Языки",
+              "d": "C#, VB, C++, F#, Python, JavaScript; .NET Framework, .NET Core 3.1, Xamarin."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Отладчик, IntelliSense, CodeLens, интеграция с Git и Azure DevOps."
+            },
+            {
+              "t": "Ограничения",
+              "d": "Нет поддержки .NET 6+ и новых SDK; 32-разрядный процесс."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Бессрочная лицензия: программа не отключится по истечении срока, исправления выходят до конца поддержки."
+            },
+            {
+              "t": "Расширенная поддержка до апреля 2029",
+              "d": "Только исправления безопасности."
+            },
+            {
+              "t": "Именная лицензия",
+              "d": "Один разработчик на своих устройствах."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visual Studio Professional 2022",
+              "d": "Актуальная версия с .NET 8/9.",
+              "link": "ms-visual-studio-pro-2022"
+            },
+            {
+              "t": "JetBrains Rider",
+              "d": "Кроссплатформенная альтернатива.",
+              "link": "jb-rider-org"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам с проектами на .NET Framework и старых SDK, где переход на 2022 не планируется."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visual Studio Professional 2022",
+              "d": "Для новых проектов.",
+              "link": "ms-visual-studio-pro-2022"
+            },
+            {
+              "t": "ReSharper",
+              "d": "Расширение для Visual Studio.",
+              "link": "jb-resharper-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли собирать .NET 8 в Visual Studio 2019?",
+          "a": "Нет, .NET 6 и новее поддерживаются только в Visual Studio 2022."
+        }
+      ],
+      "related_products": [
+        "ms-visual-studio-pro-2022",
+        "jb-rider-org",
+        "jb-resharper-org"
+      ],
+      "meta_title": "Visual Studio Professional 2019 — лицензия | BIZSoft",
+      "meta_description": "Бессрочная Microsoft Visual Studio Professional 2019 для проектов на .NET Framework и старых SDK; расширенная поддержка до 04.2029. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "visual studio 2019 купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Даты поддержки — по графику Microsoft."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Visual Studio Professional 2019"
+    },
+    "ms-windows-11-pro": {
+      "sku": "MSFT-LIC-WIN11PRO-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft Windows 11 Pro — бессрочная лицензия на операционную систему для одного компьютера: редакция для бизнеса с BitLocker, присоединением к домену и Azure AD, групповыми политиками, Hyper-V, удалённым рабочим столом и Windows Update for Business. Разовая оплата, ключ активации.\n\nОт Home отличается именно корпоративными функциями; от Enterprise — отсутствием ряда функций безопасности и управления, доступных по подписке Microsoft 365.\n\nОбновления Windows 11 — в рамках жизненного цикла версии.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что входит в Windows 11 Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Безопасность",
+              "d": "BitLocker, Windows Hello for Business, Windows Information Protection."
+            },
+            {
+              "t": "Управление",
+              "d": "Домен и Azure AD, групповые политики, Intune, Windows Update for Business."
+            },
+            {
+              "t": "Виртуализация",
+              "d": "Hyper-V и Windows Sandbox."
+            },
+            {
+              "t": "Требования",
+              "d": "TPM 2.0, Secure Boot, совместимый процессор — проверьте перед закупкой."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Срок использования не ограничен; после даты окончания поддержки Microsoft новые исправления не выпускаются."
+            },
+            {
+              "t": "Одно устройство",
+              "d": "Лицензия привязана к ПК; OEM-версии не переносятся, retail — переносимы по условиям Microsoft."
+            },
+            {
+              "t": "Требования к оборудованию",
+              "d": "На несовместимом ПК установка не поддерживается."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Windows 11 Home",
+              "d": "Без домена, BitLocker и политик — не для бизнеса."
+            },
+            {
+              "t": "Windows 11 Enterprise",
+              "d": "По подписке Microsoft 365 E3/E5 — по запросу."
+            },
+            {
+              "t": "Обновление с Windows 10 Pro",
+              "d": "Бесплатно на поддерживаемом железе; новая лицензия нужна для новой машины."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, которые собирают или обновляют ПК без предустановленной Windows и хотят домен, BitLocker и политики."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Office Professional Plus 2024",
+              "d": "Офисный пакет к системе.",
+              "link": "ms-office-proplus-2024"
+            },
+            {
+              "t": "Visual Studio Professional 2022",
+              "d": "Среда разработки под Windows.",
+              "link": "ms-visual-studio-pro-2022"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужна ли Pro, если ПК не в домене?",
+          "a": "Pro нужна ради BitLocker, Hyper-V, удалённого рабочего стола и политик; без них хватит Home — но для организаций Pro остаётся стандартом."
+        }
+      ],
+      "related_products": [
+        "ms-office-proplus-2024",
+        "ms-visual-studio-pro-2022"
+      ],
+      "meta_title": "Microsoft Windows 11 Pro — бессрочная лицензия | BIZSoft",
+      "meta_description": "Бессрочная Microsoft Windows 11 Pro на один ПК: BitLocker, домен и Azure AD, групповые политики, Hyper-V, удалённый рабочий стол. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "windows 11 pro купить лицензия юрлицо — hero, meta"
+      ],
+      "uncertainties": [
+        "Тип лицензии (retail/OEM/volume) на витрине не указан — влияет на переносимость; уточнить при применении."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Windows 11 Pro"
+    }
+  }
+}
