@@ -1,0 +1,30 @@
+{
+ "experiment_id": "pages-exp-001-alternatives",
+ "ticket": "PAGES-EXP-001",
+ "date": "2026-09-13",
+ "source": "yandex",
+ "evaluation_kind": "launch",
+ "windows": null,
+ "metrics": {
+  "launch": {
+   "pages_total": 7,
+   "pages_in_search": 0,
+   "weekly_impressions": 3,
+   "clicks": 0,
+   "need_pages": 5,
+   "need_weekly": 300
+  }
+ },
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [],
+ "statistical_result": null,
+ "summary_line": "в выдаче 0 из 7 страниц (замер 2026-09-13) · ~3 показов/нед из 300 · 0 кликов · день 14 из 14 до первой вехи",
+ "confidence": "LOW",
+ "verdict": "INCONCLUSIVE",
+ "verdict_reason": "веха не выполнена: в выдаче 0 из 5 страниц; ~3 из 300 показов/нед",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "разобрать отсутствующие страницы (индексация, сниппеты); запросить переобход через ops-yandex-recrawl; если и следующая веха провалена — решение о судьбе раздела",
+ "recommended_targets": [],
+ "requires_owner_decision": false
+}
