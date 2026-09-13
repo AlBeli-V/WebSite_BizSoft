@@ -44,12 +44,12 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
+        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; schedule — расписание показов кампаний Apple; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
         required: true
         type: choice
-        options: ["apply", "autotargeting", "ceiling", "check", "expand", "improve", "negatives", "refine", "resume", "sitelinks", "stats", "tighten"]
+        options: ["apply", "autotargeting", "ceiling", "check", "expand", "improve", "negatives", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
       mode:
-        description: "Для apply/autotargeting/ceiling/expand/improve/negatives/refine/resume/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
+        description: "Для apply/autotargeting/ceiling/expand/improve/negatives/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
         required: false
         default: "dry-run"
         type: choice
@@ -396,6 +396,33 @@ jobs:
           title: "ops-direct resume (mode=${{ inputs.mode }})"
           outcome: ${{ steps.run_resume.outcome }}
           body-file: /tmp/direct-resume.log
+      # ==================== action=schedule ====================
+      # Перевод кампаний подарочных карт Apple на будни (решение
+      # руководителя 13.09.2026): суббота 12.09 дала 428 ₽ и 82 клика без
+      # единого шага воронки, тогда как bs-test по выходным не работает.
+      # Обоснование — reports/marketing/direct-apple-schedule-2026-09-13.md.
+      - name: Schedule
+        if: env.ACTION == 'schedule'
+        id: run_schedule
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_schedule.py "$MODE" 2>&1 | tee /tmp/direct-schedule.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'schedule'
+        run: |
+          [ -f /tmp/direct-schedule.log ] || echo "(лог не создан)" > /tmp/direct-schedule.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'schedule'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-direct schedule (mode=${{ inputs.mode }})"
+          outcome: ${{ steps.run_schedule.outcome }}
+          body-file: /tmp/direct-schedule.log
       # ==================== action=refine ====================
       # Доводка кампании bs-test-2026-09, раунд 2 — по фактам дня
       # 01.09.2026: минус-слова «активация/активировать/ключ», групповая
