@@ -267,6 +267,23 @@ try {
 // Архитектурные блоки масштабирования
 const useCases = listValues(product.use_cases);
 const relatedSlugs = listValues(product.related_products);
+// Динамическая нижняя часть (13.09.2026): модули из Directus заменяют
+// «Что входит», «Подробно о продукте» и seo_text. Пустое поле — legacy-ветка
+// без изменений: откат = обнулить content_modules.
+const modules = Array.isArray(product.content_modules) ? product.content_modules.filter((m) => m && m.code && m.title) : [];
+const hasModules = modules.length > 0 && !gift;
+const moduleLinkSlugs = [...new Set(modules.flatMap((m) => [...(m.links || []), ...((m.items || []).map((i) => i.link).filter(Boolean) as string[])]))];
+const moduleLinkNames: Record<string, string> = {};
+if (moduleLinkSlugs.length) {
+  for (const lp of await getProductsBySlugs(moduleLinkSlugs)) moduleLinkNames[lp.slug] = lp.name;
+}
+const nameOf = (s: string) => moduleLinkNames[s] || s;
+const proseParas = (m: { body?: string }) => (m.body || '').split(/\n{2,}/).filter(Boolean);
+const compareCols = (m: { rows?: { values: Record<string, string> }[] }) => {
+  const cols = new Set<string>([product.slug]);
+  for (const r of m.rows || []) for (const k of Object.keys(r.values || {})) cols.add(k);
+  return [...cols];
+};
 let relatedProducts: Awaited<ReturnType<typeof getProductsBySlugs>> = [];
 try {
   if (relatedSlugs.length) relatedProducts = await getProductsBySlugs(relatedSlugs);
@@ -356,7 +373,7 @@ try {
         колонке, покупка — липкой колонкой справа во всю высоту. На телефоне
         порядок в разметке (экран → покупка → остальное) сам даёт нужную
         последовательность: цена сразу после названия, а не в хвосте. */}
-    <div class:list={['product-layout', { gift: isGift }]} data-commerce={JSON.stringify(commerce)} data-composition={composition} {...mdProduct}>
+    <div class:list={['product-layout', { gift: isGift }]} data-commerce={JSON.stringify(commerce)} data-composition={composition} data-nature={product.product_nature || undefined} data-packaging={product.packaging || undefined} data-content={hasModules ? product.content_version || "cm" : "legacy"} {...mdProduct}>
       {hasMd && (
         <>
           <meta itemprop="sku" content={product.sku} />
@@ -658,7 +675,31 @@ try {
 
         {/* Состав подписки — выше описания: «что я получу за эти деньги»
             читают до маркетингового текста, а не после него. */}
-        {(cardMeta?.includes?.length || features.length > 0) && !gift && (
+        {hasModules && modules.map((m) => (
+          <section class="sec" data-module={m.code}>
+            <h2 class="sec-head"><i aria-hidden="true">/</i>{m.title}</h2>
+            {m.kind !== 'prose' && m.body && <p class="mod-body">{m.body}</p>}
+            {m.kind === 'items' && (
+              <ul class="incl incl-wide">
+                {(m.items || []).map((it) => (
+                  <li><b>{it.t}</b><p>{it.d}{it.link && <> <a class="mod-link" href={`/product/${it.link}`}>{nameOf(it.link)} →</a></>}</p></li>
+                ))}
+              </ul>
+            )}
+            {m.kind === 'prose' && proseParas(m).map((par) => <p class="mod-body">{par}</p>)}
+            {m.kind === 'compare' && (
+              <div class="cmp"><table>
+                <tr><th></th>{compareCols(m).map((c) => <th class={c === product.slug ? 'me' : ''}>{c === product.slug ? 'Эта карточка' : <a class="mod-link" href={`/product/${c}`}>{nameOf(c)}</a>}</th>)}</tr>
+                {(m.rows || []).map((r) => <tr><td>{r.label}</td>{compareCols(m).map((c) => <td class={c === product.slug ? 'me' : ''}>{r.values?.[c] || '—'}</td>)}</tr>)}
+              </table></div>
+            )}
+            {m.kind !== 'items' && m.links && m.links.length > 0 && (
+              <p class="mod-body">{m.links.map((l, i) => <>{i > 0 && ' · '}<a class="mod-link" href={`/product/${l}`}>{nameOf(l)} →</a></>)}</p>
+            )}
+          </section>
+        ))}
+
+        {!hasModules && (cardMeta?.includes?.length || features.length > 0) && !gift && (
           <section class="sec">
             <h2 class="sec-head"><i aria-hidden="true">/</i>{isUnitPlan ? 'Что входит в план' : 'Что входит'}</h2>
             {cardMeta?.includes?.length ? (
@@ -683,7 +724,7 @@ try {
             {product.vendor && <div class="prow"><span class="k">Производитель:</span><span class="v">{vendorLegal(product.vendor)}</span></div>}
             {planShort && <div class="prow"><span class="k">Тип плана:</span><span class="v">{planShort}</span></div>}
             {term && <div class="prow"><span class="k">Срок:</span><span class="v">{term}</span></div>}
-            {isUnitPlan && <div class="prow"><span class="k">Расчётная единица:</span><span class="v">{unitName}</span></div>}
+            {(isUnitPlan || product.unit_label) && <div class="prow"><span class="k">Расчётная единица:</span><span class="v">{product.unit_label || unitName}</span></div>}
             {isUnitPlan && <div class="prow"><span class="k">Минимальное количество:</span><span class="v">{commerce.minQty}</span></div>}
             {cardMeta?.reassign && <div class="prow"><span class="k">Переназначение пользователей:</span><span class="v">{cardMeta.reassign}</span></div>}
             {cardMeta?.management && <div class="prow"><span class="k">Управление:</span><span class="v">{cardMeta.management}</span></div>}
@@ -744,7 +785,7 @@ try {
           </section>
         )}
 
-        {(product.description || product.for_whom || useCases.length > 0) && !gift && (
+        {!hasModules && (product.description || product.for_whom || useCases.length > 0) && !gift && (
           <section class="sec" id="detail">
             <h2 class="sec-head"><i aria-hidden="true">/</i>Подробно о продукте и условиях использования</h2>
             <div class="split">
@@ -780,8 +821,15 @@ try {
           </section>
         )}
 
-        {product.seo_text && (
+        {!hasModules && product.seo_text && (
           <div class="prose-bizsoft block"><p>{product.seo_text}</p></div>
+        )}
+        {hasModules && (
+          <section class="sec"><div class="assist assist-inline">
+            <h3>Не уверены, что выбран правильный план?</h3>
+            <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
+            <a class="btn btn-primary" href={askHref}>Задать вопрос специалисту</a>
+          </div></section>
         )}
 
         <FAQ items={faq} title={gift ? 'Вопросы и ответы' : 'Частые вопросы'} columns={2} mark={true} />
@@ -1018,6 +1066,16 @@ try {
   .deal li { position: relative; padding-left: 0.7rem; font-size: 0.91rem; color: var(--color-text-muted); margin-bottom: 0.7rem; line-height: 1.55; }
   .deal li:last-child { margin-bottom: 0; }
   .deal li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 4px; height: 4px; background: var(--color-accent); }
+  .mod-body { color: var(--color-text-muted); max-width: 72ch; margin: 0 0 1rem; line-height: 1.55; }
+  .mod-link { color: var(--color-accent); font-weight: 600; text-decoration: none; }
+  .mod-link:hover { text-decoration: underline; }
+  .cmp { overflow-x: auto; }
+  .cmp table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+  .cmp th, .cmp td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .cmp th { font-weight: 600; color: var(--color-text-dim); }
+  .cmp td:first-child { color: var(--color-text-dim); }
+  .cmp .me { font-weight: 600; }
+  .assist-inline { max-width: 328px; }
   .split { display: grid; grid-template-columns: minmax(0, 1fr) 328px; gap: 3rem; align-items: start; }
   .longread h3 { font-size: 1rem; margin: 1.6rem 0 0.6rem; }
   .assist { border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.3rem; background: var(--color-bg-card); }

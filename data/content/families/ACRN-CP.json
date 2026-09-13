@@ -1,0 +1,3238 @@
+{
+  "family_key": "ACRN-CP",
+  "vendor": "Acronis International GmbH",
+  "vendor_profile": "data/content/vendors/acronis.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "acronis-cp-standard-server",
+  "classification_notes": [
+    "Одно семейство на всю линейку Cyber Protect: три редакции (packaging = edition_tier) × тип нагрузки (volume_label). Носитель линейки — Standard Server (таблица редакций, правило выбора лицензии по ОС); носитель каждой редакции — её Server (дельта редакции); нагрузки несут дельту нагрузки.",
+    "Legacy-тексты содержали фактические ошибки: SAP HANA у Standard и Advanced (только Backup Advanced), дедупликация у Advanced (только Backup Advanced), «без модуля антивируса» у Backup Advanced (защита от вымогателей и криптомайнинга остаётся).",
+    "Email Archiving — по вендору отдельная лицензионная линия; на витрине заведена внутри Backup Advanced, оставлена в семействе с оговоркой в тексте."
+  ],
+  "products": {
+    "acronis-cp-standard-server": {
+      "sku": "ACRONIS-CP-STANDARD-SERVER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "сервер",
+      "unit_label": "защищаемый сервер",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Standard для сервера — годовая подписка на защиту одного физического или виртуального сервера Windows или Linux: резервное копирование образов и файлов, восстановление на другое оборудование и полный стек безопасности в одном агенте. В лицензию входит 250 ГБ облачного хранилища Acronis.\n\nStandard — младшая из трёх редакций Cyber Protect: тот же антивирус, защита от программ-вымогателей и непрерывная защита данных, что у старших, но без централизованных планов, лент и SAN-снимков. Производитель рекомендует её, когда защищаемых устройств меньше пяти.\n\nСрок — 1 год; консоль — облачная Acronis или локальный сервер управления, по выбору.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Cyber Protect Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Резервное копирование",
+              "d": "Образы дисков и отдельные файлы, инкрементные и дифференциальные цепочки, репликация в несколько мест, проверка контрольных сумм, правила хранения, окно бэкапа с ограничением трафика."
+            },
+            {
+              "t": "Восстановление",
+              "d": "Bare-metal и на отличающееся оборудование (Universal Restore), миграции P2V, V2P, V2V; восстановление одним щелчком; неизменяемое хранилище для копий."
+            },
+            {
+              "t": "Приложения на сервере",
+              "d": "Агент приложений для Exchange, SQL Server, SharePoint и Oracle DB — согласованные копии и гранулярное восстановление."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Антивирус и анти-malware, защита от программ-вымогателей и криптомайнинга, предотвращение эксплойтов, URL-фильтрация с категоризацией, управление Windows Defender."
+            },
+            {
+              "t": "Защита данных",
+              "d": "Непрерывная защита данных (CDP) для рабочих файлов, карта защиты данных, контроль здоровья дисков, удалённое стирание устройства."
+            },
+            {
+              "t": "Виртуализация в Standard",
+              "d": "vSphere и Hyper-V — с агентом и без, Virtuozzo. XenServer, KVM, RHV, Nutanix и Oracle VM — только в старших редакциях."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard, Advanced или Backup Advanced",
+          "kind": "compare",
+          "body": "Лицензия любой редакции выдаётся на ту же нагрузку и работает и в облачной, и в локальной установке. Разница — в управлении, носителях и поддерживаемых средах.",
+          "rows": [
+            {
+              "label": "Ориентир производителя",
+              "values": {
+                "acronis-cp-standard-server": "до 5 устройств, Windows Essentials",
+                "acronis-cp-adv-server": "больше 5 устройств",
+                "acronis-cp-backup-adv-server": "сложные среды, бэкап без полного стека безопасности"
+              }
+            },
+            {
+              "label": "Стек безопасности",
+              "values": {
+                "acronis-cp-standard-server": "полный",
+                "acronis-cp-adv-server": "полный + сканирование копий на malware, безопасное восстановление, EDR (в облаке)",
+                "acronis-cp-backup-adv-server": "только защита от вымогателей и криптомайнинга"
+              }
+            },
+            {
+              "label": "Управление",
+              "values": {
+                "acronis-cp-standard-server": "планы на каждое устройство",
+                "acronis-cp-adv-server": "централизованные и общие планы, группы",
+                "acronis-cp-backup-adv-server": "группы, общие планы, настраиваемые отчёты"
+              }
+            },
+            {
+              "label": "Носители и хранилища",
+              "values": {
+                "acronis-cp-standard-server": "локальные, облако Acronis, публичное облако",
+                "acronis-cp-adv-server": "+ ленты, снимки SAN, Acronis Notary",
+                "acronis-cp-backup-adv-server": "+ ленты, дедупликация, off-host обработка"
+              }
+            },
+            {
+              "label": "Гипервизоры",
+              "values": {
+                "acronis-cp-standard-server": "vSphere, Hyper-V, Virtuozzo",
+                "acronis-cp-adv-server": "+ XenServer, KVM, RHV, Oracle VM",
+                "acronis-cp-backup-adv-server": "+ Nutanix AHV, KVM, RHV, Citrix, Oracle LVM"
+              }
+            },
+            {
+              "label": "Microsoft 365, Google Workspace, SAP HANA",
+              "values": {
+                "acronis-cp-standard-server": "нет",
+                "acronis-cp-adv-server": "нет",
+                "acronis-cp-backup-adv-server": "да"
+              }
+            }
+          ],
+          "links": [
+            "acronis-cp-adv-server",
+            "acronis-cp-backup-adv-server"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Какую лицензию выбрать под устройство",
+          "kind": "items",
+          "body": "Лицензия выдаётся на каждую машину или физический хост; в кластере — на каждый узел. Тип лицензии определяет операционная система устройства, а не его роль в компании.",
+          "items": [
+            {
+              "t": "Server",
+              "d": "Windows Server любой редакции, кроме Essentials, и любой Linux. 250 ГБ облачного хранилища.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Workstation",
+              "d": "Windows 10/11 и macOS — ноутбуки и настольные ПК. 50 ГБ.",
+              "link": "acronis-cp-standard-ws"
+            },
+            {
+              "t": "Virtual Host",
+              "d": "Хост vSphere или Hyper-V: все виртуальные машины на нём без агента внутри каждой. 250 ГБ.",
+              "link": "acronis-cp-standard-vhost"
+            },
+            {
+              "t": "Windows Server Essentials",
+              "d": "Сервер на редакции Essentials. 150 ГБ.",
+              "link": "acronis-cp-standard-win-ess"
+            },
+            {
+              "t": "Public Cloud VM",
+              "d": "Виртуальные машины в AWS, Azure и других публичных облаках — пакет на 3 ВМ, по 40 ГБ на каждую.",
+              "link": "acronis-cp-standard-3vm"
+            },
+            {
+              "t": "Старшая лицензия на младшее устройство",
+              "d": "Допустимо: Server можно применить к рабочей станции. Наоборот — нет."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Компании с одним-четырьмя серверами приложений и баз данных, где нужен и бэкап с восстановлением на новое железо, и антивирус на сервере, а планы защиты настраивает один администратор."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если серверов и рабочих станций больше пяти или нужны общие планы для групп — Advanced. Если сервер — узел KVM, Nutanix или на нём SAP HANA, либо нужен бэкап Microsoft 365 — Backup Advanced. Для хоста виртуализации с несколькими ВМ выгоднее лицензия Virtual Host на весь хост."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте нагрузки, а не сотрудников",
+              "d": "По одной лицензии на каждый сервер и каждый узел кластера; серверы Linux — тоже Server. Смешивать типы нагрузок в одном заказе можно, квота хранилища сложится."
+            },
+            {
+              "t": "Хранилище",
+              "d": "250 ГБ облака входят и делятся между всеми устройствами аккаунта; больший объём — отдельной подпиской Acronis Cloud Storage, локальное хранилище не ограничено."
+            },
+            {
+              "t": "Способ развёртывания",
+              "d": "Облачная консоль не требует своего сервера управления; локальный обязателен, если серверы без доступа в интернет. Лицензия одна и та же."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cyber Protect Advanced Server",
+              "d": "Та же нагрузка с централизованными планами, лентами, SAN и сканированием копий.",
+              "link": "acronis-cp-adv-server"
+            },
+            {
+              "t": "Cyber Protect Backup Advanced Server",
+              "d": "Расширенный бэкап без полного антивируса; единственная редакция с SAP HANA.",
+              "link": "acronis-cp-backup-adv-server"
+            },
+            {
+              "t": "Standard Virtual Host",
+              "d": "Если сервер — гипервизор: одна лицензия на все ВМ хоста.",
+              "link": "acronis-cp-standard-vhost"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сервер Linux — это Server или Workstation?",
+          "a": "Server. Workstation — только для Windows 10/11 и macOS."
+        },
+        {
+          "q": "На сервере кластер из двух узлов — сколько лицензий?",
+          "a": "Две: лицензируется каждый узел кластера."
+        },
+        {
+          "q": "Входит ли агент приложений для Exchange и SQL Server?",
+          "a": "Да, в серверную лицензию Standard. SAP HANA — только в Backup Advanced."
+        },
+        {
+          "q": "Сколько устройств можно держать на одной облачной квоте?",
+          "a": "Сколько угодно: квота общая на аккаунт и складывается из всех лицензий — сервер и хост дадут 500 ГБ на всех."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-adv-server",
+        "acronis-cp-backup-adv-server",
+        "acronis-cp-standard-vhost",
+        "acronis-cp-standard-ws"
+      ],
+      "meta_title": "Acronis Cyber Protect Standard Server — подписка | BIZSoft",
+      "meta_description": "Acronis Cyber Protect Standard для сервера Windows/Linux: бэкап образов, восстановление на другое железо, антивирус, 250 ГБ облака. Договор, ЭДО.",
+      "seo_intents": [
+        "acronis cyber protect standard server купить — hero, meta",
+        "acronis cyber protect standard vs advanced / редакции — PLAN_COMPARE",
+        "acronis лицензия на сервер linux / кластер — DEPENDENCIES, FAQ",
+        "acronis cyber protect облачное хранилище 250 гб — BEFORE_ORDER, FAQ"
+      ],
+      "uncertainties": [
+        "Управление патчами в Standard не заявлено (неопределённость профиля №1)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT/DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что умеет редакция",
+          "new_information": "шесть групп функций из матрицы",
+          "sibling_overlap": "носитель; у нагрузок — только дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "cyber protect standard возможности",
+          "source": "purchasing FAQ, матрица редакций"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "какая редакция",
+          "new_information": "таблица трёх редакций, единый источник семейства",
+          "sibling_overlap": "у нагрузок — ссылка",
+          "decision": "COMPARE",
+          "seo_intent": "standard vs advanced",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "какая лицензия под устройство",
+          "new_information": "правило вендора по ОС и квоты",
+          "sibling_overlap": "у нагрузок — короткая ссылка",
+          "decision": "VALIDATE",
+          "seo_intent": "acronis какую лицензию выбрать",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль и три выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "защита сервера малого бизнеса",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "счёт нагрузок, хранилище, развёртывание",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "acronis cloud storage",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "acronis-cp-standard-ws": {
+      "sku": "ACRONIS-CP-STANDARD-WS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "рабочая станция",
+      "unit_label": "защищаемая рабочая станция",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Standard для рабочей станции — годовая подписка на защиту одного ноутбука или настольного компьютера на Windows 10/11 или macOS: образ системы и файлы в бэкап, антивирус и защита от программ-вымогателей в одном агенте, 50 ГБ облачного хранилища Acronis в лицензии.\n\nРабочая станция — самая младшая нагрузка в линейке: те же функции безопасности и восстановления, что у серверной лицензии, но без агента приложений. Для сотрудников с ноутбуками добавляется удалённое стирание устройства при утере.\n\nСрок — 1 год; консоль общая с серверными лицензиями — все устройства компании видны в одном месте.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт лицензия для рабочей станции",
+          "kind": "items",
+          "body": "Функции самой редакции — бэкап образов, восстановление на другое оборудование, антивирус, CDP — одинаковы для всех нагрузок и разобраны на карточке Server. Ниже — что добавляет именно рабочая станция.",
+          "items": [
+            {
+              "t": "Windows и macOS",
+              "d": "Один агент для обеих платформ; образ диска ноутбука восстанавливается на новую машину другой модели."
+            },
+            {
+              "t": "Файлы сотрудника",
+              "d": "Непрерывная защита данных перехватывает изменения рабочих файлов между плановыми копиями — при шифровальщике теряются минуты, а не день."
+            },
+            {
+              "t": "Утеря устройства",
+              "d": "Удалённое стирание из консоли; здоровье диска контролируется заранее, чтобы заменить его до отказа."
+            },
+            {
+              "t": "Хранилище",
+              "d": "50 ГБ облака на лицензию, квота суммируется с серверными и делится между всеми устройствами."
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "body": "Сравнение трёх редакций — на карточке серверной лицензии. Здесь — какой тип лицензии нужен компьютеру.",
+          "items": [
+            {
+              "t": "Workstation",
+              "d": "Windows 10/11 и macOS — ноутбуки и ПК сотрудников."
+            },
+            {
+              "t": "Server",
+              "d": "Если на машине Windows Server или Linux — даже если это «рабочий компьютер» администратора.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Advanced Workstation",
+              "d": "Когда рабочих станций и серверов вместе больше пяти и нужны общие планы для групп устройств.",
+              "link": "acronis-cp-adv-ws"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделу или небольшой компании, где важные данные живут на ноутбуках сотрудников, а не только на сервере: бухгалтерия, проектная документация, дизайн. Один администратор задаёт план защиты и видит все машины в одной консоли с серверами.\n\nЕсли устройств больше пяти и они делятся на группы с разными правилами — рациональнее Advanced."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Одна лицензия — одно устройство",
+              "d": "Ноутбук и домашний ПК сотрудника — две нагрузки. Лицензия переносится на замену машины."
+            },
+            {
+              "t": "macOS",
+              "d": "Агент ставится на Mac; локальный сервер управления на macOS не разворачивается — для парка из одних Mac используйте облачную консоль."
+            },
+            {
+              "t": "Хранилище",
+              "d": "50 ГБ на лицензию; десять ноутбуков дают 500 ГБ общей квоты."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Server",
+              "d": "Для серверов Windows и Linux, с агентом приложений.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Advanced Workstation",
+              "d": "Те же устройства при парке больше пяти, с групповыми планами.",
+              "link": "acronis-cp-adv-ws"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Mac сотрудника — Workstation?",
+          "a": "Да. macOS всегда лицензируется как рабочая станция; управлять им удобнее из облачной консоли."
+        },
+        {
+          "q": "Сотрудник работает на ноутбуке и стационарном ПК — одна лицензия?",
+          "a": "Нет, две: лицензия считается по устройству, а не по человеку."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-server",
+        "acronis-cp-adv-ws",
+        "acronis-cp-backup-adv-ws"
+      ],
+      "meta_title": "Acronis Cyber Protect Standard Workstation | BIZSoft",
+      "meta_description": "Защита ноутбука или ПК на Windows/macOS: образ и файлы в бэкап, антивирус, защита от вымогателей, удалённое стирание, 50 ГБ облака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis cyber protect workstation купить — hero, meta",
+        "acronis защита ноутбуков сотрудников / macos бэкап — CAPABILITIES, FAQ",
+        "workstation vs server лицензия acronis — PLAN_COMPARE"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT/DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-standard-vhost": {
+      "sku": "ACRONIS-CP-STANDARD-VHOST",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "хост виртуализации",
+      "unit_label": "защищаемый хост виртуализации",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Standard для хоста виртуализации — годовая подписка на защиту одного хоста vSphere или Hyper-V со всеми виртуальными машинами на нём: копии ВМ без агента внутри каждой, восстановление ВМ целиком или файлов из неё, 250 ГБ облачного хранилища Acronis в лицензии.\n\nСчитается по хостам, а не по машинам: пять, десять или сорок ВМ на одном хосте — одна лицензия. Это делает Virtual Host выгоднее набора серверных лицензий уже при трёх-четырёх ВМ. В Standard поддерживаются vSphere, Hyper-V и Virtuozzo; KVM, XenServer и Nutanix — в старших редакциях.\n\nСрок — 1 год; в кластере лицензируется каждый узел.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт лицензия на хост",
+          "kind": "items",
+          "body": "Возможности редакции Standard целиком описаны у серверной лицензии; для хоста важны четыре вещи.",
+          "items": [
+            {
+              "t": "Все ВМ хоста",
+              "d": "Безагентный бэкап машин vSphere и Hyper-V через гипервизор; число ВМ на хосте не ограничено."
+            },
+            {
+              "t": "Гранулярное восстановление",
+              "d": "ВМ целиком, диск, файл или объект приложения внутри ВМ; миграция V2V и V2P между платформами."
+            },
+            {
+              "t": "Безопасность на хосте",
+              "d": "Антивирус и защита от вымогателей в ВМ ставятся агентом при необходимости; сам хост — образный бэкап и мониторинг дисков."
+            },
+            {
+              "t": "Хранилище",
+              "d": "250 ГБ облака на хост; локальные и сетевые хранилища без ограничения."
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "body": "Редакции сравниваются на карточке Server; у хоста вопрос другой — лицензировать хост или каждую ВМ.",
+          "items": [
+            {
+              "t": "Virtual Host",
+              "d": "Хост vSphere или Hyper-V с несколькими ВМ — одна лицензия на все."
+            },
+            {
+              "t": "Server",
+              "d": "Одна-две ВМ на хосте или ВМ, к которой нет доступа через гипервизор — дешевле лицензировать как серверы.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Backup Advanced Virtual Host",
+              "d": "Хост KVM, Nutanix AHV, Citrix или RHV — Standard их не поддерживает.",
+              "link": "acronis-cp-backup-adv-vhost"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компании с одним-несколькими хостами виртуализации, на которых крутятся контроллер домена, 1С, почта и файловый сервер: копии снимаются через гипервизор без нагрузки на гостевые ОС, а восстановить можно и всю ВМ, и один файл из неё.\n\nЕсли хостов больше пяти или нужен бэкап на ленты и общие планы — Advanced; если гипервизор не VMware и не Hyper-V — Backup Advanced."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Считайте хосты и узлы",
+              "d": "Каждый физический узел кластера — отдельная лицензия, независимо от того, сколько ВМ на нём в данный момент."
+            },
+            {
+              "t": "Гипервизор",
+              "d": "vSphere, Hyper-V, Virtuozzo — Standard; остальные — Backup Advanced. Уточните версию гипервизора по списку совместимости вендора."
+            },
+            {
+              "t": "Хранилище",
+              "d": "250 ГБ на хост в облаке; для десятков ВМ обычно нужен локальный репозиторий или дополнительный объём Acronis Cloud Storage."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Server",
+              "d": "Для одной-двух ВМ или физических серверов.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Backup Advanced Virtual Host",
+              "d": "KVM, Nutanix, Citrix, RHV и бэкап без полного стека безопасности.",
+              "link": "acronis-cp-backup-adv-vhost"
+            },
+            {
+              "t": "Advanced Virtual Host",
+              "d": "Централизованные планы, ленты и SAN-снимки для крупной виртуальной среды.",
+              "link": "acronis-cp-adv-vhost"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "На хосте 12 виртуальных машин — сколько лицензий?",
+          "a": "Одна на хост. Число ВМ на нём не ограничено."
+        },
+        {
+          "q": "Гипервизор Proxmox или KVM — подойдёт Standard?",
+          "a": "Нет. В Standard поддерживаются vSphere, Hyper-V и Virtuozzo; KVM, RHV, Citrix и Nutanix — в Backup Advanced."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-server",
+        "acronis-cp-backup-adv-vhost",
+        "acronis-cp-adv-vhost"
+      ],
+      "meta_title": "Acronis Cyber Protect Standard Virtual Host | BIZSoft",
+      "meta_description": "Одна лицензия на хост vSphere или Hyper-V со всеми ВМ: безагентный бэкап, восстановление ВМ и файлов, 250 ГБ облака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis virtual host лицензия купить — hero, meta",
+        "acronis бэкап hyper-v vmware безагентный — CAPABILITIES",
+        "acronis лицензия на хост или на вм — PLAN_COMPARE, FAQ",
+        "acronis proxmox kvm — FAQ"
+      ],
+      "uncertainties": [
+        "Поддержка Proxmox в редакциях вендором на странице покупки не названа; ответ FAQ дан по списку гипервизоров Standard."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT/DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-standard-3vm": {
+      "sku": "ACRONIS-CP-STANDARD-3VM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "3 виртуальные машины в публичном облаке",
+      "unit_label": "пакет: 3 облачные ВМ",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Standard для виртуальных машин в публичном облаке — годовая подписка на защиту трёх ВМ в AWS, Azure или другом публичном облаке: агент внутри каждой машины, бэкап образа и файлов, антивирус, защита от вымогателей, по 40 ГБ облачного хранилища Acronis на каждую ВМ.\n\nЭто нагрузка для случаев, когда серверы компании живут не в своём ЦОД, а у облачного провайдера, и к гипервизору доступа нет: защита ставится агентом, лицензия продаётся пакетами по три машины.\n\nСрок — 1 год; для шести ВМ нужны два пакета.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт лицензия на облачные ВМ",
+          "kind": "items",
+          "body": "Набор функций редакции — см. серверную лицензию. Для облачной ВМ существенно следующее.",
+          "items": [
+            {
+              "t": "Агентный бэкап в облаке",
+              "d": "Копия ВМ AWS EC2, Azure и других провайдеров изнутри гостевой ОС Windows или Linux — гипервизор провайдера не нужен."
+            },
+            {
+              "t": "Восстановление и миграция",
+              "d": "Образ облачной ВМ восстанавливается в другом облаке или на физический сервер (V2V, V2P) — путь для смены провайдера."
+            },
+            {
+              "t": "Безопасность в гостевой ОС",
+              "d": "Антивирус, защита от вымогателей и предотвращение эксплойтов работают в самой ВМ."
+            },
+            {
+              "t": "Хранилище",
+              "d": "40 ГБ облака Acronis на каждую ВМ пакета — 120 ГБ на пакет, квота общая с остальными лицензиями."
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "body": "Про редакции — на карточке Server. Для ВМ у провайдера выбор идёт между тремя типами лицензии.",
+          "items": [
+            {
+              "t": "Public Cloud VM",
+              "d": "ВМ у облачного провайдера без доступа к гипервизору."
+            },
+            {
+              "t": "Server",
+              "d": "Для ВМ в собственном ЦОД или у хостера с доступом к хосту дешевле серверная лицензия или Virtual Host.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Virtual Host",
+              "d": "Если облачные ВМ — на выделенном хосте vSphere или Hyper-V под вашим управлением.",
+              "link": "acronis-cp-standard-vhost"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, чьи приложения и базы работают на арендованных виртуальных машинах в публичном облаке и нужен бэкап, независимый от снимков провайдера, а также возможность переехать в другое облако или на своё железо из той же копии."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пакет — три машины",
+              "d": "Лицензии в пакете можно распределить между разными облаками; на четвёртую ВМ нужен второй пакет."
+            },
+            {
+              "t": "Доступ",
+              "d": "Агенту нужен доступ из ВМ в интернет к консоли Acronis; локальный сервер управления в облаке не требуется."
+            },
+            {
+              "t": "Хранилище",
+              "d": "120 ГБ на пакет; для баз данных в облаке обычно докупается объём Acronis Cloud Storage или используется хранилище провайдера."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Server",
+              "d": "Для ВМ и серверов в собственной инфраструктуре.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Backup Advanced Public Cloud VM",
+              "d": "Расширенный бэкап облачных ВМ без полного стека безопасности.",
+              "link": "acronis-cp-backup-adv-3vm"
+            },
+            {
+              "t": "Advanced Public Cloud VM",
+              "d": "Централизованные планы и сканирование копий для крупного облачного парка.",
+              "link": "acronis-cp-adv-3vm"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "У нас пять ВМ в Azure — сколько пакетов?",
+          "a": "Два пакета по три ВМ; шестая лицензия останется в запасе."
+        },
+        {
+          "q": "Чем это отличается от снимков самого облака?",
+          "a": "Копия Acronis хранится вне провайдера и восстанавливается в другое облако или на физический сервер; снимки провайдера привязаны к его платформе."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-server",
+        "acronis-cp-backup-adv-3vm",
+        "acronis-cp-adv-3vm"
+      ],
+      "meta_title": "Acronis Cyber Protect Standard Public Cloud VM ×3 | BIZSoft",
+      "meta_description": "Пакет на 3 ВМ в AWS, Azure и других облаках: агентный бэкап, антивирус, восстановление в другое облако, 40 ГБ на ВМ. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis backup aws ec2 azure vm купить — hero, meta",
+        "acronis public cloud vm лицензия — CAPABILITIES, BEFORE_ORDER",
+        "бэкап облачных вм миграция между облаками — FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT/DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-standard-win-ess": {
+      "sku": "ACRONIS-CP-STANDARD-WIN-ESS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "Windows Server Essentials",
+      "unit_label": "защищаемый сервер Essentials",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Standard для Windows Server Essentials — годовая подписка на защиту одного сервера на редакции Essentials: образ системы и файлы в бэкап, восстановление на другое оборудование, антивирус и защита от программ-вымогателей, 150 ГБ облачного хранилища Acronis в лицензии.\n\nЭто отдельная, более дешёвая нагрузка для единственного сервера небольшой компании; функции те же, что у серверной лицензии Standard, включая агент приложений. Если на сервере обычная редакция Windows Server или Linux — нужна лицензия Server.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт лицензия для Essentials",
+          "kind": "items",
+          "body": "Всё, что умеет Standard, расписано у серверной лицензии; Essentials отличается только нагрузкой и квотой.",
+          "items": [
+            {
+              "t": "Один сервер под всё",
+              "d": "Файлы, домен, небольшая база — образный бэкап сервера целиком и восстановление на новую машину другой конфигурации."
+            },
+            {
+              "t": "Приложения",
+              "d": "Агент приложений для Exchange и SQL Server работает и на Essentials."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Полный стек редакции Standard: антивирус, защита от вымогателей, предотвращение эксплойтов, URL-фильтрация."
+            },
+            {
+              "t": "Хранилище",
+              "d": "150 ГБ облака на лицензию — между 50 ГБ рабочей станции и 250 ГБ сервера."
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "body": "Полная таблица редакций — у серверной лицензии. Ниже — как не ошибиться с редакцией Windows.",
+          "items": [
+            {
+              "t": "Windows Essentials",
+              "d": "Сервер именно на редакции Windows Server Essentials."
+            },
+            {
+              "t": "Server",
+              "d": "Windows Server Standard/Datacenter или Linux; при апгрейде ОС с Essentials лицензию нужно сменить на Server.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Workstation",
+              "d": "Компьютер на Windows 10/11 — рабочая станция, даже если он выполняет роль файлового сервера.",
+              "link": "acronis-cp-standard-ws"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Небольшой компании с единственным сервером на Windows Server Essentials, который держит файлы, домен и, возможно, бухгалтерскую базу: нужен образ сервера с восстановлением на другое железо и антивирус на нём, без администратора с отдельной консолью на каждую задачу."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Проверьте редакцию ОС",
+              "d": "Лицензия Essentials применима только к Windows Server Essentials; для остальных редакций — Server. Старшая лицензия на Essentials допустима, младшая на Standard/Datacenter — нет."
+            },
+            {
+              "t": "Рост",
+              "d": "Второй сервер или переход на Windows Server Standard — лицензия Server; при этом квоты хранилища складываются в одну."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Server",
+              "d": "Для Windows Server Standard/Datacenter и Linux.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Standard Workstation",
+              "d": "Для рабочих станций и ноутбуков.",
+              "link": "acronis-cp-standard-ws"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сервер на Windows Server 2022 Standard — можно взять лицензию Essentials, она дешевле?",
+          "a": "Нет. Essentials применима только к редакции Windows Server Essentials; для Standard и Datacenter нужна лицензия Server."
+        },
+        {
+          "q": "Что будет, если обновить ОС с Essentials до Standard в течение срока?",
+          "a": "Понадобится сменить лицензию на Server; разницу и порядок замены согласуем при обращении."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-server",
+        "acronis-cp-standard-ws"
+      ],
+      "meta_title": "Acronis Cyber Protect Standard Windows Essentials | BIZSoft",
+      "meta_description": "Защита сервера на Windows Server Essentials: образ и файлы, восстановление на другое железо, антивирус, 150 ГБ облака. Дешевле Server. Договор, ЭДО.",
+      "seo_intents": [
+        "acronis windows server essentials лицензия купить — hero, meta",
+        "acronis essentials vs server лицензия — PLAN_COMPARE, FAQ"
+      ],
+      "uncertainties": [
+        "Порядок замены лицензии Essentials → Server внутри срока — практика дистрибьютора, не описана вендором."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT/DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить на витрине"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта нагрузки",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-adv-server": {
+      "sku": "ACRONIS-CP-ADV-SERVER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Advanced",
+      "volume_label": "сервер",
+      "unit_label": "защищаемый сервер",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Advanced для сервера — годовая подписка на защиту сервера Windows или Linux в редакции для растущей инфраструктуры: к бэкапу и безопасности Standard добавляются централизованные и общие планы, группы устройств, ленты, снимки SAN и проверка копий на вредоносное ПО перед восстановлением. 250 ГБ облака в лицензии.\n\nПроизводитель рекомендует Advanced, когда защищаемых устройств больше пяти: планы задаются один раз на группу, а не на каждую машину, и появляются среды, которых нет в Standard, — XenServer, KVM, RHV, Oracle VM.\n\nСрок — 1 год. Бэкап Microsoft 365, Google Workspace и SAP HANA в Advanced не входит — это Backup Advanced.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Advanced",
+          "kind": "items",
+          "body": "Базовые функции — образный и файловый бэкап, Universal Restore, антивирус, защита от вымогателей, CDP — совпадают со Standard и описаны у Standard Server. Ниже — только дельта.",
+          "items": [
+            {
+              "t": "Централизованное управление",
+              "d": "Планы защиты создаются централизованно и назначаются группам устройств; общие планы — один план на десятки серверов и станций с одной точкой правки."
+            },
+            {
+              "t": "Носители",
+              "d": "Резервное копирование на ленточные библиотеки и снимки SAN-хранилищ — для регламентов с офлайн-копией и больших массивов."
+            },
+            {
+              "t": "Доверие к копиям",
+              "d": "Сканирование резервных копий на вредоносное ПО и безопасное восстановление — заражённая до бэкапа система не вернётся заражённой; Acronis Notary фиксирует неизменность копии."
+            },
+            {
+              "t": "Среды",
+              "d": "К vSphere, Hyper-V и Virtuozzo добавляются XenServer, KVM, RHV и Oracle VM Server."
+            },
+            {
+              "t": "Управление загрузкой",
+              "d": "Удалённое управление загрузочным носителем для bare-metal восстановления без выезда к серверу."
+            },
+            {
+              "t": "EDR",
+              "d": "Обнаружение и реагирование на конечных точках с визуализацией цепочки атаки по MITRE ATT&CK — только при облачном развёртывании консоли."
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Advanced или соседняя редакция",
+          "kind": "items",
+          "body": "Таблица всех трёх редакций — у Standard Server. Короткое правило для серверной лицензии:",
+          "items": [
+            {
+              "t": "Advanced",
+              "d": "Больше пяти устройств, общие планы, ленты или SAN, проверка копий перед восстановлением, EDR в облачной консоли."
+            },
+            {
+              "t": "Standard",
+              "d": "До пяти устройств и планы на каждое устройство отдельно — те же функции безопасности дешевле.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Backup Advanced",
+              "d": "Nutanix, KVM, Citrix, SAP HANA, бэкап Microsoft 365 и Google Workspace; безопасность — только защита от вымогателей.",
+              "link": "acronis-cp-backup-adv-server"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Какая лицензия под какое устройство",
+          "kind": "items",
+          "body": "Правило вендора общее для всех редакций — по операционной системе, а не по роли; подробно у Standard Server.",
+          "items": [
+            {
+              "t": "Server",
+              "d": "Windows Server (кроме Essentials) и Linux; 250 ГБ облака."
+            },
+            {
+              "t": "Workstation",
+              "d": "Windows 10/11, macOS; 50 ГБ.",
+              "link": "acronis-cp-adv-ws"
+            },
+            {
+              "t": "Virtual Host",
+              "d": "Хост vSphere/Hyper-V/XenServer/KVM/RHV/Oracle VM со всеми ВМ; 250 ГБ.",
+              "link": "acronis-cp-adv-vhost"
+            },
+            {
+              "t": "Public Cloud VM",
+              "d": "Пакет на 3 ВМ у облачного провайдера; 40 ГБ на ВМ.",
+              "link": "acronis-cp-adv-3vm"
+            },
+            {
+              "t": "Windows Essentials",
+              "d": "В Advanced отдельной нагрузки нет — Essentials лицензируется в Standard или как Server."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Компании с несколькими серверами и десятками рабочих станций, одним-двумя администраторами и регламентом хранения копий: общие планы снимают ручную настройку, ленты и SAN закрывают требования к офлайн-копии, проверка копий — риск восстановить шифровальщик вместе с данными."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Одному-четырём серверам без групповых планов — Standard. Средам на Nutanix или с SAP HANA и облачными почтовыми сервисами — Backup Advanced."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лицензии по нагрузкам",
+              "d": "На каждый сервер и узел кластера; квоты облака суммируются на аккаунт."
+            },
+            {
+              "t": "EDR",
+              "d": "Работает только в облачной консоли; при локальном сервере управления функции EDR недоступны при той же лицензии."
+            },
+            {
+              "t": "Смешивание редакций",
+              "d": "В одном аккаунте могут быть лицензии Standard и Advanced на разные машины; общие планы применяются к устройствам с лицензией Advanced."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Server",
+              "d": "Та же безопасность и бэкап без централизованных планов и лент.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Backup Advanced Server",
+              "d": "Расширенный бэкап, SAP HANA, дедупликация, без полного антивируса.",
+              "link": "acronis-cp-backup-adv-server"
+            },
+            {
+              "t": "Advanced Virtual Host",
+              "d": "Если сервер — гипервизор с несколькими ВМ.",
+              "link": "acronis-cp-adv-vhost"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что даёт сканирование резервных копий?",
+          "a": "Копия проверяется на вредоносное ПО до восстановления. Если сервер был заражён до создания бэкапа, восстановление из такой копии вернёт и заражение; Advanced находит это заранее."
+        },
+        {
+          "q": "Нужен ли Advanced ради EDR при локальной установке?",
+          "a": "Нет: EDR доступен только в облачной консоли. Для локального сервера управления Advanced даёт общие планы, ленты, SAN и проверку копий, но не EDR."
+        },
+        {
+          "q": "Есть ли в Advanced дедупликация?",
+          "a": "Нет, дедупликация — функция Backup Advanced. В Advanced есть централизованные планы, ленты, SAN-снимки и Notary."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-server",
+        "acronis-cp-backup-adv-server",
+        "acronis-cp-adv-vhost",
+        "acronis-cp-adv-ws"
+      ],
+      "meta_title": "Acronis Cyber Protect Advanced Server — подписка | BIZSoft",
+      "meta_description": "Acronis Cyber Protect Advanced для сервера: общие планы, ленты и SAN, проверка копий на malware, XenServer/KVM, 250 ГБ облака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis cyber protect advanced server купить — hero, meta",
+        "advanced vs standard acronis отличия — CAPABILITIES, PLAN_COMPARE",
+        "acronis edr облачная консоль — FAQ, BEFORE_ORDER",
+        "acronis бэкап на ленту san — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Поведение общих планов при смешении редакций в одном аккаунте — из документации, не из страницы покупки."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-adv-ws": {
+      "sku": "ACRONIS-CP-ADV-WS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Advanced",
+      "volume_label": "рабочая станция",
+      "unit_label": "защищаемая рабочая станция",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Advanced для рабочей станции — годовая подписка на защиту ноутбука или ПК на Windows или macOS в редакции с централизованным управлением: одна политика на весь парк, группы устройств, проверка копий перед восстановлением. 50 ГБ облачного хранилища в лицензии.\n\nБерут её вместе с серверными лицензиями Advanced, когда рабочих станций больше пяти и настраивать защиту на каждой отдельно уже некому. Функции самого агента — бэкап образа, антивирус, защита от вымогателей, удалённое стирание — те же, что у Standard Workstation.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет Advanced на рабочей станции",
+          "kind": "items",
+          "body": "Агент на компьютере тот же, что в Standard; разница — в том, как им управляют.",
+          "items": [
+            {
+              "t": "Группы и общие планы",
+              "d": "Ноутбуки отдела попадают в группу и получают план автоматически; новый сотрудник — новое устройство в группе без ручной настройки."
+            },
+            {
+              "t": "Проверка копий",
+              "d": "Перед откатом рабочей станции копия сканируется на вредоносное ПО; восстановление безопасное."
+            },
+            {
+              "t": "EDR на конечных точках",
+              "d": "При облачной консоли — расследование инцидентов и изоляция заражённого ноутбука в один щелчок."
+            },
+            {
+              "t": "Квота",
+              "d": "50 ГБ облака на устройство, в общем пуле аккаунта."
+            }
+          ],
+          "links": [
+            "acronis-cp-adv-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Advanced или Standard для рабочих станций",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced Workstation",
+              "d": "Парк больше пяти машин, групповые планы, EDR."
+            },
+            {
+              "t": "Standard Workstation",
+              "d": "Несколько ноутбуков, настройка вручную — дешевле при тех же функциях агента.",
+              "link": "acronis-cp-standard-ws"
+            },
+            {
+              "t": "Backup Advanced Workstation",
+              "d": "Только бэкап без антивируса — когда защиту конечных точек даёт другой продукт.",
+              "link": "acronis-cp-backup-adv-ws"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организации на 10–100 рабочих мест с администратором, который держит серверы на Advanced и хочет видеть ноутбуки в тех же группах и планах, а при инциденте — изолировать машину из консоли, не выезжая к ней."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "По устройству",
+              "d": "Одна лицензия на один компьютер; смена машины — перенос лицензии."
+            },
+            {
+              "t": "macOS",
+              "d": "Управление парком Mac — через облачную консоль; локальный сервер управления на macOS не ставится."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Workstation",
+              "d": "Тот же агент без групповых планов.",
+              "link": "acronis-cp-standard-ws"
+            },
+            {
+              "t": "Advanced Server",
+              "d": "Серверная лицензия той же редакции.",
+              "link": "acronis-cp-adv-server"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли перевести рабочие станции на Advanced, оставив серверы на Standard?",
+          "a": "Можно, лицензии разных редакций живут в одном аккаунте; но общие планы и EDR будут действовать только на устройствах с Advanced."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-ws",
+        "acronis-cp-adv-server",
+        "acronis-cp-backup-adv-ws"
+      ],
+      "meta_title": "Acronis Cyber Protect Advanced Workstation | BIZSoft",
+      "meta_description": "Защита ноутбуков и ПК Windows/macOS с групповыми планами, проверкой копий и EDR в облачной консоли; 50 ГБ облака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis advanced workstation купить — hero, meta",
+        "acronis edr рабочие станции — CAPABILITIES",
+        "защита ноутбуков сотрудников централизованно — FIT"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-adv-vhost": {
+      "sku": "ACRONIS-CP-ADV-VHOST",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Advanced",
+      "volume_label": "хост виртуализации",
+      "unit_label": "защищаемый хост виртуализации",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Advanced для хоста виртуализации — годовая подписка на защиту хоста со всеми его виртуальными машинами: помимо vSphere и Hyper-V здесь поддерживаются XenServer, KVM, RHV и Oracle VM, а копии ВМ уходят в том числе на ленты и в SAN-снимки. 250 ГБ облачного хранилища на хост.\n\nОт Standard Virtual Host отличается не тем, что умеет агент, а средами и управлением: больше гипервизоров, общие планы на группу хостов, сканирование копий ВМ перед восстановлением.\n\nСрок — 1 год; каждый узел кластера — отдельная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Advanced на хосте",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Гипервизоры",
+              "d": "vSphere, Hyper-V, Virtuozzo плюс XenServer, KVM, RHV, Oracle VM Server — безагентно или с агентом по среде."
+            },
+            {
+              "t": "Общие планы на кластер",
+              "d": "Один план на группу хостов; новая ВМ на хосте защищается автоматически по правилу."
+            },
+            {
+              "t": "Ленты и SAN",
+              "d": "Копии ВМ на ленточную библиотеку и через снимки SAN — без нагрузки на продуктивный хост."
+            },
+            {
+              "t": "Проверка копий ВМ",
+              "d": "Сканирование бэкапов на вредоносное ПО и безопасное восстановление машины."
+            }
+          ],
+          "links": [
+            "acronis-cp-adv-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Хост: какая редакция",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced Virtual Host",
+              "d": "Несколько хостов или кластер, XenServer/KVM/RHV, ленты."
+            },
+            {
+              "t": "Standard Virtual Host",
+              "d": "Один-два хоста vSphere или Hyper-V без общих планов.",
+              "link": "acronis-cp-standard-vhost"
+            },
+            {
+              "t": "Backup Advanced Virtual Host",
+              "d": "Nutanix AHV, Citrix, Oracle LVM и дедупликация — при бэкапе без полного стека безопасности.",
+              "link": "acronis-cp-backup-adv-vhost"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Инфраструктуре из нескольких хостов или кластера, где ВМ появляются и исчезают чаще, чем администратор успевает заводить планы вручную, и где регламент требует офлайн-копии на ленте или снимков SAN."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Узлы, не машины",
+              "d": "Лицензия на каждый физический узел; число ВМ не ограничено."
+            },
+            {
+              "t": "KVM и Nutanix",
+              "d": "KVM и RHV есть в Advanced; Nutanix AHV, Citrix и Oracle LVM — только в Backup Advanced."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Virtual Host",
+              "d": "vSphere/Hyper-V без общих планов и лент.",
+              "link": "acronis-cp-standard-vhost"
+            },
+            {
+              "t": "Backup Advanced Virtual Host",
+              "d": "Nutanix, Citrix и дедупликация.",
+              "link": "acronis-cp-backup-adv-vhost"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Хост на KVM — Advanced подойдёт?",
+          "a": "Да, KVM и RHV поддерживаются в Advanced; Standard их не поддерживает, а для Nutanix AHV нужен Backup Advanced."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-vhost",
+        "acronis-cp-backup-adv-vhost",
+        "acronis-cp-adv-server"
+      ],
+      "meta_title": "Acronis Cyber Protect Advanced Virtual Host | BIZSoft",
+      "meta_description": "Хост vSphere, Hyper-V, XenServer, KVM, RHV или Oracle VM со всеми ВМ: общие планы, ленты и SAN, проверка копий; 250 ГБ облака. Договор, ЭДО.",
+      "seo_intents": [
+        "acronis advanced virtual host купить — hero, meta",
+        "acronis kvm rhv xenserver бэкап — CAPABILITIES, FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-adv-3vm": {
+      "sku": "ACRONIS-CP-ADV-3VM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Advanced",
+      "volume_label": "3 виртуальные машины в публичном облаке",
+      "unit_label": "пакет: 3 облачные ВМ",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Advanced для облачных ВМ — годовая подписка на три виртуальные машины у публичного провайдера с централизованными планами и проверкой копий перед восстановлением. По 40 ГБ облачного хранилища Acronis на машину.\n\nПакет по три ВМ — как в Standard; редакция Advanced нужна, когда облачных машин десятки и они делятся на группы с разными политиками, а копии должны проверяться на заражение до отката.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет Advanced для облачных ВМ",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Группы облачных ВМ",
+              "d": "Продуктив, тест и стенд — три группы с разными расписаниями и сроками хранения без ручной настройки каждой машины."
+            },
+            {
+              "t": "Проверка и безопасное восстановление",
+              "d": "Копия облачной ВМ сканируется на вредоносное ПО перед восстановлением в это или другое облако."
+            },
+            {
+              "t": "EDR в гостевой ОС",
+              "d": "При облачной консоли — расследование и изоляция заражённой ВМ."
+            },
+            {
+              "t": "Квота",
+              "d": "120 ГБ на пакет в общем пуле аккаунта."
+            }
+          ],
+          "links": [
+            "acronis-cp-adv-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Облачные ВМ: какая редакция",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced",
+              "d": "Много ВМ, группы, проверка копий, EDR."
+            },
+            {
+              "t": "Standard",
+              "d": "Несколько ВМ, планы задаются вручную — дешевле.",
+              "link": "acronis-cp-standard-3vm"
+            },
+            {
+              "t": "Backup Advanced",
+              "d": "Только бэкап облачных ВМ с дедупликацией, без антивируса.",
+              "link": "acronis-cp-backup-adv-3vm"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, у которых в публичном облаке живёт не пара серверов, а рабочая среда из десятков машин с разной критичностью, и восстановление должно быть безопасным по умолчанию."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кратно трём",
+              "d": "Семь ВМ — три пакета; запас лицензий остаётся в аккаунте."
+            },
+            {
+              "t": "Доступ агента",
+              "d": "Агенту в ВМ нужен выход к консоли Acronis; сервер управления в облаке провайдера не разворачивается."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Public Cloud VM ×3",
+              "d": "Тот же пакет без групп и проверки копий.",
+              "link": "acronis-cp-standard-3vm"
+            },
+            {
+              "t": "Backup Advanced Public Cloud VM ×3",
+              "d": "Бэкап с дедупликацией без стека безопасности.",
+              "link": "acronis-cp-backup-adv-3vm"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли смешать в пакете ВМ из AWS и Azure?",
+          "a": "Да, три лицензии пакета не привязаны к провайдеру."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-3vm",
+        "acronis-cp-backup-adv-3vm",
+        "acronis-cp-adv-server"
+      ],
+      "meta_title": "Acronis Cyber Protect Advanced Public Cloud VM ×3 | BIZSoft",
+      "meta_description": "Пакет на 3 ВМ в публичном облаке с групповыми планами, проверкой копий и EDR; 40 ГБ на ВМ. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis advanced public cloud vm купить — hero, meta",
+        "бэкап облачных вм группами — CAPABILITIES"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-backup-adv-server": {
+      "sku": "ACRONIS-CP-BACKUP-ADV-SERVER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Backup Advanced",
+      "volume_label": "сервер",
+      "unit_label": "защищаемый сервер",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Backup Advanced для сервера — годовая подписка на расширенный бэкап сервера Windows или Linux: дедупликация, обработка копий вне продуктивного хоста, ленты, группы и общие планы, отчёты. Из безопасности остаётся защита от вымогателей и криптомайнинга. 250 ГБ облака в лицензии.\n\nЭто единственная редакция с бэкапом SAP HANA, Microsoft 365 и Google Workspace и с поддержкой Nutanix AHV, KVM, RHV, Citrix и Oracle LVM. Её выбирают, когда защиту конечных точек уже даёт другой продукт, а нужен именно бэкап промышленного уровня.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Backup Advanced на сервере",
+          "kind": "items",
+          "body": "Образный и файловый бэкап, восстановление на другое оборудование и агент приложений — общие для всех редакций и описаны у Standard Server. Дельта редакции:",
+          "items": [
+            {
+              "t": "Дедупликация",
+              "d": "Одинаковые блоки хранятся один раз на весь репозиторий — десятки серверов с одной ОС занимают место одного."
+            },
+            {
+              "t": "Обработка вне хоста",
+              "d": "Репликация, проверка и очистка копий выполняются отдельным узлом, не нагружая продуктивный сервер."
+            },
+            {
+              "t": "Ленты и SAN",
+              "d": "Ленточные библиотеки, снимки SAN, офлайн-копии по регламенту."
+            },
+            {
+              "t": "Приложения и среды",
+              "d": "SAP HANA, Oracle DB, Exchange, SQL Server, SharePoint; Nutanix AHV, KVM, RHV, Citrix Hypervisor, Oracle LVM."
+            },
+            {
+              "t": "Управление",
+              "d": "Группы, общие планы, настраиваемые отчёты для аудита."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Защита от программ-вымогателей и криптомайнинга; полного антивируса, URL-фильтрации и EDR нет."
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Backup Advanced или редакции с полной безопасностью",
+          "kind": "items",
+          "body": "Полная таблица — у Standard Server. Правило выбора:",
+          "items": [
+            {
+              "t": "Backup Advanced",
+              "d": "Нужны SAP HANA, Nutanix/Citrix, дедупликация или бэкап Microsoft 365 / Google Workspace; антивирус есть свой."
+            },
+            {
+              "t": "Advanced",
+              "d": "Тот же уровень управления и лент, но с полным стеком безопасности и EDR; без SAP HANA и Nutanix.",
+              "link": "acronis-cp-adv-server"
+            },
+            {
+              "t": "Standard",
+              "d": "Небольшая инфраструктура, безопасность и бэкап в одном агенте.",
+              "link": "acronis-cp-standard-server"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Нагрузки Backup Advanced",
+          "kind": "items",
+          "body": "Правило выбора по ОС — общее, у Standard Server. В этой редакции дополнительно лицензируются облачные сервисы.",
+          "items": [
+            {
+              "t": "Server",
+              "d": "Windows Server и Linux; 250 ГБ."
+            },
+            {
+              "t": "Workstation",
+              "d": "Компьютеры на Windows 10/11 и macOS; квота 50 ГБ.",
+              "link": "acronis-cp-backup-adv-ws"
+            },
+            {
+              "t": "Virtual Host",
+              "d": "Все гипервизоры линейки, включая Nutanix и Citrix; 250 ГБ.",
+              "link": "acronis-cp-backup-adv-vhost"
+            },
+            {
+              "t": "Public Cloud VM",
+              "d": "Три ВМ у облачного провайдера одним пакетом; по 40 ГБ на машину.",
+              "link": "acronis-cp-backup-adv-3vm"
+            },
+            {
+              "t": "Microsoft 365 / Google Workspace",
+              "d": "Пакеты по 5 мест, облачное хранилище без ограничений, только облачная консоль.",
+              "link": "acronis-cp-backup-adv-m365-5"
+            },
+            {
+              "t": "Email Archiving",
+              "d": "Отдельная лицензионная линия пакетами по 5 мест.",
+              "link": "acronis-cp-backup-adv-email-5"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "ИТ-службе с собственным антивирусом и регламентом хранения, где серверов много, часть на Nutanix или KVM, есть SAP или Oracle, и место в репозитории — деньги."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если антивирус на серверах нужен от Acronis — Advanced. Если серверов до пяти — Standard."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced Server",
+              "d": "Полная безопасность плюс ленты и общие планы, без дедупликации.",
+              "link": "acronis-cp-adv-server"
+            },
+            {
+              "t": "Standard Server",
+              "d": "Базовая редакция для нескольких серверов.",
+              "link": "acronis-cp-standard-server"
+            },
+            {
+              "t": "Backup Advanced Virtual Host",
+              "d": "Для хостов Nutanix, Citrix, KVM.",
+              "link": "acronis-cp-backup-adv-vhost"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "В Backup Advanced совсем нет антивируса?",
+          "a": "Полного антивируса, URL-фильтрации и EDR нет; защита от программ-вымогателей и криптомайнинга остаётся."
+        },
+        {
+          "q": "Нужен бэкап SAP HANA — какая редакция?",
+          "a": "Только Backup Advanced. В Standard и Advanced агента для SAP HANA нет."
+        },
+        {
+          "q": "Что даёт дедупликация на практике?",
+          "a": "Повторяющиеся блоки — системные файлы одинаковых ОС, общие библиотеки — хранятся один раз; репозиторий для десятков однотипных серверов уменьшается в разы."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-adv-server",
+        "acronis-cp-standard-server",
+        "acronis-cp-backup-adv-vhost",
+        "acronis-cp-backup-adv-m365-5"
+      ],
+      "meta_title": "Acronis Cyber Protect Backup Advanced Server | BIZSoft",
+      "meta_description": "Расширенный бэкап сервера: дедупликация, ленты, off-host обработка, SAP HANA, Nutanix и KVM; защита от вымогателей; 250 ГБ облака. Договор, ЭДО.",
+      "seo_intents": [
+        "acronis backup advanced server купить — hero, meta",
+        "acronis sap hana бэкап — CAPABILITIES, FAQ",
+        "acronis дедупликация — CAPABILITIES, FAQ",
+        "backup advanced vs advanced — PLAN_COMPARE"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-backup-adv-ws": {
+      "sku": "ACRONIS-CP-BACKUP-ADV-WS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Backup Advanced",
+      "volume_label": "рабочая станция",
+      "unit_label": "защищаемая рабочая станция",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Backup Advanced для рабочей станции — годовая подписка на бэкап ноутбука или ПК на Windows или macOS без полного антивируса: образ и файлы, групповые планы, дедупликация в репозитории, защита от программ-вымогателей. 50 ГБ облачного хранилища.\n\nСамая дешёвая лицензия линейки на компьютер — для компаний, у которых защита конечных точек уже есть от другого производителя, а нужен централизованно управляемый бэкап рабочих мест.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Backup Advanced на компьютере",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бэкап рабочего места",
+              "d": "Образ системы, файлы и папки, непрерывная защита изменений между копиями."
+            },
+            {
+              "t": "Групповые планы",
+              "d": "Один план на отдел, новые устройства подхватываются по правилу."
+            },
+            {
+              "t": "Дедупликация",
+              "d": "Сто однотипных ноутбуков занимают в репозитории место нескольких."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Антивируса, URL-фильтрации, EDR — только защита от шифровальщиков и криптомайнинга."
+            }
+          ],
+          "links": [
+            "acronis-cp-backup-adv-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Рабочая станция: какая редакция",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Backup Advanced Workstation",
+              "d": "Свой антивирус есть, нужен управляемый бэкап парка."
+            },
+            {
+              "t": "Standard Workstation",
+              "d": "Антивирус и бэкап от Acronis в одном агенте для небольшого парка.",
+              "link": "acronis-cp-standard-ws"
+            },
+            {
+              "t": "Advanced Workstation",
+              "d": "Полный стек безопасности с EDR и групповыми планами.",
+              "link": "acronis-cp-adv-ws"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организации, где на рабочих местах уже стоит корпоративный антивирус, а задача — регулярные копии ноутбуков сотрудников с одним планом на отдел и экономным хранилищем."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Одно устройство — одна лицензия",
+              "d": "Замена машины — перенос лицензии без доплаты."
+            },
+            {
+              "t": "Совместимость с другим антивирусом",
+              "d": "Агент Backup Advanced не конфликтует со сторонним антивирусом: модуль антивируса в нём отсутствует."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Workstation",
+              "d": "С антивирусом Acronis.",
+              "link": "acronis-cp-standard-ws"
+            },
+            {
+              "t": "Backup Advanced Server",
+              "d": "Серверная лицензия той же редакции.",
+              "link": "acronis-cp-backup-adv-server"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Уживётся ли с уже установленным антивирусом?",
+          "a": "Да. В Backup Advanced нет антивирусного модуля, остаётся только защита от вымогателей; конфликтов с продуктами других производителей обычно нет — исключения см. в списке совместимости вендора."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-ws",
+        "acronis-cp-adv-ws",
+        "acronis-cp-backup-adv-server"
+      ],
+      "meta_title": "Acronis Cyber Protect Backup Advanced Workstation | BIZSoft",
+      "meta_description": "Бэкап ноутбуков и ПК с групповыми планами и дедупликацией без полного антивируса; защита от вымогателей; 50 ГБ облака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis backup workstation без антивируса — hero, FAQ",
+        "бэкап рабочих станций централизованно — FIT"
+      ],
+      "uncertainties": [
+        "Совместимость со сторонними антивирусами — общая практика, в первоисточнике для покупки не описана."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-backup-adv-vhost": {
+      "sku": "ACRONIS-CP-BACKUP-ADV-VHOST",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Backup Advanced",
+      "volume_label": "хост виртуализации",
+      "unit_label": "защищаемый хост виртуализации",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Backup Advanced для хоста виртуализации — годовая подписка на бэкап хоста со всеми ВМ в редакции с самым широким списком гипервизоров: vSphere, Hyper-V, Virtuozzo, XenServer, KVM, RHV, Citrix Hypervisor, Nutanix AHV и Oracle LVM. Дедупликация, обработка копий вне хоста, ленты. 250 ГБ облачного хранилища на хост.\n\nДля сред на Nutanix, Citrix или Oracle LVM другой лицензии в линейке нет. Безопасность — защита от вымогателей и криптомайнинга без полного антивируса.\n\nСрок — 1 год; лицензия на каждый узел кластера.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Backup Advanced на хосте",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Все гипервизоры линейки",
+              "d": "Nutanix AHV — безагентно и с агентом; Citrix, Oracle LVM, KVM, RHV — с агентом; vSphere и Hyper-V — безагентно."
+            },
+            {
+              "t": "Экономия репозитория",
+              "d": "Дедупликация между ВМ одного хоста и между хостами; обработка копий вне продуктивного узла."
+            },
+            {
+              "t": "Регламент",
+              "d": "Ленты, SAN-снимки, общие планы на кластер, отчёты для аудита."
+            }
+          ],
+          "links": [
+            "acronis-cp-backup-adv-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Хост: Backup Advanced или Advanced",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Backup Advanced",
+              "d": "Nutanix, Citrix, Oracle LVM или нужна дедупликация; антивирус свой."
+            },
+            {
+              "t": "Advanced Virtual Host",
+              "d": "XenServer, KVM, RHV с полным стеком безопасности и проверкой копий.",
+              "link": "acronis-cp-adv-vhost"
+            },
+            {
+              "t": "Standard Virtual Host",
+              "d": "Небольшая среда на vSphere или Hyper-V без общих планов.",
+              "link": "acronis-cp-standard-vhost"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Виртуальной инфраструктуре на Nutanix, Citrix или KVM, а также крупным кластерам vSphere/Hyper-V, где объём копий важнее встроенного антивируса и где хранение считают в терабайтах."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Узлы кластера",
+              "d": "Каждый физический узел — лицензия; ВМ не считаются."
+            },
+            {
+              "t": "Версия гипервизора",
+              "d": "Сверьте версию Nutanix AHV или Citrix со списком совместимости вендора: поддержка привязана к версиям."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced Virtual Host",
+              "d": "С полным стеком безопасности, без Nutanix и дедупликации.",
+              "link": "acronis-cp-adv-vhost"
+            },
+            {
+              "t": "Standard Virtual Host",
+              "d": "vSphere/Hyper-V для небольшой среды.",
+              "link": "acronis-cp-standard-vhost"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Nutanix AHV — какая лицензия?",
+          "a": "Только Backup Advanced Virtual Host: Standard и Advanced Nutanix не поддерживают."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-adv-vhost",
+        "acronis-cp-standard-vhost",
+        "acronis-cp-backup-adv-server"
+      ],
+      "meta_title": "Acronis Cyber Protect Backup Advanced Virtual Host | BIZSoft",
+      "meta_description": "Хост Nutanix AHV, Citrix, KVM, RHV, vSphere или Hyper-V со всеми ВМ: дедупликация, ленты, off-host обработка; 250 ГБ облака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis nutanix ahv бэкап — hero, FAQ",
+        "acronis backup advanced virtual host купить — meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-backup-adv-3vm": {
+      "sku": "ACRONIS-CP-BACKUP-ADV-3VM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Backup Advanced",
+      "volume_label": "3 виртуальные машины в публичном облаке",
+      "unit_label": "пакет: 3 облачные ВМ",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Backup Advanced для облачных ВМ — годовая подписка на бэкап трёх машин у публичного провайдера с дедупликацией и групповыми планами, без полного антивируса. По 40 ГБ облачного хранилища на машину.\n\nВыбор для облачных сред, где защиту гостевых ОС обеспечивает провайдер или отдельный продукт, а от Acronis нужна независимая от провайдера копия и экономное хранение.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Backup Advanced для облачных ВМ",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Независимая копия",
+              "d": "Агент в гостевой ОС снимает образ ВМ и хранит его вне платформы провайдера; восстановление — в другое облако или на своё железо."
+            },
+            {
+              "t": "Дедупликация облачных ВМ",
+              "d": "Однотипные машины из шаблона занимают в репозитории долю своего размера."
+            },
+            {
+              "t": "Группы",
+              "d": "Продуктив и тест — разные планы, назначаются по тегу."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Защита от вымогателей в гостевой ОС; антивируса нет."
+            }
+          ],
+          "links": [
+            "acronis-cp-backup-adv-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Облачные ВМ: Backup Advanced или Standard/Advanced",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Backup Advanced",
+              "d": "Антивирус в облаке свой, нужна дедупликация."
+            },
+            {
+              "t": "Standard ×3",
+              "d": "Бэкап и антивирус вместе для нескольких ВМ.",
+              "link": "acronis-cp-standard-3vm"
+            },
+            {
+              "t": "Advanced ×3",
+              "d": "Полная безопасность с EDR и проверкой копий.",
+              "link": "acronis-cp-adv-3vm"
+            }
+          ],
+          "links": [
+            "acronis-cp-standard-server"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, которые держат десятки однотипных ВМ в AWS или Azure, платят за хранилище по объёму и хотят иметь копии, не зависящие от снимков провайдера."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пакетами по три",
+              "d": "Десять ВМ — четыре пакета; остаток лицензий хранится в аккаунте."
+            },
+            {
+              "t": "Сеть",
+              "d": "Агенту нужен выход к консоли Acronis и к репозиторию — учитывайте исходящий трафик провайдера."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard Public Cloud VM ×3",
+              "d": "С антивирусом Acronis.",
+              "link": "acronis-cp-standard-3vm"
+            },
+            {
+              "t": "Advanced Public Cloud VM ×3",
+              "d": "С EDR и проверкой копий.",
+              "link": "acronis-cp-adv-3vm"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли смысл в дедупликации при 3 ВМ?",
+          "a": "При трёх машинах эффект небольшой; редакция окупается на десятках однотипных ВМ или когда репозиторий общий с серверами компании."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-standard-3vm",
+        "acronis-cp-adv-3vm",
+        "acronis-cp-backup-adv-server"
+      ],
+      "meta_title": "Acronis Backup Advanced Public Cloud VM ×3 | BIZSoft",
+      "meta_description": "Пакет на 3 ВМ в публичном облаке: независимая копия, дедупликация, групповые планы, без антивируса; 40 ГБ на ВМ. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis backup advanced cloud vm — hero, meta",
+        "бэкап облачных вм с дедупликацией — CAPABILITIES"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-backup-adv-m365-5": {
+      "sku": "ACRONIS-CP-BACKUP-ADV-M365-5",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Backup Advanced",
+      "volume_label": "Microsoft 365, 5 мест",
+      "unit_label": "пакет: 5 мест Microsoft 365",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Backup Advanced для Microsoft 365 — годовая подписка на независимое резервное копирование данных пяти пользователей Microsoft 365: почтовые ящики Exchange Online, OneDrive, сайты SharePoint и Teams копируются в облако Acronis отдельно от Microsoft, объём хранилища не ограничен.\n\nМесто — один пользователь или общий почтовый ящик; сайты SharePoint и Teams, к которым у пользователя есть доступ, отдельных мест не требуют. Пакеты по пять мест; 12 пользователей — три пакета.\n\nСрок — 1 год; работает только через облачную консоль Acronis.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что копируется из Microsoft 365",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Exchange Online",
+              "d": "Ящики пользователей и общие ящики, папки, вложения; восстановление письма, папки или ящика целиком, в том числе в другой ящик."
+            },
+            {
+              "t": "OneDrive и SharePoint",
+              "d": "Файлы пользователей, сайты и библиотеки документов с версиями; Teams — каналы, файлы, беседы."
+            },
+            {
+              "t": "Entra ID",
+              "d": "Объекты каталога — пользователи, группы, роли — в резервной копии для восстановления тенанта."
+            },
+            {
+              "t": "Хранилище и поиск",
+              "d": "Облако Acronis без лимита объёма, гранулярное восстановление и поиск по содержимому."
+            }
+          ],
+          "links": [
+            "acronis-cp-backup-adv-server"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считаются места",
+          "kind": "items",
+          "body": "Правило вендора: лицензируется мест столько, сколько пользователей с ящиком или OneDrive плюс общие ящики.",
+          "items": [
+            {
+              "t": "Что занимает место",
+              "d": "Пользователь с ящиком и/или OneDrive; общий почтовый ящик; публичная папка. Пользователь с ящиком, OneDrive и доступом к SharePoint/Teams — одно место."
+            },
+            {
+              "t": "Что не занимает",
+              "d": "Комнаты и оборудование; пользователи с доступом к сайтам, но без ящика и OneDrive; внешние пользователи."
+            },
+            {
+              "t": "Примеры",
+              "d": "Пять пользователей Exchange и OneDrive плюс один общий ящик — шесть мест, два пакета. Сто пользователей, один сайт SharePoint и один общий ящик — 101 место."
+            },
+            {
+              "t": "Консоль",
+              "d": "Только облачное развёртывание; локальный сервер управления этот тип бэкапа не поддерживает."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Microsoft 365: бэкап или архив",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Backup Advanced Microsoft 365",
+              "d": "Восстановление данных после удаления, ошибки или атаки: ящики, файлы, сайты."
+            },
+            {
+              "t": "Email Archiving",
+              "d": "Неизменяемый архив переписки для комплаенса и разбирательств; берут вместе с бэкапом, а не вместо него.",
+              "link": "acronis-cp-backup-adv-email-5"
+            },
+            {
+              "t": "Google Workspace",
+              "d": "Аналогичный пакет для Gmail и Google Drive.",
+              "link": "acronis-cp-backup-adv-gws-5"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям на Microsoft 365, которым недостаточно корзины и стандартного удержания Microsoft: копия должна лежать у другого поставщика, восстанавливаться поштучно и не иметь срока хранения по умолчанию."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте места",
+              "d": "Выгрузите список пользователей с ящиком или OneDrive и общих ящиков; полный перечень лицензируемых мест можно выгрузить и из консоли Acronis после подключения."
+            },
+            {
+              "t": "Кратно пяти",
+              "d": "Пакеты по пять; 12 пользователей — три пакета, три места в запасе."
+            },
+            {
+              "t": "Права в тенанте",
+              "d": "Для подключения нужны права глобального администратора Microsoft 365 при первом согласии приложения."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Email Archiving, 5 мест",
+              "d": "Архив для комплаенса — дополнение к бэкапу.",
+              "link": "acronis-cp-backup-adv-email-5"
+            },
+            {
+              "t": "Backup Advanced Google Workspace, 5 мест",
+              "d": "Для организаций на Google.",
+              "link": "acronis-cp-backup-adv-gws-5"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужно ли место на сайт SharePoint, если его читают все сотрудники?",
+          "a": "Нет. Сайты и Teams защищаются в рамках мест пользователей, у которых есть к ним доступ; отдельное место нужно только если бэкапится один SharePoint без ящиков."
+        },
+        {
+          "q": "Общий почтовый ящик — это место?",
+          "a": "Да, каждый общий ящик занимает одно место, как пользователь."
+        },
+        {
+          "q": "Есть ли лимит хранилища?",
+          "a": "Нет: для Microsoft 365, Google Workspace и Email Archiving облачное хранилище Acronis не ограничено."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-backup-adv-email-5",
+        "acronis-cp-backup-adv-gws-5",
+        "acronis-cp-backup-adv-server"
+      ],
+      "meta_title": "Acronis Backup для Microsoft 365, 5 мест | BIZSoft",
+      "meta_description": "Независимый бэкап Exchange Online, OneDrive, SharePoint и Teams пяти пользователей в облако Acronis без лимита объёма. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis backup microsoft 365 купить — hero, meta",
+        "бэкап microsoft 365 лицензирование места общий ящик — DEPENDENCIES, FAQ",
+        "резервное копирование exchange online onedrive sharepoint — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Требование прав глобального администратора при подключении тенанта — из документации, не из страницы покупки."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-backup-adv-gws-5": {
+      "sku": "ACRONIS-CP-BACKUP-ADV-GWS-5",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Backup Advanced",
+      "volume_label": "Google Workspace, 5 мест",
+      "unit_label": "пакет: 5 мест Google Workspace",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Cyber Protect Backup Advanced для Google Workspace — годовая подписка на резервное копирование данных пяти пользователей Google Workspace: Gmail, Google Drive и общие диски, контакты и календарь копируются в облако Acronis отдельно от Google, объём не ограничен.\n\nМесто — один пользователь с ящиком; общие диски защищаются через места имеющих к ним доступ. Пакеты по пять: 12 пользователей — три пакета.\n\nСрок — 1 год; только облачная консоль Acronis.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что копируется из Google Workspace",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Gmail",
+              "d": "Письма, ярлыки, вложения; восстановление письма или ящика, в том числе другому пользователю."
+            },
+            {
+              "t": "Drive и общие диски",
+              "d": "Файлы с версиями, права доступа, содержимое общих дисков."
+            },
+            {
+              "t": "Контакты и Календарь",
+              "d": "Записи и события с гранулярным восстановлением."
+            },
+            {
+              "t": "Хранилище",
+              "d": "Облако Acronis без ограничения объёма; поиск по копиям."
+            }
+          ],
+          "links": [
+            "acronis-cp-backup-adv-server"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считаются места",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Место",
+              "d": "Каждый пользователь Google Workspace с ящиком Gmail; общие диски отдельных мест не требуют."
+            },
+            {
+              "t": "Пакет",
+              "d": "Пять мест; 17 пользователей — четыре пакета."
+            },
+            {
+              "t": "Консоль",
+              "d": "Только облачное развёртывание; подключение — учётной записью суперадминистратора Google."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Google Workspace: с чем сравнивать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Backup Advanced Google Workspace",
+              "d": "Единственная лицензия линейки для Google."
+            },
+            {
+              "t": "Microsoft 365, 5 мест",
+              "d": "Тот же принцип для организаций на Microsoft.",
+              "link": "acronis-cp-backup-adv-m365-5"
+            },
+            {
+              "t": "Email Archiving",
+              "d": "Архив почты для комплаенса; по вендору — для Microsoft 365.",
+              "link": "acronis-cp-backup-adv-email-5"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям на Google Workspace, которым нужна копия почты и документов вне Google — на случай удаления, компрометации аккаунта или ухода сотрудника с доступом к общим дискам."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пользователи, не домены",
+              "d": "Считаются пользователи с ящиком; сервисные аккаунты без ящика места не занимают."
+            },
+            {
+              "t": "Права",
+              "d": "Для подключения тенанта — суперадминистратор Google Workspace."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Backup Advanced Microsoft 365, 5 мест",
+              "d": "Для Microsoft 365.",
+              "link": "acronis-cp-backup-adv-m365-5"
+            },
+            {
+              "t": "Email Archiving, 5 мест",
+              "d": "Неизменяемый архив почты; по вендору — для Microsoft 365, применимость к Google уточняйте.",
+              "link": "acronis-cp-backup-adv-email-5"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Общий диск на 30 сотрудников — сколько мест?",
+          "a": "Мест на общий диск не нужно: он защищается через места пользователей, у которых к нему есть доступ."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-backup-adv-m365-5",
+        "acronis-cp-backup-adv-email-5",
+        "acronis-cp-backup-adv-server"
+      ],
+      "meta_title": "Acronis Backup для Google Workspace, 5 мест | BIZSoft",
+      "meta_description": "Бэкап Gmail, Google Drive, общих дисков, контактов и календаря пяти пользователей в облако Acronis без лимита объёма. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acronis backup google workspace купить — hero, meta",
+        "бэкап gmail google drive для бизнеса — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Учёт общих дисков через места пользователей — по аналогии с правилом Microsoft 365 у вендора; отдельно для Google на странице покупки не расписан."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    },
+    "acronis-cp-backup-adv-email-5": {
+      "sku": "ACRONIS-CP-BACKUP-ADV-EMAIL-5",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Backup Advanced",
+      "volume_label": "Email Archiving, 5 мест",
+      "unit_label": "пакет: 5 мест Email Archiving",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acronis Email Archiving для Microsoft 365 — годовая подписка на архивирование почты пяти пользователей: каждое входящее и исходящее письмо фиксируется в неизменяемом архиве в облаке Acronis с полнотекстовым поиском и политиками хранения. Объём архива не ограничен.\n\nЭто не резервная копия, а инструмент комплаенса: архив нельзя изменить или удалить раньше срока политики, он нужен для проверок, разбирательств и требований по хранению переписки. Вендор выделяет Email Archiving в отдельную лицензионную линию; на витрине она заведена рядом с Backup Advanced.\n\nСрок — 1 год; пакеты по пять мест; только облачная консоль.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что делает архив почты",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Захват переписки",
+              "d": "Все письма пользователя, включая удалённые им сразу после получения, попадают в архив через журналирование Microsoft 365."
+            },
+            {
+              "t": "Неизменяемость",
+              "d": "Архив защищён от правки и досрочного удаления; срок хранения задаётся политикой."
+            },
+            {
+              "t": "Поиск и выгрузка",
+              "d": "Полнотекстовый поиск по письмам и вложениям, выгрузка выборки для юристов или аудиторов."
+            },
+            {
+              "t": "Хранилище",
+              "d": "Облако Acronis без ограничения объёма."
+            }
+          ],
+          "links": [
+            "acronis-cp-backup-adv-server"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Архив или бэкап",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Email Archiving",
+              "d": "Доказательная база: что было отправлено и получено; для комплаенса и споров."
+            },
+            {
+              "t": "Backup Advanced Microsoft 365",
+              "d": "Восстановление ящиков, файлов и сайтов после потери; не гарантирует неизменность.",
+              "link": "acronis-cp-backup-adv-m365-5"
+            },
+            {
+              "t": "Вместе",
+              "d": "Вендор рекомендует оба продукта, когда нужны и восстановление, и регуляторное хранение."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям с требованиями к хранению переписки — финансы, юридические службы, госзаказчики, компании с внутренними расследованиями, — где нужно доказать содержание письма спустя годы, а не восстановить ящик после сбоя."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Места",
+              "d": "По числу пользователей, чью почту архивируют; пакеты по пять."
+            },
+            {
+              "t": "Платформа",
+              "d": "По вендору продукт заявлен для Microsoft 365; для Google Workspace уточняйте применимость до заказа."
+            },
+            {
+              "t": "Политики",
+              "d": "Срок хранения задаётся при настройке; продумайте его заранее — архив не сокращается задним числом."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Backup Advanced Microsoft 365, 5 мест",
+              "d": "Восстановление, а не архив.",
+              "link": "acronis-cp-backup-adv-m365-5"
+            },
+            {
+              "t": "Backup Advanced Google Workspace, 5 мест",
+              "d": "Копия Gmail и Drive для организаций на Google.",
+              "link": "acronis-cp-backup-adv-gws-5"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли архив резервное копирование Microsoft 365?",
+          "a": "Нет. Архив хранит переписку неизменной для проверок; бэкап восстанавливает ящики, OneDrive и SharePoint. Для полной защиты вендор советует оба."
+        },
+        {
+          "q": "Можно ли удалить письмо из архива?",
+          "a": "Нет, до истечения срока политики хранения архив неизменяем — в этом его смысл."
+        }
+      ],
+      "related_products": [
+        "acronis-cp-backup-adv-m365-5",
+        "acronis-cp-backup-adv-gws-5"
+      ],
+      "meta_title": "Acronis Email Archiving для Microsoft 365, 5 мест | BIZSoft",
+      "meta_description": "Неизменяемый архив почты пяти пользователей Microsoft 365 с поиском и политиками хранения, без лимита объёма. Для комплаенса и разбирательств. Договор, ЭДО.",
+      "seo_intents": [
+        "acronis email archiving купить — hero, meta",
+        "архив корпоративной почты microsoft 365 комплаенс — FIT, PLAN_COMPARE",
+        "архив почты vs бэкап — FAQ"
+      ],
+      "uncertainties": [
+        "Применимость Email Archiving к Google Workspace вендором на странице покупки не заявлена."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "ошибочные тезисы (SAP HANA / дедупликация / «без антивируса») удалены; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "дельта редакции/нагрузки",
+          "sibling_overlap": "общее — на носителях",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "acronis purchasing FAQ"
+        }
+      ]
+    }
+  }
+}
