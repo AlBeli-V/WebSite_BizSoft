@@ -4473,7 +4473,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Безлимит файлов и проектов",
           "Командные библиотеки"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-PROF-DEV": {
         "badge": "Professional",
@@ -4484,7 +4485,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Комментарии и задачи",
           "Экспорт кода и ресурсов"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-PROF-COLLAB": {
         "badge": "Professional",
@@ -4495,7 +4497,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Участие в воркшопах",
           "Без редактирования дизайна"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ORG-FULL": {
         "badge": "Organization",
@@ -4506,7 +4509,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Централизованное администрирование",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ORG-DEV": {
         "badge": "Organization",
@@ -4517,7 +4521,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Аналитика использования",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ORG-COLLAB": {
         "badge": "Organization",
@@ -4528,7 +4533,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Контроль доступа",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "int-design-figma": {
         "badge": "Organization",
@@ -4550,7 +4556,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "SSO и расширенная безопасность",
           "Максимальные AI-кредиты"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ENT-DEV": {
         "badge": "Enterprise",
@@ -4561,7 +4568,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Централизованное администрирование",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ENT-COLLAB": {
         "badge": "Enterprise",
@@ -4572,7 +4580,11 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "SSO и контроль доступа",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
+      },
+      "INT-DESIGN-FIGMA": {
+        "marker": "team"
       }
     },
     "order": [
@@ -8780,7 +8792,15 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "q": "Можно ли добавить Copilot к подписке?",
         "a": "Да, Microsoft 365 Copilot оформляется как дополнение к бизнес-планам Microsoft 365 на тех же условиях: только на tenant в поддерживаемой стране после предварительной проверки. Укажите это в заявке — включим в расчёт."
       }
-    ]
+    ],
+    "cards": {
+      "MSCOPILOT-M365": {
+        "marker": "team"
+      },
+      "INT-OFFICE-M365": {
+        "marker": "team"
+      }
+    }
   },
   "midjourney": {
     "summary": "Midjourney — генеративная нейросеть для создания изображений по текстовому описанию: концепт-арт, рекламные визуалы, мудборды, иллюстрации и дизайн-референсы фотореалистичного и художественного качества. Для российских юрлиц доступ оформляется через BizSoft по счёту, с закрывающими документами. Тарифы — Basic, Standard, Pro и Mega — оформляются на год за одного пользователя и различаются месячным объёмом быстрых GPU-часов (Fast), наличием безлимитного Relax-режима и приватного Stealth-режима. Начинающим командам подойдёт Basic или Standard, студиям с потоком генераций — Pro, а для закрытых проектов под NDA нужен Stealth из Pro или Mega.",
