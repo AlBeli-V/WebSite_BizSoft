@@ -26,6 +26,11 @@
 # reports/seo/data/recrawl-sweep.json ветки seo-data. Повторный запуск в те
 # же сутки ничего не отправляет. Прогон молчит при успехе и пишет в issue
 # #22 при сбое (правило docs/rules/report-integrity.md).
+#
+# Шаг отправки идёт через ./.github/actions/ssh-run: вывод доезжает и при
+# сбое, поэтому курсор двигается на принятые адреса даже когда часть партии
+# отклонена (issue #542; прежде отказ по одному URL терял весь вывод, и
+# партия уходила повторно следующей ночью).
 name: seo-recrawl-sweep
 
 on:
@@ -88,8 +93,7 @@ jobs:
       - name: Sweep
         id: run
         if: steps.cursor.outputs.skip != 'true'
-        continue-on-error: true
-        uses: appleboy/ssh-action@v1
+        uses: ./.github/actions/ssh-run
         env:
           P_LIMIT: ${{ inputs.limit || '150' }}
           P_CURSOR: ${{ steps.cursor.outputs.cursor }}
@@ -99,7 +103,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           envs: P_LIMIT,P_CURSOR,YTOKEN
-          capture_stdout: true
           script: |
             set -e
             if [ -z "$YTOKEN" ]; then
@@ -215,9 +218,9 @@ jobs:
       # Пишем в журнал только когда отправка действительно шла и упала:
       # пропущенный прогон — это не сбой, и молчать он обязан.
       - name: Journal on failure
-        if: always() && steps.run.outcome == 'failure'
+        if: always() && steps.run.outputs.outcome == 'failure'
         uses: ./.github/actions/journal-post
         with:
           title: "seo-recrawl-sweep"
           outcome: failure
-          body: ${{ steps.run.outputs.stdout }}
+          body-file: ${{ steps.run.outputs.body-file }}

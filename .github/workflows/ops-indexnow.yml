@@ -18,6 +18,9 @@
 # (замечание аудита достоверности отчётов 03.09.2026). Адреса чужого хоста
 # и не-https отбрасываются до отправки: IndexNow принимает только адреса
 # хоста ключа. Запись — в журнал issue #22.
+#
+# Шаг по SSH идёт через ./.github/actions/ssh-run: вывод и код завершения
+# доезжают до журнала и при сбое (issue #542).
 name: ops-indexnow
 
 on:
@@ -46,10 +49,15 @@ jobs:
             exit 1
           fi
 
+      # Локальные action ssh-run и journal-post — файлы репозитория: без
+      # checkout раннер их не находит.
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
       - name: Submit URLs to IndexNow (server-side)
         id: run
-        continue-on-error: true
-        uses: appleboy/ssh-action@v1
+        uses: ./.github/actions/ssh-run
         env:
           KEY: ${{ env.INDEXNOW_KEY }}
           URLS: ${{ inputs.urls }}
@@ -58,7 +66,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           envs: KEY,URLS
-          capture_stdout: true
           script: |
             set -e
             export KEY URLS
@@ -123,14 +130,10 @@ jobs:
                 sys.exit(1)
             PY
 
-      - name: Checkout for journal action
-        if: always()
-        uses: actions/checkout@v4
-
       - name: Post results to journal (issue #22)
         if: always()
         uses: ./.github/actions/journal-post
         with:
           title: "ops-indexnow${{ inputs.urls && ' (адресно)' || ' (весь sitemap)' }}"
-          outcome: ${{ steps.run.outcome }}
-          body: ${{ steps.run.outputs.stdout }}
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}
