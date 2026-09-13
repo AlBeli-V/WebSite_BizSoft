@@ -117,6 +117,11 @@
   × 3,0 (`GIFT_CARD_MARKUP_COEFF`), номинал в цене не участвует; страниц на
   номинал нет (301 на родителя, `productNoindex`), в списках витрины —
   только родитель, порядок номиналов — `denomination DESC` из кода.
+- **Нижняя часть карточки — модули по классу товара** (`docs/rules/content-modules.md`).
+  Поле `content_modules` собирается семействами из профиля вендора, проходит
+  `scripts/content/validate-family.mjs` и пишется в прод только через
+  `ops-apply-content`; пустое поле — legacy-рендер. Постановка и очередь —
+  `docs/tasks/product-card-content-system/`.
 - **Артикул — семь сегментов по единой системе** (`docs/rules/sku-system.md`).
   `<ВЕНДОР>-<ВИД>-<ПРОДУКТ>-<ПЛАН>-<СРОК>-<ЕДИНИЦА>[-<ВАРИАНТ>]`: коды
   вендоров — `data/catalog/sku-vendors.json`, продуктов —

@@ -1,0 +1,122 @@
+# Применение семейств content_modules в прод-Directus.
+# Источник — data/content/families/<FAMILY>.json из репозитория (проходит ревью
+# в PR и попадает на сервер штатным деплоем). apply=false — план без записи.
+# Пишет: short_description, meta_title, meta_description, faq, related_products,
+# content_modules, content_version, классификацию (product_nature, packaging,
+# family_key, unit_label, edition_label, volume_label, base_product_sku,
+# addon_source, license_model). Legacy-поля features, description, for_whom,
+# use_cases, seo_text опустошает — шаблон рендерит их только при пустом
+# content_modules. Откат: ops-backup за день прогона + content_modules=null.
+# Журнал — issue #22. Решение руководителя 13.09.2026 (ROLLOUT.md).
+name: ops-apply-content
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'true — записать в Directus, false — только план'
+        required: true
+        default: 'false'
+      family:
+        description: 'Ключ семейства (имя файла без .json), пусто — все файлы каталога'
+        required: false
+      only:
+        description: 'Ограничить слагами через запятую'
+        required: false
+permissions:
+  contents: read
+  issues: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - uses: actions/checkout@v4
+
+      - name: Validate families offline
+        run: |
+          set -e
+          for f in data/content/families/*.json; do
+            [ -n "${{ inputs.family }}" ] && [ "$(basename "$f" .json)" != "${{ inputs.family }}" ] && continue
+            node scripts/content/validate-family.mjs "$f"
+          done
+
+      - name: Apply content
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_APPLY: ${{ inputs.apply }}
+          P_FAMILY: ${{ inputs.family }}
+          P_ONLY: ${{ inputs.only }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY,P_FAMILY,P_ONLY
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import datetime, glob, json, os, urllib.request
+            base = 'http://127.0.0.1:8055'
+            SRC_DIR = '/opt/bizsoft/astro-src/data/content/families'
+            def req(method, path, data=None, token=None):
+                r = urllib.request.Request(base + path, method=method,
+                    data=json.dumps(data).encode() if data is not None else None,
+                    headers={'Content-Type': 'application/json', **({'Authorization': f'Bearer {token}'} if token else {})})
+                return json.load(urllib.request.urlopen(r))
+            fam_filter = os.environ.get('P_FAMILY', '').strip()
+            files = sorted(glob.glob(f'{SRC_DIR}/*.json'))
+            if fam_filter: files = [f for f in files if os.path.basename(f)[:-5] == fam_filter]
+            if not files: print('файлы семейств не найдены:', SRC_DIR, fam_filter); raise SystemExit(1)
+            only = {s.strip() for s in os.environ.get('P_ONLY', '').split(',') if s.strip()}
+            apply = os.environ.get('P_APPLY', 'false').lower() == 'true'
+            tok = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'], 'password': os.environ['ADMIN_PASSWORD']})['data']['access_token']
+            CLS = ('product_nature', 'packaging', 'family_key', 'unit_label', 'edition_label', 'volume_label', 'base_product_sku', 'addon_source', 'license_model')
+            LEGACY = ('features', 'description', 'for_whom', 'use_cases', 'seo_text')
+            changed = skipped = missing = 0
+            for f in files:
+                fam = json.load(open(f, encoding='utf-8'))
+                fk, ver = fam['family_key'], fam.get('content_version', 'cm-1.0')
+                print(f'== {fk} ({os.path.basename(f)}), позиций: {len(fam["products"])}')
+                for slug, p in sorted(fam['products'].items()):
+                    if only and slug not in only: continue
+                    rows = req('GET', f'/items/products?filter[slug][_eq]={slug}&fields=id,slug,content_version', token=tok)['data']
+                    if not rows: print(f'[{slug}] НЕ НАЙДЕН'); missing += 1; continue
+                    c = p.get('classification', {})
+                    patch = {
+                        'short_description': p['short_description'], 'meta_title': p['meta_title'], 'meta_description': p['meta_description'],
+                        'faq': p.get('faq', []), 'related_products': p.get('related_products', []),
+                        'content_modules': p['content_modules'], 'content_version': ver,
+                        'product_nature': c.get('nature'), 'packaging': c.get('packaging'), 'family_key': fk,
+                        'unit_label': p.get('unit_label'), 'edition_label': p.get('edition_label'), 'volume_label': p.get('volume_label'),
+                        'base_product_sku': p.get('base_product_sku'), 'addon_source': p.get('addon_source'), 'license_model': p.get('license_model'),
+                        **{k: None for k in LEGACY},
+                        'content_updated_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    }
+                    if rows[0].get('content_version') == ver and not apply:
+                        print(f'[{slug}] уже {ver} — будет перезаписан')
+                    print(f'[{slug}] {len(p["content_modules"])} модулей, FAQ {len(p.get("faq", []))}, related {len(p.get("related_products", []))}' + ('' if apply else ' (план)'))
+                    if apply:
+                        req('PATCH', f'/items/products/{rows[0]["id"]}', patch, token=tok); changed += 1
+                    else:
+                        skipped += 1
+            print(f'ИТОГО: записано {changed}, план {skipped}, не найдено {missing}, apply={apply}')
+            if missing: raise SystemExit(2)
+            PYEOF
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-apply-content (apply=${{ inputs.apply }}, family=${{ inputs.family }})"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.stdout }}

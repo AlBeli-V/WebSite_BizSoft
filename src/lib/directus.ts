@@ -182,7 +182,8 @@ const PRODUCT_FIELDS = [
  * denomination, denomination_currency, availability — с тем же откатом.
  */
 const VARIANT_FIELDS = 'product_type,parent_sku,region_code,region_name,denomination,denomination_currency,availability,variant_label';
-const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at,${VARIANT_FIELDS}`;
+const CONTENT_FIELDS = 'product_nature,packaging,family_key,unit_label,edition_label,volume_label,base_product_sku,addon_source,license_model,content_modules,content_version';
+const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at,${VARIANT_FIELDS},${CONTENT_FIELDS}`;
 let extraFieldsMissing = false;
 
 async function productsQuery(params: Record<string, unknown>, auth = false): Promise<Product[]> {
