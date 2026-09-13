@@ -16,6 +16,14 @@ on:
         description: "true — применить; false — dry-run"
         required: true
         default: "false"
+      # Без перечня раннер собирает все пакеты scripts/catalog/*.json, и upsert
+      # переписывает у каждой карточки short_description из пакета — поверх
+      # текстов, записанных ops-apply-descriptions. Точечная партия (новая
+      # карточка, снятие с витрины) идёт с перечнем пакетов.
+      packages:
+        description: "Пакеты через пробел: postman docker (пусто — все scripts/catalog/*.json)"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -40,7 +48,7 @@ jobs:
       - name: Build xlsx from catalog packages
         run: |
           npm install --no-save xlsx@0.18.5
-          node scripts/import-vendors.mjs --emit /tmp/cards.xlsx
+          node scripts/import-vendors.mjs --emit /tmp/cards.xlsx ${{ inputs.packages }}
           ls -la /tmp/cards.xlsx
 
       - name: Copy xlsx to server
@@ -126,6 +134,6 @@ jobs:
         if: always()
         uses: ./.github/actions/journal-post
         with:
-          title: "ops-import-vendors (apply=${{ inputs.apply }})"
+          title: "ops-import-vendors (apply=${{ inputs.apply }}, packages=${{ inputs.packages || 'все' }})"
           outcome: ${{ steps.run.outcome }}
           body: ${{ steps.run.outputs.stdout }}

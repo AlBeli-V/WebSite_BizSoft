@@ -47,7 +47,10 @@ export interface CommerceState {
  */
 export const UNIT_FORMS: Record<string, [string, string, string]> = {
   'лицензий': ['лицензию', 'лицензии', 'лицензий'],
-  'мест': ['место', 'места', 'мест'],
+  // «Мест» и «Рабочих мест» — одна единица: на карточке и в призыве всегда
+  // «рабочее место» (решение руководителя 13.09.2026: «1 рабочее место»,
+  // «Количество рабочих мест», «Получить КП на 1 рабочее место»).
+  'мест': ['рабочее место', 'рабочих места', 'рабочих мест'],
   'рабочих мест': ['рабочее место', 'рабочих места', 'рабочих мест'],
   'пользователей': ['пользователя', 'пользователей', 'пользователей'],
   'устройств': ['устройство', 'устройства', 'устройств'],
@@ -72,10 +75,32 @@ export function unitNoun(qtyLabel: string): string {
   return UNIT_SINGULAR[key] || qtyLabel.trim();
 }
 
-/** «5 мест», «1 лицензию» — число со склонённой единицей. */
+/** «5 рабочих мест», «1 лицензию» — число со склонённой единицей. */
 export function unitPhrase(n: number, qtyLabel: string): string {
   const forms = UNIT_FORMS[qtyLabel.trim().toLowerCase()];
   return forms ? `${n} ${pluralForm(n, forms)}` : `${n} ${qtyLabel.trim().toLowerCase()}`;
+}
+
+/** «рабочих мест», «лицензий» — единица во множественном числе для подписи
+ * счётчика «Количество …». У «Мест» — та же единица, что у «Рабочих мест». */
+export function unitPlural(qtyLabel: string): string {
+  const forms = UNIT_FORMS[qtyLabel.trim().toLowerCase()];
+  return forms ? forms[2] : qtyLabel.trim().toLowerCase();
+}
+
+/**
+ * Ступени объёма под счётчиком: 2, 3, 5, 10, 20 у любой позиции; ниже
+ * минимума ступень не показывается (это цена, которую нельзя купить),
+ * равная минимуму — только когда минимум от трёх (Maxon Teams: 3, 5, 10, 20;
+ * тариф от двух мест — 3, 5, 10, 20, двойка уже стоит в счётчике).
+ * Решение руководителя 13.09.2026.
+ */
+export const QTY_STEPS = [2, 3, 5, 10, 20];
+export function qtyPresets(minQty: number): number[] {
+  const min = Math.max(1, Math.floor(minQty) || 1);
+  const steps = QTY_STEPS.filter((n) => n > min);
+  if (min >= 3 && !steps.includes(min)) steps.unshift(min);
+  return steps;
 }
 
 export function commerceState(input: {
