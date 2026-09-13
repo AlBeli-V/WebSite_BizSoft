@@ -41,20 +41,15 @@ export const PLAN_SHORT: Record<PlanType, string> = {
 };
 
 /**
- * Суффикс артикула — данные, а не догадка: `-ORG` и `-IND` у плагинов
- * JetBrains, `-TEAM`/`-TEAMS` и `-INDIVIDUAL(S)` у подписок ставятся при
- * заведении позиции и означают ровно тип плана. Поэтому артикул старше
- * эвристики по названию и описанию.
+ * Сегмент плана артикула — данные, а не догадка (docs/rules/sku-system.md):
+ * TEAM и IND ставятся при заведении позиции и означают ровно тип плана;
+ * UNI — деления нет, и эвристика по названию тоже не нужна: вернуть здесь
+ * null значило бы отдать решение регуляркам, которые сегмент и заменяет.
  */
 function planBySku(sku: string): PlanType | null {
-  // Артикул новой системы называет план сегментом; UNI — деления нет,
-  // и тогда эвристика по названию тоже не нужна: вернуть null здесь
-  // значило бы отдать решение регуляркам, которые сегмент и заменяет.
   const parsed = parseSku(sku);
-  if (parsed) return parsed.plan === 'TEAM' ? 'team' : parsed.plan === 'IND' ? 'individual' : null;
-  if (/-(ORG|TEAMS?)$/i.test(sku)) return 'team';
-  if (/-(IND|INDIVIDUALS?)$/i.test(sku)) return 'individual';
-  return null;
+  if (!parsed) return null;
+  return parsed.plan === 'TEAM' ? 'team' : parsed.plan === 'IND' ? 'individual' : null;
 }
 
 /**
@@ -72,9 +67,9 @@ function planByDescription(extra: string): PlanType | null {
 }
 
 export function planType(name: string, extra = '', sku = ''): PlanType | null {
+  // Системный артикул решает сам; эвристики ниже — для позиций без него
+  // (черновики и архив, страниц не имеющие).
   if (sku && parseSku(sku)) return planBySku(sku);
-  const bySku = sku ? planBySku(sku) : null;
-  if (bySku) return bySku;
   const s = name.toLowerCase();
   if (/\b(teams?|business|enterprise|corporate|company|organizations?|workspace)\b|организаци|команд|корпоратив/.test(s)) return 'team';
   // «Plus» — редакция (ADAudit Plus, Dropbox Plus, Business Plus), а не

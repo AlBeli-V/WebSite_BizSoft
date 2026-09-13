@@ -193,16 +193,15 @@ const subtitleParts = [planLine, term].filter(Boolean) as string[];
 // (VendorCardMeta.reassign) старше правила.
 // Минимум у пополнения — наименьший номинал линейки: у подарочной карты — в
 // регионе, выбранном на карточке; у пакета кредитов — среди пакетов той же
-// линейки (артикулы одного префикса до «-CREDITS-»). Иначе — «50 $/€».
+// линейки (артикулы одной линейки: всё до варианта-номинала). Иначе — «50 $/€».
 let balanceMin: string | null = null;
 if (isGift && giftInitial) {
   const region = giftRegions.find((r) => r.variants.some((v) => v.sku === giftInitial.sku));
   const least = region?.variants.reduce((a, v) => (v.denomination < a.denomination ? v : a), region.variants[0]);
   if (least) balanceMin = formatDenomination(least);
-} else if (term === TERM.balance && (parseSku(product.sku)?.kind === 'CRD' ? Boolean(parseSku(product.sku)?.variant) : /-CREDITS-\d+$/i.test(product.sku))) {
-  // Линейка номиналов: артикул новой системы — всё до варианта
-  // (<…>-CRD-<продукт>-UNI-BAL-NOM-), старый — до «-CREDITS-».
-  const prefix = parseSku(product.sku) ? product.sku.slice(0, product.sku.lastIndexOf('-') + 1) : product.sku.replace(/-CREDITS-\d+$/i, '-CREDITS-');
+} else if (term === TERM.balance && parseSku(product.sku)?.kind === 'CRD' && parseSku(product.sku)?.variant) {
+  // Линейка номиналов: всё до варианта (<…>-CRD-<продукт>-UNI-BAL-NOM-).
+  const prefix = product.sku.slice(0, product.sku.lastIndexOf('-') + 1);
   try {
     const packs = (await getProducts({ vendor: product.vendor || undefined })).filter((p) => p.sku.startsWith(prefix));
     const least = Math.min(...packs.map((p) => Number(p.sku.slice(prefix.length))).filter(Number.isFinite));

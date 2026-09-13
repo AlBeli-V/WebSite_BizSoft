@@ -86,7 +86,7 @@ describe('карточка использует блок фактов и рас�
     expect(page).not.toContain('!isGift && (\n          <dl class="facts">');
     // Минимум пополнения — наименьший номинал линейки.
     expect(page).toContain('balanceMin = formatDenomination(least)');
-    expect(page).toContain("product.sku.replace(/-CREDITS-\\d+$/i, '-CREDITS-')");
+    expect(page).toContain("product.sku.slice(0, product.sku.lastIndexOf('-') + 1)");
     // Заголовки и значения — в одну строку, по центру.
     expect(page).toMatch(/\.fact dt \{[^}]*white-space: nowrap/);
     expect(page).toMatch(/\.fact dd \{[^}]*white-space: nowrap/);

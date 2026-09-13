@@ -8,7 +8,6 @@
  */
 import type { Category, Product, CurrencyRate, PublishStatus } from './types';
 import { listValues } from './types';
-import { canonProduct, skuAliases } from './sku-map';
 
 // Серверные значения читаем из process.env (рантайм) ПЕРЕД import.meta.env,
 // чтобы прод-окружение (Docker env) переопределяло любые значения сборки.
@@ -189,10 +188,10 @@ let extraFieldsMissing = false;
 async function productsQuery(params: Record<string, unknown>, auth = false): Promise<Product[]> {
   if (!extraFieldsMissing) {
     try {
-      return (await dx<Product[]>('/items/products', {
+      return await dx<Product[]>('/items/products', {
         auth,
         params: { ...params, fields: PRODUCT_FIELDS_EXTRA },
-      })).map(canonProduct);
+      });
     } catch (e) {
       // Запоминаем до перезапуска процесса: после применения схемы поля
       // появятся, и новый деплой снова начнёт их запрашивать.
@@ -200,8 +199,7 @@ async function productsQuery(params: Record<string, unknown>, auth = false): Pro
       console.warn('products: поля схемы 28.08/03.09/05.09 недоступны, запрос без них', e);
     }
   }
-  // Переходный слой: старый артикул в базе → новый на сайте (lib/sku-map).
-  return (await dx<Product[]>('/items/products', { auth, params: { ...params, fields: PRODUCT_FIELDS } })).map(canonProduct);
+  return dx<Product[]>('/items/products', { auth, params: { ...params, fields: PRODUCT_FIELDS } });
 }
 
 /**
@@ -391,7 +389,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
  */
 export async function getProductVariants(parentSku: string): Promise<Product[]> {
   return cached(`variants:${parentSku}`, () => productsQuery({
-    filter: JSON.stringify({ _and: [{ status: { _eq: 'published' } }, { parent_sku: { _in: skuAliases(parentSku) } }] }),
+    filter: JSON.stringify({ _and: [{ status: { _eq: 'published' } }, { parent_sku: { _eq: parentSku } }] }),
     limit: -1,
   }));
 }
@@ -399,10 +397,8 @@ export async function getProductVariants(parentSku: string): Promise<Product[]> 
 export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
   if (skus.length === 0) return [];
   // С полями закупки: выборку по артикулам использует расчёт экономики КП.
-  // Обе формы каждого артикула: в корзине посетителя может лежать старый,
-  // а в базе до переименования — старый при новом в запросе.
   return productsQuery({
-    filter: JSON.stringify({ sku: { _in: skus.flatMap(skuAliases) }, status: { _eq: 'published' } }),
+    filter: JSON.stringify({ sku: { _in: skus }, status: { _eq: 'published' } }),
     limit: -1,
   });
 }
@@ -419,15 +415,15 @@ export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
  * базе, включая неготовые карточки других вендоров, стало бы можно
  * подставить в корзину по угаданному sku.
  */
-// ZOHO- — артикулы новой системы (docs/rules/sku-system.md), ME-/MANAGEENGINE- — старые.
-const ZOHO_SKU_PREFIX = /^(ME-|MANAGEENGINE-|ZOHO-)/;
+// Код вендора ZOHO в артикуле единой системы (docs/rules/sku-system.md).
+const ZOHO_SKU_PREFIX = /^ZOHO-/;
 
 export function isZohoConfiguratorSku(sku: string): boolean {
   return ZOHO_SKU_PREFIX.test(sku);
 }
 
 export async function getZohoPositionsBySkus(skus: string[]): Promise<Product[]> {
-  const allowed = skus.flatMap(skuAliases).filter(isZohoConfiguratorSku);
+  const allowed = skus.filter(isZohoConfiguratorSku);
   if (allowed.length === 0) return [];
   return productsQuery({
     filter: JSON.stringify({
@@ -453,7 +449,7 @@ export async function getProductsBySlugs(slugs: string[]): Promise<Product[]> {
       filter: JSON.stringify({ slug: { _in: slugs }, status: { _eq: 'published' } }),
       limit: -1,
     },
-  }).then((rows) => rows.map(canonProduct)));
+  }));
 }
 
 /** Все товары для инструментов цен (любой статус) — требует токен. */
@@ -477,10 +473,10 @@ const REPRICE_FIELDS = [
 
 /** Товары в объёме, достаточном для пересчёта цен. */
 export async function getProductsForReprice(): Promise<Product[]> {
-  return (await dx<Product[]>('/items/products', {
+  return dx<Product[]>('/items/products', {
     auth: true,
     params: { fields: REPRICE_FIELDS, sort: 'id', limit: -1 },
-  })).map(canonProduct);
+  });
 }
 
 export async function getAllProductsAdmin(): Promise<Product[]> {

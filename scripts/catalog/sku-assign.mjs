@@ -195,7 +195,7 @@ sortedRegistry.plugins = Object.fromEntries(Object.entries(registry.plugins).sor
 sortedRegistry.zoho = Object.fromEntries(Object.entries(registry.zoho).sort(([a], [b]) => a.localeCompare(b)));
 
 const skuMap = {
-  _note: 'Карта старый артикул → новый для перехода каталога (docs/rules/sku-system.md): её читает слой Directus (src/lib/sku-map.ts), скрипт переписывания ссылок и workflow ops-sku-migrate. Генерируется sku-assign.mjs из sku-assignment.json.',
+  _note: 'Карта старый артикул → новый для перехода каталога (docs/rules/sku-system.md): её читают скрипт переписывания ссылок и workflow ops-sku-migrate. Генерируется sku-assign.mjs из sku-assignment.json.',
   map: Object.fromEntries(items.map((i) => [i.old, i.new])),
 };
 const outputs = [
