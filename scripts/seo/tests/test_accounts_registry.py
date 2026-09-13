@@ -27,7 +27,8 @@ class AccountsRegistryTest(unittest.TestCase):
         for acc in self.accounts:
             for field in ("vendor", "purpose", "status", "impact"):
                 self.assertTrue(acc.get(field), f"{acc['id']}: не заполнено {field}")
-            self.assertIn(acc["status"], {"active", "blocked", "planned"}, acc["id"])
+            # declined — аккаунт не заводится решением руководителя (google-cloud-cse, 13.09.2026)
+            self.assertIn(acc["status"], {"active", "blocked", "planned", "declined"}, acc["id"])
 
     def test_незаполненное_поле_объясняет_себя(self):
         for acc in self.accounts:

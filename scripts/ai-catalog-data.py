@@ -110,17 +110,17 @@ RECAT_OPENAI_NAMES = {'ChatGPT Business': 'ai-text', 'ChatGPT Enterprise': 'ai-t
 
 # (sku, sku преемника) — снять с публикации + old_slugs преемнику (301).
 # SKU подтверждены dry-run'ом. OPENAI-BUSINESS — дубль ChatGPT Business:
-# канонической остаётся карточка INT-AI-CHATGPT (slug chatgpt-business).
+# канонической остаётся карточка OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD (slug chatgpt-business).
 REMOVALS = [
-    ('OPENAI-PLUS', 'INT-AI-CHATGPT'),
-    ('OPENAI-PRO', 'INT-AI-CHATGPT'),
-    ('OPENAI-API', 'INT-AI-CHATGPT'),
-    ('OPENAI-BUSINESS', 'INT-AI-CHATGPT'),
-    ('MJ-BASIC', 'MJ-STANDARD'),
-    ('DSCRPT-HOBBYIST', 'DSCRPT-CREATOR'),
-    ('RECRAFT-BASIC', 'RECRAFT-ADVANCED'),
-    ('ELEVEN-STARTER', 'ELEVEN-CREATOR'),
-    ('HEYGEN-CREATOR', 'HEYGEN-PRO'),
+    ('OPENAI-PLUS', 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD'),
+    ('OPENAI-PRO', 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD'),
+    ('OPENAI-API', 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD'),
+    ('OPENAI-BUSINESS', 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD'),
+    ('MJ-BASIC', 'MDJ-LIC-STANDARD-UNI-1Y-USER'),
+    ('DSCRPT-HOBBYIST', 'DSCR-LIC-CREATOR-IND-1Y-USER'),
+    ('RECRAFT-BASIC', 'RCFT-LIC-ADVANCED-UNI-1Y-USER'),
+    ('ELEVEN-STARTER', 'ELVN-LIC-CREATOR-IND-1Y-USER'),
+    ('HEYGEN-CREATOR', 'HYGN-LIC-PRO-UNI-1Y-USER'),
 ]
 
 

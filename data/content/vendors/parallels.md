@@ -1,0 +1,2 @@
+# Профиль вендора · Parallels (кратко)
+Parallels Desktop for Mac: Standard (подписка/бессрочная; 8 ГБ vRAM, 4 vCPU), Pro (128 ГБ, 32 vCPU, инструменты разработчика, Network Conditioner, Visual Studio/Docker), Business (все функции Pro + единый ключ, портал администратора, массовое развёртывание, SSO). Лицензия на один Mac; перенос через аккаунт. Windows лицензируется у Microsoft отдельно. Бессрочная Standard: платное обновление до новых крупных версий; совместимость с новыми macOS не гарантируется.

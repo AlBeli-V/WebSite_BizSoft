@@ -1,0 +1,868 @@
+{
+  "family_key": "ADBE-CC",
+  "vendor": "Adobe Inc.",
+  "vendor_profile": "data/content/vendors/adobe.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "adobe-cc-pro-team",
+  "classification_notes": [
+    "Реестр артикулов ставит CC Standard план UNI; у Adobe это индивидуальный план (Standard для команд — отдельный продукт, не на витрине) — ось OWNERSHIP = individual.",
+    "Одиночные приложения (Photoshop, Illustrator и др., 10 карточек) — отдельное семейство ADBE-APPS; здесь на них только ссылки."
+  ],
+  "products": {
+    "adobe-cc-pro-team": {
+      "sku": "ADBE-LIC-CCPRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Creative Cloud Pro для команд — командная подписка Adobe на 1 год: более 20 настольных, мобильных и веб-приложений, включая Photoshop, Illustrator, Premiere Pro, InDesign и Acrobat Pro, на рабочих местах организации. Лицензии принадлежат компании и назначаются сотрудникам в Admin Console; 1 ТБ облака на пользователя.\n\nОт индивидуального Creative Cloud Pro отличается не приложениями, а владением и хранилищем: место переназначается при кадровых изменениях, файлы уволившегося сотрудника остаются у компании, история версий — 180 дней. Генеративные функции те же: стандартные — без лимита, премиальные — 4000 кредитов в месяц на место.\n\nСрок — 1 год; минимальный заказ — 1 рабочее место.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в Creative Cloud Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Графика и вёрстка",
+              "d": "Photoshop, Illustrator, InDesign, InCopy, Fresco — растр, вектор, публикации."
+            },
+            {
+              "t": "Видео, звук, анимация",
+              "d": "Premiere Pro, After Effects, Audition, Animate, Character Animator, Media Encoder."
+            },
+            {
+              "t": "Фото и документы",
+              "d": "Lightroom и Lightroom Classic, Acrobat Pro с подписями и редактированием PDF."
+            },
+            {
+              "t": "Веб, UX и 3D",
+              "d": "Dreamweaver, Adobe Express, Substance 3D Viewer и Modeler в базовом объёме; полная Substance 3D Collection — отдельно."
+            },
+            {
+              "t": "Генеративный ИИ",
+              "d": "Firefly в приложениях: Generative Fill, Generative Expand, векторы, стилизация — без лимита; видео, Generative Extend и перевод аудио — из 4000 кредитов в месяц."
+            },
+            {
+              "t": "Сервисы",
+              "d": "1 ТБ облака на место, командные библиотеки, шрифты Adobe Fonts, Behance и Portfolio, обновления всех приложений за срок."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как устроен командный план",
+          "kind": "items",
+          "body": "Организация получает Admin Console, а сотрудники — рабочие места, которые компания раздаёт сама.",
+          "items": [
+            {
+              "t": "Лицензия за компанией",
+              "d": "Администратор добавляет пользователя, назначает место и снимает его; при найме и увольнении новая покупка не нужна."
+            },
+            {
+              "t": "Активы остаются",
+              "d": "Рекламация: облачные файлы и библиотеки ушедшего сотрудника переносятся в аккаунт компании, а не остаются на личном Adobe ID."
+            },
+            {
+              "t": "Хранилище и версии",
+              "d": "1 ТБ на место против 100 ГБ у индивидуального плана; история версий облачных документов — 180 дней."
+            },
+            {
+              "t": "Поддержка и обучение",
+              "d": "Расширенная поддержка для команд и обучающие сессии; одна дата продления для всех мест по программе VIP."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Командный план против индивидуального Pro",
+          "kind": "compare",
+          "body": "Набор приложений и генеративные лимиты у обоих планов одинаковы; платят за модель владения.",
+          "rows": [
+            {
+              "label": "Владелец лицензии",
+              "values": {
+                "adobe-cc-pro-team": "организация (Admin Console)",
+                "adobe-cc-pro": "специалист (личный Adobe ID)"
+              }
+            },
+            {
+              "label": "Переназначение",
+              "values": {
+                "adobe-cc-pro-team": "да, администратором",
+                "adobe-cc-pro": "нет"
+              }
+            },
+            {
+              "label": "Файлы при уходе сотрудника",
+              "values": {
+                "adobe-cc-pro-team": "остаются у компании (рекламация)",
+                "adobe-cc-pro": "остаются на личном аккаунте"
+              }
+            },
+            {
+              "label": "Облако на место",
+              "values": {
+                "adobe-cc-pro-team": "1 ТБ",
+                "adobe-cc-pro": "100 ГБ"
+              }
+            },
+            {
+              "label": "История версий",
+              "values": {
+                "adobe-cc-pro-team": "180 дней",
+                "adobe-cc-pro": "60 дней"
+              }
+            },
+            {
+              "label": "Генеративные кредиты",
+              "values": {
+                "adobe-cc-pro-team": "безлимит стандарт + 4000 премиум",
+                "adobe-cc-pro": "безлимит стандарт + 4000 премиум"
+              }
+            },
+            {
+              "label": "Минимальный заказ",
+              "values": {
+                "adobe-cc-pro-team": "1 место",
+                "adobe-cc-pro": "1 пользователь"
+              }
+            }
+          ],
+          "links": [
+            "adobe-cc-pro"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Единая организация",
+              "d": "Все места и файлы живут в аккаунте компании: ограничение доступа к нему затрагивает всех, тогда как индивидуальные подписки изолированы."
+            },
+            {
+              "t": "Кредиты не суммируются",
+              "d": "4000 премиальных кредитов — на каждое место отдельно; перераспределить между сотрудниками их нельзя, неиспользованные сгорают в конце месяца."
+            },
+            {
+              "t": "Одно активное устройство",
+              "d": "Сотрудник входит на двух устройствах, работает на одном; для общего компьютера в сменах нужна отдельная модель — уточняйте до заказа."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Отделам маркетинга и дизайна, студиям и продакшенам от двух рабочих мест, где приложения Adobe нужны нескольким людям, состав меняется, а исходники должны принадлежать компании."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Одному специалисту — индивидуальный Pro на треть дешевле при том же наборе. Если каждому сотруднику нужно одно приложение — Single App для команд. Если генеративное видео и премиальные модели не используются, а бюджет ограничен — индивидуальный Standard."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Creative Cloud Pro (individual)",
+              "d": "Тот же набор на личный Adobe ID, без консоли и рекламации.",
+              "link": "adobe-cc-pro"
+            },
+            {
+              "t": "Single App для команд",
+              "d": "Одно приложение на место с той же Admin Console — когда всё не нужно.",
+              "link": "adobe-single-team"
+            },
+            {
+              "t": "Creative Cloud Standard (individual)",
+              "d": "Все приложения с ограниченными генеративными кредитами для одного пользователя.",
+              "link": "adobe-cc-std"
+            },
+            {
+              "t": "Acrobat Pro для команд",
+              "d": "Если задача — только PDF и подписи.",
+              "link": "adobe-acro-pro-team"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли передать место уволившегося сотрудника новому?",
+          "a": "Да, в Admin Console: снять лицензию с одного пользователя и назначить другому; его облачные файлы переносятся в аккаунт компании."
+        },
+        {
+          "q": "Что произойдёт с 4000 кредитов, если сотрудник их не потратил?",
+          "a": "Они сгорают в конце месяца и не переходят другому сотруднику: кредиты выдаются на место, а не на организацию."
+        },
+        {
+          "q": "Можно ли добавить места в течение года?",
+          "a": "Да. Новые места оформляются отдельной поставкой, а срок выравнивается с датой продления команды по программе VIP."
+        },
+        {
+          "q": "Чем Creative Cloud Pro отличается от прежнего All Apps?",
+          "a": "Это переименованный All Apps с расширенными генеративными возможностями: безлимитные стандартные генерации и 4000 кредитов в месяц на премиальные."
+        }
+      ],
+      "related_products": [
+        "adobe-cc-pro",
+        "adobe-single-team",
+        "adobe-cc-std",
+        "adobe-acro-pro-team"
+      ],
+      "meta_title": "Creative Cloud Pro для команд — подписка на год | BIZSoft",
+      "meta_description": "Adobe Creative Cloud Pro для организаций: 20+ приложений, Admin Console, 1 ТБ на место, 4000 генеративных кредитов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe creative cloud для команд купить юрлицо — hero, meta",
+        "creative cloud pro что входит — INCLUDED",
+        "creative cloud teams vs individual / admin console — PLAN_COMPARE, TEAM_MODEL, FAQ",
+        "creative cloud all apps переименование — FAQ",
+        "adobe генеративные кредиты 4000 — INCLUDED, TRADEOFFS"
+      ],
+      "uncertainties": [
+        "Модель для общего компьютера в сменах (shared device) — есть у Adobe для образования/Enterprise; применимость к Teams не подтверждена."
+      ],
+      "legacy_disposition": {
+        "features": "→ INCLUDED/CAPABILITIES; опустошить",
+        "description": "→ модели плана; опустошить",
+        "faq": "проверить в vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        }
+      ]
+    },
+    "adobe-cc-pro": {
+      "sku": "ADBE-LIC-CCPRO-IND-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Creative Cloud Pro — индивидуальная подписка Adobe на 1 год для одного специалиста: весь набор Creative Cloud — Photoshop, Illustrator, Premiere Pro, InDesign, Acrobat Pro и ещё полтора десятка приложений — на личном Adobe ID. Безлимитные стандартные генерации Firefly и 4000 кредитов в месяц на премиальные; 100 ГБ облака.\n\nПриложения и генеративные лимиты те же, что у командного плана; разница в том, что лицензия закреплена за пользователем: переназначить её другому сотруднику нельзя, а файлы живут на его аккаунте. Для одного дизайнера или монтажёра это самый дешёвый способ получить весь набор.\n\nСрок — 1 год; организация оформляет подписку на сотрудника по договору.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит",
+          "kind": "items",
+          "body": "Состав по группам приложений расписан на карточке командного плана — набор идентичен.",
+          "items": [
+            {
+              "t": "Настольные приложения",
+              "d": "Photoshop, Illustrator, InDesign, Premiere Pro, After Effects, Lightroom, Acrobat Pro и остальные из линейки Creative Cloud."
+            },
+            {
+              "t": "Мобильные и веб",
+              "d": "Photoshop, Lightroom, Express, Illustrator, Fresco на планшете и в браузере."
+            },
+            {
+              "t": "Firefly",
+              "d": "Стандартные генерации без лимита, 4000 кредитов в месяц на видео и перевод аудио."
+            },
+            {
+              "t": "Облако и шрифты",
+              "d": "100 ГБ, Adobe Fonts, Behance, Portfolio."
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Когда подходит индивидуальный план",
+          "kind": "items",
+          "body": "Подписка на личный Adobe ID: вход на двух устройствах, работа на одном одновременно, без администратора и консоли.",
+          "items": [
+            {
+              "t": "Один пользователь",
+              "d": "Дизайнер, монтажёр или иллюстратор работает сам; делить приложения ни с кем не нужно."
+            },
+            {
+              "t": "Изолированный аккаунт",
+              "d": "Проблема с одной подпиской не задевает других; каждая продлевается независимо."
+            },
+            {
+              "t": "Цена",
+              "d": "Ниже командного места примерно на четверть при тех же приложениях и кредитах."
+            },
+            {
+              "t": "Ноутбук и стационарный ПК",
+              "d": "Оба устройства авторизованы; активно то, где выполнен вход."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Чего нет в индивидуальном плане",
+          "kind": "items",
+          "body": "Честная сторона низкой цены — то, что остаётся только у команды.",
+          "items": [
+            {
+              "t": "Переназначение",
+              "d": "Уход сотрудника — подписка остаётся на его Adobe ID; на нового человека покупают новую."
+            },
+            {
+              "t": "Рекламация файлов",
+              "d": "Облачные документы и библиотеки не переходят компании автоматически."
+            },
+            {
+              "t": "Хранилище и версии",
+              "d": "100 ГБ и 60 дней истории против 1 ТБ и 180 дней у команды."
+            },
+            {
+              "t": "Консоль и поддержка",
+              "d": "Нет Admin Console, командных библиотек и расширенной поддержки."
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Creative Cloud Pro для команд",
+              "d": "Тот же набор с владением у компании и 1 ТБ.",
+              "link": "adobe-cc-pro-team"
+            },
+            {
+              "t": "Creative Cloud Standard",
+              "d": "Все приложения дешевле — если премиальные генерации не нужны.",
+              "link": "adobe-cc-std"
+            },
+            {
+              "t": "Photoshop / Illustrator / Premiere Pro отдельно",
+              "d": "Когда нужен один инструмент.",
+              "link": "adobe-ps"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Договор на организацию, а подписка на сотрудника — так можно?",
+          "a": "Да: документы оформляются на юрлицо, а активируется план на Adobe ID пользователя — так устроен индивидуальный план. Если лицензии должны принадлежать компании, нужен командный план."
+        },
+        {
+          "q": "Чем Pro отличается от Standard для одного пользователя?",
+          "a": "Приложения те же; Pro даёт безлимитные стандартные генерации и 4000 кредитов на премиальные, Standard — ограниченное число кредитов в месяц и без премиальных функций."
+        }
+      ],
+      "related_products": [
+        "adobe-cc-pro-team",
+        "adobe-cc-std",
+        "adobe-ps",
+        "adobe-ai"
+      ],
+      "meta_title": "Creative Cloud Pro (individual) — подписка на год | BIZSoft",
+      "meta_description": "Adobe Creative Cloud Pro для одного специалиста: 20+ приложений, Firefly без лимита, 4000 кредитов, 100 ГБ. Оформление на организацию: договор, счёт, ЭДО.",
+      "seo_intents": [
+        "adobe creative cloud pro купить — hero, meta",
+        "creative cloud individual vs teams — PLAN_COMPARE, FAQ",
+        "creative cloud pro vs standard — FAQ, ALTERNATIVES"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ INCLUDED/CAPABILITIES; опустошить",
+        "description": "→ модели плана; опустошить",
+        "faq": "проверить в vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        }
+      ]
+    },
+    "adobe-cc-std": {
+      "sku": "ADBE-LIC-CCSTD-UNI-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Creative Cloud Standard — индивидуальная подписка Adobe на 1 год на все настольные приложения Creative Cloud без премиальных генеративных функций: Photoshop, Illustrator, Premiere Pro, InDesign, Lightroom и остальные на личном Adobe ID, 100 ГБ облака, ограниченное число генеративных кредитов в месяц.\n\nЭто план для тех, кому нужны сами инструменты, а не Firefly: генеративное видео, перевод аудио и партнёрские модели здесь недоступны, стандартные генерации — по счётчику. Приложения, шрифты и обновления — те же.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в Creative Cloud Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Настольные приложения",
+              "d": "Весь настольный ряд Creative Cloud — от Photoshop и InDesign до Premiere Pro и Lightroom; перечень по группам см. на карточке командного плана."
+            },
+            {
+              "t": "Генерации по счётчику",
+              "d": "Стандартные функции Firefly — Generative Fill, векторы — расходуют месячный лимит кредитов; закончились — ждать следующего месяца или докупать."
+            },
+            {
+              "t": "Без премиальных функций",
+              "d": "Генеративное видео, Generative Extend в Premiere Pro, перевод аудио, модели партнёров — только в Pro."
+            },
+            {
+              "t": "Облако",
+              "d": "100 ГБ, Adobe Fonts, обновления за срок."
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Кому подходит Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Классический продакшен",
+              "d": "Вёрстка, ретушь, монтаж по устоявшемуся процессу, где ИИ — эпизодическая помощь."
+            },
+            {
+              "t": "Бюджет",
+              "d": "Самый дешёвый способ иметь весь набор Adobe на одного пользователя."
+            },
+            {
+              "t": "Один пользователь",
+              "d": "Личный Adobe ID, два устройства, одно активно; передача другому сотруднику не предусмотрена."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard или Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Инструменты без генеративного видео; редкие генерации укладываются в лимит."
+            },
+            {
+              "t": "Pro",
+              "d": "Firefly в ежедневной работе: стандартные генерации без счётчика, премиальные — из 4000 кредитов.",
+              "link": "adobe-cc-pro"
+            },
+            {
+              "t": "Командный план",
+              "d": "Standard для команд на витрине нет; для организации — Creative Cloud Pro для команд с Admin Console.",
+              "link": "adobe-cc-pro-team"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro"
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Creative Cloud Pro (individual)",
+              "d": "Те же приложения с полным Firefly.",
+              "link": "adobe-cc-pro"
+            },
+            {
+              "t": "Photoshop отдельно",
+              "d": "Если из всего набора нужен один инструмент.",
+              "link": "adobe-ps"
+            },
+            {
+              "t": "Creative Cloud Pro для команд",
+              "d": "Для организации с несколькими рабочими местами.",
+              "link": "adobe-cc-pro-team"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли перейти со Standard на Pro в течение года?",
+          "a": "Да, переход оформляется доплатой разницы; срок сохраняется."
+        },
+        {
+          "q": "Сколько генеративных кредитов даёт Standard?",
+          "a": "Ограниченный месячный лимит на стандартные функции; точное число — по текущим условиям Adobe, уточняем при заказе. Премиальные функции недоступны."
+        }
+      ],
+      "related_products": [
+        "adobe-cc-pro",
+        "adobe-ps",
+        "adobe-cc-pro-team"
+      ],
+      "meta_title": "Creative Cloud Standard — подписка на год | BIZSoft",
+      "meta_description": "Adobe Creative Cloud Standard: все настольные приложения без премиальных генераций Firefly, 100 ГБ, на одного пользователя. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe creative cloud standard купить — hero, meta",
+        "creative cloud standard vs pro отличия — CAPABILITIES, PLAN_COMPARE, FAQ"
+      ],
+      "uncertainties": [
+        "Число кредитов Standard (25/мес) — неопределённость профиля №1; в тексте не названо."
+      ],
+      "legacy_disposition": {
+        "features": "→ INCLUDED/CAPABILITIES; опустошить",
+        "description": "→ модели плана; опустошить",
+        "faq": "проверить в vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        }
+      ]
+    },
+    "adobe-single-team": {
+      "sku": "ADBE-LIC-CCSINGLEAPP-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Creative Cloud Single App для команд — годовой командный план Adobe на одно приложение по выбору — Photoshop, Illustrator, Premiere Pro, InDesign, After Effects или другое — на рабочем месте организации. Лицензия за компанией, назначение в Admin Console, 1 ТБ облака на место.\n\nЭто тот же командный план, что у Creative Cloud Pro, только с одним приложением вместо всех: рекламация файлов, переназначение мест, командные библиотеки — есть; генеративные кредиты — 25 в месяц, премиальных функций нет. При двух и более нужных приложениях на одного сотрудника Pro для команд выходит дешевле.\n\nСрок — 1 год; приложение выбирается при заказе.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт одно приложение для команд",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приложение по выбору",
+              "d": "Любое настольное приложение Creative Cloud с мобильной и веб-версией, где она есть."
+            },
+            {
+              "t": "Командные сервисы",
+              "d": "Admin Console, 1 ТБ облака, командные библиотеки, история версий 180 дней, рекламация активов."
+            },
+            {
+              "t": "Генерации",
+              "d": "25 кредитов в месяц на стандартные функции; премиальные — только в Pro для команд."
+            },
+            {
+              "t": "Разные приложения разным людям",
+              "d": "Верстальщику InDesign, монтажёру Premiere Pro — каждое место со своим приложением в одной консоли."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель для одного приложения",
+          "kind": "prose",
+          "body": "Лицензия принадлежит организации: администратор назначает и снимает место, а при увольнении файлы сотрудника рекламируются в аккаунт компании. Все места команды — с одной датой продления по программе VIP, и добавлять их можно в течение года с выравниванием срока.\n\nПлашки «командный план» здесь достаточно, чтобы не путать с индивидуальными одиночными приложениями: у тех лицензия на личном Adobe ID и 100 ГБ."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Одно приложение или весь Creative Cloud",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Single App для команд",
+              "d": "Сотруднику нужен один инструмент, и он не меняется."
+            },
+            {
+              "t": "Creative Cloud Pro для команд",
+              "d": "Два и больше приложений на человека или премиальные генерации — дешевле и без ограничения набора.",
+              "link": "adobe-cc-pro-team"
+            },
+            {
+              "t": "Индивидуальное приложение",
+              "d": "Один специалист, лицензия на его Adobe ID — без консоли и рекламации.",
+              "link": "adobe-ps"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Отделу, где у каждого сотрудника один устоявшийся инструмент — верстальщику InDesign, монтажёру Premiere Pro, — и компании важно владеть лицензиями и файлами."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Сотруднику с двумя и более приложениями или с активной работой в Firefly — Pro для команд выходит дешевле и без лимита кредитов."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приложение фиксируется",
+              "d": "Смена приложения на месте — через продажу; проще сразу взять Pro, если состав задач меняется."
+            },
+            {
+              "t": "25 кредитов",
+              "d": "Для Photoshop с активным Generative Fill лимит заканчивается быстро; ИИ-нагрузка — аргумент за Pro."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Creative Cloud Pro для команд",
+              "d": "Все приложения и 4000 кредитов.",
+              "link": "adobe-cc-pro-team"
+            },
+            {
+              "t": "Photoshop (individual)",
+              "d": "То же приложение на личный аккаунт.",
+              "link": "adobe-ps"
+            },
+            {
+              "t": "Acrobat Pro для команд",
+              "d": "Если приложение — Acrobat: у него собственная командная карточка.",
+              "link": "adobe-acro-pro-team"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли в одном заказе взять Photoshop одному сотруднику и Premiere Pro другому?",
+          "a": "Да: каждое место Single App привязано к своему приложению, управляются они в одной Admin Console."
+        },
+        {
+          "q": "С какого числа приложений выгоднее Pro?",
+          "a": "С двух на одного сотрудника: два места Single App стоят дороже одного места Pro для команд."
+        }
+      ],
+      "related_products": [
+        "adobe-cc-pro-team",
+        "adobe-ps",
+        "adobe-acro-pro-team"
+      ],
+      "meta_title": "Creative Cloud Single App для команд — подписка | BIZSoft",
+      "meta_description": "Одно приложение Adobe на выбор на рабочем месте организации: Admin Console, 1 ТБ, рекламация файлов, 25 кредитов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe одно приложение для команд купить — hero, meta",
+        "single app vs all apps teams — PLAN_COMPARE, FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ INCLUDED/CAPABILITIES; опустошить",
+        "description": "→ модели плана; опустошить",
+        "faq": "проверить в vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "чем рискую",
+          "new_information": "фиксация приложения, лимит кредитов",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "adobe helpx"
+        }
+      ]
+    }
+  }
+}

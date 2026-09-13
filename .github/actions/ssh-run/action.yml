@@ -1,0 +1,116 @@
+# Шаг по SSH, чей вывод доходит до журнала и при сбое.
+#
+# Разбор 13.09.2026 (issue #542). `appleboy/ssh-action` с `capture_stdout`
+# пишет вывод в GITHUB_OUTPUT блоком `stdout<<EOF … EOF`, а его entrypoint
+# работает под `bash -e -o pipefail`: ненулевой код удалённого скрипта
+# обрывает entrypoint до закрывающей строки, раннер отбрасывает весь блок
+# («Matching delimiter not found 'EOF'»), и journal-post публикует
+# «(нет вывода)». Вывод терялся ровно в том прогоне, ради которого он нужен:
+# ops-yandex-recrawl с HTTP 429 по каждому URL дал в issue #22 запись ✗ без
+# причины.
+#
+# Как устроено. Скрипт шага выполняется на сервере в подоболочке; её код
+# завершения печатается последней строкой-маркером `__OPS_RC=<n>`, а сам
+# сеанс SSH завершается нулём — вывод доезжает целиком. Затем result.py
+# снимает маркер, убирает баннер drone-ssh «✅ Successfully executed»
+# (он врал бы при сбое) и отдаёт исход: `outcome` = success | failure,
+# `rc`, `stdout` и `body-file` для journal-post.
+#
+# Шаг сам не падает: красный статус прогона ставит journal-post по
+# `outcome` (fail-on-error). Так выходы шага доступны и после сбоя —
+# у composite-action, упавшего внутри, выходов нет.
+#
+# Использование:
+#   - name: Send recrawl requests
+#     id: run
+#     uses: ./.github/actions/ssh-run          # нужен actions/checkout выше
+#     env:
+#       URLS: ${{ inputs.urls }}
+#     with:
+#       host: ${{ secrets.SSH_HOST }}
+#       username: ${{ secrets.SSH_USER }}
+#       key: ${{ secrets.SSH_KEY }}
+#       envs: URLS
+#       script: |
+#         set -e
+#         …
+#   - name: Post results to journal (issue #22)
+#     if: always()
+#     uses: ./.github/actions/journal-post
+#     with:
+#       title: "ops-yandex-recrawl"
+#       outcome: ${{ steps.run.outputs.outcome }}
+#       body-file: ${{ steps.run.outputs.body-file }}
+#
+# `set -e`, `exit 1`, heredoc `<<'PY'` внутри скрипта работают как прежде:
+# подоболочка получает их целиком, `exit` завершает только её.
+name: ssh-run
+description: Шаг по SSH с выводом и кодом завершения, которые доходят до журнала при сбое
+
+inputs:
+  host:
+    description: Адрес сервера (secrets.SSH_HOST)
+    required: true
+  username:
+    description: Пользователь (secrets.SSH_USER)
+    required: true
+  key:
+    description: Закрытый ключ (secrets.SSH_KEY)
+    required: true
+  script:
+    description: Скрипт шага; выполняется в подоболочке bash на сервере
+    required: true
+  envs:
+    description: Имена переменных окружения шага через запятую, которые передаются на сервер
+    required: false
+    default: ""
+  command_timeout:
+    description: Предел времени выполнения скрипта (как у appleboy/ssh-action)
+    required: false
+    default: "10m"
+
+outputs:
+  outcome:
+    description: success — скрипт завершился нулём; failure — ненулевой код, обрыв SSH или таймаут
+    value: ${{ steps.result.outputs.outcome }}
+  rc:
+    description: Код завершения скрипта; пусто, если сеанс SSH не дошёл до маркера
+    value: ${{ steps.result.outputs.rc }}
+  stdout:
+    description: Вывод скрипта без маркера и баннера drone-ssh
+    value: ${{ steps.result.outputs.stdout }}
+  body-file:
+    description: Файл с тем же выводом и строкой о коде завершения — для journal-post body-file
+    value: ${{ steps.result.outputs.body-file }}
+
+runs:
+  using: composite
+  steps:
+    # continue-on-error — чтобы обрыв соединения или таймаут не остановили
+    # разбор результата; исход всё равно станет failure в result.py.
+    - id: ssh
+      continue-on-error: true
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ inputs.host }}
+        username: ${{ inputs.username }}
+        key: ${{ inputs.key }}
+        envs: ${{ inputs.envs }}
+        capture_stdout: true
+        command_timeout: ${{ inputs.command_timeout }}
+        script: |
+          set +e
+          (
+          ${{ inputs.script }}
+          )
+          __ops_rc=$?
+          echo "__OPS_RC=$__ops_rc"
+          exit 0
+
+    - id: result
+      if: always()
+      shell: bash
+      env:
+        SSH_OUTCOME: ${{ steps.ssh.outcome }}
+        SSH_STDOUT: ${{ steps.ssh.outputs.stdout }}
+      run: python3 "$GITHUB_ACTION_PATH/result.py"
