@@ -47,7 +47,7 @@ for (const p of paths) {
       lede: t(document.querySelector('.lede')),
       facts: all('.facts .fact').map((d) => `${t(d.querySelector('.fact-short'))} = ${t(d.querySelector('dd'))}`),
       hints: all('.facts .hint-box').map(t),
-      icon: document.querySelector('.pi-row img.vi-color')?.getAttribute('src') || null,
+      icon: document.querySelector('.pi-row img')?.getAttribute('src') || null,
       price: t(document.querySelector('.pz-sum b')),
       priceNotes: all('.pz-sum span').map(t),
       priceWhat: all('.pz-what li').map(t),
