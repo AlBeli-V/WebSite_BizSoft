@@ -198,7 +198,7 @@ const priceWhat: string[] = [];
 if (!byRequest) {
   if (isUnitPlan) priceWhat.push(unitPhrase(1, commerce.qtyLabel));
   if (commerce.minQty > 1) priceWhat.push(`минимум ${unitPhrase(commerce.minQty, commerce.qtyLabel)}`);
-  else if (term && composition !== 'balance_topup') priceWhat.push(term === TERM.year ? '1 календарный год' : term);
+  else if (term && term !== TERM.balance) priceWhat.push(term === TERM.year ? '1 календарный год' : term);
   if (planMarker) priceWhat.push(planMarker);
   else if (category) priceWhat.push(category.name);
 }
