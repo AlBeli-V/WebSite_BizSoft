@@ -1,0 +1,1094 @@
+{
+  "family_key": "ZOHO-SCP",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-supportcenter-plus-professional-2-support-representatives",
+  "classification_notes": [
+    "Двумерное семейство: редакция (Standard / Professional / Enterprise) × язык интерфейса (английский / многоязычный). Носитель — Professional, 2 сотрудника поддержки (младшая по закупке полоса семейства): полный состав, таблица редакций, правило подсчёта сотрудников. Standard на витрине начинается с полосы 10 и дороже носителя — это особенность вендора, а не ошибка.",
+    "Реестр артикулов ставит план TEAM, витрина у Enterprise — «Командный план»; индивидуальной альтернативы у SupportCenter Plus нет — ось OWNERSHIP = universal, TEAM_MODEL не применяется. Плашку Enterprise-позиций руководителю стоит привести к «Универсальный план».",
+    "Единица — пакет (полоса сотрудников поддержки); клиенты, их контакты и пользователи портала не лицензируются. Рост — переходом на следующую полосу доплатой, счётчик количества — неверный вопрос (DATA GAP volume_tier).",
+    "Бессрочные варианты (*-PERP) на витрине не индексируются; в тексте — «по запросу», без ссылок."
+  ],
+  "products": {
+    "me-supportcenter-plus-professional-2-support-representatives": {
+      "sku": "ZOHO-LIC-SCPPRO-TEAM-1Y-PACK-2REP",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "2 сотрудника поддержки",
+      "unit_label": "пакет: 2 сотрудника поддержки",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SupportCenter Plus Professional — годовая подписка на систему поддержки клиентов ManageEngine на собственном сервере: обращения из почты, портала и веб-форм, база знаний, SLA по договорам, учёт компаний-заказчиков, контактов и контрактов, списание времени. Пакет на 2 сотрудников поддержки; клиенты и их контакты не лицензируются.\n\nProfessional — средняя редакция: Standard ограничена очередью обращений и порталом, Enterprise добавляет бизнес-подразделения с отдельными порталами, телефонию и удалённую помощь. Здесь уже есть всё, что нужно для работы по договорам с внешними заказчиками.\n\nСрок — 1 год с обновлениями и поддержкой вендора; переход на большую полосу сотрудников — доплатой разницы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет SupportCenter Plus Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обращения",
+              "d": "Приём из почты, веб-формы, портала и чата; категории, приоритеты, шаблоны ответов, автоназначение по правилам, объединение и связывание обращений, эскалация по SLA."
+            },
+            {
+              "t": "Компании и контакты",
+              "d": "Карточка клиента с контактами, купленными продуктами и историей обращений; на портале контакт видит только обращения своей компании."
+            },
+            {
+              "t": "Договоры и планы обслуживания",
+              "d": "Контракты с лимитом часов или инцидентов, сроками реакции и решения, напоминанием об истечении; SLA привязывается к договору, а не к очереди."
+            },
+            {
+              "t": "Учёт времени",
+              "d": "Списание часов на обращение по ставкам плана обслуживания, остаток по договору, выгрузка данных для выставления счетов клиенту."
+            },
+            {
+              "t": "База знаний и портал",
+              "d": "Статьи с доступом по темам и клиентам, объявления, поиск, опросы удовлетворённости после закрытия обращения."
+            },
+            {
+              "t": "Отчёты и автоматизация",
+              "d": "Готовые и пользовательские отчёты по нагрузке, SLA и клиентам с рассылкой по расписанию; бизнес-правила, уведомления, REST API."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard, Professional или Enterprise",
+          "kind": "compare",
+          "body": "Во всех редакциях лицензия считается по сотрудникам поддержки, а клиенты и контакты бесплатны; отличаются модули работы с клиентской базой и структура установки. Многоязычные версии повторяют состав своей редакции.",
+          "rows": [
+            {
+              "label": "Стартовая полоса",
+              "values": {
+                "me-supportcenter-plus-standard-10-support-representatives": "10 сотрудников",
+                "me-supportcenter-plus-professional-2-support-representatives": "2 сотрудника",
+                "me-supportcenter-plus-enterprise-2-support-representatives": "2 сотрудника"
+              }
+            },
+            {
+              "label": "Обращения, портал, база знаний, SLA",
+              "values": {
+                "me-supportcenter-plus-standard-10-support-representatives": "да",
+                "me-supportcenter-plus-professional-2-support-representatives": "да",
+                "me-supportcenter-plus-enterprise-2-support-representatives": "да"
+              }
+            },
+            {
+              "label": "Компании, контакты, продукты клиентов",
+              "values": {
+                "me-supportcenter-plus-standard-10-support-representatives": "контакты без договоров",
+                "me-supportcenter-plus-professional-2-support-representatives": "с договорами и планами обслуживания",
+                "me-supportcenter-plus-enterprise-2-support-representatives": "с договорами и планами обслуживания"
+              }
+            },
+            {
+              "label": "Учёт времени и данные для тарификации",
+              "values": {
+                "me-supportcenter-plus-standard-10-support-representatives": "нет",
+                "me-supportcenter-plus-professional-2-support-representatives": "да",
+                "me-supportcenter-plus-enterprise-2-support-representatives": "да"
+              }
+            },
+            {
+              "label": "Бизнес-подразделения с отдельными порталами",
+              "values": {
+                "me-supportcenter-plus-standard-10-support-representatives": "нет",
+                "me-supportcenter-plus-professional-2-support-representatives": "нет",
+                "me-supportcenter-plus-enterprise-2-support-representatives": "да"
+              }
+            },
+            {
+              "label": "Телефония (CTI) и удалённая помощь",
+              "values": {
+                "me-supportcenter-plus-standard-10-support-representatives": "нет",
+                "me-supportcenter-plus-professional-2-support-representatives": "нет",
+                "me-supportcenter-plus-enterprise-2-support-representatives": "да"
+              }
+            },
+            {
+              "label": "Русский интерфейс",
+              "values": {
+                "me-supportcenter-plus-standard-10-support-representatives": "отдельная позиция",
+                "me-supportcenter-plus-professional-2-support-representatives": "отдельная позиция",
+                "me-supportcenter-plus-enterprise-2-support-representatives": "отдельная позиция"
+              }
+            }
+          ],
+          "links": [
+            "me-supportcenter-plus-enterprise-2-support-representatives",
+            "me-supportcenter-plus-standard-10-support-representatives",
+            "me-supportcenter-plus-professional-multi-language-2-support-representatives"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считаются сотрудники поддержки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Сотрудник поддержки",
+              "d": "Именованная учётная запись, которая отвечает на обращения или администрирует систему. Подмена выбывшего сотрудника новым — по политике вендора, обычно без доплаты."
+            },
+            {
+              "t": "Клиенты",
+              "d": "Компании-заказчики, их контакты и пользователи портала в лицензию не входят; ограничений на их число нет."
+            },
+            {
+              "t": "Полоса — не штука",
+              "d": "Трём сотрудникам нужна ступень на 5, а не два пакета по 2; промежуточные значения — по запросу, переход на большую ступень в течение срока — доплатой."
+            },
+            {
+              "t": "Сервер",
+              "d": "Ставится на Windows или Linux; СУБД — встроенная PostgreSQL, при желании MS SQL. Есть облачный вариант с помесячной оплатой — оформляется отдельно."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Компаниям, которые поддерживают внешних заказчиков по договорам: интегратору, разработчику ПО, сервисному центру, где 2–5 инженеров отвечают на обращения нескольких десятков клиентов и должны видеть остаток часов по каждому контракту."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Внутреннему ИТ-отделу, где заявители — свои сотрудники: там нужен ServiceDesk Plus с ИТ-активами и ITIL-процессами, понятия клиента-компании в нём нет. Если договоры и учёт времени не нужны, а обращения принимают больше десяти человек, Standard дешевле в пересчёте на сотрудника. Нескольким брендам с отдельными порталами нужен Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Язык интерфейса",
+              "d": "Эта позиция — английские консоль и портал; версия с русским интерфейсом заведена отдельно и стоит дороже.",
+              "link": "me-supportcenter-plus-professional-multi-language-2-support-representatives"
+            },
+            {
+              "t": "Ступени",
+              "d": "Полосы сотрудников поддержки — 2, 5, 10, 20 и далее по матрице вендора; при росте команды оплачивается разница между ступенями."
+            },
+            {
+              "t": "Подписка или бессрочная лицензия",
+              "d": "Годовая подписка включает обновления и поддержку. Бессрочный вариант — разовая оплата и ежегодный AMS в 20 % от стоимости лицензии; оформляется по запросу."
+            },
+            {
+              "t": "Облако",
+              "d": "SupportCenter Plus существует и как облачный сервис с оплатой по месяцам; перенос данных между вариантами — отдельная работа."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "SupportCenter Plus Enterprise",
+              "d": "Бизнес-подразделения, телефония, удалённая помощь.",
+              "link": "me-supportcenter-plus-enterprise-2-support-representatives"
+            },
+            {
+              "t": "Professional, многоязычная версия",
+              "d": "Тот же пакет с русским интерфейсом.",
+              "link": "me-supportcenter-plus-professional-multi-language-2-support-representatives"
+            },
+            {
+              "t": "SupportCenter Plus Standard",
+              "d": "Только очередь обращений, полоса от 10 сотрудников.",
+              "link": "me-supportcenter-plus-standard-10-support-representatives"
+            },
+            {
+              "t": "ServiceDesk Plus Professional",
+              "d": "Для внутренней ИТ-службы с учётом активов.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Платят ли за клиентов и их контакты?",
+          "a": "Нет. Лицензия считает только сотрудников поддержки; компаний-заказчиков, контактов и пользователей портала может быть сколько угодно."
+        },
+        {
+          "q": "У нас четыре человека отвечают на обращения — какой пакет?",
+          "a": "Ступень на 5 сотрудников поддержки; два пакета по 2 не оформляются. Промежуточные значения считаем по запросу."
+        },
+        {
+          "q": "Чем SupportCenter Plus отличается от ServiceDesk Plus?",
+          "a": "SupportCenter Plus — поддержка внешних клиентов: компании, контакты, договоры, списание времени. ServiceDesk Plus — внутренний сервис-деск с ИТ-активами и ITIL. Одному отделу обычно нужен один из них."
+        }
+      ],
+      "related_products": [
+        "me-supportcenter-plus-enterprise-2-support-representatives",
+        "me-supportcenter-plus-professional-multi-language-2-support-representatives",
+        "me-supportcenter-plus-standard-10-support-representatives",
+        "me-servicedesk-plus-professional-2-technicians"
+      ],
+      "meta_title": "SupportCenter Plus Professional, 2 сотрудника | BIZSoft",
+      "meta_description": "ManageEngine SupportCenter Plus Professional: поддержка клиентов по договорам, 2 сотрудника поддержки, клиенты без ограничений, свой сервер. Договор, ЭДО.",
+      "seo_intents": [
+        "supportcenter plus купить / лицензия manageengine supportcenter — hero, meta",
+        "supportcenter plus standard vs professional vs enterprise — PLAN_COMPARE",
+        "supportcenter plus лицензирование support representatives — DEPENDENCIES, FAQ",
+        "supportcenter plus vs servicedesk plus — FIT, FAQ",
+        "supportcenter plus бессрочная лицензия ams / cloud — BEFORE_ORDER"
+      ],
+      "uncertainties": [
+        "Ступени полос сотрудников (2, 5, 10, 20…) — по памяти прайса вендора; страница в сессии не открывалась, точный ряд подтверждается при заказе.",
+        "Наличие REST API и чата в Professional (а не только в Enterprise) — по матрице вендора; сформулировано без привязки к редакции в таблице.",
+        "Правило подмены выбывшего сотрудника — общая практика ManageEngine, отдельного первоисточника для SupportCenter Plus нет."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что именно умеет средняя редакция",
+          "new_information": "шесть групп функций, включая договоры и учёт времени — ключевое отличие от Standard",
+          "sibling_overlap": "носитель; соседи несут только дельту",
+          "decision": "UNDERSTAND",
+          "seo_intent": "supportcenter plus возможности",
+          "source": "https://www.manageengine.com/products/support-center/features.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли Professional или нужна другая редакция",
+          "new_information": "семь строк различий по трём редакциям, единый источник семейства",
+          "sibling_overlap": "у соседей — ссылка на таблицу и правило выбора",
+          "decision": "COMPARE",
+          "seo_intent": "supportcenter plus editions",
+          "source": "https://www.manageengine.com/products/support-center/pricing.html"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать лицензию и где ставить",
+          "new_information": "определение сотрудника, бесплатные клиенты, полосы, сервер и облако",
+          "sibling_overlap": "соседи ссылаются, не повторяют",
+          "decision": "VALIDATE",
+          "seo_intent": "supportcenter plus licensing",
+          "source": "https://www.manageengine.com/products/support-center/pricing.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли это случай",
+          "new_information": "профиль сервисной компании и три выхода на другие продукты",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "система поддержки клиентов по договорам",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "язык, ступени, perpetual + AMS, облако",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "supportcenter plus ams perpetual cloud",
+          "source": "https://www.manageengine.com/products/support-center/pricing.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "три соседа и ServiceDesk Plus с причиной",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-supportcenter-plus-enterprise-2-support-representatives": {
+      "sku": "ZOHO-LIC-SCPENT-TEAM-1Y-PACK-2REP",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "2 сотрудника поддержки",
+      "unit_label": "пакет: 2 сотрудника поддержки",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SupportCenter Plus Enterprise — годовая подписка на старшую редакцию системы клиентской поддержки ManageEngine: к обращениям, договорам и учёту времени добавляются бизнес-подразделения с собственными порталами и настройками, интеграция с телефонией и удалённая помощь клиентам. Пакет на 2 сотрудников поддержки на своём сервере.\n\nОтличие от Professional — не в глубине обработки обращений, а в структуре: несколько брендов, продуктовых линий или региональных служб живут в одной установке раздельно, с общей отчётностью.\n\nСрок — 1 год, обновления и поддержка производителя включены.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Enterprise",
+          "kind": "items",
+          "body": "Обращения, портал, договоры и списание часов — как в Professional; ниже только надстройка старшей редакции.",
+          "items": [
+            {
+              "t": "Бизнес-подразделения",
+              "d": "Отдельные подразделения со своим порталом, почтовым ящиком, SLA, шаблонами и сотрудниками; клиент одного подразделения не видит другие, руководство получает сводные отчёты по всем."
+            },
+            {
+              "t": "Телефония",
+              "d": "Интеграция с АТС: карточка контакта при входящем звонке, создание обращения из разговора, журнал вызовов в истории клиента."
+            },
+            {
+              "t": "Удалённая помощь",
+              "d": "Сеанс удалённого доступа к компьютеру клиента запускается из обращения через Zoho Assist."
+            },
+            {
+              "t": "Расширенная аналитика",
+              "d": "Связка с Analytics Plus для отчётов по нагрузке подразделений, SLA и выручке по договорам — по матрице вендора."
+            }
+          ],
+          "links": [
+            "me-supportcenter-plus-professional-2-support-representatives"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Enterprise, а когда нет",
+          "kind": "items",
+          "body": "Полная таблица трёх редакций собрана на карточке Professional; здесь — правило выбора.",
+          "items": [
+            {
+              "t": "Берите Enterprise",
+              "d": "Поддержка ведётся от нескольких брендов или подразделений, каждому нужен свой портал и ящик; операторы принимают звонки через АТС и должны видеть, кто звонит."
+            },
+            {
+              "t": "Хватит Professional",
+              "d": "Одна служба поддержки, один портал, договоры и часы — этого достаточно большинству сервисных компаний.",
+              "link": "me-supportcenter-plus-professional-2-support-representatives"
+            },
+            {
+              "t": "Хватит Standard",
+              "d": "Только очередь обращений без договоров, команда от десяти человек.",
+              "link": "me-supportcenter-plus-standard-10-support-representatives"
+            }
+          ],
+          "links": [
+            "me-supportcenter-plus-professional-2-support-representatives"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Сервисным компаниям с несколькими линиями поддержки — по продуктам, регионам или дочерним брендам, — которым нужна одна установка с раздельными порталами и общим управлением, а также контакт-центрам, где обращение начинается со звонка и оператору важно сразу увидеть договор клиента.\n\nТиповой размер — от двух до нескольких десятков сотрудников поддержки; стартовая полоса та же, что у Professional."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ступени",
+              "d": "Стартовая полоса — 2 сотрудника поддержки; ряд следующих ступеней и правило подсчёта общие для редакций и описаны на карточке Professional.",
+              "link": "me-supportcenter-plus-professional-2-support-representatives"
+            },
+            {
+              "t": "Язык",
+              "d": "Русский интерфейс — в многоязычной версии Enterprise, заведена отдельно.",
+              "link": "me-supportcenter-plus-enterprise-multi-language-2-support-representatives"
+            },
+            {
+              "t": "Телефония",
+              "d": "Список поддерживаемых АТС и способ подключения — по документации вендора; перед заказом сверьте свою станцию."
+            },
+            {
+              "t": "Без срока",
+              "d": "Лицензия без ограничения срока с ежегодным AMS 20 % — считаем по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "SupportCenter Plus Professional",
+              "d": "Без подразделений и телефонии, дешевле.",
+              "link": "me-supportcenter-plus-professional-2-support-representatives"
+            },
+            {
+              "t": "Enterprise, многоязычная версия",
+              "d": "С русским интерфейсом.",
+              "link": "me-supportcenter-plus-enterprise-multi-language-2-support-representatives"
+            },
+            {
+              "t": "ServiceDesk Plus Enterprise",
+              "d": "Внутренняя ИТ-служба с ITIL-процессами.",
+              "link": "me-servicedesk-plus-enterprise-2-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что такое бизнес-подразделение в SupportCenter Plus?",
+          "a": "Изолированный контур поддержки внутри одной установки: свой портал, ящик, SLA, шаблоны, сотрудники и клиенты. Обычно это бренд, продуктовая линия или региональная служба."
+        },
+        {
+          "q": "Сотрудники лицензируются отдельно по подразделениям?",
+          "a": "Нет, пакет общий на установку: сотрудников поддержки распределяют между подразделениями как угодно, лицензия считает их суммарно."
+        }
+      ],
+      "related_products": [
+        "me-supportcenter-plus-professional-2-support-representatives",
+        "me-supportcenter-plus-enterprise-multi-language-2-support-representatives",
+        "me-servicedesk-plus-enterprise-2-technicians"
+      ],
+      "meta_title": "SupportCenter Plus Enterprise, 2 сотрудника | BIZSoft",
+      "meta_description": "ManageEngine SupportCenter Plus Enterprise: бизнес-подразделения с отдельными порталами, телефония, удалённая помощь; 2 сотрудника поддержки. Договор, ЭДО.",
+      "seo_intents": [
+        "supportcenter plus enterprise купить — hero, meta",
+        "supportcenter plus business units / cti — CAPABILITIES, FAQ"
+      ],
+      "uncertainties": [
+        "Состав Enterprise (бизнес-подразделения, CTI, удалённая помощь через Zoho Assist, расширенная аналитика) — по памяти матрицы вендора; отдельные функции могли быть перенесены в Professional — сверить с edition comparison при первом заказе.",
+        "Список поддерживаемых АТС для CTI — по документации вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю относительно Professional",
+          "new_information": "только дельта: подразделения, CTI, удалённая помощь, аналитика",
+          "sibling_overlap": "база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "supportcenter plus enterprise features",
+          "source": "https://www.manageengine.com/products/support-center/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "мне Enterprise или соседи",
+          "new_information": "три правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "supportcenter plus enterprise vs professional",
+          "source": "профиль"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль многобрендовой поддержки и контакт-центра",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "поддержка нескольких брендов в одной системе",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "ступени по ссылке, язык, АТС, perpetual",
+          "sibling_overlap": "правило подсчёта — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "supportcenter plus cti",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-supportcenter-plus-standard-10-support-representatives": {
+      "sku": "ZOHO-LIC-SCPSTD-TEAM-1Y-PACK-10REP",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "10 сотрудников поддержки",
+      "unit_label": "пакет: 10 сотрудников поддержки",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SupportCenter Plus Standard — годовая подписка на младшую редакцию системы поддержки клиентов ManageEngine: очередь обращений из почты и портала, база знаний, SLA и отчёты для 10 сотрудников поддержки на собственном сервере. Договоров, списания часов и подразделений в Standard нет.\n\nСтартовая ступень Standard — десять сотрудников, тогда как Professional и Enterprise начинаются с двух: младшая редакция рассчитана на большую команду с простым процессом, а не на маленькую.\n\nСрок — 1 год; смена редакции на Professional — доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что остаётся в Standard",
+          "kind": "prose",
+          "body": "Ядро без клиентского слоя: приём обращений с почты и портала, категории, автоматическое назначение, сроки по SLA, база знаний, объявления, стандартные отчёты и уведомления. Контакты клиентов заводятся, но без договоров, планов обслуживания и учёта часов.\n\nПолная матрица редакций и разбор того, что даёт Professional, собраны на его карточке.",
+          "links": [
+            "me-supportcenter-plus-professional-2-support-representatives"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard или Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит Standard",
+              "d": "Обращения обрабатывает команда от десяти человек, обязательств по часам перед клиентами нет, счета за поддержку не выставляются."
+            },
+            {
+              "t": "Нужен Professional",
+              "d": "Есть договоры с планами обслуживания, нужно списывать время и следить за остатком; либо команда меньше десяти — тогда Professional ещё и дешевле.",
+              "link": "me-supportcenter-plus-professional-2-support-representatives"
+            }
+          ],
+          "links": [
+            "me-supportcenter-plus-professional-2-support-representatives"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службе поддержки продукта или сервиса с командой от десяти операторов и единой очередью обращений: техподдержка SaaS, интернет-магазин, оператор связи, где важны SLA и база знаний, а договорной учёт ведётся в другой системе или не нужен."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум десять",
+              "d": "Меньших пакетов у Standard нет; команде из 2–5 человек Professional обойдётся дешевле даже с лишними модулями."
+            },
+            {
+              "t": "Язык",
+              "d": "Русская консоль и портал — в многоязычной версии Standard.",
+              "link": "me-supportcenter-plus-standard-multi-language-10-support-representatives"
+            },
+            {
+              "t": "Перпетуал",
+              "d": "Разовая лицензия Standard с поддержкой по AMS 20 % в год — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "SupportCenter Plus Professional",
+              "d": "Договоры и учёт времени, полоса от 2 сотрудников.",
+              "link": "me-supportcenter-plus-professional-2-support-representatives"
+            },
+            {
+              "t": "Standard, многоязычная версия",
+              "d": "С русским интерфейсом.",
+              "link": "me-supportcenter-plus-standard-multi-language-10-support-representatives"
+            },
+            {
+              "t": "ServiceDesk Plus Standard, многоязычная",
+              "d": "Внутренний help desk на ту же команду.",
+              "link": "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли начать со Standard и позже перейти на Professional?",
+          "a": "Да, редакция меняется доплатой разницы, данные и настройки сохраняются; число сотрудников при этом пересчитывается по ступеням Professional."
+        }
+      ],
+      "related_products": [
+        "me-supportcenter-plus-professional-2-support-representatives",
+        "me-supportcenter-plus-standard-multi-language-10-support-representatives",
+        "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+      ],
+      "meta_title": "SupportCenter Plus Standard, 10 сотрудников | BIZSoft",
+      "meta_description": "ManageEngine SupportCenter Plus Standard: очередь обращений, портал и SLA для 10 сотрудников поддержки без договорного учёта, свой сервер. Договор, ЭДО.",
+      "seo_intents": [
+        "supportcenter plus standard купить — hero, meta",
+        "supportcenter plus standard vs professional — PLAN_COMPARE"
+      ],
+      "uncertainties": [
+        "Наличие базовых контактов клиентов в Standard (без договоров) — по памяти матрицы; если контакты есть только с Professional, строку таблицы скорректировать.",
+        "Пересчёт числа сотрудников при переходе Standard → Professional — общая практика вендора, не первоисточник."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что есть в младшей редакции",
+          "new_information": "ядро без клиентского слоя, что именно отсутствует",
+          "sibling_overlap": "полный состав — на носителе, здесь только граница",
+          "decision": "UNDERSTAND",
+          "seo_intent": "supportcenter plus standard",
+          "source": "https://www.manageengine.com/products/support-center/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "Standard или Professional",
+          "new_information": "два правила выбора с учётом полосы 10 против 2",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "supportcenter plus standard vs professional",
+          "source": "https://www.manageengine.com/products/support-center/pricing.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль большой команды с простым процессом",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "система обращений для службы поддержки",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "минимум 10, язык, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "supportcenter plus 10 support reps",
+          "source": "https://www.manageengine.com/products/support-center/pricing.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-supportcenter-plus-professional-multi-language-2-support-representatives": {
+      "sku": "ZOHO-LIC-SCPPRO-TEAM-1Y-PACK-2REPML",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional, многоязычная",
+      "volume_label": "2 сотрудника поддержки",
+      "unit_label": "пакет: 2 сотрудника поддержки",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SupportCenter Plus Professional, многоязычная версия — годовая подписка на систему поддержки клиентов с интерфейсом на русском языке: обращения, портал, база знаний, компании и контакты, договоры и списание часов. Пакет на 2 сотрудников поддержки, установка на свой сервер.\n\nФункционально это та же редакция Professional; состав модулей и правило подсчёта сотрудников — на карточке английской версии. Локализация распространяется на портал клиентов и письма им.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет многоязычная версия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Портал клиента",
+              "d": "Клиенты видят портал, уведомления и опросы на своём языке — русский включён; язык задаётся для каждого контакта."
+            },
+            {
+              "t": "Консоль",
+              "d": "Сотрудники поддержки работают в локализованном интерфейсе, язык выбирается в профиле пользователя."
+            },
+            {
+              "t": "Разница с английской",
+              "d": "Функции совпадают полностью; отличие — в языковом пакете внутри лицензии и в цене, она выше."
+            }
+          ],
+          "links": [
+            "me-supportcenter-plus-professional-2-support-representatives"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Многоязычная или английская",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Многоязычная",
+              "d": "Клиенты — русскоязычные компании, портал и письма из системы должны быть на русском."
+            },
+            {
+              "t": "Английская",
+              "d": "Заказчики зарубежные или переписка идёт на английском; тогда переплачивать за языковой пакет незачем.",
+              "link": "me-supportcenter-plus-professional-2-support-representatives"
+            }
+          ],
+          "links": [
+            "me-supportcenter-plus-professional-2-support-representatives"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Сервисной компании из 2–5 инженеров с российскими клиентами, которым нужен портал обращений на родном языке, договоры с планами обслуживания и учёт часов по каждому из них."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional, английская",
+              "d": "Дешевле, функции те же.",
+              "link": "me-supportcenter-plus-professional-2-support-representatives"
+            },
+            {
+              "t": "Enterprise, многоязычная",
+              "d": "Подразделения и телефония на русском.",
+              "link": "me-supportcenter-plus-enterprise-multi-language-2-support-representatives"
+            },
+            {
+              "t": "ServiceDesk Plus Professional, многоязычная",
+              "d": "Для внутренней ИТ-службы.",
+              "link": "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Русский язык точно есть в многоязычной версии?",
+          "a": "Русский входит в перечень языков интерфейса SupportCenter Plus; полный список на дату заказа — по документации вендора."
+        }
+      ],
+      "related_products": [
+        "me-supportcenter-plus-professional-2-support-representatives",
+        "me-supportcenter-plus-enterprise-multi-language-2-support-representatives",
+        "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians"
+      ],
+      "meta_title": "SupportCenter Plus Professional рус., 2 сотрудника | BIZSoft",
+      "meta_description": "ManageEngine SupportCenter Plus Professional с русским интерфейсом: поддержка клиентов по договорам, 2 сотрудника поддержки, свой сервер. Договор, ЭДО.",
+      "seo_intents": [
+        "supportcenter plus русский интерфейс / многоязычная версия — hero, FAQ"
+      ],
+      "uncertainties": [
+        "Перечень языков многоязычной версии и наличие русского — по документации вендора; страница не открывалась."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что даёт языковой пакет",
+          "new_information": "портал клиента, консоль, отличие от английской",
+          "sibling_overlap": "состав редакции — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "supportcenter plus multi-language",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "многоязычная или английская",
+          "new_information": "два правила выбора",
+          "sibling_overlap": "таблица редакций — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "supportcenter plus русский",
+          "source": "профиль"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-supportcenter-plus-enterprise-multi-language-2-support-representatives": {
+      "sku": "ZOHO-LIC-SCPENT-TEAM-1Y-PACK-2REPML",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise, многоязычная",
+      "volume_label": "2 сотрудника поддержки",
+      "unit_label": "пакет: 2 сотрудника поддержки",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SupportCenter Plus Enterprise, многоязычная версия — годовая подписка на старшую редакцию клиентской поддержки ManageEngine с русским интерфейсом: бизнес-подразделения с отдельными порталами, телефония, удалённая помощь, договоры и учёт часов. 2 сотрудника поддержки, собственный сервер.\n\nСостав Enterprise разобран на карточке английской версии, устройство языкового пакета — на многоязычной Professional; эта позиция соединяет одно с другим.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет многоязычная версия Enterprise",
+          "kind": "prose",
+          "body": "Локализованный Enterprise: каждое бизнес-подразделение получает портал на языке своих клиентов, а операторы контакт-центра — русскую консоль с карточкой звонящего. Подробности о подразделениях и телефонии — на английской Enterprise, о языках и их выборе — на многоязычной Professional.",
+          "links": [
+            "me-supportcenter-plus-enterprise-2-support-representatives",
+            "me-supportcenter-plus-professional-multi-language-2-support-representatives"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Многоязычная или английская",
+          "kind": "prose",
+          "body": "Английская Enterprise даёт те же подразделения и телефонию дешевле; выбирать её разумно, когда клиенты всех подразделений ведут переписку на английском. Если хотя бы одно подразделение обслуживает русскоязычных заказчиков, языковой пакет берётся на всю установку.",
+          "links": [
+            "me-supportcenter-plus-enterprise-2-support-representatives"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с несколькими линиями поддержки для российского рынка: дистрибьютору с брендами, вендору с продуктовыми линиями, оператору с региональными службами — и всем, у кого обращения приходят через АТС."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise, английская",
+              "d": "Дешевле при тех же функциях.",
+              "link": "me-supportcenter-plus-enterprise-2-support-representatives"
+            },
+            {
+              "t": "Professional, многоязычная",
+              "d": "Без подразделений и телефонии.",
+              "link": "me-supportcenter-plus-professional-multi-language-2-support-representatives"
+            },
+            {
+              "t": "ServiceDesk Plus Enterprise, многоязычная",
+              "d": "ITIL-процессы для внутренней ИТ-службы.",
+              "link": "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли у разных подразделений задать разный язык портала?",
+          "a": "Да: языковой пакет действует на всю установку, а язык каждого портала и каждого контакта настраивается отдельно."
+        }
+      ],
+      "related_products": [
+        "me-supportcenter-plus-enterprise-2-support-representatives",
+        "me-supportcenter-plus-professional-multi-language-2-support-representatives",
+        "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians"
+      ],
+      "meta_title": "SupportCenter Plus Enterprise рус., 2 сотрудника | BIZSoft",
+      "meta_description": "ManageEngine SupportCenter Plus Enterprise с русским интерфейсом: бизнес-подразделения, телефония, удалённая помощь; 2 сотрудника поддержки. Договор, ЭДО.",
+      "seo_intents": [
+        "supportcenter plus enterprise русский интерфейс — hero, FAQ"
+      ],
+      "uncertainties": [
+        "Настройка языка портала отдельно по подразделениям — по логике продукта, первоисточник не проверен."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что меняется в Enterprise при локализации",
+          "new_information": "порталы подразделений по языкам, консоль оператора",
+          "sibling_overlap": "состав — на английской Enterprise, языки — на ML Professional",
+          "decision": "UNDERSTAND",
+          "seo_intent": "supportcenter plus enterprise multi-language",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "многоязычная или английская",
+          "new_information": "правило «языковой пакет на всю установку»",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-supportcenter-plus-standard-multi-language-10-support-representatives": {
+      "sku": "ZOHO-LIC-SCPSTD-TEAM-1Y-PACK-10REPML",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard, многоязычная",
+      "volume_label": "10 сотрудников поддержки",
+      "unit_label": "пакет: 10 сотрудников поддержки",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SupportCenter Plus Standard, многоязычная версия — годовая подписка на базовую редакцию клиентской поддержки ManageEngine с русским интерфейсом: очередь обращений с почты и портала, SLA, база знаний и отчёты; полоса — десять сотрудников поддержки, установка на свой сервер, договоров и учёта часов нет.\n\nАнглийский Standard той же полосы дешевле; какие модули есть только в Professional — на карточке английской Professional.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет многоязычная версия Standard",
+          "kind": "prose",
+          "body": "Standard с локализацией: портал клиентов, письма и интерфейс базы знаний — на русском, консоль операторов тоже. Как выбирается язык для клиента и сотрудника — на многоязычной Professional; граница возможностей Standard — на английской Standard.",
+          "links": [
+            "me-supportcenter-plus-professional-multi-language-2-support-representatives",
+            "me-supportcenter-plus-standard-10-support-representatives"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Многоязычная или английская",
+          "kind": "prose",
+          "body": "Если клиенты пишут по-английски или обращаются только по почте, где язык интерфейса не виден, английская Standard закроет задачу дешевле при тех же десяти сотрудниках.",
+          "links": [
+            "me-supportcenter-plus-standard-10-support-representatives"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службе поддержки от десяти операторов с русскоязычными клиентами, где нужны очередь обращений, база знаний и портал на русском, а договорной учёт не ведётся."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard, английская",
+              "d": "Та же полоса дешевле.",
+              "link": "me-supportcenter-plus-standard-10-support-representatives"
+            },
+            {
+              "t": "Professional, многоязычная",
+              "d": "Договоры и учёт часов, от 2 сотрудников.",
+              "link": "me-supportcenter-plus-professional-multi-language-2-support-representatives"
+            },
+            {
+              "t": "ServiceDesk Plus Standard, многоязычная",
+              "d": "Help desk для своих сотрудников на 10 техников.",
+              "link": "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Локализована ли база знаний для клиентов?",
+          "a": "Интерфейс базы знаний локализован; сами статьи вы пишете на любом языке и можете вести версии для разных групп клиентов."
+        }
+      ],
+      "related_products": [
+        "me-supportcenter-plus-standard-10-support-representatives",
+        "me-supportcenter-plus-professional-multi-language-2-support-representatives",
+        "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+      ],
+      "meta_title": "SupportCenter Plus Standard рус., 10 сотрудников | BIZSoft",
+      "meta_description": "ManageEngine SupportCenter Plus Standard с русским интерфейсом: очередь обращений, портал и SLA для 10 сотрудников поддержки, свой сервер. Договор, ЭДО.",
+      "seo_intents": [
+        "supportcenter plus standard русский интерфейс — hero, FAQ"
+      ],
+      "uncertainties": [
+        "Перечень языков — как у многоязычной Professional; статьи базы знаний на нескольких языках — по логике продукта."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и PLAN_COMPARE; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что меняет локализация в Standard",
+          "new_information": "портал, письма, база знаний",
+          "sibling_overlap": "состав — на английской Standard, языки — на ML Professional",
+          "decision": "UNDERSTAND",
+          "seo_intent": "supportcenter plus standard multi-language",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "многоязычная или английская",
+          "new_information": "правило выбора для Standard",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

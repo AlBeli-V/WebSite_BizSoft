@@ -1,0 +1,1120 @@
+{
+  "family_key": "ZOHO-DATASEC",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-datasecurity-plus-professional-fileanalysis-2-tb",
+  "classification_notes": [
+    "DataSecurity Plus — один продукт с единственной редакцией Professional и пятью модулями, каждый лицензируется своей единицей (ТБ, рабочие станции, файловые серверы, устройства NAS). Позиции витрины — модули, а не объёмы, поэтому packaging = edition_tier, а PLAN_COMPARE сравнивает модули.",
+    "Носитель — модуль File Analysis (младший по закупке). Реестр артикулов ставит план TEAM; индивидуальной альтернативы нет — ownership = universal.",
+    "Названия витрины у DLP и NAS-позиции не называют модуль (h1 «100 рабочих мест», «один файловый сервер»); объём совпадает с артикулом, needs_operator не ставится — отмечено в uncertainties.",
+    "Самостоятельный продукт FileAnalysis — отдельное семейство ZOHO-FILEANAL, связан через ALTERNATIVES."
+  ],
+  "products": {
+    "me-datasecurity-plus-professional-fileanalysis-2-tb": {
+      "sku": "ZOHO-LIC-DATASECFA-TEAM-1Y-PACK-2TB",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional · File Analysis",
+      "volume_label": "2 ТБ данных",
+      "unit_label": "пакет: 2 ТБ анализируемых данных",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DataSecurity Plus, модуль File Analysis — годовая подписка на анализ содержимого файловых хранилищ ManageEngine: устаревшие, дублирующиеся и бесхозные файлы, занятое место по папкам и владельцам, права доступа к общим ресурсам. Лицензируется по объёму данных; пакет на 2 ТБ, сервер — свой.\n\nFile Analysis — младший по закупке из пяти модулей DataSecurity Plus, и у каждого своя единица: терабайты у анализа и оценки рисков, рабочие станции у DLP, серверы у аудита Windows-серверов и NAS. Модули ставятся в одну консоль и покупаются независимо друг от друга.\n\nСрок — 1 год, обновления и поддержка включены; другие объёмы и бессрочный вариант с AMS — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет модуль File Analysis",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Занятое место",
+              "d": "Разбивка хранилищ по папкам, типам файлов, владельцам и возрасту; тренд роста объёма, чтобы расширение дисков планировать заранее, а не после переполнения."
+            },
+            {
+              "t": "ROT-данные",
+              "d": "Устаревшие файлы, к которым не обращались годами, дубликаты, временные и пустые файлы — с оценкой, сколько места освободит очистка."
+            },
+            {
+              "t": "Права доступа",
+              "d": "Кто имеет доступ к папке и через какие группы; ресурсы, открытые группе «Все»; файлы без владельца и папки, где вложенные права расходятся с родительскими."
+            },
+            {
+              "t": "Действия из отчёта",
+              "d": "Найденное удаляют, переносят в архив или отправляют владельцу списком прямо из консоли; операции журналируются."
+            },
+            {
+              "t": "Источники",
+              "d": "Общие папки Windows-серверов, кластеров и рабочих групп; хранилища NAS по перечню вендора подключаются как сетевые ресурсы."
+            },
+            {
+              "t": "Оповещения и расписание",
+              "d": "Пороги занятого места и появления файлов заданных типов; отчёты уходят на почту по расписанию."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Какой модуль DataSecurity Plus нужен",
+          "kind": "compare",
+          "body": "Пять позиций — это не редакции, а модули одного продукта в одной консоли. Выбирают по задаче, а платят по единице модуля.",
+          "rows": [
+            {
+              "label": "Задача",
+              "values": {
+                "me-datasecurity-plus-professional-fileanalysis-2-tb": "что занимает место и кто имеет доступ",
+                "me-datasecurity-plus-professional-data-risk-assessment-2-tb": "где лежат персональные и платёжные данные",
+                "me-datasecurity-plus-professional-file-server-auditing-2-file-servers": "кто и когда менял файлы на Windows-серверах",
+                "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server": "то же для хранилищ NetApp и Nutanix",
+                "me-datasecurity-plus-professional-data-leak-prevention-100-workstations": "не дать вынести файлы со станций"
+              }
+            },
+            {
+              "label": "Единица лицензии",
+              "values": {
+                "me-datasecurity-plus-professional-fileanalysis-2-tb": "терабайт данных",
+                "me-datasecurity-plus-professional-data-risk-assessment-2-tb": "терабайт данных",
+                "me-datasecurity-plus-professional-file-server-auditing-2-file-servers": "файловый сервер",
+                "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server": "устройство NAS",
+                "me-datasecurity-plus-professional-data-leak-prevention-100-workstations": "рабочая станция"
+              }
+            },
+            {
+              "label": "Объём этой позиции",
+              "values": {
+                "me-datasecurity-plus-professional-fileanalysis-2-tb": "2 ТБ",
+                "me-datasecurity-plus-professional-data-risk-assessment-2-tb": "2 ТБ",
+                "me-datasecurity-plus-professional-file-server-auditing-2-file-servers": "2 сервера",
+                "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server": "1 хранилище",
+                "me-datasecurity-plus-professional-data-leak-prevention-100-workstations": "100 станций"
+              }
+            },
+            {
+              "label": "Как собирает данные",
+              "values": {
+                "me-datasecurity-plus-professional-fileanalysis-2-tb": "сканирование общих папок по сети",
+                "me-datasecurity-plus-professional-data-risk-assessment-2-tb": "сканирование общих папок по сети",
+                "me-datasecurity-plus-professional-file-server-auditing-2-file-servers": "агент на каждом сервере",
+                "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server": "без агента, через интерфейсы аудита хранилища",
+                "me-datasecurity-plus-professional-data-leak-prevention-100-workstations": "агент на каждой станции"
+              }
+            },
+            {
+              "label": "Режим",
+              "values": {
+                "me-datasecurity-plus-professional-fileanalysis-2-tb": "по расписанию",
+                "me-datasecurity-plus-professional-data-risk-assessment-2-tb": "по расписанию",
+                "me-datasecurity-plus-professional-file-server-auditing-2-file-servers": "в реальном времени",
+                "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server": "в реальном времени",
+                "me-datasecurity-plus-professional-data-leak-prevention-100-workstations": "в момент действия пользователя"
+              }
+            },
+            {
+              "label": "С чем чаще берут",
+              "values": {
+                "me-datasecurity-plus-professional-fileanalysis-2-tb": "Data Risk Assessment",
+                "me-datasecurity-plus-professional-data-risk-assessment-2-tb": "File Analysis",
+                "me-datasecurity-plus-professional-file-server-auditing-2-file-servers": "NAS-аудит, DLP",
+                "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server": "аудит Windows-серверов",
+                "me-datasecurity-plus-professional-data-leak-prevention-100-workstations": "Data Risk Assessment"
+              }
+            }
+          ],
+          "links": [
+            "me-datasecurity-plus-professional-data-risk-assessment-2-tb",
+            "me-datasecurity-plus-professional-file-server-auditing-2-file-servers",
+            "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server",
+            "me-datasecurity-plus-professional-data-leak-prevention-100-workstations"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Компаниям с файловыми серверами на терабайты, где дисковое место кончается быстрее, чем бюджет на СХД, а кто и зачем хранит старые проекты — никто не помнит. Первый отчёт обычно показывает, что четверть объёма можно убрать без потерь."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если вопрос не «что хранится», а «кто это трогал» — нужен аудит файловых серверов. Если важно найти персональные данные и оценить их защищённость — Data Risk Assessment. Если планируете только анализ и никаких других модулей, тот же функционал есть самостоятельным продуктом FileAnalysis."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Терабайты",
+              "d": "Считается суммарный объём данных во всех подключённых к модулю хранилищах, а не ёмкость дисков. Этот пакет — 2 ТБ; при росте переходят на больший объём с доплатой разницы."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server на площадке заказчика со встроенной базой; одна установка обслуживает все модули, лицензии добавляются ключами."
+            },
+            {
+              "t": "Подключение хранилищ",
+              "d": "Общие папки Windows и NAS подключаются по SMB под учётной записью с правом чтения; для анализа агент на хранилище не требуется."
+            },
+            {
+              "t": "Пара с оценкой рисков",
+              "d": "Data Risk Assessment сканирует те же терабайты и лицензируется на тот же объём отдельным ключом."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте данные, а не диски",
+              "d": "Сложите занятый объём всех общих папок, которые пойдут в анализ. 2,4 ТБ — уже следующий пакет; ряд объёмов — по матрице вендора, промежуточные значения считаем по запросу."
+            },
+            {
+              "t": "Подписка или бессрочно",
+              "d": "Годовая подписка включает обновления и поддержку. Бессрочная лицензия оплачивается разово, обновления — через ежегодный AMS в 20 % от её стоимости; оформляется по запросу."
+            },
+            {
+              "t": "Пробный период",
+              "d": "Вендор даёт 30 дней полной версии — удобно прогнать сканирование до покупки и увидеть реальный объём."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "FileAnalysis, 2 ТБ",
+              "d": "Тот же анализ отдельным продуктом, без консоли DataSecurity Plus — если другие модули не планируются.",
+              "link": "me-fileanalysis-professional-2-tb"
+            },
+            {
+              "t": "Data Risk Assessment, 2 ТБ",
+              "d": "Поиск персональных и платёжных данных в тех же хранилищах.",
+              "link": "me-datasecurity-plus-professional-data-risk-assessment-2-tb"
+            },
+            {
+              "t": "File Server Auditing, 2 сервера",
+              "d": "Журнал действий с файлами вместо снимка состояния.",
+              "link": "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что считается терабайтом лицензии — ёмкость диска или объём данных?",
+          "a": "Объём данных, которые модуль сканирует: занятое место на подключённых общих папках. Свободное место на дисках в лицензию не входит."
+        },
+        {
+          "q": "Можно ли анализировать NAS этим модулем?",
+          "a": "Да, хранилище подключается как сетевой ресурс и его объём входит в те же терабайты. Отдельная NAS-позиция нужна только для аудита действий, не для анализа."
+        },
+        {
+          "q": "Нужен ли Data Risk Assessment вместе с File Analysis?",
+          "a": "Не обязательно. File Analysis работает сам; оценку рисков добавляют, когда нужно найти персональные и платёжные данные и понять, кто к ним имеет доступ."
+        }
+      ],
+      "related_products": [
+        "me-datasecurity-plus-professional-data-risk-assessment-2-tb",
+        "me-datasecurity-plus-professional-file-server-auditing-2-file-servers",
+        "me-fileanalysis-professional-2-tb",
+        "me-datasecurity-plus-professional-data-leak-prevention-100-workstations"
+      ],
+      "meta_title": "DataSecurity Plus File Analysis, 2 ТБ — подписка | BIZSoft",
+      "meta_description": "ManageEngine DataSecurity Plus, модуль File Analysis: устаревшие и дублирующиеся файлы, занятое место, права доступа. Пакет на 2 ТБ. Договор, счёт, ЭДО.",
+      "seo_intents": [
+        "datasecurity plus купить / manageengine datasecurity plus лицензия — hero, meta",
+        "datasecurity plus модули / file analysis vs data risk assessment — PLAN_COMPARE",
+        "datasecurity plus лицензирование терабайты — DEPENDENCIES, FAQ",
+        "анализ файлового сервера rot данные дубликаты — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Способ сбора данных модулем File Analysis (сканирование по SMB без агента) — по общему описанию продукта; для Windows-серверов вендор может использовать тот же агент, что и для аудита.",
+        "Ряд объёмов сверх 2 ТБ и шаг доплаты — по матрице вендора, в тексте «по запросу».",
+        "Перечень поддерживаемых NAS для анализа — по перечню вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что именно делает модуль анализа",
+          "new_information": "шесть групп функций: место, ROT, права, действия, источники, оповещения",
+          "sibling_overlap": "носитель; соседи описывают только свой модуль",
+          "decision": "UNDERSTAND",
+          "seo_intent": "file analysis manageengine возможности",
+          "source": "https://www.manageengine.com/data-security/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "какой из пяти модулей мой",
+          "new_information": "таблица модулей по задаче, единице, объёму, способу сбора, режиму",
+          "sibling_overlap": "единственная таблица семейства; соседи ссылаются",
+          "decision": "COMPARE",
+          "seo_intent": "datasecurity plus модули сравнение",
+          "source": "https://www.manageengine.com/data-security/pricing.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль заказчика и три выхода к соседям",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "анализ файлового хранилища",
+          "source": "uncertain"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и где ставить",
+          "new_information": "терабайт = данные, сервер, подключение по SMB, пара с DRA",
+          "sibling_overlap": "правила ТБ общие с DRA — здесь, DRA ссылается",
+          "decision": "VALIDATE",
+          "seo_intent": "datasecurity plus лицензия терабайт",
+          "source": "https://store.manageengine.com/data-security/"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "арифметика объёма, perpetual + AMS, пробный период",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "datasecurity plus бессрочная лицензия ams",
+          "source": "https://store.manageengine.com/data-security/"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "самостоятельный FileAnalysis, два соседних модуля",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "fileanalysis vs datasecurity plus",
+          "source": "uncertain"
+        }
+      ]
+    },
+    "me-datasecurity-plus-professional-data-leak-prevention-100-workstations": {
+      "sku": "ZOHO-LIC-DATASECDLP-TEAM-1Y-PACK-100WS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional · Data Leak Prevention",
+      "volume_label": "100 рабочих станций",
+      "unit_label": "пакет: 100 рабочих станций",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DataSecurity Plus, модуль Data Leak Prevention — годовая подписка на контроль утечек с рабочих станций Windows: копирование файлов на USB-носители, вложения в почту, печать, буфер обмена и загрузка в облачные хранилища. Лицензируется по станциям с агентом; пакет на 100 рабочих станций.\n\nВ отличие от File Analysis и Data Risk Assessment, которые смотрят на хранилища, DLP живёт на конечных точках и реагирует в момент действия: блокирует, предупреждает или только записывает. Метки оценки рисков подсказывают правилам, какие файлы считать чувствительными.\n\nСрок — 1 год; при парке больше ста станций берут следующий пакет, разница доплачивается.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет модуль DLP",
+          "kind": "items",
+          "body": "Остальные модули семейства описаны на карточке File Analysis; здесь — только то, что делает агент на рабочей станции.",
+          "items": [
+            {
+              "t": "Съёмные носители",
+              "d": "USB-накопители: полная блокировка, только чтение или список разрешённых устройств; каждое копирование файла на флешку попадает в журнал."
+            },
+            {
+              "t": "Почта и печать",
+              "d": "Вложения в Outlook и отправка через веб-почту, печать документов с чувствительным содержимым — запрет или предупреждение по правилу."
+            },
+            {
+              "t": "Буфер обмена и облако",
+              "d": "Перенос текста и файлов через буфер, загрузка в облачные диски через браузер — по перечню приложений вендора."
+            },
+            {
+              "t": "Три режима реакции",
+              "d": "Аудит без вмешательства, предупреждение пользователю с возможностью обосновать действие, жёсткая блокировка; инцидент уходит ИБ письмом."
+            },
+            {
+              "t": "Правила по содержимому",
+              "d": "Условия строятся на типах файлов, расширениях и метках классификации Data Risk Assessment: файл с персональными данными вынести нельзя, обычный — можно."
+            }
+          ],
+          "links": [
+            "me-datasecurity-plus-professional-fileanalysis-2-tb"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "DLP или соседний модуль",
+          "kind": "items",
+          "body": "Сводная таблица пяти модулей — на карточке File Analysis. Здесь — когда именно нужен DLP.",
+          "items": [
+            {
+              "t": "Берите DLP",
+              "d": "Данные утекают с рабочих мест: флешки, личная почта, печать. Нужен запрет, а не отчёт постфактум."
+            },
+            {
+              "t": "Хватит аудита серверов",
+              "d": "Если достаточно знать, кто открывал и копировал файлы с общего ресурса, — модуль File Server Auditing дешевле в расчёте на организацию и не требует агентов на станциях.",
+              "link": "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+            },
+            {
+              "t": "Добавьте оценку рисков",
+              "d": "Без классификации DLP различает файлы только по типу и расположению; Data Risk Assessment размечает содержимое.",
+              "link": "me-datasecurity-plus-professional-data-risk-assessment-2-tb"
+            }
+          ],
+          "links": [
+            "me-datasecurity-plus-professional-fileanalysis-2-tb"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям с сотней и больше рабочих станций Windows, где персональные данные, договоры и коммерческие расчёты лежат у сотрудников локально, а служба ИБ обязана закрыть USB и печать регламентом, а не просьбой.\n\nНе подходит паркам на macOS и Linux: агент DLP работает на Windows. Для контроля устройств без анализа содержимого файлов есть более узкий Device Control Plus."
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что нужно для работы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Агент",
+              "d": "Ставится на каждую контролируемую станцию Windows из консоли или групповой политикой; серверы под этот модуль не считаются."
+            },
+            {
+              "t": "Сервер DataSecurity Plus",
+              "d": "Тот же, что для остальных модулей; отдельной установки DLP не требует, лицензия добавляется ключом."
+            },
+            {
+              "t": "Счёт станций",
+              "d": "Лицензируются все машины с агентом, включая ноутбуки вне офиса — политика продолжает действовать без связи с сервером."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint DLP Plus, 100 станций",
+              "d": "Самостоятельный DLP-продукт линейки управления конечными точками: больше каналов и шаблонов классификации, не требует DataSecurity Plus.",
+              "link": "me-endpoint-dlp-plus-professional-100-workstations"
+            },
+            {
+              "t": "Device Control Plus, 100 компьютеров",
+              "d": "Только контроль USB и периферии, без анализа содержимого и почты.",
+              "link": "me-device-control-plus-professional-100-computers"
+            },
+            {
+              "t": "File Server Auditing, 2 сервера",
+              "d": "Журнал действий на общих ресурсах вместо контроля станций.",
+              "link": "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем модуль DLP в DataSecurity Plus отличается от Endpoint DLP Plus?",
+          "a": "Модуль работает внутри DataSecurity Plus и опирается на его классификацию файлов; Endpoint DLP Plus — отдельный продукт с собственным сервером и более широким набором каналов и шаблонов. Если нужен только DLP без аудита и анализа хранилищ, обычно проще взять Endpoint DLP Plus."
+        },
+        {
+          "q": "Работает ли контроль, когда ноутбук вне сети?",
+          "a": "Да, агент применяет последнюю полученную политику автономно, а журнал передаёт при следующем подключении."
+        }
+      ],
+      "related_products": [
+        "me-datasecurity-plus-professional-fileanalysis-2-tb",
+        "me-endpoint-dlp-plus-professional-100-workstations",
+        "me-datasecurity-plus-professional-data-risk-assessment-2-tb",
+        "me-device-control-plus-professional-100-computers"
+      ],
+      "meta_title": "DataSecurity Plus DLP, 100 станций — подписка | BIZSoft",
+      "meta_description": "ManageEngine DataSecurity Plus, модуль Data Leak Prevention: USB, почта, печать, буфер обмена, облако на 100 станциях Windows. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "datasecurity plus dlp купить — hero, meta",
+        "manageengine dlp usb блокировка почта печать — CAPABILITIES",
+        "datasecurity plus vs endpoint dlp plus — PLAN_COMPARE, ALTERNATIVES, FAQ"
+      ],
+      "uncertainties": [
+        "Название витрины не называет модуль: h1 «DataSecurity Plus Professional, 100 рабочих мест» — по артикулу это модуль DLP; объём совпадает, needs_operator не ставится.",
+        "Перечень контролируемых каналов (веб-почта, облачные диски, буфер обмена) — по описанию вендора; точный список приложений — на дату заказа.",
+        "Автономная работа агента без связи с сервером — по общей практике агентов ManageEngine, прямой формулировки для модуля нет."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает агент DLP",
+          "new_information": "пять групп: носители, почта и печать, буфер и облако, режимы реакции, правила",
+          "sibling_overlap": "только дельта модуля; база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "manageengine dlp возможности",
+          "source": "https://www.manageengine.com/data-security/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "мне DLP или другой модуль",
+          "new_information": "три правила выбора со ссылками",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "datasecurity plus dlp или аудит",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль заказчика, ограничение по ОС",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "dlp для рабочих станций windows",
+          "source": "uncertain"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "заработает ли у меня",
+          "new_information": "агент, общий сервер, счёт станций",
+          "sibling_overlap": "сервер описан на носителе — здесь одна строка",
+          "decision": "VALIDATE",
+          "seo_intent": "datasecurity plus агент dlp",
+          "source": "https://store.manageengine.com/data-security/"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "Endpoint DLP Plus, Device Control Plus, аудит",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "endpoint dlp plus vs datasecurity plus",
+          "source": "uncertain"
+        }
+      ]
+    },
+    "me-datasecurity-plus-professional-data-risk-assessment-2-tb": {
+      "sku": "ZOHO-LIC-DATASECDRA-TEAM-1Y-PACK-2TB",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional · Data Risk Assessment",
+      "volume_label": "2 ТБ данных",
+      "unit_label": "пакет: 2 ТБ проверяемых данных",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DataSecurity Plus, модуль Data Risk Assessment — годовая подписка на поиск и классификацию чувствительных данных в файловых хранилищах: персональные данные, номера карт, медицинские записи, пароли и ключи в файлах. Лицензируется по объёму проверяемых данных; пакет на 2 ТБ.\n\nFile Analysis отвечает на вопрос «что занимает место», Data Risk Assessment — «где лежит то, что нельзя терять» и насколько это защищено правами. Модули часто берут парой на один объём: сканируют одни и те же папки, а лицензии считаются отдельно.\n\nСрок — 1 год; данные сверх 2 ТБ — следующим пакетом с доплатой разницы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет модуль Data Risk Assessment",
+          "kind": "items",
+          "body": "Состав остальных модулей — на карточке File Analysis. Ниже — только классификация и оценка риска.",
+          "items": [
+            {
+              "t": "Шаблоны поиска",
+              "d": "Готовые правила для персональных данных, платёжных карт, медицинских сведений и учётных данных; свои — регулярными выражениями и словарями, в том числе под требования 152-ФЗ."
+            },
+            {
+              "t": "Классификация",
+              "d": "Метки уровня конфиденциальности проставляются автоматически по результату сканирования или вручную; их читают DLP и отчёты аудита."
+            },
+            {
+              "t": "Оценка риска",
+              "d": "Каждому файлу и папке — балл из чувствительности содержимого и открытости прав: конфиденциальный документ в папке для группы «Все» поднимается наверх списка."
+            },
+            {
+              "t": "Инкрементальные проверки",
+              "d": "После первого полного прохода сканируются только новые и изменённые файлы, нагрузка на хранилище падает."
+            },
+            {
+              "t": "Отчёты для проверок",
+              "d": "Где какие данные лежат, кто владелец, кто имеет доступ — в разрезе регуляторных требований и подразделений."
+            }
+          ],
+          "links": [
+            "me-datasecurity-plus-professional-fileanalysis-2-tb"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Оценка рисков или соседний модуль",
+          "kind": "items",
+          "body": "Полная таблица модулей — у File Analysis. Здесь — правило выбора для этой позиции.",
+          "items": [
+            {
+              "t": "Берите Data Risk Assessment",
+              "d": "Нужно доказать проверяющему или самим себе, где хранятся персональные данные и кто до них дотягивается."
+            },
+            {
+              "t": "Хватит File Analysis",
+              "d": "Задача — освободить место и навести порядок в правах, содержимое файлов значения не имеет.",
+              "link": "me-datasecurity-plus-professional-fileanalysis-2-tb"
+            },
+            {
+              "t": "Добавьте DLP",
+              "d": "Когда найденное нужно не только описать, но и запретить выносить со станций.",
+              "link": "me-datasecurity-plus-professional-data-leak-prevention-100-workstations"
+            }
+          ],
+          "links": [
+            "me-datasecurity-plus-professional-fileanalysis-2-tb"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Операторам персональных данных с общими папками, накопленными за годы: кадровые сканы, договоры с паспортными данными, выгрузки из CRM. Служба ИБ получает карту, где это лежит, и список папок, права на которые надо закрыть в первую очередь.\n\nМодуль не следит за действиями пользователей в реальном времени и не блокирует копирование — это задачи аудита и DLP."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём — тот же, что у анализа",
+              "d": "Правила подсчёта терабайт описаны на карточке File Analysis; при покупке обоих модулей объём указывают одинаковый.",
+              "link": "me-datasecurity-plus-professional-fileanalysis-2-tb"
+            },
+            {
+              "t": "Свои шаблоны",
+              "d": "Российские форматы (ИНН, СНИЛС, паспорт) в стандартный набор не входят — задаются регулярными выражениями при внедрении."
+            },
+            {
+              "t": "Бессрочный вариант",
+              "d": "Разовая лицензия с ежегодным AMS 20 % за обновления — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "File Analysis, 2 ТБ",
+              "d": "Носитель семейства: место и права без классификации содержимого.",
+              "link": "me-datasecurity-plus-professional-fileanalysis-2-tb"
+            },
+            {
+              "t": "Data Leak Prevention, 100 станций",
+              "d": "Реакция на найденное — запрет выноса с рабочих мест.",
+              "link": "me-datasecurity-plus-professional-data-leak-prevention-100-workstations"
+            },
+            {
+              "t": "File Server Auditing, 2 сервера",
+              "d": "Кто обращался к найденным файлам.",
+              "link": "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Находит ли модуль российские персональные данные — паспорт, СНИЛС, ИНН?",
+          "a": "Стандартные шаблоны рассчитаны на международные форматы; российские реквизиты описываются своими правилами через регулярные выражения — это делается при настройке и работает так же."
+        },
+        {
+          "q": "Сканирует ли модуль содержимое сканов и PDF?",
+          "a": "Текстовые PDF и офисные форматы — да. Распознавание изображений в объём подписки не входит; уточняется по матрице вендора на дату заказа."
+        }
+      ],
+      "related_products": [
+        "me-datasecurity-plus-professional-fileanalysis-2-tb",
+        "me-datasecurity-plus-professional-data-leak-prevention-100-workstations",
+        "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+      ],
+      "meta_title": "DataSecurity Plus Data Risk Assessment, 2 ТБ | BIZSoft",
+      "meta_description": "ManageEngine DataSecurity Plus, модуль Data Risk Assessment: поиск персональных и платёжных данных, классификация, оценка риска. 2 ТБ. Договор, счёт, ЭДО.",
+      "seo_intents": [
+        "datasecurity plus data risk assessment купить — hero, meta",
+        "поиск персональных данных на файловом сервере классификация — CAPABILITIES, FAQ",
+        "data risk assessment vs file analysis — PLAN_COMPARE"
+      ],
+      "uncertainties": [
+        "Поддержка OCR для сканов — не подтверждена; в FAQ оговорено «по матрице вендора».",
+        "Состав стандартных шаблонов (международные форматы) — по описанию вендора; российские реквизиты — свои правила."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "чем оценка рисков отличается от анализа",
+          "new_information": "шаблоны, классификация, балл риска, инкрементальные проверки, отчёты",
+          "sibling_overlap": "база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "data risk assessment manageengine",
+          "source": "https://www.manageengine.com/data-security/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "этот модуль или сосед",
+          "new_information": "три правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "data risk assessment или file analysis",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "оператор ПДн с накопленными папками; чего модуль не делает",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "поиск персональных данных в файлах",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "объём как у анализа, свои шаблоны, perpetual",
+          "sibling_overlap": "правила ТБ — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "datasecurity plus 152-фз шаблоны",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три модуля семейства",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        }
+      ]
+    },
+    "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server": {
+      "sku": "ZOHO-LIC-DATASECNAS-TEAM-1Y-PACK-1NAS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional · File Server Auditing (NAS)",
+      "volume_label": "1 хранилище NetApp / Nutanix",
+      "unit_label": "пакет: 1 устройство NAS",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DataSecurity Plus, аудит файловых серверов для NAS — годовая подписка на журналирование обращений к файлам на хранилищах NetApp и Nutanix Files: кто открыл, изменил, удалил, переименовал или сменил права и когда. Лицензируется по устройствам NAS; позиция — на одно хранилище.\n\nЭто тот же модуль File Server Auditing, что и для Windows-серверов, но с другой единицей и способом подключения: у Windows — агент и лицензия за сервер, у NAS — подключение без агента через интерфейсы аудита самого хранилища и лицензия за устройство. Прочие NAS — EMC, Synology, Huawei, Hitachi, QNAP — по матрице вендора.\n\nСрок — 1 год; на второе хранилище оформляется ещё одна лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт аудит хранилищ NetApp и Nutanix",
+          "kind": "items",
+          "body": "Функции остальных модулей семейства собраны на карточке File Analysis; здесь — что видит аудит на NAS.",
+          "items": [
+            {
+              "t": "Журнал обращений",
+              "d": "Создание, чтение, изменение, удаление, переименование, перемещение, смена прав и владельца — с именем пользователя, временем и адресом, откуда пришёл запрос."
+            },
+            {
+              "t": "Оповещения о массовых операциях",
+              "d": "Порог удалений или переименований за короткий интервал поднимает тревогу — так ловят шифровальщика, добравшегося до общей папки."
+            },
+            {
+              "t": "Расследование",
+              "d": "Поиск по пользователю, файлу, папке и типу действия за любой период; выгрузка отчёта проверяющему."
+            },
+            {
+              "t": "Подключение без агента",
+              "d": "NetApp ONTAP отдаёт события через FPolicy, Nutanix Files — через собственный механизм аудита; на хранилище ничего не устанавливается."
+            }
+          ],
+          "links": [
+            "me-datasecurity-plus-professional-fileanalysis-2-tb"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "NAS-аудит или соседний модуль",
+          "kind": "items",
+          "body": "Таблица всех модулей — на карточке File Analysis. Здесь — граница между двумя лицензиями аудита.",
+          "items": [
+            {
+              "t": "Эта позиция",
+              "d": "Общие папки живут на NetApp или Nutanix, и нужно знать, кто их трогает."
+            },
+            {
+              "t": "Аудит Windows-серверов",
+              "d": "Файлы на Windows Server или кластере — лицензия за сервер, с агентом.",
+              "link": "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+            },
+            {
+              "t": "Анализ вместо аудита",
+              "d": "Если вопрос про объём и права, а не про действия, — File Analysis подключает NAS как обычный сетевой ресурс.",
+              "link": "me-datasecurity-plus-professional-fileanalysis-2-tb"
+            }
+          ],
+          "links": [
+            "me-datasecurity-plus-professional-fileanalysis-2-tb"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, где файловое хранилище вынесено на NetApp или Nutanix, а штатный аудит хранилища либо не включён из-за нагрузки, либо пишет журнал, который никто не читает. Модуль превращает поток событий в отчёты и тревоги без установки чего-либо на СХД.\n\nЕсли хранилищ несколько и они разных вендоров, состав поддерживаемых моделей сверяют с матрицей ManageEngine до заказа."
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что нужно для подключения",
+          "kind": "items",
+          "items": [
+            {
+              "t": "NetApp",
+              "d": "ONTAP с настроенным FPolicy и сетевой доступ от сервера DataSecurity Plus к хранилищу; поддерживаемые версии ONTAP — по матрице вендора."
+            },
+            {
+              "t": "Nutanix Files",
+              "d": "Включённый аудит файлового сервиса и учётная запись с правом чтения событий."
+            },
+            {
+              "t": "Что считать устройством",
+              "d": "Лицензия — за одно хранилище; как учитывать несколько виртуальных серверов (SVM) внутри одного кластера NetApp, уточняется при заказе."
+            },
+            {
+              "t": "Сервер",
+              "d": "Общий сервер DataSecurity Plus на Windows; отдельной установки не нужно."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "File Server Auditing, 2 сервера",
+              "d": "Та же задача для Windows-серверов.",
+              "link": "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+            },
+            {
+              "t": "File Analysis, 2 ТБ",
+              "d": "Состояние хранилища вместо журнала действий.",
+              "link": "me-datasecurity-plus-professional-fileanalysis-2-tb"
+            },
+            {
+              "t": "ADAudit Plus Standard, 2 контроллера",
+              "d": "Аудит Active Directory; файловые серверы и NAS там — отдельные надстройки.",
+              "link": "me-adaudit-plus-standard-2-domain-controllers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужно ли что-то ставить на само хранилище?",
+          "a": "Нет. NetApp передаёт события по FPolicy, Nutanix Files — через свой аудит; на стороне хранилища только настройка, агент не требуется."
+        },
+        {
+          "q": "Одна лицензия покрывает кластер NetApp из нескольких SVM?",
+          "a": "Единица — устройство NAS; считать ли SVM отдельными устройствами, вендор определяет по своей матрице — уточняем при заказе, чтобы не ошибиться с количеством."
+        }
+      ],
+      "related_products": [
+        "me-datasecurity-plus-professional-file-server-auditing-2-file-servers",
+        "me-datasecurity-plus-professional-fileanalysis-2-tb",
+        "me-adaudit-plus-standard-2-domain-controllers"
+      ],
+      "meta_title": "DataSecurity Plus, аудит NAS NetApp и Nutanix | BIZSoft",
+      "meta_description": "ManageEngine DataSecurity Plus, аудит файловых серверов NetApp и Nutanix Files: кто открыл, изменил, удалил; без агента. Лицензия на 1 хранилище. Договор, ЭДО.",
+      "seo_intents": [
+        "datasecurity plus netapp аудит / nutanix files аудит — hero, meta, CAPABILITIES",
+        "аудит nas кто удалил файл — CAPABILITIES, FIT",
+        "fpolicy аудит netapp manageengine — DEPENDENCIES"
+      ],
+      "uncertainties": [
+        "Название витрины «один файловый сервер» не называет NAS; по артикулу (1NAS) это хранилище NetApp/Nutanix — объём совпадает, needs_operator не ставится.",
+        "Учёт SVM внутри кластера NetApp как отдельных устройств — не подтверждён, в FAQ оговорено.",
+        "Перечень прочих поддерживаемых NAS (EMC, Synology, Huawei, Hitachi, QNAP) и то, лицензируются ли они этой же позицией, — по матрице вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что видит аудит на NAS",
+          "new_information": "журнал событий, массовые операции, расследование, подключение без агента",
+          "sibling_overlap": "база — на носителе; у FSA — своя дельта про Windows",
+          "decision": "UNDERSTAND",
+          "seo_intent": "аудит netapp nutanix files",
+          "source": "https://www.manageengine.com/data-security/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "NAS-позиция или серверная",
+          "new_information": "граница двух лицензий аудита и выход к анализу",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "datasecurity plus nas лицензия",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль заказчика с внешним хранилищем",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "аудит доступа к файлам на схд",
+          "source": "uncertain"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "заработает ли",
+          "new_information": "FPolicy, аудит Nutanix, вопрос SVM, общий сервер",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "fpolicy datasecurity plus",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "серверный аудит, анализ, ADAudit Plus",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        }
+      ]
+    },
+    "me-datasecurity-plus-professional-file-server-auditing-2-file-servers": {
+      "sku": "ZOHO-LIC-DATASECFSA-TEAM-1Y-PACK-2FS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional · File Server Auditing",
+      "volume_label": "2 файловых сервера",
+      "unit_label": "пакет: 2 файловых сервера Windows",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DataSecurity Plus, модуль File Server Auditing — годовая подписка на аудит Windows-файловых серверов в реальном времени: доступ, изменение, удаление и перемещение файлов, смена прав, обнаружение шифровальщиков по массовым переименованиям. Лицензируется по серверам; пакет на 2 файловых сервера.\n\nАудит — старший по закупке модуль DataSecurity Plus и единственный, кто отвечает на вопрос «кто и когда»: File Analysis и Data Risk Assessment описывают состояние хранилища, DLP следит за станциями. Для хранилищ NetApp и Nutanix тот же модуль оформляется отдельной позицией.\n\nСрок — 1 год; серверов больше двух — следующий пакет, разница доплачивается.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет аудит файловых серверов",
+          "kind": "items",
+          "body": "Общая картина модулей — на карточке File Analysis. Здесь — работа агента на Windows-сервере.",
+          "items": [
+            {
+              "t": "Кто, что, когда",
+              "d": "Каждое обращение к файлу — открытие, запись, удаление, переименование, копирование, смена прав и владельца — с учётной записью, временем, процессом и адресом клиента."
+            },
+            {
+              "t": "Шифровальщики",
+              "d": "Массовые переименования и расширения из базы известных вымогателей запускают ответ: оповещение, завершение сеанса, отключение машины от сети скриптом."
+            },
+            {
+              "t": "Целостность файлов",
+              "d": "Критичные папки — конфигурации, скрипты, шаблоны — под наблюдением: любое изменение приходит письмом с указанием, кто его внёс."
+            },
+            {
+              "t": "Отчёты и хранение",
+              "d": "Доступ к папке за период, действия сотрудника перед увольнением, удалённые файлы; журнал архивируется и достаётся для расследования."
+            },
+            {
+              "t": "Кластеры и рабочие группы",
+              "d": "Отказоустойчивые кластеры Windows и серверы вне домена поддерживаются наравне с доменными."
+            }
+          ],
+          "links": [
+            "me-datasecurity-plus-professional-fileanalysis-2-tb"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Аудит или соседний модуль",
+          "kind": "items",
+          "body": "Сравнение всех пяти модулей — у File Analysis; ниже — три развилки для этой позиции.",
+          "items": [
+            {
+              "t": "Берите аудит серверов",
+              "d": "Нужен ответ «кто удалил папку в пятницу» и защита общих ресурсов от шифровальщика."
+            },
+            {
+              "t": "Хранилище — NAS",
+              "d": "Файлы лежат на NetApp или Nutanix — отдельная позиция без агента.",
+              "link": "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server"
+            },
+            {
+              "t": "Нужен запрет на станциях",
+              "d": "Аудит фиксирует действия на сервере; чтобы блокировать вынос файлов с рабочих мест, добавляют DLP.",
+              "link": "me-datasecurity-plus-professional-data-leak-prevention-100-workstations"
+            }
+          ],
+          "links": [
+            "me-datasecurity-plus-professional-fileanalysis-2-tb"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с одним–двумя файловыми серверами Windows, где общие папки — основной способ обмена документами, а инциденты вроде исчезнувшей папки или зашифрованного каталога уже случались. Штатный аудит Windows для таких задач слишком шумный и не хранит историю.\n\nТем, у кого файловые серверы — часть более широкой задачи аудита домена, стоит сравнить с ADAudit Plus, где файловые серверы идут надстройкой к аудиту Active Directory."
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Агент на каждом сервере",
+              "d": "Устанавливается из консоли; версии Windows Server — по матрице вендора. Включать штатные политики аудита Windows не требуется — агент перехватывает операции сам."
+            },
+            {
+              "t": "Счёт серверов",
+              "d": "Каждый узел кластера с ролью файлового сервера считается отдельно; общие папки на рабочих станциях в пакет не входят."
+            },
+            {
+              "t": "Сервер консоли",
+              "d": "Общий сервер DataSecurity Plus на Windows с встроенной базой; при большом потоке событий вендор рекомендует отдельную машину."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Аудит NAS NetApp/Nutanix, 1 хранилище",
+              "d": "Та же задача для внешних хранилищ.",
+              "link": "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server"
+            },
+            {
+              "t": "ADAudit Plus Standard, 2 контроллера",
+              "d": "Если основной объект аудита — домен, а файловые серверы вторичны.",
+              "link": "me-adaudit-plus-standard-2-domain-controllers"
+            },
+            {
+              "t": "Data Leak Prevention, 100 станций",
+              "d": "Контроль на рабочих местах вместо серверов.",
+              "link": "me-datasecurity-plus-professional-data-leak-prevention-100-workstations"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Узлы отказоустойчивого кластера считаются отдельными серверами?",
+          "a": "Да, агент ставится на каждый узел, и каждый входит в число лицензированных серверов; двухузловой кластер — это весь пакет на 2 сервера."
+        },
+        {
+          "q": "Нужно ли включать аудит объектов в политиках Windows?",
+          "a": "Нет, модуль не зависит от журнала безопасности Windows: события собирает собственный агент, поэтому нагрузки от штатного аудита не возникает."
+        }
+      ],
+      "related_products": [
+        "me-datasecurity-plus-professional-nas-server-1-netapp-nutanix-file-server",
+        "me-datasecurity-plus-professional-fileanalysis-2-tb",
+        "me-datasecurity-plus-professional-data-leak-prevention-100-workstations",
+        "me-adaudit-plus-standard-2-domain-controllers"
+      ],
+      "meta_title": "DataSecurity Plus File Server Auditing, 2 сервера | BIZSoft",
+      "meta_description": "ManageEngine DataSecurity Plus, аудит файловых серверов Windows: кто и когда менял файлы, защита от шифровальщиков. Пакет на 2 сервера. Договор, счёт, ЭДО.",
+      "seo_intents": [
+        "datasecurity plus file server auditing купить — hero, meta",
+        "аудит файлового сервера windows кто удалил файл — CAPABILITIES, FIT",
+        "защита файлового сервера от шифровальщика manageengine — CAPABILITIES",
+        "datasecurity plus лицензия за сервер кластер — DEPENDENCIES, FAQ"
+      ],
+      "uncertainties": [
+        "Учёт узлов кластера как отдельных серверов — по общей практике лицензирования ManageEngine, прямой формулировки нет.",
+        "Независимость агента от штатного аудита Windows — по описанию продукта; в отдельных сценариях вендор может требовать включения политик.",
+        "Автоматические ответы на шифровальщика (завершение сеанса, отключение от сети) — состав действий по матрице вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает агент аудита",
+          "new_information": "события, шифровальщики, целостность, отчёты, кластеры",
+          "sibling_overlap": "база — на носителе; NAS — свой набор",
+          "decision": "UNDERSTAND",
+          "seo_intent": "аудит файлового сервера windows",
+          "source": "https://www.manageengine.com/data-security/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "этот модуль или соседний",
+          "new_information": "три развилки: NAS, DLP, аудит",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "file server auditing или nas",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль заказчика, выход к ADAudit Plus",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "аудит общих папок",
+          "source": "uncertain"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать",
+          "new_information": "агент, узлы кластера, сервер консоли",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "datasecurity plus агент сервер",
+          "source": "https://store.manageengine.com/data-security/"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "NAS, ADAudit Plus, DLP",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        }
+      ]
+    }
+  }
+}
