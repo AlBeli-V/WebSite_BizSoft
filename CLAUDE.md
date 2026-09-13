@@ -66,6 +66,8 @@
   `valid_until`. Недоступный блок письма — только `passport.unavailable`;
   ложь о дате или причине блокирует выпуск. Запись в issue #22 — только
   `journal-post` с `outcome`; `|| true` вокруг основного скрипта запрещён.
+  Шаг по SSH — через `./.github/actions/ssh-run` (вывод доходит до журнала
+  и при сбое), не `appleboy/ssh-action` с `capture_stdout` напрямую.
   Секреты — в `ops/secrets/registry.json`; одноразовые workflow с
   `# expires:`. Периодные сравнения — только по полным окнам.
 - **Изменения каталога — под сторожем** (`docs/rules/catalog-watch.md`).

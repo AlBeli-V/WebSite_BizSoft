@@ -62,8 +62,12 @@ describe('сплошной переобход', () => {
 
   it('молчит при успехе и при пропуске, пишет в журнал при сбое', () => {
     // Пропущенный прогон — не сбой: запись в журнал только при падении.
-    expect(wf).toContain("steps.run.outcome == 'failure'");
+    // Исход берётся из выходов ssh-run: сам шаг не падает, чтобы вывод с
+    // курсором доехал и при отклонённых адресах (issue #542).
+    expect(wf).toContain('uses: ./.github/actions/ssh-run');
+    expect(wf).toContain("steps.run.outputs.outcome == 'failure'");
     expect(wf).toContain('journal-post');
+    expect(wf).toContain('body-file: ${{ steps.run.outputs.body-file }}');
   });
 
   it('checkout переживает падение: без него журнал не найдёт локальный action', () => {
