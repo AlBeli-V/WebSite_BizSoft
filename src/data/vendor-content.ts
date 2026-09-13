@@ -519,7 +519,87 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "q": "Предоставляете ли закрывающие документы для бухгалтерии?",
         "a": "Да. При покупке через BizSoft вы получаете договор, счёт и УПД с выделенным НДС 5% (или акт со счётом-фактурой) — всё, что нужно для учёта расходов юрлица. Закрывающие можно передавать через ЭДО."
       }
-    ]
+    ],
+    "cards": {
+      "ADOBE-PS": {
+        "marker": "individual"
+      },
+      "ADOBE-AI": {
+        "marker": "individual"
+      },
+      "ADOBE-ID": {
+        "marker": "individual"
+      },
+      "ADOBE-INCOPY": {
+        "marker": "individual"
+      },
+      "ADOBE-PR": {
+        "marker": "individual"
+      },
+      "ADOBE-AE": {
+        "marker": "individual"
+      },
+      "ADOBE-ANIMATE": {
+        "marker": "individual"
+      },
+      "ADOBE-AUDITION": {
+        "marker": "individual"
+      },
+      "ADOBE-DW": {
+        "marker": "individual"
+      },
+      "ADOBE-LR": {
+        "marker": "individual"
+      },
+      "ADOBE-PHOTO": {
+        "marker": "individual"
+      },
+      "ADOBE-EXPRESS": {
+        "marker": "individual"
+      },
+      "ADOBE-ACRO-STD": {
+        "marker": "individual"
+      },
+      "ADOBE-ACRO-PRO": {
+        "marker": "individual"
+      },
+      "ADOBE-ACRO-STUDIO": {
+        "marker": "individual"
+      },
+      "ADOBE-CC-STD": {
+        "marker": "individual"
+      },
+      "ADOBE-CC-PRO": {
+        "marker": "individual"
+      },
+      "ADOBE-SUBSTANCE": {
+        "marker": "individual"
+      },
+      "ADOBE-STOCK-10": {
+        "marker": "individual"
+      },
+      "ADOBE-ACRO-PRO-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-CC-PRO-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-SINGLE-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-EXPRESS-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-SUBSTANCE-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-FF-TEAMS": {
+        "marker": "team"
+      },
+      "ADOBE-FF-ENTERPRISE": {
+        "marker": "team"
+      }
+    }
   },
   "airalo": {
     "summary": "Ваучер Airalo — цифровой код, который пополняет баланс аккаунта Airalo на номинал в USD; с баланса оплачиваются eSIM-тарифы мобильного интернета для поездок. Регион Global, номиналы от 5 до 50 USD. BIZSoft не является партнёром Airalo: коды поставляем как посредник, оформляем на юрлицо или ИП по договору и счёту.",
