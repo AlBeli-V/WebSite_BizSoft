@@ -1,0 +1,462 @@
+{
+  "family_key": "ZOHO-OSDEPLOY",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-os-deployer-professional-10-servers",
+  "classification_notes": [
+    "OS Deployer — редакции Professional (локальная сеть) / Enterprise (удалённые офисы); лицензия по компьютерам, серверы и рабочие станции раздельно; на витрине — серверные пакеты по 10 без техника в артикуле, рабочие станции не заведены — DATA GAP витрины, «по запросу».",
+    "Носитель — Professional. Реестр артикулов ставит план TEAM; индивидуальной альтернативы нет — ownership = universal.",
+    "В Endpoint Central та же функция существует как надстройка OS Imaging & Deployment — названа в текстах без ссылки, на витрине не заведена."
+  ],
+  "products": {
+    "me-os-deployer-professional-10-servers": {
+      "sku": "ZOHO-LIC-OSDEPLOYPRO-TEAM-1Y-PACK-10SRV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "10 серверов",
+      "unit_label": "пакет: 10 серверов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OS Deployer Professional — годовая подписка на снятие образов Windows и их развёртывание ManageEngine: захват эталонной машины, загрузка по PXE или с носителя, подбор драйверов под разное железо, задачи после установки — имя, домен, приложения, учётные записи. Пакет на 10 серверов; рабочие станции — отдельно.\n\nProfessional работает в одной локальной сети; Enterprise добавляет развёртывание на удалённые площадки через свои серверы и медленные каналы. Образы — только Windows, клиентские и серверные; macOS и Linux продукт не разворачивает.\n\nСрок — 1 год; та же функция есть надстройкой к Endpoint Central.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет OS Deployer Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Захват образа",
+              "d": "С работающей машины через агент или с выключенной через загрузочный носитель; образ хранится в сетевом репозитории, версии — по датам."
+            },
+            {
+              "t": "Развёртывание",
+              "d": "Загрузка по PXE или с USB/ISO, установка на один компьютер или на группу по расписанию; сценарии для чистой установки и для замены системы с сохранением данных."
+            },
+            {
+              "t": "Драйверы",
+              "d": "Общий репозиторий драйверов, из которого при установке подбираются подходящие под модель — один образ на весь парк вместо образа под каждую модель."
+            },
+            {
+              "t": "После установки",
+              "d": "Имя компьютера по шаблону, ввод в домен и OU, локальные пользователи, установка приложений и запуск скриптов — без участия техника."
+            },
+            {
+              "t": "Перенос профилей",
+              "d": "Данные и настройки пользователя снимаются со старой машины и возвращаются на новую после установки."
+            },
+            {
+              "t": "Серверные ОС",
+              "d": "Образы Windows Server снимаются и разворачиваются тем же механизмом; этот пакет лицензирует именно серверы."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Professional или Enterprise",
+          "kind": "compare",
+          "body": "Образы, драйверы и задачи после установки одинаковы; Enterprise отличается тем, где находятся целевые компьютеры.",
+          "rows": [
+            {
+              "label": "Сеть",
+              "values": {
+                "me-os-deployer-professional-10-servers": "одна локальная сеть",
+                "me-os-deployer-enterprise-10-servers": "центр и удалённые офисы"
+              }
+            },
+            {
+              "label": "Серверы распределения образов на площадках",
+              "values": {
+                "me-os-deployer-professional-10-servers": "нет",
+                "me-os-deployer-enterprise-10-servers": "да"
+              }
+            },
+            {
+              "label": "Развёртывание через WAN",
+              "values": {
+                "me-os-deployer-professional-10-servers": "нет",
+                "me-os-deployer-enterprise-10-servers": "да, образы кешируются локально"
+              }
+            },
+            {
+              "label": "Захват, PXE, драйверы, задачи после установки, перенос профилей",
+              "values": {
+                "me-os-deployer-professional-10-servers": "да",
+                "me-os-deployer-enterprise-10-servers": "да"
+              }
+            },
+            {
+              "label": "Единица лицензии",
+              "values": {
+                "me-os-deployer-professional-10-servers": "сервер / рабочая станция",
+                "me-os-deployer-enterprise-10-servers": "сервер / рабочая станция"
+              }
+            }
+          ],
+          "links": [
+            "me-os-deployer-enterprise-10-servers"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "ИТ-отделу одного офиса, где новые и вышедшие из строя компьютеры ставят руками по полдня каждый, а образ «золотой машины» хранится на флешке у одного человека. С репозиторием драйверов один образ закрывает весь зоопарк моделей."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Филиалы без своего администратора — Enterprise. Если кроме образов нужны патчи, установка ПО и инвентарь — Endpoint Central с надстройкой OS Imaging. Парк на macOS или Linux продукт не покрывает."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Серверы и станции — раздельно",
+              "d": "Этот пакет — 10 серверных машин, на которые разворачивается Windows Server; рабочие станции считаются своим пакетом и обычно составляют основной объём."
+            },
+            {
+              "t": "Что считается",
+              "d": "Компьютер, на который продукт ставит систему, — независимо от того, сколько раз его переустанавливают за год."
+            },
+            {
+              "t": "Сервер продукта",
+              "d": "Windows-сервер с репозиторием образов на площадке; для загрузки по сети — PXE и DHCP в той же сети или с перенаправлением."
+            },
+            {
+              "t": "Техники",
+              "d": "Отдельно в этой позиции не лицензируются; число учётных записей консоли — по матрице вендора."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте рабочие станции",
+              "d": "Серверный пакет редко берут один: добавьте пакет станций под фактический парк, число может быть любым."
+            },
+            {
+              "t": "Место под образы",
+              "d": "Каждый образ Windows — десятки гигабайт; репозиторий планируют на несколько версий."
+            },
+            {
+              "t": "Бессрочный вариант",
+              "d": "Разовая лицензия с AMS 20 % в год — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OS Deployer Enterprise",
+              "d": "Те же образы для удалённых офисов.",
+              "link": "me-os-deployer-enterprise-10-servers"
+            },
+            {
+              "t": "Endpoint Central Professional",
+              "d": "Управление парком целиком; развёртывание ОС — надстройкой по запросу.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли отдельный образ под каждую модель компьютера?",
+          "a": "Нет, драйверы подбираются из общего репозитория при установке; один образ обслуживает разные модели."
+        },
+        {
+          "q": "Разворачивает ли продукт Linux или macOS?",
+          "a": "Нет, только Windows — клиентские и серверные выпуски по матрице вендора."
+        },
+        {
+          "q": "Рабочие станции входят в пакет на 10 серверов?",
+          "a": "Нет, серверы и рабочие станции лицензируются отдельно; пакет станций добавляется к серверному."
+        }
+      ],
+      "related_products": [
+        "me-os-deployer-enterprise-10-servers",
+        "me-endpoint-central-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "OS Deployer Professional, 10 серверов — подписка | BIZSoft",
+      "meta_description": "ManageEngine OS Deployer Professional: образы Windows, развёртывание по PXE, драйверы, задачи после установки. Пакет на 10 серверов. Договор, счёт, ЭДО.",
+      "seo_intents": [
+        "os deployer купить / manageengine os deployer лицензия — hero, meta",
+        "os deployer professional vs enterprise — PLAN_COMPARE",
+        "развёртывание образов windows pxe драйверы — CAPABILITIES, FAQ",
+        "os deployer лицензирование серверы рабочие станции — DEPENDENCIES, FAQ"
+      ],
+      "uncertainties": [
+        "Учёт техников в OS Deployer — в артикуле техника нет; лицензируются ли учётные записи консоли отдельно, по матрице вендора.",
+        "Перенос профилей пользователей и сценарий замены системы с сохранением данных — по знанию продукта, состав по текущей версии не проверялся.",
+        "Ряд пакетов рабочих станций — по запросу, на витрине не заведён."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает младшая редакция",
+          "new_information": "шесть групп: захват, развёртывание, драйверы, пост-установка, профили, серверные ОС",
+          "sibling_overlap": "носитель; Enterprise — дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "os deployer возможности",
+          "source": "https://www.manageengine.com/os-imaging-deployment/edition-comparison.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли Professional",
+          "new_information": "пять строк различий",
+          "sibling_overlap": "единственная таблица семейства",
+          "decision": "COMPARE",
+          "seo_intent": "os deployer professional vs enterprise",
+          "source": "https://www.manageengine.com/os-imaging-deployment/edition-comparison.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль заказчика, три выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "развёртывание windows в офисе",
+          "source": "uncertain"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и где ставить",
+          "new_information": "серверы/станции, что считается, сервер и PXE, техники",
+          "sibling_overlap": "у Enterprise — ссылка",
+          "decision": "VALIDATE",
+          "seo_intent": "os deployer лицензия",
+          "source": "https://store.manageengine.com/os-deployer/"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "станции, место под образы, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "os deployer бессрочная лицензия",
+          "source": "https://store.manageengine.com/os-deployer/"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "Enterprise и Endpoint Central",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        }
+      ]
+    },
+    "me-os-deployer-enterprise-10-servers": {
+      "sku": "ZOHO-LIC-OSDEPLOYENT-TEAM-1Y-PACK-10SRV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "10 серверов",
+      "unit_label": "пакет: 10 серверов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OS Deployer Enterprise — годовая подписка на развёртывание Windows в распределённой сети: образы из центрального репозитория доставляются на серверы распределения в филиалах и ставятся там локально, без прогона десятков гигабайт через WAN на каждую машину. Пакет на 10 серверов.\n\nСам механизм — захват, PXE, драйверы, задачи после установки — совпадает с Professional и описан на его карточке; доплата за Enterprise оправдана только при удалённых площадках.\n\nСрок — 1 год; рабочие станции лицензируются отдельными пакетами.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Серверы распределения",
+              "d": "На каждой площадке узел с копией образов; переустановка филиального компьютера идёт по локальной сети."
+            },
+            {
+              "t": "Синхронизация образов",
+              "d": "Новая версия образа один раз уходит из центра на площадки по расписанию, в нерабочие часы."
+            },
+            {
+              "t": "Загрузка в филиале",
+              "d": "PXE-ответчик на стороне сервера распределения — центральный сервер для загрузки не нужен."
+            },
+            {
+              "t": "Одна консоль",
+              "d": "Задания на все площадки ставятся централизованно; локальный техник может быть ограничен своей площадкой — по матрице ролей вендора."
+            }
+          ],
+          "links": [
+            "me-os-deployer-professional-10-servers"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Enterprise, а когда нет",
+          "kind": "items",
+          "body": "Таблица двух редакций — на карточке Professional.",
+          "items": [
+            {
+              "t": "Берите Enterprise",
+              "d": "Хотя бы один офис за медленным каналом, где компьютеры переустанавливают регулярно."
+            },
+            {
+              "t": "Хватит Professional",
+              "d": "Одна площадка или филиалы с гигабитным каналом до центра.",
+              "link": "me-os-deployer-professional-10-servers"
+            },
+            {
+              "t": "Смотрите Endpoint Central",
+              "d": "Если филиалам нужны ещё патчи, ПО и инвентарь — Enterprise (Distributed) с надстройкой OS Imaging.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-os-deployer-professional-10-servers"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Сетям магазинов, отделений и производственных площадок, где на месте нет администратора, а замена вышедшего из строя компьютера должна занимать час силами центрального ИТ. Сервер распределения на площадке — единственное локальное требование."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Площадки",
+              "d": "Перечислите филиалы, где нужен сервер распределения, и число машин на каждом — это схема, а не лицензия: считаются компьютеры."
+            },
+            {
+              "t": "Правила подсчёта",
+              "d": "Серверы и станции раздельно, что считается компьютером, PXE — как у Professional.",
+              "link": "me-os-deployer-professional-10-servers"
+            },
+            {
+              "t": "Бессрочно",
+              "d": "Разовая оплата плюс AMS 20 % ежегодно — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OS Deployer Professional",
+              "d": "Одна площадка — дешевле.",
+              "link": "me-os-deployer-professional-10-servers"
+            },
+            {
+              "t": "Endpoint Central Enterprise (Distributed)",
+              "d": "Филиалы плюс патчи, ПО и инвентарь; образы — надстройкой.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Лицензируются ли серверы распределения отдельно?",
+          "a": "Нет, они входят в редакцию; платят за компьютеры, на которые ставится система."
+        }
+      ],
+      "related_products": [
+        "me-os-deployer-professional-10-servers",
+        "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+      ],
+      "meta_title": "OS Deployer Enterprise, 10 серверов — подписка | BIZSoft",
+      "meta_description": "ManageEngine OS Deployer Enterprise: развёртывание образов Windows в филиалах через серверы распределения. Пакет на 10 серверов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "os deployer enterprise купить — hero, meta",
+        "развёртывание windows в филиалах remote office deployment — CAPABILITIES, FIT"
+      ],
+      "uncertainties": [
+        "Ограничение локального техника своей площадкой — по матрице ролей вендора, оговорено.",
+        "Бесплатность серверов распределения в лицензии — по общей практике ManageEngine, для OS Deployer отдельно не подтверждено."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю",
+          "new_information": "серверы распределения, синхронизация, PXE в филиале, консоль",
+          "sibling_overlap": "база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "os deployer enterprise что входит",
+          "source": "https://www.manageengine.com/os-imaging-deployment/edition-comparison.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "эта или младшая",
+          "new_information": "три правила",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "os deployer enterprise vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "сети площадок без администратора",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "переустановка windows в филиале",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "площадки, ссылка на правила, perpetual",
+          "sibling_overlap": "правила — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "os deployer enterprise лицензия",
+          "source": "https://store.manageengine.com/os-deployer/"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "два соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        }
+      ]
+    }
+  }
+}

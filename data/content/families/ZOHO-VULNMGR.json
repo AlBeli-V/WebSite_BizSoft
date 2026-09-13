@@ -1,0 +1,475 @@
+{
+  "family_key": "ZOHO-VULNMGR",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license",
+  "classification_notes": [
+    "Vulnerability Manager Plus — редакции Free / Professional / Enterprise; на витрине — серверные пакеты по 10 с одним техником, рабочие станции лицензируются отдельно и не заведены — DATA GAP витрины, в тексте «по запросу».",
+    "Носитель — Professional. Ключевая граница редакций — встроенный патчинг и серверы распределения в Enterprise; сформулировано по знанию продукта, матрица в сессии не открывалась.",
+    "Внешние соседи: Endpoint Central Security (те же модули безопасности внутри UEM) и Patch Manager Plus (только патчи)."
+  ],
+  "products": {
+    "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-VULNMGRPRO-TEAM-1Y-PACK-10SRV1USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "10 серверов, 1 техник",
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Vulnerability Manager Plus Professional — годовая подписка на систему управления уязвимостями ManageEngine: сканирование серверов и станций Windows, macOS и Linux, ранжирование по CVSS и наличию эксплойта, ошибки конфигурации, устаревшее ПО, аудит портов и веб-серверов. Пакет на 10 серверов и одного техника.\n\nProfessional находит и ранжирует, но не устраняет: закрытие уязвимостей патчами из той же консоли — в Enterprise, а Professional отдаёт список в существующую систему обновлений. Рабочие станции лицензируются отдельными пакетами.\n\nСрок — 1 год с обновлениями базы уязвимостей и поддержкой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Vulnerability Manager Plus Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Сканирование",
+              "d": "Агент сверяет ОС и приложения с базой уязвимостей вендора, обновляемой ежедневно; результат — по CVE, по машине, по возрасту."
+            },
+            {
+              "t": "Приоритизация",
+              "d": "Балл CVSS, публичный эксплойт, срок жизни уязвимости и критичность актива складываются в очередь: что закрывать сегодня, что — в плановое окно."
+            },
+            {
+              "t": "Ошибки конфигурации",
+              "d": "Проверка настроек, которые не являются уязвимостями, но открывают дверь: слабые политики паролей, отключённый межсетевой экран, лишние общие ресурсы, небезопасные параметры браузеров — с рекомендацией по исправлению."
+            },
+            {
+              "t": "Веб-серверы",
+              "d": "IIS, Apache и другие по матрице вендора: устаревшие протоколы, настройки по умолчанию, права на каталоги."
+            },
+            {
+              "t": "Опасное и устаревшее ПО",
+              "d": "Программы с истёкшей поддержкой, пиринговые и удалённого доступа без санкции — с возможностью удалить."
+            },
+            {
+              "t": "Порты и нулевой день",
+              "d": "Аудит открытых портов и слушающих процессов; для уязвимостей без патча — скрипты смягчения от вендора."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Professional или Enterprise",
+          "kind": "compare",
+          "body": "Обе редакции одинаково находят и ранжируют; Enterprise закрывает найденное и работает в распределённой сети.",
+          "rows": [
+            {
+              "label": "Обнаружение, приоритизация, конфигурации, порты",
+              "values": {
+                "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license": "да",
+                "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license": "да"
+              }
+            },
+            {
+              "label": "Установка патчей из консоли",
+              "values": {
+                "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license": "нет",
+                "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license": "да, ОС и сторонние приложения"
+              }
+            },
+            {
+              "label": "Серверы распределения для филиалов",
+              "values": {
+                "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license": "нет",
+                "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license": "да"
+              }
+            },
+            {
+              "label": "Шлюз для машин вне сети",
+              "values": {
+                "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license": "нет",
+                "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license": "да, по матрице вендора"
+              }
+            },
+            {
+              "label": "Единица лицензии",
+              "values": {
+                "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license": "сервер / станция + техник",
+                "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license": "сервер / станция + техник"
+              }
+            }
+          ],
+          "links": [
+            "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Службе ИБ, у которой патчи уже ставит другой инструмент — WSUS, SCCM или Patch Manager Plus — и нужен независимый взгляд: что осталось незакрытым, где неправильные настройки, какие порты открыты."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если исправлять найденное некому и нечем — берите Enterprise с патчингом внутри, иначе отчёт останется отчётом. Если нужна ещё и защита от вредоносного ПО, контроль приложений и шифрование в одном агенте с управлением парком — Endpoint Central Security."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Серверы и станции — раздельно",
+              "d": "В этом пакете 10 серверных ОС; рабочие станции — своими пакетами под фактический парк, число может быть любым."
+            },
+            {
+              "t": "Техник",
+              "d": "Одна учётная запись консоли в пакете; дополнительные — платно."
+            },
+            {
+              "t": "Сервер и агенты",
+              "d": "Консоль на Windows Server, агенты на Windows, macOS и Linux; сканирование агентное, сетевые устройства без агента не покрываются."
+            },
+            {
+              "t": "Бесплатная редакция",
+              "d": "Вендор даёт бесплатный вариант на небольшой парк (порог по матрице) — удобен для пилота."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кто будет закрывать",
+              "d": "Убедитесь, что для найденных уязвимостей есть канал исправления; если нет — сразу Enterprise, переход позже возможен доплатой."
+            },
+            {
+              "t": "Два числа",
+              "d": "Серверы и рабочие станции по отдельности."
+            },
+            {
+              "t": "Бессрочный вариант",
+              "d": "Разовая лицензия и AMS 20 % в год — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Vulnerability Manager Plus Enterprise",
+              "d": "То же обнаружение плюс патчинг и филиалы.",
+              "link": "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Уязвимости как модуль в системе управления парком с защитой.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Patch Manager Plus Professional",
+              "d": "Если нужны только обновления без оценки уязвимостей.",
+              "link": "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Ставит ли Professional патчи сам?",
+          "a": "Нет, только показывает, какие патчи закрывают найденное; установка из консоли — в Enterprise."
+        },
+        {
+          "q": "Сканируются ли сетевые устройства — коммутаторы, межсетевые экраны?",
+          "a": "Нет, продукт агентный и работает с серверами и рабочими станциями; сетевое оборудование — другим классом инструментов."
+        },
+        {
+          "q": "Рабочие станции входят в пакет на 10 серверов?",
+          "a": "Нет, они считаются отдельно и добавляются своим пакетом."
+        }
+      ],
+      "related_products": [
+        "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license",
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Vulnerability Manager Plus Professional, 10 серв. | BIZSoft",
+      "meta_description": "ManageEngine Vulnerability Manager Plus Professional: сканирование уязвимостей, приоритизация, ошибки конфигурации, порты. 10 серверов и 1 техник. Договор, ЭДО.",
+      "seo_intents": [
+        "vulnerability manager plus купить / лицензия — hero, meta",
+        "vulnerability manager plus professional vs enterprise — PLAN_COMPARE, FAQ",
+        "сканер уязвимостей manageengine конфигурации порты — CAPABILITIES",
+        "vulnerability manager plus лицензирование серверы — DEPENDENCIES, FAQ"
+      ],
+      "uncertainties": [
+        "Граница «патчинг только в Enterprise» — по знанию продукта; матрица редакций в сессии не открывалась.",
+        "Порог бесплатной редакции не назван намеренно — по матрице вендора.",
+        "Шлюз для машин вне сети в Enterprise — оговорено «по матрице вендора»."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает младшая редакция",
+          "new_information": "шесть групп функций",
+          "sibling_overlap": "носитель; Enterprise — дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "vulnerability manager plus возможности",
+          "source": "https://www.manageengine.com/vulnerability-management/edition-comparison.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли Professional",
+          "new_information": "пять строк различий",
+          "sibling_overlap": "единственная таблица семейства",
+          "decision": "COMPARE",
+          "seo_intent": "professional vs enterprise",
+          "source": "https://www.manageengine.com/vulnerability-management/edition-comparison.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль ИБ с внешним патчингом, два выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "управление уязвимостями для компании",
+          "source": "uncertain"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и где ставить",
+          "new_information": "серверы/станции, техник, агенты, бесплатная редакция",
+          "sibling_overlap": "у Enterprise — ссылка",
+          "decision": "VALIDATE",
+          "seo_intent": "vulnerability manager plus лицензия",
+          "source": "https://store.manageengine.com/vulnerability-management/"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "канал исправления, два числа, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "vulnerability manager plus бессрочная",
+          "source": "https://store.manageengine.com/vulnerability-management/"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        }
+      ]
+    },
+    "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-VULNMGRENT-TEAM-1Y-PACK-10SRV1USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "10 серверов, 1 техник",
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Vulnerability Manager Plus Enterprise — годовая подписка на полный цикл: обнаружение и ранжирование уязвимостей, как в Professional, плюс установка патчей ОС и сторонних приложений из той же консоли, серверы распределения для филиалов и работа с машинами вне офиса. Пакет на 10 серверов и одного техника.\n\nРазница с младшей редакцией — в ответе на вопрос «и что дальше»: Enterprise сам закрывает найденное по расписанию с тестированием и откатом, так что отдельная система патчинга не нужна.\n\nСрок — 1 год; рабочие станции — отдельными пакетами.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Enterprise",
+          "kind": "items",
+          "body": "Сканирование, приоритизация и аудит конфигураций — на карточке Professional. Здесь — устранение и топология.",
+          "items": [
+            {
+              "t": "Патчи из консоли",
+              "d": "Уязвимость → патч → развёртывание в одном окне: обновления Windows, macOS, Linux и сторонних приложений с тестовой группой, окнами установки и откатом."
+            },
+            {
+              "t": "Автоматизация цикла",
+              "d": "Политика «найти и закрыть» по расписанию: критичные уязвимости с эксплойтом закрываются без ожидания ручного одобрения, остальные — в плановое окно."
+            },
+            {
+              "t": "Филиалы",
+              "d": "Серверы распределения кешируют патчи на площадках, а машины вне сети получают их через шлюз — по матрице вендора."
+            },
+            {
+              "t": "Отчёт о закрытии",
+              "d": "Не только список уязвимостей, но и подтверждение, что они устранены, — для аудита и регулятора."
+            }
+          ],
+          "links": [
+            "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Enterprise, а когда нет",
+          "kind": "items",
+          "body": "Таблица редакций — на карточке Professional.",
+          "items": [
+            {
+              "t": "Берите Enterprise",
+              "d": "Патчи ставить некому или нечем, есть филиалы или ноутбуки вне офиса, аудитор просит подтверждение устранения."
+            },
+            {
+              "t": "Хватит Professional",
+              "d": "Обновления уже ставит SCCM, WSUS или Patch Manager Plus, а нужен независимый контроль.",
+              "link": "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Смотрите Endpoint Central Security",
+              "d": "Если вместе с уязвимостями нужны контроль приложений, шифрование и защита от вредоносного ПО в системе управления парком.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям без отдельной системы обновлений, где одна команда отвечает и за поиск, и за закрытие уязвимостей, — обычно средний бизнес с несколькими площадками и требованиями регулятора к срокам устранения. Один агент, один техник, один отчёт."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Не дублируйте патчинг",
+              "d": "Если Patch Manager Plus или Endpoint Central уже стоят, Enterprise будет вторым механизмом обновлений на тех же машинах — рассмотрите Professional."
+            },
+            {
+              "t": "Правила подсчёта",
+              "d": "Серверы и станции раздельно, техник в пакете, свой сервер — как у младшей редакции.",
+              "link": "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Бессрочно",
+              "d": "Разовая оплата плюс AMS 20 % ежегодно — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Vulnerability Manager Plus Professional",
+              "d": "Только обнаружение — если патчи ставит другой инструмент.",
+              "link": "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Уязвимости, патчи и модули защиты внутри UEM.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Patch Manager Plus Enterprise",
+              "d": "Патчи для филиалов без оценки уязвимостей.",
+              "link": "me-patch-manager-plus-enterprise-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли Enterprise отдельный Patch Manager Plus?",
+          "a": "Для машин, которые сканирует Vulnerability Manager Plus, — да: патчи ОС и сторонних приложений ставятся из его консоли. Второй продукт нужен только для парка вне сканирования."
+        }
+      ],
+      "related_products": [
+        "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license",
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-patch-manager-plus-enterprise-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Vulnerability Manager Plus Enterprise, 10 серверов | BIZSoft",
+      "meta_description": "ManageEngine Vulnerability Manager Plus Enterprise: уязвимости, приоритизация и патчи из одной консоли, филиалы. 10 серверов и 1 техник. Договор, счёт, ЭДО.",
+      "seo_intents": [
+        "vulnerability manager plus enterprise купить — hero, meta",
+        "vulnerability manager plus патчи из консоли — CAPABILITIES, FAQ"
+      ],
+      "uncertainties": [
+        "Автозакрытие критичных уязвимостей без одобрения — как вариант настройки политики; точные параметры по документации вендора.",
+        "Шлюз для машин вне сети — оговорено «по матрице вендора»."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю",
+          "new_information": "патчинг, автоматизация цикла, филиалы, отчёт о закрытии",
+          "sibling_overlap": "база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "vulnerability manager plus enterprise что входит",
+          "source": "https://www.manageengine.com/vulnerability-management/edition-comparison.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "эта или младшая",
+          "new_information": "три правила",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "enterprise vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль заказчика без отдельного патчинга",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "управление уязвимостями и патчами",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "дублирование патчинга, ссылка на правила, perpetual",
+          "sibling_overlap": "правила — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "vulnerability manager plus enterprise лицензия",
+          "source": "https://store.manageengine.com/vulnerability-management/"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        }
+      ]
+    }
+  }
+}

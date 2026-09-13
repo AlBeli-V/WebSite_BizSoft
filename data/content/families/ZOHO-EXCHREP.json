@@ -1,0 +1,493 @@
+{
+  "family_key": "ZOHO-EXCHREP",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-exchange-reporter-plus-standard-100-mailboxes",
+  "classification_notes": [
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы нет — OWNERSHIP = universal.",
+    "Две редакции одного объёма (100 почтовых ящиков) — edition_tier; единица — ящик независимо от числа серверов и тенантов.",
+    "Пакет — единица; рост числа ящиков — переходом на следующий пакет доплатой (DATA GAP: выбор объёма вместо счётчика).",
+    "Бессрочные сиблинги (*-PERP) — вне индекса; «по запросу», без ссылок."
+  ],
+  "products": {
+    "me-exchange-reporter-plus-standard-100-mailboxes": {
+      "sku": "ZOHO-LIC-EXCHREPSTD-TEAM-1Y-PACK-100MBX",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "100 почтовых ящиков",
+      "unit_label": "пакет: 100 почтовых ящиков",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Exchange Reporter Plus Standard — годовая подписка на систему отчётности по Microsoft Exchange от ManageEngine на своём сервере: размеры и рост ящиков, трафик писем, списки рассылки, права на ящики, ActiveSync, OWA и публичные папки — для локального Exchange Server и Exchange Online. Пакет на 100 почтовых ящиков.\n\nЛицензия считается по почтовым ящикам под наблюдением независимо от числа серверов, организаций и тенантов. Professional добавляет аудит доступа к ящикам и изменений, мониторинг серверов и очередей и поиск по содержимому — по матрице вендора.\n\nСрок — 1 год, обновления и поддержка включены; свыше 100 ящиков — пакет большего объёма.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Exchange Reporter Plus Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Размер и рост ящиков",
+              "d": "Объём каждого ящика, динамика, приближение к квоте, неактивные и пустые ящики, крупнейшие папки и вложения."
+            },
+            {
+              "t": "Трафик",
+              "d": "Письма по отправителям, получателям, доменам и часам; внутренняя и внешняя переписка, объём вложений, спам-статистика по журналам отслеживания сообщений."
+            },
+            {
+              "t": "Списки рассылки и группы",
+              "d": "Состав, владельцы, неиспользуемые и вложенные списки; кто может отправлять на список."
+            },
+            {
+              "t": "Права и делегирование",
+              "d": "Кто имеет полный доступ, «отправить от имени» и «отправить как» к чужим ящикам; права на папки и календари."
+            },
+            {
+              "t": "Мобильные и веб-доступ",
+              "d": "Устройства ActiveSync по пользователям и моделям, политики, сеансы OWA; публичные папки и их размер."
+            },
+            {
+              "t": "Гибрид",
+              "d": "Локальные организации Exchange Server и тенанты Exchange Online в одной консоли; отчёты по расписанию в PDF, CSV, XLSX."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard или Professional",
+          "kind": "compare",
+          "body": "Обе редакции лицензируются по почтовым ящикам. Standard отвечает на вопрос «что у нас в почте», Professional — «кто и что с ней делает и жива ли она».",
+          "rows": [
+            {
+              "label": "Единица лицензии",
+              "values": {
+                "me-exchange-reporter-plus-standard-100-mailboxes": "100 почтовых ящиков",
+                "me-exchange-reporter-plus-professional-100-mailboxes": "100 почтовых ящиков"
+              }
+            },
+            {
+              "label": "Отчёты: ящики, трафик, списки, права, ActiveSync, OWA",
+              "values": {
+                "me-exchange-reporter-plus-standard-100-mailboxes": "да",
+                "me-exchange-reporter-plus-professional-100-mailboxes": "да"
+              }
+            },
+            {
+              "label": "Аудит: доступ к чужому ящику, изменения ящиков, прав и списков",
+              "values": {
+                "me-exchange-reporter-plus-standard-100-mailboxes": "нет",
+                "me-exchange-reporter-plus-professional-100-mailboxes": "да"
+              }
+            },
+            {
+              "label": "Мониторинг: службы, очереди, DAG, диски, доступность",
+              "values": {
+                "me-exchange-reporter-plus-standard-100-mailboxes": "нет",
+                "me-exchange-reporter-plus-professional-100-mailboxes": "да"
+              }
+            },
+            {
+              "label": "Поиск по содержимому писем и вложений",
+              "values": {
+                "me-exchange-reporter-plus-standard-100-mailboxes": "нет",
+                "me-exchange-reporter-plus-professional-100-mailboxes": "по матрице вендора"
+              }
+            },
+            {
+              "label": "Оповещения по событиям и порогам",
+              "values": {
+                "me-exchange-reporter-plus-standard-100-mailboxes": "нет",
+                "me-exchange-reporter-plus-professional-100-mailboxes": "да"
+              }
+            }
+          ],
+          "links": [
+            "me-exchange-reporter-plus-professional-100-mailboxes"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Администратору Exchange Server или гибридной почты, которому раз в месяц нужен отчёт о росте ящиков и раз в квартал — список, у кого есть доступ к ящику директора, без PowerShell и Excel."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если нужно знать, кто читал чужой ящик, и получать сигнал о переполненной очереди — Professional. Если почта целиком в Exchange Online и важнее управлять лицензиями и пользователями — M365 Manager Plus."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Почтовые ящики",
+              "d": "Считаются ящики, по которым строятся отчёты, суммарно по всем организациям и тенантам; общие, ресурсные и архивные — по правилам вендора, уточняем при расчёте."
+            },
+            {
+              "t": "Локальный Exchange",
+              "d": "Сервер Windows с доступом к организации Exchange по PowerShell и учётной записью с правами просмотра; поддерживаемые версии Exchange Server — по документации вендора."
+            },
+            {
+              "t": "Exchange Online",
+              "d": "Подключение через приложение Entra ID с правами на чтение отчётов и аудита; регистрация — под глобальным администратором."
+            },
+            {
+              "t": "Хранилище",
+              "d": "Встроенная база продукта; журналы отслеживания сообщений занимают место, под историю трафика планируют диск."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте ящики",
+              "d": "По всем серверам и тенантам вместе; при 120 ящиках нужен следующий пакет, а не два по 100. Переход — доплатой разницы."
+            },
+            {
+              "t": "Подписка или бессрочная лицензия",
+              "d": "Подписка включает обновления и поддержку; бессрочная лицензия с ежегодным AMS 20 % от стоимости — по запросу."
+            },
+            {
+              "t": "Если Exchange только в облаке",
+              "d": "Сравните с M365 Manager Plus: он покрывает почту вместе с остальными службами тенанта, но не видит локальный Exchange Server.",
+              "link": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Exchange Reporter Plus Professional, 100 ящиков",
+              "d": "Плюс аудит, мониторинг, оповещения и поиск.",
+              "link": "me-exchange-reporter-plus-professional-100-mailboxes"
+            },
+            {
+              "t": "M365 Manager Plus Standard, 100 пользователей",
+              "d": "Отчёты и управление всем тенантом Microsoft 365, без локального Exchange.",
+              "link": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            },
+            {
+              "t": "M365 Security Plus, 100 пользователей",
+              "d": "Аудит и безопасность облачной почты и других служб тенанта.",
+              "link": "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли общие и ресурсные ящики?",
+          "a": "Единица — почтовый ящик; порядок учёта общих, ресурсных и архивных ящиков — по правилам вендора, уточним при расчёте."
+        },
+        {
+          "q": "Работает ли с локальным Exchange Server без облака?",
+          "a": "Да, локальная организация Exchange — основной сценарий; Exchange Online подключается дополнительно и считается теми же ящиками."
+        },
+        {
+          "q": "Есть ли аудит в Standard?",
+          "a": "Нет, аудит доступа и изменений, мониторинг и оповещения — в Professional."
+        }
+      ],
+      "related_products": [
+        "me-exchange-reporter-plus-professional-100-mailboxes",
+        "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+      ],
+      "meta_title": "Exchange Reporter Plus Standard, 100 ящиков | BIZSoft",
+      "meta_description": "ManageEngine Exchange Reporter Plus Standard: отчёты по ящикам, трафику, спискам рассылки и правам Exchange Server и Online; пакет на 100 ящиков. Договор, ЭДО.",
+      "seo_intents": [
+        "exchange reporter plus купить лицензия — hero, meta",
+        "exchange reporter plus standard vs professional — PLAN_COMPARE",
+        "отчёты exchange server размер ящиков трафик — CAPABILITIES",
+        "exchange reporter plus лицензирование mailboxes — DEPENDENCIES, FAQ"
+      ],
+      "uncertainties": [
+        "Граница Standard/Professional (аудит, мониторинг, поиск, оповещения) — по знанию матрицы вендора; страницы не открывались.",
+        "Учёт общих, ресурсных и архивных ящиков — по правилам вендора; «уточняем при расчёте».",
+        "Поддерживаемые версии Exchange Server не перечислены намеренно — по документации вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "hero начинался с «Что входит:» → CAPABILITIES и FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что умеет младшая редакция",
+          "new_information": "шесть групп отчётов",
+          "sibling_overlap": "носитель; у Professional — дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "exchange reporter plus отчёты",
+          "source": "https://www.manageengine.com/products/exchange-reports/"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли Standard",
+          "new_information": "шесть строк по двум редакциям",
+          "sibling_overlap": "у Professional — ссылка",
+          "decision": "COMPARE",
+          "seo_intent": "exchange reporter plus standard vs professional",
+          "source": "https://store.manageengine.com/exchange-reports/"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль администратора Exchange, два выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "отчётность exchange server",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как считать и где ставить",
+          "new_information": "ящик как единица, локальный и облачный Exchange, хранилище",
+          "sibling_overlap": "у Professional — ссылка",
+          "decision": "VALIDATE",
+          "seo_intent": "exchange reporter plus лицензирование",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "пакеты не суммируются, perpetual+AMS, облачный сценарий",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "exchange reporter plus vs m365 manager plus",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа с причиной",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-exchange-reporter-plus-professional-100-mailboxes": {
+      "sku": "ZOHO-LIC-EXCHREPPRO-TEAM-1Y-PACK-100MBX",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "100 почтовых ящиков",
+      "unit_label": "пакет: 100 почтовых ящиков",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Exchange Reporter Plus Professional — годовая подписка на старшую редакцию системы отчётности по Microsoft Exchange от ManageEngine: к отчётам добавляются журнал доступа к ящикам и правок, мониторинг серверов, служб и очередей, оповещения и поиск по содержимому писем. В пакете — 100 почтовых ящиков.\n\nОтчёты по ящикам, трафику, спискам и правам те же, что у Standard, и описаны на её карточке. Professional берут, когда нужно доказать, кто открывал чужой ящик, и узнать о переполненной очереди раньше, чем остановится почта.\n\nСрок — 1 год; единица — почтовый ящик, серверы и тенанты не считаются.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Professional",
+          "kind": "items",
+          "body": "Ниже — только надстройка старшей редакции; отчёты Standard не повторяются.",
+          "items": [
+            {
+              "t": "Аудит доступа",
+              "d": "Вход в чужой ящик не владельцем, чтение и удаление писем делегатом, изменения прав, правил и переадресации — с именем и временем."
+            },
+            {
+              "t": "Аудит изменений",
+              "d": "Создание и удаление ящиков, списков рассылки, контактов, изменение свойств и политик организации."
+            },
+            {
+              "t": "Мониторинг",
+              "d": "Службы Exchange, очереди транспорта, репликация DAG, свободное место под базами, доступность OWA и ActiveSync — с порогами и историей."
+            },
+            {
+              "t": "Оповещения",
+              "d": "Письма и SMS по событиям аудита и порогам мониторинга: рост очереди, отказ службы, массовое удаление."
+            },
+            {
+              "t": "Поиск по содержимому",
+              "d": "Письма и вложения по словам, отправителю, дате и размеру по всей организации — в объёме матрицы вендора."
+            }
+          ],
+          "links": [
+            "me-exchange-reporter-plus-standard-100-mailboxes"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Professional, а когда нет",
+          "kind": "items",
+          "body": "Таблица редакций — на карточке Standard. Здесь — правило выбора.",
+          "items": [
+            {
+              "t": "Берите Professional",
+              "d": "Есть требование расследовать доступ к ящикам, нужен контроль очередей и служб или поиск писем по всей организации."
+            },
+            {
+              "t": "Хватит Standard",
+              "d": "Нужны только отчёты о ящиках, трафике и правах; мониторинг уже делает другая система.",
+              "link": "me-exchange-reporter-plus-standard-100-mailboxes"
+            },
+            {
+              "t": "Смотрите M365 Security Plus",
+              "d": "Почта только в облаке и главный вопрос — безопасность тенанта целиком.",
+              "link": "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ],
+          "links": [
+            "me-exchange-reporter-plus-standard-100-mailboxes"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям с собственным Exchange Server или гибридом, где почта — критичный сервис: банкам, производствам, госструктурам с требованием хранить журнал доступа к переписке руководителей и разбирать инциденты по фактам, а не по догадкам.\n\nРазмер — от 100 ящиков; для организаций на тысячи ящиков пакеты считаем по запросу, аудит и мониторинг лицензируются теми же ящиками без доплаты за серверы."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём",
+              "d": "100 ящиков в пакете; как считаются ящики и что нужно для подключения локального и облачного Exchange — на карточке Standard.",
+              "link": "me-exchange-reporter-plus-standard-100-mailboxes"
+            },
+            {
+              "t": "Переход со Standard",
+              "d": "Доплатой разницы в течение срока; накопленные отчёты сохраняются, аудит начинает собираться с момента включения."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Разовая оплата плюс AMS 20 % в год — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Exchange Reporter Plus Standard, 100 ящиков",
+              "d": "Только отчёты — дешевле при той же единице.",
+              "link": "me-exchange-reporter-plus-standard-100-mailboxes"
+            },
+            {
+              "t": "M365 Manager Plus Professional, 100 пользователей",
+              "d": "Аудит и мониторинг облачного тенанта целиком, без локального Exchange.",
+              "link": "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic"
+            },
+            {
+              "t": "ADAudit Plus Standard, 2 контроллера",
+              "d": "Аудит домена, где живут учётные записи владельцев ящиков.",
+              "link": "me-adaudit-plus-standard-2-domain-controllers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Покажет ли аудит, кто читал ящик до установки продукта?",
+          "a": "Нет, события собираются с момента включения аудита ящиков; история до этого недоступна."
+        },
+        {
+          "q": "Мониторинг заменяет систему мониторинга серверов?",
+          "a": "Только для Exchange: службы, очереди, DAG и базы. Общий мониторинг ОС и сети — задача OpManager."
+        }
+      ],
+      "related_products": [
+        "me-exchange-reporter-plus-standard-100-mailboxes",
+        "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic",
+        "me-adaudit-plus-standard-2-domain-controllers"
+      ],
+      "meta_title": "Exchange Reporter Plus Professional, 100 ящиков | BIZSoft",
+      "meta_description": "ManageEngine Exchange Reporter Plus Professional: аудит доступа к ящикам, мониторинг служб и очередей, оповещения, поиск; пакет на 100 ящиков. Договор, ЭДО.",
+      "seo_intents": [
+        "exchange reporter plus professional купить — hero, meta",
+        "аудит exchange доступ к ящику не владельцем — CAPABILITIES, FAQ",
+        "мониторинг exchange очереди dag — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Поиск по содержимому как часть Professional — по матрице вендора; сформулировано условно.",
+        "Состав мониторинга (DAG, базы, OWA) — по знанию модели, не по открытой странице."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (только дельта); опустошить",
+        "description": "hero начинался с «Что входит:» → FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю относительно Standard",
+          "new_information": "пять групп дельты",
+          "sibling_overlap": "база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "exchange reporter plus professional что входит",
+          "source": "https://www.manageengine.com/products/exchange-reports/"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "мне Professional или соседи",
+          "new_information": "три правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "standard vs professional exchange reporter",
+          "source": "—"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль организации с критичной почтой",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "аудит exchange server",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "переход, perpetual, ссылка на правила",
+          "sibling_overlap": "правила — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "exchange reporter plus upgrade",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}
