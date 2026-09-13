@@ -181,7 +181,8 @@ const PRODUCT_FIELDS = [
  * denomination, denomination_currency, availability — с тем же откатом.
  */
 const VARIANT_FIELDS = 'product_type,parent_sku,region_code,region_name,denomination,denomination_currency,availability,variant_label';
-const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at,${VARIANT_FIELDS}`;
+const CONTENT_FIELDS = 'product_nature,packaging,family_key,unit_label,edition_label,volume_label,base_product_sku,addon_source,license_model,content_modules,content_version';
+const PRODUCT_FIELDS_EXTRA = `${PRODUCT_FIELDS},purchase_updated_at,purchase_source,content_updated_at,${VARIANT_FIELDS},${CONTENT_FIELDS}`;
 let extraFieldsMissing = false;
 
 async function productsQuery(params: Record<string, unknown>, auth = false): Promise<Product[]> {
@@ -414,7 +415,8 @@ export async function getProductsBySkus(skus: string[]): Promise<Product[]> {
  * базе, включая неготовые карточки других вендоров, стало бы можно
  * подставить в корзину по угаданному sku.
  */
-const ZOHO_SKU_PREFIX = /^(ME-|MANAGEENGINE-)/;
+// Код вендора ZOHO в артикуле единой системы (docs/rules/sku-system.md).
+const ZOHO_SKU_PREFIX = /^ZOHO-/;
 
 export function isZohoConfiguratorSku(sku: string): boolean {
   return ZOHO_SKU_PREFIX.test(sku);

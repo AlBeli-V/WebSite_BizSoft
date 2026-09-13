@@ -1,0 +1,478 @@
+{
+  "family_key": "ZOHO-ANALYTICS",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-analytics-plus-standard-5-concurrent-guests-pack",
+  "classification_notes": [
+    "Две позиции — пакеты одновременных гостей для редакций Standard и Professional Analytics Plus. Закупка у обеих одинакова: редакцию задаёт базовая лицензия именованных пользователей, к которой пакет присоединяется; сам пакет одинаков. Packaging edition_tier, носитель — Standard.",
+    "Базовая лицензия именованных пользователей на витрине не заведена — DATA GAP витрины; в тексте «по запросу». Классификация оставлена mono по указанию брифа, хотя по логике вендора пакет гостей — расширение базовой подписки (нет base_product_sku на витрине).",
+    "Название витрины «5 пакетов одновременных читателей» расходится с артикулом PACK-5GUEST (один пакет на 5 гостей) — needs_operator у обеих позиций; текст написан по артикулу.",
+    "OWNERSHIP = universal (реестр ставит TEAM, индивидуальной альтернативы нет)."
+  ],
+  "products": {
+    "me-analytics-plus-standard-5-concurrent-guests-pack": {
+      "sku": "ZOHO-LIC-ANALYTICSSTD-TEAM-1Y-PACK-5GUEST",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "5 одновременных гостей",
+      "unit_label": "пакет: 5 одновременных гостей",
+      "min_qty": 1,
+      "needs_operator": true,
+      "base_product_sku": null,
+      "short_description": "Analytics Plus Standard, пакет одновременных гостей — годовая подписка на расширение серверной BI-платформы ManageEngine: пять дополнительных одновременных сеансов просмотра отчётов и панелей для сотрудников без именованной лицензии. Присоединяется к установке Analytics Plus редакции Standard на собственном сервере.\n\nГость открывает готовые панели, фильтрует и выгружает, но не создаёт отчётов; создатели считаются именованными пользователями базовой лицензии, которая на витрине не заведена и оформляется по запросу.\n\nСрок — 1 год; выравнивается со сроком базовой подписки.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Analytics Plus Standard",
+          "kind": "items",
+          "body": "Пакет гостей сам по себе функций не добавляет — он расширяет число зрителей платформы. Ниже — что эта платформа даёт в редакции Standard.",
+          "items": [
+            {
+              "t": "Источники ManageEngine",
+              "d": "Готовые коннекторы к ServiceDesk Plus, Endpoint Central, OpManager, ADManager Plus, PAM360 и другим продуктам вендора с преднастроенными панелями по заявкам, активам, патчам и сети."
+            },
+            {
+              "t": "Файлы и таблицы",
+              "d": "Импорт CSV, Excel, JSON и данных по URL с расписанием обновления; локальные папки на сервере."
+            },
+            {
+              "t": "Конструктор",
+              "d": "Таблицы, сводные, графики и KPI-виджеты перетаскиванием; SQL-запросы и формулы поверх загруженных наборов."
+            },
+            {
+              "t": "Панели и рассылка",
+              "d": "Дашборды с фильтрами и параметрами, экспорт и рассылка в PDF и Excel по расписанию, доступ по ролям и группам."
+            },
+            {
+              "t": "Развёртывание",
+              "d": "Собственный сервер Windows или Linux — данные не покидают периметр; облачная версия существует, но это другая позиция."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard или Professional",
+          "kind": "compare",
+          "body": "Редакция задаётся базовой лицензией Analytics Plus, пакет гостей должен ей соответствовать. Стоимость пакетов одинакова — разница только в том, к какой установке они присоединяются.",
+          "rows": [
+            {
+              "label": "Пакет",
+              "values": {
+                "me-analytics-plus-standard-5-concurrent-guests-pack": "5 одновременных гостей",
+                "me-analytics-plus-professional-5-concurrent-guests-pack": "5 одновременных гостей"
+              }
+            },
+            {
+              "label": "Права гостя",
+              "values": {
+                "me-analytics-plus-standard-5-concurrent-guests-pack": "просмотр, фильтры, выгрузка",
+                "me-analytics-plus-professional-5-concurrent-guests-pack": "просмотр, фильтры, выгрузка"
+              }
+            },
+            {
+              "label": "Источники ManageEngine и файлы",
+              "values": {
+                "me-analytics-plus-standard-5-concurrent-guests-pack": "да",
+                "me-analytics-plus-professional-5-concurrent-guests-pack": "да"
+              }
+            },
+            {
+              "label": "Внешние СУБД и облачные сервисы",
+              "values": {
+                "me-analytics-plus-standard-5-concurrent-guests-pack": "нет",
+                "me-analytics-plus-professional-5-concurrent-guests-pack": "да"
+              }
+            },
+            {
+              "label": "Zia, прогнозы, встраивание под своим брендом",
+              "values": {
+                "me-analytics-plus-standard-5-concurrent-guests-pack": "нет",
+                "me-analytics-plus-professional-5-concurrent-guests-pack": "да"
+              }
+            },
+            {
+              "label": "Базовая лицензия именованных пользователей",
+              "values": {
+                "me-analytics-plus-standard-5-concurrent-guests-pack": "по запросу",
+                "me-analytics-plus-professional-5-concurrent-guests-pack": "по запросу"
+              }
+            }
+          ],
+          "links": [
+            "me-analytics-plus-professional-5-concurrent-guests-pack"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считаются гости и пользователи",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Именованный пользователь",
+              "d": "Логин с правом создавать отчёты, подключать источники и раздавать доступ; лицензируется в базовом пакете Analytics Plus, не здесь."
+            },
+            {
+              "t": "Одновременный гость",
+              "d": "Сеанс просмотра без именованного логина. Пять одновременных — значит, шестой зритель ждёт, пока кто-то закроет панель; общее число зрителей за день не ограничено."
+            },
+            {
+              "t": "Базовая подписка",
+              "d": "Пакет работает только при действующей лицензии Analytics Plus той же редакции; базовый пакет пользователей считаем по запросу вместе с этим."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows или Linux, встроенная СУБД для хранилища отчётов; лимит строк данных — по матрице вендора для выбранной редакции."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "ИТ-руководителю, у которого уже есть ServiceDesk Plus, Endpoint Central или OpManager, а отчёты из них смотрят десятки менеджеров: пара аналитиков строит панели, остальные заходят гостями."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если каждому зрителю нужны свои сохранённые представления, подписки на рассылку и право делиться — это именованные пользователи, а не гости. Если данные лежат в собственных СУБД и облачных сервисах — редакция Professional."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Назовите базовую лицензию",
+              "d": "Пакет присоединяется к Analytics Plus Standard; при заказе укажите число именованных пользователей — базовую подписку посчитаем вместе."
+            },
+            {
+              "t": "Сколько гостей",
+              "d": "Считайте пиковую одновременность, а не список зрителей: 40 менеджеров, из которых панели открывают по 3–4 человека утром, — один пакет на 5."
+            },
+            {
+              "t": "Ступени",
+              "d": "Пакеты на 10, 25 и 50 гостей — по запросу; переход на больший — доплатой разницы."
+            },
+            {
+              "t": "Без срока",
+              "d": "Бессрочная лицензия Analytics Plus и пакетов гостей с ежегодным AMS 20 % — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Analytics Plus Professional, пакет гостей",
+              "d": "Тот же пакет для установки Professional.",
+              "link": "me-analytics-plus-professional-5-concurrent-guests-pack"
+            },
+            {
+              "t": "ServiceDesk Plus Professional",
+              "d": "Источник данных о заявках и активах.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "OpManager Standard",
+              "d": "Источник данных о сети и серверах.",
+              "link": "me-opmanager-standard-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что такое одновременный гость?",
+          "a": "Зритель, открывший панель без именованного логина. Лицензия считает сеансы в один момент времени: пакет на 5 пропустит пятерых, шестому придётся подождать."
+        },
+        {
+          "q": "Можно ли купить пакет гостей без базовой лицензии Analytics Plus?",
+          "a": "Нет, пакет расширяет действующую установку; если Analytics Plus ещё нет, считаем базовый пакет пользователей и гостей вместе."
+        }
+      ],
+      "related_products": [
+        "me-analytics-plus-professional-5-concurrent-guests-pack",
+        "me-servicedesk-plus-professional-2-technicians",
+        "me-opmanager-standard-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "Analytics Plus Standard, 5 гостей — пакет на год | BIZSoft",
+      "meta_description": "ManageEngine Analytics Plus Standard: пакет на 5 одновременных гостей для серверной BI по данным ServiceDesk Plus, Endpoint Central, OpManager. Договор, ЭДО.",
+      "seo_intents": [
+        "analytics plus купить / manageengine analytics plus лицензия — hero, meta",
+        "analytics plus concurrent guests / одновременные гости — DEPENDENCIES, FAQ",
+        "analytics plus standard vs professional — PLAN_COMPARE",
+        "bi для servicedesk plus / отчёты opmanager — CAPABILITIES, ALTERNATIVES"
+      ],
+      "uncertainties": [
+        "название витрины расходится с артикулом: h1 «5 пакетов одновременных читателей», артикул PACK-5GUEST — один пакет на 5 одновременных гостей; текст написан по артикулу.",
+        "Различие редакций (Standard — источники ManageEngine и файлы; Professional — внешние СУБД, облачные сервисы, Zia, встраивание) — по памяти матрицы вендора; страница в сессии не открывалась.",
+        "Возможность купить пакет гостей без базовой лицензии и ступени 10 / 25 / 50 — по общей логике прайса; подтверждается при заказе.",
+        "Классификация mono/edition_tier — по брифу; по существу пакет гостей — расширение базовой подписки, базовой позиции на витрине нет."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и BEFORE_ORDER; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что за платформа и что видит гость",
+          "new_information": "пять групп функций Standard, оговорка про роль пакета",
+          "sibling_overlap": "носитель; у Professional — только дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "analytics plus возможности",
+          "source": "https://www.manageengine.com/analytics-plus/pricing.html"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "какой пакет брать",
+          "new_information": "шесть строк, включая честную строку об одинаковой цене пакетов",
+          "sibling_overlap": "у Professional — правило выбора и ссылка",
+          "decision": "COMPARE",
+          "seo_intent": "analytics plus standard vs professional",
+          "source": "https://www.manageengine.com/analytics-plus/pricing.html"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как считать гостей",
+          "new_information": "именованный vs гость, зависимость от базовой лицензии, сервер",
+          "sibling_overlap": "у Professional — ссылка",
+          "decision": "VALIDATE",
+          "seo_intent": "analytics plus concurrent guest",
+          "source": "https://www.manageengine.com/analytics-plus/pricing.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль и два выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "bi для ит-отдела",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "базовая лицензия, пиковая одновременность, ступени, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "analytics plus pricing guests",
+          "source": "https://www.manageengine.com/analytics-plus/pricing.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "сосед и два источника данных",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-analytics-plus-professional-5-concurrent-guests-pack": {
+      "sku": "ZOHO-LIC-ANALYTICSPRO-TEAM-1Y-PACK-5GUEST",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "5 одновременных гостей",
+      "unit_label": "пакет: 5 одновременных гостей",
+      "min_qty": 1,
+      "needs_operator": true,
+      "base_product_sku": null,
+      "short_description": "Analytics Plus Professional, пакет одновременных гостей — годовая подписка на пять дополнительных сеансов просмотра для установки Analytics Plus редакции Professional: BI-платформа ManageEngine, которая соединяет данные сервис-деска, сети и конечных точек с внешними СУБД и облачными сервисами. Собственный сервер.\n\nСам пакет от варианта для Standard не отличается ни объёмом, ни стоимостью; редакцию определяет базовая лицензия, и пакет обязан ей соответствовать.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Professional",
+          "kind": "items",
+          "body": "Гость в Professional видит то же, что и в Standard, — панели и отчёты. Разница в том, из чего создатели могут эти панели собрать.",
+          "items": [
+            {
+              "t": "Внешние базы данных",
+              "d": "MS SQL, Oracle, MySQL, PostgreSQL и другие через прямое подключение или ODBC, синхронизация по расписанию."
+            },
+            {
+              "t": "Облачные сервисы и API",
+              "d": "Коннекторы к облачным приложениям и REST API для загрузки из собственных систем и выгрузки результатов."
+            },
+            {
+              "t": "Zia и прогнозы",
+              "d": "Вопросы к данным обычным текстом, прогнозные ряды, автоматические выводы под графиком."
+            },
+            {
+              "t": "Встраивание",
+              "d": "Панели внутри собственного портала без логотипа вендора, единый вход для зрителей."
+            }
+          ],
+          "links": [
+            "me-analytics-plus-standard-5-concurrent-guests-pack"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Professional или Standard",
+          "kind": "items",
+          "body": "Таблица редакций — на карточке пакета Standard; здесь правило выбора.",
+          "items": [
+            {
+              "t": "Берите Professional",
+              "d": "Данные лежат не только в продуктах ManageEngine: своя CRM, биллинг, учётная система через выгрузку в СУБД."
+            },
+            {
+              "t": "Хватит Standard",
+              "d": "Отчётность строится по сервис-деску, сети и конечным точкам ManageEngine и файлам; пакет гостей стоит столько же, переплаты нет.",
+              "link": "me-analytics-plus-standard-5-concurrent-guests-pack"
+            }
+          ],
+          "links": [
+            "me-analytics-plus-standard-5-concurrent-guests-pack"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аналитику или руководителю ИТ, который сводит заявки, инциденты и парк техники с финансовыми и кадровыми данными из корпоративных СУБД, а результат показывает десяткам зрителей без отдельных лицензий на каждого."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Соответствие редакции",
+              "d": "К установке Standard этот пакет не присоединится: сначала перевод базовой лицензии на Professional доплатой, потом пакет."
+            },
+            {
+              "t": "Как считать сеансы",
+              "d": "Правило одновременности, стартовые ступени и зависимость от базовой подписки описаны на карточке пакета Standard; для Professional они те же.",
+              "link": "me-analytics-plus-standard-5-concurrent-guests-pack"
+            },
+            {
+              "t": "Без срока",
+              "d": "Разовая лицензия с поддержкой по AMS — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Analytics Plus Standard, пакет гостей",
+              "d": "Для установки Standard, та же цена.",
+              "link": "me-analytics-plus-standard-5-concurrent-guests-pack"
+            },
+            {
+              "t": "ServiceDesk Plus Enterprise",
+              "d": "Источник данных ITIL-процессов.",
+              "link": "me-servicedesk-plus-enterprise-2-technicians"
+            },
+            {
+              "t": "OpManager Professional",
+              "d": "Источник данных по виртуализации и сети.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличается ли гость в Professional от гостя в Standard?",
+          "a": "Нет, права гостя одинаковы: просмотр, фильтры, выгрузка. Отличается набор источников, доступный создателям отчётов в базовой лицензии."
+        }
+      ],
+      "related_products": [
+        "me-analytics-plus-standard-5-concurrent-guests-pack",
+        "me-servicedesk-plus-enterprise-2-technicians",
+        "me-opmanager-professional-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "Analytics Plus Professional, 5 гостей — пакет | BIZSoft",
+      "meta_description": "ManageEngine Analytics Plus Professional: пакет на 5 одновременных гостей для BI с внешними СУБД, облачными сервисами и Zia; свой сервер. Договор, ЭДО.",
+      "seo_intents": [
+        "analytics plus professional купить — hero, meta",
+        "analytics plus подключение sql oracle / zia — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "название витрины расходится с артикулом: h1 «5 пакетов одновременных читателей», артикул PACK-5GUEST — один пакет на 5 одновременных гостей; текст написан по артикулу.",
+        "Состав дельты Professional (внешние СУБД, облачные коннекторы, Zia, встраивание без бренда) — по памяти матрицы; сверить с edition comparison при первом заказе."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и BEFORE_ORDER; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачивают в базовой лицензии Professional",
+          "new_information": "четыре группы дельты",
+          "sibling_overlap": "платформа — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "analytics plus professional features",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "Professional или Standard",
+          "new_information": "два правила",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "analytics plus editions",
+          "source": "https://www.manageengine.com/analytics-plus/pricing.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "соответствие редакции, ссылка на правило подсчёта, perpetual",
+          "sibling_overlap": "подсчёт — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "https://www.manageengine.com/analytics-plus/pricing.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "сосед и два источника",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}
