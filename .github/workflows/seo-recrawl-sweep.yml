@@ -1,0 +1,223 @@
+# expires: 2026-10-13 — конечный прогон: когда очередь пройдена, контур молча
+# пропускает каждую ночь и подлежит удалению.
+#
+# Сплошной переобход карточек товара после смены композиции и хлебных крошек
+# (решение руководителя 12–13.09.2026).
+#
+# Почему контуром, а не руками. Квота Вебмастера — 150 адресов в сутки, а
+# карточек в поиске около пятисот: это несколько ночей подряд. Ежедневный
+# прогон с детерминированными шагами заводится workflow, а не Routine на
+# сессии (правило docs/rules/operational-runs.md).
+#
+# Что переобходится. Состав берётся из живой карты сайта: в неё попадают
+# только индексируемые карточки, и правило отбора не дублируется — noindex
+# живёт в src/lib/catalog.ts и уже применён при её сборке. Плагины
+# JetBrains, личные лицензии, вечные ManageEngine, продления, пакеты
+# кредитов и номиналы подарочных карт закрыты от индексации и в очередь не
+# попадают вовсе: переобходить страницу, которой нет в поиске, — выброшенная
+# квота.
+#
+# Порядок. Случайный, но воспроизводимый: зерно фиксировано, поэтому очередь
+# одинакова при каждой пересборке и не перетасовывается между ночами.
+# Позиции Zoho уходят в конец очереди по решению руководителя 13.09.2026;
+# их слаги берутся из каталога, а не угадываются по адресу.
+#
+# Идемпотентность. Курсор и дата последнего прогона лежат в
+# reports/seo/data/recrawl-sweep.json ветки seo-data. Повторный запуск в те
+# же сутки ничего не отправляет. Прогон молчит при успехе и пишет в issue
+# #22 при сбое (правило docs/rules/report-integrity.md).
+name: seo-recrawl-sweep
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Сколько адресов за прогон (по умолчанию 150 — суточная квота)'
+        required: false
+        default: '150'
+      reset:
+        description: 'true — начать очередь сначала'
+        required: false
+        default: 'false'
+      force:
+        description: 'true — отправить, даже если сегодня уже отправляли'
+        required: false
+        default: 'false'
+  schedule:
+    # 21:40 UTC = 00:40 МСК: квота Вебмастера обновляется в 00:30 МСК.
+    - cron: '40 21 * * *'
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: seo-recrawl-sweep
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      # if: always() — шаг журнала объявлен always(), а локальный action
+      # journal-post это файлы репозитория: без checkout в упавшем job запись
+      # результата не проходит (сторож check-workflow-journal.py).
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull data branch
+        run: bash scripts/seo/data_sync.sh pull
+
+      - name: Read cursor
+        id: cursor
+        run: python3 scripts/seo/recrawl_sweep.py read
+        env:
+          P_RESET: ${{ inputs.reset || 'false' }}
+          P_FORCE: ${{ inputs.force || 'false' }}
+
+      - name: Sweep
+        id: run
+        if: steps.cursor.outputs.skip != 'true'
+        continue-on-error: true
+        uses: appleboy/ssh-action@v1
+        env:
+          P_LIMIT: ${{ inputs.limit || '150' }}
+          P_CURSOR: ${{ steps.cursor.outputs.cursor }}
+          YTOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_LIMIT,P_CURSOR,YTOKEN
+          capture_stdout: true
+          script: |
+            set -e
+            if [ -z "$YTOKEN" ]; then
+              YTOKEN=$(sed -n 's/^YANDEX_OAUTH=//p' /opt/bizsoft/astro.env 2>/dev/null | tr -d '"\r' || true)
+            fi
+            if [ -z "$YTOKEN" ]; then
+              echo "токен: НЕ НАЙДЕН (ни секрета YANDEX_WEBMASTER_TOKEN, ни YANDEX_OAUTH в astro.env)"
+              exit 1
+            fi
+            DTOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            export YTOKEN DTOKEN P_LIMIT P_CURSOR
+            python3 - <<'PY'
+            import json, os, random, re, sys, urllib.error, urllib.request
+
+            limit = max(1, int(os.environ.get('P_LIMIT') or 150))
+            cursor = max(0, int(os.environ.get('P_CURSOR') or 0))
+
+            def get(url, headers=None, timeout=60):
+                r = urllib.request.Request(url, headers=headers or {})
+                with urllib.request.urlopen(r, timeout=timeout) as resp:
+                    return resp.read()
+
+            # Состав очереди — из живой карты сайта: правило индексируемости
+            # применено при её сборке, второй раз здесь не пишется.
+            xml = get('https://biz-soft.pro/sitemap.xml').decode('utf-8', 'replace')
+            urls = [u for u in re.findall(r'<loc>([^<]+)</loc>', xml) if '/product/' in u]
+            print(f'в карте сайта карточек: {len(urls)}')
+            if not urls:
+                print('карта сайта не отдала ни одной карточки — очередь не построена')
+                sys.exit(1)
+
+            # Хвост очереди — позиции Zoho, их слаги из каталога.
+            zoho = set()
+            try:
+                api = ('http://localhost:8055/items/products?limit=-1&fields=slug'
+                       '&filter[status][_eq]=published&filter[vendor][_eq]=Zoho')
+                data = json.loads(get(api, {'Authorization': f"Bearer {os.environ['DTOKEN']}"}, 30))
+                zoho = {f"https://biz-soft.pro/product/{r['slug']}" for r in data.get('data', [])}
+            except Exception as e:
+                print(f'каталог не ответил ({e}) — порядок строится без хвоста Zoho')
+
+            head = sorted(u for u in urls if u not in zoho)
+            tail = sorted(u for u in urls if u in zoho)
+            rnd = random.Random(20260913)
+            rnd.shuffle(head)
+            rnd.shuffle(tail)
+            queue = head + tail
+            batch = queue[cursor:cursor + limit]
+            print(f'очередь: {len(queue)} адресов, хвост Zoho: {len(tail)}')
+            print(f'курсор: {cursor}, партия: {len(batch)}')
+            if not batch:
+                print('очередь пройдена целиком — отправлять нечего')
+                print(f'SWEEP_CURSOR={len(queue)}')
+                print(f'SWEEP_TOTAL={len(queue)}')
+                raise SystemExit(0)
+
+            tok = os.environ['YTOKEN']
+            def api_req(method, path, body=None):
+                r = urllib.request.Request('https://api.webmaster.yandex.net/v4' + path,
+                    data=json.dumps(body).encode() if body else None, method=method)
+                r.add_header('Authorization', f'OAuth {tok}')
+                r.add_header('Content-Type', 'application/json')
+                try:
+                    with urllib.request.urlopen(r, timeout=30) as resp:
+                        return resp.status, json.loads(resp.read() or b'{}')
+                except urllib.error.HTTPError as e:
+                    return e.code, json.loads(e.read() or b'{}')
+
+            st, u = api_req('GET', '/user')
+            if st != 200:
+                print(f'user: HTTP {st} {u} — переобход не запрошен'); sys.exit(1)
+            uid = u['user_id']
+            st, hs = api_req('GET', f'/user/{uid}/hosts')
+            host = next((h['host_id'] for h in hs.get('hosts', [])
+                         if 'biz-soft.pro' in h['host_id'] and h['host_id'].startswith('https')), None)
+            if not host:
+                print('хост не найден — переобход не запрошен'); sys.exit(1)
+            st, q = api_req('GET', f'/user/{uid}/hosts/{host}/recrawl/quota')
+            print(f'квота: {q}')
+
+            accepted, rejected = [], []
+            for url in batch:
+                st, resp = api_req('POST', f'/user/{uid}/hosts/{host}/recrawl/queue', {'url': url})
+                ok = st in (200, 201, 202) and resp.get('task_id')
+                (accepted if ok else rejected).append(url)
+                if not ok:
+                    print(f'  {url} → HTTP {st} ОТКЛОНЕНО: {json.dumps(resp, ensure_ascii=False)}')
+            print(f'итог: принято {len(accepted)}, отклонено {len(rejected)}')
+            # Курсор двигается только на принятые адреса: отклонённые уйдут
+            # следующей ночью, а не потеряются.
+            print(f'SWEEP_CURSOR={cursor + len(accepted)}')
+            print(f'SWEEP_TOTAL={len(queue)}')
+            if rejected:
+                print('отклонённые: ' + ', '.join(rejected[:20]))
+                sys.exit(1)
+            PY
+
+      - name: Save cursor
+        id: save
+        if: always() && steps.cursor.outputs.skip != 'true'
+        env:
+          STDOUT: ${{ steps.run.outputs.stdout }}
+        run: python3 scripts/seo/recrawl_sweep.py save
+
+      # Без `|| true`: не уехавший курсор — это повторная отправка тех же
+      # 150 адресов следующей ночью, то есть выброшенная квота. Сбой push
+      # обязан красить прогон и попадать в журнал.
+      - name: Push marker
+        if: always() && steps.cursor.outputs.skip != 'true'
+        run: |
+          bash scripts/seo/data_sync.sh push 'seo-recrawl-sweep: курсор переобхода' 'reports/seo/data'
+
+      # Пишем в журнал только когда отправка действительно шла и упала:
+      # пропущенный прогон — это не сбой, и молчать он обязан.
+      - name: Journal on failure
+        if: always() && steps.run.outcome == 'failure'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "seo-recrawl-sweep"
+          outcome: failure
+          body: ${{ steps.run.outputs.stdout }}
