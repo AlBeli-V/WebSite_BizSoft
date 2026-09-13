@@ -191,15 +191,15 @@
       "id": "google-cloud-cse",
       "vendor": "Google Cloud",
       "group": null,
-      "purpose": "Custom Search JSON API — поиск картинок для подбора знаков продуктов (ops-logo-candidates, docs/rules/product-logos.md); аккаунт и ключ заводит руководитель",
-      "status": "planned",
+      "purpose": "Custom Search JSON API — поиск картинок для подбора знаков продуктов (ops-logo-candidates, docs/rules/product-logos.md). Решение руководителя 13.09.2026: аккаунт не заводится, позиции без знака продукта получают знак вендора; запись остаётся на случай отмены решения",
+      "status": "declined",
       "secrets": [
         "GOOGLE_CSE_KEY",
         "GOOGLE_CSE_CX"
       ],
       "impact": "Только этап Google в подборе знаков продуктов: без ключа заявки без официального источника ждут (needs_key), сайт не затрагивается",
       "owner_contact": null,
-      "_owner_contact": "не заполнено: аккаунт ещё не заведён, статус planned",
+      "_owner_contact": "не заполнено: аккаунт не заводится (решение 13.09.2026)",
       "payment": null,
       "_payment": "не заполнено: бесплатная квота 100 запросов в сутки, платный тариф — решение руководителя"
     }

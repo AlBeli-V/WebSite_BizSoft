@@ -10589,16 +10589,18 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
     ]
   },
   "postman": {
-    "summary": "Postman Solo и Professional — рабочее место команды для работы с API: коллекции запросов, тесты, моки и общая документация. Оформим на юрлицо: договор, счёт в рублях, закрывающие через ЭДО.",
+    "summary": "Postman Solo, Teams и Enterprise — рабочее место команды для работы с API: коллекции запросов, тесты, моки и общая документация. Оформим на юрлицо: договор, счёт в рублях, закрывающие через ЭДО.",
     "comparison": {
       "cols": [
         "Solo",
-        "Professional"
+        "Teams",
+        "Enterprise"
       ],
       "rows": [
         {
           "label": "Приватные рабочие пространства",
           "values": [
+            "Да",
             "Да",
             "Да"
           ]
@@ -10607,6 +10609,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Совместная работа над коллекциями",
           "values": [
             "Нет",
+            "Да",
             "Да"
           ]
         },
@@ -10614,6 +10617,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Роли и права участников",
           "values": [
             "Нет",
+            "Да",
             "Да"
           ]
         },
@@ -10621,12 +10625,30 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Ревью изменений в коллекциях",
           "values": [
             "Нет",
+            "Да",
             "Да"
           ]
         },
         {
           "label": "Приватная сеть API компании",
           "values": [
+            "Нет",
+            "Да",
+            "Да"
+          ]
+        },
+        {
+          "label": "Единый вход (SSO) и SCIM",
+          "values": [
+            "Нет",
+            "Нет",
+            "Да"
+          ]
+        },
+        {
+          "label": "Расширенный аудит и политики безопасности",
+          "values": [
+            "Нет",
             "Нет",
             "Да"
           ]
@@ -10635,6 +10657,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Мониторинг коллекций по расписанию",
           "values": [
             "Базовый",
+            "Расширенный",
             "Расширенный"
           ]
         },
@@ -10642,6 +10665,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Метрика лицензии",
           "values": [
             "1 пользователь",
+            "За каждого пользователя",
             "За каждого пользователя"
           ]
         }
@@ -10655,8 +10679,13 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       },
       {
         "scenario": "Если над одними API работают разработчики, тестировщик и аналитик",
-        "product": "Postman Professional",
+        "product": "Postman Teams",
         "note": "общие пространства, роли и ревью изменений"
+      },
+      {
+        "scenario": "Если нужны единый вход, аудит и централизованные политики доступа",
+        "product": "Postman Enterprise",
+        "note": "единый вход, SCIM, аудит и политики доступа на уровне организации"
       }
     ],
     "scenarios": [
@@ -10684,7 +10713,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       },
       {
         "q": "Тариф считается за пользователя?",
-        "a": "Professional — да, оплата за каждого участника рабочего пространства. Solo рассчитан на одного человека."
+        "a": "Teams и Enterprise — да, оплата за каждого участника рабочего пространства. Solo рассчитан на одного человека."
       },
       {
         "q": "Какие документы получит бухгалтерия?",
