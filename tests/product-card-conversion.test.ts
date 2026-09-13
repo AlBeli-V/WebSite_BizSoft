@@ -15,7 +15,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, UNIT_FORMS } from '../src/lib/product-commerce';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../src/data/policies';
-import { cardComposition } from '../src/lib/product-composition';
+import { cardComposition, KIND_MARKER } from '../src/lib/product-composition';
 import { VENDOR_CONTENT } from '../src/data/vendor-content';
 
 const ROOT = resolve(__dirname, '..');
@@ -134,6 +134,42 @@ describe('первый экран и липкая полоса', () => {
     // Два одинаковых призыва на одном экране спорят друг с другом.
     expect(page).toContain('buyBar.hidden = e.isIntersecting');
     expect(page).toContain('io.observe(heroCta)');
+  });
+});
+
+describe('плашки над заголовком', () => {
+  it('вид позиции задаёт первую плашку', () => {
+    expect(KIND_MARKER.balance_topup).toBe('Универсальный продукт');
+    expect(KIND_MARKER.addon).toBe('Дополнение к продукту');
+    // У подписки вида в плашке нет: там стоит тип плана, и считается он
+    // отдельно — у пополнения и дополнения плана не бывает вовсе.
+    expect(KIND_MARKER.unit_subscription).toBeUndefined();
+    expect(page).toContain('const primaryMarker = kindMarker || planMarker');
+  });
+
+  it('тип плана не угадывается, когда его размечал оператор', () => {
+    // Разметка старше эвристики: иначе название снова решит за данные.
+    expect(page).toContain("markerOverride === 'team' ? 'team'");
+    expect(page).toContain('const markerOverride = cardMeta?.marker');
+  });
+
+  it('вторая плашка — одна категория, у надстроек категория вендора', () => {
+    expect(page).toContain('const categoryMarker =');
+    expect(page).toContain('vendorCatEntry?.catLabel');
+    // Ровно две плашки: вид позиции и категория.
+    const chips = page.slice(page.indexOf('<div class="chips">'), page.indexOf('</div>', page.indexOf('<div class="chips">')));
+    expect(chips).toContain('primaryMarker');
+    expect(chips).toContain('categoryMarker');
+    expect(chips).not.toContain('LICENSE_LABEL');
+  });
+
+  it('правило плашек записано в свод и в файл правил', () => {
+    const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
+    expect(claude).toContain('docs/rules/product-markers.md');
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/product-markers.md'), 'utf8');
+    expect(rule).toContain('Универсальный продукт');
+    expect(rule).toContain('Дополнение к продукту');
+    expect(rule).toContain('marker');
   });
 });
 

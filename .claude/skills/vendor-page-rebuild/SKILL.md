@@ -85,7 +85,7 @@ description: Аудит и перестройка коммерческой ст�
 | `summary` | прямой ответ, блок «Коротко» |
 | `intro` | абзац «какой тариф кому» |
 | `explainer` | `{title, items[]}` — типы мест, виды лицензий, редакции |
-| `cards` | по slug или sku: `minQty`, `qtyLabel`, `check`, `badge`, `forWhom`, `features`, `term`, `termShort`, `reassign`, `management`, `includes`, `faq`, `shortName` |
+| `cards` | по slug или sku: `minQty`, `qtyLabel`, `check`, `badge`, `forWhom`, `features`, `term`, `termShort`, `reassign`, `management`, `includes`, `faq`, `shortName`, `marker` |
 | `order` | порядок линейки: от младшего плана к старшему |
 | `security` | `{text, cta}` — что с данными компании, что спросит ИБ |
 | `segments` | выбор ситуации; состав случая — в `keys` или в `seg` карточки |
@@ -145,6 +145,10 @@ API, генеративные сервисы с кредитами), и поку
 
 - путь ровно из трёх уровней: `Главная → Производитель → Продукт`
   (`docs/rules/breadcrumbs.md`) — разделов каталога и происхождения в нём нет;
+- две плашки над заголовком: вид позиции и одна основная категория
+  (`docs/rules/product-markers.md`). Тип плана подписки данными не выводится
+  — спорную карточку размечают полем `marker` в `cards`, а при заведении
+  позиции сомнение выносят вопросом оператору;
 - одна кнопка в подборку для КП и один путь к заявке;
 - количество берётся из счётчика, а не из головы менеджера;
 - уникальные `meta_title` ≤ 60 и `meta_description` ≤ 160 — правка только

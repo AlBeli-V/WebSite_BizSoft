@@ -25,7 +25,7 @@ import { vendorSlug } from '../../lib/vendor-links';
 import { vendorBySlug } from '../../data/vendors';
 import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase } from '../../lib/product-commerce';
 import { planType, PLAN_MARKER, PLAN_SHORT } from '../../lib/plan-type';
-import { cardComposition } from '../../lib/product-composition';
+import { cardComposition, KIND_MARKER } from '../../lib/product-composition';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../../data/policies';
 import { seller } from '../../config/site';
 
@@ -138,9 +138,31 @@ const ctaRef = quoteProductRef(product.name, product.sku, commerce, commerce.min
 // ответ на вопрос «кому можно пользоваться»: тот даёт license_type и живёт
 // в параметрах. Поля в каталоге нет, эвристика по названию и описанию —
 // это DATA GAP, поэтому маркер не показывается, когда уверенности нет.
-const planKind = planType(product.name, product.short_description || '');
+// Разметка оператора (VendorCardMeta.marker) старше эвристики: тип плана по
+// названию угадывается не всегда, и подставлять догадку нельзя.
+const markerOverride = cardMeta?.marker;
+const planKind = markerOverride === 'team' ? 'team'
+  : markerOverride === 'individual' ? 'individual'
+  : (markerOverride ? null : planType(product.name, product.short_description || ''));
 const planMarker = planKind ? PLAN_MARKER[planKind] : '';
 const planShort = planKind ? PLAN_SHORT[planKind] : '';
+
+// Первая плашка называет вид позиции (правило docs/rules/product-markers.md):
+// у подписки — тип плана, у пополнения — «Универсальный продукт», у
+// дополнения — «Дополнение к продукту». Пусто она остаётся только там, где
+// вид подписки данными не подтверждён: догадка здесь хуже отсутствия.
+const kindMarker = markerOverride === 'universal' ? KIND_MARKER.balance_topup
+  : markerOverride === 'addon' ? KIND_MARKER.addon
+  : KIND_MARKER[composition] ?? '';
+const primaryMarker = kindMarker || planMarker;
+
+// Вторая плашка — одна основная категория. У пополнения и дополнения это
+// основная категория производителя (реестр vendors.ts): сама позиция —
+// надстройка над его продуктом, и своя категория у неё бывает служебной.
+const vendorCatEntry = product.vendor ? vendorBySlug(vendorSlug(product.vendor)) : undefined;
+const categoryMarker = (kindMarker && vendorCatEntry?.catLabel && vendorCatEntry?.catSeg)
+  ? { name: vendorCatEntry.catLabel, slug: vendorCatEntry.catSeg }
+  : category ? { name: category.name, slug: category.slug } : null;
 const unitName = unitNoun(commerce.qtyLabel);
 // Подзаголовок называет тип плана. Срока подписки в схеме каталога нет
 // (DATA GAP в каталоге), он ведётся в контенте вендора (VendorCardMeta.term).
@@ -316,8 +338,10 @@ try {
             задачи. Происхождение сюда не выносится — это признак каталога,
             а не свойство, влияющее на выбор; артикул ушёл в параметры. */}
         <div class="chips">
-          {planMarker && <span class="chip chip-plan">{planMarker}</span>}
-          {category && <a class="chip chip-link" href={`/catalog/${category.slug}`}>{category.name}</a>}
+          {primaryMarker && <span class="chip chip-plan">{primaryMarker}</span>}
+          {categoryMarker && (
+            <a class="chip chip-link" href={`/catalog/${categoryMarker.slug}`}>{categoryMarker.name}</a>
+          )}
         </div>
         {product.vendor && <p class="vendorline">Производитель: <b>{vendorLegal(product.vendor)}</b></p>}
         <div class="title-row">

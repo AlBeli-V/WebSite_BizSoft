@@ -56,6 +56,14 @@ export interface VendorCardMeta {
    * В title, разметке и крошках остаётся полное название из каталога.
    */
   shortName?: string;
+  /**
+   * Первая плашка над заголовком, когда её не выводят данные. Значения:
+   * team, individual — тип плана подписки; universal — пополнение, номинал,
+   * универсальный продукт; addon — дополнение к продукту.
+   * Правило docs/rules/product-markers.md: плашка обязательна, а угадывать
+   * тип плана по названию нельзя — спорную карточку размечает оператор.
+   */
+  marker?: 'team' | 'individual' | 'universal' | 'addon';
 }
 /** Разбор, который нужен до цен: типы мест, виды лицензий, редакции. */
 export interface VendorExplainer { title: string; items: VendorScenario[] }
