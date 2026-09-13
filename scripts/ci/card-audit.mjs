@@ -45,7 +45,9 @@ for (const p of paths) {
       subtitle: t(document.querySelector('.subtitle')),
       crumbs: all('.breadcrumbs li').map(t).join(' '),
       lede: t(document.querySelector('.lede')),
-      facts: all('.hero-facts div').map((d) => `${t(d.querySelector('dt'))} = ${t(d.querySelector('dd'))}`),
+      facts: all('.facts .fact').map((d) => `${t(d.querySelector('.fact-short'))} = ${t(d.querySelector('dd'))}`),
+      hints: all('.facts .hint-box').map(t),
+      icon: document.querySelector('.pi-row img')?.getAttribute('src') || null,
       price: t(document.querySelector('.pz-sum b')),
       priceNotes: all('.pz-sum span').map(t),
       priceWhat: all('.pz-what li').map(t),
@@ -81,6 +83,8 @@ for (const p of paths) {
   console.log(`подзаголовок: ${a.subtitle || '⟨нет⟩'}`);
   console.log(`описание: ${a.lede || '⟨нет⟩'}`);
   console.log(`факты: ${a.facts.join(' | ') || '⟨нет⟩'}`);
+  console.log(`подсказки фактов: ${a.hints.length}`);
+  console.log(`знак продукта: ${a.icon || '⟨нет⟩'}`);
   console.log(`цена: ${a.price || '⟨нет⟩'}  подписи: ${a.priceNotes.join(' / ')}`);
   console.log(`за что: ${a.priceWhat.join(' | ') || '⟨нет⟩'}`);
   console.log(`количество: «${a.qtyLabel}» min=${a.qtyMin} value=${a.qtyValue} ступени: ${a.presets.join(',')}`);

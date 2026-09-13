@@ -18,7 +18,7 @@ avbelyaev@biz-soft.pro в тот же день. Единственное иск�
 витрине её не стало. Разбор 10.09.2026: карточка `OPENAI-BUSINESS` была
 дублем, и миграция AI-каталога 17.08.2026 (прогон #4 `ai-catalog-migrate`,
 успешный; список `REMOVALS` в `scripts/ai-catalog-data.py`) сняла её с
-публикации, поставив 301 на каноническую `INT-AI-CHATGPT`. Вместе с ней тем же
+публикации, поставив 301 на каноническую `OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD`. Вместе с ней тем же
 прогоном ушли `OPENAI-PLUS`, `OPENAI-PRO`, `OPENAI-API`, `MJ-BASIC`,
 `DSCRPT-HOBBYIST`, `RECRAFT-BASIC`, `ELEVEN-STARTER`, `HEYGEN-CREATOR`. Каждое
 снятие было осознанным решением, но ни одно не было видно снаружи: карточка

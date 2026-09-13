@@ -193,7 +193,10 @@ function hiddenProduct(pos, fam) {
     : `${nameRu}${editionRu}: ${modelRu}, объём по прайсу вендора — ${pos.variantName}.`;
   return {
     sku: pos.sku,
-    slug: pos.sku.toLowerCase(),
+    slug: (pos.legacySku || pos.sku).toLowerCase(),
+    // Контракт сопровождения ссылается на свою вечную лицензию: пара
+    // продаётся вместе, и по артикулу (вид SVC) её уже не вычислить.
+    ...(pos.isAms ? { pair_of: pos.pairOf } : {}),
     name,
     official_name: `ManageEngine ${pos.familyName}${pos.edition ? ` ${pos.edition} Edition` : ''}, ${pos.variantName}`
       + (pos.isAms ? ' (Annual Maintenance & Support)' : pos.licenseModel === 'perpetual' ? ' (Perpetual License)' : ''),
@@ -274,7 +277,7 @@ for (const card of positions) {
 
   products.push({
     sku: card.sku,
-    slug: card.sku.toLowerCase(),
+    slug: (card.legacySku || card.sku).toLowerCase(),
     name,
     official_name: officialName,
     category: categoryFor(card.familySlug),
@@ -306,7 +309,7 @@ writeFileSync(OUT_PKG, JSON.stringify(pkg, null, 1) + '\n');
 // стаб {sku, archive: true} — товар переводится в archived, а не удаляется,
 // поэтому откат обратим и ничего не теряет.
 mkdirSync(dirname(OUT_ROLLBACK), { recursive: true });
-const pinned = new Set(['MANAGEENGINE-SERVICEDESK-STANDARD-10', 'MANAGEENGINE-SERVICEDESK-PROFESSIONAL-5']);
+const pinned = new Set(['ZOHO-LIC-SDPSTD-TEAM-1Y-PACK-10TECH', 'ZOHO-LIC-SDPPRO-TEAM-1Y-PACK-5TECH']);
 const rollback = {
   vendor_entry: existing.vendor_entry,
   // Две ранее опубликованные позиции откат не трогает: они были на витрине

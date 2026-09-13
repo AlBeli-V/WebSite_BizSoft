@@ -1,0 +1,1850 @@
+{
+  "family_key": "ZOHO-SDP",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-servicedesk-plus-professional-2-technicians",
+  "classification_notes": [
+    "Трёхмерное семейство: редакция (Standard/Professional/Enterprise) × язык (английский/многоязычный) × линия (ServiceDesk Plus / ServiceDesk Plus MSP). Носитель — Professional 2 техника (EN): таблица редакций, правило подсчёта техников и активов, надстройки. Многоязычные и MSP-позиции несут дельту (что меняет язык, что меняет MSP) и ссылку.",
+    "Единица — пакет (полоса техников + активов); рост — переходом на следующую полосу доплатой, счётчик количества неверен (DATA GAP volume_tier).",
+    "Английская Standard на 10 техников живёт под устаревшим слагом manageengine-servicedesk-standard-10 (карточка — из волны 2); в таблице редакций носителя — третья колонка, у многоязычной Standard ссылка на неё."
+  ],
+  "products": {
+    "me-servicedesk-plus-professional-2-technicians": {
+      "sku": "ZOHO-LIC-SDPPRO-UNI-1Y-PACK-2TECH250",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "2 техника, 250 активов",
+      "unit_label": "пакет: 2 техника, 250 ИТ-активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus Professional — годовая подписка на ITSM-систему ManageEngine на собственном сервере: заявки, портал самообслуживания, SLA и база знаний плюс модуль ИТ-активов с инвентаризацией и лицензиями ПО. Пакет на 2 техников и 250 ИТ-активов; число заявителей не ограничено.\n\nProfessional — средняя редакция: Standard даёт только help desk, Enterprise добавляет ITIL-процессы (проблемы, изменения, релизы, проекты) и CMDB из коробки. В Professional эти модули докупаются надстройками, CMDB — тоже.\n\nСрок — 1 год с поддержкой; переход на большую полосу техников и активов — доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет ServiceDesk Plus Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Help desk",
+              "d": "Заявки из почты, портала и чата, категории и приоритеты, SLA с эскалацией, база знаний, опросы, отчёты и панели."
+            },
+            {
+              "t": "Портал самообслуживания",
+              "d": "Заявители сами заводят и отслеживают обращения, читают статьи; их число в лицензию не входит."
+            },
+            {
+              "t": "ИТ-активы",
+              "d": "Инвентаризация рабочих станций и серверов агентом и по сети, учёт лицензий ПО, договоров и закупок, привязка активов к заявкам."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Бизнес-правила, планировщик, уведомления, интеграции с Endpoint Central, OpManager, Active Directory и почтой; Zia — ИИ-ассистент в облачной версии."
+            },
+            {
+              "t": "Надстройки",
+              "d": "Каталог услуг, управление проблемами, проектами, изменениями и релизами, CMDB, CTI, Failover — покупаются отдельно; в Enterprise входят."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard, Professional или Enterprise",
+          "kind": "compare",
+          "body": "Все редакции считают лицензию по техникам; заявители бесплатны. Разница — в модулях и в том, учитываются ли ИТ-активы.",
+          "rows": [
+            {
+              "label": "Состав",
+              "values": {
+                "manageengine-servicedesk-standard-10": "help desk",
+                "me-servicedesk-plus-professional-2-technicians": "help desk + ИТ-активы",
+                "me-servicedesk-plus-enterprise-2-technicians": "help desk + активы + ITIL (проблемы, изменения, релизы, проекты) + CMDB"
+              }
+            },
+            {
+              "label": "Лицензируются ИТ-активы",
+              "values": {
+                "manageengine-servicedesk-standard-10": "нет",
+                "me-servicedesk-plus-professional-2-technicians": "да, по полосе",
+                "me-servicedesk-plus-enterprise-2-technicians": "да, полосы шире (1000 активов от 20 техников)"
+              }
+            },
+            {
+              "label": "Каталог услуг, проблемы, проекты",
+              "values": {
+                "manageengine-servicedesk-standard-10": "каталог и проблемы — надстройки",
+                "me-servicedesk-plus-professional-2-technicians": "надстройки",
+                "me-servicedesk-plus-enterprise-2-technicians": "из коробки"
+              }
+            },
+            {
+              "label": "Изменения и релизы",
+              "values": {
+                "manageengine-servicedesk-standard-10": "надстройка",
+                "me-servicedesk-plus-professional-2-technicians": "надстройка",
+                "me-servicedesk-plus-enterprise-2-technicians": "из коробки"
+              }
+            },
+            {
+              "label": "CMDB",
+              "values": {
+                "manageengine-servicedesk-standard-10": "нет",
+                "me-servicedesk-plus-professional-2-technicians": "надстройка",
+                "me-servicedesk-plus-enterprise-2-technicians": "из коробки"
+              }
+            },
+            {
+              "label": "Стартовый пакет",
+              "values": {
+                "manageengine-servicedesk-standard-10": "10 техников (до 5 — бесплатно)",
+                "me-servicedesk-plus-professional-2-technicians": "2 техника, 250 активов",
+                "me-servicedesk-plus-enterprise-2-technicians": "2 техника, 250 активов"
+              }
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-enterprise-2-technicians",
+            "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians",
+            "manageengine-servicedesk-standard-10"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считаются техники и активы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Техник",
+              "d": "Тот, кто обрабатывает заявки или администрирует систему. Конечные пользователи — бесплатны и без ограничений."
+            },
+            {
+              "t": "ИТ-актив",
+              "d": "Устройство или экземпляр ПО в модуле активов. 250 активов — примерно 200 рабочих станций и серверов плюс лицензии ПО; следующая полоса — 5 техников и 500 активов."
+            },
+            {
+              "t": "Полосы, не штуки",
+              "d": "Пакеты не суммируются: команде из 3 техников нужна полоса «5 и 500», а не два пакета «2 и 250»; промежуточные значения — по запросу."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows или Linux на площадке организации; встроенная PostgreSQL или MS SQL. Есть облачная версия с помесячной оплатой — отдельная позиция."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "ИТ-отделу из двух-пяти человек, который обслуживает 100–300 сотрудников и хочет вести заявки и парк техники в одной системе, без формальных ITIL-процессов."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если нужен только help desk без учёта активов — Standard дешевле (до 5 техников бесплатно у вендора). Если регламентированы изменения, релизы и проекты — Enterprise выходит дешевле Professional с четырьмя надстройками."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Язык интерфейса",
+              "d": "Эта позиция — английский интерфейс; многоязычная версия с русским стоит около 20 % дороже и заведена отдельно."
+            },
+            {
+              "t": "Надстройки",
+              "d": "Каталог услуг, проблемы, проекты — по одной цене каждая; изменения и релизы — дороже. Три и больше надстроек — считайте Enterprise."
+            },
+            {
+              "t": "Несколько сервис-десков",
+              "d": "ESM позволяет до 15 экземпляров (ИТ, HR, АХО) в одном портале, у каждого своя редакция и лицензия."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ServiceDesk Plus Enterprise",
+              "d": "ITIL-процессы и CMDB из коробки.",
+              "link": "me-servicedesk-plus-enterprise-2-technicians"
+            },
+            {
+              "t": "Professional, многоязычная версия",
+              "d": "Тот же пакет с русским интерфейсом.",
+              "link": "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians"
+            },
+            {
+              "t": "ServiceDesk Plus MSP Professional",
+              "d": "Для сервис-провайдеров с несколькими клиентами.",
+              "link": "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужно ли платить за сотрудников, которые подают заявки?",
+          "a": "Нет. Лицензируются только техники; заявителей может быть сколько угодно."
+        },
+        {
+          "q": "У нас 3 техника — какой пакет?",
+          "a": "Полоса «5 техников и 500 активов»: пакеты по 2 не складываются. Точное число можно заказать по запросу."
+        },
+        {
+          "q": "Что входит в 250 ИТ-активов?",
+          "a": "Устройства и экземпляры ПО, которые вы поставили на учёт в модуле активов; всё, что не инвентаризируете, лицензию не расходует."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-enterprise-2-technicians",
+        "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians",
+        "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+      ],
+      "meta_title": "ServiceDesk Plus Professional, 2 техника | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus Professional: help desk и ИТ-активы, 2 техника и 250 активов, заявители без ограничений, свой сервер. Договор, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus купить лицензия — hero, meta",
+        "servicedesk plus professional vs enterprise — PLAN_COMPARE",
+        "servicedesk plus лицензирование техники активы — DEPENDENCIES, FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-enterprise-2-technicians": {
+      "sku": "ZOHO-LIC-SDPENT-UNI-1Y-PACK-2TECH250",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "2 техника, 250 активов",
+      "unit_label": "пакет: 2 техника, 250 ИТ-активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus Enterprise — годовая подписка на старшую редакцию ITSM ManageEngine: help desk, ИТ-активы и полный набор ITIL-процессов из коробки — управление проблемами, изменениями и релизами, проектами, каталог услуг, CMDB и телефонная интеграция. Пакет на 2 техников и 250 активов на собственном сервере.\n\nОт Professional отличается тем, что всё, что там продаётся надстройками, здесь включено; полосы активов шире — от 20 техников идёт 1000 активов вместо 500. Заявители не лицензируются.\n\nСрок — 1 год с поддержкой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Enterprise",
+          "kind": "items",
+          "body": "База — заявки, портал, SLA, активы — та же, что в Professional. Ниже — что входит только сюда.",
+          "items": [
+            {
+              "t": "Изменения и релизы",
+              "d": "Согласование по ролям, CAB, календарь изменений, откат; релизы с планами и тестированием."
+            },
+            {
+              "t": "Проблемы и CMDB",
+              "d": "Корневые причины по связанным инцидентам, известные ошибки; конфигурационные единицы со связями и картой влияния."
+            },
+            {
+              "t": "Проекты и каталог",
+              "d": "Проекты с вехами и задачами, привязанные к изменениям; каталог услуг с формами и согласованиями."
+            },
+            {
+              "t": "CTI",
+              "d": "Интеграция с телефонией: карточка заявителя при звонке."
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Enterprise, а когда нет",
+          "kind": "items",
+          "body": "Таблица редакций — на карточке Professional.",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Есть регламент изменений, нужна CMDB или хотя бы три модуля из списка надстроек Professional."
+            },
+            {
+              "t": "Professional",
+              "d": "Нужны заявки и учёт техники, процессы ITIL не формализованы.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "Standard",
+              "d": "Только help desk, без активов.",
+              "link": "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-службам, которые проходят аудит или готовятся к нему: банкам, страховым, промышленности с регламентом изменений; компаниям с несколькими сервис-десками (ИТ, HR, АХО) через ESM, где нужен единый каталог услуг."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Полосы",
+              "d": "2 техника и 250 активов — стартовая; следующие — 5/500, 10/500, 20/1000. Как считать техников и активы — на карточке Professional."
+            },
+            {
+              "t": "Язык",
+              "d": "Английский интерфейс; многоязычная версия с русским — отдельная позиция.",
+              "link": "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians"
+            },
+            {
+              "t": "Failover",
+              "d": "Резервирование сервера в Enterprise не докупается: планируйте отказоустойчивость средствами платформы или через облачную версию."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ServiceDesk Plus Professional",
+              "d": "Без ITIL-модулей, дешевле.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "Enterprise, многоязычная версия",
+              "d": "С русским интерфейсом.",
+              "link": "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians"
+            },
+            {
+              "t": "ServiceDesk Plus MSP Enterprise",
+              "d": "Для сервис-провайдеров.",
+              "link": "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Дешевле ли Enterprise, чем Professional с надстройками?",
+          "a": "Уже при трёх надстройках (например, каталог, проблемы и изменения) Enterprise выходит дешевле и включает CMDB и проекты."
+        },
+        {
+          "q": "Есть ли Failover в Enterprise?",
+          "a": "По прайсу вендора надстройка Failover доступна для Standard и Professional; для Enterprise отказоустойчивость обсуждается отдельно."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-professional-2-technicians",
+        "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians",
+        "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets"
+      ],
+      "meta_title": "ServiceDesk Plus Enterprise, 2 техника — подписка | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus Enterprise: help desk, активы, изменения, релизы, проекты, CMDB из коробки; 2 техника и 250 активов. Договор, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus enterprise купить — hero, meta",
+        "servicedesk plus itil change management cmdb — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Доступность Failover для Enterprise: в прайсе NA — сформулировано осторожно."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians": {
+      "sku": "ZOHO-LIC-SDPSTDML-UNI-1Y-PACK-10TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard, многоязычная",
+      "volume_label": "10 техников",
+      "unit_label": "пакет: 10 техников",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus Standard, многоязычная версия — годовая подписка на help desk ManageEngine с русским интерфейсом: заявки, портал самообслуживания, SLA, база знаний и отчёты для 10 техников на собственном сервере. ИТ-активы в Standard не лицензируются и не ведутся; каталог услуг, проблемы и изменения — платные надстройки.\n\nStandard считается только по техникам (до 5 у вендора бесплатно на английском); эта полоса — 10. Заявителей — без ограничений.\n\nСрок — 1 год с поддержкой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет многоязычная версия",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians"
+          ],
+          "body": "Здесь Standard в локализованном исполнении: те же заявки, SLA и база знаний, только портал и письма сотрудникам — на русском. Чем именно отличается многоязычная лицензия и что в неё входит по языкам, подробно разобрано на карточке многоязычной Professional."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Многоязычная или английская",
+          "kind": "prose",
+          "links": [
+            "manageengine-servicedesk-standard-10"
+          ],
+          "body": "Если техники работают на английском, а сотрудникам достаточно писать в почту, английская редакция Standard закроет задачу дешевле — она заведена отдельной позицией на те же 10 техников."
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Небольшой службе поддержки на 10 техников, которой нужен help desk без учёта активов и с порталом на русском: заявки, SLA, база знаний, отчёты."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ServiceDesk Plus Professional",
+              "d": "Если нужен учёт ИТ-активов.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "Enterprise, многоязычная",
+              "d": "ITIL-процессы на русском.",
+              "link": "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians"
+            },
+            {
+              "t": "MSP Standard, многоязычная",
+              "d": "Для сервис-провайдера.",
+              "link": "me-servicedesk-plus-msp-standard-multi-language-10-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли перевести только портал, оставив консоль техников на английском?",
+          "a": "Да, язык задаётся на уровне пользователя: техники и заявители могут работать на разных языках."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-professional-2-technicians",
+        "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians",
+        "me-servicedesk-plus-msp-standard-multi-language-10-technicians"
+      ],
+      "meta_title": "ServiceDesk Plus Standard (рус.), 10 техников | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus Standard с русским интерфейсом: help desk на 10 техников, заявители без ограничений, свой сервер. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "многоязычная версия servicedesk plus русский интерфейс — hero, FAQ"
+      ],
+      "uncertainties": [
+        "Перечень языков — неопределённость профиля №1."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians": {
+      "sku": "ZOHO-LIC-SDPPROML-UNI-1Y-PACK-2TECH250",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional, многоязычная",
+      "volume_label": "2 техника, 250 активов",
+      "unit_label": "пакет: 2 техника, 250 ИТ-активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus Professional, многоязычная версия — годовая подписка на help desk с модулем ИТ-активов и русским интерфейсом: заявки, портал, SLA, инвентаризация и лицензии ПО для 2 техников и 250 активов на собственном сервере.\n\nСостав редакции Professional, правило подсчёта техников и активов и список надстроек — на карточке английской версии; здесь та же лицензия с локализованным интерфейсом.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет многоязычная версия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Интерфейс",
+              "d": "Портал заявителей, консоль техника и уведомления на русском и ещё нескольких десятках языков; язык выбирается пользователем."
+            },
+            {
+              "t": "Функции",
+              "d": "Полностью совпадают с английской редакцией того же уровня; шаблоны и отчёты локализованы."
+            },
+            {
+              "t": "Цена",
+              "d": "Около 20 % выше английской версии — это единственная разница в лицензии."
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Многоязычная или английская",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Многоязычная",
+              "d": "Заявители — сотрудники без английского; портал самообслуживания должен быть на русском."
+            },
+            {
+              "t": "Английская",
+              "d": "ИТ-команда работает на английском, а заявители пишут в почту — портал на русском не нужен.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-отделу из двух-пяти человек с порталом для сотрудников на русском и учётом техники в той же системе."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional, английская",
+              "d": "Дешевле примерно на 20 %.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "Enterprise, многоязычная",
+              "d": "ITIL-процессы из коробки.",
+              "link": "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians"
+            },
+            {
+              "t": "MSP Professional, многоязычная",
+              "d": "Для сервис-провайдера.",
+              "link": "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли русский язык в многоязычной версии?",
+          "a": "Да, русский входит в набор языков интерфейса; точный перечень — по документации вендора на дату заказа."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-professional-2-technicians",
+        "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians",
+        "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets"
+      ],
+      "meta_title": "ServiceDesk Plus Professional (рус.), 2 техника | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus Professional с русским интерфейсом: help desk и ИТ-активы, 2 техника и 250 активов, свой сервер. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "многоязычная версия servicedesk plus русский интерфейс — hero, FAQ"
+      ],
+      "uncertainties": [
+        "Перечень языков — неопределённость профиля №1."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians": {
+      "sku": "ZOHO-LIC-SDPENTML-UNI-1Y-PACK-2TECH250",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise, многоязычная",
+      "volume_label": "2 техника, 250 активов",
+      "unit_label": "пакет: 2 техника, 250 ИТ-активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus Enterprise, многоязычная версия — годовая подписка на старшую редакцию ITSM с русским интерфейсом: help desk, ИТ-активы, управление проблемами, изменениями, релизами и проектами, каталог услуг и CMDB для 2 техников и 250 активов.\n\nВсё, что входит в Enterprise, разобрано на карточке английской версии; отличие этой позиции — локализация интерфейса и цена.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет многоязычная версия",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians",
+            "me-servicedesk-plus-enterprise-2-technicians"
+          ],
+          "body": "Локализованная Enterprise: полный ITIL-набор, портал, согласования изменений и уведомления CAB — на русском. Общее описание языковой версии — на карточке многоязычной Professional, состав Enterprise — на английской Enterprise."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Многоязычная или английская",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-enterprise-2-technicians"
+          ],
+          "body": "Английская Enterprise на пятую часть дешевле и функционально идентична; выбирать её стоит, когда заявители и согласующие спокойно работают в англоязычном интерфейсе."
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-службам с регламентом изменений и русскоязычным порталом: CAB, релизы, проекты и CMDB на языке сотрудников."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise, английская",
+              "d": "Дешевле примерно на 20 %.",
+              "link": "me-servicedesk-plus-enterprise-2-technicians"
+            },
+            {
+              "t": "Professional, многоязычная",
+              "d": "Без ITIL-модулей.",
+              "link": "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians"
+            },
+            {
+              "t": "MSP Enterprise, многоязычная",
+              "d": "Для сервис-провайдера.",
+              "link": "me-servicedesk-plus-msp-enterprise-multi-language-2-technicians-and-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Локализованы ли согласования изменений и уведомления CAB?",
+          "a": "Да, письма и формы согласования выходят на языке пользователя, включая русский."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-enterprise-2-technicians",
+        "me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians",
+        "me-servicedesk-plus-msp-enterprise-multi-language-2-technicians-and-250-it-assets"
+      ],
+      "meta_title": "ServiceDesk Plus Enterprise (рус.), 2 техника | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus Enterprise с русским интерфейсом: ITIL-процессы, CMDB, активы; 2 техника и 250 активов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "многоязычная версия servicedesk plus русский интерфейс — hero, FAQ"
+      ],
+      "uncertainties": [
+        "Перечень языков — неопределённость профиля №1."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-msp-standard-10-technicians": {
+      "sku": "ZOHO-LIC-SDPMSPSTD-UNI-1Y-PACK-10TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP Standard",
+      "volume_label": "10 техников",
+      "unit_label": "пакет: 10 техников",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus MSP Standard — годовая подписка на help desk ManageEngine для сервис-провайдеров: заявки, SLA и портал для нескольких клиентских компаний, десять техников, установка на сервер провайдера; учёта активов в Standard нет.\n\nMSP-версия отличается от обычной изоляцией клиентов и биллингом; редакция Standard считается только по техникам.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет версия MSP",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+          ],
+          "body": "Провайдерская версия Standard: изолированные клиентские аккаунты, порталы и SLA по договорам, без модуля активов. Как устроена MSP-линия — клиенты, биллинг, контракты — расписано на карточке MSP Professional."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "MSP или обычная версия",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ],
+          "body": "Обычный ServiceDesk Plus подходит одной компании даже с несколькими внутренними службами (ESM); MSP нужен, когда клиенты — разные юрлица и им выставляются счета за поддержку."
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Небольшому аутсорсеру ИТ-поддержки с десятком инженеров и несколькими клиентами, которому нужны заявки и SLA по каждому договору без учёта техники клиентов."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP Professional",
+              "d": "С учётом ИТ-активов клиентов.",
+              "link": "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+            },
+            {
+              "t": "MSP Standard, многоязычная",
+              "d": "С русским интерфейсом.",
+              "link": "me-servicedesk-plus-msp-standard-multi-language-10-technicians"
+            },
+            {
+              "t": "ServiceDesk Plus Standard, многоязычная",
+              "d": "Обычная версия для одной компании.",
+              "link": "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли вести активы клиентов в MSP Standard?",
+          "a": "Нет, модуль активов есть только в MSP Professional и Enterprise."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets",
+        "me-servicedesk-plus-msp-standard-multi-language-10-technicians",
+        "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+      ],
+      "meta_title": "ServiceDesk Plus MSP Standard, 10 техников | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus MSP Standard: help desk для сервис-провайдера с несколькими клиентами, 10 техников. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus msp купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets": {
+      "sku": "ZOHO-LIC-SDPMSPPRO-UNI-1Y-PACK-2TECH250",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP Professional",
+      "volume_label": "2 техника, 250 активов",
+      "unit_label": "пакет: 2 техника, 250 ИТ-активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus MSP Professional — годовая подписка на help desk с учётом ИТ-активов для сервис-провайдеров: 2 техника и 250 активов по всем клиентам, изолированные клиентские аккаунты, биллинг и контракты.\n\nАктивы считаются суммарно по клиентам; редакция Professional даёт инвентаризацию и лицензии ПО, ITIL-модули — надстройками.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет версия MSP",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Несколько клиентов",
+              "d": "Аккаунты клиентов изолированы: свои заявители, активы, SLA, контракты и портал у каждого; техники видят все."
+            },
+            {
+              "t": "Биллинг и контракты",
+              "d": "Учёт времени по клиентам, тарифные планы и счета из системы; отчёты по каждому аккаунту."
+            },
+            {
+              "t": "Редакции",
+              "d": "Те же Standard / Professional / Enterprise, что у обычной версии; ITIL-модули и CMDB — по редакции."
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "MSP или обычная версия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP",
+              "d": "Обслуживаете несколько юрлиц и выставляете им счета за поддержку."
+            },
+            {
+              "t": "ServiceDesk Plus",
+              "d": "Один ИТ-отдел и одна компания; несколько внутренних служб закрывает ESM без MSP-версии.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Начинающему провайдеру ИТ-услуг из двух инженеров, который ведёт парк техники клиентов и выставляет счета за поддержку."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP Enterprise",
+              "d": "ITIL-процессы и CMDB для клиентов.",
+              "link": "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets"
+            },
+            {
+              "t": "MSP Professional, многоязычная",
+              "d": "С русским интерфейсом.",
+              "link": "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets"
+            },
+            {
+              "t": "ServiceDesk Plus Professional",
+              "d": "Для одной компании.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли заявители клиентов?",
+          "a": "Нет, как и в обычной версии — лицензируются техники и, в Professional/Enterprise, ИТ-активы всех клиентов вместе."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets",
+        "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets",
+        "me-servicedesk-plus-professional-2-technicians"
+      ],
+      "meta_title": "ServiceDesk Plus MSP Professional, 2 техника | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus MSP Professional: help desk и ИТ-активы клиентов, 2 техника и 250 активов, биллинг по договорам. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus msp купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets": {
+      "sku": "ZOHO-LIC-SDPMSPENT-UNI-1Y-PACK-2TECH250",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP Enterprise",
+      "volume_label": "2 техника, 250 активов",
+      "unit_label": "пакет: 2 техника, 250 ИТ-активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus MSP Enterprise — годовая подписка на полную ITSM-платформу для сервис-провайдеров: help desk, активы, изменения, релизы, проблемы, проекты и CMDB по каждому клиенту; 2 техника и 250 активов на собственном сервере.\n\nСтаршая редакция для провайдеров, которые ведут у клиентов регламентированные изменения и отчитываются по SLA; все ITIL-модули включены.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет версия MSP",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets",
+            "me-servicedesk-plus-enterprise-2-technicians"
+          ],
+          "body": "Старшая MSP-редакция: ITIL-процессы и CMDB заводятся отдельно по каждому клиенту, отчёты по SLA — по договорам. Механика MSP-версии — на карточке MSP Professional, состав Enterprise — на обычной Enterprise."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "MSP или обычная версия",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ],
+          "body": "Если корпоративных клиентов с регламентом изменений нет, MSP Professional покроет заявки и активы дешевле; обычный Enterprise — для собственной ИТ-службы одной компании."
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Провайдеру управляемых услуг с корпоративными клиентами, где требуются согласованные изменения, CMDB и отчётность по каждому договору."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP Professional",
+              "d": "Без ITIL-модулей.",
+              "link": "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+            },
+            {
+              "t": "MSP Enterprise, многоязычная",
+              "d": "С русским интерфейсом.",
+              "link": "me-servicedesk-plus-msp-enterprise-multi-language-2-technicians-and-250-it-assets"
+            },
+            {
+              "t": "ServiceDesk Plus Enterprise",
+              "d": "Для одной компании.",
+              "link": "me-servicedesk-plus-enterprise-2-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "CMDB заводится общая или по клиентам?",
+          "a": "По клиентам: конфигурационные единицы и связи изолированы в аккаунте каждого заказчика."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets",
+        "me-servicedesk-plus-msp-enterprise-multi-language-2-technicians-and-250-it-assets",
+        "me-servicedesk-plus-enterprise-2-technicians"
+      ],
+      "meta_title": "ServiceDesk Plus MSP Enterprise, 2 техника | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus MSP Enterprise: ITIL-процессы, CMDB и активы по клиентам, 2 техника и 250 активов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus msp купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-msp-standard-multi-language-10-technicians": {
+      "sku": "ZOHO-LIC-SDPMSPSTDML-UNI-1Y-PACK-10TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP Standard, многоязычная",
+      "volume_label": "10 техников",
+      "unit_label": "пакет: 10 техников",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus MSP Standard, многоязычная версия — годовая подписка на help desk для сервис-провайдеров с русским интерфейсом: заявки, SLA и порталы для нескольких клиентов, 10 техников на собственном сервере, без учёта активов.\n\nСостав и правила MSP-версии — на карточке английской MSP Standard.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет многоязычная версия MSP",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets",
+            "me-servicedesk-plus-msp-standard-10-technicians"
+          ],
+          "body": "MSP Standard с русскими порталами клиентов и консолью; функции те же, что у английской MSP Standard. Что даёт локализация в MSP-линии — на карточке многоязычной MSP Professional."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Многоязычная или английская",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-msp-standard-10-technicians"
+          ],
+          "body": "Английская MSP Standard дешевле примерно на пятую часть и подходит, если клиенты подают заявки на английском или только по почте."
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аутсорсеру поддержки с русскоязычными клиентами, которому нужны заявки и SLA по договорам без учёта техники."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP Standard, английская",
+              "d": "Дешевле примерно на 20 %.",
+              "link": "me-servicedesk-plus-msp-standard-10-technicians"
+            },
+            {
+              "t": "MSP Professional, многоязычная",
+              "d": "С учётом активов.",
+              "link": "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько техников можно добавить сверх десяти?",
+          "a": "Следующая полоса Standard — 20 техников; переход оформляется доплатой разницы."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-msp-standard-10-technicians",
+        "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets"
+      ],
+      "meta_title": "ServiceDesk Plus MSP Standard (рус.), 10 техников | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus MSP Standard с русским интерфейсом: help desk для провайдера, 10 техников, порталы клиентов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus msp многоязычная — hero"
+      ],
+      "uncertainties": [
+        "Перечень языков — неопределённость профиля №1."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets": {
+      "sku": "ZOHO-LIC-SDPMSPPROML-UNI-1Y-PACK-2TECH250",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP Professional, многоязычная",
+      "volume_label": "2 техника, 250 активов",
+      "unit_label": "пакет: 2 техника, 250 ИТ-активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus MSP Professional, многоязычная версия — годовая подписка на help desk с ИТ-активами для сервис-провайдеров с русским интерфейсом: 2 техника и 250 активов по всем клиентам, биллинг и контракты.\n\nЛицензия та же, что у английской MSP Professional; отличие — локализация и цена.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет многоязычная версия MSP",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Порталы клиентов на русском",
+              "d": "Каждый клиентский аккаунт получает портал и уведомления на своём языке; техники — консоль на русском или английском."
+            },
+            {
+              "t": "Функции",
+              "d": "Идентичны английской MSP-редакции того же уровня."
+            },
+            {
+              "t": "Цена",
+              "d": "Примерно на 20 % выше английской."
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Многоязычная или английская",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Многоязычная",
+              "d": "Клиенты пишут заявки на русском."
+            },
+            {
+              "t": "Английская",
+              "d": "Все клиенты и техники работают на английском.",
+              "link": "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Российскому сервис-провайдеру, чьи клиенты — российские компании с порталом заявок на русском."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP Professional, английская",
+              "d": "Дешевле примерно на 20 %.",
+              "link": "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+            },
+            {
+              "t": "MSP Enterprise, многоязычная",
+              "d": "ITIL-процессы.",
+              "link": "me-servicedesk-plus-msp-enterprise-multi-language-2-technicians-and-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли дать одному клиенту русский портал, а другому английский?",
+          "a": "Да, язык выбирается на уровне пользователя и аккаунта."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets",
+        "me-servicedesk-plus-msp-enterprise-multi-language-2-technicians-and-250-it-assets"
+      ],
+      "meta_title": "ServiceDesk Plus MSP Professional (рус.) | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus MSP Professional с русским интерфейсом: help desk и активы клиентов, 2 техника и 250 активов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus msp многоязычная — hero"
+      ],
+      "uncertainties": [
+        "Перечень языков — неопределённость профиля №1."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "me-servicedesk-plus-msp-enterprise-multi-language-2-technicians-and-250-it-assets": {
+      "sku": "ZOHO-LIC-SDPMSPENTML-UNI-1Y-PACK-2TECH250",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP Enterprise, многоязычная",
+      "volume_label": "2 техника, 250 активов",
+      "unit_label": "пакет: 2 техника, 250 ИТ-активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus MSP Enterprise, многоязычная версия — годовая подписка на ITSM-платформу провайдера в русской локализации — заявки, активы и весь ITIL-набор с CMDB отдельно по клиентам; полоса 2 техника и 250 активов.\n\nСостав редакции — на карточке английской MSP Enterprise; здесь та же лицензия с локализацией.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет многоязычная версия MSP",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets",
+            "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets"
+          ],
+          "body": "Многоязычная MSP Enterprise: ITIL-процессы и CMDB по каждому клиенту с интерфейсом на русском для клиентских порталов и согласований. Локализация MSP-линии описана у многоязычной MSP Professional, состав — у английской MSP Enterprise."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Многоязычная или английская",
+          "kind": "prose",
+          "links": [
+            "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets"
+          ],
+          "body": "Английская MSP Enterprise функционально та же и дешевле; многоязычную берут ради русских порталов у клиентов."
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Провайдеру управляемых услуг с корпоративными российскими клиентами и регламентом изменений."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP Enterprise, английская",
+              "d": "Дешевле примерно на 20 %.",
+              "link": "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets"
+            },
+            {
+              "t": "MSP Professional, многоязычная",
+              "d": "Без ITIL-модулей.",
+              "link": "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отчёты по SLA для клиента формируются на русском?",
+          "a": "Да, отчёты и панели локализуются вместе с интерфейсом."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-msp-enterprise-2-technicians-and-250-it-assets",
+        "me-servicedesk-plus-msp-professional-multi-language-2-technicians-and-250-it-assets"
+      ],
+      "meta_title": "ServiceDesk Plus MSP Enterprise (рус.), 2 техника | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus MSP Enterprise с русским интерфейсом: ITIL и CMDB по клиентам, 2 техника и 250 активов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus msp многоязычная — hero"
+      ],
+      "uncertainties": [
+        "Перечень языков — неопределённость профиля №1."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · ServiceDesk Plus"
+        }
+      ]
+    },
+    "manageengine-servicedesk-standard-10": {
+      "sku": "ZOHO-LIC-SDPSTD-UNI-1Y-PACK-10TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "10 техников",
+      "unit_label": "пакет: 10 техников",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus Standard — годовая подписка на help desk ManageEngine с английским интерфейсом для десяти техников: обращения из почты и портала, SLA с эскалацией, статьи базы знаний, отчёты и панели на сервере компании. Модуля активов у Standard нет, а каталог услуг, проблемы и изменения докупаются надстройками.\n\nStandard считается только по техникам, а у вендора до пяти техников он бесплатен — покупать эту полосу имеет смысл с шестого техника. Заявители не лицензируются.\n\nПодписка на год с техподдержкой 24×5; следующая полоса — 20 техников — доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет ServiceDesk Plus Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Заявки",
+              "d": "Приём из почты, портала и чата, категории, приоритеты, автоназначение, SLA и эскалации."
+            },
+            {
+              "t": "Портал и знания",
+              "d": "Самообслуживание, статьи, объявления, опросы удовлетворённости."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Готовые и настраиваемые, панели, планирование рассылок."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Модуля ИТ-активов, CMDB, каталога и ITIL-процессов — надстройки или старшие редакции."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard или старшие редакции",
+          "kind": "items",
+          "body": "Таблица трёх редакций — на карточке Professional.",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Только заявки и портал; техников больше пяти."
+            },
+            {
+              "t": "Professional",
+              "d": "Плюс учёт ИТ-активов и лицензий ПО.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "Standard, многоязычная",
+              "d": "Тот же help desk с русским интерфейсом.",
+              "link": "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службе поддержки из 6–10 человек, которая обрабатывает обращения сотрудников и не ведёт парк техники в этой же системе."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "До пяти техников бесплатно",
+              "d": "Полоса на 10 нужна, когда техников от шести."
+            },
+            {
+              "t": "Надстройки",
+              "d": "Каталог, проблемы, изменения — платно; с тремя надстройками считайте Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ServiceDesk Plus Professional",
+              "d": "С активами.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "ServiceDesk Plus MSP Standard",
+              "d": "Для провайдера.",
+              "link": "me-servicedesk-plus-msp-standard-10-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Где бесплатная версия на 5 техников?",
+          "a": "Её выдаёт вендор напрямую; через BIZSoft оформляются платные полосы от 10 техников с поддержкой."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-professional-2-technicians",
+        "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians",
+        "me-servicedesk-plus-msp-standard-10-technicians"
+      ],
+      "meta_title": "ServiceDesk Plus Standard, 10 техников — подписка | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus Standard: help desk на 10 техников — заявки, SLA, портал, база знаний; без модуля активов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus standard купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        }
+      ]
+    }
+  }
+}
