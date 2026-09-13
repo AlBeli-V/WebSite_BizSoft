@@ -1,0 +1,1120 @@
+{
+  "family_key": "JB-TOOLS",
+  "vendor": "JetBrains s.r.o.",
+  "vendor_profile": "data/content/vendors/jetbrains.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "jb-ai-pro",
+  "classification_notes": [
+    "Договорные позиции JetBrains (quote_only): AI Free/Pro/Ultimate — кредитная модель в пул организации; Qodana — по контрибьюторам; TeamCity — по агентам; YouTrack и Datalore — по пользователям. Носитель — AI Pro."
+  ],
+  "products": {
+    "jb-ai-pro": {
+      "sku": "JB-LIC-AIPRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "JetBrains AI Pro для организаций — командная подписка на 1 год на ИИ-ассистент в IDE JetBrains: чат с облачными моделями, генерация и объяснение кода, автодополнение, агент Junie — с месячной квотой AI-кредитов, которая складывается в общий пул организации. Лицензии на компании; цена — по запросу, под число разработчиков и объём кредитов.\n\nВ 2026 году JetBrains переводит AI-лицензии организаций в кредитную модель: каждая лицензия AI Pro добавляет фиксированный объём кредитов в пул, который расходуют все разработчики компании.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "AI Assistant",
+              "d": "Чат в IDE, генерация кода, тестов и коммитов, объяснение и рефакторинг с контекстом проекта."
+            },
+            {
+              "t": "Junie",
+              "d": "Агент, выполняющий задачи по проекту многошагово."
+            },
+            {
+              "t": "Модели",
+              "d": "Облачные модели OpenAI, Anthropic, Google и собственные JetBrains по выбору; локальные — без кредитов."
+            },
+            {
+              "t": "Кредиты",
+              "d": "Месячная квота Pro на лицензию в общем пуле; Top-up при исчерпании, действует 12 месяцев."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Лицензия для организации",
+          "kind": "prose",
+          "body": "AI-лицензии заводятся на организацию и превращаются в кредиты общего пула; администратор в JetBrains Central Console видит расход и назначает права. Общие правила линейки — у All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот продукт или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "AI Pro",
+              "d": "Регулярное использование ассистента при обычной нагрузке."
+            },
+            {
+              "t": "AI Ultimate",
+              "d": "Кратно больше кредитов для агентной работы весь день.",
+              "link": "jb-ai-ultimate"
+            },
+            {
+              "t": "AI Free",
+              "d": "Базовый уровень: локальные модели и ограниченные облачные функции.",
+              "link": "jb-ai-free"
+            },
+            {
+              "t": "All Products Pack",
+              "d": "Уже содержит AI-кредиты — часто их хватает.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пул общий",
+              "d": "Активные пользователи расходуют кредиты коллег; следите за квотой в Central Console."
+            },
+            {
+              "t": "Нужна IDE",
+              "d": "AI-лицензия работает только в IDE JetBrains с активной лицензией или в Community-версиях."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам разработки, где ассистент используют ежедневно, но агентные сценарии — эпизодически."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входят ли AI-кредиты в All Products Pack?",
+          "a": "Да, IDE-лицензии и пакет добавляют кредиты в пул; AI Pro покупают, когда их не хватает."
+        },
+        {
+          "q": "Можно ли использовать локальные модели без кредитов?",
+          "a": "Да, через Ollama и LM Studio; кредиты расходуют только облачные модели."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-ai-ultimate",
+        "jb-ai-free"
+      ],
+      "meta_title": "JetBrains AI Pro для организаций — подписка на год | BIZSoft",
+      "meta_description": "JetBrains AI Pro: AI Assistant и агент Junie в IDE JetBrains с квотой кредитов в пул организации; цена по числу разработчиков. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "jetbrains ai pro купить организация — hero, meta",
+        "jetbrains ai credits — CAPABILITIES, FAQ"
+      ],
+      "uncertainties": [
+        "Объём кредитов на лицензию — по таблице JetBrains на дату заказа (переход на кредиты идёт в 2026)."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "jb-ai-ultimate": {
+      "sku": "JB-LIC-AIULT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "JetBrains AI Ultimate для организаций — командная подписка на год на старший AI-тариф для разработчиков с постоянной агентной нагрузкой: максимальная квота кредитов в пул организации, все облачные модели, Junie без ограничений тарифа Pro. Лицензии на компании; цена — по запросу.\n\nUltimate берут не всем, а тем, кто держит агента занятым весь день: остальным хватает Pro или кредитов из пакета IDE.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Всё из Pro",
+              "d": "AI Assistant, Junie, выбор моделей — см. AI Pro."
+            },
+            {
+              "t": "Квота",
+              "d": "Кратно больше кредитов на лицензию в общий пул."
+            },
+            {
+              "t": "Модели",
+              "d": "Приоритетный доступ к самым мощным моделям для длинных агентных задач."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Лицензия для организации",
+          "kind": "prose",
+          "body": "Ultimate-лицензии пополняют тот же пул организации, что и Pro; распределением кредитов между людьми управляет администратор. Механика JetBrains Account — на карточке пакета.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот продукт или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "AI Ultimate",
+              "d": "Junie и облачные модели весь день."
+            },
+            {
+              "t": "AI Pro",
+              "d": "Обычная интенсивность.",
+              "link": "jb-ai-pro"
+            },
+            {
+              "t": "Top-up кредиты",
+              "d": "Разовое пополнение пула вместо смены тарифа — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пул общий",
+              "d": "Ultimate-лицензии пополняют общий пул — распределение между людьми не фиксировано."
+            },
+            {
+              "t": "Цена",
+              "d": "В несколько раз дороже Pro; проверьте фактический расход кредитов перед покупкой."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Разработчикам, которые делегируют агенту целые задачи и упираются в квоту Pro каждый месяц."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько кредитов даёт Ultimate?",
+          "a": "Кратно больше Pro; точное число — по таблице JetBrains на дату заказа."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-ai-pro"
+      ],
+      "meta_title": "JetBrains AI Ultimate для организаций — подписка | BIZSoft",
+      "meta_description": "JetBrains AI Ultimate: максимальная квота кредитов и все модели для агентной разработки в IDE JetBrains; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "jetbrains ai ultimate — hero, meta"
+      ],
+      "uncertainties": [
+        "Объём кредитов — по таблице JetBrains."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "jb-ai-free": {
+      "sku": "JB-LIC-AIFREE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "JetBrains AI Free для организаций — командный план базового уровня ИИ-ассистента в IDE JetBrains без платы за лицензию: локальные модели без ограничений, облачные функции с небольшой квотой кредитов, автодополнение. Заводится на организацию через JetBrains Account; позиция — договорная, для оформления доступа и учёта.\n\nAI Free доступен в IDE от версии 2025.1; его берут, чтобы включить ассистент всей команде и точечно докупать Pro тем, кому мало.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Локальные модели",
+              "d": "Ollama и LM Studio без расхода кредитов."
+            },
+            {
+              "t": "Облачные функции",
+              "d": "Ограниченная квота на чат и генерацию с облачными моделями."
+            },
+            {
+              "t": "Автодополнение",
+              "d": "Полнострочное дополнение на локальных моделях JetBrains."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Лицензия для организации",
+          "kind": "prose",
+          "body": "Бесплатный уровень включается для всей организации в JetBrains Account; платные лицензии добавляются точечно. Подробности учёта — у All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот продукт или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "AI Free",
+              "d": "Попробовать ассистент всей командой."
+            },
+            {
+              "t": "AI Pro",
+              "d": "Полноценная облачная работа и Junie.",
+              "link": "jb-ai-pro"
+            },
+            {
+              "t": "All Products Pack",
+              "d": "Кредиты уже внутри.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Версия IDE",
+              "d": "Только 2025.1 и новее."
+            },
+            {
+              "t": "Квота мала",
+              "d": "Облачные функции быстро упираются в лимит — это уровень для оценки, не для работы."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, которые хотят включить ассистент без бюджета и понять реальную нагрузку до покупки Pro."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Зачем оформлять бесплатный уровень через BIZSoft?",
+          "a": "Чтобы учесть его в организации JetBrains Account вместе с платными лицензиями и управлять из одной консоли."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-ai-pro"
+      ],
+      "meta_title": "JetBrains AI Free для организаций | BIZSoft",
+      "meta_description": "JetBrains AI Free: локальные модели без ограничений и небольшая облачная квота в IDE JetBrains 2025.1+; учёт в организации. Договор, ЭДО.",
+      "seo_intents": [
+        "jetbrains ai free — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "jb-qodana": {
+      "sku": "JB-LIC-QODANA-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "контрибьютор",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "JetBrains Qodana для организаций — годовая командная подписка на статический анализ кода в CI/CD: те же инспекции, что в IDE JetBrains, но на сервере — для каждого коммита и pull request, с отчётами качества, покрытием и проверкой лицензий зависимостей. Лицензии считаются по активным контрибьюторам; цена — по запросу.\n\nQodana ставит планку качества на уровне репозитория, а не отдельной IDE: анализ проходит независимо от того, чем пишут разработчики.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Инспекции",
+              "d": "Тысячи проверок JetBrains для JVM, JS/TS, Python, PHP, Go, .NET, C/C++ в CI."
+            },
+            {
+              "t": "Интеграции",
+              "d": "GitHub, GitLab, TeamCity, Jenkins, Azure DevOps; аннотации в pull request."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Панель Qodana Cloud или self-hosted: тренды, покрытие, лицензии зависимостей, quality gate."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Лицензия для организации",
+          "kind": "prose",
+          "body": "Лицензия Qodana оформляется на организацию по числу контрибьюторов и привязывается к облаку Qodana или self-hosted серверу; администрирование — через JetBrains Account.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот продукт или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Qodana Ultimate / Ultimate Plus",
+              "d": "Редакции по языкам и функциям (taint-анализ, лицензии) — состав уточняем."
+            },
+            {
+              "t": "TeamCity",
+              "d": "CI-сервер, куда встраивается Qodana.",
+              "link": "jb-teamcity"
+            },
+            {
+              "t": "IDE JetBrains",
+              "d": "Те же инспекции локально.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Считаются контрибьюторы",
+              "d": "Лицензия — по числу авторов коммитов за период, а не по разработчикам с IDE."
+            },
+            {
+              "t": "Редакции",
+              "d": "Community-линтеры бесплатны; коммерческие редакции отличаются языками и taint-анализом."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам с обязательным code review и quality gate в CI, где качество нужно контролировать до слияния."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Как считаются лицензии Qodana?",
+          "a": "По числу авторов коммитов, чей код анализируется за расчётный период; разработчики без коммитов лицензию не занимают."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-teamcity"
+      ],
+      "meta_title": "JetBrains Qodana для организаций — подписка на год | BIZSoft",
+      "meta_description": "JetBrains Qodana: статический анализ JetBrains в CI/CD по каждому коммиту, quality gate, отчёты; лицензии по контрибьюторам. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "qodana купить лицензия — hero, meta"
+      ],
+      "uncertainties": [
+        "Состав редакций Qodana — по прайсу JetBrains на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "jb-teamcity": {
+      "sku": "JB-LIC-TEAMCITY-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "агент сборки",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "JetBrains TeamCity для организаций — командный план на год: сервер непрерывной интеграции и доставки: сборки, тесты и развёртывание по каждому изменению кода, конфигурации как код в Kotlin DSL, распределённые агенты. Лицензии считаются по агентам сборки и конфигурациям (on-premises) или по объёму (Cloud); цена — по запросу.\n\nБесплатная Professional-редакция даёт 3 агента и 100 конфигураций; платные лицензии добавляют агентов и снимают лимит.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "CI/CD",
+              "d": "Пайплайны на Kotlin DSL или в интерфейсе, цепочки сборок, шаблоны, параллельные тесты."
+            },
+            {
+              "t": "Агенты",
+              "d": "Собственные и облачные агенты, Docker, Kubernetes; масштабирование под нагрузку."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Git-хостинги, Jira/YouTrack, Slack, Qodana, аудит и роли."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Лицензия для организации",
+          "kind": "prose",
+          "body": "Серверная лицензия принадлежит организации; агенты и конфигурации добавляются к серверу докупкой, ключ вводится в консоли TeamCity.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот продукт или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "TeamCity On-Premises",
+              "d": "Свой сервер, лицензия по агентам."
+            },
+            {
+              "t": "TeamCity Cloud",
+              "d": "Облачный сервис по подписке — по запросу."
+            },
+            {
+              "t": "Qodana",
+              "d": "Анализ качества в тех же пайплайнах.",
+              "link": "jb-qodana"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Считаются агенты",
+              "d": "Каждый параллельный сборщик — лицензия; конфигурации сверх 100 — платно."
+            },
+            {
+              "t": "Fallback не применяется",
+              "d": "Perpetual fallback JetBrains на TeamCity не распространяется."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам с частыми релизами, которым нужен управляемый CI-сервер с контролем доступа и историей сборок."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бесплатная версия?",
+          "a": "Да, Professional: 3 агента и 100 конфигураций без оплаты."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-qodana"
+      ],
+      "meta_title": "JetBrains TeamCity для организаций — подписка | BIZSoft",
+      "meta_description": "JetBrains TeamCity: CI/CD-сервер с Kotlin DSL, агентами и интеграциями; лицензии по агентам и конфигурациям, цена по запросу. Договор, ЭДО.",
+      "seo_intents": [
+        "teamcity купить лицензия — hero, meta"
+      ],
+      "uncertainties": [
+        "Лимиты бесплатной редакции — по данным JetBrains на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "jb-youtrack": {
+      "sku": "JB-LIC-YOUTRACK-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "JetBrains YouTrack для организаций — годовая командная подписка на трекер задач и управление проектами для команд разработки: agile-доски, спринты, база знаний, отчёты, автоматизация на JavaScript. Лицензии по числу пользователей, на своём сервере или в облаке; бесплатно до 10 пользователей. Цена — по запросу.\n\nYouTrack ставят вместо Jira, когда важны быстрые запросы, гибкие workflow и интеграция с IDE и TeamCity.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Задачи и доски",
+              "d": "Scrum и Kanban, спринты, оценки, gantt-представления."
+            },
+            {
+              "t": "База знаний",
+              "d": "Статьи и документация рядом с задачами."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Workflow на JavaScript, интеграции с Git, TeamCity, IDE, Slack."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Лицензия для организации",
+          "kind": "prose",
+          "body": "Лицензия на организацию по числу пользователей; в облаке — управление подпиской в YouTrack, на сервере — ключ из JetBrains Account.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот продукт или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "YouTrack Cloud",
+              "d": "Облачная версия по подписке."
+            },
+            {
+              "t": "YouTrack Server",
+              "d": "Свой сервер, лицензии по пользователям."
+            },
+            {
+              "t": "Jira Standard",
+              "d": "Альтернатива от Atlassian.",
+              "link": "jira-standard"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "До 10 бесплатно",
+              "d": "Малым командам оплата не нужна."
+            },
+            {
+              "t": "Fallback не применяется",
+              "d": "Как и у других team tools JetBrains."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам разработки до нескольких сотен человек, которые хотят трекер с гибкими workflow и без тяжёлой настройки."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли миграция из Jira?",
+          "a": "Да, встроенный импорт проектов и задач из Jira."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jira-standard"
+      ],
+      "meta_title": "JetBrains YouTrack для организаций — подписка | BIZSoft",
+      "meta_description": "JetBrains YouTrack: трекер задач, agile-доски, база знаний и автоматизация; лицензии по пользователям, бесплатно до 10. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "youtrack купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "jb-datalore": {
+      "sku": "JB-LIC-DATALORE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "JetBrains Datalore для организаций — командная подписка на год на платформу для анализа данных: Jupyter-ноутбуки в браузере с общей вычислительной средой, SQL-ячейками к базам, совместным редактированием и публикацией отчётов. Лицензии по пользователям, облако или свой сервер; цена — по запросу.\n\nDatalore — для команд, где аналитики делят ноутбуки и данные, а не пересылают файлы; в отличие от PyCharm это серверная среда, а не IDE.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ноутбуки",
+              "d": "Jupyter-совместимые с автодополнением JetBrains, визуализациями без кода, версиями."
+            },
+            {
+              "t": "Данные",
+              "d": "Подключения к базам и хранилищам, SQL-ячейки, вычисления на сервере или в облаке."
+            },
+            {
+              "t": "Команда",
+              "d": "Совместное редактирование, публикация отчётов, роли и доступ."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Лицензия для организации",
+          "kind": "prose",
+          "body": "Подписка на организацию по числу пользователей; администратор Datalore приглашает аналитиков и управляет доступом к данным.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот продукт или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Datalore Enterprise",
+              "d": "Свой сервер, SSO, интеграции — по запросу."
+            },
+            {
+              "t": "PyCharm Pro",
+              "d": "Локальная IDE с Jupyter для одного аналитика.",
+              "link": "jb-pycharm-pro-org"
+            },
+            {
+              "t": "All Products Pack",
+              "d": "IDE для разработчиков.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Вычисления",
+              "d": "Ресурсы облачной версии тарифицируются отдельно от мест."
+            },
+            {
+              "t": "Не IDE",
+              "d": "Для написания продового кода — PyCharm."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам аналитики и data science, которым нужна общая среда с данными и вычислениями."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Datalore отличается от Jupyter в PyCharm?",
+          "a": "PyCharm — локальная IDE; Datalore — сервер с общими данными, вычислениями и совместной работой."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-pycharm-pro-org"
+      ],
+      "meta_title": "JetBrains Datalore для организаций — подписка | BIZSoft",
+      "meta_description": "JetBrains Datalore: командные Jupyter-ноутбуки с общей средой, SQL-ячейками и публикацией отчётов; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "datalore купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Тарификация вычислений — по условиям JetBrains."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

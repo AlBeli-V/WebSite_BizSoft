@@ -24,6 +24,9 @@ const GLOBAL = { code: 'GLOBAL', name: 'Все страны (Global)', account: 
  *                                                   срок в месяцах для сортировки.
  * cost_usd — закупка кода в USD (прайс поставщика, снят руководителем).
  */
+/** Код региона в варианте артикула: ISO alpha-2 как есть, GLOBAL — GL. */
+const REGION_CODE = { GLOBAL: 'GL' };
+
 const VENDORS = [
   {
     slug: 'apple', checked_at: '2026-09-05', source: 'таблица руководителя 05.09.2026',
@@ -34,7 +37,7 @@ const VENDORS = [
       about: 'Apple Gift Card (App Store & iTunes Gift Card) — цифровой код, который зачисляет свой номинал на баланс Apple Account. С баланса оплачиваются приложения и игры в App Store, покупки внутри приложений и подписки Apple, доступные в стране учётной записи. Карта действует только для аккаунта того региона, для которого выпущена, поэтому регион выбирается до заказа.',
     },
     parents: [{
-      sku: 'APP-STORE-ITUNES-GIFT-CARD', slug: 'app-store-itunes-gift-card',
+      sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM', slug: 'app-store-itunes-gift-card',
       name: 'Apple App Store & iTunes Gift Card', official_name: 'Apple Gift Card (App Store & iTunes)',
       short: 'Apple Gift Card', account: 'Apple Account', balance: 'баланс Apple Account',
       redeem: 'Активация в App Store: «Погасить подарочную карту или код»',
@@ -96,7 +99,7 @@ const VENDORS = [
       about: 'Airalo — магазин eSIM для поездок: тарифы мобильного интернета в 200+ странах покупаются в приложении без физической SIM-карты. Ваучер Airalo — цифровой код, который зачисляет свой номинал на баланс аккаунта Airalo; с баланса оплачиваются eSIM-тарифы. Удобен, когда компания оплачивает связь сотрудникам в командировках, не привязывая корпоративную карту к сервису.',
     },
     parents: [{
-      sku: 'AIRALO-GIFT-CARD', slug: 'airalo-gift-card',
+      sku: 'AIRL-GFT-VOUCHER-UNI-BAL-NOM', slug: 'airalo-gift-card',
       name: 'Airalo Voucher (ваучер на eSIM)', official_name: 'Airalo Voucher',
       short: 'ваучер Airalo', account: 'аккаунт Airalo', balance: 'баланс аккаунта Airalo',
       redeem: 'Активация в приложении Airalo: профиль → «Погасить ваучер» (Redeem voucher)',
@@ -126,7 +129,7 @@ const VENDORS = [
       about: 'Binance Gift Card — цифровой код биржи Binance, который после погашения зачисляет на счёт получателя актив, указанный в карте (BTC, USDC или USDT), в объёме, соответствующем номиналу в USD. Погашается в приложении или на сайте Binance в разделе Gift Card владельцем верифицированного аккаунта. Доступность сервиса Binance в конкретной стране и требования к аккаунту определяет Binance.',
     },
     parents: ['BTC', 'USDC', 'USDT'].map((asset) => ({
-      sku: `BINANCE-${asset}-GIFT-CARD`, slug: `binance-${asset.toLowerCase()}-gift-card`,
+      sku: `BNCE-GFT-${asset}-UNI-BAL-NOM`, slug: `binance-${asset.toLowerCase()}-gift-card`,
       name: `Binance Gift Card (${asset})`, official_name: `Binance Gift Card ${asset}`,
       short: `Binance Gift Card (${asset})`, account: 'аккаунт Binance', balance: `счёт Binance в ${asset}`,
       redeem: 'Погашение в приложении Binance: Gift Card → «Погасить» (Redeem) → ввод кода',
@@ -160,7 +163,7 @@ const VENDORS = [
       about: 'Discord — платформа голосового, видео- и текстового общения для сообществ и команд. Подписка Nitro расширяет возможности аккаунта: качество стрима, размер загружаемых файлов, кастомизация профиля и бусты серверов; Nitro Basic — младший тариф с частью этих возможностей. Подписка передаётся подарочной ссылкой Discord: получатель открывает её в своём аккаунте и активирует срок.',
     },
     parents: [{
-      sku: 'DISCORD-NITRO-GIFT-CARD', slug: 'discord-nitro-gift-card',
+      sku: 'DISC-GFT-NITRO-UNI-BAL-NOM', slug: 'discord-nitro-gift-card',
       name: 'Discord Nitro (подарочная подписка)', official_name: 'Discord Nitro Gift',
       short: 'подписка Discord Nitro', account: 'аккаунт Discord', balance: 'аккаунт Discord',
       redeem: 'Активация: открыть подарочную ссылку в аккаунте Discord и подтвердить принятие подарка',
@@ -179,9 +182,9 @@ const VENDORS = [
         'Активация: открыть подарочную ссылку и принять подарок в своём аккаунте',
       ],
       regions: [{ ...GLOBAL, currency: 'MONTH', costs: [
-        [12, 87.50, { code: 'NITRO-12M', label: 'Discord Nitro, 12 месяцев' }],
-        [1, 8.88, { code: 'NITRO-1M', label: 'Discord Nitro, 1 месяц' }],
-        [1, 4.32, { code: 'BASIC-1M', label: 'Discord Nitro Basic, 1 месяц' }],
+        [12, 87.50, { code: 'NITRO-12M', label: 'Discord Nitro, 12 месяцев', sku: 'DISC-GFT-NITRO-UNI-12M-NOM-GL' }],
+        [1, 8.88, { code: 'NITRO-1M', label: 'Discord Nitro, 1 месяц', sku: 'DISC-GFT-NITRO-UNI-1M-NOM-GL' }],
+        [1, 4.32, { code: 'BASIC-1M', label: 'Discord Nitro Basic, 1 месяц', sku: 'DISC-GFT-NITROBASIC-UNI-1M-NOM-GL' }],
       ] }],
     }],
   },
@@ -200,11 +203,16 @@ for (const v of VENDORS) {
         const monetary = !extra;
         const nominal = monetary ? `${denomination} ${r.currency}` : extra.label;
         const suffix = monetary ? String(denomination) : extra.code;
-        const sku = `${parent.sku}-${r.code}-${suffix}`;
+        // Артикул варианта по единой системе (docs/rules/sku-system.md):
+        // денежный номинал — родитель плюс вариант <регион><сумма>
+        // (GLOBAL → GL); подписка на срок несёт свой артикул в extra.sku.
+        // Слаг остаётся прежним: <слаг родителя>-<регион>-<суффикс>.
+        const sku = monetary ? `${parent.sku}-${REGION_CODE[r.code] || r.code}${denomination}` : extra.sku;
+        const slug = `${parent.slug}-${r.code.toLowerCase()}-${suffix.toLowerCase()}`;
         const texts = parent.variantTexts && monetary ? parent.variantTexts(nominal, r, denomination) : {};
         variants.push({
           sku,
-          slug: sku.toLowerCase(),
+          slug,
           name: monetary ? `${parent.short.charAt(0).toUpperCase() + parent.short.slice(1)} ${nominal}, ${r.name}` : `${extra.label} (${r.name})`,
           official_name: monetary ? `${parent.official_name} ${nominal} (${r.code})` : `${extra.label} (${r.code})`,
           category: 'gift-cards',

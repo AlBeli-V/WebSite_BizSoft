@@ -21,6 +21,7 @@ interface Position {
   notes: string;
   keywords: string;
   features: string[];
+  pair_of?: string;
 }
 
 const pkg = JSON.parse(
@@ -31,9 +32,10 @@ const positions = pkg.products;
 const bySku = new Map(positions.map((p) => [p.sku, p]));
 const published = positions.filter((p) => p.status === 'published');
 const hidden = positions.filter((p) => p.status === 'draft');
-const ams = positions.filter((p) => p.sku.endsWith('-AMS'));
+const ams = positions.filter((p) => p.pair_of);
+const amsOf = new Map(ams.map((a) => [a.pair_of!, a]));
 const perpetual = positions.filter(
-  (p) => p.official_name.includes('(Perpetual License)') && !p.sku.endsWith('-AMS'));
+  (p) => p.official_name.includes('(Perpetual License)') && !p.pair_of);
 
 describe('состав пакета', () => {
   it('позиции есть, и карточек заметно меньше, чем скрытых', () => {
@@ -58,7 +60,7 @@ describe('состав пакета', () => {
 describe('вечная лицензия и сопровождение продаются парой', () => {
   it('у каждого контракта сопровождения есть своя вечная лицензия', () => {
     for (const a of ams) {
-      const licenceSku = a.sku.replace(/-AMS$/, '');
+      const licenceSku = a.pair_of!;
       const licence = bySku.get(licenceSku);
       expect(licence, `${a.sku}: нет лицензии ${licenceSku}`).toBeDefined();
       // Модель лицензии берём из официального названия, а не из хвоста
@@ -75,7 +77,7 @@ describe('вечная лицензия и сопровождение прода
     // сопровождения не имеют. Их из проверки исключаем.
     const ONE_TIME = /one-?time|migration|training|installation|setup|onboarding|implementation/i;
     const licences = perpetual.filter((p) => !ONE_TIME.test(p.official_name));
-    const withoutPair = licences.filter((p) => !bySku.has(`${p.sku}-AMS`));
+    const withoutPair = licences.filter((p) => !amsOf.has(p.sku));
     if (withoutPair.length) console.log('без пары:', withoutPair.map((p) => p.sku).slice(0, 20));
     // Остаются только позиции, где вендор написал «Included»: сопровождение
     // уже в цене лицензии, отдельной строки прайса нет.
@@ -85,7 +87,7 @@ describe('вечная лицензия и сопровождение прода
 
   it('сопровождение дешевле своей лицензии — это годовой процент, а не вторая лицензия', () => {
     for (const a of ams) {
-      const licence = bySku.get(a.sku.replace(/-AMS$/, ''))!;
+      const licence = bySku.get(a.pair_of!)!;
       expect(a.base_price_usd!, `${a.sku}: сопровождение дороже лицензии`)
         .toBeLessThan(licence.base_price_usd!);
     }
@@ -120,10 +122,10 @@ describe('граница карточек и скрытых позиций', () 
   });
 
   it('опубликованные карточки ServiceDesk Plus сохраняют прежние адреса', () => {
-    for (const sku of ['MANAGEENGINE-SERVICEDESK-STANDARD-10', 'MANAGEENGINE-SERVICEDESK-PROFESSIONAL-5']) {
+    for (const [sku, slug] of [['ZOHO-LIC-SDPSTD-TEAM-1Y-PACK-10TECH', 'manageengine-servicedesk-standard-10'], ['ZOHO-LIC-SDPPRO-TEAM-1Y-PACK-5TECH', 'manageengine-servicedesk-professional-5']]) {
       const p = bySku.get(sku);
       expect(p, `нет позиции ${sku}`).toBeDefined();
-      expect(p!.slug).toBe(sku.toLowerCase());
+      expect(p!.slug).toBe(slug);
     }
   });
 });

@@ -25,9 +25,9 @@ import type { Product } from '../../lib/types';
 
 // Порядок вывода карточек по ТЗ
 const ORDER = [
-  'ZOOM-WP-PRO', 'ZOOM-WP-BUSINESS', 'ZOOM-WP-BUSINESS-PLUS', 'ZOOM-WP-ENTERPRISE',
-  'ZOOM-WEBINARS-500', 'ZOOM-LARGE-MEETING-500', 'ZOOM-ROOMS',
-  'ZOOM-PHONE-METERED', 'ZOOM-PHONE-US-CA', 'ZOOM-PHONE-GLOBAL', 'ZOOM-EVENTS', 'ZOOM-AI-COMPANION',
+  'ZOOM-LIC-WORKPLACEPRO-UNI-1Y-USER', 'ZOOM-LIC-WORKPLACEBUS-TEAM-1Y-USER', 'ZOOM-LIC-WORKPLACEBP-TEAM-1Y-USER', 'ZOOM-LIC-WORKPLACEENT-TEAM-1Y-USER',
+  'ZOOM-ADD-WEBINARS-UNI-1Y-USER-500', 'ZOOM-ADD-LARGEMEETING-UNI-1Y-USER-500', 'ZOOM-ADD-ROOMS-UNI-1Y-DEV',
+  'ZOOM-ADD-PHONE-UNI-1Y-USER-METERED', 'ZOOM-ADD-PHONE-UNI-1Y-USER-USCA', 'ZOOM-ADD-PHONE-UNI-1Y-USER-GLOBAL', 'ZOOM-ADD-EVENTS-TEAM-1Y-USER', 'ZOOM-ADD-AICOMPANION-UNI-1Y-USER',
 ];
 
 let all: Product[] = [];
@@ -43,7 +43,7 @@ const zoom = all
 const bySku = new Map(zoom.map((p) => [p.sku, p]));
 const priced = zoom.filter((p) => effectivePrice(p).price > 0);
 const minPrice = priced.length ? Math.min(...priced.map((p) => effectivePrice(p).price)) : 0;
-const ai = bySku.get('ZOOM-AI-COMPANION');
+const ai = bySku.get('ZOOM-ADD-AICOMPANION-UNI-1Y-USER');
 
 // Сниппет-эксперимент money-a1-query-phrase (08.09.2026). Кластер Zoom — 48
 // показов за окно Вебмастера (4,0/день), средняя позиция 7,62, переходов 0;
