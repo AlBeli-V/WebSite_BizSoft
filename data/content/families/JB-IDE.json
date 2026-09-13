@@ -1,0 +1,2507 @@
+{
+  "family_key": "JB-IDE",
+  "vendor": "JetBrains s.r.o.",
+  "vendor_profile": "data/content/vendors/jetbrains.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "jb-all-pack-org",
+  "classification_notes": [
+    "Все позиции — commercial-подписки для организаций (OWNERSHIP = team); personal через BIZSoft не продаётся. Носитель семейства — All Products Pack: командная модель, fallback-лицензия и AI-кредиты раскрыты там; IDE несут своё назначение и правило выбора «IDE или Pack».",
+    "ReSharper — дополнение к Microsoft Visual Studio (addon, addon_source = vendor); dotUltimate — suite.",
+    "AI Free/Pro/Ultimate, Qodana, TeamCity, YouTrack, Datalore — договорные позиции, отдельное семейство JB-TOOLS по bizsoft-product-nonstandard-cards."
+  ],
+  "products": {
+    "jb-all-pack-org": {
+      "sku": "JB-LIC-ALLPACK-TEAM-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "JetBrains All Products Pack для организаций — командная подписка на 1 год на все инструменты JetBrains одному разработчику: 10 IDE (IntelliJ IDEA Ultimate, PyCharm, WebStorm, PhpStorm, GoLand, Rider, CLion, RubyMine, RustRover, DataGrip), .NET-расширения и профилировщики, AI-кредиты в пул организации. Лицензии — на компании, назначение в JetBrains Account.\n\nПакет выгоден, когда разработчик работает в двух и более стеках: две отдельные IDE уже стоят дороже. После 12 месяцев непрерывной подписки остаётся perpetual fallback — бессрочное право на версию, действовавшую на начало подписки.\n\nСрок — 1 год; лицензия на каждого одновременного пользователя.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в All Products Pack",
+          "kind": "items",
+          "items": [
+            {
+              "t": "IDE для каждого стека",
+              "d": "IntelliJ IDEA Ultimate (Java, Kotlin, Spring), PyCharm (Python, data science), WebStorm (JavaScript, TypeScript), PhpStorm, GoLand, Rider (.NET, Unity), CLion (C/C++, Rust), RubyMine, RustRover, DataGrip (базы данных)."
+            },
+            {
+              "t": ".NET-инструменты",
+              "d": "ReSharper и ReSharper C++ для Visual Studio, dotCover для покрытия тестами, профилировщики dotTrace и dotMemory."
+            },
+            {
+              "t": "AI-кредиты",
+              "d": "Каждая лицензия добавляет месячный объём AI Credits в общий пул организации для JetBrains AI Assistant и Junie; объём — по текущей таблице вендора."
+            },
+            {
+              "t": "Ранний доступ",
+              "d": "Air — агентная среда разработки JetBrains в EAP; новые продукты входят в пакет по мере выхода."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как устроена лицензия для организации",
+          "kind": "items",
+          "body": "Commercial-подписка оформляется на компанию; разработчики получают лицензии из JetBrains Account администратора.",
+          "items": [
+            {
+              "t": "Назначение и отзыв",
+              "d": "Администратор приглашает разработчика по e-mail и назначает лицензию; при увольнении снимает и отдаёт следующему — без обращения к JetBrains."
+            },
+            {
+              "t": "Одновременные пользователи",
+              "d": "Лицензий должно быть не меньше числа одновременно работающих разработчиков; установка на несколько машин одного человека допустима."
+            },
+            {
+              "t": "Perpetual fallback",
+              "d": "Через 12 месяцев непрерывной подписки за каждой лицензией закрепляется бессрочное право на версию начала подписки с её bugfix-обновлениями; перерыв или понижение до одной IDE право обнуляет."
+            },
+            {
+              "t": "Плавающие лицензии",
+              "d": "Для сменной работы есть License Server с плавающими лицензиями — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Pack или отдельная IDE",
+          "kind": "items",
+          "body": "Одна IDE стоит примерно треть пакета; вторая уже перекрывает разницу.",
+          "items": [
+            {
+              "t": "Берите Pack",
+              "d": "Разработчик пишет бэкенд на Java и фронтенд на TypeScript, или ведёт микросервисы на Go и Python, или .NET плюс базы данных."
+            },
+            {
+              "t": "Хватит одной IDE",
+              "d": "Стек один и меняться не будет: PyCharm для data-команды, WebStorm для фронтенда, PhpStorm для Laravel.",
+              "link": "jb-idea-ult-org"
+            },
+            {
+              "t": "dotUltimate",
+              "d": ".NET-команде без Java и Python — Rider со всеми .NET-инструментами дешевле пакета.",
+              "link": "jb-dotultimate-org"
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся после окончания подписки",
+          "kind": "prose",
+          "body": "После полного года подписки у каждой лицензии появляется perpetual fallback: организация может бессрочно использовать версию, которая была актуальна на дату начала подписки (например 2026.2 с её bugfix-релизами), без обновлений и поддержки. Право не возникает, если подписка прервалась раньше 12 месяцев или была понижена — например, с пакета до одной IDE.\n\nНа TeamCity, YouTrack и Qodana fallback не распространяется; для AI-кредитов после окончания подписки пул не пополняется."
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Понижение ломает fallback",
+              "d": "Переход с пакета на одну IDE до истечения 12 месяцев — и бессрочное право на версию не возникает; понижать выгоднее в дату продления."
+            },
+            {
+              "t": "Одновременность, а не сотрудники",
+              "d": "Сменная работа по одной лицензии допустима, но проверяется по числу одновременно активных пользователей; для этого удобнее плавающие лицензии."
+            },
+            {
+              "t": "Пул AI-кредитов общий",
+              "d": "Кредиты складываются на организацию: активные пользователи ИИ расходуют лимит коллег; дополнительные — Top-up."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Командам с несколькими стеками и разработчикам-универсалам; компаниям, которым важно, чтобы лицензии были на юрлице и переходили от сотрудника к сотруднику."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Команде с единственным стеком — переплата за девять неиспользуемых IDE; чистой .NET-команде — dotUltimate."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "IntelliJ IDEA Ultimate",
+              "d": "Самая дорогая из одиночных IDE: если нужна только она, разница с пакетом невелика.",
+              "link": "jb-idea-ult-org"
+            },
+            {
+              "t": "dotUltimate",
+              "d": ".NET-набор без остальных IDE.",
+              "link": "jb-dotultimate-org"
+            },
+            {
+              "t": "Rider",
+              "d": "Одна IDE для .NET и Unity.",
+              "link": "jb-rider-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли переназначить лицензию уволившегося разработчика?",
+          "a": "Да, администратор снимает лицензию в JetBrains Account и назначает другому сотруднику; обращаться к вендору не нужно."
+        },
+        {
+          "q": "Нужна ли лицензия на каждый компьютер?",
+          "a": "Нет, на каждого одновременно работающего разработчика; один человек может установить инструменты на несколько своих машин."
+        },
+        {
+          "q": "Что будет с версией через год, если не продлить?",
+          "a": "Останется perpetual fallback — бессрочное использование версии начала подписки без обновлений; при продлении fallback сдвигается на новую версию."
+        },
+        {
+          "q": "Входит ли JetBrains AI в пакет?",
+          "a": "Каждая лицензия пакета добавляет месячные AI-кредиты в пул организации; дополнительный объём — Top-up кредитами, действующими 12 месяцев."
+        }
+      ],
+      "related_products": [
+        "jb-idea-ult-org",
+        "jb-dotultimate-org",
+        "jb-rider-org",
+        "jb-pycharm-pro-org"
+      ],
+      "meta_title": "JetBrains All Products Pack для организаций | BIZSoft",
+      "meta_description": "All Products Pack: 10 IDE, ReSharper, dotTrace, dotMemory и AI-кредиты одному разработчику; лицензии на компании, fallback через 12 мес. Договор, ЭДО.",
+      "seo_intents": [
+        "jetbrains all products pack купить организация — hero, meta",
+        "all products pack что входит — INCLUDED",
+        "jetbrains perpetual fallback license — PERPETUAL_RULES, FAQ",
+        "jetbrains лицензия для юрлица переназначение — TEAM_MODEL, FAQ"
+      ],
+      "uncertainties": [
+        "Объём AI-кредитов на лицензию не назван (неопределённость профиля №1)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "понижение, одновременность, пул",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-idea-ult-org": {
+      "sku": "JB-LIC-IDEAULT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "IntelliJ IDEA Ultimate для организаций — годовая командная подписка на IDE для Java и Kotlin с полной поддержкой Spring, Jakarta EE, микросервисов, баз данных и фронтенда одному разработчику. Лицензия за компанией, назначение в JetBrains Account.\n\nНа каждого одновременно работающего разработчика — своя лицензия; после года непрерывной подписки закрепляется perpetual fallback на стартовую версию. Полные правила линейки — у All Products Pack.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет IntelliJ IDEA Ultimate",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Java и Kotlin",
+              "d": "Автодополнение, рефакторинги на весь проект, отладчик, профилировщик, анализ кода; Gradle и Maven."
+            },
+            {
+              "t": "Фреймворки",
+              "d": "Spring и Spring Boot, Jakarta EE, Micronaut, Quarkus, Hibernate; HTTP-клиент для тестирования API."
+            },
+            {
+              "t": "Базы и фронтенд",
+              "d": "Инструменты DataGrip внутри IDEA, JavaScript, TypeScript, React, Angular; Docker и Kubernetes."
+            },
+            {
+              "t": "AI",
+              "d": "AI Assistant и Junie на кредитах организации."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Подписка коммерческая: лицензия на компании, разработчик получает её приглашением из JetBrains Account администратора, при уходе — лицензия возвращается в пул и уходит следующему. Механика, fallback-лицензия и AI-кредиты подробно — на карточке All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Java плюс что-то ещё",
+              "d": "Появился Python-сервис или Go-воркер — вторая IDE стоит столько же, а пакет уже дешевле пары."
+            },
+            {
+              "t": "Понижение с пакета",
+              "d": "Переход с All Products Pack на IDEA внутри года обнуляет fallback до следующего полного года."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит IDEA Ultimate",
+              "d": "Основной стек — JVM, фронтенд правится по мелочи."
+            },
+            {
+              "t": "Pack выгоднее",
+              "d": "Параллельно пишут Go, Python или .NET — разница с пакетом меньше цены второй IDE.",
+              "link": "jb-all-pack-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Java- и Kotlin-командам корпоративной разработки: Spring-бэкенды, микросервисы, интеграции с базами."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "All Products Pack",
+              "d": "IDEA плюс девять IDE и .NET-инструменты.",
+              "link": "jb-all-pack-org"
+            },
+            {
+              "t": "PyCharm Pro",
+              "d": "Python-командам.",
+              "link": "jb-pycharm-pro-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Ultimate отличается от Community?",
+          "a": "Community бесплатна и покрывает базовую Java/Kotlin; Ultimate добавляет Spring, Jakarta EE, базы данных, JavaScript/TypeScript, профилировщик и коммерческую поддержку."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-pycharm-pro-org"
+      ],
+      "meta_title": "IntelliJ IDEA Ultimate для организаций — подписка | BIZSoft",
+      "meta_description": "IntelliJ IDEA Ultimate одному разработчику: Java, Kotlin, Spring, базы данных, фронтенд; лицензия на компании с переназначением. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "intellij idea ultimate купить организация — hero, meta",
+        "idea ultimate vs community — FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-pycharm-pro-org": {
+      "sku": "JB-LIC-PYCHARMPRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "PyCharm Pro для организаций — командный план на 12 месяцев: IDE для Python одному разработчику: Django и Flask, Jupyter-ноутбуки, научные библиотеки, базы данных и удалённая разработка. Лицензия за компанией.\n\nЛицензии считаются по одновременным пользователям, а спустя 12 месяцев подписки за каждой остаётся бессрочная fallback-версия. Подробности — на карточке All Products Pack.\n\nСрок подписки — год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет PyCharm Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Python",
+              "d": "Автодополнение, рефакторинги, отладчик, покрытие тестами, виртуальные окружения и Conda."
+            },
+            {
+              "t": "Веб и данные",
+              "d": "Django, Flask, FastAPI; Jupyter, pandas, DataFrame-просмотр, научный режим."
+            },
+            {
+              "t": "Инфраструктура",
+              "d": "Docker, Kubernetes, SSH и удалённые интерпретаторы, базы данных."
+            },
+            {
+              "t": "AI",
+              "d": "AI Assistant на кредитах организации."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Лицензия оформлена на организацию и живёт в JetBrains Account: администратор раздаёт её разработчикам и снимает при увольнении; одновременных пользователей — не больше числа лицензий. Подробности командной модели — у All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Второй язык",
+              "d": "Фронтенд на TypeScript или сервис на Go потребует второй подписки — с этого момента считайте пакет."
+            },
+            {
+              "t": "Community-версия",
+              "d": "Бесплатная PyCharm Community закрывает чистый Python без Django, Jupyter и баз — проверьте, нужна ли Pro всей команде."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит PyCharm Pro",
+              "d": "Стек — Python, включая веб и данные."
+            },
+            {
+              "t": "Pack",
+              "d": "Python плюс фронтенд на TypeScript или сервисы на Go.",
+              "link": "jb-all-pack-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Python-командам бэкенда и data science, где ноутбуки и продовый код живут в одном проекте."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "All Products Pack",
+              "d": "PyCharm и остальные IDE.",
+              "link": "jb-all-pack-org"
+            },
+            {
+              "t": "DataGrip",
+              "d": "Только базы данных.",
+              "link": "jb-datagrip-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Jupyter в PyCharm Pro?",
+          "a": "Да, ноутбуки открываются и выполняются в IDE с отладкой ячеек; в бесплатной Community-версии этого нет."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-datagrip-org"
+      ],
+      "meta_title": "PyCharm Pro для организаций — подписка на год | BIZSoft",
+      "meta_description": "PyCharm Pro одному разработчику: Python, Django, Jupyter, data science, удалённая разработка; лицензия на компании. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "pycharm professional купить организация — hero, meta",
+        "pycharm pro jupyter — FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-webstorm-org": {
+      "sku": "JB-LIC-WEBSTORM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "WebStorm для организаций — командная подписка на год на среду разработки для JavaScript и TypeScript одному разработчику: React, Vue, Angular, Node.js, тесты и отладка в браузере. Самая доступная IDE линейки. Лицензия за компанией.\n\nСчитается по одновременным пользователям; годовая подписка без перерыва даёт fallback — бессрочное право на версию, с которой она началась (см. All Products Pack).\n\nСрок — 12 месяцев.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет WebStorm",
+          "kind": "items",
+          "items": [
+            {
+              "t": "JS и TS",
+              "d": "Автодополнение по типам, рефакторинги, встроенный ESLint и Prettier, отладка Node.js и браузера."
+            },
+            {
+              "t": "Фреймворки",
+              "d": "React, Vue, Angular, Svelte, Next.js; HTML и CSS с препроцессорами."
+            },
+            {
+              "t": "Тесты и инструменты",
+              "d": "Jest, Vitest, Cypress; npm и pnpm, Docker, Git с ревью."
+            },
+            {
+              "t": "AI",
+              "d": "AI Assistant на кредитах организации."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Organization-подписка: компания владеет лицензией, разработчик пользуется ею по приглашению из JetBrains Account, переназначение — без вендора. Полное описание модели и fallback — на карточке пакета.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Только фронтенд",
+              "d": "Бэкенд на Java или Python в той же голове — это IDEA Ultimate или пакет, а не вторая лицензия."
+            },
+            {
+              "t": "Fallback при смене IDE",
+              "d": "Замена WebStorm на другую IDE в течение года прерывает накопление fallback."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит WebStorm",
+              "d": "Фронтенд и Node — вся работа."
+            },
+            {
+              "t": "IDEA Ultimate или Pack",
+              "d": "Если тот же разработчик пишет бэкенд на Java или Python.",
+              "link": "jb-all-pack-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Фронтенд-командам и Node.js-разработчикам с одним стеком."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "All Products Pack",
+              "d": "WebStorm и остальные IDE.",
+              "link": "jb-all-pack-org"
+            },
+            {
+              "t": "IntelliJ IDEA Ultimate",
+              "d": "JVM-бэкенд с полноценным фронтендом внутри.",
+              "link": "jb-idea-ult-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем WebStorm отличается от VS Code?",
+          "a": "WebStorm — IDE с готовыми рефакторингами, анализом и отладкой из коробки; VS Code — редактор, который собирают из расширений."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-idea-ult-org"
+      ],
+      "meta_title": "WebStorm для организаций — подписка на год | BIZSoft",
+      "meta_description": "WebStorm одному разработчику: JavaScript, TypeScript, React, Vue, Angular, Node.js; лицензия на компании. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "webstorm купить организация — hero, meta",
+        "webstorm vs vs code — FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-phpstorm-org": {
+      "sku": "JB-LIC-PHPSTORM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "PhpStorm для организаций — годовой командный план на IDE для PHP одному разработчику: Laravel, Symfony, WordPress, Xdebug, тесты и всё из WebStorm для фронтенда. Лицензия за компанией.\n\nОдна лицензия — один одновременный пользователь. Правило fallback через год и AI-кредиты — общие для линейки, описаны у пакета.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет PhpStorm",
+          "kind": "items",
+          "items": [
+            {
+              "t": "PHP",
+              "d": "Автодополнение по типам и PHPDoc, рефакторинги, Xdebug, PHPUnit и Pest, Composer."
+            },
+            {
+              "t": "Фреймворки и CMS",
+              "d": "Laravel, Symfony, Drupal, WordPress, Magento; Blade и Twig."
+            },
+            {
+              "t": "Фронтенд и базы",
+              "d": "Всё из WebStorm плюс DataGrip-инструменты для MySQL и PostgreSQL."
+            },
+            {
+              "t": "AI",
+              "d": "AI Assistant на кредитах организации."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Лицензия принадлежит организации, назначается через JetBrains Account и переходит к новому сотруднику при смене команды; правила fallback и AI-кредитов — у All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Смежные сервисы",
+              "d": "Очереди на Go или скрипты на Python рядом с PHP — повод посчитать пакет."
+            },
+            {
+              "t": "Обновления среды",
+              "d": "Крупные версии выходят трижды в год; fallback закрепляется за версией начала подписки, а не последней."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит PhpStorm",
+              "d": "PHP и фронтенд — вся работа."
+            },
+            {
+              "t": "Pack",
+              "d": "Есть сервисы на Go или Python.",
+              "link": "jb-all-pack-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "PHP-командам веб-разработки и агентствам на Laravel и WordPress."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "All Products Pack",
+              "d": "PhpStorm и остальные IDE.",
+              "link": "jb-all-pack-org"
+            },
+            {
+              "t": "WebStorm",
+              "d": "Если PHP нет, а фронтенд есть.",
+              "link": "jb-webstorm-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли отдельно WebStorm при PhpStorm?",
+          "a": "Нет, вся функциональность WebStorm уже входит в PhpStorm."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-webstorm-org"
+      ],
+      "meta_title": "PhpStorm для организаций — подписка на год | BIZSoft",
+      "meta_description": "PhpStorm одному разработчику: PHP, Laravel, Symfony, WordPress, Xdebug и весь WebStorm; лицензия на компании. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "phpstorm купить организация — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-goland-org": {
+      "sku": "JB-LIC-GOLAND-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "GoLand для организаций — командная подписка сроком на год на IDE для Go одному разработчику: модули, отладчик, генерация тестов, Docker и Kubernetes, базы данных и фронтенд. Лицензия за компанией.\n\nЛицензий нужно столько, сколько разработчиков работает одновременно; отработанный год подписки закрепляет fallback-версию. Детали — у All Products Pack.\n\nПодписка на год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет GoLand",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Go",
+              "d": "Автодополнение, рефакторинги, встроенные проверки, отладчик Delve, бенчмарки."
+            },
+            {
+              "t": "Сервисы",
+              "d": "gRPC и Protobuf, HTTP-клиент, Docker, Kubernetes, Terraform-плагины."
+            },
+            {
+              "t": "Смежное",
+              "d": "DataGrip-инструменты для баз, JavaScript и TypeScript для админок."
+            },
+            {
+              "t": "AI",
+              "d": "AI Assistant на кредитах организации."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Компания получает лицензию в JetBrains Account и назначает разработчику; смена сотрудника — переназначение без обращения к JetBrains. Детали — на карточке All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Go в полиглот-команде",
+              "d": "Микросервисы редко бывают только на Go; вторая IDE дороже разницы с пакетом."
+            },
+            {
+              "t": "Плавающие лицензии",
+              "d": "Для сменных разработчиков нужен License Server — отдельная поставка."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит GoLand",
+              "d": "Go — основной язык."
+            },
+            {
+              "t": "Pack",
+              "d": "Рядом Python-скрипты и Java-сервисы.",
+              "link": "jb-all-pack-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам микросервисов и инфраструктурной разработки на Go."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "All Products Pack",
+              "d": "GoLand и остальные IDE.",
+              "link": "jb-all-pack-org"
+            },
+            {
+              "t": "CLion",
+              "d": "Системная разработка на C/C++ и Rust.",
+              "link": "jb-clion-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли поддержка Go в IntelliJ IDEA?",
+          "a": "Как плагин — да, но полноценная поддержка Go входит в GoLand и в All Products Pack."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-clion-org"
+      ],
+      "meta_title": "GoLand для организаций — подписка на год | BIZSoft",
+      "meta_description": "GoLand одному разработчику: Go, gRPC, Docker, Kubernetes, базы данных; лицензия на компании с переназначением. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "goland купить организация — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-clion-org": {
+      "sku": "JB-LIC-CLION-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "CLion для организаций — командный план на год: среда разработки для C и C++ одному разработчику: CMake, отладка GDB/LLDB, встраиваемые системы, Rust через плагин, статический анализ. Лицензия за компанией.\n\nЛицензируется одновременный пользователь; через 12 месяцев остаётся право на стартовую версию без обновлений. Остальные правила — на карточке пакета.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет CLion",
+          "kind": "items",
+          "items": [
+            {
+              "t": "C и C++",
+              "d": "Clang-анализ, рефакторинги, CMake, Makefile, Meson и Bazel."
+            },
+            {
+              "t": "Отладка",
+              "d": "GDB и LLDB, удалённая и по OpenOCD для микроконтроллеров, просмотр памяти и регистров."
+            },
+            {
+              "t": "Кроссплатформа",
+              "d": "Windows, macOS, Linux, WSL, Docker-тулчейны."
+            },
+            {
+              "t": "AI",
+              "d": "AI Assistant на кредитах организации."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Commercial-подписка на организацию с назначением через JetBrains Account; каждому одновременному пользователю — своя лицензия. Общие правила линейки — у All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "C++ и Rust вместе",
+              "d": "Плагин Rust в CLion есть, но для чистой Rust-команды RustRover дешевле и легче."
+            },
+            {
+              "t": "Тулчейны",
+              "d": "Удалённые и Docker-тулчейны требуют настройки; на встраиваемых проектах проверьте поддержку отладчика заранее."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит CLion",
+              "d": "C/C++ и Rust — основной стек."
+            },
+            {
+              "t": "RustRover",
+              "d": "Только Rust — есть отдельная IDE.",
+              "link": "jb-rustrover-org"
+            },
+            {
+              "t": "Pack",
+              "d": "Есть Python-инструментарий и Java.",
+              "link": "jb-all-pack-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам системной и встраиваемой разработки на C/C++."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "RustRover",
+              "d": "Rust-разработка.",
+              "link": "jb-rustrover-org"
+            },
+            {
+              "t": "All Products Pack",
+              "d": "CLion и остальные IDE.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Поддерживает ли CLion Rust?",
+          "a": "Да, через официальный плагин; для чистой Rust-разработки JetBrains выпускает RustRover."
+        }
+      ],
+      "related_products": [
+        "jb-rustrover-org",
+        "jb-all-pack-org"
+      ],
+      "meta_title": "CLion для организаций — подписка на год | BIZSoft",
+      "meta_description": "CLion одному разработчику: C/C++, CMake, GDB/LLDB, встраиваемые системы, Rust-плагин; лицензия на компании. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "clion купить организация — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-rustrover-org": {
+      "sku": "JB-LIC-RUSTROVER-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "RustRover для организаций — командная подписка на 12 месяцев на IDE для Rust одному разработчику: Cargo, анализ типов и владения, отладчик, тесты, интеграция с базами и веб-стеком. Лицензия за компанией.\n\nПо лицензии на каждого одновременного разработчика; fallback после года подписки — как у всех IDE JetBrains (см. пакет).\n\nСрок — год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет RustRover",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Rust",
+              "d": "Анализ borrow checker в редакторе, макросы, Cargo и crates, clippy и rustfmt."
+            },
+            {
+              "t": "Отладка и тесты",
+              "d": "Отладчик, тесты и бенчмарки, профили сборки."
+            },
+            {
+              "t": "Смежное",
+              "d": "Базы данных, JavaScript и TypeScript, Docker."
+            },
+            {
+              "t": "AI",
+              "d": "AI Assistant на кредитах организации."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Лицензия за компанией, выдача и отзыв — администратором в JetBrains Account. Fallback через 12 месяцев и AI-кредиты описаны на карточке пакета.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Смешанный проект",
+              "d": "Если в репозитории много C++, CLion с Rust-плагином покроет оба языка одной лицензией."
+            },
+            {
+              "t": "Молодой продукт",
+              "d": "RustRover моложе остальных IDE линейки; часть интеграций догоняет CLion."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит RustRover",
+              "d": "Rust и немного смежного."
+            },
+            {
+              "t": "CLion",
+              "d": "Смешанный C++/Rust-проект.",
+              "link": "jb-clion-org"
+            },
+            {
+              "t": "Pack",
+              "d": "Несколько стеков.",
+              "link": "jb-all-pack-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, для которых Rust — основной язык: системные сервисы, блокчейн, инфраструктура."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "CLion",
+              "d": "C/C++ с Rust-плагином.",
+              "link": "jb-clion-org"
+            },
+            {
+              "t": "All Products Pack",
+              "d": "Все IDE.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем RustRover отличается от Rust-плагина в CLion?",
+          "a": "Тем же движком, но отдельной IDE без C/C++-надстроек и дешевле для чистых Rust-команд."
+        }
+      ],
+      "related_products": [
+        "jb-clion-org",
+        "jb-all-pack-org"
+      ],
+      "meta_title": "RustRover для организаций — подписка на год | BIZSoft",
+      "meta_description": "RustRover одному разработчику: Rust, Cargo, отладчик, анализ владения; лицензия на компании с переназначением. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "rustrover купить организация — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-rubymine-org": {
+      "sku": "JB-LIC-RUBYMINE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "RubyMine для организаций — годовая командная подписка на среду для Ruby и Rails одному разработчику: отладчик, RSpec, Rails-навигация, фронтенд и базы данных. Лицензия за компанией.\n\nОдновременные пользователи — не больше числа лицензий; perpetual fallback появляется после полного года. Подробно — у All Products Pack.\n\nСрок — 12 месяцев.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет RubyMine",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ruby и Rails",
+              "d": "Навигация по MVC, генераторы, ERB и Haml, миграции; отладчик и профилировщик."
+            },
+            {
+              "t": "Тесты",
+              "d": "RSpec, Minitest, Cucumber с запуском из редактора."
+            },
+            {
+              "t": "Смежное",
+              "d": "JavaScript/TypeScript, базы данных, Docker."
+            },
+            {
+              "t": "AI",
+              "d": "AI Assistant на кредитах организации."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Organization-лицензия: назначается разработчику из JetBrains Account, при увольнении переходит следующему. Подробнее о модели — у All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Rails и фронтенд",
+              "d": "JavaScript внутри RubyMine есть; отдельный WebStorm не нужен, а вот Go или Python — уже пакет."
+            },
+            {
+              "t": "Fallback",
+              "d": "Право на стартовую версию появляется после полного года без перерывов."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит RubyMine",
+              "d": "Ruby — основной язык."
+            },
+            {
+              "t": "Pack",
+              "d": "Есть сервисы на других языках.",
+              "link": "jb-all-pack-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Rails-командам продуктовой разработки."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "All Products Pack",
+              "d": "RubyMine и остальные IDE.",
+              "link": "jb-all-pack-org"
+            },
+            {
+              "t": "IntelliJ IDEA Ultimate",
+              "d": "Если Ruby — второстепенный язык при Java-бэкенде: Ruby-плагин внутри IDEA.",
+              "link": "jb-idea-ult-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Ruby в IntelliJ IDEA?",
+          "a": "Только плагином; полная поддержка Rails — в RubyMine и в пакете."
+        }
+      ],
+      "related_products": [
+        "jb-all-pack-org",
+        "jb-idea-ult-org"
+      ],
+      "meta_title": "RubyMine для организаций — подписка на год | BIZSoft",
+      "meta_description": "RubyMine одному разработчику: Ruby, Rails, RSpec, отладчик, фронтенд и базы; лицензия на компании. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "rubymine купить организация — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-datagrip-org": {
+      "sku": "JB-LIC-DATAGRIP-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "DataGrip для организаций — командный план на год на IDE для баз данных одному специалисту: PostgreSQL, MySQL, Oracle, SQL Server, ClickHouse, MongoDB и другие — редактор SQL с автодополнением, рефакторинги схемы, сравнение и экспорт. Лицензия за компанией.\n\nЛицензия на каждого одновременного пользователя; год подписки без перерыва — и версия остаётся навсегда (fallback). Общие правила — на карточке пакета.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет DataGrip",
+          "kind": "items",
+          "items": [
+            {
+              "t": "SQL",
+              "d": "Автодополнение по схеме, рефакторинги, объяснение планов, форматирование."
+            },
+            {
+              "t": "Много СУБД",
+              "d": "Десятки диалектов через JDBC, включая ClickHouse, Snowflake, MongoDB, Redis."
+            },
+            {
+              "t": "Данные и схема",
+              "d": "Редактирование таблиц, импорт/экспорт, сравнение схем и данных, миграции."
+            },
+            {
+              "t": "AI",
+              "d": "AI Assistant на кредитах организации."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Подписка на организацию; лицензию получает конкретный специалист по приглашению администратора, и её можно передать другому. Полные правила — на карточке пакета.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Уже есть в IDE",
+              "d": "Разработчик с IDEA, PyCharm Pro или GoLand получает инструменты DataGrip бесплатно — отдельная лицензия нужна только специалистам без IDE."
+            },
+            {
+              "t": "Лицензия на человека",
+              "d": "DataGrip на рабочей и домашней машине аналитика — одна лицензия; на двух аналитиков — две."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит DataGrip",
+              "d": "Работа с данными без разработки приложений."
+            },
+            {
+              "t": "IDE со встроенным DataGrip",
+              "d": "Разработчику базы нужны в IDEA, PyCharm Pro или GoLand — инструменты DataGrip уже там.",
+              "link": "jb-idea-ult-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аналитикам, DBA и бэкенд-инженерам, которые проводят в SQL большую часть дня."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "IntelliJ IDEA Ultimate",
+              "d": "DataGrip внутри плюс Java.",
+              "link": "jb-idea-ult-org"
+            },
+            {
+              "t": "All Products Pack",
+              "d": "Все IDE.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли DataGrip в другие IDE?",
+          "a": "Да, инструменты баз данных есть в платных IDE JetBrains; DataGrip — отдельный продукт для тех, кому нужны только они."
+        }
+      ],
+      "related_products": [
+        "jb-idea-ult-org",
+        "jb-all-pack-org"
+      ],
+      "meta_title": "DataGrip для организаций — подписка на год | BIZSoft",
+      "meta_description": "DataGrip одному специалисту: SQL-редактор для PostgreSQL, MySQL, Oracle, ClickHouse и других; лицензия на компании. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "datagrip купить организация — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-rider-org": {
+      "sku": "JB-LIC-RIDER-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Rider для организаций — командная подписка на год на кроссплатформенную IDE для .NET одному разработчику: C#, ASP.NET Core, Unity и Unreal, Blazor, отладчик и профилировщики, базы данных и фронтенд. Лицензия за компанией.\n\nСчитается по одновременным разработчикам; отработанный год подписки оставляет право на её начальную версию навсегда. Как это устроено в деталях — см. пакет.\n\nПодписка на год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Rider",
+          "kind": "items",
+          "items": [
+            {
+              "t": "C# и .NET",
+              "d": "Движок ReSharper внутри: рефакторинги, анализ, навигация; .NET Framework, .NET Core, Mono."
+            },
+            {
+              "t": "Игры",
+              "d": "Unity и Unreal Engine с отладкой и шаблонами."
+            },
+            {
+              "t": "Веб и базы",
+              "d": "ASP.NET Core, Blazor, JavaScript/TypeScript, DataGrip-инструменты."
+            },
+            {
+              "t": "Профилирование",
+              "d": "dotTrace и dotMemory встроены в Rider на всех платформах."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Лицензия оформляется на компанию и назначается разработчику через JetBrains Account; переназначение — без вендора. Fallback и AI-кредиты — у All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visual Studio остаётся у коллег",
+              "d": "Если часть команды не уйдёт из Visual Studio, им нужен ReSharper — тогда выгоднее dotUltimate."
+            },
+            {
+              "t": "Понижение с пакета",
+              "d": "Смена All Products Pack на Rider в течение года лишает fallback."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта IDE или пакет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хватит Rider",
+              "d": "Один разработчик — .NET и игры."
+            },
+            {
+              "t": "dotUltimate",
+              "d": "Rider плюс ReSharper для коллег на Visual Studio и dotCover.",
+              "link": "jb-dotultimate-org"
+            },
+            {
+              "t": "Pack",
+              "d": "Есть Java или Python рядом.",
+              "link": "jb-all-pack-org"
+            }
+          ],
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": ".NET-командам на Windows, macOS и Linux, а также игровым студиям на Unity."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "dotUltimate",
+              "d": "Полный .NET-набор.",
+              "link": "jb-dotultimate-org"
+            },
+            {
+              "t": "ReSharper",
+              "d": "Если работать остаются в Visual Studio.",
+              "link": "jb-resharper-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужна ли Visual Studio для Rider?",
+          "a": "Нет, Rider — самостоятельная IDE; ReSharper нужен только тем, кто остаётся в Visual Studio."
+        }
+      ],
+      "related_products": [
+        "jb-dotultimate-org",
+        "jb-resharper-org"
+      ],
+      "meta_title": "Rider для организаций — подписка на год | BIZSoft",
+      "meta_description": "Rider одному разработчику: C#, .NET, ASP.NET Core, Unity, профилировщики; работает на Windows, macOS, Linux; лицензия на компании. Договор, ЭДО.",
+      "seo_intents": [
+        "jetbrains rider купить организация — hero, meta",
+        "rider или resharper — FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "стек, fallback при понижении",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-dotultimate-org": {
+      "sku": "JB-LIC-DOTULTIMATE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "dotUltimate для организаций — командная подписка на 1 год на полный .NET-набор JetBrains одному разработчику: Rider, ReSharper и ReSharper C++ для Visual Studio, dotCover, dotTrace и dotMemory. Лицензия за компанией, назначение в JetBrains Account.\n\nНабор для команд, где одни работают в Rider, другие остаются в Visual Studio с ReSharper, а профилирование и покрытие нужны всем: по цене это дешевле Rider и ReSharper по отдельности. Perpetual fallback после 12 месяцев — как у остальной линейки.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в dotUltimate",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Rider",
+              "d": "Кроссплатформенная IDE для C#, ASP.NET Core, Unity и Unreal."
+            },
+            {
+              "t": "ReSharper и ReSharper C++",
+              "d": "Расширения Visual Studio: анализ, рефакторинги, навигация для C# и C++."
+            },
+            {
+              "t": "dotCover",
+              "d": "Покрытие кода тестами с непрерывным прогоном."
+            },
+            {
+              "t": "dotTrace и dotMemory",
+              "d": "Профилировщики производительности и памяти, в Rider — встроены."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как работает лицензия для организации",
+          "kind": "prose",
+          "body": "Компания владеет лицензией и выдаёт её разработчику из JetBrains Account; при переходе сотрудника на другой стек или увольнении лицензия возвращается в пул. Одна лицензия покрывает все инструменты набора для одного человека на его машинах. Fallback-лицензия и AI-кредиты — по правилам линейки, см. All Products Pack.",
+          "links": [
+            "jb-all-pack-org"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "dotUltimate, Rider или ReSharper",
+          "kind": "items",
+          "items": [
+            {
+              "t": "dotUltimate",
+              "d": "Нужны и Rider, и ReSharper, или профилировщики отдельно от IDE."
+            },
+            {
+              "t": "Rider",
+              "d": "Разработчик полностью в Rider — профилировщики уже внутри.",
+              "link": "jb-rider-org"
+            },
+            {
+              "t": "ReSharper",
+              "d": "Работа остаётся в Visual Studio, Rider не нужен.",
+              "link": "jb-resharper-org"
+            },
+            {
+              "t": "All Products Pack",
+              "d": "Кроме .NET есть Java, Python или Go.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Visual Studio не входит",
+              "d": "ReSharper из набора работает только поверх Visual Studio, которую лицензирует Microsoft."
+            },
+            {
+              "t": "Только .NET",
+              "d": "Появился Python или Java — набор не поможет, нужен пакет; понижение с пакета на dotUltimate внутри года обнуляет fallback."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": ".NET-командам со смешанными привычками — часть на Visual Studio, часть на Rider — и отделам, где производительность и утечки памяти профилируют регулярно."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Rider",
+              "d": "Одна IDE со встроенными профилировщиками.",
+              "link": "jb-rider-org"
+            },
+            {
+              "t": "ReSharper",
+              "d": "Только расширение для Visual Studio.",
+              "link": "jb-resharper-org"
+            },
+            {
+              "t": "All Products Pack",
+              "d": "dotUltimate плюс девять IDE.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли одному разработчику использовать и Rider, и ReSharper по одной лицензии dotUltimate?",
+          "a": "Да, набор лицензируется на разработчика целиком; на две машины одного человека — тоже одна лицензия."
+        }
+      ],
+      "related_products": [
+        "jb-rider-org",
+        "jb-resharper-org",
+        "jb-all-pack-org"
+      ],
+      "meta_title": "dotUltimate для организаций — подписка на год | BIZSoft",
+      "meta_description": "dotUltimate одному разработчику: Rider, ReSharper, ReSharper C++, dotCover, dotTrace, dotMemory; лицензия на компании. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "dotultimate купить организация — hero, meta",
+        "dotultimate vs rider — PLAN_COMPARE"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "VS не входит, только .NET",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль"
+        }
+      ]
+    },
+    "jb-resharper-org": {
+      "sku": "JB-LIC-RESHARPER-TEAM-1Y-USER",
+      "classification": {
+        "nature": "addon",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": "EXTERNAL:MICROSOFT-VISUAL-STUDIO",
+      "short_description": "ReSharper для организаций — командная подписка на 1 год на расширение Microsoft Visual Studio одному разработчику: анализ кода C#, VB.NET, C++ и веб-языков на лету, сотни рефакторингов, навигация, генерация кода и запуск тестов. Без установленной Visual Studio не работает. Лицензия за компанией.\n\nЭто дополнение к чужому продукту, а не IDE: Visual Studio лицензируется у Microsoft отдельно. Тем, кто готов сменить среду, JetBrains предлагает Rider с тем же движком внутри.\n\nСрок — 1 год; perpetual fallback после 12 месяцев — как у IDE.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что добавляет ReSharper в Visual Studio",
+          "kind": "items",
+          "body": "Visual Studio остаётся средой; ReSharper подменяет анализ, навигацию и рефакторинги.",
+          "items": [
+            {
+              "t": "Анализ на лету",
+              "d": "Тысячи инспекций для C#, VB.NET, XAML, ASP.NET, JavaScript и TypeScript с быстрыми исправлениями."
+            },
+            {
+              "t": "Рефакторинги и навигация",
+              "d": "Переименование по всему решению, извлечение методов и интерфейсов, поиск использований, переход к реализации."
+            },
+            {
+              "t": "Тесты и стиль",
+              "d": "Запуск NUnit, xUnit, MSTest из редактора; единый стиль кода на команду."
+            },
+            {
+              "t": "Модель лицензирования",
+              "d": "Годовая подписка на разработчика; после окончания без продления остаётся fallback-версия начала подписки."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что требуется",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовый продукт",
+              "d": "Microsoft Visual Studio на Windows актуальной версии; лицензируется у Microsoft отдельно и в подписку не входит."
+            },
+            {
+              "t": "Совместимость",
+              "d": "Версия ReSharper привязана к поддерживаемым версиям Visual Studio — сверьте по таблице JetBrains перед обновлением среды."
+            },
+            {
+              "t": "Ресурсы",
+              "d": "На больших решениях ReSharper заметно нагружает Visual Studio — вендор советует 16 ГБ памяти и SSD."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Когда нужен — и когда нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Нужен",
+              "d": "Команда остаётся в Visual Studio из-за проектов, инструментов или привычки, но хочет рефакторинги и анализ уровня JetBrains."
+            },
+            {
+              "t": "Не нужен",
+              "d": "Если сменить среду можно — Rider даёт тот же движок без Visual Studio и на любой ОС; если нужны и Rider, и ReSharper — dotUltimate."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Две лицензии",
+              "d": "Visual Studio от Microsoft и ReSharper от JetBrains продлеваются независимо."
+            },
+            {
+              "t": "Обновления среды",
+              "d": "Крупное обновление Visual Studio может потребовать обновления ReSharper; в подписке оно есть."
+            },
+            {
+              "t": "Лицензия на организации",
+              "d": "Назначается разработчику из JetBrains Account и переназначается администратором; полные правила — на карточке All Products Pack.",
+              "link": "jb-all-pack-org"
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Rider",
+              "d": "Самостоятельная IDE с движком ReSharper.",
+              "link": "jb-rider-org"
+            },
+            {
+              "t": "dotUltimate",
+              "d": "ReSharper и Rider вместе с профилировщиками.",
+              "link": "jb-dotultimate-org"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли ReSharper без Visual Studio?",
+          "a": "Нет, это расширение; для работы без Visual Studio есть Rider."
+        },
+        {
+          "q": "Нужна ли лицензия Visual Studio?",
+          "a": "Да, она приобретается у Microsoft отдельно; ReSharper её не заменяет."
+        }
+      ],
+      "related_products": [
+        "jb-rider-org",
+        "jb-dotultimate-org",
+        "jb-all-pack-org"
+      ],
+      "meta_title": "ReSharper для организаций — подписка на год | BIZSoft",
+      "meta_description": "ReSharper одному разработчику: анализ и рефакторинги C#, C++ и веб-кода в Visual Studio; требуется Visual Studio; лицензия на компании. Договор, ЭДО.",
+      "seo_intents": [
+        "resharper купить организация — hero, meta",
+        "resharper без visual studio — FAQ",
+        "resharper или rider — FIT"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора jetbrains.md"
+        }
+      ],
+      "addon_source": "vendor",
+      "license_model": "annual_fallback",
+      "fallback": true,
+      "requires": [
+        "Microsoft Visual Studio (Windows), поддерживаемая версия"
+      ]
+    }
+  }
+}

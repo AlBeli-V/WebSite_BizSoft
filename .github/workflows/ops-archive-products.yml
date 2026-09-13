@@ -1,0 +1,101 @@
+# Снятие позиций в архив по перечню артикулов: статус → archived у карточек
+# любого текущего статуса (черновики первого запуска сайта, снятые дубли).
+# Карточки не удаляются (docs/rules/catalog.md): архив обратим в админке.
+# Сначала apply=false — план в журнал issue #22, затем apply=true.
+name: ops-archive-products
+on:
+  workflow_dispatch:
+    inputs:
+      skus:
+        description: 'Артикулы через пробел'
+        required: true
+      apply:
+        description: 'true — применить; false — только план'
+        required: false
+        default: 'false'
+permissions:
+  contents: read
+  issues: write
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+      - uses: actions/checkout@v4
+
+      - name: Archive in Directus
+        id: run
+        uses: appleboy/ssh-action@v1
+        env:
+          P_SKUS: ${{ inputs.skus }}
+          P_APPLY: ${{ inputs.apply }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_SKUS,P_APPLY
+          capture_stdout: true
+          script: |
+            set -e
+            cd /opt/bizsoft
+            ADMIN_EMAIL=$(docker compose exec -T directus printenv ADMIN_EMAIL | tr -d '\r')
+            ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
+            export ADMIN_EMAIL ADMIN_PASSWORD
+            python3 - <<'PYEOF'
+            import json, os, urllib.error, urllib.parse, urllib.request
+            base = 'http://127.0.0.1:8055'
+            APPLY = os.environ.get('P_APPLY', 'false').strip().lower() == 'true'
+            skus = [s for s in os.environ.get('P_SKUS', '').split() if s]
+            if not skus: raise SystemExit('перечень артикулов пуст')
+            def req(method, path, data=None, token=None):
+                r = urllib.request.Request(base + path, method=method,
+                    data=json.dumps(data).encode() if data is not None else None,
+                    headers={'Content-Type': 'application/json',
+                             **({'Authorization': f'Bearer {token}'} if token else {})})
+                try:
+                    return json.load(urllib.request.urlopen(r))
+                except urllib.error.HTTPError as e:
+                    print('HTTP', e.code, e.read().decode()[:500]); raise
+            token = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'], 'password': os.environ['ADMIN_PASSWORD']})['data']['access_token']
+            flt = urllib.parse.quote(json.dumps({'sku': {'_in': skus}}))
+            rows = req('GET', f'/items/products?limit=-1&fields=id,sku,slug,name,status&filter={flt}', token=token)['data']
+            by = {r['sku']: r for r in rows}
+            missing = [s for s in skus if s not in by]
+            for s in missing: print(f'  ✖ не найдена: {s}')
+            plan = []
+            for s in skus:
+                r = by.get(s)
+                if not r: continue
+                mark = 'уже в архиве' if r['status'] == 'archived' else f"{r['status']} → archived"
+                print(f"  {s} | {r['slug']} | {r['name']} | {mark}")
+                if r['status'] != 'archived': plan.append(r)
+            print(f'к архивации: {len(plan)}; уже в архиве: {len(rows) - len(plan)}; не найдено: {len(missing)}')
+            if missing: raise SystemExit(1)
+            if not APPLY:
+                print('DRY-RUN: ничего не записано; запустите с apply=true'); raise SystemExit(0)
+            if plan:
+                req('PATCH', '/items/products', [{'id': r['id'], 'status': 'archived'} for r in plan], token=token)
+            print(f'APPLY: в архив переведено позиций: {len(plan)}')
+            PYEOF
+
+      - name: Save result to file
+        if: always()
+        run: |
+          cat > /tmp/ops-archive.txt <<'OPS_EOF'
+          ${{ steps.run.outputs.stdout }}
+          OPS_EOF
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-archive-products (apply=${{ inputs.apply }})"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/ops-archive.txt
