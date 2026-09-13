@@ -1,5 +1,5 @@
 {
- "_note": "Позиции, заведённые в Directus после среза sku-legacy-export.json (12.09.2026) под артикулами старой схемы: генератор sku-assign.mjs добавляет их к выгрузке, чтобы карта перехода покрыла и их. Поля как в выгрузке: vendor, name, sku, price.",
+ "_note": "Позиции, которых нет в срезе sku-legacy-export.json (12.09.2026): заведённые после него и черновики, которые остаются продуктами (разбор 36 позиций вне карты, docs/rules/sku-system.md): генератор sku-assign.mjs добавляет их к выгрузке, чтобы карта перехода покрыла и их. Поля как в выгрузке: vendor, name, sku, price.",
  "products": [
   {
    "vendor": "Postman",
@@ -11,6 +11,42 @@
    "vendor": "Postman",
    "name": "Postman Enterprise",
    "sku": "POSTMAN-ENTERPRISE",
+   "price": null
+  },
+  {
+   "vendor": "Microsoft",
+   "name": "Microsoft 365 Business Basic",
+   "sku": "M365-BUSINESS-BASIC",
+   "price": null
+  },
+  {
+   "vendor": "Microsoft",
+   "name": "Microsoft 365 Business Premium",
+   "sku": "M365-BUSINESS-PREMIUM",
+   "price": null
+  },
+  {
+   "vendor": "Microsoft",
+   "name": "Microsoft 365 Apps for business",
+   "sku": "M365-APPS-FOR-BUSINESS",
+   "price": null
+  },
+  {
+   "vendor": "Microsoft",
+   "name": "Microsoft 365 Copilot (дополнение к бизнес-планам)",
+   "sku": "M365-COPILOT-BUSINESS-ADDON",
+   "price": null
+  },
+  {
+   "vendor": "Depositphotos",
+   "name": "Depositphotos Unlimited (месячная)",
+   "sku": "DEPOSIT-UNL-MONTH",
+   "price": null
+  },
+  {
+   "vendor": "Marvelous Designer",
+   "name": "Marvelous Designer Personal (месячная)",
+   "sku": "MVLS-PERSONAL-M",
    "price": null
   }
  ]

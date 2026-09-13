@@ -181,6 +181,26 @@ Pro, Maxon Individuals, Docker Pro, Envato Core/Plus, Indie-лицензии и
   карточек, ждут решения о склейке). После `apply=true` — прогон
   `ops-catalog-watch` с `baseline=true`, иначе сторож покажет исчезновение
   всех позиций.
+- **36 позиций вне карты** (отчёт `ops-sku-migrate` от 13.09.2026)
+  разобраны так. Семь карточек-заготовок первого запуска сайта
+  (`AI-TXT-TEAM`, `AI-IMG-BIZ`, `GFX-PRO-1Y`, `GFX-COLLAB`, `VCS-BIZ`,
+  `COMM-CHAT`, `DEV-AI-TEAM`) и девять черновиков, снятых с публикации в
+  пользу канонических карточек с 301 (`OPENAI-PLUS`, `OPENAI-PRO`,
+  `OPENAI-API`, `OPENAI-BUSINESS`, `MJ-BASIC`, `DSCRPT-HOBBYIST`,
+  `RECRAFT-BASIC`, `ELEVEN-STARTER`, `HEYGEN-CREATOR`) — в архив
+  (`ops-archive-products`, карточки не удаляются). Четыре черновика-дубля
+  опубликованных карточек (`INT-COLLAB-MIRO` → Miro Business,
+  `NI-RX-STD` → iZotope RX 12 Standard, `NI-OZONE-ADV` → iZotope Ozone 12
+  Advanced, `M365-BUSINESS-STANDARD` → Microsoft 365 Business Standard) и
+  четыре архивных дубля Acronis Cyber Protect (Standard/Advanced ×
+  Workstation/Server) — склейка `ops-merge-product` с 301 на канонические
+  страницы. Шесть черновиков, которые остаются продуктами (линейка
+  Microsoft 365 Business Basic/Premium/Apps и надстройка Copilot, месячные
+  Depositphotos Unlimited и Marvelous Designer Personal), получили правила и
+  артикулы через `sku-legacy-extra.json`. Шесть архивных позиций без
+  преемника (1Password ×2, SketchUp Studio, Acronis Cloud Storage, Zoom
+  Workplace Basic, Zoom Business) остаются в архиве под прежними артикулами:
+  страниц у них нет, продаваться они не будут.
 - **Переходный слой снят** после отчёта `ops-sku-migrate` от 13.09.2026
   «осталось старых sku: 0, старых parent_sku: 0» (переименовано 6080
   позиций): карта в слое чтения, поиск по обеим формам артикула, склейка
