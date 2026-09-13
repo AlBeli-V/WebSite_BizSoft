@@ -20,12 +20,13 @@ import GiftCardSelector from '../../components/GiftCardSelector.astro';
 import { getAiInterlinks } from '../../data/ai-interlinks';
 import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
+import VendorLogo from '../../components/VendorLogo.astro';
 import { vendorContent } from '../../data/vendor-content';
 import { vendorSlug } from '../../lib/vendor-links';
 import { vendorBySlug } from '../../data/vendors';
 import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase } from '../../lib/product-commerce';
-import { planType, PLAN_MARKER, PLAN_SHORT } from '../../lib/plan-type';
-import { cardComposition } from '../../lib/product-composition';
+import { planType, PLAN_MARKER, PLAN_MARKER_UNIVERSAL, PLAN_SHORT } from '../../lib/plan-type';
+import { cardComposition, KIND_MARKER } from '../../lib/product-composition';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../../data/policies';
 import { seller } from '../../config/site';
 
@@ -138,9 +139,33 @@ const ctaRef = quoteProductRef(product.name, product.sku, commerce, commerce.min
 // ответ на вопрос «кому можно пользоваться»: тот даёт license_type и живёт
 // в параметрах. Поля в каталоге нет, эвристика по названию и описанию —
 // это DATA GAP, поэтому маркер не показывается, когда уверенности нет.
-const planKind = planType(product.name, product.short_description || '');
+// Разметка оператора (VendorCardMeta.marker) старше эвристики: тип плана по
+// названию угадывается не всегда, и подставлять догадку нельзя.
+const markerOverride = cardMeta?.marker;
+const planKind = markerOverride === 'team' ? 'team'
+  : markerOverride === 'individual' ? 'individual'
+  : (markerOverride ? null : planType(product.name, product.short_description || ''));
 const planMarker = planKind ? PLAN_MARKER[planKind] : '';
 const planShort = planKind ? PLAN_SHORT[planKind] : '';
+
+// Первая плашка называет вид позиции (правило docs/rules/product-markers.md):
+// у пополнения — «Универсальный продукт», у дополнения — «Дополнение к
+// продукту», у подписки — тип плана. Тип плана данными не выводится, и там,
+// где он не подтверждён, стоит «Универсальный план»: деления на командный и
+// индивидуальный у таких позиций нет вовсе, а угадывать его по названию
+// нельзя — это уже дало «Командный план · VFX и моушн» на Red Giant.
+const kindMarker = markerOverride === 'universal' ? KIND_MARKER.balance_topup
+  : markerOverride === 'addon' ? KIND_MARKER.addon
+  : KIND_MARKER[composition] ?? '';
+const primaryMarker = kindMarker || planMarker || PLAN_MARKER_UNIVERSAL;
+
+// Вторая плашка — одна основная категория. У пополнения и дополнения это
+// основная категория производителя (реестр vendors.ts): сама позиция —
+// надстройка над его продуктом, и своя категория у неё бывает служебной.
+const vendorCatEntry = product.vendor ? vendorBySlug(vendorSlug(product.vendor)) : undefined;
+const categoryMarker = (kindMarker && vendorCatEntry?.catLabel && vendorCatEntry?.catSeg)
+  ? { name: vendorCatEntry.catLabel, slug: vendorCatEntry.catSeg }
+  : category ? { name: category.name, slug: category.slug } : null;
 const unitName = unitNoun(commerce.qtyLabel);
 // Подзаголовок называет тип плана. Срока подписки в схеме каталога нет
 // (DATA GAP в каталоге), он ведётся в контенте вендора (VendorCardMeta.term).
@@ -316,10 +341,22 @@ try {
             задачи. Происхождение сюда не выносится — это признак каталога,
             а не свойство, влияющее на выбор; артикул ушёл в параметры. */}
         <div class="chips">
-          {planMarker && <span class="chip chip-plan">{planMarker}</span>}
-          {category && <a class="chip chip-link" href={`/catalog/${category.slug}`}>{category.name}</a>}
+          {primaryMarker && <span class="chip chip-plan">{primaryMarker}</span>}
+          {categoryMarker && (
+            <a class="chip chip-link" href={`/catalog/${categoryMarker.slug}`}>{categoryMarker.name}</a>
+          )}
         </div>
-        {product.vendor && <p class="vendorline">Производитель: <b>{vendorLegal(product.vendor)}</b></p>}
+        {/* Строка производителя ведёт на его страницу: знак и название —
+            одна ссылка без подчёркивания и без цвета ссылки. Правило
+            docs/rules/vendor-line.md: у покупателя, узнающего бренд по знаку,
+            путь к лендингу короче на один взгляд, а у остальных строка
+            остаётся строкой, а не рекламой перехода. */}
+        {product.vendor && (
+          <p class="vendorline">Производитель: <a class="vendorline-link" href={`/vendors/${vendorPageSlug}`}>
+            <VendorLogo slug={vendorPageSlug} name={vendorLegal(product.vendor)} size={20} fluid />
+            <b>{vendorLegal(product.vendor)}</b>
+          </a></p>
+        )}
         <div class="title-row">
           {productIcons(product.slug).length > 0 && (
             <ProductIcon slug={product.slug} name={product.name} size={52} variant="color" />
@@ -790,7 +827,11 @@ try {
   .chip-plan { background: color-mix(in srgb, var(--color-accent) 12%, transparent); color: var(--color-accent); }
   .chip-link:hover { color: var(--color-accent); }
   .vendorline { color: var(--color-text-dim); font-size: 0.87rem; margin: 0 0 0.75rem; }
-  .vendorline b { color: var(--color-text-muted); font-weight: 600; }
+  /* Единая высота знака для всех вендоров — 20px. Ширина считается по
+     пропорциям файла, поэтому длинный логотип-надпись сдвигает название
+     вправо и строку не ломает. */
+  .vendorline-link { display: inline-flex; align-items: center; gap: 0.4rem; vertical-align: middle; color: inherit; text-decoration: none; }
+  .vendorline b { color: var(--color-text); font-weight: 700; }
   .title-row { display: flex; align-items: center; gap: 1rem; }
   h1 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin: 0; line-height: 1.08; }
   .subtitle { font-size: 1rem; font-weight: 600; color: var(--color-text-muted); margin: 0.5rem 0 1.1rem; }
