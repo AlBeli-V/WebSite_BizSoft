@@ -48,9 +48,29 @@ export interface CommerceState {
 export const UNIT_FORMS: Record<string, [string, string, string]> = {
   'лицензий': ['лицензию', 'лицензии', 'лицензий'],
   'мест': ['место', 'места', 'мест'],
+  'рабочих мест': ['рабочее место', 'рабочих места', 'рабочих мест'],
   'пользователей': ['пользователя', 'пользователей', 'пользователей'],
   'устройств': ['устройство', 'устройства', 'устройств'],
 };
+
+/**
+ * Единица в именительном падеже — для строки «Расчётная единица» и для
+ * маркеров цены. Формы из UNIT_FORMS здесь не годятся: у них винительный
+ * падеж, и «лицензию» в параметрах читается как обрывок фразы.
+ */
+export const UNIT_SINGULAR: Record<string, string> = {
+  'лицензий': 'Лицензия',
+  'мест': 'Рабочее место',
+  'рабочих мест': 'Рабочее место',
+  'пользователей': 'Пользователь',
+  'устройств': 'Устройство',
+};
+
+/** «Рабочее место», «Лицензия» — единица расчёта как отдельное слово. */
+export function unitNoun(qtyLabel: string): string {
+  const key = qtyLabel.trim().toLowerCase();
+  return UNIT_SINGULAR[key] || qtyLabel.trim();
+}
 
 /** «5 мест», «1 лицензию» — число со склонённой единицей. */
 export function unitPhrase(n: number, qtyLabel: string): string {
@@ -88,15 +108,22 @@ export function commerceState(input: {
  * «В расчёт» на кнопке, которая кладёт позицию в подборку, покупателю,
  * пришедшему за ценой, не говорит ничего.
  */
-export function quoteCtaLabel(s: CommerceState, qty: number): string {
+export function quoteCtaLabel(s: CommerceState, qty: number, named = true): string {
   if (s.availability === 'out_of_stock') return 'Подобрать аналог';
   if (s.pricing === 'quote_only') return 'Получить расчёт';
+  // named = false там, где расчётная единица позиции неизвестна: пополнение
+  // баланса и дополнение продаются не «лицензиями», и подставлять эту
+  // подпись значит называть покупателю не то, что он покупает.
+  if (!named) return 'Получить КП';
   return `Получить КП на ${unitPhrase(Math.max(Math.floor(qty) || s.minQty, s.minQty), s.qtyLabel)}`;
 }
 
 /** Подпись позиции для заявки: что именно уходит менеджеру. */
-export function quoteProductRef(name: string, sku: string, s: CommerceState, qty: number): string {
+export function quoteProductRef(name: string, sku: string, s: CommerceState, qty: number, named = true): string {
   const n = Math.max(Math.floor(qty) || s.minQty, s.minQty);
   const base = sku ? `${name} (${sku})` : name;
-  return s.pricing === 'quote_only' ? base : `${base} — ${unitPhrase(n, s.qtyLabel)}`;
+  if (s.pricing === 'quote_only') return base;
+  // Менеджеру уходит объём без выдуманной единицы: «× 2» вместо «2 лицензии»
+  // там, где лицензий нет.
+  return named ? `${base} — ${unitPhrase(n, s.qtyLabel)}` : `${base} — ${n} шт.`;
 }

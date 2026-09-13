@@ -94,7 +94,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     </div>
 
     <div class="header-actions">
-      <a href="/cart" class="cart-link" aria-label="Расчёт — сформировать КП">
+      <a href="/cart" class="cart-link" aria-label="Подборка для КП — сформировать предложение">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M8 2h6l4 4v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"></path>
           <path d="M14 2v4h4"></path>
@@ -102,7 +102,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
           <path d="M9 17h4"></path>
         </svg>
         <span class="cart-count" data-cart-count hidden>0</span>
-        <span class="cart-label">Расчёт</span>
+        <span class="cart-label">Подборка для КП</span>
       </a>
       <a href="/cart" class="btn btn-primary btn-kp" data-goal="header_kp">Получить КП</a>
       <button class="burger" aria-label="Меню" aria-expanded="false" data-burger>
@@ -204,7 +204,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     {navRest.map((item) => (
       <a href={item.href} class:list={['mobile-link', { active: isActive(item.href) }]}>{item.label}</a>
     ))}
-    <a href="/cart" class="mobile-link">Расчёт · КП</a>
+    <a href="/cart" class="mobile-link">Подборка для КП</a>
     <a href={`tel:${seller.phoneHref}`} class="mobile-link m-phone">{seller.phone}</a>
   </nav>
 </header>
@@ -395,6 +395,9 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   .m-search input { width: 100%; box-sizing: border-box; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 999px; padding: 0.55rem 1rem; font: inherit; font-size: 0.95rem; color: var(--color-text); }
   .m-phone { color: var(--color-text); font-weight: 700; }
   /* Постепенное сжатие первого ряда */
+  /* Подпись прячется только в зоне сжатия первого ряда: ниже 920px поиск,
+     телефон и «Получить КП» уже скрыты, место освободилось — и кнопка снова
+     называет себя, а не остаётся безымянным значком со счётчиком. */
   @media (max-width: 1180px) { .cart-label { display: none; } }
   @media (max-width: 1120px) { .h-msg { display: none; } }
   @media (max-width: 1020px) { .h-phone { display: none; } }
@@ -405,10 +408,21 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     .cat-btn { display: none; }
     .btn-kp { display: none; }
     .burger { display: flex; }
-    /* Поиск/телефон скрыты — прижимаем расчёт и бургер к правому краю */
+    /* Поиск/телефон скрыты — прижимаем подборку и бургер к правому краю */
+    .cart-label { display: inline; font-size: 0.8rem; white-space: nowrap; }
+    .cart-link svg { display: none; }
+    .header-actions { min-width: 0; }
     .header-inner { justify-content: flex-end; }
     .header-actions { margin-left: auto; }
     .mobile-nav[data-open] { display: flex; }
+  }
+  /* Уже 400px подпись не помещается рядом с логотипом: строка шапки
+     перестаёт сжиматься и отдаёт документу ширину больше экрана — Safari
+     тогда съезжает влево с пустой полосой справа. Ниже этой границы
+     остаётся значок со счётчиком (сторож — pnpm check:mobile на 320px). */
+  @media (max-width: 400px) {
+    .cart-label { display: none; }
+    .cart-link svg { display: block; }
   }
 </style>
 
