@@ -303,19 +303,32 @@ describe('воронка карточки', () => {
 });
 
 describe('путь до карточки', () => {
-  it('крошки ведут на страницу производителя с выбором продукта', () => {
-    expect(page).toContain('url: `/vendors/${vendorPageSlug}`');
-    // Раздел каталога остаётся запасным вариантом для позиций без вендора.
-    expect(page).toContain('vendorCrumb ? [vendorCrumb] : category');
-  });
-
-  it('путь короткий: главная → производитель → продукт', () => {
-    // Раздел каталога и происхождение из пути убраны (макет 12.09.2026):
-    // покупатель выбирает карточку у производителя и туда же возвращается.
+  it('путь ровно из трёх уровней: главная → производитель → продукт', () => {
+    // Правило docs/rules/breadcrumbs.md: глобально, на все карточки — и на
+    // те, что появятся позже. Состав крошек уезжает в BreadcrumbList,
+    // поэтому лишний уровень — это правка поискового слоя.
     const crumbs = page.slice(page.indexOf('<Breadcrumbs'), page.indexOf('/>', page.indexOf('<Breadcrumbs')));
     expect(crumbs).not.toContain('ORIGIN_LABEL');
-    expect(crumbs).not.toContain("{ name: 'Каталог', url: '/catalog' },");
+    expect(crumbs).not.toContain('category.slug');
+    // Компонент сам добавляет «Главная», в items остаётся два уровня.
+    expect(crumbs.match(/\{ name:/g) ?? []).toHaveLength(2);
+    expect(crumbs).toContain("vendorCrumb ?? { name: 'Каталог', url: '/catalog' }");
     // Последний уровень — короткое имя, как в заголовке страницы.
     expect(crumbs).toContain('{ name: h1Text, url: `/product/${product.slug}` }');
+  });
+
+  it('второй уровень — страница производителя, имя из реестра вендоров', () => {
+    expect(page).toContain("url: `/vendors/${vendorPageSlug}`");
+    expect(page).toContain('vendorEntry?.title || vendorEntry?.vendor || product.vendor');
+  });
+
+  it('правило пути записано в свод и в файл правил', () => {
+    // Глобальное правило живёт не только в шаблоне: его читает каждая
+    // сессия, в том числе та, что заводит нового вендора или товар.
+    const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
+    expect(claude).toContain('docs/rules/breadcrumbs.md');
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/breadcrumbs.md'), 'utf8');
+    expect(rule).toContain('Главная / <Производитель> / <Продукт>');
+    expect(rule).toContain('src/data/vendors.ts');
   });
 });
