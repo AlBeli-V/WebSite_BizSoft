@@ -185,8 +185,11 @@
   минимуме. Подборка — рыжая короткая кнопка с флажком слева.
 - **Новые страницы → sitemap → индексация** (`docs/rules/sitemap-indexing.md`).
   Проверить `/sitemap.xml` (bespoke-страницы — руками в `STATIC_ROUTES`;
-  `noindex` и `productNoindex()` не попадают), затем переобход через
-  `ops-yandex-recrawl` (квота 150 URL/сутки), отчёт — в issue #22.
+  `noindex` и `productNoindex()` не попадают; `lastmod` = `content_updated_at`
+  ставится применением сам). Переобход: основной канал — `ops-indexnow`
+  адресно (`urls`, 10 000 в сутки, Яндекс + Bing); `ops-yandex-recrawl`
+  (150 в сутки) — приоритетным страницам партиями в окно 00:30–00:40 МСК,
+  до ночного `seo-recrawl-sweep`. Отчёты — в issue #22.
 - **Микроразметка** (`docs/rules/structured-data.md`). Только штатный слой
   (`src/lib/seo.ts`, Breadcrumbs/FAQ/JsonLd, microdata карточки); один тип —
   один раз на страницу; один идентификатор (`@id` JSON-LD, `itemid`
