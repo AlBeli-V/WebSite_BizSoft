@@ -45,7 +45,7 @@ const packages = readdirSync(resolve(ROOT, 'scripts/catalog'))
   .map((f) => ({
     file: f,
     pkg: JSON.parse(readFileSync(resolve(ROOT, 'scripts/catalog', f), 'utf8')) as {
-      products: { sku: string; category?: string }[];
+      products: { sku: string; category?: string; pair_of?: string }[];
     },
   }));
 
@@ -149,8 +149,8 @@ describe('товары и разделы', () => {
   it('сопровождение лежит в том же разделе, что и его вечная лицензия', () => {
     const zoho = packages.find((p) => p.file === 'zoho.json')!.pkg.products;
     const bySku = new Map(zoho.map((p) => [p.sku, p]));
-    for (const a of zoho.filter((p) => p.sku.endsWith('-AMS'))) {
-      const licence = bySku.get(a.sku.replace(/-AMS$/, ''));
+    for (const a of zoho.filter((p) => p.pair_of)) {
+      const licence = bySku.get(a.pair_of!);
       expect(a.category, `${a.sku}: раздел разошёлся с лицензией`)
         .toBe(licence?.category);
     }

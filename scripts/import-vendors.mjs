@@ -44,7 +44,10 @@ const COLS = ['sku', 'name', 'vendor', 'origin', 'category', 'license_type',
   'base_price_usd', 'peg_currency', 'markup_coeff', 'price_locked',
   'price', 'price_note', 'vat_percent', 'currency', 'features', 'status', 'sort',
   // Тип товара и варианты подарочных карт (docs/gift-cards.md).
-  'product_type', 'parent_sku', 'region_code', 'region_name', 'denomination', 'denomination_currency', 'availability', 'variant_label', 'price_from'];
+  'product_type', 'parent_sku', 'region_code', 'region_name', 'denomination', 'denomination_currency', 'availability', 'variant_label', 'price_from',
+  // Сегменты артикула новой системы: у позиции без sku импорт собирает его сам
+  // (docs/rules/sku-system.md, src/lib/bulk-import.ts autoSku).
+  'sku_kind', 'sku_product', 'sku_plan', 'sku_term', 'sku_unit', 'sku_variant'];
 
 const rows = [];
 for (const f of files) {
@@ -57,8 +60,12 @@ for (const f of files) {
       continue;
     }
     const hasBase = typeof p.base_price_usd === 'number' && p.base_price_usd > 0;
+    if (!p.sku && !p.sku_product) {
+      console.error(`${f}: у позиции «${p.name}» нет ни sku, ни sku_product`);
+      process.exit(1);
+    }
     rows.push({
-      sku: p.sku,
+      sku: p.sku || '',
       name: p.name,
       vendor,
       origin: 'Иностранное',
@@ -89,6 +96,12 @@ for (const f of files) {
       availability: p.availability || '',
       variant_label: p.variant_label || '',
       price_from: p.price_from ? 1 : '',
+      sku_kind: p.sku_kind || '',
+      sku_product: p.sku_product || '',
+      sku_plan: p.sku_plan || '',
+      sku_term: p.sku_term || '',
+      sku_unit: p.sku_unit || '',
+      sku_variant: p.sku_variant || '',
     });
   }
 }

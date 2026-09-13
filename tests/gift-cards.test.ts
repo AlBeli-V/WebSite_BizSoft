@@ -10,6 +10,7 @@
  * закупка в ответ агенту не попадает.
  */
 import { describe, expect, it } from 'vitest';
+import { parseSku } from '../src/lib/sku';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { computePegRub, defaultMarkupCoeff, markupCoeffOf } from '../src/lib/pricing';
@@ -68,7 +69,7 @@ describe('пакет Apple: вендор и родитель', () => {
 
   it('один родитель со страницей app-store-itunes-gift-card, тип gift_card, цена «от»', () => {
     expect(parent.slug).toBe('app-store-itunes-gift-card');
-    expect(parent.sku).toBe('APP-STORE-ITUNES-GIFT-CARD');
+    expect(parent.sku).toBe('APPL-GFT-APPSTORE-UNI-BAL-NOM');
     expect(parent.name).toBe('Apple App Store & iTunes Gift Card');
     expect(parent.product_type).toBe('gift_card');
     expect(parent.price_from).toBe(true);
@@ -92,7 +93,7 @@ describe('пакет Apple: 28 вариантов', () => {
       expect(v.product_type).toBe('gift_card');
       expect(v.status).toBe('published');
       expect(v.category).toBe('gift-cards');
-      expect(v.sku).toBe(`${parent.sku}-${v.region_code}-${v.denomination}`);
+      expect(v.sku).toBe(`${parent.sku}-${v.region_code}${v.denomination}`);
     }
   });
 
@@ -192,7 +193,7 @@ describe('группировка и порядок номиналов', () => {
     expect(range.count).toBe(28);
     expect(range.low).toBe(asProduct(variants.find((v) => v.base_price_usd === 7.02)!).price);
     expect(range.high).toBe(asProduct(variants.find((v) => v.base_price_usd === 138.88)!).price);
-    expect(pickInitialVariant(regions, 'app-store-itunes-gift-card-tr-2000')?.sku).toBe('APP-STORE-ITUNES-GIFT-CARD-TR-2000');
+    expect(pickInitialVariant(regions, 'appl-gft-appstore-uni-bal-nom-tr2000')?.sku).toBe('APPL-GFT-APPSTORE-UNI-BAL-NOM-TR2000');
     expect(pickInitialVariant(regions, null)?.denomination).toBe(9000);
     // Intl ставит между разрядами узкий неразрывный пробел — сравниваем без него.
     const plain = (s: string) => s.replace(/[\s\u00a0\u202f]/g, '');
@@ -206,13 +207,13 @@ describe('индексная матрица и списки', () => {
   it('варианты не индексируются, родитель индексируется', () => {
     for (const v of variants) expect(productNoindex(v.sku), v.sku).toBe(true);
     expect(productNoindex(parent.sku)).toBe(false);
-    expect(productNoindex('STEAM-GIFT-CARD-RU-1000')).toBe(true);
-    expect(productNoindex('STEAM-GIFT-CARD')).toBe(false);
+    expect(productNoindex('STM-GFT-WALLET-UNI-BAL-NOM-RU1000')).toBe(true);
+    expect(productNoindex('STM-GFT-WALLET-UNI-BAL-NOM')).toBe(false);
     // Регион Global и вариант-подписка (код тарифа вместо номинала).
-    expect(productNoindex('DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M')).toBe(true);
-    expect(productNoindex('BINANCE-USDT-GIFT-CARD-GLOBAL-500')).toBe(true);
-    expect(productNoindex('DISCORD-NITRO-GIFT-CARD')).toBe(false);
-    expect(productNoindex('BINANCE-USDT-GIFT-CARD')).toBe(false);
+    expect(productNoindex('DISC-GFT-NITRO-UNI-12M-NOM-GL')).toBe(true);
+    expect(productNoindex('BNCE-GFT-USDT-UNI-BAL-NOM-GL500')).toBe(true);
+    expect(productNoindex('DISC-GFT-NITRO-UNI-BAL-NOM')).toBe(false);
+    expect(productNoindex('BNCE-GFT-USDT-UNI-BAL-NOM')).toBe(false);
   });
 
   it('isGiftCard / isVariant / listingProducts', () => {
@@ -277,7 +278,7 @@ describe('все пакеты подарочных карт', () => {
       for (const parent of parents) {
         const kids = pkg.products.filter((p) => p.parent_sku === parent.sku);
         expect(kids.length, parent.sku).toBeGreaterThan(0);
-        expect(parent.sku.endsWith('-GIFT-CARD'), parent.sku).toBe(true);
+        expect(parent.sku, parent.sku).toMatch(/^[A-Z0-9]{2,4}-GFT-[A-Z0-9]+-UNI-BAL-NOM$/);
         expect(productNoindex(parent.sku), parent.sku).toBe(false);
         expect(parent.price_from, parent.sku).toBe(true);
         expect(parent.markup_coeff, parent.sku).toBe(GIFT_CARD_MARKUP_COEFF);
@@ -291,7 +292,9 @@ describe('все пакеты подарочных карт', () => {
   it('варианты: регион, номинал, закупка, ×3, подпись у подписок, noindex', () => {
     for (const { slug, pkg } of packages) {
       for (const v of pkg.products.filter((p) => p.parent_sku)) {
-        expect(v.sku.startsWith(`${v.parent_sku}-${v.region_code}-`), v.sku).toBe(true);
+        // Вариант — GFT с различителем; подписка на срок несёт свой срок, а не BAL родителя.
+        expect(parseSku(v.sku)?.kind, v.sku).toBe('GFT');
+        expect(parseSku(v.sku)?.variant, v.sku).toBeTruthy();
         expect(productNoindex(v.sku), v.sku).toBe(true);
         expect(v.region_code, v.sku).toMatch(/^[A-Z]{2,6}$/);
         expect(String(v.region_name || '').length, v.sku).toBeGreaterThan(2);

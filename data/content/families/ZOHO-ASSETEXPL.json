@@ -1,0 +1,223 @@
+{
+  "family_key": "ZOHO-ASSETEXPL",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-assetexplorer-250-it-assets",
+  "classification_notes": [
+    "Одиночная позиция: AssetExplorer продаётся одной редакцией с полосами по числу ИТ-активов; на витрине — полоса 250. Packaging single, носитель — сама позиция.",
+    "Реестр ставит план TEAM; индивидуальной альтернативы нет — OWNERSHIP = universal. Единица — пакет активов, рост — переходом на следующую полосу доплатой (DATA GAP volume_tier).",
+    "Ближайшая альтернатива вне семейства — модуль активов ServiceDesk Plus Professional с той же полосой 250; бессрочный вариант — «по запросу», без ссылки."
+  ],
+  "products": {
+    "me-assetexplorer-250-it-assets": {
+      "sku": "ZOHO-LIC-ASSETEXPL-TEAM-1Y-PACK-250AST",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "single"
+      },
+      "edition_label": "Standard",
+      "volume_label": "250 ИТ-активов",
+      "unit_label": "пакет: 250 ИТ-активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "AssetExplorer — годовая подписка на систему учёта ИТ-активов ManageEngine на собственном сервере: обнаружение компьютеров и сетевого оборудования, инвентаризация ПО и лицензий, закупки, договоры, CMDB и жизненный цикл актива от закупки до списания. Пакет на 250 ИТ-активов; по правилам вендора считаются только активы, а не сотрудники в консоли.\n\nЭто самостоятельный продукт без help desk: если заявки и активы нужны в одной системе, ту же роль выполняет модуль активов ServiceDesk Plus Professional с такой же полосой.\n\nСрок — 1 год; рост парка — переходом на следующую полосу активов с доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет AssetExplorer",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение",
+              "d": "Агентом на Windows, macOS и Linux или без агента по сети через WMI, SSH и SNMP; сканирование по расписанию, филиалы — через агент или удалённый сканер."
+            },
+            {
+              "t": "ПО и лицензии",
+              "d": "Установленные программы по каждой машине, сверка с купленными лицензиями, запрещённое и неиспользуемое ПО, учёт запусков, напоминания об истечении."
+            },
+            {
+              "t": "Закупки и договоры",
+              "d": "Заявка на закупку, заказ поставщику, приёмка в активы; договоры обслуживания и аренды с уведомлением о продлении."
+            },
+            {
+              "t": "CMDB",
+              "d": "Конфигурационные единицы с настраиваемыми типами, связи «сервер — приложение — сервис», карта зависимостей для оценки влияния."
+            },
+            {
+              "t": "Жизненный цикл",
+              "d": "Статусы от «в закупке» до «списан», выдача сотруднику, привязка к площадке, штрихкоды и сканирование с мобильного приложения."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Готовые отчёты по парку, лицензиям, гарантиям и амортизации; свои — конструктором или SQL-запросом; рассылка по расписанию."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что считается ИТ-активом и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ИТ-актив",
+              "d": "Обнаруженный или заведённый вручную узел — рабочая станция, сервер, виртуальная машина, коммутатор, принтер — расходует единицу лицензии. Экземпляры ПО, комплектующие и расходники относятся к узлу и отдельно не считаются."
+            },
+            {
+              "t": "Не-ИТ активы",
+              "d": "Мебель, телефоны, оборудование без сети заводятся как non-IT и, по матрице вендора, лицензию не расходуют."
+            },
+            {
+              "t": "Полосы",
+              "d": "250 — стартовая ступень; далее 500, 1000 и выше. Два пакета по 250 не складываются: парк на 300 узлов — это полоса 500."
+            },
+            {
+              "t": "Сервер и люди",
+              "d": "Windows или Linux, встроенная PostgreSQL или внешний MS SQL. Учётные записи в консоли лицензией не ограничены — уточняется при заказе."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Отделу, который отвечает за парк техники и лицензии, а заявки ведёт в другой системе или не ведёт вовсе: сверка лицензий перед проверкой правообладателя, инвентаризация по филиалам, контроль закупок и гарантий."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если та же команда обрабатывает заявки сотрудников, разумнее ServiceDesk Plus Professional: те же 250 активов плюс help desk в одной лицензии. Если компьютерами нужно управлять — ставить патчи, разворачивать ПО — это Endpoint Central, а не учёт."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте узлы",
+              "d": "Считаются устройства, а не сотрудники: у инженера с ноутбуком, стационарным ПК и тестовым сервером — три актива."
+            },
+            {
+              "t": "Связка с сервис-деском",
+              "d": "AssetExplorer подключается к ServiceDesk Plus как внешний источник активов; если сервис-деск ManageEngine уже есть, сначала проверьте, не хватает ли его встроенного модуля.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "Бессрочная лицензия и пробная версия",
+              "d": "Разовая лицензия с ежегодным AMS 20 % — по запросу; бесплатная редакция вендора ограничена 25 узлами и годится для проверки."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ServiceDesk Plus Professional, 2 техника и 250 активов",
+              "d": "Учёт активов вместе с help desk.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "Endpoint Central Professional",
+              "d": "Управление компьютерами с инвентарём, а не учёт ради учёта.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли лицензии ПО в 250 активов?",
+          "a": "Нет, лицензия считает устройства; экземпляры ПО и лицензии — их атрибуты, число не ограничено."
+        },
+        {
+          "q": "Сколько сотрудников могут работать в консоли?",
+          "a": "По правилам вендора лицензия AssetExplorer считает только активы; ограничения на число пользователей консоли в ней нет — подтвердим при заказе."
+        },
+        {
+          "q": "У нас 300 компьютеров — какой пакет?",
+          "a": "Полоса 500. Пакеты не суммируются, а точное число сверх стартовых ступеней можно заказать по запросу."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-professional-2-technicians",
+        "me-endpoint-central-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "AssetExplorer, 250 ИТ-активов — подписка на год | BIZSoft",
+      "meta_description": "ManageEngine AssetExplorer: учёт ИТ-активов, лицензий ПО, закупок и договоров, CMDB; пакет на 250 активов, свой сервер. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "assetexplorer купить / manageengine assetexplorer лицензия — hero, meta",
+        "assetexplorer лицензирование по активам / что считается активом — DEPENDENCIES, FAQ",
+        "assetexplorer vs servicedesk plus asset management — FIT, ALTERNATIVES",
+        "assetexplorer бессрочная лицензия ams / free edition — BEFORE_ORDER"
+      ],
+      "uncertainties": [
+        "Пользователи консоли не лицензируются — по памяти прайса вендора (лицензия только по узлам); подтвердить при первом заказе.",
+        "Не-ИТ активы вне лицензии и лимит бесплатной редакции в 25 узлов — по памяти страницы pricing; страница в сессии не открывалась.",
+        "Ряд полос 250 / 500 / 1000 — по общей практике ManageEngine; промежуточные значения — по запросу."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и BEFORE_ORDER; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что умеет продукт",
+          "new_information": "шесть групп функций от обнаружения до отчётов",
+          "sibling_overlap": "одиночка",
+          "decision": "UNDERSTAND",
+          "seo_intent": "assetexplorer возможности",
+          "source": "https://www.manageengine.com/products/asset-explorer/features.html"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать лицензию",
+          "new_information": "определение актива, non-IT, полосы, сервер, пользователи",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "assetexplorer licensing nodes",
+          "source": "https://www.manageengine.com/products/asset-explorer/pricing.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль «да» и два выхода на другие продукты",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "учёт ит-активов и лицензий",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "арифметика узлов, связка с SDP, perpetual, free",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "assetexplorer free edition / ams",
+          "source": "https://www.manageengine.com/products/asset-explorer/pricing.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "SDP Professional и Endpoint Central с причиной",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}
