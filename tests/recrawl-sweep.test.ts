@@ -60,9 +60,14 @@ describe('сплошной переобход', () => {
     expect(wf).not.toMatch(/data_sync\.sh push[^\n]*\|\| true/);
   });
 
-  it('молчит при успехе, пишет в журнал при сбое', () => {
-    expect(wf).toContain("steps.run.outcome != 'success'");
+  it('молчит при успехе и при пропуске, пишет в журнал при сбое', () => {
+    // Пропущенный прогон — не сбой: запись в журнал только при падении.
+    expect(wf).toContain("steps.run.outcome == 'failure'");
     expect(wf).toContain('journal-post');
+  });
+
+  it('checkout переживает падение: без него журнал не найдёт локальный action', () => {
+    expect(wf).toMatch(/- name: Checkout\n\s+if: always\(\)\n\s+uses: actions\/checkout@/);
   });
 
   it('конечный прогон помечен сроком снятия', () => {

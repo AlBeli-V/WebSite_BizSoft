@@ -66,7 +66,12 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/checkout@v4
+      # if: always() — шаг журнала объявлен always(), а локальный action
+      # journal-post это файлы репозитория: без checkout в упавшем job запись
+      # результата не проходит (сторож check-workflow-journal.py).
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -204,10 +209,13 @@ jobs:
       # обязан красить прогон и попадать в журнал.
       - name: Push marker
         if: always() && steps.cursor.outputs.skip != 'true'
-        run: bash scripts/seo/data_sync.sh push 'seo-recrawl-sweep: курсор переобхода' 'reports/seo/data'
+        run: |
+          bash scripts/seo/data_sync.sh push 'seo-recrawl-sweep: курсор переобхода' 'reports/seo/data'
 
+      # Пишем в журнал только когда отправка действительно шла и упала:
+      # пропущенный прогон — это не сбой, и молчать он обязан.
       - name: Journal on failure
-        if: always() && steps.cursor.outputs.skip != 'true' && steps.run.outcome != 'success'
+        if: always() && steps.run.outcome == 'failure'
         uses: ./.github/actions/journal-post
         with:
           title: "seo-recrawl-sweep"
