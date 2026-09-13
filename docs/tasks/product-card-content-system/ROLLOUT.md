@@ -30,7 +30,7 @@ Design Approval Gate для шаблона пройден; дальнейшие 
 1. `ops-apply-content apply=false` по семействам волны — план и счётчик изменений в issue #22.
 2. `apply=true`; legacy-поля (`features`, `description`, `for_whom`, `use_cases`, `seo_text`) опустошаются по `legacy_disposition`; `faq` заменяется; `related_products` записывается; `content_version = cm-1.0`; штамп `content_updated_at`.
 3. `ops-card-shot` — одна позиция каждого класса волны (`suite/team`, `individual`, `edition_tier`, `volume_tier`, `addon`, `credit`, `perpetual`).
-4. `ops-yandex-recrawl` — квота 150 URL/сутки: волна 5 занимает ≥ 2 дней, вся витрина — ≥ 4 дней; график в issue #22.
+4. `ops-indexnow` адресно по всем URL волны сразу после записи (10 000 URL/сутки, Яндекс + Bing). Переобход Вебмастера `ops-yandex-recrawl` — отдельный ночной поток партиями по семействам в окно 00:30–00:40 МСК (квота 150, до `seo-recrawl-sweep`); волну он не задерживает, график в issue #22.
 5. `ops-catalog-watch` — письмо о массовом событии ожидаемо; после последней волны `baseline=true`.
 6. Наблюдение 28 дней через `seo-daily-report`; сниппет-эксперименты на затронутых кластерах не заводятся (`snippet-experiments.md`).
 
