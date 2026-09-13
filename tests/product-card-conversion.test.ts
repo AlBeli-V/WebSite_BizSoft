@@ -276,8 +276,8 @@ describe('расхождения выката 12.09.2026 закрыты', () => 
   it('подзаголовок не тянет тематическую плашку вендора', () => {
     // `badge` — подпись линейки («VFX и моушн», «для команд», «API»), из
     // неё получалось «Командный план · VFX и моушн».
-    // Срок берётся из контента вендора, плашка линейки в подзаголовок не идёт.
-    expect(page).toContain('const subtitleParts = [planMarker, cardMeta?.term]');
+    // Срок считается из данных позиции, плашка линейки в подзаголовок не идёт.
+    expect(page).toContain('const subtitleParts = [planLine, term]');
     expect(page).not.toContain('cardMeta?.badge');
   });
 
@@ -345,16 +345,17 @@ describe('композиция, одобренная 12.09.2026', () => {
 
   it('карточка 1:1 с макетом: срок, переназначение, состав и вопросы', () => {
     // Ничего из этого нет в схеме каталога — всё ведётся в контенте вендора.
+    // Срок с 13.09.2026 карточка считает сама (правило card-title.md):
+    // у Red Giant он читается из «1Y» в названии, ручного поля больше нет.
     const rg = VENDOR_CONTENT['maxon']?.cards?.['MAXON-REDGIANT-TEAMS'];
-    expect(rg?.term).toBe('1Y / 1 (один) год');
-    expect(rg?.termShort).toBe('1 год');
+    expect(rg).not.toHaveProperty('term');
     expect(rg?.reassign).toBe('Да');
     expect(rg?.management).toBe('Централизованная консоль');
     expect(rg?.shortName).toBe('Red Giant');
     expect(rg?.includes).toHaveLength(5);
     expect(rg?.faq).toHaveLength(9);
     // Шаблон обязан их показывать, а не молча игнорировать.
-    expect(page).toContain("k: 'Срок', v: cardMeta.termShort");
+    expect(page).toContain("k: 'Срок', v: term");
     expect(page).toContain("k: 'Переназначение', v: cardMeta.reassign");
     expect(page).toContain('Переназначение пользователей:');
     expect(page).toContain('Управление:');
@@ -364,7 +365,7 @@ describe('композиция, одобренная 12.09.2026', () => {
 
   it('короткое имя меняет только H1, разметка называет товар полностью', () => {
     // Иначе microdata назвала бы товар иначе, чем JSON-LD, и слои разошлись.
-    expect(page).toContain('const h1Text = cardMeta?.shortName || product.name');
+    expect(page).toContain('const h1Text = cardMeta?.shortName || displayName(product.name)');
     expect(page).toContain('h1Text !== product.name && <meta itemprop="name"');
   });
 
