@@ -13,7 +13,7 @@
  },
  "products": [
   {
-   "sku": "DISCORD-NITRO-GIFT-CARD",
+   "sku": "DISC-GFT-NITRO-UNI-BAL-NOM",
    "slug": "discord-nitro-gift-card",
    "name": "Discord Nitro (подарочная подписка)",
    "official_name": "Discord Nitro Gift",
@@ -42,14 +42,14 @@
    "availability": "in_stock"
   },
   {
-   "sku": "DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M",
+   "sku": "DISC-GFT-NITRO-UNI-12M-NOM-GL",
    "slug": "discord-nitro-gift-card-global-nitro-12m",
    "name": "Discord Nitro, 12 месяцев (Все страны (Global))",
    "official_name": "Discord Nitro, 12 месяцев (GLOBAL)",
    "category": "gift-cards",
    "license_type": "org",
    "product_type": "gift_card",
-   "parent_sku": "DISCORD-NITRO-GIFT-CARD",
+   "parent_sku": "DISC-GFT-NITRO-UNI-BAL-NOM",
    "region_code": "GLOBAL",
    "region_name": "Все страны (Global)",
    "denomination": 12,
@@ -71,18 +71,18 @@
    "min_quantity": 1,
    "price_confidence": "owner-table",
    "checked_at": "2026-09-05",
-   "notes": "Закупка 87.5 USD за код — прайс поставщика (снимок экрана руководителя 05.09.2026); цена = закупка × курс ЦБ × 3,0. Вариант родителя DISCORD-NITRO-GIFT-CARD: своей страницы нет (301 на родителя), в sitemap и фиды не идёт.",
+   "notes": "Закупка 87.5 USD за код — прайс поставщика (снимок экрана руководителя 05.09.2026); цена = закупка × курс ЦБ × 3,0. Вариант родителя DISC-GFT-NITRO-UNI-BAL-NOM: своей страницы нет (301 на родителя), в sitemap и фиды не идёт.",
    "status": "published"
   },
   {
-   "sku": "DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-1M",
+   "sku": "DISC-GFT-NITRO-UNI-1M-NOM-GL",
    "slug": "discord-nitro-gift-card-global-nitro-1m",
    "name": "Discord Nitro, 1 месяц (Все страны (Global))",
    "official_name": "Discord Nitro, 1 месяц (GLOBAL)",
    "category": "gift-cards",
    "license_type": "org",
    "product_type": "gift_card",
-   "parent_sku": "DISCORD-NITRO-GIFT-CARD",
+   "parent_sku": "DISC-GFT-NITRO-UNI-BAL-NOM",
    "region_code": "GLOBAL",
    "region_name": "Все страны (Global)",
    "denomination": 1,
@@ -104,18 +104,18 @@
    "min_quantity": 1,
    "price_confidence": "owner-table",
    "checked_at": "2026-09-05",
-   "notes": "Закупка 8.88 USD за код — прайс поставщика (снимок экрана руководителя 05.09.2026); цена = закупка × курс ЦБ × 3,0. Вариант родителя DISCORD-NITRO-GIFT-CARD: своей страницы нет (301 на родителя), в sitemap и фиды не идёт.",
+   "notes": "Закупка 8.88 USD за код — прайс поставщика (снимок экрана руководителя 05.09.2026); цена = закупка × курс ЦБ × 3,0. Вариант родителя DISC-GFT-NITRO-UNI-BAL-NOM: своей страницы нет (301 на родителя), в sitemap и фиды не идёт.",
    "status": "published"
   },
   {
-   "sku": "DISCORD-NITRO-GIFT-CARD-GLOBAL-BASIC-1M",
+   "sku": "DISC-GFT-NITROBASIC-UNI-1M-NOM-GL",
    "slug": "discord-nitro-gift-card-global-basic-1m",
    "name": "Discord Nitro Basic, 1 месяц (Все страны (Global))",
    "official_name": "Discord Nitro Basic, 1 месяц (GLOBAL)",
    "category": "gift-cards",
    "license_type": "org",
    "product_type": "gift_card",
-   "parent_sku": "DISCORD-NITRO-GIFT-CARD",
+   "parent_sku": "DISC-GFT-NITRO-UNI-BAL-NOM",
    "region_code": "GLOBAL",
    "region_name": "Все страны (Global)",
    "denomination": 1,
@@ -137,7 +137,7 @@
    "min_quantity": 1,
    "price_confidence": "owner-table",
    "checked_at": "2026-09-05",
-   "notes": "Закупка 4.32 USD за код — прайс поставщика (снимок экрана руководителя 05.09.2026); цена = закупка × курс ЦБ × 3,0. Вариант родителя DISCORD-NITRO-GIFT-CARD: своей страницы нет (301 на родителя), в sitemap и фиды не идёт.",
+   "notes": "Закупка 4.32 USD за код — прайс поставщика (снимок экрана руководителя 05.09.2026); цена = закупка × курс ЦБ × 3,0. Вариант родителя DISC-GFT-NITRO-UNI-BAL-NOM: своей страницы нет (301 на родителя), в sitemap и фиды не идёт.",
    "status": "published"
   }
  ]

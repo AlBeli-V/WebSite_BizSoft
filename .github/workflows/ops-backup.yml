@@ -126,10 +126,11 @@ jobs:
           echo "::add-mask::$B64"
           echo "b64=$B64" >> "$GITHUB_OUTPUT"
 
+      # Через ./.github/actions/ssh-run: вывод и код завершения доезжают до
+      # журнала и при сбое (issue #542).
       - name: Run over SSH
         id: run
-        continue-on-error: true
-        uses: appleboy/ssh-action@v1
+        uses: ./.github/actions/ssh-run
         env:
           P_MODE: ${{ inputs.mode }}
           P_VERIFY: ${{ inputs.verify || 'true' }}
@@ -148,7 +149,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           envs: P_MODE,P_VERIFY,P_OFFSITE,P_MAIL,P_MAIL_TO,P_KEEP_D,P_KEEP_W,P_KEEP_M,P_PASS,P_RCLONE,P_SCRIPT,P_RUNBOOK
-          capture_stdout: true
           command_timeout: 40m
           script: |
             set -uo pipefail
@@ -258,5 +258,5 @@ jobs:
         uses: ./.github/actions/journal-post
         with:
           title: "ops-backup (${{ inputs.mode }})"
-          outcome: ${{ steps.run.outcome }}
-          body: ${{ steps.run.outputs.stdout }}
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}

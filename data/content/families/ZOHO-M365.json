@@ -1,0 +1,1173 @@
+{
+  "family_key": "ZOHO-M365",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+  "classification_notes": [
+    "Microsoft 365 / Exchange / SharePoint: M365 Manager Plus Standard/Professional, M365 Security Plus, Exchange Reporter Plus, SharePoint Manager Plus. Носитель — M365 Manager Plus Standard."
+  ],
+  "products": {
+    "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic": {
+      "sku": "ZOHO-LIC-M365MGRSTD-UNI-1Y-PACK-100USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 100 пользователей, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "M365 Manager Plus Standard — годовая подписка на систему отчётность и мониторинг Microsoft 365: лицензия на 100 пользователей и одного техника службы поддержки.\n\nStandard — отчёты по Exchange Online, SharePoint, OneDrive, Teams и Entra ID плюс мониторинг доступности служб; управление, аудит действий и делегирование операций техникам — в Professional.\n\nСрок — 1 год, обновления и поддержка вендора включены. При росте докупается разница до следующей ступени прайса.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Отчёты",
+              "d": "Сотни готовых отчётов по ящикам, лицензиям, входам, размерам, общим доступам; планирование и рассылка."
+            },
+            {
+              "t": "Мониторинг",
+              "d": "Состояние служб Microsoft 365 и оповещения о сбоях."
+            },
+            {
+              "t": "Техник",
+              "d": "Одно место службы поддержки для просмотра отчётов; управление — в Professional."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Только отчётность и мониторинг."
+            },
+            {
+              "t": "Professional",
+              "d": "Плюс массовые операции, аудит действий, делегирование.",
+              "link": "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic"
+            },
+            {
+              "t": "M365 Security Plus",
+              "d": "Аудит безопасности и оповещения как отдельный продукт.",
+              "link": "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пользователи",
+              "d": "Лицензируются пользователи и общие ящики тенанта; 100 в пакете."
+            },
+            {
+              "t": "Тенант",
+              "d": "Подключение через приложение Entra ID с правами чтения; сервер на площадке или облако."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Администраторам Microsoft 365, которым не хватает штатных отчётов Центра администрирования и нужны рассылки руководству."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Считайте ящики",
+              "d": "Общие и ресурсные ящики входят в число лицензируемых объектов."
+            },
+            {
+              "t": "Управление",
+              "d": "Если нужны массовые операции — сразу Professional."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "M365 Manager Plus Professional",
+              "d": "С управлением и аудитом.",
+              "link": "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic"
+            },
+            {
+              "t": "Exchange Reporter Plus Standard",
+              "d": "Для локального Exchange.",
+              "link": "me-exchange-reporter-plus-standard-100-mailboxes"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужны ли права глобального администратора?",
+          "a": "Для чтения отчётов достаточно ограниченных прав приложения; для управления в Professional — расширенные."
+        }
+      ],
+      "related_products": [
+        "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic",
+        "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-exchange-reporter-plus-standard-100-mailboxes"
+      ],
+      "meta_title": "M365 Manager Plus Standard, 100 пользователей | BIZSoft",
+      "meta_description": "ManageEngine M365 Manager Plus Standard: отчёты и мониторинг Microsoft 365 — Exchange Online, SharePoint, Teams, Entra ID; 100 пользователей. Договор, ЭДО.",
+      "seo_intents": [
+        "m365 manager plus купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard",
+      "volume_label": "100 пользователей, 1 техник"
+    },
+    "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic": {
+      "sku": "ZOHO-LIC-M365MGRPRO-UNI-1Y-PACK-100USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 100 пользователей, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "M365 Manager Plus Professional — подписка на 1 год на систему управление, аудит и отчётность Microsoft 365: лицензия на 100 пользователей и одного техника.\n\nProfessional добавляет к отчётам Standard управление: массовые операции с лицензиями, ящиками и группами, аудит действий пользователей и администраторов с оповещениями, делегирование задач техникам без глобальных прав.\n\nПодписка на год с обновлениями и техподдержкой ManageEngine. Объём лицензии расширяется в течение года доплатой разницы до следующей полосы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Массовые операции",
+              "d": "Лицензии, ящики, группы, Teams — из CSV и по шаблонам."
+            },
+            {
+              "t": "Аудит",
+              "d": "Действия пользователей и администраторов, входы, изменения политик; оповещения по правилам."
+            },
+            {
+              "t": "Делегирование",
+              "d": "Техник выполняет ограниченный набор операций без роли глобального администратора."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Отчёты и мониторинг служб."
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Управление и аудит тенанта."
+            },
+            {
+              "t": "Standard",
+              "d": "Только отчёты.",
+              "link": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            },
+            {
+              "t": "M365 Security Plus",
+              "d": "Фокус на безопасности и внешних доступах.",
+              "link": "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям на Microsoft 365 от сотни пользователей, где администраторы устали от PowerShell и хотят делегировать рутину."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Права приложения",
+              "d": "Для управления нужны расширенные разрешения в Entra ID."
+            },
+            {
+              "t": "Пользователи",
+              "d": "100 в пакете; следующие полосы — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "M365 Manager Plus Standard",
+              "d": "Дешевле, без управления.",
+              "link": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            },
+            {
+              "t": "SharePoint Manager Plus Professional",
+              "d": "Глубже по SharePoint.",
+              "link": "me-sharepoint-manager-plus-professional-1-farm-m365-tenant"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли делегировать сброс паролей Microsoft 365 техникам?",
+          "a": "Да, в Professional операции делегируются ролями без глобальных прав."
+        }
+      ],
+      "related_products": [
+        "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-sharepoint-manager-plus-professional-1-farm-m365-tenant"
+      ],
+      "meta_title": "M365 Manager Plus Professional, 100 пользователей | BIZSoft",
+      "meta_description": "ManageEngine M365 Manager Plus Professional: управление, аудит и делегирование в Microsoft 365, массовые операции; 100 пользователей и техник. Договор, ЭДО.",
+      "seo_intents": [
+        "m365 manager plus professional — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "100 пользователей, 1 техник"
+    },
+    "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic": {
+      "sku": "ZOHO-LIC-M365SECSTD-UNI-1Y-PACK-100USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 100 пользователей, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "M365 Security Plus Standard — годовой план: систему аудит безопасности Microsoft 365: лицензия на 100 пользователей и одного техника.\n\nОтдельный продукт линейки: входы и действия в Microsoft 365 с точки зрения ИБ — подозрительные входы, внешние доступы и общие ссылки, поиск по журналам, отчёты по соответствию и оповещения; управлением тенантом он не занимается.\n\nГод подписки; обновления и поддержка — в цене. Увеличить объём можно в любой момент доплатой до большей полосы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Аудит безопасности",
+              "d": "Входы из необычных мест, массовые скачивания, изменения ролей и политик."
+            },
+            {
+              "t": "Внешний доступ",
+              "d": "Общие ссылки и гости в SharePoint, OneDrive, Teams."
+            },
+            {
+              "t": "Поиск и отчёты",
+              "d": "Поиск по журналам для расследований, отчёты по стандартам."
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Security Plus",
+              "d": "ИБ-службе нужен аудит без функций управления."
+            },
+            {
+              "t": "M365 Manager Plus Professional",
+              "d": "Управление плюс аудит в одном продукте.",
+              "link": "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пользователи",
+              "d": "100 в пакете, общие ящики считаются."
+            },
+            {
+              "t": "Права",
+              "d": "Чтение журналов аудита тенанта."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИБ-службам, которые контролируют Microsoft 365 отдельно от администраторов."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "M365 Manager Plus Professional",
+              "d": "Управление и аудит.",
+              "link": "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic"
+            },
+            {
+              "t": "M365 Manager Plus Standard",
+              "d": "Отчёты.",
+              "link": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Дублирует ли Security Plus аудит Manager Plus Professional?",
+          "a": "Пересекается по журналам, но Security Plus заточен под расследования и оповещения ИБ, а Manager Plus — под администрирование."
+        }
+      ],
+      "related_products": [
+        "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic"
+      ],
+      "meta_title": "M365 Security Plus Standard, 100 пользователей | BIZSoft",
+      "meta_description": "ManageEngine M365 Security Plus: аудит безопасности Microsoft 365, внешние доступы, оповещения и поиск по журналам; 100 пользователей. Договор, ЭДО.",
+      "seo_intents": [
+        "m365 security plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Security, Standard",
+      "volume_label": "100 пользователей, 1 техник"
+    },
+    "me-exchange-reporter-plus-standard-100-mailboxes": {
+      "sku": "ZOHO-LIC-EXRPTSTD-UNI-1Y-PACK-100MBX",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 100 почтовых ящиков",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Exchange Reporter Plus Standard — подписка сроком на год на систему отчётность по локальному Exchange: лицензия на 100 почтовых ящиков.\n\nПродукт для Exchange Server на своей площадке: отчёты по ящикам, размерам, трафику, распределительным группам и публичным папкам с планированием и рассылкой. Аудит изменений и мониторинг служб — в Professional.\n\nДействует 12 месяцев, включая обновления и поддержку производителя. Расширение внутри срока — доплата до нужной полосы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Отчёты",
+              "d": "Размеры ящиков и баз, трафик по отправителям и получателям, неактивные ящики, группы, права."
+            },
+            {
+              "t": "Планирование",
+              "d": "Рассылка отчётов по расписанию руководству и аудиторам."
+            },
+            {
+              "t": "Версии",
+              "d": "Exchange 2013–2019 и гибридные сценарии с Exchange Online."
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Отчётность."
+            },
+            {
+              "t": "Professional",
+              "d": "Плюс аудит изменений и доступа, мониторинг служб и очередей.",
+              "link": "me-exchange-reporter-plus-professional-100-mailboxes"
+            },
+            {
+              "t": "M365 Manager Plus",
+              "d": "Для Exchange Online и всего Microsoft 365.",
+              "link": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ящики",
+              "d": "100 в пакете, включая общие."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows на площадке с доступом к Exchange PowerShell."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Администраторам локального Exchange, которым нужны регулярные отчёты без скриптов."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Exchange Reporter Plus Professional",
+              "d": "С аудитом и мониторингом.",
+              "link": "me-exchange-reporter-plus-professional-100-mailboxes"
+            },
+            {
+              "t": "M365 Manager Plus Standard",
+              "d": "Облачная почта.",
+              "link": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Подходит ли для Exchange Online?",
+          "a": "Гибрид — да; для чисто облачного тенанта продукт — M365 Manager Plus."
+        }
+      ],
+      "related_products": [
+        "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-exchange-reporter-plus-professional-100-mailboxes"
+      ],
+      "meta_title": "Exchange Reporter Plus Standard, 100 ящиков | BIZSoft",
+      "meta_description": "ManageEngine Exchange Reporter Plus Standard: отчёты по локальному Exchange — ящики, трафик, группы; 100 почтовых ящиков. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "exchange reporter plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard",
+      "volume_label": "100 почтовых ящиков"
+    },
+    "me-exchange-reporter-plus-professional-100-mailboxes": {
+      "sku": "ZOHO-LIC-EXRPTPRO-UNI-1Y-PACK-100MBX",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 100 почтовых ящиков",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Exchange Reporter Plus Professional — на год: подписка на систему отчётность, аудит и мониторинг локального Exchange: лицензия на 100 почтовых ящиков.\n\nК отчётам Standard добавляются аудит изменений и доступа к ящикам (кто читал чужую почту, кто менял права), мониторинг служб, очередей и баз с оповещениями.\n\nСрок — год; в стоимость входят обновления и поддержка. Переход на большую полосу — в любой момент, по разнице цен.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Аудит",
+              "d": "Доступ к ящикам не владельцем, изменения прав и конфигурации с автором."
+            },
+            {
+              "t": "Мониторинг",
+              "d": "Службы Exchange, очереди, базы, DAG — с оповещениями."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Отчёты по ящикам, трафику и группам."
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Нужны аудит и мониторинг."
+            },
+            {
+              "t": "Standard",
+              "d": "Только отчёты.",
+              "link": "me-exchange-reporter-plus-standard-100-mailboxes"
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с регламентом контроля доступа к почте и требованиями к доступности Exchange."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Exchange Reporter Plus Standard",
+              "d": "Дешевле.",
+              "link": "me-exchange-reporter-plus-standard-100-mailboxes"
+            },
+            {
+              "t": "ADAudit Plus Professional",
+              "d": "Аудит AD рядом с почтой.",
+              "link": "me-adaudit-plus-professional-2-domain-controllers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Видно ли, кто открывал чужой ящик?",
+          "a": "Да, аудит доступа не владельцем — функция Professional."
+        }
+      ],
+      "related_products": [
+        "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-exchange-reporter-plus-standard-100-mailboxes",
+        "me-adaudit-plus-professional-2-domain-controllers"
+      ],
+      "meta_title": "Exchange Reporter Plus Professional, 100 ящиков | BIZSoft",
+      "meta_description": "ManageEngine Exchange Reporter Plus Professional: отчёты, аудит доступа к ящикам и мониторинг служб локального Exchange; 100 ящиков. Договор, ЭДО.",
+      "seo_intents": [
+        "exchange reporter plus professional — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "100 почтовых ящиков"
+    },
+    "me-sharepoint-manager-plus-standard-1-farm-m365-tenant": {
+      "sku": "ZOHO-LIC-SPMGRSTD-UNI-1Y-PACK-1FARM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия: 1 ферма SharePoint или тенант Microsoft 365",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SharePoint Manager Plus Standard — лицензия на год: отчётность и аудит SharePoint, лицензия на одну ферму SharePoint или один тенант Microsoft 365.\n\nStandard показывает, что происходит в SharePoint: отчёты по сайтам, документам и правам, аудит действий пользователей; управление разрешениями и миграция контента — в Professional.\n\nЛицензия годовая, с обновлениями и поддержкой вендора. Добавить вторую ферму или тенант можно в течение срока доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Отчёты",
+              "d": "Сайты, библиотеки, объёмы, активность, права — для локального SharePoint и SharePoint Online."
+            },
+            {
+              "t": "Аудит",
+              "d": "Кто открывал, менял, делился документами; оповещения."
+            },
+            {
+              "t": "Планирование",
+              "d": "Рассылка отчётов владельцам сайтов и аудиторам."
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Отчёты и аудит."
+            },
+            {
+              "t": "Professional",
+              "d": "Плюс управление разрешениями и миграция контента.",
+              "link": "me-sharepoint-manager-plus-professional-1-farm-m365-tenant"
+            },
+            {
+              "t": "M365 Manager Plus",
+              "d": "SharePoint как часть всего тенанта.",
+              "link": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Единица",
+              "d": "Одна ферма или один тенант независимо от числа сайтов."
+            },
+            {
+              "t": "Подключение",
+              "d": "Права чтения к ферме или приложение Entra ID."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с документооборотом в SharePoint, которым нужен контроль доступа к документам."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "SharePoint Manager Plus Professional",
+              "d": "С управлением правами.",
+              "link": "me-sharepoint-manager-plus-professional-1-farm-m365-tenant"
+            },
+            {
+              "t": "M365 Manager Plus Standard",
+              "d": "Весь Microsoft 365.",
+              "link": "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Подходит ли для SharePoint Online?",
+          "a": "Да, лицензия на тенант покрывает SharePoint Online; локальные фермы — по фермам."
+        }
+      ],
+      "related_products": [
+        "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-sharepoint-manager-plus-professional-1-farm-m365-tenant"
+      ],
+      "meta_title": "SharePoint Manager Plus Standard, ферма или тенант | BIZSoft",
+      "meta_description": "ManageEngine SharePoint Manager Plus Standard: отчёты и аудит SharePoint — сайты, документы, права; одна ферма или тенант. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sharepoint manager plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard",
+      "volume_label": "1 ферма или тенант"
+    },
+    "me-sharepoint-manager-plus-professional-1-farm-m365-tenant": {
+      "sku": "ZOHO-LIC-SPMGRPRO-UNI-1Y-PACK-1FARM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия: 1 ферма SharePoint или тенант Microsoft 365",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SharePoint Manager Plus Professional — годовое право использования: управление, аудит и миграция SharePoint, лицензия на одну ферму или тенант.\n\nProfessional добавляет управление разрешениями (массовые изменения, очистка избыточных прав) и миграцию контента между фермами и в SharePoint Online.\n\nНа год; обновления версий и поддержка входят. Ещё одна ферма или тенант — доплатой внутри срока.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Разрешения",
+              "d": "Массовое назначение и отзыв прав, поиск избыточных доступов, шаблоны."
+            },
+            {
+              "t": "Миграция",
+              "d": "Перенос сайтов и библиотек между фермами и в облако с сохранением метаданных."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Отчёты и аудит."
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Управление правами и миграция."
+            },
+            {
+              "t": "Standard",
+              "d": "Только отчёты и аудит.",
+              "link": "me-sharepoint-manager-plus-standard-1-farm-m365-tenant"
+            }
+          ],
+          "links": [
+            "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, которые переезжают в SharePoint Online или наводят порядок в правах на документы."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "SharePoint Manager Plus Standard",
+              "d": "Дешевле.",
+              "link": "me-sharepoint-manager-plus-standard-1-farm-m365-tenant"
+            },
+            {
+              "t": "M365 Manager Plus Professional",
+              "d": "Управление всем тенантом.",
+              "link": "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли мигрировать с локального SharePoint в Online?",
+          "a": "Да, миграция контента — функция Professional."
+        }
+      ],
+      "related_products": [
+        "me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-sharepoint-manager-plus-standard-1-farm-m365-tenant",
+        "me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic"
+      ],
+      "meta_title": "SharePoint Manager Plus Professional, ферма или тенант | BIZ",
+      "meta_description": "ManageEngine SharePoint Manager Plus Professional: управление разрешениями, миграция контента, отчёты и аудит SharePoint; ферма или тенант. Договор, ЭДО.",
+      "seo_intents": [
+        "sharepoint manager plus professional — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "1 ферма или тенант"
+    }
+  }
+}
