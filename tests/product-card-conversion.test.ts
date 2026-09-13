@@ -13,9 +13,10 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, UNIT_FORMS } from '../src/lib/product-commerce';
+import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, unitPlural, qtyPresets, UNIT_FORMS } from '../src/lib/product-commerce';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../src/data/policies';
-import { cardComposition } from '../src/lib/product-composition';
+import { cardComposition, KIND_MARKER } from '../src/lib/product-composition';
+import { PLAN_MARKER, PLAN_MARKER_UNIVERSAL } from '../src/lib/plan-type';
 import { VENDOR_CONTENT } from '../src/data/vendor-content';
 
 const ROOT = resolve(__dirname, '..');
@@ -50,23 +51,44 @@ describe('цена не меньше реального заказа', () => {
     expect(page).toContain('value={commerce.minQty}');
   });
 
-  it('прикидка на команду не предлагает объём ниже минимального', () => {
-    expect(page).toContain('.filter((n) => n > commerce.minQty)');
+  it('ступени объёма: 2, 3, 5, 10, 20 с учётом минимума', () => {
+    // Решение руководителя 13.09.2026: ниже минимума ступени нет; при
+    // минимуме 2 двойка уже стоит в счётчике; от трёх первая ступень — минимум.
+    expect(qtyPresets(1)).toEqual([2, 3, 5, 10, 20]);
+    expect(qtyPresets(2)).toEqual([3, 5, 10, 20]);
+    expect(qtyPresets(3)).toEqual([3, 5, 10, 20]);
+    expect(qtyPresets(5)).toEqual([5, 10, 20]);
+    expect(qtyPresets(20)).toEqual([20]);
+    expect(page).toContain('qtyPresets(commerce.minQty)');
   });
 
-  it('крупным числом идёт сумма минимального заказа, а не цена единицы', () => {
-    // Цена одного места крупным шрифтом обещает заказ, который нельзя
-    // оформить; цена единицы остаётся, но строкой ниже.
-    expect(page).toContain('commerce.minQty > 1 ? `от ${formatRub(commerce.purchasePrice)}`');
-    expect(page).toContain('цена за {unitPhrase(1, commerce.qtyLabel)}');
+  it('крупным числом — цена единицы без «от», минимум назван пунктом справа', () => {
+    // Решение руководителя 13.09.2026 (docs/rules/card-price-block.md):
+    // слева цена единицы и «в том числе НДС», без «цена за 1 место»;
+    // справа «1 рабочее место (от 2)», срок, план; ИТОГО — за минимум.
+    expect(page).not.toContain('`от ${formatRub(');
+    expect(page).not.toContain('цена за {unitPhrase(1, commerce.qtyLabel)}');
+    expect(page).toContain("(commerce.minQty > 1 ? ` (от ${commerce.minQty})` : '')");
+    expect(page).toContain("if (term === TERM.balance) priceWhat.push('до истечения');");
+    expect(page).toContain("else if (term === TERM.year) priceWhat.push('1 календарный год');");
+    expect(page).toContain('priceWhat.push(planLine);');
+    expect(page).toContain('<b data-total>{formatRub(commerce.purchasePrice)}</b>');
+  });
+
+  it('единица «место» на карточке и в призыве — «рабочее место»', () => {
+    expect(unitPhrase(1, 'Мест')).toBe('1 рабочее место');
+    expect(unitPhrase(2, 'Мест')).toBe('2 рабочих места');
+    expect(unitPlural('Мест')).toBe('рабочих мест');
+    expect(unitPlural('Лицензий')).toBe('лицензий');
+    expect(page).toContain('`Количество ${unitPlural(commerce.qtyLabel)}`');
   });
 });
 
 describe('призыв называет результат', () => {
   it('цена за единицу — призыв называет объём', () => {
     const s = commerceState({ price: 1000, minQty: 2, qtyLabel: 'Мест' });
-    expect(quoteCtaLabel(s, 5)).toBe('Получить КП на 5 мест');
-    expect(quoteCtaLabel(s, 1)).toBe('Получить КП на 2 места');
+    expect(quoteCtaLabel(s, 5)).toBe('Получить КП на 5 рабочих мест');
+    expect(quoteCtaLabel(s, 1)).toBe('Получить КП на 2 рабочих места');
     expect(quoteCtaLabel(commerceState({ price: 1000 }), 1)).toBe('Получить КП на 1 лицензию');
   });
 
@@ -78,7 +100,7 @@ describe('призыв называет результат', () => {
 
   it('в заявку уезжает позиция с количеством, а не одно название', () => {
     const s = commerceState({ price: 1000, minQty: 2, qtyLabel: 'Мест' });
-    expect(quoteProductRef('Claude Team', 'ANT-TEAM', s, 5)).toBe('Claude Team (ANT-TEAM) — 5 мест');
+    expect(quoteProductRef('Claude Team', 'ANT-TEAM', s, 5)).toBe('Claude Team (ANT-TEAM) — 5 рабочих мест');
   });
 
   it('главный призыв карточки больше не называется «В расчёт»', () => {
@@ -137,6 +159,93 @@ describe('первый экран и липкая полоса', () => {
   });
 });
 
+describe('плашки над заголовком', () => {
+  it('вид позиции задаёт первую плашку', () => {
+    expect(KIND_MARKER.balance_topup).toBe('Универсальный продукт');
+    expect(KIND_MARKER.addon).toBe('Дополнение к продукту');
+    // У подписки вида в плашке нет: там стоит тип плана, и считается он
+    // отдельно — у пополнения и дополнения плана не бывает вовсе.
+    expect(KIND_MARKER.unit_subscription).toBeUndefined();
+    expect(page).toContain('const primaryMarker = kindMarker || planMarker');
+  });
+
+  it('тип плана не угадывается, когда его размечал оператор', () => {
+    // Разметка старше эвристики: иначе название снова решит за данные.
+    expect(page).toContain("markerOverride === 'team' ? 'team'");
+    expect(page).toContain('const markerOverride = cardMeta?.marker');
+  });
+
+  it('подписка без подтверждённого плана выходит с универсальной плашкой', () => {
+    // Решение руководителя 13.09.2026: пустой плашки у карточки не бывает.
+    // Эвристика молчит на 277 подписках из 601 — Visual Studio Professional,
+    // Perforce Helix Core и подобные, где план один для всех.
+    expect(PLAN_MARKER_UNIVERSAL).toBe('Универсальный план');
+    expect(PLAN_MARKER_UNIVERSAL).not.toBe(KIND_MARKER.balance_topup);
+    expect(page).toContain('const primaryMarker = kindMarker || planMarker || PLAN_MARKER_UNIVERSAL');
+    expect(page).toContain('PLAN_MARKER_UNIVERSAL');
+    expect(PLAN_MARKER.team).toBe('Командный план');
+    expect(PLAN_MARKER.individual).toBe('Индивидуальный план');
+  });
+
+  it('вторая плашка — одна категория, у надстроек категория вендора', () => {
+    expect(page).toContain('const categoryMarker =');
+    expect(page).toContain('vendorCatEntry?.catLabel');
+    // Ровно две плашки: вид позиции и категория.
+    const chips = page.slice(page.indexOf('<div class="chips">'), page.indexOf('</div>', page.indexOf('<div class="chips">')));
+    expect(chips).toContain('primaryMarker');
+    expect(chips).toContain('categoryMarker');
+    expect(chips).not.toContain('LICENSE_LABEL');
+  });
+
+  it('правило плашек записано в свод и в файл правил', () => {
+    const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
+    expect(claude).toContain('docs/rules/product-markers.md');
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/product-markers.md'), 'utf8');
+    expect(rule).toContain('Универсальный продукт');
+    expect(rule).toContain('Универсальный план');
+    expect(rule).toContain('Дополнение к продукту');
+    expect(rule).toContain('marker');
+  });
+});
+
+describe('строка производителя', () => {
+  const logo = readFileSync(resolve(ROOT, 'src/components/VendorLogo.astro'), 'utf8');
+
+  it('знак стоит между словом и названием и ведёт на страницу вендора', () => {
+    const line = page.slice(page.indexOf('<p class="vendorline">'), page.indexOf('</p>', page.indexOf('<p class="vendorline">')));
+    expect(line).toContain('Производитель:');
+    expect(line).toContain('class="vendorline-link"');
+    expect(line).toContain('/vendors/${vendorPageSlug}');
+    // Порядок частей строки: слово, знак, название.
+    expect(line.indexOf('Производитель:')).toBeLessThan(line.indexOf('<VendorLogo'));
+    expect(line.indexOf('<VendorLogo')).toBeLessThan(line.indexOf('<b>{vendorLegal'));
+  });
+
+  it('высота знака единая, ширина — по пропорциям файла', () => {
+    expect(page).toContain('size={20} fluid');
+    // fluid задаёт только высоту: ширина auto, иначе длинная надпись
+    // (Zoho и подобные) сплющивалась бы в квадрат.
+    expect(logo).toContain('.vlogo-fluid { width: auto;');
+    expect(logo).toContain('style={`height:${size}px`}');
+  });
+
+  it('ссылка не выглядит ссылкой, название жирное', () => {
+    expect(page).toContain('.vendorline-link { display: inline-flex;');
+    const css = page.slice(page.indexOf('.vendorline-link {'), page.indexOf('}', page.indexOf('.vendorline-link {')));
+    expect(css).toContain('color: inherit');
+    expect(css).toContain('text-decoration: none');
+    expect(page).toContain('.vendorline b { color: var(--color-text); font-weight: 700; }');
+  });
+
+  it('правило строки записано в свод и в файл правил', () => {
+    const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
+    expect(claude).toContain('docs/rules/vendor-line.md');
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/vendor-line.md'), 'utf8');
+    expect(rule).toContain('20px');
+    expect(rule).toContain('/vendors/<slug>');
+  });
+});
+
 describe('вид позиции задаёт композицию', () => {
   const base = { sku: 'X', price: 1000, product_type: null, parent_sku: null };
 
@@ -150,9 +259,9 @@ describe('вид позиции задаёт композицию', () => {
   });
 
   it('дополнение к основному продукту опознаётся по артикулу', () => {
-    expect(cardComposition({ ...base, sku: 'JB-PLG-RIDER' })).toBe('addon');
-    expect(cardComposition({ ...base, sku: 'ZOOM-PHONE-PRO' })).toBe('addon');
-    expect(cardComposition({ ...base, sku: 'OPENAI-CREDITS-100' })).toBe('addon');
+    expect(cardComposition({ ...base, sku: 'JB-ADD-RIDER-TEAM-1Y-USER' })).toBe('addon');
+    expect(cardComposition({ ...base, sku: 'ZOOM-ADD-PHONE-UNI-1Y-USER-GLOBAL' })).toBe('addon');
+    expect(cardComposition({ ...base, sku: 'OPAI-CRD-API-UNI-BAL-NOM-100' })).toBe('addon');
   });
 
   it('позиция без цены — договорная, а не подписка', () => {
@@ -162,23 +271,24 @@ describe('вид позиции задаёт композицию', () => {
   it('карточка не показывает счётчик мест там, где мест нет', () => {
     // Счётчик рабочих мест на пополнении баланса — неверный вопрос.
     expect(page).toContain('const isUnitPlan = composition');
-    expect(page).toContain("k: 'Расчётная единица'");
+    // Блок фактов у пополнения тоже есть, но минимум там — сумма, а не места.
+    expect(page).toContain('min: factMin(composition, commerce.minQty, term, balanceMin)');
     expect(page).toContain('data-composition={composition}');
   });
 });
 
 describe('расхождения выката 12.09.2026 закрыты', () => {
-  const topup = { sku: 'OPENAI-CREDITS-100', price: 19531, product_type: null, parent_sku: null };
+  const topup = { sku: 'OPAI-CRD-API-UNI-BAL-NOM-100', price: 19531, product_type: null, parent_sku: null };
 
   it('у пополнения баланса призыв не обещает лицензию', () => {
     // На живой карточке стояло «Получить КП на 1 лицензию» и «Количество
     // лицензий»: лицензий у пополнения баланса нет.
     const s = commerceState({ price: 19531 });
     expect(quoteCtaLabel(s, 1, false)).toBe('Получить КП');
-    expect(quoteProductRef('Пополнение', 'OPENAI-CREDITS-100', s, 2, false))
-      .toBe('Пополнение (OPENAI-CREDITS-100) — 2 шт.');
+    expect(quoteProductRef('Пополнение', 'OPAI-CRD-API-UNI-BAL-NOM-100', s, 2, false))
+      .toBe('Пополнение (OPAI-CRD-API-UNI-BAL-NOM-100) — 2 шт.');
     expect(cardComposition(topup)).not.toBe('unit_subscription');
-    expect(page).toContain("isUnitPlan ? `Количество ${commerce.qtyLabel.toLowerCase()}` : 'Количество'");
+    expect(page).toContain("isUnitPlan ? `Количество ${unitPlural(commerce.qtyLabel)}` : 'Количество'");
     expect(page).toContain('quoteCtaLabel(commerce, commerce.minQty, isUnitPlan)');
     // Клиентский скрипт пересчитывает подпись тем же правилом.
     expect(page).toContain("const namedUnit = layout?.dataset.composition === 'unit_subscription'");
@@ -188,8 +298,8 @@ describe('расхождения выката 12.09.2026 закрыты', () => 
   it('подзаголовок не тянет тематическую плашку вендора', () => {
     // `badge` — подпись линейки («VFX и моушн», «для команд», «API»), из
     // неё получалось «Командный план · VFX и моушн».
-    // Срок берётся из контента вендора, плашка линейки в подзаголовок не идёт.
-    expect(page).toContain('const subtitleParts = [planMarker, cardMeta?.term]');
+    // Срок считается из данных позиции, плашка линейки в подзаголовок не идёт.
+    expect(page).toContain('const subtitleParts = [planLine, term]');
     expect(page).not.toContain('cardMeta?.badge');
   });
 
@@ -257,17 +367,17 @@ describe('композиция, одобренная 12.09.2026', () => {
 
   it('карточка 1:1 с макетом: срок, переназначение, состав и вопросы', () => {
     // Ничего из этого нет в схеме каталога — всё ведётся в контенте вендора.
-    const rg = VENDOR_CONTENT['maxon']?.cards?.['MAXON-REDGIANT-TEAMS'];
-    expect(rg?.term).toBe('1Y / 1 (один) год');
-    expect(rg?.termShort).toBe('1 год');
+    // Срок с 13.09.2026 карточка считает сама (правило card-title.md):
+    // у Red Giant он читается из «1Y» в названии, ручного поля больше нет.
+    const rg = VENDOR_CONTENT['maxon']?.cards?.['MAXN-LIC-REDGIANT-TEAM-1Y-USER'];
+    expect(rg).not.toHaveProperty('term');
     expect(rg?.reassign).toBe('Да');
     expect(rg?.management).toBe('Централизованная консоль');
     expect(rg?.shortName).toBe('Red Giant');
     expect(rg?.includes).toHaveLength(5);
     expect(rg?.faq).toHaveLength(9);
     // Шаблон обязан их показывать, а не молча игнорировать.
-    expect(page).toContain("k: 'Срок', v: cardMeta.termShort");
-    expect(page).toContain("k: 'Переназначение', v: cardMeta.reassign");
+    expect(page).toContain('transfer: factTransfer(composition, planKind, cardMeta?.reassign)');
     expect(page).toContain('Переназначение пользователей:');
     expect(page).toContain('Управление:');
     expect(page).toContain('cardMeta.includes.map');
@@ -276,7 +386,7 @@ describe('композиция, одобренная 12.09.2026', () => {
 
   it('короткое имя меняет только H1, разметка называет товар полностью', () => {
     // Иначе microdata назвала бы товар иначе, чем JSON-LD, и слои разошлись.
-    expect(page).toContain('const h1Text = cardMeta?.shortName || product.name');
+    expect(page).toContain('const h1Text = cardMeta?.shortName || displayName(product.name)');
     expect(page).toContain('h1Text !== product.name && <meta itemprop="name"');
   });
 
@@ -303,19 +413,32 @@ describe('воронка карточки', () => {
 });
 
 describe('путь до карточки', () => {
-  it('крошки ведут на страницу производителя с выбором продукта', () => {
-    expect(page).toContain('url: `/vendors/${vendorPageSlug}`');
-    // Раздел каталога остаётся запасным вариантом для позиций без вендора.
-    expect(page).toContain('vendorCrumb ? [vendorCrumb] : category');
-  });
-
-  it('путь короткий: главная → производитель → продукт', () => {
-    // Раздел каталога и происхождение из пути убраны (макет 12.09.2026):
-    // покупатель выбирает карточку у производителя и туда же возвращается.
+  it('путь ровно из трёх уровней: главная → производитель → продукт', () => {
+    // Правило docs/rules/breadcrumbs.md: глобально, на все карточки — и на
+    // те, что появятся позже. Состав крошек уезжает в BreadcrumbList,
+    // поэтому лишний уровень — это правка поискового слоя.
     const crumbs = page.slice(page.indexOf('<Breadcrumbs'), page.indexOf('/>', page.indexOf('<Breadcrumbs')));
     expect(crumbs).not.toContain('ORIGIN_LABEL');
-    expect(crumbs).not.toContain("{ name: 'Каталог', url: '/catalog' },");
+    expect(crumbs).not.toContain('category.slug');
+    // Компонент сам добавляет «Главная», в items остаётся два уровня.
+    expect(crumbs.match(/\{ name:/g) ?? []).toHaveLength(2);
+    expect(crumbs).toContain("vendorCrumb ?? { name: 'Каталог', url: '/catalog' }");
     // Последний уровень — короткое имя, как в заголовке страницы.
     expect(crumbs).toContain('{ name: h1Text, url: `/product/${product.slug}` }');
+  });
+
+  it('второй уровень — страница производителя, имя из реестра вендоров', () => {
+    expect(page).toContain("url: `/vendors/${vendorPageSlug}`");
+    expect(page).toContain('vendorEntry?.title || vendorEntry?.vendor || product.vendor');
+  });
+
+  it('правило пути записано в свод и в файл правил', () => {
+    // Глобальное правило живёт не только в шаблоне: его читает каждая
+    // сессия, в том числе та, что заводит нового вендора или товар.
+    const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
+    expect(claude).toContain('docs/rules/breadcrumbs.md');
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/breadcrumbs.md'), 'utf8');
+    expect(rule).toContain('Главная / <Производитель> / <Продукт>');
+    expect(rule).toContain('src/data/vendors.ts');
   });
 });

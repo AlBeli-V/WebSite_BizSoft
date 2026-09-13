@@ -40,10 +40,10 @@ describe('feedEligible: базовые требования площадок', (
     expect(feedEligible(product({ noindex: true }), NOW)).toBe(false);
   });
 
-  it('плагины JB-PLG-*, личные *-IND и продления *-RENEWAL не проходят', () => {
-    expect(feedEligible(product({ sku: 'JB-PLG-RAINBOW' }), NOW)).toBe(false);
-    expect(feedEligible(product({ sku: 'JB-IDEA-IND' }), NOW)).toBe(false);
-    expect(feedEligible(product({ sku: 'FIGMA-PRO-RENEWAL' }), NOW)).toBe(false);
+  it('плагины JetBrains, личные планы и продления не проходят', () => {
+    expect(feedEligible(product({ sku: 'JB-ADD-RAINBOW-TEAM-1Y-USER' }), NOW)).toBe(false);
+    expect(feedEligible(product({ sku: 'JB-LIC-IDEAULT-IND-1Y-USER' }), NOW)).toBe(false);
+    expect(feedEligible(product({ sku: 'FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-RENEWAL' }), NOW)).toBe(false);
   });
 
   it('карточка без slug или sku не проходит', () => {
@@ -99,12 +99,12 @@ describe('rankProducts: спрос Вордстата и порядок внут
   it('внутри вендора основной продукт раньше дополнения', () => {
     const ranked = rankProducts(
       [
-        product({ id: 1, vendor: 'Zoom', sku: 'ZOOM-PHONE-PRO', name: 'Zoom Phone' }),
-        product({ id: 2, vendor: 'Zoom', sku: 'ZOOM-WORKPLACE-PRO', name: 'Zoom Workplace Pro' }),
+        product({ id: 1, vendor: 'Zoom', sku: 'ZOOM-ADD-PHONE-UNI-1Y-USER-GLOBAL', name: 'Zoom Phone' }),
+        product({ id: 2, vendor: 'Zoom', sku: 'ZOOM-LIC-WORKPLACEPRO-UNI-1Y-USER', name: 'Zoom Workplace Pro' }),
       ],
       demand,
     );
-    expect(ranked[0].sku).toBe('ZOOM-WORKPLACE-PRO');
+    expect(ranked[0].sku).toBe('ZOOM-LIC-WORKPLACEPRO-UNI-1Y-USER');
   });
 });
 
