@@ -123,6 +123,19 @@ describe('тип плана по артикулу', () => {
     expect(planType('Red Giant 1Y (Teams)', '', 'MAXON-REDGIANT-TEAMS')).toBe('team');
     expect(planType('Visual Studio Professional 2022', '', 'MS-VISUAL-STUDIO-PRO-2022')).toBeNull();
   });
+
+  it('из описания берётся только явное называние типа плана в первом абзаце', () => {
+    // «организации», «команда» в любом контексте — не признак: после записи
+    // описаний 13.09.2026 такие слова перевели 317 карточек в «Командный план».
+    expect(planType('ManageEngine ADAudit Plus Standard', 'Бессрочная лицензия. Единовременная оплата; лицензия принадлежит организации.', 'ME-ADAUDIT-PLUS-STANDARD-PERP')).toBeNull();
+    expect(planType('Hailuo AI Max', 'Подписка на 1 год на старший план. Для команд, где ролики делают ежедневно.', 'HAILUO-MAX')).toBeNull();
+    expect(planType('Canva Pro', 'Canva Pro — индивидуальная подписка на 1 год.\n\nДля команды с общими шаблонами — план Business.', 'CANVA-PRO')).toBe('individual');
+    expect(planType('Zoom Rooms', 'Zoom Rooms — командная подписка на 1 год на ПО переговорной.', 'ZOOM-ROOMS')).toBe('team');
+    expect(planType('Artlist Pro', 'Artlist Pro — подписка для команд до 50 сотрудников.', 'ARTLST-TEAMS-X')).toBe('team');
+    expect(planType('Lovable Pro', 'Lovable Pro — индивидуальная подписка на 1 год.\n\nSSO и командные роли — в Business.', 'LOVABLE-PRO')).toBe('individual');
+    // Название сильнее описания.
+    expect(planType('Slack Business+', 'Подписка на 1 год на мессенджер.', 'SLACK-BUSINESS-PLUS')).toBe('team');
+  });
 });
 
 describe('карточка использует заголовок и строку из правила', () => {

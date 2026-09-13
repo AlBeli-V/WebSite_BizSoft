@@ -50,14 +50,28 @@ function planBySku(sku: string): PlanType | null {
   return null;
 }
 
+/**
+ * Описание — связный текст, в котором «организация», «команда» и «личный»
+ * встречаются в любом контексте («лицензия принадлежит организации»,
+ * «для команды с общими шаблонами — план Business»). Поэтому из описания
+ * берётся только явное называние типа плана в первом абзаце: «командная
+ * подписка», «индивидуальный план», «лицензия для команд» и подобные.
+ */
+function planByDescription(extra: string): PlanType | null {
+  const head = extra.split(/\n{2,}/, 1)[0].toLowerCase();
+  if (/командн(ая|ый|ой|ую|ого|ые) (подписк|план|лиценз|тариф)|(подписк|план|лиценз|тариф)[а-я]* для (команд|организаци)|\bteam (plan|subscription|licen[cs]e)/.test(head)) return 'team';
+  if (/индивидуальн(ая|ый|ой|ую|ого|ые) (подписк|план|лиценз|тариф)|личн(ая|ый|ой|ую|ого) (подписк|план|лиценз)|для одного пользователя|\bindividual (plan|subscription|licen[cs]e)/.test(head)) return 'individual';
+  return null;
+}
+
 export function planType(name: string, extra = '', sku = ''): PlanType | null {
   const bySku = sku ? planBySku(sku) : null;
   if (bySku) return bySku;
-  const s = `${name} ${extra}`.toLowerCase();
+  const s = name.toLowerCase();
   if (/\b(teams?|business|enterprise|corporate|company|organizations?|workspace)\b|организаци|команд|корпоратив/.test(s)) return 'team';
   // «Plus» — редакция (ADAudit Plus, Dropbox Plus, Business Plus), а не
   // признак индивидуального плана: на карточках ManageEngine оно давало
   // «Индивидуальный план» у корпоративных продуктов.
   if (/\b(individual|personal|solo)\b|индивидуальн|персональн|личн/.test(s)) return 'individual';
-  return null;
+  return extra ? planByDescription(extra) : null;
 }
