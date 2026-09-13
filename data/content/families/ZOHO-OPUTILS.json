@@ -1,0 +1,470 @@
+{
+  "family_key": "ZOHO-OPUTILS",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-oputils-professional-every-additional-250-used-ports-in-switch-po",
+  "classification_notes": [
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы нет — OWNERSHIP = universal.",
+    "Обе позиции несут артикулы ZOHO-ADD-… с единицей 250 портов и одинаковую закупку, при этом названия витрины называют их «базовым пакетом вендора». Данные противоречивы: по решению брифа обе описаны как основной продукт OpUtils (nature mono, packaging edition_tier), объём — пакет на 250 используемых портов; обе needs_operator.",
+    "Носитель — Professional; вторая позиция (артикул OPUTILSMGMT) описана как редакция с упором на управление портами коммутаторов — условно, до подтверждения по прайсу вендора.",
+    "Сайт вендора в сессии не открывался; состав функций — по знанию модели."
+  ],
+  "products": {
+    "me-oputils-professional-every-additional-250-used-ports-in-switch-po": {
+      "sku": "ZOHO-ADD-OPUTILSPRO-TEAM-1Y-PACK-250PORT",
+      "needs_operator": true,
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "250 используемых портов",
+      "unit_label": "пакет: 250 используемых портов коммутаторов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OpUtils Professional — годовая подписка на систему учёта IP-адресов и портов коммутаторов ManageEngine: какие адреса заняты и кем, к какому порту какого коммутатора подключено устройство, где в сети появилось чужое оборудование. Пакет на 250 используемых портов коммутаторов; ставится на сервер организации.\n\nЛицензия считается по портам, к которым подключены устройства: система сама опрашивает коммутаторы по SNMP и учитывает только занятые порты. Подсети и адреса в IPAM в лицензию входят по матрице вендора. Вторая позиция семейства — тот же объём с артикулом OPUTILSMGMT; различие редакций уточняется при заказе.\n\nСрок — 1 год, обновления и поддержка включены. Дополнительные пакеты по 250 портов — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет OpUtils Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Учёт IP-адресов",
+              "d": "Дерево подсетей с состоянием каждого адреса: свободен, занят, зарезервирован, кем и когда использован; сопоставление с DNS-именем, MAC-адресом и пользователем AD; поддержка IPv4 и IPv6."
+            },
+            {
+              "t": "Порты коммутаторов",
+              "d": "Карта «порт → устройство»: MAC, IP, имя, VLAN, скорость и статус порта; история подключений; свободные и давно неиспользуемые порты для планирования ёмкости."
+            },
+            {
+              "t": "Чужие устройства",
+              "d": "Обнаружение неизвестных MAC-адресов и точек доступа, список доверенных, оповещение и блокировка порта на коммутаторе из консоли."
+            },
+            {
+              "t": "DHCP",
+              "d": "Наблюдение за областями Microsoft DHCP: заполненность, аренды, исчерпание пула — с порогами и оповещением."
+            },
+            {
+              "t": "Запросы на адрес",
+              "d": "Сотрудники запрашивают IP через портал, администратор согласует; выданные адреса помечаются в IPAM автоматически."
+            },
+            {
+              "t": "Сетевые инструменты",
+              "d": "Три десятка утилит в одной консоли: ping и traceroute по расписанию, SNMP MIB-браузер, Wake-on-LAN, сканер портов, системный обозреватель, резервные копии конфигураций Cisco."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Professional или Management",
+          "kind": "compare",
+          "body": "Обе позиции — пакет на 250 портов с одинаковой закупкой; ниже — что известно о различии, остальное сверяется с прайсом вендора.",
+          "rows": [
+            {
+              "label": "Объём пакета",
+              "values": {
+                "me-oputils-professional-every-additional-250-used-ports-in-switch-po": "250 используемых портов",
+                "me-oputils-management-every-additional-250-used-ports-in-switch-po": "250 используемых портов"
+              }
+            },
+            {
+              "label": "Учёт IP-адресов, DHCP, запросы на адрес",
+              "values": {
+                "me-oputils-professional-every-additional-250-used-ports-in-switch-po": "да",
+                "me-oputils-management-every-additional-250-used-ports-in-switch-po": "уточняется"
+              }
+            },
+            {
+              "label": "Порты коммутаторов, чужие устройства",
+              "values": {
+                "me-oputils-professional-every-additional-250-used-ports-in-switch-po": "да",
+                "me-oputils-management-every-additional-250-used-ports-in-switch-po": "да"
+              }
+            },
+            {
+              "label": "Сетевые инструменты",
+              "values": {
+                "me-oputils-professional-every-additional-250-used-ports-in-switch-po": "да",
+                "me-oputils-management-every-additional-250-used-ports-in-switch-po": "уточняется"
+              }
+            },
+            {
+              "label": "Артикул вендора",
+              "values": {
+                "me-oputils-professional-every-additional-250-used-ports-in-switch-po": "OPUTILSPRO",
+                "me-oputils-management-every-additional-250-used-ports-in-switch-po": "OPUTILSMGMT"
+              }
+            }
+          ],
+          "links": [
+            "me-oputils-management-every-additional-250-used-ports-in-switch-po"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Администратору сети из нескольких сотен рабочих мест, где адреса выдаются вручную или через DHCP без общего реестра, а поиск «к какому порту подключён этот компьютер» ведётся обходом с ноутбуком. 250 портов — это, как правило, пять-шесть 48-портовых коммутаторов доступа."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если нужен собственный DNS и DHCP с управлением зонами и областями, а не только наблюдение, — это DDI Central. Если OpManager Professional уже стоит, в нём бесплатно есть учёт 50 адресов и 50 портов, а сверх этого — дополнение IPAM/SPM без отдельного сервера."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое используемый порт",
+              "d": "Порт коммутатора, на котором при опросе по SNMP есть подключённое устройство. Свободные порты, аплинки и порты неуправляемых коммутаторов не учитываются; при отключении устройства порт освобождает единицу лицензии."
+            },
+            {
+              "t": "Доступ к оборудованию",
+              "d": "SNMP v1/v2c/v3 на коммутаторах и маршрутизаторах для карты портов и ARP; для DHCP — доступ к серверу Microsoft DHCP; для сопоставления пользователей — чтение из Active Directory."
+            },
+            {
+              "t": "Пользователи консоли",
+              "d": "Число учётных записей консоли в артикуле не указано — по матрице вендора; дополнительные — по запросу."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server или Linux, встроенная PostgreSQL; пробный период — 30 дней, бесплатная редакция с малым лимитом адресов и портов."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Сверка артикула",
+              "d": "Артикул вендора помечен как дополнительный пакет («every additional 250 used ports»), название на витрине — «базовый пакет». Перед КП подтверждается, оформляется ли позиция как базовая лицензия или как расширение к уже имеющейся."
+            },
+            {
+              "t": "Посчитайте занятые порты",
+              "d": "Возьмите число активных портов с коммутаторов, а не паспортное; при 300 портах нужен второй пакет или следующий объём по прайсу — переход доплатой разницы."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Разовая оплата плюс AMS 20 % в год — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OpUtils, артикул Management, 250 портов",
+              "d": "Соседняя позиция того же объёма; различие состава подтверждается у вендора.",
+              "link": "me-oputils-management-every-additional-250-used-ports-in-switch-po"
+            },
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Мониторинг сети с бесплатной квотой на 50 адресов и 50 портов; при росте — дополнение IPAM/SPM в той же консоли.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "DDI Central Professional, 2 кластера DNS",
+              "d": "Если помимо учёта адресов нужно управлять собственными DNS- и DHCP-серверами.",
+              "link": "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли все порты коммутатора или только занятые?",
+          "a": "Только занятые: единицу лицензии расходует порт, на котором система при опросе видит подключённое устройство. Свободные порты и аплинки не считаются."
+        },
+        {
+          "q": "Нужна ли отдельная лицензия на IP-адреса?",
+          "a": "В артикуле единица — порты; охват подсетей и адресов в IPAM подтверждается по матрице вендора при заказе."
+        }
+      ],
+      "related_products": [
+        "me-oputils-management-every-additional-250-used-ports-in-switch-po",
+        "me-opmanager-professional-10-devices-pack-with-2-users",
+        "me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers"
+      ],
+      "meta_title": "OpUtils Professional, 250 портов — IPAM и порты | BIZSoft",
+      "meta_description": "ManageEngine OpUtils Professional: учёт IP-адресов, карта портов коммутаторов, чужие устройства, DHCP. Пакет на 250 используемых портов, подписка на год.",
+      "seo_intents": [
+        "oputils купить / manageengine oputils лицензия — hero, meta",
+        "oputils ipam switch port mapper — CAPABILITIES",
+        "oputils лицензирование порты — DEPENDENCIES, FAQ",
+        "учёт ip адресов и портов коммутаторов — FIT"
+      ],
+      "uncertainties": [
+        "Название витрины расходится с артикулом: h1 «базовый пакет вендора», sku ZOHO-ADD-… «every additional 250 used ports» — позиция может быть расширением, а не базовой лицензией; needs_operator.",
+        "Единица лицензии (используемые порты) и участие IP-адресов в лицензии — по знанию модели, у вендора не проверено.",
+        "Число пользователей консоли в пакете в артикуле отсутствует; лимит бесплатной редакции не приводится.",
+        "Состав редакций OpUtils (Professional и вторая позиция MGMT) — не подтверждён; таблица сравнения содержит «уточняется»."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ FIT и DEPENDENCIES; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает продукт",
+          "new_information": "шесть групп: IPAM, порты, чужие устройства, DHCP, запросы, инструменты",
+          "sibling_overlap": "носитель; сосед — дельта по портам",
+          "decision": "UNDERSTAND",
+          "seo_intent": "oputils возможности",
+          "source": "uncertain (oputils features, по знанию модели)"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "какая из двух позиций",
+          "new_information": "пять строк с явными «уточняется»",
+          "sibling_overlap": "сосед ссылается",
+          "decision": "COMPARE",
+          "seo_intent": "oputils editions",
+          "source": "инвентарь витрины"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль сети на сотни мест, два выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "к какому порту подключён компьютер",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и что нужно",
+          "new_information": "используемый порт, SNMP/DHCP/AD, пользователи, сервер",
+          "sibling_overlap": "сосед ссылается",
+          "decision": "VALIDATE",
+          "seo_intent": "oputils что считается портом",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "сверка артикула ADD, подсчёт портов, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "инвентарь витрины"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "сосед, OpManager, DDI Central",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-oputils-management-every-additional-250-used-ports-in-switch-po": {
+      "sku": "ZOHO-ADD-OPUTILSMGMT-TEAM-1Y-PACK-250PORT",
+      "needs_operator": true,
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Management (по артикулу OPUTILSMGMT)",
+      "volume_label": "250 используемых портов",
+      "unit_label": "пакет: 250 используемых портов коммутаторов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OpUtils в артикуле OPUTILSMGMT — годовая подписка на пакет управления портами коммутаторов и адресами ManageEngine на 250 используемых портов: карта подключений «порт — устройство», история, чужое оборудование, контроль занятости адресов. Устанавливается на сервер организации.\n\nСосед по семейству — OpUtils Professional с тем же объёмом и той же закупкой; чем именно артикулы различаются по составу, вендор в прайсе обозначает кодом редакции, и это сверяется при подтверждении заказа. Здесь описана часть продукта, отвечающая за порты, — она есть в любой редакции.\n\nСрок — 1 год с обновлениями и поддержкой; следующий пакет по 250 портов — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт OpUtils для портов коммутаторов",
+          "kind": "items",
+          "body": "Полный состав продукта — на карточке Professional. Здесь — та часть, ради которой берут пакет портов.",
+          "items": [
+            {
+              "t": "Кто где подключён",
+              "d": "По каждому порту — MAC и IP подключённого устройства, его имя, VLAN, дуплекс и скорость, время последней активности; поиск устройства по имени, адресу или MAC за секунды."
+            },
+            {
+              "t": "Занятость и резерв",
+              "d": "Сколько портов свободно на каждом коммутаторе и в стеке, какие не использовались месяцами, — основа для решения, нужен ли новый коммутатор."
+            },
+            {
+              "t": "Действия из консоли",
+              "d": "Выключить или включить порт, сменить описание, заблокировать порт с чужим MAC — без входа в CLI коммутатора."
+            },
+            {
+              "t": "Отчёты и оповещения",
+              "d": "Изменение состояния порта, появление нового MAC, превышение порога занятости — письмом и в консоли; отчёты по расписанию."
+            }
+          ],
+          "links": [
+            "me-oputils-professional-every-additional-250-used-ports-in-switch-po"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда эта позиция, а когда Professional",
+          "kind": "items",
+          "body": "Таблица сравнения — на карточке Professional. До сверки с прайсом вендора рабочее правило такое.",
+          "items": [
+            {
+              "t": "Берите Professional",
+              "d": "Если нужен продукт целиком — адреса, DHCP, запросы, инструменты и порты: это заявленный состав старшей редакции."
+            },
+            {
+              "t": "Уточните эту позицию",
+              "d": "Если у вас уже есть лицензия OpUtils и требуется расширить её ещё на 250 портов: артикул вендора описывает именно такое расширение."
+            }
+          ],
+          "links": [
+            "me-oputils-professional-every-additional-250-used-ports-in-switch-po"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Сетевой службе, для которой главная боль — не адреса, а физика: кто подключён к порту, где освободить место под новое оборудование, откуда в сети взялся неизвестный MAC. Пакет на 250 портов закрывает коммутаторы доступа одного этажа или небольшого здания.\n\nЕсли вопросы в основном про IP-адреса и DHCP, отправная точка — Professional; если про мониторинг устройств в целом — OpManager с дополнением портов."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовая лицензия или расширение",
+              "d": "Артикул помечен вендором как дополнительный пакет портов; витрина называет его базовым. До КП подтверждается, требуется ли к нему уже действующая лицензия OpUtils."
+            },
+            {
+              "t": "Как считаются порты",
+              "d": "Учитываются занятые порты по данным SNMP-опроса; определение и требования к доступу — на карточке Professional.",
+              "link": "me-oputils-professional-every-additional-250-used-ports-in-switch-po"
+            },
+            {
+              "t": "Бессрочный вариант",
+              "d": "Разовая лицензия с ежегодным AMS 20 % — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OpUtils Professional, 250 портов",
+              "d": "Заявленная полная редакция того же объёма и цены.",
+              "link": "me-oputils-professional-every-additional-250-used-ports-in-switch-po"
+            },
+            {
+              "t": "OpManager Standard, 10 устройств",
+              "d": "Если параллельно нужен мониторинг коммутаторов, к которым относятся порты; учёт портов подключается дополнением.",
+              "link": "me-opmanager-standard-10-devices-pack-with-2-users"
+            },
+            {
+              "t": "Network Configuration Manager Professional, 10 устройств",
+              "d": "Когда важнее не занятость портов, а конфигурации самих коммутаторов и их резервные копии.",
+              "link": "me-network-configuration-manager-professional-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Это самостоятельная лицензия или дополнение?",
+          "a": "По артикулу вендора — дополнительный пакет на 250 портов; на витрине позиция значится базовой. Ответ подтверждается при оформлении заказа."
+        }
+      ],
+      "related_products": [
+        "me-oputils-professional-every-additional-250-used-ports-in-switch-po",
+        "me-opmanager-standard-10-devices-pack-with-2-users",
+        "me-network-configuration-manager-professional-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "OpUtils, 250 портов коммутаторов — подписка на год | BIZSoft",
+      "meta_description": "ManageEngine OpUtils, пакет на 250 используемых портов: карта подключений к портам коммутаторов, чужие устройства, занятость адресов. Артикул OPUTILSMGMT.",
+      "seo_intents": [
+        "oputils switch port mapper / порты коммутаторов — CAPABILITIES",
+        "oputils дополнительные порты 250 — hero, BEFORE_ORDER"
+      ],
+      "uncertainties": [
+        "Название витрины расходится с артикулом: h1 «OpUtils, базовый пакет вендора», sku ZOHO-ADD-OPUTILSMGMT-…-250PORT (дополнительный пакет портов); закупка равна Professional — needs_operator.",
+        "Значение кода редакции MGMT у вендора не известно; текст ограничен функциями портов, общими для любой редакции.",
+        "Возможность выключать и блокировать порт из консоли — по знанию модели о Switch Port Mapper; точный набор действий у вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (порты); опустошить",
+        "description": "→ FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что даёт пакет портов",
+          "new_information": "четыре группы функций по портам",
+          "sibling_overlap": "полный состав — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "switch port mapper",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "эта позиция или Professional",
+          "new_information": "два правила до сверки с прайсом",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "инвентарь витрины"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль «физика портов», два выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "найти устройство по порту коммутатора",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "база или расширение, подсчёт портов, perpetual",
+          "sibling_overlap": "порт — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "инвентарь витрины"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "сосед, OpManager, NCM",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

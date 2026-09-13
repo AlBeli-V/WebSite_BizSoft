@@ -1,0 +1,2 @@
+# Профиль вендора · Figma, Inc. (кратко)
+Модель с 11.03.2025: одно место на пользователя; типы мест Full (Design, Dev Mode, Draw, FigJam, Slides), Dev (Dev Mode, FigJam, Slides; Design — просмотр), Collab (FigJam, Slides; Design — просмотр), View (бесплатно). Планы Professional (месяц/год), Organization и Enterprise (только год). Повышение типа места — с одобрения администратора, оплата пропорционально с даты одобрения. Источники: help.figma.com/hc/en-us/articles/27468498501527, figma.com/pricing. Неопределённости: минимумы Enterprise-договора; AI-лимиты (с 03.2026).

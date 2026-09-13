@@ -93,14 +93,14 @@ describe('механизм второй привязки', () => {
   it('домашний раздел из списка отбрасывается — товар не задваивается', () => {
     // Даже если в реестр попадёт домашний раздел товара, выдача не должна
     // показать его дважды.
-    const p = product('SLACK-PRO', 'collaboration');
+    const p = product('SLCK-LIC-PRO-TEAM-1Y-USER', 'collaboration');
     expect(extraCategories(p)).toEqual([]);
     expect(productCategories(p)).toEqual(['collaboration']);
     expect(categoryMembers([p], 'collaboration')).toHaveLength(1);
   });
 
   it('товар виден и в своём разделе, и во втором', () => {
-    const p = product('SLACK-PRO', 'vcs');
+    const p = product('SLCK-LIC-PRO-TEAM-1Y-USER', 'vcs');
     expect(inCategory(p, 'vcs')).toBe(true);
     expect(inCategory(p, 'collaboration')).toBe(true);
     expect(inCategory(p, 'design')).toBe(false);
@@ -108,17 +108,17 @@ describe('механизм второй привязки', () => {
 
   it('свои товары раздела идут раньше пришедших второй привязкой', () => {
     // Иначе «Сайты и хостинг» открывались бы карточкой Cloudflare, а не WordPress.
-    const own = product('WORDPRESS-BUSINESS', 'web');
-    const guest = product('CLOUDFLARE-PRO', 'security');
+    const own = product('WPC-LIC-BUSINESS-UNI-1Y-ORG', 'web');
+    const guest = product('CFLR-LIC-PRO-UNI-1Y-ORG', 'security');
     expect(categoryMembers([guest, own], 'web').map((p) => p.sku)).toEqual([
-      'WORDPRESS-BUSINESS', 'CLOUDFLARE-PRO',
+      'WPC-LIC-BUSINESS-UNI-1Y-ORG', 'CFLR-LIC-PRO-UNI-1Y-ORG',
     ]);
   });
 
   it('счётчик раздела включает вторую привязку', () => {
     const counts = countByCategory([
-      product('WORDPRESS-BUSINESS', 'web'),
-      product('CLOUDFLARE-PRO', 'security'),
+      product('WPC-LIC-BUSINESS-UNI-1Y-ORG', 'web'),
+      product('CFLR-LIC-PRO-UNI-1Y-ORG', 'security'),
     ]);
     expect(counts.web).toBe(2);
     // Домашний раздел гостя при этом не теряет свою позицию.
@@ -126,7 +126,7 @@ describe('механизм второй привязки', () => {
   });
 
   it('видно, сколько позиций в разделе — гости', () => {
-    const items = [product('WORDPRESS-BUSINESS', 'web'), product('CLOUDFLARE-PRO', 'security')];
+    const items = [product('WPC-LIC-BUSINESS-UNI-1Y-ORG', 'web'), product('CFLR-LIC-PRO-UNI-1Y-ORG', 'security')];
     expect(crossListedCount(items, 'web')).toBe(1);
     expect(crossListedCount(items, 'security')).toBe(0);
   });
