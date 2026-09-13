@@ -1,0 +1,2424 @@
+{
+  "family_key": "ZOHO-ENDPOINT-SEC",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+  "classification_notes": [
+    "Endpoint-безопасность и обслуживание: Patch Manager Plus, Vulnerability Manager Plus, Application/Device/Browser Control, Malware/Ransomware Protection, OS Deployer, Remote Access Plus, Patch Connect Plus (дополнение к SCCM/Intune). Носитель — Patch Manager Plus Professional."
+  ],
+  "products": {
+    "me-patch-manager-plus-professional-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-PMPLUSPRO-UNI-1Y-PACK-10SRV1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Patch Manager Plus Professional — подписка на год для организации:  управление обновлениями: лицензия на 10 серверов, 1 техник.\n\nPatch Manager Plus — самостоятельный продукт для патчей, если полный Endpoint Central не нужен: обнаружение и установка обновлений Windows, macOS, Linux и 850+ сторонних приложений, тестирование и согласование, окна установки, отчёты о соответствии. Professional — для одной локальной сети; Enterprise добавляет распределённые площадки и удалённых пользователей. Пакет на 10 серверов и техника; рабочие станции — отдельными пакетами.\n\nСрок — 1 год, обновления и поддержка вендора включены. Следующий объём — доплатой разницы, срок не сбрасывается.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Patch Manager Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обновления",
+              "d": "ОС и 850+ сторонних приложений: обнаружение, тест на пилотной группе, согласование, установка по окнам."
+            },
+            {
+              "t": "Соответствие",
+              "d": "Отчёты по незакрытым патчам, история, автоматизация по политикам."
+            },
+            {
+              "t": "Единицы",
+              "d": "Серверы и рабочие станции лицензируются раздельно; серверы дороже."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Одна площадка."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Филиалы через серверы распределения, удалённые ноутбуки.",
+              "link": "me-patch-manager-plus-enterprise-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Professional",
+              "d": "Патчи плюс развёртывание ПО, инвентарь, удалённый доступ.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Серверы",
+              "d": "10 в пакете; рабочие станции — своими пакетами."
+            },
+            {
+              "t": "Техник",
+              "d": "Один; дополнительные — платно."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, которым нужны только патчи, а установка ПО и удалённый доступ уже закрыты другими инструментами."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Patch Manager Plus Enterprise",
+              "d": "Для филиалов.",
+              "link": "me-patch-manager-plus-enterprise-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Vulnerability Manager Plus Professional",
+              "d": "Патчи с приоритизацией по уязвимостям.",
+              "link": "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Professional",
+              "d": "Полное управление.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем отличается от патчей в Endpoint Central?",
+          "a": "Функции те же; Patch Manager Plus — отдельный продукт без остальных модулей и дешевле."
+        }
+      ],
+      "related_products": [
+        "me-patch-manager-plus-enterprise-10-servers-and-single-user-license",
+        "me-endpoint-central-professional-10-servers-and-single-user-license",
+        "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Patch Manager Plus Professional, 10 серверов | BIZSoft",
+      "meta_description": "ManageEngine Patch Manager Plus Professional: обновления Windows, macOS, Linux и 850+ приложений с тестированием и согласованием; 10 серверов и техник. Договор,",
+      "seo_intents": [
+        "patch manager plus купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "10 серверов, 1 техник"
+    },
+    "me-patch-manager-plus-enterprise-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-PMPLUSENT-UNI-1Y-PACK-10SRV1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Patch Manager Plus Enterprise — годовая подписка на управление обновлениями в распределённой сети: лицензия на 10 серверов, 1 техник.\n\nEnterprise отличается от Professional архитектурой: серверы распределения в филиалах экономят канал, а агенты ноутбуков вне офиса получают патчи через интернет. Набор функций патчинга — тот же.\n\nПодписка на год с обновлениями и техподдержкой ManageEngine. Увеличение объёма в течение года — доплатой разницы между полосами.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Филиалы",
+              "d": "Серверы распределения кешируют обновления на площадках."
+            },
+            {
+              "t": "Удалённые пользователи",
+              "d": "Патчи ноутбукам через Secure Gateway без VPN."
+            },
+            {
+              "t": "Всё из Professional",
+              "d": "Тест, согласование, окна, отчёты."
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Несколько площадок или удалёнка."
+            },
+            {
+              "t": "Professional",
+              "d": "Одна локальная сеть.",
+              "link": "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Enterprise (Distributed)",
+              "d": "Патчи и полное управление филиалами.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с филиалами и удалёнными сотрудниками, которым нужен только патчинг."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Patch Manager Plus Professional",
+              "d": "Одна площадка.",
+              "link": "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Vulnerability Manager Plus Enterprise",
+              "d": "С уязвимостями.",
+              "link": "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли VPN для ноутбуков вне офиса?",
+          "a": "Нет, Enterprise обновляет их через защищённый шлюз по интернету."
+        }
+      ],
+      "related_products": [
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license",
+        "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Patch Manager Plus Enterprise, 10 серверов | BIZSoft",
+      "meta_description": "ManageEngine Patch Manager Plus Enterprise: патчи для филиалов и удалённых ноутбуков через серверы распределения и шлюз; 10 серверов и техник. Договор, ЭДО.",
+      "seo_intents": [
+        "patch manager plus enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "10 серверов, 1 техник"
+    },
+    "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-VMPPRO-UNI-1Y-PACK-10SRV1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Vulnerability Manager Plus Professional — подписка (12 месяцев) на управление уязвимостями: лицензия на 10 серверов, 1 техник.\n\nVulnerability Manager Plus смотрит на конечные точки глазами ИБ: сканирует ОС и приложения, приоритизирует уязвимости по эксплуатируемости и возрасту, закрывает их патчем из той же консоли, контролирует конфигурации безопасности, порты и ПО с истёкшей поддержкой. Professional — одна сеть; Enterprise — распределённые площадки.\n\nГод подписки; обновления и поддержка — в цене. Следующая полоса — доплатой разницы, не вторым пакетом.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Vulnerability Manager Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Сканирование",
+              "d": "Уязвимости ОС и приложений, zero-day, ПО с истёкшей поддержкой, открытые порты."
+            },
+            {
+              "t": "Приоритизация",
+              "d": "Оценка риска по CVSS, эксплуатируемости и возрасту; панели для ИБ."
+            },
+            {
+              "t": "Исправление",
+              "d": "Патчи и обходные меры из консоли; конфигурации безопасности (пароли, шифрование, аудит)."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Аудит-отчёты для проверок и регуляторов."
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Одна площадка."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Филиалы и удалённые точки.",
+              "link": "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Patch Manager Plus Professional",
+              "d": "Только патчи без анализа уязвимостей.",
+              "link": "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Уязвимости в составе полного управления.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИБ-службам, которым нужен цикл «нашли — оценили — закрыли» на одном агенте."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Vulnerability Manager Plus Enterprise",
+              "d": "Филиалы.",
+              "link": "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Patch Manager Plus Professional",
+              "d": "Дешевле, без уязвимостей.",
+              "link": "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Полный набор.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли это сканер сети вроде Nessus?",
+          "a": "Он закрывает уязвимости конечных точек с агентом и исправлением; сетевые устройства и внешний периметр — задача других инструментов."
+        }
+      ],
+      "related_products": [
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license",
+        "me-endpoint-central-security-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Vulnerability Manager Plus Professional, 10 серверов | BIZSo",
+      "meta_description": "ManageEngine Vulnerability Manager Plus: сканирование, приоритизация и закрытие уязвимостей конечных точек патчами; 10 серверов и техник. Договор, ЭДО.",
+      "seo_intents": [
+        "vulnerability manager plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "10 серверов, 1 техник"
+    },
+    "me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-VMPENT-UNI-1Y-PACK-10SRV1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Vulnerability Manager Plus Enterprise — годовой план:  управление уязвимостями для нескольких площадок — пакет на десять серверов с одним техником.\n\nEnterprise повторяет функции Professional и добавляет серверы распределения для филиалов и работу с удалёнными ноутбуками через шлюз — то же деление, что у Patch Manager Plus.\n\nДействует 12 месяцев, включая обновления и поддержку производителя. Больший объём — апгрейдом полосы с оплатой разницы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Сканирование, приоритизация по риску, закрытие патчами и контроль конфигураций — как у Professional (см. её карточку); Enterprise добавляет серверы распределения и шлюз для удалённых устройств.",
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Несколько площадок."
+            },
+            {
+              "t": "Professional",
+              "d": "Одна сеть.",
+              "link": "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Полный набор с UEM.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Распределённым компаниям с ИБ-требованиями к конечным точкам."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Vulnerability Manager Plus Professional",
+              "d": "Одна площадка.",
+              "link": "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Patch Manager Plus Enterprise",
+              "d": "Только патчи.",
+              "link": "me-patch-manager-plus-enterprise-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли филиальные серверы распределения лицензией?",
+          "a": "Нет, серверы распределения — компонент инфраструктуры, лицензируются управляемые конечные точки."
+        }
+      ],
+      "related_products": [
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-vulnerability-manager-plus-professional-10-servers-and-single-user-license",
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-patch-manager-plus-enterprise-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Vulnerability Manager Plus Enterprise, 10 серверов | BIZSoft",
+      "meta_description": "ManageEngine Vulnerability Manager Plus Enterprise: уязвимости конечных точек в филиалах и на удалёнке, приоритизация и патчи; 10 серверов. Договор, ЭДО.",
+      "seo_intents": [
+        "vulnerability manager plus enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "10 серверов, 1 техник"
+    },
+    "me-application-control-plus-professional-100-workstations": {
+      "sku": "ZOHO-LIC-APPCTLPRO-UNI-1Y-PACK-100WS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 100 рабочих станций",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Application Control Plus Professional — годовое право использования:  контроль запуска приложений: лицензия на 100 рабочих станций.\n\nApplication Control Plus решает одну задачу — что можно запускать на рабочих станциях: обнаружение всех приложений в сети, белые и чёрные списки, повышение прав для конкретных программ вместо локального администратора, защита от неизвестного ПО и вымогателей. Тот же модуль входит в Endpoint Central Security.\n\nСрок — год; в стоимость входят обновления и поддержка. Ступени объёма меняются доплатой, а не покупкой второго пакета.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Application Control Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение",
+              "d": "Инвентарь всех запускаемых приложений с издателями."
+            },
+            {
+              "t": "Правила",
+              "d": "Белые списки по издателю, хэшу и пути; чёрные списки; режим аудита перед блокировкой."
+            },
+            {
+              "t": "Привилегии",
+              "d": "Запуск отдельных приложений с повышенными правами без прав администратора у пользователя."
+            },
+            {
+              "t": "Защита",
+              "d": "Блокировка неизвестного ПО и скриптов вымогателей."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Application Control Plus",
+              "d": "Нужен контроль приложений без остального Security."
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Контроль приложений в составе полного набора.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Device Control Plus",
+              "d": "Контроль USB и периферии — соседний продукт.",
+              "link": "me-device-control-plus-professional-100-computers"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с требованием запрета неавторизованного ПО и отказом от локальных админов."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central Security",
+              "d": "Полный набор ИБ и управления.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Device Control Plus",
+              "d": "USB и устройства.",
+              "link": "me-device-control-plus-professional-100-computers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Лицензируются ли серверы?",
+          "a": "Этот пакет — рабочие станции; серверы считаются отдельно, по запросу."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-device-control-plus-professional-100-computers",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Application Control Plus Professional, 100 станций | BIZSoft",
+      "meta_description": "ManageEngine Application Control Plus: белые списки приложений, повышение прав без локального админа, защита от неизвестного ПО; 100 рабочих станций. Договор, Э",
+      "seo_intents": [
+        "application control plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "100 рабочих станций"
+    },
+    "me-device-control-plus-professional-100-computers": {
+      "sku": "ZOHO-LIC-DEVCTLPRO-UNI-1Y-PACK-100PC",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 100 компьютеров",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Device Control Plus Professional — годовая лицензия на контроль USB и периферии: лицензия на 100 компьютеров.\n\nDevice Control Plus управляет съёмными носителями и периферией: политики для USB, Bluetooth, принтеров и портов, режим только чтения или блокировка, теневые копии переданных файлов, временный доступ по запросу, отчёты. Модуль входит и в Endpoint Central Security.\n\nЛицензия годовая, с обновлениями и поддержкой вендора. Полоса меняется на большую в течение срока с доплатой разницы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Device Control Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Политики",
+              "d": "USB-накопители, телефоны, Bluetooth, принтеры, порты — по пользователям и группам."
+            },
+            {
+              "t": "Теневые копии",
+              "d": "Копии файлов, переданных на носители, для расследований."
+            },
+            {
+              "t": "Временный доступ",
+              "d": "Разрешение на срок по запросу сотрудника с согласованием."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Кто, что и куда копировал."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Device Control Plus",
+              "d": "Нужен только контроль носителей."
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "В составе полного набора.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint DLP Plus",
+              "d": "Контроль содержимого, а не только каналов.",
+              "link": "me-endpoint-dlp-plus-professional-100-workstations"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям, где утечка через флешку — реальный риск, а DLP по содержимому избыточен."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint DLP Plus Professional",
+              "d": "Защита по содержимому.",
+              "link": "me-endpoint-dlp-plus-professional-100-workstations"
+            },
+            {
+              "t": "Application Control Plus",
+              "d": "Контроль приложений.",
+              "link": "me-application-control-plus-professional-100-workstations"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли разрешить конкретные корпоративные флешки?",
+          "a": "Да, белый список по серийным номерам и моделям устройств."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-endpoint-dlp-plus-professional-100-workstations",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-application-control-plus-professional-100-workstations"
+      ],
+      "meta_title": "Device Control Plus Professional, 100 компьютеров | BIZSoft",
+      "meta_description": "ManageEngine Device Control Plus: политики USB и периферии, теневые копии, временный доступ по запросу; 100 компьютеров. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "device control plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "100 компьютеров"
+    },
+    "me-browser-security-plus-professional-50-computers-and-single-user-license": {
+      "sku": "ZOHO-LIC-BSPPRO-UNI-1Y-PACK-50PC1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 50 компьютеров, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Browser Security Plus Professional — подписка сроком на год на управление безопасностью браузеров: лицензия на 50 компьютеров, 1 техник.\n\nBrowser Security Plus наводит порядок в Chrome, Edge и Firefox: единые политики, контроль расширений и плагинов, изоляция недоверенных сайтов, обнаружение уязвимых версий и отчёты о соответствии — для 50 компьютеров и одного техника.\n\nНа год; обновления версий и поддержка входят. Расширение лицензии — доплата до нужной ступени в любой момент срока.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Browser Security Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Политики",
+              "d": "Домашние страницы, прокси, пароли, синхронизация — централизованно для трёх браузеров."
+            },
+            {
+              "t": "Расширения",
+              "d": "Разрешённые и запрещённые расширения, обнаружение вредоносных."
+            },
+            {
+              "t": "Изоляция",
+              "d": "Недоверенные сайты открываются в изолированном режиме; легаси-приложения — в нужном браузере."
+            },
+            {
+              "t": "Аудит",
+              "d": "Уязвимые версии браузеров и плагинов, отчёты."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Browser Security Plus",
+              "d": "Только браузеры."
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "В составе набора.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, где браузер — основной рабочий инструмент, а расширения ставят кто во что горазд."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central Security",
+              "d": "Полный набор.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Application Control Plus",
+              "d": "Контроль приложений в целом.",
+              "link": "me-application-control-plus-professional-100-workstations"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Управляет ли Яндекс.Браузером?",
+          "a": "Поддержка — для Chrome, Edge и Firefox; браузеры на Chromium частично покрываются политиками Chrome, уточняйте по документации."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-application-control-plus-professional-100-workstations"
+      ],
+      "meta_title": "Browser Security Plus Professional, 50 компьютеров | BIZSoft",
+      "meta_description": "ManageEngine Browser Security Plus: политики Chrome, Edge и Firefox, контроль расширений, изоляция сайтов; 50 компьютеров и техник. Договор, ЭДО.",
+      "seo_intents": [
+        "browser security plus — hero"
+      ],
+      "uncertainties": [
+        "Поддержка Chromium-браузеров сверх Chrome/Edge — по документации вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "50 компьютеров, 1 техник"
+    },
+    "me-malware-protection-plus-enterprise-10-servers": {
+      "sku": "ZOHO-LIC-MPPENT-UNI-1Y-PACK-10SRV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 серверов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Malware Protection Plus Enterprise — подписка сроком на год на защиту от вредоносного ПО: лицензия на 10 серверов.\n\nMalware Protection Plus — антивирусный модуль ManageEngine для серверов и рабочих станций: сигнатурный и поведенческий анализ, защита в реальном времени, карантин и откат, единая консоль с продуктами Endpoint Central; включает защиту от вымогателей. Пакет на 10 серверов.\n\nПодписка действует год и включает обновления с поддержкой. Больше объектов — переход на следующую ступень прайса за разницу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Malware Protection Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Защита",
+              "d": "Сигнатуры и поведенческий анализ в реальном времени, облачная репутация."
+            },
+            {
+              "t": "Реакция",
+              "d": "Карантин, откат изменений, отчёты об инцидентах."
+            },
+            {
+              "t": "Консоль",
+              "d": "Общая с Endpoint Central: один агент на всё."
+            },
+            {
+              "t": "Вымогатели",
+              "d": "Функции Ransomware Protection Plus входят."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Malware Protection Plus",
+              "d": "Антивирус в экосистеме ManageEngine."
+            },
+            {
+              "t": "Ransomware Protection Plus",
+              "d": "Только защита от шифровальщиков — дешевле.",
+              "link": "me-ransomware-protection-plus-enterprise-10-servers"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Модуль в составе набора.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям на Endpoint Central, которые хотят убрать второй антивирусный агент."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ransomware Protection Plus",
+              "d": "Узкая защита.",
+              "link": "me-ransomware-protection-plus-enterprise-10-servers"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Полный набор.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Endpoint Central?",
+          "a": "Не обязательно, продукт работает самостоятельно; с Endpoint Central — общая консоль и агент."
+        }
+      ],
+      "related_products": [
+        "me-ransomware-protection-plus-enterprise-10-servers",
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Malware Protection Plus Enterprise, 10 серверов | BIZSoft",
+      "meta_description": "ManageEngine Malware Protection Plus: антивирус с поведенческим анализом, карантин, откат, защита от вымогателей; 10 серверов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "malware protection plus — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "10 серверов"
+    },
+    "me-ransomware-protection-plus-enterprise-10-servers": {
+      "sku": "ZOHO-LIC-RPPENT-UNI-1Y-PACK-10SRV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 серверов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Ransomware Protection Plus Enterprise — подписка на 1 год на защиту от программ-вымогателей: лицензия на 10 серверов.\n\nУзкий продукт против шифровальщиков: поведенческий анализ процессов, изоляция заражённых машин, восстановление файлов из теневых копий, общая консоль с Endpoint Central. Полный антивирус — Malware Protection Plus, который эту защиту включает.\n\nГодовой срок; вендорская поддержка и апдейты — в цене. Объём лицензии расширяется в течение года доплатой разницы до следующей полосы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Ransomware Protection Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение",
+              "d": "Поведенческие признаки шифрования, приманки, остановка процесса."
+            },
+            {
+              "t": "Изоляция",
+              "d": "Отключение заражённой машины от сети из консоли."
+            },
+            {
+              "t": "Восстановление",
+              "d": "Откат файлов из теневых копий в один щелчок."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ransomware Protection Plus",
+              "d": "Есть свой антивирус, нужен второй рубеж против шифровальщиков."
+            },
+            {
+              "t": "Malware Protection Plus",
+              "d": "Полный антивирус с этой защитой внутри.",
+              "link": "me-malware-protection-plus-enterprise-10-servers"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с корпоративным антивирусом другого вендора, которым нужна специализированная защита и откат."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Malware Protection Plus",
+              "d": "Антивирус целиком.",
+              "link": "me-malware-protection-plus-enterprise-10-servers"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Набор ИБ.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Конфликтует ли с существующим антивирусом?",
+          "a": "Продукт рассчитан на работу рядом со сторонним антивирусом; исключения см. в документации."
+        }
+      ],
+      "related_products": [
+        "me-malware-protection-plus-enterprise-10-servers",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-endpoint-central-security-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Ransomware Protection Plus Enterprise, 10 серверов | BIZSoft",
+      "meta_description": "ManageEngine Ransomware Protection Plus: поведенческое обнаружение шифровальщиков, изоляция, откат из теневых копий; 10 серверов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "ransomware protection plus — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "10 серверов"
+    },
+    "me-os-deployer-professional-10-servers": {
+      "sku": "ZOHO-LIC-OSDPRO-UNI-1Y-PACK-10SRV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 серверов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OS Deployer Professional — годовая лицензия на развёртывание образов ОС: лицензия на 10 серверов.\n\nOS Deployer создаёт и раскатывает образы Windows: захват эталонной системы, развёртывание по сети и с носителей, драйверы, постустановочные задачи, миграция профилей. Professional — одна локальная сеть; Enterprise — распределённые площадки. Пакет на 10 серверов; рабочие станции — отдельно.\n\n12 месяцев с обновлениями и техподдержкой. Увеличить объём можно в любой момент доплатой до большей полосы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет OS Deployer",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Образы",
+              "d": "Захват с эталонной машины, хранение версий, оффлайн-редактирование."
+            },
+            {
+              "t": "Развёртывание",
+              "d": "По сети (PXE) и с USB, драйверы под модель, доменное присоединение, приложения после установки."
+            },
+            {
+              "t": "Миграция",
+              "d": "Перенос профилей и данных пользователей на новую систему."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Одна площадка."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Филиалы с серверами распределения.",
+              "link": "me-os-deployer-enterprise-10-servers"
+            },
+            {
+              "t": "Endpoint Central",
+              "d": "Развёртывание ОС как надстройка к полному управлению.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-отделам, которые регулярно переустанавливают или обновляют парк и хотят единый образ."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OS Deployer Enterprise",
+              "d": "Филиалы.",
+              "link": "me-os-deployer-enterprise-10-servers"
+            },
+            {
+              "t": "Endpoint Central Professional",
+              "d": "Полное управление.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Поддерживается ли Windows 11 с TPM?",
+          "a": "Да, образы Windows 10/11 и Server с современными требованиями загрузки."
+        }
+      ],
+      "related_products": [
+        "me-os-deployer-enterprise-10-servers",
+        "me-endpoint-central-professional-10-servers-and-single-user-license",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "OS Deployer Professional, 10 серверов | BIZSoft",
+      "meta_description": "ManageEngine OS Deployer Professional: образы Windows, развёртывание по сети, драйверы, миграция профилей; 10 серверов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "os deployer — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "10 серверов"
+    },
+    "me-os-deployer-enterprise-10-servers": {
+      "sku": "ZOHO-LIC-OSDENT-UNI-1Y-PACK-10SRV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 серверов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "OS Deployer Enterprise — подписка (12 месяцев) на развёртывание образов ОС в филиалах: лицензия на 10 серверов.\n\nEnterprise отличается от Professional поддержкой распределённых площадок: образы хранятся на серверах распределения в филиалах, развёртывание идёт локально без нагрузки на канал до центра.\n\nСрок подписки — год, обновления и поддержка вендора в комплекте. Расширение внутри срока — доплата до нужной полосы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Захват, хранение и развёртывание образов, драйверы и миграция профилей — как в Professional; добавляются серверы распределения в филиалах.",
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Несколько площадок."
+            },
+            {
+              "t": "Professional",
+              "d": "Одна сеть.",
+              "link": "me-os-deployer-professional-10-servers"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Распределённым компаниям с единым стандартом образов."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OS Deployer Professional",
+              "d": "Одна площадка.",
+              "link": "me-os-deployer-professional-10-servers"
+            },
+            {
+              "t": "Endpoint Central Enterprise (Distributed)",
+              "d": "Полное управление филиалами.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли разворачивать образы через интернет?",
+          "a": "Нет, развёртывание идёт в локальной сети площадки через сервер распределения."
+        }
+      ],
+      "related_products": [
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-os-deployer-professional-10-servers",
+        "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+      ],
+      "meta_title": "OS Deployer Enterprise, 10 серверов | BIZSoft",
+      "meta_description": "ManageEngine OS Deployer Enterprise: образы Windows и развёртывание на площадках через серверы распределения; 10 серверов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "os deployer enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "10 серверов"
+    },
+    "me-remote-access-plus-standard-25-computers-and-5-users": {
+      "sku": "ZOHO-LIC-RAPSTD-UNI-1Y-PACK-25PC5USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 25 компьютеров, 5 специалистов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Remote Access Plus Standard — подписка на 1 год на удалённую поддержку рабочих мест: лицензия на 25 компьютеров, 5 специалистов.\n\nRemote Access Plus — инструмент службы поддержки: удалённое управление рабочим столом, чат и звонки с пользователем, диспетчер задач, реестр и командная строка без прерывания работы, отчёты. Standard — подключение и базовые инструменты; Professional — расширенная диагностика, запись сессий и интеграции. Пакет на 25 компьютеров и 5 специалистов.\n\nОдин год с правом на обновления и обращения в поддержку. Переход на большую полосу — в любой момент, по разнице цен.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Remote Access Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Удалённый стол",
+              "d": "Подключение с согласия пользователя или без, несколько мониторов, передача файлов."
+            },
+            {
+              "t": "Инструменты без прерывания",
+              "d": "Диспетчер задач, службы, реестр, командная строка, события — пока пользователь работает."
+            },
+            {
+              "t": "Общение",
+              "d": "Чат, голос, видео с пользователем."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Подключение и базовые инструменты."
+            },
+            {
+              "t": "Professional",
+              "d": "Запись сессий, расширенная диагностика, интеграции с ServiceDesk Plus.",
+              "link": "me-remote-access-plus-professional-25-computers-and-5-users"
+            },
+            {
+              "t": "Endpoint Central Professional",
+              "d": "Удалённый доступ в составе управления.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Небольшой службе поддержки, которой нужен свой инструмент удалённого подключения вместо TeamViewer."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Remote Access Plus Professional",
+              "d": "С записью сессий.",
+              "link": "me-remote-access-plus-professional-25-computers-and-5-users"
+            },
+            {
+              "t": "TeamViewer Business",
+              "d": "Внешняя альтернатива.",
+              "link": "teamviewer-business"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли вне локальной сети?",
+          "a": "Да, через защищённый шлюз для ноутбуков вне офиса."
+        }
+      ],
+      "related_products": [
+        "me-remote-access-plus-professional-25-computers-and-5-users",
+        "me-endpoint-central-professional-10-servers-and-single-user-license",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "teamviewer-business"
+      ],
+      "meta_title": "Remote Access Plus Standard, 25 компьютеров | BIZSoft",
+      "meta_description": "ManageEngine Remote Access Plus Standard: удалённый рабочий стол, инструменты диагностики без прерывания пользователя; 25 компьютеров и 5 специалистов. Договор,",
+      "seo_intents": [
+        "remote access plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard",
+      "volume_label": "25 компьютеров, 5 специалистов"
+    },
+    "me-remote-access-plus-professional-25-computers-and-5-users": {
+      "sku": "ZOHO-LIC-RAPPRO-UNI-1Y-PACK-25PC5USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 25 компьютеров, 5 специалистов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Remote Access Plus Professional — подписка на год для организации:  удалённую поддержку с записью сессий: лицензия на 25 компьютеров, 5 специалистов.\n\nProfessional добавляет к Standard запись сессий для аудита, расширенные инструменты диагностики (Wake-on-LAN, снимки экрана, аннотации) и интеграцию с ServiceDesk Plus — подключение прямо из заявки.\n\nГодовая подписка: новые версии и поддержка производителя входят. Масштабирование — переходом на следующую полосу за разницу в цене.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Запись сессий",
+              "d": "Видео каждого подключения для контроля и разбора."
+            },
+            {
+              "t": "Диагностика",
+              "d": "Wake-on-LAN, удалённая перезагрузка, снимки, аннотации на экране пользователя."
+            },
+            {
+              "t": "Интеграции",
+              "d": "ServiceDesk Plus и другие ITSM — подключение из заявки с журналом."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Нужен аудит подключений и связь с заявками."
+            },
+            {
+              "t": "Standard",
+              "d": "Базовое подключение.",
+              "link": "me-remote-access-plus-standard-25-computers-and-5-users"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службам поддержки с регламентом контроля действий техников у пользователей."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Remote Access Plus Standard",
+              "d": "Дешевле.",
+              "link": "me-remote-access-plus-standard-25-computers-and-5-users"
+            },
+            {
+              "t": "ServiceDesk Plus Professional",
+              "d": "Заявки, к которым подключается удалённый доступ.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли открыть сессию из заявки ServiceDesk Plus?",
+          "a": "Да, при интеграции Professional подключение запускается из карточки заявки и фиксируется в ней."
+        }
+      ],
+      "related_products": [
+        "me-remote-access-plus-standard-25-computers-and-5-users",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-servicedesk-plus-professional-2-technicians"
+      ],
+      "meta_title": "Remote Access Plus Professional, 25 компьютеров | BIZSoft",
+      "meta_description": "ManageEngine Remote Access Plus Professional: запись сессий, расширенная диагностика, подключение из заявок ServiceDesk Plus; 25 компьютеров и 5 специалистов. Д",
+      "seo_intents": [
+        "remote access plus professional — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "25 компьютеров, 5 специалистов"
+    },
+    "me-patch-connect-plus-standard-250-computers": {
+      "sku": "ZOHO-LIC-PCPSTD-UNI-1Y-PACK-250PC",
+      "classification": {
+        "nature": "addon",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 250 компьютеров",
+      "min_qty": 1,
+      "base_product_sku": "EXTERNAL:MICROSOFT-SCCM-INTUNE",
+      "short_description": "Patch Connect Plus Standard — годовой план:  сторонние обновления для SCCM: лицензия на 250 компьютеров.\n\nPatch Connect Plus — дополнение к Microsoft Configuration Manager (SCCM) и Intune: каталог обновлений 300+ сторонних приложений публикуется в SCCM, чтобы патчить Chrome, Java, Adobe и прочее штатным механизмом Microsoft. Standard — обновления; Professional добавляет развёртывание приложений; Enterprise — Intune и расширенную автоматизацию. Пакет на 250 компьютеров.\n\nОформляется на год; обновления и техподдержка — без доплат. При росте парка оформляется переход на большую полосу с доплатой.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что добавляет Patch Connect Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Каталог",
+              "d": "300+ сторонних приложений, обновления публикуются в WSUS/SCCM автоматически."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Правила автопубликации и одобрения, тестовые коллекции."
+            },
+            {
+              "t": "Требуется",
+              "d": "Microsoft Configuration Manager; без него продукт бессмысленен."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Только обновления сторонних приложений через SCCM."
+            },
+            {
+              "t": "Professional",
+              "d": "Плюс развёртывание приложений через SCCM.",
+              "link": "me-patch-connect-plus-professional-250-computers"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Плюс Intune и расширенная автоматизация.",
+              "link": "me-patch-connect-plus-enterprise-250-computers"
+            },
+            {
+              "t": "Patch Manager Plus",
+              "d": "Самостоятельный патчинг без SCCM.",
+              "link": "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовый продукт",
+              "d": "Microsoft Configuration Manager (SCCM) лицензируется у Microsoft отдельно."
+            },
+            {
+              "t": "Компьютеры",
+              "d": "250 в пакете; управляемые SCCM клиенты."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям на SCCM, которым не хватает сторонних приложений в штатном патч-менеджменте."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Patch Connect Plus Professional",
+              "d": "С развёртыванием приложений.",
+              "link": "me-patch-connect-plus-professional-250-computers"
+            },
+            {
+              "t": "Patch Manager Plus Professional",
+              "d": "Без SCCM.",
+              "link": "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли без SCCM?",
+          "a": "Нет, это дополнение к Configuration Manager; для автономного патчинга — Patch Manager Plus."
+        }
+      ],
+      "related_products": [
+        "me-patch-connect-plus-professional-250-computers",
+        "me-patch-connect-plus-enterprise-250-computers",
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Patch Connect Plus Standard, 250 компьютеров | BIZSoft",
+      "meta_description": "ManageEngine Patch Connect Plus Standard: обновления 300+ сторонних приложений через Microsoft SCCM; 250 компьютеров. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "patch connect plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard",
+      "volume_label": "250 компьютеров",
+      "addon_source": "vendor",
+      "license_model": "annual"
+    },
+    "me-patch-connect-plus-professional-250-computers": {
+      "sku": "ZOHO-LIC-PCPPRO-UNI-1Y-PACK-250PC",
+      "classification": {
+        "nature": "addon",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 250 компьютеров",
+      "min_qty": 1,
+      "base_product_sku": "EXTERNAL:MICROSOFT-SCCM-INTUNE",
+      "short_description": "Patch Connect Plus Professional — на год: подписка на сторонние обновления и приложения для SCCM: лицензия на 250 компьютеров.\n\nProfessional к каталогу обновлений Standard добавляет развёртывание сторонних приложений через SCCM: готовые шаблоны установки для сотен программ публикуются как приложения Configuration Manager.\n\nДействует год, обновления и поддержка ManageEngine включены. Пакет апгрейдится доплатой до нужной полосы без новой покупки.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Каталог обновлений и публикация в SCCM — как в Standard; Professional добавляет готовые шаблоны развёртывания приложений через Configuration Manager.",
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что требуется",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовый продукт",
+              "d": "Microsoft Configuration Manager — лицензируется у Microsoft; Patch Connect Plus публикует в него контент."
+            },
+            {
+              "t": "Компьютеры",
+              "d": "250 управляемых клиентов SCCM в пакете."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Обновления и установка приложений через SCCM."
+            },
+            {
+              "t": "Standard",
+              "d": "Только обновления.",
+              "link": "me-patch-connect-plus-standard-250-computers"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Плюс Intune.",
+              "link": "me-patch-connect-plus-enterprise-250-computers"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "SCCM-командам, которые хотят ставить сторонние программы штатным механизмом без ручной упаковки."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Patch Connect Plus Standard",
+              "d": "Дешевле.",
+              "link": "me-patch-connect-plus-standard-250-computers"
+            },
+            {
+              "t": "Patch Connect Plus Enterprise",
+              "d": "Intune.",
+              "link": "me-patch-connect-plus-enterprise-250-computers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужно ли упаковывать приложения самим?",
+          "a": "Нет, шаблоны установки поставляет ManageEngine; они публикуются в SCCM как приложения."
+        }
+      ],
+      "related_products": [
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-patch-connect-plus-standard-250-computers",
+        "me-patch-connect-plus-enterprise-250-computers"
+      ],
+      "meta_title": "Patch Connect Plus Professional, 250 компьютеров | BIZSoft",
+      "meta_description": "ManageEngine Patch Connect Plus Professional: обновления и развёртывание сторонних приложений через SCCM; 250 компьютеров. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "patch connect plus professional — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "базовый продукт",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "250 компьютеров",
+      "addon_source": "vendor",
+      "license_model": "annual"
+    },
+    "me-patch-connect-plus-enterprise-250-computers": {
+      "sku": "ZOHO-LIC-PCPENT-UNI-1Y-PACK-250PC",
+      "classification": {
+        "nature": "addon",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 250 компьютеров",
+      "min_qty": 1,
+      "base_product_sku": "EXTERNAL:MICROSOFT-SCCM-INTUNE",
+      "short_description": "Patch Connect Plus Enterprise — лицензия на год:  сторонние обновления для SCCM и Intune: лицензия на 250 компьютеров.\n\nEnterprise — для сред, где часть устройств управляется Intune: публикация сторонних обновлений и приложений и в Configuration Manager, и в Intune, расширенные правила автоматизации и отчёты.\n\nНа 12 месяцев с апдейтами и техподдержкой в цене. Рост объёма оформляется переходом на следующую полосу с доплатой.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Всё из Professional плюс публикация в Intune и расширенная автоматизация; требуется SCCM и/или Intune от Microsoft.",
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что требуется",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовые продукты",
+              "d": "Configuration Manager и/или Intune от Microsoft; Patch Connect Plus подключается к обоим."
+            },
+            {
+              "t": "Компьютеры",
+              "d": "250 в пакете; смешанный парк SCCM и Intune считается вместе."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "SCCM плюс Intune."
+            },
+            {
+              "t": "Professional",
+              "d": "Только SCCM с приложениями.",
+              "link": "me-patch-connect-plus-professional-250-computers"
+            },
+            {
+              "t": "Endpoint Central",
+              "d": "Замена SCCM целиком.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-patch-manager-plus-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям в переходе с SCCM на Intune или в смешанной модели."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Patch Connect Plus Professional",
+              "d": "Без Intune.",
+              "link": "me-patch-connect-plus-professional-250-computers"
+            },
+            {
+              "t": "Patch Manager Plus Enterprise",
+              "d": "Автономный патчинг.",
+              "link": "me-patch-manager-plus-enterprise-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Публикуются ли обновления в Intune автоматически?",
+          "a": "Да, по правилам одобрения — как и в SCCM."
+        }
+      ],
+      "related_products": [
+        "me-patch-manager-plus-professional-10-servers-and-single-user-license",
+        "me-patch-connect-plus-professional-250-computers",
+        "me-endpoint-central-professional-10-servers-and-single-user-license",
+        "me-patch-manager-plus-enterprise-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Patch Connect Plus Enterprise, 250 компьютеров | BIZSoft",
+      "meta_description": "ManageEngine Patch Connect Plus Enterprise: сторонние обновления и приложения через SCCM и Intune; 250 компьютеров. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "patch connect plus enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "базовый продукт",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "250 компьютеров",
+      "addon_source": "vendor",
+      "license_model": "annual"
+    }
+  }
+}

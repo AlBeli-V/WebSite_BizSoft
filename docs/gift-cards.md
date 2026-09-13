@@ -22,7 +22,7 @@ iTunes Gift Card для трёх регионов (Россия, Казахст�
 - Регион `GLOBAL` — код без привязки к стране; порядок регионов на витрине —
   `REGION_ORDER` (RU, KZ, TR), остальные после них по алфавиту.
 - Артикулы: родитель `…-GIFT-CARD`, вариант `…-GIFT-CARD-<регион>-<номинал|код>`
-  (`APP-STORE-ITUNES-GIFT-CARD-RU-1000`, `DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M`).
+  (`APPL-GFT-APPSTORE-UNI-BAL-NOM-RU1000`, `DISC-GFT-NITRO-UNI-12M-NOM-GL`).
   По этому шаблону `productNoindex()`
   закрывает варианты от индексации: в sitemap, фиды и поиск идёт только
   родитель. Страница варианта (`/product/<slug варианта>`) отдаёт 301 на

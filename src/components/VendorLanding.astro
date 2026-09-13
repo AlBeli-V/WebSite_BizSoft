@@ -113,7 +113,7 @@ const topups = denom && denomParent
       sku: p.sku,
       price: effectivePrice(p).price,
       priceText: formatRub(effectivePrice(p).price),
-      // Номинал вытаскивается из артикула: <PREFIX>-CREDITS-<номинал>.
+      // Номинал — последний сегмент артикула (вариант): <…>-CRD-<продукт>-UNI-BAL-NOM-<номинал>.
       nominal: Number((p.sku.match(/-(\d+)$/) || [])[1] || 0),
     }))
     .filter((p) => p.price > 0)
