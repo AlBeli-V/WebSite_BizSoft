@@ -16,6 +16,7 @@ import { resolve } from 'node:path';
 import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, UNIT_FORMS } from '../src/lib/product-commerce';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../src/data/policies';
 import { cardComposition, KIND_MARKER } from '../src/lib/product-composition';
+import { PLAN_MARKER, PLAN_MARKER_UNIVERSAL } from '../src/lib/plan-type';
 import { VENDOR_CONTENT } from '../src/data/vendor-content';
 
 const ROOT = resolve(__dirname, '..');
@@ -153,6 +154,18 @@ describe('плашки над заголовком', () => {
     expect(page).toContain('const markerOverride = cardMeta?.marker');
   });
 
+  it('подписка без подтверждённого плана выходит с универсальной плашкой', () => {
+    // Решение руководителя 13.09.2026: пустой плашки у карточки не бывает.
+    // Эвристика молчит на 277 подписках из 601 — Visual Studio Professional,
+    // Perforce Helix Core и подобные, где план один для всех.
+    expect(PLAN_MARKER_UNIVERSAL).toBe('Универсальный план');
+    expect(PLAN_MARKER_UNIVERSAL).not.toBe(KIND_MARKER.balance_topup);
+    expect(page).toContain('const primaryMarker = kindMarker || planMarker || PLAN_MARKER_UNIVERSAL');
+    expect(page).toContain('PLAN_MARKER_UNIVERSAL');
+    expect(PLAN_MARKER.team).toBe('Командный план');
+    expect(PLAN_MARKER.individual).toBe('Индивидуальный план');
+  });
+
   it('вторая плашка — одна категория, у надстроек категория вендора', () => {
     expect(page).toContain('const categoryMarker =');
     expect(page).toContain('vendorCatEntry?.catLabel');
@@ -168,8 +181,47 @@ describe('плашки над заголовком', () => {
     expect(claude).toContain('docs/rules/product-markers.md');
     const rule = readFileSync(resolve(ROOT, 'docs/rules/product-markers.md'), 'utf8');
     expect(rule).toContain('Универсальный продукт');
+    expect(rule).toContain('Универсальный план');
     expect(rule).toContain('Дополнение к продукту');
     expect(rule).toContain('marker');
+  });
+});
+
+describe('строка производителя', () => {
+  const logo = readFileSync(resolve(ROOT, 'src/components/VendorLogo.astro'), 'utf8');
+
+  it('знак стоит между словом и названием и ведёт на страницу вендора', () => {
+    const line = page.slice(page.indexOf('<p class="vendorline">'), page.indexOf('</p>', page.indexOf('<p class="vendorline">')));
+    expect(line).toContain('Производитель:');
+    expect(line).toContain('class="vendorline-link"');
+    expect(line).toContain('/vendors/${vendorPageSlug}');
+    // Порядок частей строки: слово, знак, название.
+    expect(line.indexOf('Производитель:')).toBeLessThan(line.indexOf('<VendorLogo'));
+    expect(line.indexOf('<VendorLogo')).toBeLessThan(line.indexOf('<b>{vendorLegal'));
+  });
+
+  it('высота знака единая, ширина — по пропорциям файла', () => {
+    expect(page).toContain('size={20} fluid');
+    // fluid задаёт только высоту: ширина auto, иначе длинная надпись
+    // (Zoho и подобные) сплющивалась бы в квадрат.
+    expect(logo).toContain('.vlogo-fluid { width: auto;');
+    expect(logo).toContain('style={`height:${size}px`}');
+  });
+
+  it('ссылка не выглядит ссылкой, название жирное', () => {
+    expect(page).toContain('.vendorline-link { display: inline-flex;');
+    const css = page.slice(page.indexOf('.vendorline-link {'), page.indexOf('}', page.indexOf('.vendorline-link {')));
+    expect(css).toContain('color: inherit');
+    expect(css).toContain('text-decoration: none');
+    expect(page).toContain('.vendorline b { color: var(--color-text); font-weight: 700; }');
+  });
+
+  it('правило строки записано в свод и в файл правил', () => {
+    const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
+    expect(claude).toContain('docs/rules/vendor-line.md');
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/vendor-line.md'), 'utf8');
+    expect(rule).toContain('20px');
+    expect(rule).toContain('/vendors/<slug>');
   });
 });
 
