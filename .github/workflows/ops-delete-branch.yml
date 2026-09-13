@@ -1,46 +1,182 @@
-# Удаление ветки на remote по явной команде.
+# Удаление веток на remote: по имени или уборкой хвостов слитых PR.
 #
 # Из среды сессии git-транспорт не пропускает удаление ссылок (push :ref и
 # теги обрываются на прокси), поэтому удаление выполняет раннер через API.
-# Защита от случайности: main, seo-data и archive/* удалить нельзя.
+#
+# Два режима (вход `mode`):
+#   single      — удалить одну ветку по точному имени (вход `branch`);
+#   merged-prs  — убрать ветки, у которых есть слитый PR и нет открытого.
+#                 Squash-мерж не оставляет общего предка, поэтому «слито ли»
+#                 определяется по состоянию PR, а не по истории git: на
+#                 08.09.2026 из 178 веток предками в main входили 24, тогда
+#                 как содержимое почти всех остальных давно в main.
+#
+# Уборка по умолчанию ничего не удаляет: `apply=false` печатает список и
+# останавливается — тот же порядок, что у остальных операционных скриптов
+# контура. Ветка моложе `min_age_days` не трогается даже со слитым PR: у
+# работы бывает продолжение в той же ветке.
+#
+# Защита от случайности: main, seo-data, competitive-data и archive/* не
+# удаляются ни в каком режиме.
 name: ops-delete-branch
+
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: "single — одна ветка по имени; merged-prs — уборка хвостов слитых PR"
+        required: false
+        default: single
+        type: choice
+        options: [single, merged-prs]
       branch:
-        description: "Ветка к удалению (точное имя, без origin/)"
-        required: true
+        description: "Ветка к удалению (для mode=single, точное имя без origin/)"
+        required: false
+      apply:
+        description: "true — удалять; false — только показать список (для mode=merged-prs)"
+        required: false
+        default: "false"
+      min_age_days:
+        description: "Не трогать ветки с коммитами свежее скольких дней (mode=merged-prs)"
+        required: false
+        default: "3"
+
 permissions:
   contents: write
   issues: write
+  pull-requests: read
+
 jobs:
   delete:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: Delete branch
+      - name: Delete branch or sweep merged
         uses: actions/github-script@v7
         env:
+          MODE: ${{ inputs.mode }}
           BRANCH: ${{ inputs.branch }}
+          APPLY: ${{ inputs.apply }}
+          MIN_AGE_DAYS: ${{ inputs.min_age_days }}
         with:
           script: |
-            const branch = process.env.BRANCH.trim();
-            const protectedRefs = ['main', 'seo-data'];
-            if (protectedRefs.includes(branch) || branch.startsWith('archive/')) {
-              core.setFailed(`Ветка ${branch} защищена от удаления.`);
-              return;
-            }
             const { owner, repo } = context.repo;
-            let sha = '(не определён)';
-            try {
+            const PROTECTED = ['main', 'seo-data', 'competitive-data'];
+            const guarded = (b) => PROTECTED.includes(b) || b.startsWith('archive/');
+
+            const journal = async (body) => {
+              await github.rest.issues.createComment({
+                owner, repo, issue_number: 22, body,
+              });
+            };
+
+            const remove = async (branch) => {
               const ref = await github.rest.git.getRef({ owner, repo, ref: `heads/${branch}` });
-              sha = ref.data.object.sha;
-            } catch (e) {
-              core.setFailed(`Ветка ${branch} не найдена: ${e.message}`);
+              const sha = ref.data.object.sha;
+              await github.rest.git.deleteRef({ owner, repo, ref: `heads/${branch}` });
+              return sha;
+            };
+
+            const mode = (process.env.MODE || 'single').trim();
+
+            if (mode === 'single') {
+              const branch = (process.env.BRANCH || '').trim();
+              if (!branch) {
+                core.setFailed('Для mode=single нужно имя ветки во входе branch.');
+                return;
+              }
+              if (guarded(branch)) {
+                core.setFailed(`Ветка ${branch} защищена от удаления.`);
+                return;
+              }
+              let sha;
+              try {
+                sha = await remove(branch);
+              } catch (e) {
+                core.setFailed(`Ветка ${branch} не удалена: ${e.message}`);
+                return;
+              }
+              await journal(`### ops-delete-branch\n\nУдалена ветка \`${branch}\` ` +
+                            `(последний коммит \`${sha.slice(0, 8)}\`).`);
+              console.log(`Удалена ${branch} @ ${sha}`);
               return;
             }
-            await github.rest.git.deleteRef({ owner, repo, ref: `heads/${branch}` });
-            await github.rest.issues.createComment({
-              owner, repo, issue_number: 22,
-              body: `### ops-delete-branch\n\nУдалена ветка \`${branch}\` (последний коммит \`${sha.slice(0, 8)}\`).`,
-            });
-            console.log(`Удалена ${branch} @ ${sha}`);
+
+            // Режим уборки. Состояние ветки определяется её PR: ветка с
+            // открытым PR — живая работа, ветка со слитым PR — хвост.
+            const apply = String(process.env.APPLY).trim() === 'true';
+            const minAge = Number(process.env.MIN_AGE_DAYS || 3);
+            const now = Date.now();
+
+            const branches = await github.paginate(github.rest.repos.listBranches,
+              { owner, repo, per_page: 100 });
+            const pulls = await github.paginate(github.rest.pulls.list,
+              { owner, repo, state: 'all', per_page: 100 });
+
+            // Ветка может иметь несколько PR за свою жизнь: открытый среди
+            // них важнее слитого, поэтому состояния собираются вместе.
+            const state = new Map();
+            for (const pr of pulls) {
+              const name = pr.head && pr.head.ref;
+              if (!name) continue;
+              const s = state.get(name) || { open: false, merged: false, numbers: [] };
+              if (pr.state === 'open') s.open = true;
+              if (pr.merged_at) { s.merged = true; s.numbers.push(pr.number); }
+              state.set(name, s);
+            }
+
+            const doomed = [], kept = [];
+            for (const b of branches) {
+              const name = b.name;
+              if (guarded(name)) { kept.push([name, 'защищена']); continue; }
+              const s = state.get(name);
+              if (!s || !s.merged) { kept.push([name, 'нет слитого PR']); continue; }
+              if (s.open) { kept.push([name, 'есть открытый PR']); continue; }
+              let ageDays = null;
+              try {
+                const commit = await github.rest.repos.getCommit(
+                  { owner, repo, ref: b.commit.sha });
+                const date = commit.data.commit.committer.date;
+                ageDays = (now - new Date(date).getTime()) / 86400000;
+              } catch (e) {
+                kept.push([name, `дата коммита не прочитана: ${e.message}`]);
+                continue;
+              }
+              if (ageDays < minAge) {
+                kept.push([name, `свежая правка (${ageDays.toFixed(1)} дн.)`]);
+                continue;
+              }
+              doomed.push({ name, prs: s.numbers, ageDays });
+            }
+
+            const list = doomed
+              .map((d) => `- \`${d.name}\` — PR ${d.prs.map((n) => '#' + n).join(', ')}, ` +
+                          `последний коммит ${d.ageDays.toFixed(0)} дн. назад`)
+              .join('\n') || '- (нечего убирать)';
+
+            if (!apply) {
+              const body = `### ops-delete-branch (merged-prs, apply=false)\n\n` +
+                `К удалению ${doomed.length}, остаётся ${kept.length}.\n\n${list}\n\n` +
+                `Повтор с \`apply=true\` удалит перечисленные ветки.`;
+              await journal(body);
+              console.log(body);
+              return;
+            }
+
+            const done = [], failed = [];
+            for (const d of doomed) {
+              try {
+                await remove(d.name);
+                done.push(d.name);
+              } catch (e) {
+                failed.push(`${d.name}: ${e.message}`);
+              }
+            }
+            const body = `### ops-delete-branch (merged-prs, apply=true)\n\n` +
+              `Удалено ${done.length}, осталось ${kept.length}` +
+              (failed.length ? `, не удалось ${failed.length}` : '') + `.\n\n` +
+              done.map((n) => `- \`${n}\``).join('\n') +
+              (failed.length ? `\n\nНе удалось:\n` + failed.map((f) => `- ${f}`).join('\n') : '');
+            await journal(body);
+            console.log(body);
+            if (failed.length) core.setFailed(`Не удалены ветки: ${failed.length}`);
