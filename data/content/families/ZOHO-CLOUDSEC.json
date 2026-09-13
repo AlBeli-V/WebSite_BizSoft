@@ -1,0 +1,225 @@
+{
+  "family_key": "ZOHO-CLOUDSEC",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-cloud-security-plus-1-cloud-account",
+  "classification_notes": [
+    "Единственная позиция продукта — packaging single; ownership universal; редакций у продукта нет (edition_label «—»).",
+    "Единица — облачная учётная запись (аккаунт AWS / подписка Azure); ряд объёмов на витрине не заведён, «по запросу».",
+    "Бессрочный сиблинг (*-PERP) — вне индекса."
+  ],
+  "products": {
+    "me-cloud-security-plus-1-cloud-account": {
+      "sku": "ZOHO-LIC-CLOUDSEC-TEAM-1Y-PACK-1ACC",
+      "legacy_sku": "ZOHO-LIC-CLOUDSEC-TEAM-1Y-PACK-1ACC",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "single"
+      },
+      "edition_label": "—",
+      "volume_label": "1 облачная учётная запись",
+      "unit_label": "пакет: 1 облачная учётная запись",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Cloud Security Plus — годовая подписка на аудит облачных аккаунтов от ManageEngine: сбор журналов AWS и Azure, отчёты по действиям пользователей и изменениям ресурсов, оповещения о подозрительной активности, поиск по журналам для расследований. Лицензия на одну облачную учётную запись; сервер сбора — свой.\n\nЕдиница лицензии — облачный аккаунт, а не пользователь и не объём журналов: одна учётная запись AWS или одна подписка Azure с любым числом сервисов. Второй аккаунт — вторая лицензия того же вида.\n\nСрок — 1 год, обновления и поддержка включены.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Cloud Security Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "AWS",
+              "d": "CloudTrail — кто и что сделал в консоли и через API; журналы доступа S3, балансировщиков ELB, баз RDS, изменения групп безопасности и IAM; события входа и неудачные попытки."
+            },
+            {
+              "t": "Azure",
+              "d": "Журнал активности подписки: создание и удаление ресурсов, изменения ролей, сетевых групп безопасности, виртуальных машин и хранилищ."
+            },
+            {
+              "t": "Другие облака",
+              "d": "Google Cloud и Salesforce — по матрице вендора на дату заказа; каждый источник — своя облачная учётная запись в лицензии."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Готовые сводки по активности пользователей, изменениям конфигурации, сетевому трафику и ошибкам; выгрузка и отправка по расписанию для аудита и внутренних проверок."
+            },
+            {
+              "t": "Оповещения",
+              "d": "Правила на события: удаление ресурса, новое правило «из любого адреса», вход из нового региона — письмо или SMS с деталями."
+            },
+            {
+              "t": "Поиск и хранение",
+              "d": "Полнотекстовый поиск по собранным журналам с фильтрами, сохранённые запросы для расследований, срок хранения задаётся политикой."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Компаниям, у которых часть инфраструктуры живёт в AWS или Azure, а аудит и ИБ требуют видеть, кто менял настройки облака и когда, — без ручного разбора CloudTrail в консоли провайдера и без подписки на облачный SIEM."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если облако — только Microsoft 365, нужен M365 Security Plus: это аудит почты и тенанта, а не подписки Azure. Если задача — единый SIEM по серверам, сети и облаку, вендор предлагает Log360, в который этот модуль входит, — считаем по запросу."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для подключения",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое облачная учётная запись",
+              "d": "Один аккаунт AWS или одна подписка Azure, подключённые к продукту. Организация с тремя аккаунтами AWS лицензирует три учётные записи; точная граница для тенантов Azure с несколькими подписками уточняется по матрице вендора."
+            },
+            {
+              "t": "Доступ к облаку",
+              "d": "В AWS создаётся пользователь IAM с правами только на чтение CloudTrail и журналов сервисов; в Azure — регистрация приложения с ролью читателя. Продукт не меняет ресурсы, только читает."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server или Linux на площадке организации, встроенная СУБД; исходящий доступ к API облаков. Пользователи консоли лицензией не ограничены — по матрице вендора."
+            },
+            {
+              "t": "Затраты облака",
+              "d": "Хранение CloudTrail в S3 и вызовы API оплачиваются провайдеру по его тарифу отдельно от лицензии."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пересчитайте аккаунты",
+              "d": "Разработка, тест и продуктив в разных аккаунтах AWS — три лицензии. Объёмы на несколько учётных записей считаем по запросу одним заказом."
+            },
+            {
+              "t": "Есть ли уже Log360 или EventLog Analyzer",
+              "d": "Cloud Security Plus входит в Log360 модулем; если он куплен, отдельная лицензия не нужна. Владельцам EventLog Analyzer вендор предлагает облачные источники по своей матрице — проверьте до покупки."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Разовая оплата плюс AMS 20 % в год за обновления и поддержку — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "M365 Security Plus",
+              "d": "Если облако компании — Microsoft 365: аудит почтовых ящиков, входов и настроек тенанта.",
+              "link": "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+            },
+            {
+              "t": "ADAudit Plus Standard",
+              "d": "Тот же класс задач для локального домена Active Directory — часто берут парой с облачным аудитом.",
+              "link": "me-adaudit-plus-standard-2-domain-controllers"
+            },
+            {
+              "t": "Firewall Analyzer Standard",
+              "d": "Журналы периметра и VPN, если нужен аудит трафика, а не действий в облачной консоли.",
+              "link": "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли регионы AWS внутри одного аккаунта отдельно?",
+          "a": "Нет, лицензия — на аккаунт целиком, со всеми регионами и сервисами, журналы которых подключены."
+        },
+        {
+          "q": "Есть ли ограничение по объёму журналов или числу событий в сутки?",
+          "a": "В этой модели лицензирования — нет, единица — учётная запись; объём ограничивают только диск и ресурсы вашего сервера сбора."
+        }
+      ],
+      "related_products": [
+        "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
+        "me-adaudit-plus-standard-2-domain-controllers",
+        "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+      ],
+      "meta_title": "Cloud Security Plus, 1 аккаунт — подписка на год | BIZSoft",
+      "meta_description": "ManageEngine Cloud Security Plus: аудит AWS и Azure — CloudTrail и Activity Log, отчёты, оповещения, поиск; лицензия на один облачный аккаунт. Договор, ЭДО.",
+      "seo_intents": [
+        "cloud security plus купить / manageengine аудит aws azure — hero, meta",
+        "аудит cloudtrail отчёты / мониторинг изменений azure — CAPABILITIES",
+        "cloud security plus лицензирование по аккаунтам — DEPENDENCIES, FAQ",
+        "cloud security plus vs log360 / m365 security plus — FIT, BEFORE_ORDER, ALTERNATIVES"
+      ],
+      "uncertainties": [
+        "Граница «облачной учётной записи» для Azure (подписка или тенант) и для Google Cloud — по матрице вендора; страница в сессии не открывалась.",
+        "Поддержка Google Cloud и Salesforce и отсутствие лимита на объём событий — по описанию продукта у вендора на дату; уточняется при заказе.",
+        "Условия для владельцев Log360 и EventLog Analyzer — по общей модели линейки Log360."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "абзац «Что входит:» → CAPABILITIES, абзац о подписке → BEFORE_ORDER; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что умеет продукт",
+          "new_information": "AWS, Azure, другие облака, отчёты, оповещения, поиск",
+          "sibling_overlap": "одиночка",
+          "decision": "UNDERSTAND",
+          "seo_intent": "cloud security plus возможности",
+          "source": "https://www.manageengine.com/cloud-security/features.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль гибридной инфраструктуры, два выхода «нет»",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "аудит облачной инфраструктуры",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и что подготовить",
+          "new_information": "аккаунт как единица, права IAM/Azure, сервер, затраты облака",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "cloud security plus лицензирование",
+          "source": "https://www.manageengine.com/cloud-security/pricing.html"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "арифметика аккаунтов, Log360/EventLog Analyzer, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "cloud security plus log360",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три соседа другого профиля с причиной",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}
