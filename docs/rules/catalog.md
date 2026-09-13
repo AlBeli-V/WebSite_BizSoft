@@ -4,7 +4,7 @@
   поля `vendor` (сверять с `src/data/vendors.ts`, поле `vendor` записи).
 - На bespoke-страницах (`vendors/openai|figma|zoom|jetbrains.astro`) НЕ
   фильтровать товары по префиксу sku: часть товаров живёт под
-  «интеграционными» sku (INT-AI-CHATGPT, INT-DESIGN-FIGMA). Ключи меты и
+  «интеграционными» sku (OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD, FIGM-LIC-ORGANIZATION-TEAM-1Y-USER). Ключи меты и
   порядка карточек — slug ИЛИ sku.
 - Живую выгрузку каталога (vendor/name/slug/sku/price) даёт workflow
   `ops-export-products` (комментарий в issue #22).
@@ -22,3 +22,13 @@
   начинает отдавать 301 (`src/pages/product/[slug].astro`), снятая уходит с
   витрины сменой статуса на `draft` и в базе сохраняется. Какую из пары
   оставить — решение руководителя; удалять карточки нельзя.
+- Тариф Enterprise заводится только с ценой со страницы вендора
+  (`price_confidence = vendor-page`): у большинства вендоров у него цены нет,
+  и карточка «по запросу» обещает то, что менеджер ещё не посчитал. Исключения
+  с опубликованной ценой перечислены в `tests/vendor-catalog.test.ts`:
+  ManageEngine (решение 21.08.2026) и Postman Enterprise ($49 за пользователя
+  в месяц при годовой оплате, решение 13.09.2026: «Solo, Teams, Enterprise
+  действуют и доступны по карте, на сайте оставляем»). Смена линейки вендора
+  (план снят, преемник назван) — карточка преемника через `ops-import-vendors`
+  с перечнем пакетов (`packages`), снятый план — архивный стаб в пакете,
+  затем `ops-merge-product` (keep = преемник, drop = снятый) ради 301.

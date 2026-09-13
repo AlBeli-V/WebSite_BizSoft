@@ -4,13 +4,13 @@
   "sortBase": 1400,
   "vendors": [
     {
-      "_comment": "OpenAI: два типа мест командного тарифа. Место Standard seat — действующая карточка Directus под интеграционным sku INT-AI-CHATGPT (слаг chatgpt-business): sku задан явно, чтобы импорт обновил её, а не завёл дубль со вторым описанием того же тарифа. Место Premium seat — отдельная карточка chatgpt-business-premium. base_price — себестоимость закупки за место в год, рублёвая цена считается переоценкой по курсу ЦБ × markup_coeff.",
+      "_comment": "OpenAI: два типа мест командного тарифа. Место Standard seat — действующая карточка Directus под интеграционным sku OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD (слаг chatgpt-business): sku задан явно, чтобы импорт обновил её, а не завёл дубль со вторым описанием того же тарифа. Место Premium seat — отдельная карточка chatgpt-business-premium. base_price — себестоимость закупки за место в год, рублёвая цена считается переоценкой по курсу ЦБ × markup_coeff.",
       "vendor": "OpenAI",
       "prefix": "CHATGPT",
       "category": "ai-text",
       "products": [
         {
-          "sku": "INT-AI-CHATGPT",
+          "sku": "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD",
           "key": "BUSINESS",
           "name": "ChatGPT Business, Standard seat",
           "license_type": "org",
@@ -32,6 +32,7 @@
           ]
         },
         {
+          "sku": "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-PREM",
           "key": "BUSINESS-PREMIUM",
           "name": "ChatGPT Business, Premium seat",
           "license_type": "org",
@@ -59,6 +60,7 @@
       "category": "ai-text",
       "products": [
         {
+          "sku": "ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-STD",
           "key": "TEAM",
           "name": "Claude Team",
           "license_type": "org",
@@ -78,6 +80,7 @@
           ]
         },
         {
+          "sku": "ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-PREM",
           "key": "TEAM-PREMIUM",
           "name": "Claude Team Premium",
           "license_type": "org",
@@ -96,6 +99,7 @@
           ]
         },
         {
+          "sku": "ANTH-LIC-CLAUDEENT-TEAM-1Y-USER",
           "key": "ENTERPRISE",
           "name": "Claude Enterprise",
           "license_type": "org",
@@ -119,6 +123,7 @@
       "category": "ai-text",
       "products": [
         {
+          "sku": "PPLX-LIC-ENTPRO-TEAM-1Y-USER",
           "key": "ENTERPRISE-PRO",
           "name": "Perplexity Enterprise Pro",
           "license_type": "org",
@@ -138,6 +143,7 @@
           ]
         },
         {
+          "sku": "PPLX-LIC-ENTMAX-TEAM-1Y-USER",
           "key": "ENTERPRISE-MAX",
           "name": "Perplexity Enterprise Max",
           "license_type": "org",
@@ -159,6 +165,7 @@
       "category": "ai-code",
       "products": [
         {
+          "sku": "GTHB-LIC-COPILOTBUS-TEAM-1Y-USER",
           "key": "BUSINESS",
           "name": "GitHub Copilot Business",
           "license_type": "org",
@@ -177,6 +184,7 @@
           ]
         },
         {
+          "sku": "GTHB-LIC-COPILOTENT-TEAM-1Y-USER",
           "key": "ENTERPRISE",
           "name": "GitHub Copilot Enterprise",
           "license_type": "org",
@@ -202,6 +210,7 @@
       "category": "ai-code",
       "products": [
         {
+          "sku": "CRSR-LIC-BUSINESS-TEAM-1Y-USER",
           "key": "BUSINESS",
           "name": "Cursor Business",
           "license_type": "org",
@@ -221,6 +230,7 @@
           ]
         },
         {
+          "sku": "CRSR-LIC-BUSINESS-TEAM-1Y-USER-PREM",
           "key": "BUSINESS-PREMIUM",
           "name": "Cursor Business Premium",
           "license_type": "org",
@@ -238,6 +248,7 @@
           ]
         },
         {
+          "sku": "CRSR-LIC-ENTERPRISE-TEAM-1Y-USER",
           "key": "ENTERPRISE",
           "name": "Cursor Enterprise",
           "license_type": "org",
@@ -259,6 +270,7 @@
       "category": "ai-office",
       "products": [
         {
+          "sku": "MSFT-LIC-M365COPILOT-TEAM-1Y-USER",
           "key": "M365",
           "name": "Microsoft 365 Copilot",
           "license_type": "org",
@@ -284,6 +296,7 @@
       "category": "ai-office",
       "products": [
         {
+          "sku": "GOOG-LIC-GEMINIWSSTD-TEAM-1Y-USER",
           "key": "WORKSPACE-STANDARD",
           "name": "Google Gemini for Workspace — Business Standard",
           "license_type": "org",
@@ -302,6 +315,7 @@
           ]
         },
         {
+          "sku": "GOOG-LIC-GEMINIWSENT-TEAM-1Y-USER",
           "key": "WORKSPACE-ENTERPRISE",
           "name": "Google Gemini for Workspace — Enterprise",
           "license_type": "org",
@@ -324,6 +338,7 @@
       "category": "ai-office",
       "products": [
         {
+          "sku": "NOTN-LIC-BUSINESS-TEAM-1Y-USER",
           "key": "BUSINESS",
           "name": "Notion AI (Business)",
           "license_type": "org",
@@ -342,6 +357,7 @@
           ]
         },
         {
+          "sku": "NOTN-LIC-ENTERPRISE-TEAM-1Y-USER",
           "key": "ENTERPRISE",
           "name": "Notion Enterprise",
           "license_type": "org",
@@ -364,6 +380,7 @@
       "category": "ai-office",
       "products": [
         {
+          "sku": "GAMA-LIC-PRO-UNI-1Y-USER",
           "key": "PRO",
           "name": "Gamma Pro",
           "license_type": "org",
@@ -382,6 +399,7 @@
           ]
         },
         {
+          "sku": "GAMA-LIC-BUSINESS-TEAM-1Y-USER",
           "key": "BUSINESS",
           "name": "Gamma Business",
           "license_type": "org",
@@ -407,6 +425,7 @@
       "category": "ai-image",
       "products": [
         {
+          "sku": "ADBE-LIC-FIREFLYTEAMS-TEAM-1Y-USER",
           "key": "TEAMS",
           "name": "Adobe Firefly for teams",
           "license_type": "org",
@@ -422,6 +441,7 @@
           ]
         },
         {
+          "sku": "ADBE-LIC-FIREFLYENT-TEAM-1Y-USER",
           "key": "ENTERPRISE",
           "name": "Adobe Firefly for enterprise",
           "license_type": "org",
@@ -444,6 +464,7 @@
       "category": "ai-marketing",
       "products": [
         {
+          "sku": "GRMR-LIC-BUSINESS-TEAM-1Y-USER",
           "key": "BUSINESS",
           "name": "Grammarly Business",
           "license_type": "org",
@@ -462,6 +483,7 @@
           ]
         },
         {
+          "sku": "GRMR-LIC-ENTERPRISE-TEAM-1Y-USER",
           "key": "ENTERPRISE",
           "name": "Grammarly Enterprise",
           "license_type": "org",
@@ -484,6 +506,7 @@
       "category": "ai-marketing",
       "products": [
         {
+          "sku": "JSPR-LIC-PRO-UNI-1Y-USER",
           "key": "PRO",
           "name": "Jasper Pro",
           "license_type": "org",
@@ -502,6 +525,7 @@
           ]
         },
         {
+          "sku": "JSPR-LIC-BUSINESS-TEAM-1Y-USER",
           "key": "BUSINESS",
           "name": "Jasper Business",
           "license_type": "org",
