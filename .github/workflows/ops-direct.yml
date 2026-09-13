@@ -44,10 +44,10 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
+        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; autotargeting-audit — разведка категорий автотаргетинга, только чтение; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
         required: true
         type: choice
-        options: ["apple-negatives", "apply", "autotargeting", "ceiling", "check", "expand", "improve", "negatives", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
+        options: ["apple-negatives", "apply", "autotargeting", "autotargeting-audit", "ceiling", "check", "expand", "improve", "negatives", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
       mode:
         description: "Для apple-negatives/apply/autotargeting/ceiling/expand/improve/negatives/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
         required: false
@@ -450,6 +450,32 @@ jobs:
           title: "ops-direct apple-negatives (mode=${{ inputs.mode }})"
           outcome: ${{ steps.run_apple_neg.outcome }}
           body-file: /tmp/direct-apple-neg.log
+      # ==================== action=autotargeting-audit ====================
+      # Разведка: отдаёт ли API статистику в разрезе категорий
+      # автотаргетинга. Ничего не меняет, только читает. Нужна для задачи
+      # внешнего аудита 13.09.2026 — матрица «категория против интента
+      # против расхода» для кампаний Apple.
+      - name: Autotargeting audit
+        if: env.ACTION == 'autotargeting-audit'
+        id: run_at_audit
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_autotargeting_audit.py 2>&1 | tee /tmp/direct-at-audit.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'autotargeting-audit'
+        run: |
+          [ -f /tmp/direct-at-audit.log ] || echo "(лог не создан)" > /tmp/direct-at-audit.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'autotargeting-audit'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-direct autotargeting-audit"
+          outcome: ${{ steps.run_at_audit.outcome }}
+          body-file: /tmp/direct-at-audit.log
       # ==================== action=refine ====================
       # Доводка кампании bs-test-2026-09, раунд 2 — по фактам дня
       # 01.09.2026: минус-слова «активация/активировать/ключ», групповая
