@@ -1,0 +1,612 @@
+{
+  "family_key": "PRLS-PD",
+  "vendor": "Parallels International GmbH",
+  "vendor_profile": "data/content/vendors/parallels.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "parallels-desktop-standard-sub",
+  "classification_notes": [
+    "Standard (подписка/бессрочная), Pro, Business. Носитель — Standard подписка."
+  ],
+  "products": {
+    "parallels-desktop-standard-sub": {
+      "sku": "PRLS-LIC-PDSTD-IND-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на один Mac",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Parallels Desktop Standard — индивидуальная подписка на 1 год на запуск Windows и Windows-приложений на Mac без перезагрузки: виртуальная машина с Windows 11 на Apple Silicon и Intel, режим Coherence, общие папки и принтеры, до 8 ГБ памяти и 4 процессоров на ВМ. Лицензия на один Mac.\n\nСтандартная редакция — для офисных задач: 1С, банк-клиенты, Windows-версии отраслевых программ. Разработчикам и тестировщикам с тяжёлыми ВМ нужна Pro, компаниям с парком Mac — Business с центральным управлением.\n\nСрок — 1 год с обновлениями и поддержкой; есть бессрочный вариант.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Parallels Desktop Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Windows на Mac",
+              "d": "Установка Windows 11 в пару кликов, Linux и macOS в ВМ, поддержка Apple Silicon."
+            },
+            {
+              "t": "Интеграция",
+              "d": "Coherence — окна Windows среди окон macOS, общий буфер, папки, принтеры, Touch ID для Windows."
+            },
+            {
+              "t": "Ресурсы",
+              "d": "До 8 ГБ vRAM и 4 vCPU на ВМ — лимит редакции."
+            },
+            {
+              "t": "Обновления",
+              "d": "Все версии за срок подписки, поддержка новых macOS."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard, Pro или Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Офисные Windows-программы на одном Mac."
+            },
+            {
+              "t": "Pro",
+              "d": "До 128 ГБ памяти и 32 процессоров на ВМ, инструменты разработчика, сетевые условия, интеграция с Visual Studio.",
+              "link": "parallels-desktop-pro"
+            },
+            {
+              "t": "Business",
+              "d": "Функции Pro плюс централизованное развёртывание и управление лицензиями на парк Mac.",
+              "link": "parallels-desktop-business"
+            },
+            {
+              "t": "Standard бессрочная",
+              "d": "Разовая оплата без обновлений до следующей крупной версии.",
+              "link": "parallels-desktop-standard-perpetual"
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальная лицензия",
+          "kind": "prose",
+          "body": "Лицензия на один Mac и один аккаунт Parallels; перенос на новый Mac — через деактивацию в аккаунте. Организация оформляет подписку на конкретного сотрудника; для нескольких Mac с центральным управлением — Business."
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Сотрудникам на Mac, которым нужна одна-две Windows-программы: 1С, СБИС, банк-клиент, отраслевой CRM."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Parallels Desktop Pro",
+              "d": "Для разработчиков.",
+              "link": "parallels-desktop-pro"
+            },
+            {
+              "t": "Parallels Desktop Business",
+              "d": "Для парка Mac.",
+              "link": "parallels-desktop-business"
+            },
+            {
+              "t": "Standard бессрочная",
+              "d": "Без подписки.",
+              "link": "parallels-desktop-standard-perpetual"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужна ли отдельная лицензия Windows?",
+          "a": "Да, Windows 11 лицензируется у Microsoft отдельно; Parallels — только среда виртуализации."
+        },
+        {
+          "q": "Работает ли 1С на Apple Silicon через Parallels?",
+          "a": "Да, в Windows 11 ARM внутри ВМ; большинство x86-приложений запускаются через встроенную эмуляцию Windows."
+        }
+      ],
+      "related_products": [
+        "parallels-desktop-pro",
+        "parallels-desktop-business",
+        "parallels-desktop-standard-perpetual"
+      ],
+      "meta_title": "Parallels Desktop Standard — подписка на год | BIZSoft",
+      "meta_description": "Parallels Desktop Standard: Windows на Mac без перезагрузки, Coherence, Apple Silicon, до 8 ГБ/4 vCPU на ВМ; лицензия на один Mac. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "parallels desktop купить подписка — hero, meta",
+        "parallels standard vs pro vs business — PLAN_COMPARE"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "parallels-desktop-pro": {
+      "sku": "PRLS-LIC-PDPRO-IND-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на один Mac",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Parallels Desktop Pro Edition — индивидуальная подписка на 1 год на редакцию для разработчиков и тестировщиков: до 128 ГБ памяти и 32 процессоров на виртуальную машину, инструменты отладки сети (симуляция медленных и нестабильных соединений), интеграция с Visual Studio и Docker, командная строка prlctl и управление снимками. Лицензия на один Mac.\n\nОт Standard отличается лимитами ресурсов и набором инструментов; от Business — отсутствием централизованного управления парком.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Pro",
+          "kind": "items",
+          "body": "База — Windows на Mac, Coherence, общие папки — та же, что в Standard.",
+          "items": [
+            {
+              "t": "Ресурсы",
+              "d": "128 ГБ vRAM и 32 vCPU на ВМ, вложенная виртуализация."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Network Conditioner, prlctl и REST API, поддержка Vagrant, Docker и Minikube, плагин Visual Studio для отладки в ВМ."
+            },
+            {
+              "t": "Гости",
+              "d": "Расширенный список Linux-дистрибутивов, режим только для чтения снимков."
+            }
+          ],
+          "links": [
+            "parallels-desktop-standard-sub"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Pro или соседи",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Разработчик или QA с тяжёлыми ВМ и сетевыми сценариями."
+            },
+            {
+              "t": "Standard",
+              "d": "Офисные программы — лимитов 8 ГБ хватает.",
+              "link": "parallels-desktop-standard-sub"
+            },
+            {
+              "t": "Business",
+              "d": "Pro-функции на парк Mac с консолью.",
+              "link": "parallels-desktop-business"
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальная лицензия",
+          "kind": "prose",
+          "body": "Один Mac, один аккаунт Parallels; передача другому сотруднику — через деактивацию. Для команды разработчиков на Mac выгоднее Business с теми же функциями и управлением."
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Разработчикам и тестировщикам на Mac, которым нужны несколько тяжёлых ВМ, Docker и эмуляция плохой сети."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли в Pro то, чего нет в Business?",
+          "a": "Нет, Business включает все функции Pro и добавляет управление."
+        }
+      ],
+      "related_products": [
+        "parallels-desktop-standard-sub",
+        "parallels-desktop-business"
+      ],
+      "meta_title": "Parallels Desktop Pro Edition — подписка на год | BIZSoft",
+      "meta_description": "Parallels Desktop Pro: до 128 ГБ/32 vCPU на ВМ, Network Conditioner, Visual Studio и Docker; лицензия на один Mac. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "parallels desktop pro купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "parallels-desktop-business": {
+      "sku": "PRLS-LIC-PDBUS-TEAM-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на Mac",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Parallels Desktop Business Edition — командная подписка на 1 год для парка Mac организации: все функции Pro плюс централизованное управление лицензиями, массовое развёртывание, единый ключ и портал администратора. Лицензии принадлежат компании и переназначаются между Mac администратором.\n\nБизнес-редакция нужна, когда Mac больше двух-трёх и ими управляет ИТ-отдел: один ключ на всех, отчёт о активациях, отзыв лицензии у списанного Mac из консоли.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Всё из Pro",
+              "d": "128 ГБ vRAM, 32 vCPU, инструменты разработчика."
+            },
+            {
+              "t": "Управление",
+              "d": "Портал My Account с лицензиями по Mac, единый ключ, массовое развёртывание через MDM, политики ВМ."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Запрет изменений настроек пользователем, SSO, единый образ Windows для всех."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная поддержка для бизнеса."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как устроена командная лицензия",
+          "kind": "prose",
+          "body": "Ключ организации активируется на нужном числе Mac; администратор видит активации в портале, отзывает лицензию у выведенного из эксплуатации Mac и назначает новому. Минимума нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Business или индивидуальные",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Три и больше Mac под управлением ИТ."
+            },
+            {
+              "t": "Pro",
+              "d": "Один разработчик.",
+              "link": "parallels-desktop-pro"
+            },
+            {
+              "t": "Standard",
+              "d": "Один офисный Mac.",
+              "link": "parallels-desktop-standard-sub"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Windows отдельно",
+              "d": "Лицензии Windows на каждую ВМ — у Microsoft."
+            },
+            {
+              "t": "Годовая подписка",
+              "d": "Бессрочной Business-редакции нет."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с парком Mac, где Windows-приложения нужны сотрудникам, а ИТ-отдел хочет один ключ и консоль вместо десятка личных аккаунтов."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли перенести лицензию со списанного Mac?",
+          "a": "Да, администратор деактивирует Mac в портале и активирует лицензию на новом."
+        }
+      ],
+      "related_products": [
+        "parallels-desktop-pro",
+        "parallels-desktop-standard-sub"
+      ],
+      "meta_title": "Parallels Desktop Business — подписка на год | BIZSoft",
+      "meta_description": "Parallels Desktop Business: функции Pro плюс единый ключ, портал администратора, массовое развёртывание на парк Mac. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "parallels desktop business купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "parallels-desktop-standard-perpetual": {
+      "sku": "PRLS-LIC-PDSTD-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на один Mac",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Parallels Desktop Standard, бессрочная лицензия — разовая оплата за текущую версию редакции Standard на одном Mac: Windows на Apple Silicon и Intel, Coherence, до 8 ГБ памяти и 4 процессоров на ВМ. Купленная версия работает без ограничения срока; переход на следующую крупную версию — платным обновлением.\n\nФункционально идентична подписочной Standard; отличие — в модели: нет ежегодных платежей, но нет и автоматических новых версий, а совместимость с будущими macOS не гарантируется без обновления.\n\nПоддержка — в рамках текущей версии.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Возможности редакции Standard — Windows на Mac, Coherence, общие папки, лимит 8 ГБ/4 vCPU — расписаны на карточке подписочной Standard; здесь та же программа с другой моделью оплаты.",
+          "links": [
+            "parallels-desktop-standard-sub"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Купленная версия Parallels Desktop работает без срока на том Mac, где активирована."
+            },
+            {
+              "t": "Крупные версии",
+              "d": "Каждая новая крупная версия (обычно раз в год) — платное обновление по льготной цене; без него остаётесь на купленной."
+            },
+            {
+              "t": "Новые macOS",
+              "d": "Совместимость со следующими версиями macOS даёт только новая версия Parallels — бессрочная лицензия может перестать работать после обновления системы."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Техподдержка — ограниченный срок после покупки по правилам вендора."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Бессрочная или подписка",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочная",
+              "d": "Mac не обновляется, версия зафиксирована, бюджет — капитальный."
+            },
+            {
+              "t": "Подписка Standard",
+              "d": "Обновления и поддержка каждый год, гарантированная совместимость с новыми macOS.",
+              "link": "parallels-desktop-standard-sub"
+            },
+            {
+              "t": "Business",
+              "d": "Для парка Mac — только подписка.",
+              "link": "parallels-desktop-business"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с капитальным бюджетом и стабильными Mac, которые не планируют обновлять macOS чаще, чем Parallels."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что будет после обновления macOS?",
+          "a": "Новая macOS может потребовать новую версию Parallels; бессрочная лицензия покрывает только купленную версию."
+        }
+      ],
+      "related_products": [
+        "parallels-desktop-standard-sub",
+        "parallels-desktop-business"
+      ],
+      "meta_title": "Parallels Desktop Standard, бессрочная лицензия | BIZSoft",
+      "meta_description": "Бессрочный Parallels Desktop Standard: Windows на Mac без подписки, одна оплата, обновление до новой версии — платно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "parallels desktop бессрочная лицензия — hero, meta"
+      ],
+      "uncertainties": [
+        "Срок техподдержки для бессрочной лицензии — по правилам Parallels."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

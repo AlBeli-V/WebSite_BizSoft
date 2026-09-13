@@ -1,0 +1,1313 @@
+{
+  "family_key": "MAXN-ONE",
+  "vendor": "Maxon Computer GmbH",
+  "vendor_profile": "data/content/vendors/maxon.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "maxon-one-teams",
+  "classification_notes": [
+    "Семейство Maxon One + одиночные продукты (Cinema 4D, Redshift, ZBrush, Universe). Носитель — Maxon One Teams; командная модель Maxon (Teams Dashboard, Named/Floating, минимум 3) подробно раскрыта на Red Giant Teams (MAXN-REDGIANT) — здесь ссылки, чтобы не дублировать по вендору.",
+    "Redshift и ZBrush на витрине только Teams; Universe — только Individuals (командного плана у вендора нет)."
+  ],
+  "products": {
+    "maxon-one-teams": {
+      "sku": "MAXN-LIC-ONE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 3,
+      "base_product_sku": null,
+      "short_description": "Maxon One — командная подписка Maxon на 1 год на весь инструментарий компании на рабочем месте организации: Cinema 4D, Redshift, ZBrush, Red Giant, Universe и Autograph одной лицензией. Места принадлежат компании, оформляются от 3 и распределяются администратором в Teams Dashboard.\n\nПакет дешевле суммы двух любых его крупных компонентов, поэтому его берут, когда специалист работает и в 3D, и в постпродакшене. Командная модель Maxon — пул мест, именованные и плавающие лицензии, поддержка Teams — та же, что у Red Giant Teams.\n\nСрок — 1 год; цена за одно место.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в Maxon One",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cinema 4D",
+              "d": "3D-моделирование, анимация, MoGraph, симуляции; Redshift для Cinema 4D внутри."
+            },
+            {
+              "t": "Redshift",
+              "d": "GPU-рендерер для Cinema 4D, Maya, 3ds Max, Houdini, Blender и Katana."
+            },
+            {
+              "t": "ZBrush и ZBrush for iPad",
+              "d": "Цифровой скульптинг и текстурирование на десктопе и планшете."
+            },
+            {
+              "t": "Red Giant и Universe",
+              "d": "Trapcode, Magic Bullet, VFX и Universe для After Effects, Premiere Pro и других хостов."
+            },
+            {
+              "t": "Autograph и сервисы",
+              "d": "Композитинг и моушн-дизайн Autograph, библиотека Capsules, Cineware, обучение Cineversity."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командный план Maxon One",
+          "kind": "items",
+          "body": "Лицензии на Teams-аккаунте организации; администратор назначает места сотрудникам без участия производителя.",
+          "items": [
+            {
+              "t": "Одно место — весь набор",
+              "d": "Сотрудник с местом Maxon One входит в любой продукт пакета под своим MyMaxon; часть инструментов можно не устанавливать."
+            },
+            {
+              "t": "Переназначение и плавающие места",
+              "d": "Освобождённое место возвращается в пул; плавающие места (от 5) — для групп, работающих посменно."
+            },
+            {
+              "t": "Рендер-ноды",
+              "d": "Team Render и Command Line ноды для Cinema 4D входят в командные лицензии, содержащие Cinema 4D — 5 и 2 соответственно."
+            },
+            {
+              "t": "Подробно",
+              "d": "Механика Teams Dashboard, поддержка и ограничения описаны на карточке Red Giant Teams.",
+              "link": "maxon-redgiant-teams"
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Maxon One или отдельные продукты",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Maxon One Teams",
+              "d": "Два и более продуктов Maxon на одном месте: например, Cinema 4D и Red Giant у моушн-дизайнера."
+            },
+            {
+              "t": "Cinema 4D Teams",
+              "d": "Только 3D без постпродакшена — Redshift для C4D уже внутри.",
+              "link": "maxon-c4d-teams"
+            },
+            {
+              "t": "Red Giant Teams",
+              "d": "Только плагины для After Effects и Premiere Pro.",
+              "link": "maxon-redgiant-teams"
+            },
+            {
+              "t": "Maxon One Individuals",
+              "d": "Один специалист — без минимума в 3 места и без консоли.",
+              "link": "maxon-one"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям моушн-дизайна и VFX от трёх специалистов, у которых один и тот же человек за день проходит путь от модели в Cinema 4D до финального ролика в After Effects с Red Giant; компаниям, которым важно владеть лицензиями и переназначать их между сотрудниками."
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум 3 места",
+              "d": "Как у всех командных планов Maxon; для одного-двух специалистов — индивидуальные подписки."
+            },
+            {
+              "t": "Единый аккаунт",
+              "d": "Все места на одном Teams-аккаунте: ограничение доступа к нему затрагивает всех сразу."
+            },
+            {
+              "t": "Часть набора может простаивать",
+              "d": "Если ZBrush и Autograph никто не откроет, посчитайте связку Cinema 4D + Red Giant отдельно."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Maxon One Individuals",
+              "d": "Тот же набор на личный аккаунт.",
+              "link": "maxon-one"
+            },
+            {
+              "t": "Cinema 4D Teams",
+              "d": "Только 3D.",
+              "link": "maxon-c4d-teams"
+            },
+            {
+              "t": "Red Giant Teams",
+              "d": "Только постпродакшн.",
+              "link": "maxon-redgiant-teams"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Redshift отдельно при Maxon One?",
+          "a": "Нет, Redshift входит в пакет для всех поддерживаемых хостов, не только для Cinema 4D."
+        },
+        {
+          "q": "Можно ли дать одному сотруднику Cinema 4D, а другому только Red Giant по одной лицензии Maxon One?",
+          "a": "Нет, место Maxon One — на одного пользователя целиком; для разных наборов у разных людей берут отдельные продукты."
+        }
+      ],
+      "related_products": [
+        "maxon-one",
+        "maxon-c4d-teams",
+        "maxon-redgiant-teams",
+        "maxon-redshift-teams"
+      ],
+      "meta_title": "Maxon One для команд — подписка на год | BIZSoft",
+      "meta_description": "Maxon One Teams: Cinema 4D, Redshift, ZBrush, Red Giant, Universe и Autograph одним местом на аккаунте организации, от 3 мест, Teams Dashboard. Договор, ЭДО.",
+      "seo_intents": [
+        "maxon one teams купить — hero, meta",
+        "maxon one что входит — INCLUDED",
+        "maxon one или cinema 4d — PLAN_COMPARE"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "maxon-one": {
+      "sku": "MAXN-LIC-ONE-IND-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Maxon One — индивидуальная подписка на год для одного специалиста на полный набор Maxon: 3D в Cinema 4D и ZBrush, рендер Redshift, постпродакшн Red Giant с Universe и Autograph — всё на личном MyMaxon. Устанавливается на любое число компьютеров, активна на одном.\n\nСостав тот же, что у командного плана; отличие — лицензия закреплена за пользователем и не переназначается. Для 3D-художника или моушн-дизайнера, который сам делает и графику, и пост, это дешевле двух отдельных подписок.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит",
+          "kind": "items",
+          "body": "Поимённый состав с описанием — на карточке командного плана; набор идентичен.",
+          "items": [
+            {
+              "t": "3D",
+              "d": "Cinema 4D с Redshift, ZBrush и ZBrush for iPad."
+            },
+            {
+              "t": "Рендер",
+              "d": "Redshift для Maya, Houdini, 3ds Max, Blender, Katana."
+            },
+            {
+              "t": "Пост",
+              "d": "Red Giant, Universe, Autograph."
+            },
+            {
+              "t": "Сервисы",
+              "d": "Capsules, Cineware, Cineversity."
+            }
+          ],
+          "links": [
+            "maxon-one-teams"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Когда подходит индивидуальный Maxon One",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Один универсал",
+              "d": "Специалист сам моделирует, рендерит и собирает ролик — весь стек на одного человека."
+            },
+            {
+              "t": "Меньше трёх мест",
+              "d": "Командный план начинается от 3; на одного-двух — индивидуальные подписки без минимума."
+            },
+            {
+              "t": "Своя машина и дом",
+              "d": "Установка везде, вход на одной одновременно; перенос — без ограничений."
+            },
+            {
+              "t": "Что теряется",
+              "d": "Переназначение другому сотруднику, Teams Dashboard, плавающие места и приоритетная поддержка — только у команд."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Maxon One или один продукт",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Maxon One",
+              "d": "Нужны два и больше продуктов Maxon."
+            },
+            {
+              "t": "Cinema 4D Individuals",
+              "d": "Только 3D и рендер Redshift для C4D.",
+              "link": "maxon-c4d"
+            },
+            {
+              "t": "Red Giant Individuals",
+              "d": "Только плагины для монтажа.",
+              "link": "maxon-redgiant"
+            },
+            {
+              "t": "Universe",
+              "d": "Только переходы и титры.",
+              "link": "maxon-universe"
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Maxon One Teams",
+              "d": "От 3 мест с владением у компании.",
+              "link": "maxon-one-teams"
+            },
+            {
+              "t": "Cinema 4D Individuals",
+              "d": "3D без поста.",
+              "link": "maxon-c4d"
+            },
+            {
+              "t": "Red Giant Individuals",
+              "d": "Пост без 3D.",
+              "link": "maxon-redgiant"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли перейти с Cinema 4D на Maxon One в течение года?",
+          "a": "Да, переход оформляется доплатой; срок выравнивается с текущей подпиской."
+        }
+      ],
+      "related_products": [
+        "maxon-one-teams",
+        "maxon-c4d",
+        "maxon-redgiant",
+        "maxon-universe"
+      ],
+      "meta_title": "Maxon One (Individuals) — подписка на год | BIZSoft",
+      "meta_description": "Maxon One для одного специалиста: Cinema 4D, Redshift, ZBrush, Red Giant, Universe, Autograph на личном MyMaxon, без минимума мест. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "maxon one купить подписка — hero, meta",
+        "maxon one individual vs teams — INDIVIDUAL_MODEL"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        }
+      ]
+    },
+    "maxon-c4d-teams": {
+      "sku": "MAXN-LIC-C4D-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 3,
+      "base_product_sku": null,
+      "short_description": "Cinema 4D — командная подписка Maxon на 1 год на пакет 3D-моделирования, анимации и моушн-графики на рабочих местах организации: MoGraph, процедурное моделирование, симуляции, персонажная анимация и рендерер Redshift для Cinema 4D в составе. Места принадлежат компании, от 3, управление в Teams Dashboard.\n\nВ командные лицензии с Cinema 4D вендор добавляет 5 нод Team Render и 2 Command Line ноды для сетевого рендера — на индивидуальном плане их нет. Остальное в командной модели совпадает с другими продуктами Maxon.\n\nПодписка на год, цена за место.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Cinema 4D",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Моделирование",
+              "d": "Полигональное и процедурное, сплайны, Volume Builder, скульптинг базового уровня."
+            },
+            {
+              "t": "MoGraph и анимация",
+              "d": "Клонеры, эффекторы, поля; персонажная анимация, риггинг, симуляции ткани, жидкостей и частиц на единой системе."
+            },
+            {
+              "t": "Рендер",
+              "d": "Redshift для Cinema 4D (GPU и CPU) в подписке; сетевой рендер через Team Render."
+            },
+            {
+              "t": "Интеграция",
+              "d": "Cineware для After Effects, USD и Alembic, Capsules с готовыми ассетами."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командный план Cinema 4D",
+          "kind": "prose",
+          "body": "Места живут на Teams-аккаунте компании: администратор назначает и снимает их в Teams Dashboard, освобождённые возвращаются в пул, плавающие места — от 5 по запросу. Отличие от других продуктов Maxon — рендер-ноды: 5 Team Render и 2 Command Line входят в каждую командную лицензию с Cinema 4D. Именованные и плавающие места, поддержка Teams и ограничения единого аккаунта разобраны у Red Giant Teams.",
+          "links": [
+            "maxon-redgiant-teams"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Cinema 4D или Maxon One",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cinema 4D Teams",
+              "d": "Команда работает в 3D, пост делают в другом отделе или другими инструментами."
+            },
+            {
+              "t": "Maxon One Teams",
+              "d": "Те же люди используют Red Giant или ZBrush — пакет дешевле пары.",
+              "link": "maxon-one-teams"
+            },
+            {
+              "t": "Cinema 4D Individuals",
+              "d": "Один-два 3D-художника без консоли и без рендер-нод.",
+              "link": "maxon-c4d"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделам 3D-графики и рекламным продакшенам от трёх рабочих мест, где рендер идёт на нескольких машинах ночью — рендер-ноды командного плана закрывают это без доплаты."
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум 3 места",
+              "d": "Меньше трёх — индивидуальные подписки."
+            },
+            {
+              "t": "Redshift только для C4D",
+              "d": "Рендер в Maya или Houdini требует отдельной лицензии Redshift или Maxon One."
+            },
+            {
+              "t": "Единый аккаунт",
+              "d": "Ограничение доступа к Teams-аккаунту затрагивает всех пользователей одновременно."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cinema 4D Individuals",
+              "d": "Для одного специалиста.",
+              "link": "maxon-c4d"
+            },
+            {
+              "t": "Maxon One Teams",
+              "d": "Весь стек Maxon.",
+              "link": "maxon-one-teams"
+            },
+            {
+              "t": "Redshift Teams",
+              "d": "Только рендерер для других DCC.",
+              "link": "maxon-redshift-teams"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Redshift в командную подписку Cinema 4D?",
+          "a": "Да, Redshift для Cinema 4D включён; для Maya, Houdini и других хостов нужна отдельная лицензия Redshift или Maxon One."
+        },
+        {
+          "q": "Сколько рендер-нод даёт командная лицензия?",
+          "a": "5 нод Team Render и 2 Command Line на каждую командную лицензию с Cinema 4D."
+        }
+      ],
+      "related_products": [
+        "maxon-c4d",
+        "maxon-one-teams",
+        "maxon-redshift-teams"
+      ],
+      "meta_title": "Cinema 4D для команд — подписка на год | BIZSoft",
+      "meta_description": "Cinema 4D Teams: 3D-моделирование, MoGraph, симуляции, Redshift для C4D и 5 рендер-нод на месте организации, от 3 мест. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cinema 4d teams купить — hero, meta",
+        "cinema 4d team render ноды — FAQ",
+        "cinema 4d или maxon one — PLAN_COMPARE"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "maxon-c4d": {
+      "sku": "MAXN-LIC-C4D-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Cinema 4D — индивидуальная подписка на год для одного 3D-художника на личном MyMaxon: моделирование, анимация и моушн-графика — MoGraph, симуляции, персонажная анимация, Redshift для Cinema 4D в составе. Установка на любое число машин, активна одна.\n\nВозможности те же, что у командного плана; нет рендер-нод Team Render и консоли, лицензия не переназначается. Для одного 3D-художника — самый дешёвый способ получить Cinema 4D с Redshift.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Cinema 4D",
+          "kind": "items",
+          "body": "Подробный разбор функций — на карточке командного плана; здесь коротко.",
+          "items": [
+            {
+              "t": "Моделирование и MoGraph",
+              "d": "Процедурные инструменты, клонеры и эффекторы для моушн-графики."
+            },
+            {
+              "t": "Симуляции и персонажи",
+              "d": "Ткань, частицы, жидкости, риггинг и анимация."
+            },
+            {
+              "t": "Рендер",
+              "d": "Redshift для Cinema 4D на GPU и CPU; сетевой рендер по нодам — только в командном плане."
+            }
+          ],
+          "links": [
+            "maxon-c4d-teams"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Когда подходит индивидуальный план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Один 3D-художник",
+              "d": "Работает сам, рендерит на своей станции."
+            },
+            {
+              "t": "До трёх мест",
+              "d": "На одного-двух художников индивидуальные подписки дешевле командного минимума."
+            },
+            {
+              "t": "Что теряется",
+              "d": "Переназначение, Teams Dashboard, рендер-ноды Team Render, приоритетная поддержка."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Cinema 4D или Maxon One",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cinema 4D",
+              "d": "Только 3D."
+            },
+            {
+              "t": "Maxon One Individuals",
+              "d": "Плюс ZBrush, Red Giant и Redshift для других хостов — если нужно хоть что-то из этого.",
+              "link": "maxon-one"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Фрилансеру-3D-художнику или единственному специалисту по графике в компании, который сам моделирует и рендерит на своей станции."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cinema 4D Teams",
+              "d": "От 3 мест с рендер-нодами.",
+              "link": "maxon-c4d-teams"
+            },
+            {
+              "t": "Maxon One Individuals",
+              "d": "Весь стек.",
+              "link": "maxon-one"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Team Render в индивидуальной подписке?",
+          "a": "Нет, рендер-ноды входят только в командные лицензии с Cinema 4D."
+        }
+      ],
+      "related_products": [
+        "maxon-c4d-teams",
+        "maxon-one"
+      ],
+      "meta_title": "Cinema 4D (Individuals) — подписка на год | BIZSoft",
+      "meta_description": "Cinema 4D для одного специалиста: 3D, MoGraph, симуляции, Redshift для C4D на личном MyMaxon; без минимума мест. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cinema 4d купить подписка — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "maxon-redshift-teams": {
+      "sku": "MAXN-LIC-REDSHIFT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 3,
+      "base_product_sku": null,
+      "short_description": "Redshift — командная подписка Maxon на 1 год на GPU-рендерер продакшн-класса на рабочих местах организации: с плагинами под Maya, Houdini, 3ds Max, Blender, Katana и Cinema 4D, режим CPU, несколько GPU на машину. Места принадлежат компании, от 3, Teams Dashboard.\n\nRedshift берут отдельно, когда 3D делают не в Cinema 4D — в Maya или Houdini; пользователям Cinema 4D он уже входит в подписку. Плавающие места и Render Only-лицензии для рендер-фермы — по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Redshift",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хосты",
+              "d": "Cinema 4D, Maya, 3ds Max, Houdini, Blender, Katana — один рендерер для всей студии."
+            },
+            {
+              "t": "Скорость",
+              "d": "Biased GPU-рендер с несколькими видеокартами; CPU-режим для машин без GPU."
+            },
+            {
+              "t": "Продакшн",
+              "d": "AOV и криптоматы, OSL, волюметрика, motion blur, стандартные материалы и MaterialX."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командный план Redshift",
+          "kind": "prose",
+          "body": "Места на Teams-аккаунте, назначение в Teams Dashboard, минимум 3. Для рендер-фермы вендор выпускает Redshift Render Only — плавающие лицензии без интерфейса, они считаются отдельно. Общая механика Teams — на карточке Red Giant Teams.",
+          "links": [
+            "maxon-redgiant-teams"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Redshift отдельно или в составе",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Redshift Teams",
+              "d": "Студия на Maya, Houdini или Blender без Cinema 4D."
+            },
+            {
+              "t": "Cinema 4D Teams",
+              "d": "Работа в Cinema 4D — Redshift для C4D уже включён.",
+              "link": "maxon-c4d-teams"
+            },
+            {
+              "t": "Maxon One Teams",
+              "d": "Redshift плюс всё остальное.",
+              "link": "maxon-one-teams"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям на Maya, Houdini или Blender с несколькими рабочими станциями и фермой, которым нужен один быстрый рендерер на всю инфраструктуру."
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "GPU",
+              "d": "Нужны видеокарты NVIDIA или Apple Silicon из списка вендора; CPU-режим заметно медленнее."
+            },
+            {
+              "t": "Рендер-ферма",
+              "d": "Ноды фермы лицензируются Render Only, не рабочими местами."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cinema 4D Teams",
+              "d": "Redshift для C4D в составе.",
+              "link": "maxon-c4d-teams"
+            },
+            {
+              "t": "Maxon One Teams",
+              "d": "Все продукты Maxon.",
+              "link": "maxon-one-teams"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Redshift пользователю Cinema 4D?",
+          "a": "Нет, Redshift для Cinema 4D входит в подписку C4D; отдельная лицензия нужна для Maya, Houdini и других хостов."
+        }
+      ],
+      "related_products": [
+        "maxon-c4d-teams",
+        "maxon-one-teams"
+      ],
+      "meta_title": "Redshift для команд — подписка на год | BIZSoft",
+      "meta_description": "Redshift Teams: GPU-рендерер для Maya, Houdini, 3ds Max, Blender, Katana и Cinema 4D на местах организации, от 3 мест. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "redshift render купить лицензия — hero, meta",
+        "redshift teams — meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "maxon-zbrush-teams": {
+      "sku": "MAXN-LIC-ZBRUSH-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 3,
+      "base_product_sku": null,
+      "short_description": "ZBrush — командная подписка Maxon на 1 год на цифровой скульптинг, покраску и текстурирование на рабочих местах организации: десятки миллионов полигонов, Dynamesh и ZRemesher, ZBrush for iPad и рендер через Redshift. Места принадлежат компании, от 3, Teams Dashboard.\n\nПродукт для персонажных и предметных художников; вместе с Cinema 4D его выгоднее брать в Maxon One. Механика командного плана — как у других продуктов Maxon.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет ZBrush",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Скульптинг",
+              "d": "Кисти, Dynamesh, Sculptris Pro, ZRemesher для ретопологии, работа с десятками миллионов полигонов."
+            },
+            {
+              "t": "Покраска и текстуры",
+              "d": "Polypaint, UV Master, запекание карт для игровых движков."
+            },
+            {
+              "t": "Платформы",
+              "d": "Windows, macOS, Windows on Arm и ZBrush for iPad в одной подписке; рендер через Redshift."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командный план ZBrush",
+          "kind": "prose",
+          "body": "Места на Teams-аккаунте организации, назначение в Teams Dashboard, минимум 3 места, плавающие — от 5 по запросу. Подробная механика — на карточке Red Giant Teams.",
+          "links": [
+            "maxon-redgiant-teams"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "ZBrush или Maxon One",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ZBrush Teams",
+              "d": "Скульпторы без Cinema 4D и постпродакшена."
+            },
+            {
+              "t": "Maxon One Teams",
+              "d": "ZBrush вместе с Cinema 4D и Redshift для художников, которые и скульптят, и анимируют.",
+              "link": "maxon-one-teams"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Игровым и анимационным студиям с командой персонажных художников; отделам предметного дизайна, где формы лепят, а не моделируют."
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум 3 места",
+              "d": "На одного скульптора — индивидуальная подписка по запросу."
+            },
+            {
+              "t": "Планшет",
+              "d": "ZBrush for iPad входит, но требует того же MyMaxon — одно активное устройство."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Maxon One Teams",
+              "d": "ZBrush в составе всего стека.",
+              "link": "maxon-one-teams"
+            },
+            {
+              "t": "Cinema 4D Teams",
+              "d": "3D без специализированного скульптинга.",
+              "link": "maxon-c4d-teams"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли индивидуальная подписка ZBrush?",
+          "a": "Есть у вендора; на витрине — командный план от 3 мест, индивидуальную оформим по запросу."
+        }
+      ],
+      "related_products": [
+        "maxon-one-teams",
+        "maxon-c4d-teams"
+      ],
+      "meta_title": "ZBrush для команд — подписка на год | BIZSoft",
+      "meta_description": "ZBrush Teams: цифровой скульптинг, ZBrush for iPad, Redshift-рендер на местах организации, от 3 мест, Teams Dashboard. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "zbrush купить лицензия организация — hero, meta"
+      ],
+      "uncertainties": [
+        "Индивидуальная подписка ZBrush на витрине не заведена; в FAQ — «по запросу»."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "maxon-universe": {
+      "sku": "MAXN-LIC-UNIVERSE-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Universe — индивидуальная подписка Maxon на 1 год на коллекцию из более чем 90 GPU-плагинов для монтажа для одного специалиста: переходы, свечения, глитчи, текстовые эффекты и стилизации с пресетами и браузером Universe Dashboard. Личный MyMaxon, одна активная машина.\n\nЭто младшая часть Red Giant, продаваемая отдельно; командного плана у Universe нет — командам вендор предлагает Red Giant Teams. Если нужны Trapcode, Magic Bullet или VFX, брать надо Red Giant.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Universe",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Переходы и стилизации",
+              "d": "Glitch, VHS, Retrograde, свечения, размытия, переходы между планами — на GPU."
+            },
+            {
+              "t": "Текст и титры",
+              "d": "Анимированные текстовые эффекты и генераторы фонов."
+            },
+            {
+              "t": "Хосты",
+              "d": "After Effects, Premiere Pro, Final Cut Pro, DaVinci Resolve, Avid Media Composer, Autograph."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Когда подходит Universe",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Монтажёру нужны готовые эффекты",
+              "d": "Переходы и титры без композитинга и частиц."
+            },
+            {
+              "t": "Один пользователь",
+              "d": "Личный аккаунт, установка везде, активна одна машина, передача не предусмотрена."
+            },
+            {
+              "t": "Команде",
+              "d": "Командного Universe нет — Red Giant Teams включает его вместе с остальными наборами."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Universe или Red Giant",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Universe",
+              "d": "Только переходы, стилизации и титры."
+            },
+            {
+              "t": "Red Giant Individuals",
+              "d": "Universe плюс Trapcode, Magic Bullet и VFX.",
+              "link": "maxon-redgiant"
+            },
+            {
+              "t": "Red Giant Teams",
+              "d": "Для отдела от 3 мест.",
+              "link": "maxon-redgiant-teams"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Монтажёру, который делает ролики для соцсетей и рекламы и хочет готовые переходы и титры без After Effects-композитинга."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Red Giant Individuals",
+              "d": "Полный набор.",
+              "link": "maxon-redgiant"
+            },
+            {
+              "t": "Red Giant Teams",
+              "d": "Командный план с Universe в составе.",
+              "link": "maxon-redgiant-teams"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Universe для команд?",
+          "a": "Нет, отдельного командного плана Universe производитель не предлагает — командам берут Red Giant Teams."
+        }
+      ],
+      "related_products": [
+        "maxon-redgiant",
+        "maxon-redgiant-teams"
+      ],
+      "meta_title": "Universe (Maxon) — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Universe: 90+ GPU-плагинов переходов, свечений и титров для After Effects, Premiere Pro, Resolve, Final Cut на одного пользователя. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "red giant universe купить подписка — hero, meta",
+        "universe vs red giant — PLAN_COMPARE"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "командная модель — у Red Giant Teams (носитель вендора)",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль maxon.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "профиль",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

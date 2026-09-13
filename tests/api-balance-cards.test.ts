@@ -12,7 +12,7 @@
  *
  * Вторая — поиск. Одиннадцать почти одинаковых страниц под один интент —
  * малоценные страницы и каннибализация страницы вендора. Артикул
- * <PREFIX>-CREDITS-<номинал> закрыт правилом productNoindex; индекс держит
+ * <вендор>-CRD-<продукт>-UNI-BAL-NOM-<номинал> закрыт правилом productNoindex; индекс держит
  * родительская карточка «Пополнение баланса …». Стоит кому-то назвать артикул
  * иначе — правило перестанет срабатывать молча.
  */
@@ -33,8 +33,8 @@ interface Card {
   short_desc_ru: string; description_ru: string; features_ru: string[];
 }
 const all: Card[] = cards.vendors.flatMap((v: { products: Card[] }) => v.products);
-const topups = all.filter((c) => /-CREDITS-\d+$/.test(c.sku));
-const parents = all.filter((c) => !/-CREDITS-\d+$/.test(c.sku));
+const topups = all.filter((c) => /-NOM-\d+$/.test(c.sku));
+const parents = all.filter((c) => !/-NOM-\d+$/.test(c.sku));
 
 describe('Пополнения баланса API: реестр и карточки', () => {
   it('сгенерированный файл не разошёлся с реестром', () => {
@@ -44,7 +44,7 @@ describe('Пополнения баланса API: реестр и карточ�
   it('в ряду ровно те номиналы, что заведены у вендора', () => {
     for (const v of registry.vendors) {
       const got = all
-        .filter((c) => c.sku.startsWith(`${v.prefix}-CREDITS-`))
+        .filter((c) => c.sku.startsWith(`${v.parent_sku}-`))
         .map((c) => Number(c.sku.split('-').pop()));
       expect(got).toEqual(v.denominations);
     }

@@ -12,7 +12,7 @@ console.log('✓ login');
 
 // найти продукт по старому slug или sku
 let rows=await api('GET','/items/products?filter[slug][_eq]=int-ai-chatgpt&fields=id,slug,name&limit=1');
-if(!rows.length) rows=await api('GET','/items/products?filter[sku][_eq]=INT-AI-CHATGPT&fields=id,slug,name&limit=1');
+if(!rows.length) rows=await api('GET','/items/products?filter[sku][_eq]=OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD&fields=id,slug,name&limit=1');
 if(!rows.length){ console.log('! продукт ChatGPT не найден (возможно уже переименован)');
   const cur=await api('GET','/items/products?filter[slug][_eq]=chatgpt-business&fields=id,name,slug&limit=1');
   console.log(cur.length?`= уже: ${cur[0].name} /${cur[0].slug}`:'?? не найден ни старый, ни новый'); process.exit(0);

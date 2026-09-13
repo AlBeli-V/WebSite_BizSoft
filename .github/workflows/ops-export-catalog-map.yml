@@ -48,7 +48,7 @@ jobs:
       # Реестр второй привязки нужен на сервере: только там можно сверить его
       # с боевой базой. Тест этого не может — сети у него нет, и артикул с
       # опечаткой молча не совпадает ни с чем (так в реестр попал
-      # несуществующий M365-COPILOT-BUSINESS-ADDON).
+      # несуществующий MSFT-ADD-M365COPILOT-TEAM-1Y-USER).
       - name: Copy cross-listing registry to server
         uses: appleboy/scp-action@v1
         with:
