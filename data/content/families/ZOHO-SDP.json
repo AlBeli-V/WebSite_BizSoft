@@ -1663,6 +1663,180 @@
           "source": "manageengine.md · ServiceDesk Plus"
         }
       ]
+    },
+    "manageengine-servicedesk-standard-10": {
+      "sku": "ZOHO-LIC-SDPSTD-UNI-1Y-PACK-10TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "10 техников",
+      "unit_label": "пакет: 10 техников",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ServiceDesk Plus Standard — годовая подписка на help desk ManageEngine с английским интерфейсом для десяти техников: обращения из почты и портала, SLA с эскалацией, статьи базы знаний, отчёты и панели на сервере компании. Модуля активов у Standard нет, а каталог услуг, проблемы и изменения докупаются надстройками.\n\nStandard считается только по техникам, а у вендора до пяти техников он бесплатен — покупать эту полосу имеет смысл с шестого техника. Заявители не лицензируются.\n\nПодписка на год с техподдержкой 24×5; следующая полоса — 20 техников — доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет ServiceDesk Plus Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Заявки",
+              "d": "Приём из почты, портала и чата, категории, приоритеты, автоназначение, SLA и эскалации."
+            },
+            {
+              "t": "Портал и знания",
+              "d": "Самообслуживание, статьи, объявления, опросы удовлетворённости."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Готовые и настраиваемые, панели, планирование рассылок."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Модуля ИТ-активов, CMDB, каталога и ITIL-процессов — надстройки или старшие редакции."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard или старшие редакции",
+          "kind": "items",
+          "body": "Таблица трёх редакций — на карточке Professional.",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Только заявки и портал; техников больше пяти."
+            },
+            {
+              "t": "Professional",
+              "d": "Плюс учёт ИТ-активов и лицензий ПО.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "Standard, многоязычная",
+              "d": "Тот же help desk с русским интерфейсом.",
+              "link": "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians"
+            }
+          ],
+          "links": [
+            "me-servicedesk-plus-professional-2-technicians"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службе поддержки из 6–10 человек, которая обрабатывает обращения сотрудников и не ведёт парк техники в этой же системе."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "До пяти техников бесплатно",
+              "d": "Полоса на 10 нужна, когда техников от шести."
+            },
+            {
+              "t": "Надстройки",
+              "d": "Каталог, проблемы, изменения — платно; с тремя надстройками считайте Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ServiceDesk Plus Professional",
+              "d": "С активами.",
+              "link": "me-servicedesk-plus-professional-2-technicians"
+            },
+            {
+              "t": "ServiceDesk Plus MSP Standard",
+              "d": "Для провайдера.",
+              "link": "me-servicedesk-plus-msp-standard-10-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Где бесплатная версия на 5 техников?",
+          "a": "Её выдаёт вендор напрямую; через BIZSoft оформляются платные полосы от 10 техников с поддержкой."
+        }
+      ],
+      "related_products": [
+        "me-servicedesk-plus-professional-2-technicians",
+        "me-servicedesk-plus-multi-language-standard-servicedesk-plus-multi-lan-10-technicians",
+        "me-servicedesk-plus-msp-standard-10-technicians"
+      ],
+      "meta_title": "ServiceDesk Plus Standard, 10 техников — подписка | BIZSoft",
+      "meta_description": "ManageEngine ServiceDesk Plus Standard: help desk на 10 техников — заявки, SLA, портал, база знаний; без модуля активов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "servicedesk plus standard купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md"
+        }
+      ]
     }
   }
 }
