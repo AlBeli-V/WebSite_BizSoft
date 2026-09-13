@@ -1,6 +1,6 @@
 /**
  * Перечень позиций, у которых срок в строке под заголовком принят по
- * умолчанию («12 месяцев» без явного срока в данных) — на проверку
+ * умолчанию («1 год» без явного срока в данных) — на проверку
  * руководителю (правило docs/rules/card-title.md).
  *
  * Вход — выгрузка ops-export-products (JSON: name, sku, vendor, price) и,
@@ -47,12 +47,12 @@ const byVendor = new Map<string, typeof rest>();
 for (const a of rest) byVendor.set(a.vendor, [...(byVendor.get(a.vendor) || []), a]);
 
 const out: string[] = [];
-out.push(`# Срок «12 месяцев» по умолчанию — перечень на проверку`);
+out.push(`# Срок «1 год» по умолчанию — перечень на проверку`);
 out.push('');
 out.push(`Дата: ${stamp || new Date().toISOString().slice(0, 10)}. Источник — выгрузка ops-export-products, ${rows.length} позиций.`);
 out.push('');
 out.push('Правило docs/rules/card-title.md: подписка и дополнение без явного срока в');
-out.push('названии, артикуле и описании выходят с «12 месяцев». Ниже — все такие');
+out.push('названии, артикуле и описании выходят с «1 год». Ниже — все такие');
 out.push('позиции; поправка вносится в src/data/card-terms.json (артикул → срок).');
 out.push('');
 out.push('## Итог');
@@ -60,8 +60,8 @@ out.push('');
 out.push('| Срок | Позиций |');
 out.push('|---|---:|');
 for (const [t, n] of Object.entries(explicit).sort((a, b) => b[1] - a[1])) out.push(`| ${t} — по данным | ${n} |`);
-out.push(`| 12 месяцев — по умолчанию, плагины JetBrains Marketplace | ${plugins.length} |`);
-out.push(`| 12 месяцев — по умолчанию, остальные | ${rest.length} |`);
+out.push(`| 1 год — по умолчанию, плагины JetBrains Marketplace | ${plugins.length} |`);
+out.push(`| 1 год — по умолчанию, остальные | ${rest.length} |`);
 out.push('');
 out.push(`## Плагины JetBrains Marketplace — ${plugins.length}`);
 out.push('');

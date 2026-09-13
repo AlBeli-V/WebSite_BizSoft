@@ -17,7 +17,7 @@ import CARD_TERMS from '../data/card-terms.json';
 import type { CardComposition } from './product-composition';
 
 export const TERM = {
-  year: '12 месяцев',
+  year: '1 год',
   perpetual: 'бессрочно',
   balance: 'до истечения баланса',
 } as const;
@@ -25,8 +25,12 @@ export const TERM = {
 /** Поправки оператора: артикул → строка срока (значения из TERM или «N месяцев»). */
 const TERM_OVERRIDE = CARD_TERMS as Record<string, string>;
 
-/** «1 месяц», «3 месяца», «12 месяцев», «24 месяца». */
+/** «1 месяц», «3 месяца», «1 год», «2 года»: полные годы — годами, по решению руководителя. */
 export function monthsLabel(n: number): string {
+  if (n > 0 && n % 12 === 0) {
+    const y = n / 12;
+    return y === 1 ? TERM.year : `${y} ${y >= 2 && y <= 4 ? 'года' : 'лет'}`;
+  }
   const m10 = n % 10;
   const m100 = n % 100;
   const word = m100 >= 11 && m100 <= 19 ? 'месяцев'
@@ -45,7 +49,7 @@ export function monthsLabel(n: number): string {
 const TOKEN = /^(teams?|individuals?|individual seats?|личная|личная лицензия|индивидуальн(ый|ая)|командн(ый|ая)|бессрочн(ый|ая)|perpetual|подписка|подписка 365|годов(ая|ой)( подписка)?|квартальн(ая|ой)( подписка)?|полугодов(ая|ой)( подписка)?|год|\d+\s*(год|года|лет|месяц(а|ев)?)|1\s*\(один\)\s*год|для команд|для организаций|for teams|for individuals)$/i;
 
 const NAME_STRIP: RegExp[] = [
-  // «, вечная лицензия», «, 1 год», «, 12 месяцев», «, бессрочная», «, годовая»
+  // «, вечная лицензия», «, 1 год», «, 1 год», «, бессрочная», «, годовая»
   /,\s*(вечная лицензия|бессрочн(ый|ая)|годов(ая|ой)( подписка)?|\d+\s*(год|года|лет|месяц(а|ев)?))(?=,|\s*\(|$)/gi,
   // «Cinema 4D 1Y (Teams)», «Maxon One 1Y»
   /\s+\d[YМ]\b/g,
