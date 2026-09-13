@@ -1,0 +1,23 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- The Signature TriangCircularMedia Gradient -->
+        <linearGradient id="techGradient" x1="10" y1="31" x2="32" y2="9" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#39FF14"/>
+            <stop offset="100%" stop-color="#00C2FF"/>
+        </linearGradient>
+    </defs>
+
+    <!-- The "Crate" / Box (Container for the Context) -->
+    <!-- It's an open box shape, rounded corners for that premium feel -->
+    <path d="M12 20V28C12 29.6569 13.3431 31 15 31H25C26.6569 31 28 29.6569 28 28V20"
+        stroke="url(#techGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- The "Data" Arrow (Packing Logic + XML) -->
+    <!-- A strong arrow pointing straight into the box -->
+    <path d="M20 9V25"
+        stroke="url(#techGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- The Arrow Head -->
+    <path d="M15 20L20 25L25 20"
+        stroke="url(#techGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

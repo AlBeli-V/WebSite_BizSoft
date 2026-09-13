@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <defs>
+    <linearGradient id="lensGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF318C" />
+      <stop offset="100%" stop-color="#FF9E00" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="40" height="40" rx="8" fill="#181818" />
+  
+  <path d="M 0,20 Q 20,20 20,40 L 0,40 Z" fill="#282828" />
+  
+  <g transform="translate(6, 6)">
+    <rect x="0" y="0" width="28" height="28" rx="2" fill="none" stroke="url(#lensGrad)" stroke-width="2.5" />
+    
+    <text x="14" y="23" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">CL</text>
+  </g>
+</svg>

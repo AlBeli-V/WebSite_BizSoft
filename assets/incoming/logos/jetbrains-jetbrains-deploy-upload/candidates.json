@@ -1,0 +1,44 @@
+{
+ "id": "jetbrains-jetbrains-deploy-upload",
+ "vendor": "JetBrains",
+ "family": "JetBrains Deploy & Upload",
+ "query": "JetBrains JetBrains Deploy & Upload logo",
+ "status": "candidates",
+ "items": [
+  {
+   "file": "cand-1.svg",
+   "ext": "svg",
+   "type": "image/svg+xml",
+   "width": 16,
+   "height": 16,
+   "source": "https://plugins.jetbrains.com/files/22884/1150903/icon/default.svg",
+   "kind": "jetbrains-marketplace",
+   "note": "DryPush: AWS | GCP | Alibaba Deploy & Upload — Implemica (id 22884)",
+   "thumb": true
+  },
+  {
+   "file": "cand-2.svg",
+   "ext": "svg",
+   "type": "image/svg+xml",
+   "width": 40,
+   "height": 40,
+   "source": "https://plugins.jetbrains.com/files/11220/1123789/icon/default.svg",
+   "kind": "jetbrains-marketplace",
+   "note": "Azure Toolkit for Rider — JetBrains s.r.o. (id 11220)",
+   "thumb": true
+  },
+  {
+   "file": "cand-3.svg",
+   "ext": "svg",
+   "type": "image/svg+xml",
+   "width": 40,
+   "height": 40,
+   "source": "https://plugins.jetbrains.com/files/19432/807912/icon/default.svg",
+   "kind": "jetbrains-marketplace",
+   "note": "Easy Deploy — Lin2j (id 19432)",
+   "thumb": true
+  }
+ ],
+ "log": [],
+ "fetched_at": "2026-09-13T10:13:30.078Z"
+}

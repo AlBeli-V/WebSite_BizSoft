@@ -1,0 +1,103 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 主背景渐变：深蓝到靛蓝 -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1E3A5F"/>
+      <stop offset="100%" stop-color="#0D1B2A"/>
+    </linearGradient>
+
+    <!-- 卡片1：青绿渐变 -->
+    <linearGradient id="card1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3BEA62"/>
+      <stop offset="100%" stop-color="#2EC0A0"/>
+    </linearGradient>
+
+    <!-- 卡片2：蓝色渐变 -->
+    <linearGradient id="card2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3C99CC"/>
+      <stop offset="100%" stop-color="#1A6BFF"/>
+    </linearGradient>
+
+    <!-- 卡片3：紫色渐变 -->
+    <linearGradient id="card3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#A06BFF"/>
+      <stop offset="100%" stop-color="#6B57FF"/>
+    </linearGradient>
+
+    <!-- 卡片4：橙粉渐变 -->
+    <linearGradient id="card4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF7B54"/>
+      <stop offset="100%" stop-color="#FF4E8C"/>
+    </linearGradient>
+
+    <!-- 列表高亮行渐变 -->
+    <linearGradient id="rowHighlight" x1="0" y1="0" x2="40" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3C99CC" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#3C99CC" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- 图标整体圆角阴影 -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- 圆角背景 -->
+  <rect width="40" height="40" rx="8" ry="8" fill="url(#bgGrad)"/>
+
+  <!-- ── 顶部工具栏区域：彩色项目卡片 ── -->
+  <!-- 工具栏底部分隔线 -->
+  <rect x="3" y="3" width="34" height="11" rx="3" ry="3" fill="#FFFFFF" fill-opacity="0.06"/>
+
+  <!-- 卡片 1: 绿色 -->
+  <rect x="5.5" y="5.5" width="6" height="6" rx="1.5" fill="url(#card1)"/>
+  <!-- 卡片1文字缩写 -->
+  <text x="8.5" y="10.5" font-family="'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
+        font-size="4" font-weight="700" fill="#FFFFFF" text-anchor="middle">PM</text>
+
+  <!-- 卡片 2: 蓝色 -->
+  <rect x="13" y="5.5" width="6" height="6" rx="1.5" fill="url(#card2)"/>
+  <text x="16" y="10.5" font-family="'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
+        font-size="4" font-weight="700" fill="#FFFFFF" text-anchor="middle">FE</text>
+
+  <!-- 卡片 3: 紫色 -->
+  <rect x="20.5" y="5.5" width="6" height="6" rx="1.5" fill="url(#card3)"/>
+  <text x="23.5" y="10.5" font-family="'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
+        font-size="4" font-weight="700" fill="#FFFFFF" text-anchor="middle">RD</text>
+
+  <!-- 卡片 4: 橙粉 -->
+  <rect x="28" y="5.5" width="6" height="6" rx="1.5" fill="url(#card4)"/>
+  <text x="31" y="10.5" font-family="'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
+        font-size="4" font-weight="700" fill="#FFFFFF" text-anchor="middle">QA</text>
+
+  <!-- ── 弹窗列表区域 ── -->
+  <!-- 弹窗背景 -->
+  <rect x="3" y="16" width="34" height="21" rx="3" ry="3" fill="#FFFFFF" fill-opacity="0.07"/>
+
+  <!-- 高亮选中行 -->
+  <rect x="3" y="19.5" width="34" height="5.5" rx="1.5" fill="url(#rowHighlight)"/>
+
+  <!-- 图钉图标（置顶行） -->
+  <!-- 图钉针 -->
+  <line x1="6.5" y1="20" x2="6.5" y2="24" stroke="#3BEA62" stroke-width="1" stroke-linecap="round"/>
+  <!-- 图钉帽 -->
+  <circle cx="6.5" cy="20" r="1.5" fill="#3BEA62"/>
+
+  <!-- 高亮行文字：项目名 -->
+  <rect x="10" y="21" width="14" height="1.8" rx="0.9" fill="#FFFFFF" fill-opacity="0.85"/>
+  <!-- 高亮行标签 -->
+  <rect x="25.5" y="21" width="6" height="1.8" rx="0.9" fill="#3C99CC" fill-opacity="0.7"/>
+
+  <!-- 普通行1 -->
+  <line x1="6.5" y1="29.5" x2="6.5" y2="31.5" stroke="#FFFFFF" stroke-width="0.8" stroke-linecap="round" stroke-opacity="0.3"/>
+  <rect x="10" y="27.5" width="12" height="1.5" rx="0.75" fill="#FFFFFF" fill-opacity="0.35"/>
+  <rect x="23.5" y="27.5" width="7" height="1.5" rx="0.75" fill="#A06BFF" fill-opacity="0.55"/>
+
+  <!-- 普通行2 -->
+  <rect x="10" y="31" width="10" height="1.5" rx="0.75" fill="#FFFFFF" fill-opacity="0.25"/>
+  <rect x="21.5" y="31" width="5" height="1.5" rx="0.75" fill="#FF7B54" fill-opacity="0.5"/>
+
+  <!-- 底部装饰：搜索框 hint -->
+  <rect x="5" y="34.5" width="30" height="2" rx="1" fill="#FFFFFF" fill-opacity="0.1"/>
+  <rect x="7" y="35" width="8" height="1" rx="0.5" fill="#FFFFFF" fill-opacity="0.25"/>
+</svg>

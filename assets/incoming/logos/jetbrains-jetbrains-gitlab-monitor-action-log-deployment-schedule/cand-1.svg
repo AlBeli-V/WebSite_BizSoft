@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background gradient -->
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FC6D26;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#E24329;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="pipeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#6CB86C;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#5C9FE0;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#6CB86C;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+
+    <!-- GitLab fox icon background -->
+    <rect width="40" height="40" rx="8" fill="url(#bgGradient)"/>
+
+    <!-- Simplified GitLab fox -->
+    <path d="M20 8 L15 18 L25 18 Z" fill="#FFFFFF" opacity="0.9"/>
+    <path d="M15 18 L20 28 L10 22 Z" fill="#FFFFFF" opacity="0.7"/>
+    <path d="M25 18 L20 28 L30 22 Z" fill="#FFFFFF" opacity="0.7"/>
+
+    <!-- Pipeline bars indicator -->
+    <rect x="9" y="32" width="6" height="2" rx="1" fill="url(#pipeGradient)" opacity="0.9"/>
+    <rect x="17" y="32" width="6" height="2" rx="1" fill="url(#pipeGradient)" opacity="0.9"/>
+    <rect x="25" y="32" width="6" height="2" rx="1" fill="url(#pipeGradient)" opacity="0.9"/>
+</svg>
+

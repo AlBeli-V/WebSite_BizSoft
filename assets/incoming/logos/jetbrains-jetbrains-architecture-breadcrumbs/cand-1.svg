@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3871E1"/>
+      <stop offset="50%" style="stop-color:#6C4EBB"/>
+      <stop offset="100%" style="stop-color:#8060DB"/>
+    </linearGradient>
+    <linearGradient id="inner" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#538AF9"/>
+      <stop offset="100%" style="stop-color:#A894F6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#92B7FF;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#3871E1;stop-opacity:0"/>
+    </radialGradient>
+    <radialGradient id="depth" cx="50%" cy="55%" r="45%">
+      <stop offset="0%" style="stop-color:#18191B"/>
+      <stop offset="100%" style="stop-color:#18191B;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  <!-- Outer blob shape inspired by Fleet -->
+  <path d="M20.5 2C28 1.5 36 7 37.5 14c1.5 7-1 12-3 16s-6 7.5-13 8c-7 .5-13-3-16-8S1.5 18 4 12C6.5 6 13 2.5 20.5 2z" fill="url(#bg)"/>
+  <!-- Inner opening / hollow -->
+  <ellipse cx="21" cy="21" rx="11" ry="10" fill="url(#depth)"/>
+  <ellipse cx="21" cy="21" rx="9" ry="8" fill="#090909"/>
+  <!-- Rim highlight -->
+  <path d="M20.5 2C28 1.5 36 7 37.5 14c1.5 7-1 12-3 16s-6 7.5-13 8c-7 .5-13-3-16-8S1.5 18 4 12C6.5 6 13 2.5 20.5 2z" fill="url(#glow)" opacity="0.5"/>
+  <!-- Inner rim glow -->
+  <ellipse cx="21" cy="20" rx="10" ry="9" fill="none" stroke="url(#inner)" stroke-width="1.2" opacity="0.7"/>
+</svg>

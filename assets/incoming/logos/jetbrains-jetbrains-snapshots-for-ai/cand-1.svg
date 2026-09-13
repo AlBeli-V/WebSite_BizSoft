@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="40" height="40" rx="8" fill="#3574F0" opacity="0.1"/>
+
+    <!-- Main Structure Lines -->
+    <path d="M8 12H14M14 12V28M14 28H20M14 12H32M14 20H26"
+          stroke="#3574F0"
+          stroke-width="2"
+          stroke-linecap="round"/>
+
+    <!-- Folders and Files -->
+    <rect x="6" y="10" width="4" height="4" rx="1" fill="#3574F0"/>
+    <rect x="18" y="26" width="4" height="4" rx="1" fill="#3574F0"/>
+    <rect x="24" y="18" width="4" height="4" rx="1" fill="#3574F0"/>
+    <rect x="30" y="10" width="4" height="4" rx="1" fill="#3574F0"/>
+
+    <!-- Decorative Elements -->
+    <circle cx="14" cy="20" r="2" fill="#3574F0"/>
+    <circle cx="14" cy="12" r="2" fill="#3574F0"/>
+    <circle cx="14" cy="28" r="2" fill="#3574F0"/>
+
+    <!-- Additional Detail -->
+    <path d="M32 14V16M26 22V24M20 30V32"
+          stroke="#3574F0"
+          stroke-width="2"
+          stroke-linecap="round"/>
+</svg>

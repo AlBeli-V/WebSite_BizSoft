@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="40" height="40" viewBox="0 0 167 167" version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xml:space="preserve"
+     style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+  <!-- Background rounded square (teal, same family as flexible-arduino) -->
+  <rect x="5" y="5" width="157" height="157" rx="30" ry="30" style="fill:#00979D;"/>
+  <!-- 3D cube wireframe in white (OpenSCAD icon theme) -->
+  <!-- Front face -->
+  <rect x="42" y="65" width="60" height="60" style="fill:none;stroke:#ffffff;stroke-width:10;"/>
+  <!-- Back face (offset) -->
+  <rect x="65" y="42" width="60" height="60" style="fill:none;stroke:#ffffff;stroke-width:10;"/>
+  <!-- Connecting edges: top-left, top-right, bottom-right -->
+  <line x1="42" y1="65" x2="65" y2="42" style="stroke:#ffffff;stroke-width:10;"/>
+  <line x1="102" y1="65" x2="125" y2="42" style="stroke:#ffffff;stroke-width:10;"/>
+  <line x1="102" y1="125" x2="125" y2="102" style="stroke:#ffffff;stroke-width:10;"/>
+</svg>

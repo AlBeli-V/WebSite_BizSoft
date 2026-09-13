@@ -1,0 +1,19 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="40" height="40" rx="9" fill="#0F172A"/>
+  <rect x="4" y="4" width="32" height="32" rx="8" fill="url(#bg)"/>
+  <path d="M5 27L14 5H36V18L25 35H5V27Z" fill="url(#accent)" opacity="0.88"/>
+  <rect x="8" y="8" width="19" height="24" rx="4" fill="#0B1020" opacity="0.86"/>
+  <text x="11" y="19" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="8" font-weight="800" fill="#F8FAFC">CL</text>
+  <rect x="11" y="23" width="8" height="1.4" rx="0.7" fill="#94A3B8" opacity="0.65"/>
+  <rect x="11" y="27" width="11" height="1.4" rx="0.7" fill="#64748B" opacity="0.55"/>
+  <rect x="29" y="7" width="6" height="26" rx="3" fill="#020617" opacity="0.9"/>
+  <rect x="30.5" y="9" width="3" height="4" rx="1.5" fill="#67E8F9"/>
+  <rect x="30.5" y="15" width="3" height="3" rx="1.5" fill="#A78BFA"/>
+  <rect x="30.5" y="20" width="3" height="10" rx="1.5" fill="url(#bar)"/>
+  <rect x="29" y="7" width="6" height="26" rx="3" stroke="#7DD3FC" stroke-opacity="0.45"/>
+  <defs>
+    <linearGradient id="bg" x1="4" y1="4" x2="36" y2="36"><stop stop-color="#1E3A8A"/><stop offset="0.52" stop-color="#581C87"/><stop offset="1" stop-color="#0E7490"/></linearGradient>
+    <linearGradient id="accent" x1="6" y1="5" x2="36" y2="35"><stop stop-color="#2563EB"/><stop offset="0.5" stop-color="#7C3AED"/><stop offset="1" stop-color="#06B6D4"/></linearGradient>
+    <linearGradient id="bar" x1="30" y1="20" x2="34" y2="30"><stop stop-color="#22D3EE"/><stop offset="1" stop-color="#8B5CF6"/></linearGradient>
+  </defs>
+</svg>

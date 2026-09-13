@@ -1,0 +1,44 @@
+{
+ "id": "jetbrains-jetbrains-snippet",
+ "vendor": "JetBrains",
+ "family": "JetBrains Snippet",
+ "query": "JetBrains JetBrains Snippet logo",
+ "status": "candidates",
+ "items": [
+  {
+   "file": "cand-1.svg",
+   "ext": "svg",
+   "type": "image/svg+xml",
+   "width": 400,
+   "height": 456,
+   "source": "https://plugins.jetbrains.com/files/12348/181980/icon/default.svg",
+   "kind": "jetbrains-marketplace",
+   "note": "Flutter Snippets — George Herbert (id 12348)",
+   "thumb": true
+  },
+  {
+   "file": "cand-2.svg",
+   "ext": "svg",
+   "type": "image/svg+xml",
+   "width": 1692,
+   "height": 1677,
+   "source": "https://plugins.jetbrains.com/files/14641/348042/icon/default.svg",
+   "kind": "jetbrains-marketplace",
+   "note": "Flutter Riverpod Snippets — tbm98 (id 14641)",
+   "thumb": true
+  },
+  {
+   "file": "cand-3.svg",
+   "ext": "svg",
+   "type": "image/svg+xml",
+   "width": 18,
+   "height": 23,
+   "source": "https://plugins.jetbrains.com/files/21301/523742/icon/default.svg",
+   "kind": "jetbrains-marketplace",
+   "note": "Modern React Snippets — Anurag Kanwar (id 21301)",
+   "thumb": true
+  }
+ ],
+ "log": [],
+ "fetched_at": "2026-09-13T10:14:10.830Z"
+}
