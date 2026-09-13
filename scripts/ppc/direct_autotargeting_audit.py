@@ -16,7 +16,9 @@
   2. перебирает поля отчётов, которые могли бы нести категорию, и
      печатает, какие из них API принял, а какие отклонил и с какой
      формулировкой;
-  3. по принятому полю (если найдётся) сразу собирает срез расхода.
+  3. по принятому полю (если найдётся) собирает срез расхода и строит
+     матрицу «категория против класса интента»: сколько денег каждая
+     категория тратит на запросы с покупательским словом и сколько — без.
 
 Перебор идёт по одному полю за запрос: Reports API отвергает весь запрос
 целиком, поэтому узнать, какое именно поле лишнее, можно только так.
@@ -37,6 +39,18 @@ REPORT_FROM = "2026-09-07"
 # Кандидаты в имена поля категории. Взяты из соседних по смыслу полей
 # отчётов Директа: точного имени в нашей практике не встречалось, поэтому
 # проверяем перебором, а не догадкой.
+# Покупательские маркеры — те же, что в пакете минус-слов кампаний Apple.
+BUY_MARKERS = (
+    "пополн", "оплат", "купить", "куплю", "подарочн", "gift", "сертификат",
+    "корпоратив", "юрлиц", "юр лиц", "заказать", "заказ",
+    "стоимост", "цена", "цены", "прайс", "счет", "счёт", "тенге", "лир",
+)
+BUY_PAIRS = (
+    ("сотрудник", ("купить", "заказ", "карт", "сертификат", "корпоратив",
+                   "счет", "счёт", "оптом", "стоимост", "цена", "gift")),
+    ("клиентам", ("купить", "заказ", "карт", "сертификат", "счет", "счёт")),
+)
+
 FIELD_CANDIDATES = [
     "TargetingCategory",
     "AutotargetingCategory",
@@ -47,6 +61,15 @@ FIELD_CANDIDATES = [
     "MatchedKeyword",
     "Criterion",
 ]
+
+
+def is_buy(query: str) -> bool:
+    """Покупательский ли запрос: прямой маркер либо связка слова с деньгами."""
+    q = query.lower()
+    if any(m in q for m in BUY_MARKERS):
+        return True
+    return any(weak in q and any(strong in q for strong in strongs)
+               for weak, strongs in BUY_PAIRS)
 
 
 def call(service: str, method: str, params: dict, token: str) -> dict:
@@ -188,6 +211,56 @@ def main() -> None:
         print(f"\n  {report_type} по полю {field}: значений {len(agg)}")
         for value, (imp, clicks, cost) in sorted(agg.items(), key=lambda x: -x[1][2])[:15]:
             print(f"    {cost:8.2f} ₽ | показы {imp:7.0f} | клики {clicks:4.0f} | {value}")
+
+    print("\n== 4. Матрица: категория против интента ==")
+    matrix = next(((f, r) for t, f, r in found
+                   if t == "SEARCH_QUERY_PERFORMANCE_REPORT" and f == "TargetingCategory"), None)
+    if matrix is None:
+        print("  разреза по категориям с запросами нет — матрицу не построить")
+        return
+    field, rows = matrix
+    head = rows[0]
+    if "Query" not in head:
+        print("  в отчёте нет колонки запроса — повторяю запрос с ней")
+        ok, msg, rows = try_report(token, [field, "Query", "Impressions", "Clicks", "Cost"],
+                                   "SEARCH_QUERY_PERFORMANCE_REPORT", ids)
+        if not ok:
+            print(f"  не вышло: {msg[:200]}")
+            return
+        head = rows[0]
+
+    cells: dict[str, list[float]] = {}
+    examples: dict[str, list[tuple[float, str]]] = {}
+    for r in rows[1:]:
+        if len(r) != len(head):
+            continue
+        row = dict(zip(head, r))
+        cat = row[field]
+        cost = float(row["Cost"])
+        clicks = float(row["Clicks"])
+        imp = float(row["Impressions"])
+        buy = is_buy(row["Query"])
+        c = cells.setdefault(cat, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        idx = 0 if buy else 3
+        c[idx] += cost
+        c[idx + 1] += clicks
+        c[idx + 2] += imp
+        if not buy and clicks > 0:
+            examples.setdefault(cat, []).append((cost, row["Query"]))
+
+    print(f"  {'категория':14} {'деньги всего':>13} {'покупательских':>15} {'доля':>6} "
+          f"{'кликов A/B':>11} {'кликов C/D':>11}")
+    for cat, (bc, bcl, bi, jc, jcl, ji) in sorted(cells.items(), key=lambda x: -(x[1][0] + x[1][3])):
+        total = bc + jc
+        share = 100 * bc / total if total else 0
+        print(f"  {cat:14} {total:11.2f} ₽ {bc:13.2f} ₽ {share:5.0f}% "
+              f"{bcl:11.0f} {jcl:11.0f}")
+    print("\n  Куда уходят деньги вне покупательского интента (топ-5 по категориям):")
+    for cat in sorted(examples, key=lambda c: -cells[c][3])[:5]:
+        top = sorted(examples[cat], reverse=True)[:5]
+        print(f"    {cat}:")
+        for cost, q in top:
+            print(f"      {cost:7.2f} ₽ | {q}")
 
 
 if __name__ == "__main__":
