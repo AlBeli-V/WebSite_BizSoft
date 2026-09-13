@@ -1,0 +1,1762 @@
+{
+  "family_key": "ZOHO-PAM",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-password-manager-pro-standard-2-administrators",
+  "classification_notes": [
+    "PAM-линия: Password Manager Pro (Standard/Premium/Enterprise + MSP), PAM360 (Enterprise ± ML, MSP ± ML), Access Manager Plus, Key Manager Plus. Носитель — Password Manager Pro Standard; носитель MSP-вариантов — MSP Standard; ML-вариантов — PAM360 ML."
+  ],
+  "products": {
+    "me-password-manager-pro-standard-2-administrators": {
+      "sku": "ZOHO-LIC-PMPSTD-UNI-1Y-PACK-2ADM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 2 администратора",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Password Manager Pro Standard — годовая лицензия на систему управление привилегированными паролями: лицензия на 2 администратора.\n\nStandard — защищённое хранилище с шифрованием AES-256, разделение доступа по ролям, согласование выдачи пароля и журнал действий. Автоматическая ротация паролей и запись сессий RDP/SSH — в Premium; интеграции, отказоустойчивость и расширенный аудит — в Enterprise. Считается по администраторам — тем, кто управляет хранилищем; конечные пользователи, получающие пароли, не лицензируются.\n\nСрок — 1 год, обновления и поддержка вендора включены. Масштабирование — переходом на следующую полосу за разницу в цене.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хранилище",
+              "d": "Пароли, ключи и документы с шифрованием AES-256, группировка по ресурсам, поиск."
+            },
+            {
+              "t": "Доступ",
+              "d": "Роли, согласование выдачи с ограничением по времени, журнал действий."
+            },
+            {
+              "t": "Совместная работа",
+              "d": "Общий доступ к паролям по группам, уведомления об изменениях."
+            },
+            {
+              "t": "Не входит",
+              "d": "Ротация паролей и запись сессий — Premium; интеграции с SIEM и HA — Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Хранилище и разделение доступа для маленькой ИТ-команды."
+            },
+            {
+              "t": "Premium",
+              "d": "Плюс автоматическая ротация и запись сессий RDP/SSH.",
+              "link": "me-password-manager-pro-premium-5-administrators"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Плюс интеграции, высокая доступность, расширенный аудит; 10 администраторов и 10 ключей.",
+              "link": "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+            },
+            {
+              "t": "PAM360",
+              "d": "Полноценная PAM-платформа с UBA и обнаружением привилегий.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Администраторы",
+              "d": "Лицензируются управляющие хранилищем; два в пакете."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows или Linux на площадке, встроенная PostgreSQL или MS SQL; HA — в Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-отделу из двух-трёх администраторов, где пароли от серверов и оборудования сейчас лежат в файлах и таблицах."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro Premium",
+              "d": "С ротацией и записью сессий.",
+              "link": "me-password-manager-pro-premium-5-administrators"
+            },
+            {
+              "t": "Access Manager Plus",
+              "d": "Только удалённые сессии без хранилища.",
+              "link": "me-access-manager-plus-standard-5-users-and-unlimited-connections"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Кто считается администратором?",
+          "a": "Пользователь, который добавляет ресурсы и управляет хранилищем; сотрудники, получающие пароли по запросу, лицензию не занимают."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-premium-5-administrators",
+        "me-password-manager-pro-enterprise-10-administrators-and-10-keys",
+        "me-pam360-enterprise-10-administrators-and-25-keys",
+        "me-access-manager-plus-standard-5-users-and-unlimited-connections"
+      ],
+      "meta_title": "Password Manager Pro Standard, 2 администратора | BIZSoft",
+      "meta_description": "ManageEngine Password Manager Pro Standard: хранилище привилегированных паролей с ролями и согласованием; 2 администратора. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "password manager pro купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard",
+      "volume_label": "2 администратора"
+    },
+    "me-password-manager-pro-premium-5-administrators": {
+      "sku": "ZOHO-LIC-PMPPRM-UNI-1Y-PACK-5ADM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 5 администраторов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Password Manager Pro Premium — годовая лицензия на систему управление привилегированными паролями с ротацией: лицензия на 5 администраторов.\n\nPremium добавляет к хранилищу Standard то, что превращает его в PAM-инструмент: автоматическую ротацию паролей на серверах, СУБД и сетевом оборудовании по расписанию и после каждого использования, а также запись и мониторинг сессий RDP и SSH через шлюз.\n\nПодписка на год с обновлениями и техподдержкой ManageEngine. При росте парка оформляется переход на большую полосу с доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ротация",
+              "d": "Смена паролей на Windows, Linux, СУБД, сетевых устройствах и в AD по расписанию и после выдачи."
+            },
+            {
+              "t": "Сессии",
+              "d": "Запуск RDP/SSH через браузер без раскрытия пароля, запись сессий, живое наблюдение и прерывание."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Хранилище, роли, согласования, журнал."
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Пароли должны меняться сами, сессии — записываться."
+            },
+            {
+              "t": "Standard",
+              "d": "Только хранилище.",
+              "link": "me-password-manager-pro-standard-2-administrators"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Плюс интеграции с SIEM/ITSM, HA, SSH-ключи.",
+              "link": "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с требованием регулярной смены привилегированных паролей и записи действий администраторов."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro Standard",
+              "d": "Без ротации.",
+              "link": "me-password-manager-pro-standard-2-administrators"
+            },
+            {
+              "t": "Password Manager Pro Enterprise",
+              "d": "С интеграциями и HA.",
+              "link": "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Ротируются ли пароли сервисных учётных записей?",
+          "a": "Да, с обновлением зависимых служб и задач Windows."
+        },
+        {
+          "q": "Нужен ли агент на серверах?",
+          "a": "Нет, ротация и сессии идут по стандартным протоколам; агент — опционально для изолированных сетей."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-standard-2-administrators",
+        "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+      ],
+      "meta_title": "Password Manager Pro Premium, 5 администраторов | BIZSoft",
+      "meta_description": "ManageEngine Password Manager Pro Premium: хранилище плюс автоматическая ротация паролей и запись сессий RDP/SSH; 5 администраторов. Договор, ЭДО.",
+      "seo_intents": [
+        "password manager pro premium — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Premium",
+      "volume_label": "5 администраторов"
+    },
+    "me-password-manager-pro-enterprise-10-administrators-and-10-keys": {
+      "sku": "ZOHO-LIC-PMPENT-UNI-1Y-PACK-10ADM10KEY",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 администраторов, 10 SSH-ключей",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Password Manager Pro Enterprise — годовая лицензия на систему корпоративное управление привилегированным доступом: лицензия на 10 администраторов и 10 ключей.\n\nEnterprise — старшая редакция: всё из Premium плюс интеграции с SIEM, ITSM и системами заявок, отказоустойчивая конфигурация, управление SSH-ключами и SSL-сертификатами, расширенные отчёты для аудита и API. В пакете 10 администраторов и 10 ключей.\n\nГод подписки; обновления и поддержка — в цене. Пакет апгрейдится доплатой до нужной полосы без новой покупки.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Интеграции",
+              "d": "SIEM (Splunk, ArcSight и др.), ServiceDesk Plus, ServiceNow, Jira — согласование доступа через заявки."
+            },
+            {
+              "t": "Отказоустойчивость",
+              "d": "Резервный сервер с репликацией, аварийный доступ."
+            },
+            {
+              "t": "Ключи и сертификаты",
+              "d": "Обнаружение и ротация SSH-ключей, контроль SSL-сертификатов — 10 ключей в пакете."
+            },
+            {
+              "t": "Всё из Premium",
+              "d": "Ротация, сессии, хранилище, роли."
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Интеграции, HA, ключи и API обязательны."
+            },
+            {
+              "t": "Premium",
+              "d": "Ротация и сессии без интеграций.",
+              "link": "me-password-manager-pro-premium-5-administrators"
+            },
+            {
+              "t": "PAM360",
+              "d": "Следующий уровень: UBA, обнаружение привилегий, DevOps-секреты.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с SIEM и ITSM, которым нужен согласованный доступ через заявки и отказоустойчивый PAM."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro Premium",
+              "d": "Без интеграций и HA.",
+              "link": "me-password-manager-pro-premium-5-administrators"
+            },
+            {
+              "t": "PAM360 Enterprise",
+              "d": "Полная PAM-платформа.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            },
+            {
+              "t": "Key Manager Plus",
+              "d": "Только ключи и сертификаты.",
+              "link": "me-key-manager-plus-25-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Enterprise отличается от PAM360?",
+          "a": "PAM360 добавляет аналитику поведения, автообнаружение привилегированных учётных записей, DevOps-секреты и just-in-time доступ; Password Manager Pro Enterprise — хранилище с ротацией, сессиями и интеграциями."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-standard-2-administrators",
+        "me-password-manager-pro-premium-5-administrators",
+        "me-pam360-enterprise-10-administrators-and-25-keys",
+        "me-key-manager-plus-25-keys"
+      ],
+      "meta_title": "Password Manager Pro Enterprise, 10 админов | BIZSoft",
+      "meta_description": "ManageEngine Password Manager Pro Enterprise: ротация, сессии, интеграции с SIEM и ITSM, HA, SSH-ключи; 10 администраторов и 10 ключей. Договор, ЭДО.",
+      "seo_intents": [
+        "password manager pro enterprise — hero, meta",
+        "password manager pro vs pam360 — FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "10 администраторов и 10 ключей"
+    },
+    "me-password-manager-pro-msp-standard-5-administrators": {
+      "sku": "ZOHO-LIC-PMPMSPSTD-UNI-1Y-PACK-5ADM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 5 администраторов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Password Manager Pro MSP Standard — годовая лицензия на систему хранилище привилегированных паролей клиентов провайдера: лицензия на 5 администраторов.\n\nВерсия для провайдеров услуг: несколько клиентских организаций в одной консоли с изоляцией данных и отчётностью по каждой. Редакция Standard — хранилище и разделение доступа без ротации; состав функций — как у обычной Standard.\n\nДействует 12 месяцев, включая обновления и поддержку производителя. Рост объёма оформляется переходом на следующую полосу с доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Хранилище с шифрованием, роли, согласование выдачи и журнал — как у обычной Standard (см. её карточку). MSP добавляет клиентские аккаунты с изоляцией и отчёты по каждому заказчику.",
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP Standard",
+              "d": "Провайдер хранит пароли клиентов раздельно."
+            },
+            {
+              "t": "MSP Premium",
+              "d": "С ротацией и записью сессий по клиентам.",
+              "link": "me-password-manager-pro-msp-premium-5-administrators"
+            },
+            {
+              "t": "Password Manager Pro Standard",
+              "d": "Для собственной инфраструктуры.",
+              "link": "me-password-manager-pro-standard-2-administrators"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аутсорсерам ИТ, которые держат доступы клиентов в общей таблице и хотят разделить их по аккаунтам с журналом."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro MSP Premium",
+              "d": "Ротация по клиентам.",
+              "link": "me-password-manager-pro-msp-premium-5-administrators"
+            },
+            {
+              "t": "Password Manager Pro MSP Enterprise",
+              "d": "Интеграции и HA.",
+              "link": "me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Видят ли клиенты пароли друг друга?",
+          "a": "Нет, данные изолированы по клиентским аккаунтам; техники провайдера имеют доступ по ролям."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-standard-2-administrators",
+        "me-password-manager-pro-msp-premium-5-administrators",
+        "me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys"
+      ],
+      "meta_title": "Password Manager Pro MSP Standard, 5 админов | BIZSoft",
+      "meta_description": "ManageEngine Password Manager Pro MSP Standard: хранилище паролей клиентов провайдера с изоляцией по аккаунтам; 5 администраторов. Договор, ЭДО.",
+      "seo_intents": [
+        "password manager pro msp — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "MSP Standard",
+      "volume_label": "5 администраторов"
+    },
+    "me-password-manager-pro-msp-premium-5-administrators": {
+      "sku": "ZOHO-LIC-PMPMSPPRM-UNI-1Y-PACK-5ADM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 5 администраторов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Password Manager Pro MSP Premium — годовая лицензия на систему ротация паролей и запись сессий у клиентов провайдера: лицензия на 5 администраторов.\n\nПровайдерская Premium: автоматическая ротация паролей на серверах и оборудовании каждого клиента, запись сессий RDP/SSH техников — с изоляцией данных по клиентским аккаунтам. Что даёт Premium относительно Standard — см. обычную Premium; что даёт MSP — см. MSP Standard.\n\nСрок — год; в стоимость входят обновления и поддержка. Полосы не суммируются: при росте переходят на следующую с доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Ротация и запись сессий — как в Premium для собственной инфраструктуры, но с разбивкой по клиентским аккаунтам и отчётами для каждого заказчика.",
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP Premium",
+              "d": "Клиенты требуют ротации и записи действий провайдера."
+            },
+            {
+              "t": "MSP Standard",
+              "d": "Только хранилище.",
+              "link": "me-password-manager-pro-msp-standard-5-administrators"
+            },
+            {
+              "t": "MSP Enterprise",
+              "d": "Плюс интеграции и HA.",
+              "link": "me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Провайдерам, чьи договоры с клиентами обязывают менять пароли и хранить записи сессий."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro Premium",
+              "d": "Для своей инфраструктуры.",
+              "link": "me-password-manager-pro-premium-5-administrators"
+            },
+            {
+              "t": "Password Manager Pro MSP Enterprise",
+              "d": "С интеграциями.",
+              "link": "me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Записываются ли сессии техников у каждого клиента отдельно?",
+          "a": "Да, записи привязаны к клиентскому аккаунту и доступны для отчёта клиенту."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-standard-2-administrators",
+        "me-password-manager-pro-msp-standard-5-administrators",
+        "me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys",
+        "me-password-manager-pro-premium-5-administrators"
+      ],
+      "meta_title": "Password Manager Pro MSP Premium, 5 админов | BIZSoft",
+      "meta_description": "ManageEngine Password Manager Pro MSP Premium: ротация паролей и запись сессий у клиентов провайдера с изоляцией; 5 администраторов. Договор, ЭДО.",
+      "seo_intents": [
+        "password manager pro msp premium — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "MSP Premium",
+      "volume_label": "5 администраторов"
+    },
+    "me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys": {
+      "sku": "ZOHO-LIC-PMPMSPENT-UNI-1Y-PACK-10ADM10KEY",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 администраторов, 10 SSH-ключей",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Password Manager Pro MSP Enterprise — годовая лицензия на систему корпоративный PAM для сервис-провайдера: полоса на десять администраторов и десять ключей.\n\nСтаршая MSP-редакция: интеграции с SIEM и ITSM, отказоустойчивость, SSH-ключи и сертификаты, API — для провайдера с десятками клиентов и требованиями к доступности. 10 администраторов и 10 ключей в пакете.\n\nЛицензия годовая, с обновлениями и поддержкой вендора. При росте докупается разница до следующей ступени прайса.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Состав — как у Enterprise для собственной инфраструктуры (интеграции, HA, ключи, API), с разбивкой по клиентским аккаунтам провайдера.",
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP Enterprise",
+              "d": "Интеграции, HA и ключи для провайдера."
+            },
+            {
+              "t": "MSP Premium",
+              "d": "Ротация и сессии без интеграций.",
+              "link": "me-password-manager-pro-msp-premium-5-administrators"
+            },
+            {
+              "t": "PAM360 MSP",
+              "d": "Полная PAM-платформа для провайдера.",
+              "link": "me-pam360-msp-enterprise-10-administrators-and-25-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным провайдерам управляемых услуг с SIEM и системой заявок, где доступ выдаётся через тикеты."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro Enterprise",
+              "d": "Для своей инфраструктуры.",
+              "link": "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+            },
+            {
+              "t": "PAM360 MSP Enterprise",
+              "d": "UBA и обнаружение привилегий.",
+              "link": "me-pam360-msp-enterprise-10-administrators-and-25-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли отказоустойчивость в MSP Enterprise?",
+          "a": "Да, резервный сервер с репликацией — как в обычной Enterprise."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-standard-2-administrators",
+        "me-password-manager-pro-msp-premium-5-administrators",
+        "me-pam360-msp-enterprise-10-administrators-and-25-keys",
+        "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+      ],
+      "meta_title": "Password Manager Pro MSP Enterprise, 10 админов | BIZSoft",
+      "meta_description": "ManageEngine Password Manager Pro MSP Enterprise: интеграции с SIEM и ITSM, HA, SSH-ключи для провайдера; 10 администраторов и 10 ключей. Договор, ЭДО.",
+      "seo_intents": [
+        "password manager pro msp enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "MSP Enterprise",
+      "volume_label": "10 администраторов и 10 ключей"
+    },
+    "me-pam360-enterprise-10-administrators-and-25-keys": {
+      "sku": "ZOHO-LIC-PAM360ENT-UNI-1Y-PACK-10ADM25KEY",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 администраторов, 25 ключей",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "PAM360 Enterprise — годовая лицензия на систему платформу управления привилегированным доступом: лицензия на 10 администраторов и 25 ключей.\n\nPAM360 — старшая PAM-платформа ManageEngine: всё из Password Manager Pro Enterprise плюс автообнаружение привилегированных учётных записей, аналитика поведения (UBA), just-in-time доступ, управление секретами DevOps и CI/CD, контроль привилегий на конечных точках. Пакет на 10 администраторов и 25 ключей.\n\nНа год; обновления версий и поддержка входят. Нужен больший объём — доплачивается разница до соответствующей полосы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт PAM360",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение привилегий",
+              "d": "Сканирование серверов, AD и облаков на привилегированные учётные записи с постановкой под контроль."
+            },
+            {
+              "t": "UBA и риск",
+              "d": "Оценка риска сессий, аномалии поведения, автоматическое прерывание."
+            },
+            {
+              "t": "Just-in-time",
+              "d": "Временные права по запросу с автоматическим отзывом."
+            },
+            {
+              "t": "DevOps",
+              "d": "Секреты для пайплайнов и контейнеров через API и плагины CI/CD."
+            },
+            {
+              "t": "Всё из Password Manager Pro Enterprise",
+              "d": "Хранилище, ротация, сессии, интеграции, HA, ключи."
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "PAM360 Enterprise",
+              "d": "Требования к PAM уровня Zero Trust: обнаружение, UBA, JIT, DevOps."
+            },
+            {
+              "t": "Password Manager Pro Enterprise",
+              "d": "Хранилище с ротацией и интеграциями — дешевле.",
+              "link": "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+            },
+            {
+              "t": "PAM360, многоязычная",
+              "d": "С русским интерфейсом.",
+              "link": "me-pam360-enterprise-multi-language-10-administrators-and-25-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным организациям с регулятором и Zero Trust-стратегией: банки, госсектор, промышленность."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro Enterprise",
+              "d": "Без UBA и обнаружения.",
+              "link": "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+            },
+            {
+              "t": "PAM360 Enterprise, многоязычная",
+              "d": "Локализация.",
+              "link": "me-pam360-enterprise-multi-language-10-administrators-and-25-keys"
+            },
+            {
+              "t": "Access Manager Plus",
+              "d": "Только сессии.",
+              "link": "me-access-manager-plus-standard-5-users-and-unlimited-connections"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли PAM360 Password Manager Pro?",
+          "a": "Да, PAM360 включает его функции целиком и добавляет аналитику, обнаружение и DevOps-секреты."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-standard-2-administrators",
+        "me-password-manager-pro-enterprise-10-administrators-and-10-keys",
+        "me-pam360-enterprise-multi-language-10-administrators-and-25-keys",
+        "me-access-manager-plus-standard-5-users-and-unlimited-connections"
+      ],
+      "meta_title": "PAM360 Enterprise, 10 администраторов и 25 ключей | BIZSoft",
+      "meta_description": "ManageEngine PAM360 Enterprise: PAM-платформа с обнаружением привилегий, UBA, just-in-time доступом и DevOps-секретами; 10 админов, 25 ключей. Договор, ЭДО.",
+      "seo_intents": [
+        "pam360 купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "10 администраторов и 25 ключей"
+    },
+    "me-pam360-enterprise-multi-language-10-administrators-and-25-keys": {
+      "sku": "ZOHO-LIC-PAM360ENTML-UNI-1Y-PACK-10ADM25KEY",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 администраторов, 25 ключей",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "PAM360 Enterprise, многоязычная версия — лицензия на год: PAM-платформа с русским интерфейсом на 10 администраторов и 25 ключей.\n\nЕдинственная разница с английской позицией — интерфейс на русском и других языках; за локализацию вендор берёт около 20 % сверху. Состав PAM360 Enterprise — на карточке английской версии.\n\nПодписка действует год и включает обновления с поддержкой. Объём наращивается апгрейдом полосы, а не покупкой ещё одного пакета.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Функции идентичны PAM360 Enterprise — обнаружение привилегий, UBA, JIT, DevOps-секреты, интеграции, HA; отличие в локализованном интерфейсе и цене.",
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Многоязычная",
+              "d": "Администраторы и согласующие работают на русском."
+            },
+            {
+              "t": "Английская",
+              "d": "Дешевле примерно на 20 %.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям, где консоль PAM используют не только англоговорящие администраторы, но и согласующие руководители."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "PAM360 Enterprise",
+              "d": "Английская версия.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            },
+            {
+              "t": "PAM360 MSP Enterprise, многоязычная",
+              "d": "Для провайдера.",
+              "link": "me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Локализованы ли отчёты для аудиторов?",
+          "a": "Да, отчёты и уведомления выходят на языке интерфейса пользователя."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-standard-2-administrators",
+        "me-pam360-enterprise-10-administrators-and-25-keys",
+        "me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys"
+      ],
+      "meta_title": "PAM360 Enterprise (рус.), 10 администраторов | BIZSoft",
+      "meta_description": "ManageEngine PAM360 Enterprise с русским интерфейсом: полная PAM-платформа — обнаружение, UBA, JIT, DevOps-секреты; 10 админов, 25 ключей. Договор, ЭДО.",
+      "seo_intents": [
+        "pam360 многоязычная — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise, многоязычная",
+      "volume_label": "10 администраторов и 25 ключей"
+    },
+    "me-pam360-msp-enterprise-10-administrators-and-25-keys": {
+      "sku": "ZOHO-LIC-PAM360MSPENT-UNI-1Y-PACK-10ADM25KEY",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 администраторов, 25 ключей",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "PAM360 MSP Enterprise — годовая лицензия на систему PAM-платформу для сервис-провайдера: лицензия на 10 администраторов и 25 ключей.\n\nОтличие MSP — мультиклиентность: клиенты разделены аккаунтами, техники обслуживают всех, а отчёты выдаются каждому по отдельности. Функционально это PAM360 Enterprise с клиентскими аккаунтами: обнаружение привилегий, UBA, JIT, DevOps-секреты у каждого клиента отдельно.\n\nГодовой срок; вендорская поддержка и апдейты — в цене. Число администраторов и ключей наращивается доплатой до нужной ступени.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Тот же набор, что у PAM360 Enterprise для собственной инфраструктуры, разделённый по клиентским аккаунтам провайдера.",
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "PAM360 MSP",
+              "d": "Провайдер с требованиями клиентов к PAM."
+            },
+            {
+              "t": "Password Manager Pro MSP Enterprise",
+              "d": "Хранилище с ротацией и интеграциями — дешевле.",
+              "link": "me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys"
+            },
+            {
+              "t": "PAM360 Enterprise",
+              "d": "Для своей инфраструктуры.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Провайдерам, обслуживающим регулируемых клиентов с требованиями к PAM."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro MSP Enterprise",
+              "d": "Без UBA и обнаружения.",
+              "link": "me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys"
+            },
+            {
+              "t": "PAM360 MSP Enterprise, многоязычная",
+              "d": "С русским интерфейсом.",
+              "link": "me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Изолирована ли аналитика поведения по клиентам?",
+          "a": "Да, UBA и отчёты о риске считаются в рамках каждого клиентского аккаунта."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-standard-2-administrators",
+        "me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys",
+        "me-pam360-enterprise-10-administrators-and-25-keys",
+        "me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys"
+      ],
+      "meta_title": "PAM360 MSP Enterprise, 10 администраторов | BIZSoft",
+      "meta_description": "ManageEngine PAM360 MSP Enterprise: полная PAM-платформа для провайдера с изоляцией клиентов; 10 администраторов и 25 ключей. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "pam360 msp — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "MSP Enterprise",
+      "volume_label": "10 администраторов и 25 ключей"
+    },
+    "me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys": {
+      "sku": "ZOHO-LIC-PAM360MSPENTML-UNI-1Y-PACK-10ADM25KEY",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 администраторов, 25 ключей",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "PAM360 MSP Enterprise, многоязычная версия — подписка на год для организации: провайдерская PAM с русским интерфейсом, полоса на десять администраторов и 25 ключей.\n\nЛокализованная сборка: русский и ещё десятки языков интерфейса; по функциям идентична английской, стоит примерно на 20 % дороже. Что даёт MSP-линия — на карточке английской PAM360 MSP Enterprise.\n\n12 месяцев с обновлениями и техподдержкой. Увеличение объёма в течение года — доплатой разницы между полосами.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Локализованная PAM360 MSP: те же обнаружение, UBA, JIT и секреты по клиентам, интерфейс на русском.",
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Многоязычная MSP",
+              "d": "Клиенты и техники провайдера работают на русском."
+            },
+            {
+              "t": "Английская MSP",
+              "d": "Дешевле примерно на 20 %.",
+              "link": "me-pam360-msp-enterprise-10-administrators-and-25-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Российским провайдерам управляемых услуг с регулируемыми клиентами."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "PAM360 MSP Enterprise",
+              "d": "Английская версия.",
+              "link": "me-pam360-msp-enterprise-10-administrators-and-25-keys"
+            },
+            {
+              "t": "PAM360 Enterprise, многоязычная",
+              "d": "Для собственной инфраструктуры.",
+              "link": "me-pam360-enterprise-multi-language-10-administrators-and-25-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли дать каждому клиенту свой язык портала?",
+          "a": "Да, язык задаётся на уровне пользователя и аккаунта."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-standard-2-administrators",
+        "me-pam360-msp-enterprise-10-administrators-and-25-keys",
+        "me-pam360-enterprise-multi-language-10-administrators-and-25-keys"
+      ],
+      "meta_title": "PAM360 MSP Enterprise (рус.), 10 администраторов | BIZSoft",
+      "meta_description": "ManageEngine PAM360 MSP Enterprise с русским интерфейсом: PAM-платформа для провайдера с изоляцией клиентов; 10 админов, 25 ключей. Договор, ЭДО.",
+      "seo_intents": [
+        "pam360 msp многоязычная — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "MSP Enterprise, многоязычная",
+      "volume_label": "10 администраторов и 25 ключей"
+    },
+    "me-access-manager-plus-standard-5-users-and-unlimited-connections": {
+      "sku": "ZOHO-LIC-AMPSTD-UNI-1Y-PACK-5USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 5 пользователей, подключения без ограничений",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Access Manager Plus Standard — годовая лицензия на систему шлюз привилегированных сессий: лицензия на 5 пользователей.\n\nОтдельный продукт для одной задачи — контролируемый удалённый доступ: подключения RDP, SSH, VNC и SQL через браузер без прямого доступа к сети, запись и наблюдение сессий, согласование, журнал. Хранилища паролей с ротацией здесь нет — это Password Manager Pro. Пакет на 5 пользователей с неограниченным числом подключений.\n\nСрок подписки — год, обновления и поддержка вендора в комплекте. Следующая полоса — доплатой разницы, не вторым пакетом.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Access Manager Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Шлюз",
+              "d": "RDP, SSH, VNC, SQL и веб-консоли через браузер; сеть целевых систем закрыта для пользователя."
+            },
+            {
+              "t": "Контроль",
+              "d": "Запись видео сессий, живое наблюдение, прерывание, согласование доступа по времени."
+            },
+            {
+              "t": "Пользователи",
+              "d": "5 в пакете — техники и подрядчики, подключений без лимита."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Хранилища с ротацией паролей — см. Password Manager Pro."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Access Manager Plus",
+              "d": "Нужен контроль сессий подрядчиков и администраторов без PAM-хранилища."
+            },
+            {
+              "t": "Password Manager Pro Premium",
+              "d": "Хранилище с ротацией плюс сессии.",
+              "link": "me-password-manager-pro-premium-5-administrators"
+            },
+            {
+              "t": "PAM360",
+              "d": "Полная PAM.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, которые дают доступ подрядчикам и хотят видеть и записывать каждую сессию, не раздавая VPN."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro Premium",
+              "d": "Сессии плюс хранилище.",
+              "link": "me-password-manager-pro-premium-5-administrators"
+            },
+            {
+              "t": "PAM360 Enterprise",
+              "d": "Полная платформа.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли целевые серверы?",
+          "a": "Нет, лицензируются пользователи шлюза; подключений и целевых систем — без ограничений."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-premium-5-administrators",
+        "me-pam360-enterprise-10-administrators-and-25-keys",
+        "me-password-manager-pro-standard-2-administrators"
+      ],
+      "meta_title": "Access Manager Plus Standard, 5 пользователей | BIZSoft",
+      "meta_description": "ManageEngine Access Manager Plus: шлюз RDP/SSH/VNC/SQL с записью и согласованием сессий; 5 пользователей, подключения без лимита. Договор, ЭДО.",
+      "seo_intents": [
+        "access manager plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard",
+      "volume_label": "5 пользователей"
+    },
+    "me-key-manager-plus-25-keys": {
+      "sku": "ZOHO-LIC-KMP-UNI-1Y-PACK-25KEY",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 25 ключей и сертификатов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Key Manager Plus — годовая лицензия на систему управление SSH-ключами и SSL-сертификатами: лицензия на 25 ключей и сертификатов.\n\nУзкий продукт: обнаружение ключей и сертификатов в сети, контроль сроков с оповещениями, выпуск и продление через удостоверяющие центры, включая Let's Encrypt, ротация SSH-ключей, журнал. Пакет на 25 ключей и сертификатов. Те же функции входят в Password Manager Pro Enterprise и PAM360 — Key Manager Plus берут, когда PAM не нужен.\n\nОдин год с правом на обновления и обращения в поддержку. Дополнительные объекты добавляются доплатой до следующей ступени прайса.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Key Manager Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение",
+              "d": "Сканирование серверов и устройств на SSH-ключи и SSL-сертификаты."
+            },
+            {
+              "t": "Сроки",
+              "d": "Календарь истечения, оповещения, автоматическое продление через ЦС."
+            },
+            {
+              "t": "Ротация",
+              "d": "Плановая смена SSH-ключей с распространением на серверы."
+            },
+            {
+              "t": "Учёт",
+              "d": "Владельцы, назначение, журнал операций."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Key Manager Plus",
+              "d": "Только ключи и сертификаты."
+            },
+            {
+              "t": "Password Manager Pro Enterprise",
+              "d": "Ключи в составе PAM-хранилища.",
+              "link": "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+            },
+            {
+              "t": "PAM360",
+              "d": "Ключи внутри полной PAM.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            }
+          ],
+          "links": [
+            "me-password-manager-pro-standard-2-administrators"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-службам, у которых сертификаты истекают внезапно, а SSH-ключи никто не меняет годами."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Password Manager Pro Enterprise",
+              "d": "Ключи плюс пароли и сессии.",
+              "link": "me-password-manager-pro-enterprise-10-administrators-and-10-keys"
+            },
+            {
+              "t": "PAM360 Enterprise",
+              "d": "Ключи внутри полной PAM-платформы.",
+              "link": "me-pam360-enterprise-10-administrators-and-25-keys"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли сертификаты и ключи вместе?",
+          "a": "Да, единица — объект любого типа; 25 в пакете."
+        }
+      ],
+      "related_products": [
+        "me-password-manager-pro-enterprise-10-administrators-and-10-keys",
+        "me-pam360-enterprise-10-administrators-and-25-keys",
+        "me-password-manager-pro-standard-2-administrators"
+      ],
+      "meta_title": "Key Manager Plus, 25 ключей и сертификатов | BIZSoft",
+      "meta_description": "ManageEngine Key Manager Plus: обнаружение и контроль SSH-ключей и SSL-сертификатов, продление через ЦС, ротация; 25 объектов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "key manager plus — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "—",
+      "volume_label": "25 ключей и сертификатов"
+    }
+  }
+}
