@@ -27,6 +27,7 @@ import { vendorBySlug } from '../../data/vendors';
 import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase } from '../../lib/product-commerce';
 import { planType, PLAN_MARKER, PLAN_MARKER_UNIVERSAL, PLAN_SHORT } from '../../lib/plan-type';
 import { cardComposition, KIND_MARKER } from '../../lib/product-composition';
+import { displayName, termLabel, TERM } from '../../lib/card-display';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../../data/policies';
 import { seller } from '../../config/site';
 
@@ -144,7 +145,7 @@ const ctaRef = quoteProductRef(product.name, product.sku, commerce, commerce.min
 const markerOverride = cardMeta?.marker;
 const planKind = markerOverride === 'team' ? 'team'
   : markerOverride === 'individual' ? 'individual'
-  : (markerOverride ? null : planType(product.name, product.short_description || ''));
+  : (markerOverride ? null : planType(product.name, product.short_description || '', product.sku));
 const planMarker = planKind ? PLAN_MARKER[planKind] : '';
 const planShort = planKind ? PLAN_SHORT[planKind] : '';
 
@@ -167,19 +168,24 @@ const categoryMarker = (kindMarker && vendorCatEntry?.catLabel && vendorCatEntry
   ? { name: vendorCatEntry.catLabel, slug: vendorCatEntry.catSeg }
   : category ? { name: category.name, slug: category.slug } : null;
 const unitName = unitNoun(commerce.qtyLabel);
-// Подзаголовок называет тип плана. Срока подписки в схеме каталога нет
-// (DATA GAP в каталоге), он ведётся в контенте вендора (VendorCardMeta.term).
-// Плашка `badge` его не заменяет: это тематическая подпись линейки («VFX и
-// моушн», «для команд»), от которой получалось «Командный план · VFX и моушн».
-const subtitleParts = [planMarker, cardMeta?.term].filter(Boolean) as string[];
+// Строка под заголовком — тип плана и срок (правило docs/rules/card-title.md).
+// Тип плана: командный, индивидуальный, а без деления — универсальный; у
+// пополнения — тоже «Универсальный план». Срок считает termLabel из данных
+// позиции: явный срок в названии и артикуле, бессрочность, вид позиции;
+// подписка без явного срока — годовая, у пополнения — «до истечения
+// баланса», у договорной позиции срока нет. Плашка `badge` в строку не
+// идёт: это тематическая подпись линейки, от неё получалось
+// «Командный план · VFX и моушн».
+const planLine = planMarker || PLAN_MARKER_UNIVERSAL;
+const term = termLabel(product, composition);
+const subtitleParts = [planLine, term].filter(Boolean) as string[];
 
 // Факты под описанием: срок, минимальный объём, переназначение единиц.
-// Срока и признака переназначения в каталоге нет — они приходят из контента
-// вендора; чего нет и там, то заменяется подтверждённым полем, а не пустой
-// ячейкой.
+// Признака переназначения в каталоге нет — он приходит из контента вендора;
+// чего нет и там, то заменяется подтверждённым полем, а не пустой ячейкой.
 const heroFacts: { k: string; v: string }[] = [];
 if (!byRequest && isUnitPlan) {
-  if (cardMeta?.termShort) heroFacts.push({ k: 'Срок', v: cardMeta.termShort });
+  if (term) heroFacts.push({ k: 'Срок', v: term });
   heroFacts.push({ k: 'MIN кол-во', v: String(commerce.minQty) });
   if (cardMeta?.reassign) heroFacts.push({ k: 'Переназначение', v: cardMeta.reassign });
   if (heroFacts.length < 3) heroFacts.unshift({ k: 'Расчётная единица', v: unitName });
@@ -192,7 +198,7 @@ const priceWhat: string[] = [];
 if (!byRequest) {
   if (isUnitPlan) priceWhat.push(unitPhrase(1, commerce.qtyLabel));
   if (commerce.minQty > 1) priceWhat.push(`минимум ${unitPhrase(commerce.minQty, commerce.qtyLabel)}`);
-  else if (cardMeta?.termShort) priceWhat.push(`1 календарный ${cardMeta.termShort.replace(/^1\s*/, '')}`);
+  else if (term && composition !== 'balance_topup') priceWhat.push(term === TERM.year ? '1 календарный год' : term);
   if (planMarker) priceWhat.push(planMarker);
   else if (category) priceWhat.push(category.name);
 }
@@ -270,10 +276,13 @@ const hasMd = isGift ? productLd !== null : !byRequest;
 const mdProduct = hasMd
   ? { itemscope: true, itemtype: 'https://schema.org/Product' }
   : {};
-// Когда H1 показывает короткое имя, itemprop="name" уезжает с заголовка в
-// отдельный meta: иначе microdata назвала бы товар иначе, чем JSON-LD, и
-// слои разошлись бы (смоук-проверка их сверяет).
-const h1Text = cardMeta?.shortName || product.name;
+// Заголовок — имя продукта без маркеров плана и срока (правило
+// docs/rules/card-title.md): «Cinema 4D 1Y (Teams)» → «Cinema 4D», план и
+// срок стоят строкой ниже. Короткое имя из контента вендора старше правила.
+// Когда H1 отличается от названия каталога, itemprop="name" уезжает с
+// заголовка в отдельный meta: иначе microdata назвала бы товар иначе, чем
+// JSON-LD, и слои разошлись бы (смоук-проверка их сверяет).
+const h1Text = cardMeta?.shortName || displayName(product.name);
 const mdName = hasMd && h1Text === product.name ? { itemprop: 'name' } : {};
 const mdDesc = hasMd && product.short_description ? { itemprop: 'description' } : {};
 const mdOffer = hasMd
@@ -621,7 +630,7 @@ try {
           <div class="params">
             {product.vendor && <div class="prow"><span class="k">Производитель:</span><span class="v">{vendorLegal(product.vendor)}</span></div>}
             {planShort && <div class="prow"><span class="k">Тип плана:</span><span class="v">{planShort}</span></div>}
-            {cardMeta?.term && <div class="prow"><span class="k">Срок:</span><span class="v">{cardMeta.term}</span></div>}
+            {term && <div class="prow"><span class="k">Срок:</span><span class="v">{term}</span></div>}
             {isUnitPlan && <div class="prow"><span class="k">Расчётная единица:</span><span class="v">{unitName}</span></div>}
             {isUnitPlan && <div class="prow"><span class="k">Минимальное количество:</span><span class="v">{commerce.minQty}</span></div>}
             {cardMeta?.reassign && <div class="prow"><span class="k">Переназначение пользователей:</span><span class="v">{cardMeta.reassign}</span></div>}
@@ -643,7 +652,7 @@ try {
 
         {isGift ? (
           <section class="sec">
-            <h2 class="sec-head"><i aria-hidden="true">/</i>Как купить {gift?.shortName || product.name} для юридического лица</h2>
+            <h2 class="sec-head"><i aria-hidden="true">/</i>Как купить {gift?.shortName || h1Text} для юридического лица</h2>
             <ol class="steps">
               <li>Выбираете {gift?.regionLabel ? gift.regionLabel.toLowerCase() : 'регион аккаунта'} и вариант, добавляете позицию в подборку и формируете заявку или КП.</li>
               <li>Заключаем договор и выставляем счёт на оплату в рублях.</li>

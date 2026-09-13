@@ -38,7 +38,21 @@ export const PLAN_SHORT: Record<PlanType, string> = {
   individual: 'Индивидуальный',
 };
 
-export function planType(name: string, extra = ''): PlanType | null {
+/**
+ * Суффикс артикула — данные, а не догадка: `-ORG` и `-IND` у плагинов
+ * JetBrains, `-TEAM`/`-TEAMS` и `-INDIVIDUAL(S)` у подписок ставятся при
+ * заведении позиции и означают ровно тип плана. Поэтому артикул старше
+ * эвристики по названию и описанию.
+ */
+function planBySku(sku: string): PlanType | null {
+  if (/-(ORG|TEAMS?)$/i.test(sku)) return 'team';
+  if (/-(IND|INDIVIDUALS?)$/i.test(sku)) return 'individual';
+  return null;
+}
+
+export function planType(name: string, extra = '', sku = ''): PlanType | null {
+  const bySku = sku ? planBySku(sku) : null;
+  if (bySku) return bySku;
   const s = `${name} ${extra}`.toLowerCase();
   if (/\b(teams?|business|enterprise|corporate|company|organizations?|workspace)\b|организаци|команд|корпоратив/.test(s)) return 'team';
   if (/\b(individual|personal|solo|plus)\b|индивидуальн|персональн|личн/.test(s)) return 'individual';
