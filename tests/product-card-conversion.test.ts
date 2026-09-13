@@ -13,7 +13,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, UNIT_FORMS } from '../src/lib/product-commerce';
+import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, unitPlural, qtyPresets, UNIT_FORMS } from '../src/lib/product-commerce';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../src/data/policies';
 import { cardComposition, KIND_MARKER } from '../src/lib/product-composition';
 import { PLAN_MARKER, PLAN_MARKER_UNIVERSAL } from '../src/lib/plan-type';
@@ -51,23 +51,44 @@ describe('цена не меньше реального заказа', () => {
     expect(page).toContain('value={commerce.minQty}');
   });
 
-  it('прикидка на команду не предлагает объём ниже минимального', () => {
-    expect(page).toContain('.filter((n) => n > commerce.minQty)');
+  it('ступени объёма: 2, 3, 5, 10, 20 с учётом минимума', () => {
+    // Решение руководителя 13.09.2026: ниже минимума ступени нет; при
+    // минимуме 2 двойка уже стоит в счётчике; от трёх первая ступень — минимум.
+    expect(qtyPresets(1)).toEqual([2, 3, 5, 10, 20]);
+    expect(qtyPresets(2)).toEqual([3, 5, 10, 20]);
+    expect(qtyPresets(3)).toEqual([3, 5, 10, 20]);
+    expect(qtyPresets(5)).toEqual([5, 10, 20]);
+    expect(qtyPresets(20)).toEqual([20]);
+    expect(page).toContain('qtyPresets(commerce.minQty)');
   });
 
-  it('крупным числом идёт сумма минимального заказа, а не цена единицы', () => {
-    // Цена одного места крупным шрифтом обещает заказ, который нельзя
-    // оформить; цена единицы остаётся, но строкой ниже.
-    expect(page).toContain('commerce.minQty > 1 ? `от ${formatRub(commerce.purchasePrice)}`');
-    expect(page).toContain('цена за {unitPhrase(1, commerce.qtyLabel)}');
+  it('крупным числом — цена единицы без «от», минимум назван пунктом справа', () => {
+    // Решение руководителя 13.09.2026 (docs/rules/card-price-block.md):
+    // слева цена единицы и «в том числе НДС», без «цена за 1 место»;
+    // справа «1 рабочее место (от 2)», срок, план; ИТОГО — за минимум.
+    expect(page).not.toContain('`от ${formatRub(');
+    expect(page).not.toContain('цена за {unitPhrase(1, commerce.qtyLabel)}');
+    expect(page).toContain("(commerce.minQty > 1 ? ` (от ${commerce.minQty})` : '')");
+    expect(page).toContain("if (term === TERM.balance) priceWhat.push('до истечения');");
+    expect(page).toContain("else if (term === TERM.year) priceWhat.push('1 календарный год');");
+    expect(page).toContain('priceWhat.push(planLine);');
+    expect(page).toContain('<b data-total>{formatRub(commerce.purchasePrice)}</b>');
+  });
+
+  it('единица «место» на карточке и в призыве — «рабочее место»', () => {
+    expect(unitPhrase(1, 'Мест')).toBe('1 рабочее место');
+    expect(unitPhrase(2, 'Мест')).toBe('2 рабочих места');
+    expect(unitPlural('Мест')).toBe('рабочих мест');
+    expect(unitPlural('Лицензий')).toBe('лицензий');
+    expect(page).toContain('`Количество ${unitPlural(commerce.qtyLabel)}`');
   });
 });
 
 describe('призыв называет результат', () => {
   it('цена за единицу — призыв называет объём', () => {
     const s = commerceState({ price: 1000, minQty: 2, qtyLabel: 'Мест' });
-    expect(quoteCtaLabel(s, 5)).toBe('Получить КП на 5 мест');
-    expect(quoteCtaLabel(s, 1)).toBe('Получить КП на 2 места');
+    expect(quoteCtaLabel(s, 5)).toBe('Получить КП на 5 рабочих мест');
+    expect(quoteCtaLabel(s, 1)).toBe('Получить КП на 2 рабочих места');
     expect(quoteCtaLabel(commerceState({ price: 1000 }), 1)).toBe('Получить КП на 1 лицензию');
   });
 
@@ -79,7 +100,7 @@ describe('призыв называет результат', () => {
 
   it('в заявку уезжает позиция с количеством, а не одно название', () => {
     const s = commerceState({ price: 1000, minQty: 2, qtyLabel: 'Мест' });
-    expect(quoteProductRef('Claude Team', 'ANT-TEAM', s, 5)).toBe('Claude Team (ANT-TEAM) — 5 мест');
+    expect(quoteProductRef('Claude Team', 'ANT-TEAM', s, 5)).toBe('Claude Team (ANT-TEAM) — 5 рабочих мест');
   });
 
   it('главный призыв карточки больше не называется «В расчёт»', () => {
@@ -267,7 +288,7 @@ describe('расхождения выката 12.09.2026 закрыты', () => 
     expect(quoteProductRef('Пополнение', 'OPENAI-CREDITS-100', s, 2, false))
       .toBe('Пополнение (OPENAI-CREDITS-100) — 2 шт.');
     expect(cardComposition(topup)).not.toBe('unit_subscription');
-    expect(page).toContain("isUnitPlan ? `Количество ${commerce.qtyLabel.toLowerCase()}` : 'Количество'");
+    expect(page).toContain("isUnitPlan ? `Количество ${unitPlural(commerce.qtyLabel)}` : 'Количество'");
     expect(page).toContain('quoteCtaLabel(commerce, commerce.minQty, isUnitPlan)');
     // Клиентский скрипт пересчитывает подпись тем же правилом.
     expect(page).toContain("const namedUnit = layout?.dataset.composition === 'unit_subscription'");

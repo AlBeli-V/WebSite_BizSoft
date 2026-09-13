@@ -24,7 +24,7 @@ import VendorLogo from '../../components/VendorLogo.astro';
 import { vendorContent } from '../../data/vendor-content';
 import { vendorSlug } from '../../lib/vendor-links';
 import { vendorBySlug } from '../../data/vendors';
-import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase } from '../../lib/product-commerce';
+import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, qtyPresets, unitPlural } from '../../lib/product-commerce';
 import { planType, PLAN_MARKER, PLAN_MARKER_UNIVERSAL, PLAN_SHORT } from '../../lib/plan-type';
 import { cardComposition, KIND_MARKER } from '../../lib/product-composition';
 import { displayName, termLabel, TERM } from '../../lib/card-display';
@@ -116,7 +116,10 @@ const commerce = commerceState({
   priceFrom: product.price_from,
   availability: product.availability,
   minQty: cardMeta?.minQty,
-  qtyLabel: cardMeta?.qtyLabel,
+  // Единица без указания вендора: у подписки — рабочее место, у бессрочной
+  // лицензии — лицензия (решение руководителя 13.09.2026: «1 рабочее место,
+  // 1 календарный год» у годовых подписок, «бессрочно» у лицензий).
+  qtyLabel: cardMeta?.qtyLabel || (/\bPERP\b|бессрочн|вечная лицензия/i.test(`${product.sku} ${product.name}`) ? 'Лицензий' : 'Рабочих мест'),
   check: cardMeta?.check,
 });
 // ── Вид позиции ──────────────────────────────────────────────────────
@@ -214,19 +217,21 @@ const heroFacts = FACT_HEADS.map((h) => ({ ...h, value: factValues[h.key] }));
 // раскрывается по «Подробнее». В разметке текст целиком.
 const lede = splitLede(product.short_description || '');
 
-// Зона «за что» у цены: единица, срок либо минимальный объём, тип плана.
+// Зона «за что» у цены — три пункта справа от суммы (правило
+// docs/rules/card-price-block.md): единица с минимумом в скобках
+// («1 рабочее место (от 2)»), срок («1 календарный год», «бессрочно»,
+// «до истечения»), тип плана. Категория сюда не идёт.
 const priceWhat: string[] = [];
 if (!byRequest) {
-  if (isUnitPlan) priceWhat.push(unitPhrase(1, commerce.qtyLabel));
-  if (commerce.minQty > 1) priceWhat.push(`минимум ${unitPhrase(commerce.minQty, commerce.qtyLabel)}`);
-  else if (term && term !== TERM.balance) priceWhat.push(term === TERM.year ? '1 календарный год' : term);
-  if (planMarker) priceWhat.push(planMarker);
-  else if (category) priceWhat.push(category.name);
+  if (isUnitPlan) priceWhat.push(unitPhrase(1, commerce.qtyLabel) + (commerce.minQty > 1 ? ` (от ${commerce.minQty})` : ''));
+  if (term === TERM.balance) priceWhat.push('до истечения');
+  else if (term === TERM.year) priceWhat.push('1 календарный год');
+  else if (term) priceWhat.push(term);
+  priceWhat.push(planLine);
 }
 
-// Ступени объёма: ниже минимального заказа не показываются — это цена,
-// которую нельзя купить.
-const qtyPresets = [3, 5, 10, 20].filter((n) => n > commerce.minQty);
+// Ступени объёма: 2, 3, 5, 10, 20 с учётом минимума (product-commerce.ts).
+const qtySteps = qtyPresets(commerce.minQty);
 
 // Письмо специалисту с готовой темой и началом текста: человеку остаётся
 // назвать компанию и дописать вопрос.
@@ -482,15 +487,15 @@ try {
               <span>Рассчитаем стоимость под вашу конфигурацию и количество.</span>
             </div>
           ) : (
-            /* Две зоны: слева сумма и налог, справа — за что платят. Когда
-               минимум заказа больше единицы, крупным числом идёт сумма
-               минимального заказа: цена одного места обещает заказ, который
-               нельзя оформить. */
+            /* Две ячейки без оформления: слева цена единицы и налог (по
+               центру), справа — за что платят (по левому краю, прижато к
+               концу). Слова «от» и «цена за 1 место» сняты: минимум заказа
+               назван в первом пункте справа и в счётчике, а ИТОГО ниже
+               сразу считается за минимальный заказ. */
             <div class="price-zones">
               <div class="pz-sum">
                 {eff.isPromo && eff.promoLabel && <span class="promo-label">{eff.promoLabel}</span>}
-                <b>{commerce.minQty > 1 ? `от ${formatRub(commerce.purchasePrice)}` : formatRub(eff.price)}</b>
-                {isUnitPlan && <span>цена за {unitPhrase(1, commerce.qtyLabel)}</span>}
+                <b>{formatRub(eff.price)}</b>
                 {vat > 0 && <span>в том числе НДС {vat}%</span>}
               </div>
               <ul class="pz-what">
@@ -518,11 +523,11 @@ try {
 
           {!byRequest && (
             <div class="buy-qty">
-              <span class="qty-label">{isUnitPlan ? `Количество ${commerce.qtyLabel.toLowerCase()}` : 'Количество'}</span>
+              <span class="qty-label">{isUnitPlan ? `Количество ${unitPlural(commerce.qtyLabel)}` : 'Количество'}</span>
               <div class="qty-controls">
-                {qtyPresets.length > 0 && (
+                {qtySteps.length > 0 && (
                   <div class="presets">
-                    {qtyPresets.map((n) => <button type="button" data-team={n}>{n}</button>)}
+                    {qtySteps.map((n) => <button type="button" data-team={n}>{n}</button>)}
                   </div>
                 )}
                 <span class="qty" data-qty-wrap>
@@ -531,7 +536,7 @@ try {
                       иначе покупатель считает бюджет по невозможному заказу. */}
                   <input
                     type="number" min={commerce.minQty} value={commerce.minQty} inputmode="numeric"
-                    data-qty data-min={commerce.minQty} aria-label={isUnitPlan ? `Количество ${commerce.qtyLabel.toLowerCase()}` : 'Количество'}
+                    data-qty data-min={commerce.minQty} aria-label={isUnitPlan ? `Количество ${unitPlural(commerce.qtyLabel)}` : 'Количество'}
                   />
                   <button type="button" data-inc aria-label="Больше">+</button>
                 </span>
@@ -929,12 +934,13 @@ try {
   .price-req b { display: block; font-weight: 800; font-size: 1.5rem; }
   .price-req span { color: var(--color-text-dim); font-size: 0.85rem; }
   /* Две зоны цены: слева сумма и налог, справа — за что платят. */
-  .price-zones { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.2rem; align-items: center; }
-  .pz-sum { display: flex; flex-direction: column; }
+  .price-zones { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; align-items: center; }
+  .pz-sum { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .pz-sum b { font-size: 1.75rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .pz-sum span { color: var(--color-text-dim); font-size: 0.79rem; }
   .pz-sum .promo-label { align-self: flex-start; background: color-mix(in srgb, var(--color-accent) 18%, transparent); color: var(--color-accent); font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 6px; margin-bottom: 0.3rem; }
-  .pz-what { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+  /* Правая ячейка: по левому краю, но сдвинута к концу — заполняет ширину. */
+  .pz-what { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; justify-self: end; text-align: left; }
   .pz-what li { position: relative; padding-left: 0.7rem; font-size: 0.85rem; color: var(--color-text-muted); }
   .pz-what li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 4px; height: 4px; background: var(--color-accent); }
   .price-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
@@ -944,7 +950,7 @@ try {
   .vat-hint span { display: block; margin-top: 0.4rem; padding: 0.6rem 0.8rem; background: var(--color-bg-elevated); border-radius: 8px; color: var(--color-text-muted); font-size: 0.82rem; }
   .rate-note { color: var(--color-text-dim); font-size: 0.78rem; margin: 0.35rem 0 0; }
   .buy-qty { display: flex; flex-direction: column; gap: 0.5rem; }
-  .qty-label { color: var(--color-text-muted); font-size: 0.85rem; }
+  .qty-label { color: var(--color-text); font-size: 0.9rem; font-weight: 700; }
   /* Ступени и счётчик — одной строкой: это один выбор, а не два блока. */
   .qty-controls { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
   .presets { display: flex; gap: 0.3rem; }
@@ -972,7 +978,10 @@ try {
   .coll-check:checked + .coll-box { background: var(--color-success); border-color: var(--color-success); }
   .coll-check:checked + .coll-box svg { opacity: 1; }
   .coll-check:focus-visible + .coll-box { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-  .coll-btn { background: none; border: none; padding: 0; font: inherit; font-size: 0.88rem; font-weight: 700; color: var(--color-accent); cursor: pointer; text-align: left; }
+  /* Кнопка подборки — рыжая, короткая (не на всю ширину), флажок слева от
+     неё: клик по любому из двух переключает подборку. */
+  .coll-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0.45rem 1.1rem; border: none; border-radius: 10px; background: var(--color-accent); color: #fff; font: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-align: center; }
+  .coll-btn:hover { filter: brightness(0.94); }
   /* Второстепенное действие — ссылкой, а не третьей кнопкой. */
   .btn-link { background: none; border: none; padding: 0; font: inherit; font-size: 0.9rem; font-weight: 600; color: var(--color-accent); cursor: pointer; align-self: center; }
   .buy-trust { list-style: none; padding: 1rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.35rem; color: var(--color-text-muted); font-size: 0.83rem; }
@@ -1093,8 +1102,17 @@ try {
     .deal-row ul { grid-column: 2; }
     .prow { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
   }
+  /* На телефоне ячейки цены остаются рядом (решение руководителя
+     13.09.2026): сумма чуть мельче, зазор меньше — колонку не складываем. */
   @media (max-width: 560px) {
-    .price-zones { grid-template-columns: minmax(0, 1fr); gap: 0.7rem; }
+    .price-zones { gap: 0.8rem; }
+    .pz-sum b { font-size: clamp(1.35rem, 6.2vw, 1.75rem); }
+    .pz-what li { font-size: 0.8rem; }
+  }
+  /* Пункты справа — одной строкой каждый; только на самых узких экранах
+     (до 360px) разрешён перенос, иначе появилась бы прокрутка вбок. */
+  @media (min-width: 361px) {
+    .pz-what li { white-space: nowrap; }
   }
 </style>
 
