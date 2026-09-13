@@ -28,6 +28,7 @@ import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, qt
 import { planType, PLAN_MARKER, PLAN_MARKER_UNIVERSAL, PLAN_SHORT } from '../../lib/plan-type';
 import { cardComposition, KIND_MARKER } from '../../lib/product-composition';
 import { displayName, termLabel, TERM } from '../../lib/card-display';
+import { parseSku } from '../../lib/sku';
 import { FACT_HEADS, factTerm, factMin, factTransfer, splitLede, creditsLabel } from '../../lib/card-facts';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../../data/policies';
 import { seller } from '../../config/site';
@@ -198,8 +199,10 @@ if (isGift && giftInitial) {
   const region = giftRegions.find((r) => r.variants.some((v) => v.sku === giftInitial.sku));
   const least = region?.variants.reduce((a, v) => (v.denomination < a.denomination ? v : a), region.variants[0]);
   if (least) balanceMin = formatDenomination(least);
-} else if (term === TERM.balance && /-CREDITS-\d+$/i.test(product.sku)) {
-  const prefix = product.sku.replace(/-CREDITS-\d+$/i, '-CREDITS-');
+} else if (term === TERM.balance && (parseSku(product.sku)?.kind === 'CRD' ? Boolean(parseSku(product.sku)?.variant) : /-CREDITS-\d+$/i.test(product.sku))) {
+  // Линейка номиналов: артикул новой системы — всё до варианта
+  // (<…>-CRD-<продукт>-UNI-BAL-NOM-), старый — до «-CREDITS-».
+  const prefix = parseSku(product.sku) ? product.sku.slice(0, product.sku.lastIndexOf('-') + 1) : product.sku.replace(/-CREDITS-\d+$/i, '-CREDITS-');
   try {
     const packs = (await getProducts({ vendor: product.vendor || undefined })).filter((p) => p.sku.startsWith(prefix));
     const least = Math.min(...packs.map((p) => Number(p.sku.slice(prefix.length))).filter(Number.isFinite));

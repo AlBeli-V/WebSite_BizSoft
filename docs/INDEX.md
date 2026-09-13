@@ -38,6 +38,12 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   чеклист и обязательные шаги (sitemap, микроразметка, WebMCP, уникальность
   meta) — `docs/vendors-expansion-prompt.md`, раздел 11/11а, и правила в
   `CLAUDE.md`.
+- **Артикул новой позиции** — правило `docs/rules/sku-system.md`: сегменты
+  и словари в `src/lib/sku.ts`, код вендора — `data/catalog/sku-vendors.json`,
+  код продукта — `data/catalog/sku-products.json`; в пакете вендора вместо
+  `sku` пишутся `sku_product`, `sku_plan`, `sku_term`, `sku_unit`,
+  `sku_variant`, импорт собирает артикул сам. Перевод действующего каталога —
+  `data/catalog/sku-assignment.json` (`scripts/catalog/sku-assign.mjs`).
 - **Карточка AI-каталога и пара «Standard seat + Premium seat»** —
   реестр `scripts/ai-catalog-cards.json`, заливка воркфлоу `ops-import-ai-cards`,
   правила против каннибализации пары тарифов: `docs/ai-catalog-import.md`,

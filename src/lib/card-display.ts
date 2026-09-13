@@ -14,6 +14,7 @@
  * продаётся на год, и месяцем его называть нельзя.
  */
 import CARD_TERMS from '../data/card-terms.json';
+import { parseSku, termMonths } from './sku';
 import type { CardComposition } from './product-composition';
 
 export const TERM = {
@@ -81,6 +82,14 @@ interface TermSource { sku: string; name: string; short_description?: string | n
 
 /** Явный срок, названный в артикуле или названии; null — не назван. */
 function explicitTerm(p: TermSource): string | null {
+  // Артикул новой системы несёт срок сегментом: <n>M/<n>Y, PERP, BAL.
+  const parsed = parseSku(p.sku);
+  if (parsed) {
+    if (parsed.term === 'PERP') return TERM.perpetual;
+    if (parsed.term === 'BAL') return TERM.balance;
+    const months = termMonths(parsed.term);
+    return months == null ? null : monthsLabel(months);
+  }
   const sku = p.sku.toUpperCase();
   const name = p.name;
   const desc = (p.short_description || '').toLowerCase();
@@ -119,6 +128,8 @@ export function termLabel(p: TermSource, composition: CardComposition): string |
  * них тот же, что у номинала: баланс живёт, пока не израсходован.
  */
 function isCreditsPack(p: TermSource): boolean {
+  const parsed = parseSku(p.sku);
+  if (parsed) return parsed.kind === 'CRD';
   return /-CREDITS-\d+$/i.test(p.sku) || /пополнение баланса|пакет [\d\s]+кредитов|\bcredits\b/i.test(p.name);
 }
 
