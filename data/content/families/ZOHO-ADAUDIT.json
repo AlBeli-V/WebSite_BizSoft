@@ -6,14 +6,11 @@
   "generated_at": "2026-09-13",
   "carrier_slug": "me-adaudit-plus-standard-2-domain-controllers",
   "classification_notes": [
-    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы у ADAudit Plus нет — OWNERSHIP = universal.",
-    "Две редакции одного объёма (2 контроллера домена) — edition_tier; дополнения (файловые серверы, рабочие станции, Entra ID) на витрине не заведены — в тексте «по запросу».",
-    "Пакет — единица; рост числа контроллеров — переходом на следующий пакет доплатой (DATA GAP: выбор объёма вместо счётчика).",
-    "Бессрочные сиблинги (*-PERP) — вне индекса; «по запросу», без ссылок."
+    "ADAudit Plus Standard/Professional по контроллерам домена; файловые серверы — отдельные полосы. Носитель — Standard."
   ],
   "products": {
     "me-adaudit-plus-standard-2-domain-controllers": {
-      "sku": "ZOHO-LIC-ADAUDITSTD-TEAM-1Y-PACK-2DC",
+      "sku": "ZOHO-LIC-ADAUDSTD-UNI-1Y-PACK-2DC",
       "classification": {
         "nature": "mono",
         "ownership": "universal",
@@ -21,348 +18,74 @@
         "metric": "PACK",
         "packaging": "edition_tier"
       },
-      "edition_label": "Standard",
-      "volume_label": "2 контроллера домена",
       "unit_label": "пакет: 2 контроллера домена",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "ADAudit Plus Standard — годовая подписка на систему аудита Active Directory от ManageEngine на сервере организации: кто, когда и с какой машины создал, изменил или удалил учётную запись, группу или политику, входы и блокировки, отчёты для проверок. Пакет на два контроллера домена.\n\nЛицензия считается по контроллерам, с которых собираются журналы; файловые серверы, рабочие станции и тенант Entra ID — отдельные дополнения. Professional добавляет разбор изменений до уровня настройки GPO со старым и новым значением, права доступа и аналитику поведения пользователей.\n\nСрок — 1 год, обновления и поддержка включены; контроллеры сверх двух — следующим пакетом.",
+      "short_description": "ADAudit Plus Standard — подписка сроком на год на систему аудит Active Directory: лицензия на два контроллера домена.\n\nStandard отвечает на вопрос «кто, что и когда изменил в AD»: отчёты об изменениях с автором и временем, входы и блокировки, история для расследований, отчёты по SOX, GDPR и другим стандартам. Аудит файловых серверов, GPO в деталях и оповещения в реальном времени — в Professional.\n\nСрок — 1 год, обновления и поддержка вендора включены. Следующая полоса — доплатой разницы, не вторым пакетом.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что умеет ADAudit Plus Standard",
+          "title": "Что умеет",
           "kind": "items",
           "items": [
             {
-              "t": "Изменения объектов AD",
-              "d": "Создание, изменение, удаление и перемещение пользователей, групп, компьютеров, OU и контактов — с автором, временем и рабочей станцией, откуда сделано."
+              "t": "Изменения в AD",
+              "d": "Кто создал, изменил, удалил объект, с прежним и новым значением атрибута."
             },
             {
-              "t": "Входы и блокировки",
-              "d": "Успешные и неудачные входы, история по пользователю и по машине, разбор блокировок учётных записей с источником неверного пароля."
+              "t": "Входы",
+              "d": "Успешные и неудачные входы, блокировки учётных записей с источником."
             },
             {
-              "t": "Групповые политики",
-              "d": "Факт создания, привязки, отвязки и изменения GPO с автором; детализация до настройки — в Professional."
+              "t": "Отчёты для аудиторов",
+              "d": "Готовые пакеты по SOX, HIPAA, GDPR, PCI; планирование и рассылка."
             },
             {
-              "t": "Оповещения",
-              "d": "Мгновенные уведомления на почту и SMS: массовое удаление, добавление в привилегированную группу, вход вне рабочего времени, серия отказов."
-            },
-            {
-              "t": "Отчёты для проверок",
-              "d": "Предустановленные наборы под зарубежные стандарты (SOX, HIPAA, PCI DSS, GDPR, ISO 27001) и свои отчёты по расписанию; архив событий с настраиваемой глубиной."
-            },
-            {
-              "t": "Сбор данных",
-              "d": "Без агентов из журналов событий контроллеров или с агентом на нагруженных площадках; хранение во встроенной PostgreSQL либо в MS SQL."
+              "t": "Хранение",
+              "d": "Архив событий для расследований на заданный срок."
             }
           ]
         },
         {
           "code": "PLAN_COMPARE",
-          "title": "Standard или Professional",
-          "kind": "compare",
-          "body": "Обе редакции считают лицензию по контроллерам домена и ставятся на свой сервер. Разница — в глубине разбора каждого изменения.",
-          "rows": [
-            {
-              "label": "Единица лицензии",
-              "values": {
-                "me-adaudit-plus-standard-2-domain-controllers": "2 контроллера домена",
-                "me-adaudit-plus-professional-2-domain-controllers": "2 контроллера домена"
-              }
-            },
-            {
-              "label": "Изменения объектов, входы, блокировки, оповещения, отчёты",
-              "values": {
-                "me-adaudit-plus-standard-2-domain-controllers": "да",
-                "me-adaudit-plus-professional-2-domain-controllers": "да"
-              }
-            },
-            {
-              "label": "Старое и новое значение атрибута",
-              "values": {
-                "me-adaudit-plus-standard-2-domain-controllers": "нет",
-                "me-adaudit-plus-professional-2-domain-controllers": "да"
-              }
-            },
-            {
-              "label": "Изменения GPO до уровня настройки",
-              "values": {
-                "me-adaudit-plus-standard-2-domain-controllers": "нет",
-                "me-adaudit-plus-professional-2-domain-controllers": "да"
-              }
-            },
-            {
-              "label": "Права доступа (ACL), схема, конфигурация, сайты, DNS",
-              "values": {
-                "me-adaudit-plus-standard-2-domain-controllers": "нет",
-                "me-adaudit-plus-professional-2-domain-controllers": "да"
-              }
-            },
-            {
-              "label": "Аналитика поведения пользователей (UBA)",
-              "values": {
-                "me-adaudit-plus-standard-2-domain-controllers": "нет",
-                "me-adaudit-plus-professional-2-domain-controllers": "да"
-              }
-            },
-            {
-              "label": "Файловые серверы, рабочие станции, Entra ID",
-              "values": {
-                "me-adaudit-plus-standard-2-domain-controllers": "дополнения по запросу",
-                "me-adaudit-plus-professional-2-domain-controllers": "дополнения по запросу"
-              }
-            }
-          ],
-          "links": [
-            "me-adaudit-plus-professional-2-domain-controllers"
-          ]
-        },
-        {
-          "code": "FIT",
-          "title": "Кому подходит — и кому нет",
+          "title": "Эта редакция или соседняя",
           "kind": "items",
           "items": [
             {
-              "t": "Подходит",
-              "d": "Компании с одним-двумя контроллерами, где на вопрос проверяющего «кто выдал права этому пользователю» нужно отвечать за минуты, а не перебором журналов безопасности на каждом сервере."
+              "t": "Standard",
+              "d": "Аудит каталога и входов."
             },
             {
-              "t": "Не подходит",
-              "d": "Если требуется знать, какую именно настройку политики поменяли и на что, — Professional. Если аудит нужен по общим папкам файловых серверов, а не по домену, — DataSecurity Plus или дополнение файловых серверов. Для трёх контроллеров и больше — пакет большего объёма."
+              "t": "Professional",
+              "d": "Плюс аудит файловых серверов и NAS, изменения GPO построчно, оповещения в реальном времени, UBA.",
+              "link": "me-adaudit-plus-professional-2-domain-controllers"
             }
           ]
         },
         {
           "code": "DEPENDENCIES",
-          "title": "Как считается лицензия и что нужно для установки",
+          "title": "Как считается лицензия",
           "kind": "items",
           "items": [
             {
               "t": "Контроллеры домена",
-              "d": "Считается каждый контроллер, с которого продукт забирает журналы, включая RODC; домены и леса единицей лицензии не являются, их число не ограничено."
+              "d": "Лицензия на каждый DC, с которого собираются события; два в пакете."
             },
             {
-              "t": "Политики аудита",
-              "d": "На контроллерах должны быть включены расширенные политики аудита и SACL на объектах — продукт показывает, каких настроек не хватает, и умеет применить их сам."
+              "t": "Файловые серверы",
+              "d": "В Standard не лицензируются; в Professional — отдельными полосами."
             },
             {
-              "t": "Сервер и хранилище",
-              "d": "Windows Server, встроенная PostgreSQL или MS SQL; база растёт с потоком событий, под архив планируют диск заранее."
-            },
-            {
-              "t": "Дополнения",
-              "d": "Файловые серверы Windows, NetApp, EMC и Synology, рабочие станции и серверы-члены домена, тенант Entra ID — отдельные лицензии, по запросу."
+              "t": "Сервер",
+              "d": "Windows Server на площадке; сбор событий агентом или без агента."
             }
-          ]
-        },
-        {
-          "code": "BEFORE_ORDER",
-          "title": "Перед заказом",
-          "kind": "items",
-          "items": [
-            {
-              "t": "Посчитайте контроллеры",
-              "d": "В пакет входят два; при трёх нужен пакет большего объёма, а не два по два. Переход — доплатой разницы в течение срока."
-            },
-            {
-              "t": "Подписка или бессрочная лицензия",
-              "d": "В подписку входят обновления и поддержка. Бессрочная лицензия — разовый платёж и AMS 20 % ежегодно, по запросу."
-            },
-            {
-              "t": "Что уже стоит рядом",
-              "d": "Если учётные записи ведутся в ADManager Plus, его операции попадают в аудит с именем техника; для SIEM-сценариев вендор объединяет ADAudit Plus в Log360.",
-              "link": "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
-            }
-          ]
-        },
-        {
-          "code": "ALTERNATIVES",
-          "title": "Альтернативы",
-          "kind": "items",
-          "items": [
-            {
-              "t": "ADAudit Plus Professional, 2 контроллера",
-              "d": "Значения «было/стало», GPO по настройкам, ACL и UBA.",
-              "link": "me-adaudit-plus-professional-2-domain-controllers"
-            },
-            {
-              "t": "DataSecurity Plus, аудит файловых серверов",
-              "d": "Если главный вопрос — кто открыл или удалил файл на общей папке.",
-              "link": "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
-            },
-            {
-              "t": "ADManager Plus Standard, 1 домен, 2 техника",
-              "d": "Управление учётными записями вместо аудита; часто берут вместе.",
-              "link": "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
-            }
-          ]
-        }
-      ],
-      "faq": [
-        {
-          "q": "Считаются ли рабочие станции и файловые серверы?",
-          "a": "Нет, пакет считает только контроллеры домена; аудит входов на рабочие станции и доступа к файлам — отдельные дополнения."
-        },
-        {
-          "q": "Нужен ли агент на контроллере?",
-          "a": "Нет, по умолчанию сбор безагентный через журналы событий; агент ставят по желанию, чтобы снизить нагрузку на сеть."
-        },
-        {
-          "q": "Сколько хранится история событий?",
-          "a": "Глубина настраивается; старые события уходят в архив и остаются доступны для отчётов."
-        }
-      ],
-      "related_products": [
-        "me-adaudit-plus-professional-2-domain-controllers",
-        "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians",
-        "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
-      ],
-      "meta_title": "ADAudit Plus Standard, 2 контроллера домена | BIZSoft",
-      "meta_description": "ManageEngine ADAudit Plus Standard: аудит изменений AD, входов и блокировок, оповещения, отчёты для проверок; пакет на 2 контроллера домена. Договор, ЭДО.",
-      "seo_intents": [
-        "adaudit plus купить лицензия — hero, meta",
-        "adaudit plus standard vs professional — PLAN_COMPARE",
-        "adaudit plus лицензирование контроллеры домена — DEPENDENCIES, FAQ",
-        "аудит active directory кто изменил — CAPABILITIES, FIT"
-      ],
-      "uncertainties": [
-        "Граница Standard/Professional (старое-новое значение, ACL, схема, DNS, UBA) — по знанию матрицы вендора; страницы в сессии не открывались.",
-        "Перечень поддерживаемых NAS в дополнении файловых серверов — по памяти, не исчерпывающий.",
-        "Глубина архива событий по умолчанию не названа — точное значение не подтверждено."
-      ],
-      "legacy_disposition": {
-        "features": "→ CAPABILITIES; опустошить",
-        "description": "hero начинался с «Что входит:» → CAPABILITIES и FIT; опустошить",
-        "faq": "отсутствовал",
-        "seo_text": "отсутствовал"
-      },
-      "module_log": [
-        {
-          "module": "CAPABILITIES",
-          "question": "что умеет младшая редакция",
-          "new_information": "шесть групп: объекты, входы, GPO, оповещения, отчёты, сбор",
-          "sibling_overlap": "носитель; у Professional — только дельта",
-          "decision": "UNDERSTAND",
-          "seo_intent": "adaudit plus возможности",
-          "source": "https://www.manageengine.com/products/active-directory-audit/"
-        },
-        {
-          "module": "PLAN_COMPARE",
-          "question": "хватит ли Standard",
-          "new_information": "семь строк, единый источник для семейства",
-          "sibling_overlap": "у Professional — ссылка",
-          "decision": "COMPARE",
-          "seo_intent": "adaudit plus standard vs professional",
-          "source": "https://store.manageengine.com/active-directory-audit/"
-        },
-        {
-          "module": "FIT",
-          "question": "мой ли случай",
-          "new_information": "профиль «да», три выхода",
-          "sibling_overlap": "нет",
-          "decision": "FIT",
-          "seo_intent": "аудит active directory для проверки",
-          "source": "—"
-        },
-        {
-          "module": "DEPENDENCIES",
-          "question": "как считать и где ставить",
-          "new_information": "DC как единица, политики аудита, сервер, дополнения",
-          "sibling_overlap": "у Professional — ссылка",
-          "decision": "VALIDATE",
-          "seo_intent": "adaudit plus лицензирование",
-          "source": "https://store.manageengine.com/active-directory-audit/"
-        },
-        {
-          "module": "BEFORE_ORDER",
-          "question": "что уточнить до КП",
-          "new_information": "пакеты не суммируются, perpetual+AMS, соседние продукты",
-          "sibling_overlap": "нет",
-          "decision": "VALIDATE",
-          "seo_intent": "adaudit plus ams",
-          "source": "uncertain"
-        },
-        {
-          "module": "ALTERNATIVES",
-          "question": "что ещё",
-          "new_information": "три соседа с причиной",
-          "sibling_overlap": "нет",
-          "decision": "COMPARE",
-          "seo_intent": "—",
-          "source": "—"
-        }
-      ]
-    },
-    "me-adaudit-plus-professional-2-domain-controllers": {
-      "sku": "ZOHO-LIC-ADAUDITPRO-TEAM-1Y-PACK-2DC",
-      "classification": {
-        "nature": "mono",
-        "ownership": "universal",
-        "term": "subscription:1Y",
-        "metric": "PACK",
-        "packaging": "edition_tier"
-      },
-      "edition_label": "Professional",
-      "volume_label": "2 контроллера домена",
-      "unit_label": "пакет: 2 контроллера домена",
-      "min_qty": 1,
-      "base_product_sku": null,
-      "short_description": "ADAudit Plus Professional — годовая подписка на старшую редакцию аудита Active Directory от ManageEngine: к событиям изменений и входов добавляются прежнее и новое значение каждого атрибута, изменения настроек GPO, прав доступа, схемы и DNS, а также аналитика поведения пользователей. Пакет на два контроллера домена.\n\nБазовый состав описан у Standard; Professional берут, когда факта «политику изменили» мало — нужно знать, какой параметр и на что, а отклонения от привычного поведения должны выявляться сами.\n\nСрок — 1 год; единица — контроллер домена, дополнения считаются отдельно.",
-      "content_modules": [
-        {
-          "code": "CAPABILITIES",
-          "title": "Что добавляет редакция Professional",
-          "kind": "items",
-          "body": "Изменения объектов, входы, блокировки, оповещения и отчёты — как у Standard. Ниже — только надстройка старшей редакции.",
-          "items": [
-            {
-              "t": "Было и стало",
-              "d": "Каждое изменение атрибута хранится с прежним и новым значением; из отчёта видно, что именно переписали."
-            },
-            {
-              "t": "GPO до параметра",
-              "d": "Какая настройка политики изменена, кем и на какое значение; история версий каждой политики."
-            },
-            {
-              "t": "Права и структура леса",
-              "d": "Изменения ACL на объектах AD, схемы, конфигурации, сайтов и подсетей, записей DNS."
-            },
-            {
-              "t": "Аналитика поведения",
-              "d": "Базовая линия активности каждого пользователя и оповещения об отклонениях: вход в нетипичное время, всплеск операций или отказов."
-            }
-          ],
-          "links": [
-            "me-adaudit-plus-standard-2-domain-controllers"
-          ]
-        },
-        {
-          "code": "PLAN_COMPARE",
-          "title": "Когда Professional, а когда нет",
-          "kind": "items",
-          "body": "Сравнение по строкам — у Standard; ниже — на чём строится выбор между редакциями аудита.",
-          "items": [
-            {
-              "t": "Берите Professional",
-              "d": "Проверяющим нужны значения до и после, изменения GPO разбираются по настройкам, есть требование выявлять аномалии в поведении."
-            },
-            {
-              "t": "Хватит Standard",
-              "d": "Достаточно знать, кто и когда изменил объект и кто входил в систему.",
-              "link": "me-adaudit-plus-standard-2-domain-controllers"
-            }
-          ],
-          "links": [
-            "me-adaudit-plus-standard-2-domain-controllers"
           ]
         },
         {
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Организациям с регулярными внешними проверками и внутренней службой безопасности: банкам, страховым, промышленным холдингам, где инцидент разбирают по журналу «какое значение стояло до правки» и где повышенная активность администратора ночью должна поднять тревогу без участия человека.\n\nРазмер тот же, что у Standard, — от двух контроллеров; для распределённых доменов с десятками контроллеров считаем пакеты по запросу."
+          "body": "ИТ-службам, которым нужно быстро находить автора изменений в AD и закрывать вопросы аудиторов по учётным записям."
         },
         {
           "code": "BEFORE_ORDER",
@@ -370,17 +93,12 @@
           "kind": "items",
           "items": [
             {
-              "t": "Объём",
-              "d": "Два контроллера в пакете; как считаются контроллеры и какие дополнения существуют — на карточке Standard, правила общие.",
-              "link": "me-adaudit-plus-standard-2-domain-controllers"
+              "t": "Посчитайте DC",
+              "d": "Каждый контроллер домена, включая RODC на площадках, — лицензия."
             },
             {
-              "t": "Переход со Standard",
-              "d": "Со Standard переходят доплатой разницы, не дожидаясь конца срока; собранные события остаются."
-            },
-            {
-              "t": "Бессрочная лицензия",
-              "d": "Оплачивается один раз; обновления и поддержка — ежегодный AMS 20 %. По запросу."
+              "t": "Файлы",
+              "d": "Если аудит нужен и файловым серверам — сразу Professional."
             }
           ]
         },
@@ -390,101 +108,296 @@
           "kind": "items",
           "items": [
             {
-              "t": "ADAudit Plus Standard, 2 контроллера",
-              "d": "Если значения «было/стало» и UBA не нужны — дешевле при той же модели.",
-              "link": "me-adaudit-plus-standard-2-domain-controllers"
+              "t": "ADAudit Plus Professional",
+              "d": "С файловыми серверами и оповещениями.",
+              "link": "me-adaudit-plus-professional-2-domain-controllers"
             },
             {
-              "t": "ADManager Plus Professional, 1 домен",
-              "d": "Управление AD с согласованием; аудит дополняет его.",
-              "link": "me-admanager-plus-professional-1-domain"
-            },
-            {
-              "t": "M365 Security Plus, 100 пользователей",
-              "d": "Аудит и оповещения для облачного тенанта Microsoft 365.",
-              "link": "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+              "t": "ADManager Plus Standard",
+              "d": "Управление AD, а не аудит.",
+              "link": "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
             }
           ]
         }
       ],
       "faq": [
         {
-          "q": "Что такое UBA в ADAudit Plus?",
-          "a": "Аналитика поведения пользователей: продукт строит норму активности по каждой учётной записи и предупреждает об отклонениях, а не только о нарушении фиксированного порога."
-        },
-        {
-          "q": "Покажет ли Professional прежнее значение атрибута, изменённого до установки?",
-          "a": "Нет, значения фиксируются с момента начала сбора событий; история до этого недоступна."
+          "q": "Нужен ли агент на контроллерах домена?",
+          "a": "Не обязательно: события собираются по журналам Windows; агент ускоряет сбор на нагруженных DC."
         }
       ],
       "related_products": [
-        "me-adaudit-plus-standard-2-domain-controllers",
-        "me-admanager-plus-professional-1-domain",
-        "me-m365-security-plus-standard-100-users-mailboxes-with-1-help-desk-technic"
+        "me-adaudit-plus-professional-2-domain-controllers",
+        "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
       ],
-      "meta_title": "ADAudit Plus Professional, 2 контроллера домена | BIZSoft",
-      "meta_description": "ManageEngine ADAudit Plus Professional: старое и новое значение, GPO по настройкам, ACL, UBA; пакет на 2 контроллера домена, подписка на год. Договор, ЭДО.",
+      "meta_title": "ADAudit Plus Standard, 2 контроллера домена | BIZSoft",
+      "meta_description": "ManageEngine ADAudit Plus Standard: аудит изменений и входов в Active Directory, отчёты для аудиторов; лицензия на 2 контроллера домена. Договор, ЭДО.",
       "seo_intents": [
-        "adaudit plus professional купить — hero, meta",
-        "adaudit plus professional что входит / uba — CAPABILITIES, FAQ",
-        "adaudit plus gpo audit old new value — CAPABILITIES"
+        "adaudit plus купить — hero, meta"
       ],
-      "uncertainties": [
-        "Состав дельты Professional (ACL, схема, DNS, UBA) — по знанию матрицы вендора; сформулировано как «по матрице»."
-      ],
+      "uncertainties": [],
       "legacy_disposition": {
-        "features": "→ CAPABILITIES (только дельта); опустошить",
-        "description": "hero начинался с «Что входит:» → FIT; опустошить",
-        "faq": "отсутствовал",
-        "seo_text": "отсутствовал"
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
       },
       "module_log": [
         {
           "module": "CAPABILITIES",
-          "question": "за что доплачиваю относительно Standard",
-          "new_information": "четыре группы дельты",
-          "sibling_overlap": "база — на носителе",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
           "decision": "UNDERSTAND",
-          "seo_intent": "adaudit plus professional что входит",
-          "source": "https://www.manageengine.com/products/active-directory-audit/"
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
         },
         {
           "module": "PLAN_COMPARE",
-          "question": "мне Professional или Standard",
-          "new_information": "два правила выбора",
-          "sibling_overlap": "таблица — на носителе",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
           "decision": "COMPARE",
-          "seo_intent": "adaudit standard vs professional",
-          "source": "—"
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
         },
         {
           "module": "FIT",
-          "question": "мой ли случай",
-          "new_information": "профиль организации с проверками и СБ",
-          "sibling_overlap": "нет",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
           "decision": "FIT",
-          "seo_intent": "аудит ad для банка",
-          "source": "—"
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
         },
         {
           "module": "BEFORE_ORDER",
-          "question": "что уточнить",
-          "new_information": "переход, perpetual, ссылка на правила",
-          "sibling_overlap": "правила DC — на носителе",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
           "decision": "VALIDATE",
-          "seo_intent": "adaudit plus upgrade",
-          "source": "uncertain"
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
         },
         {
           "module": "ALTERNATIVES",
-          "question": "что ещё",
-          "new_information": "три соседа",
-          "sibling_overlap": "нет",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
           "decision": "COMPARE",
           "seo_intent": "—",
-          "source": "—"
+          "source": "профиль/официальный сайт вендора"
         }
-      ]
+      ],
+      "edition_label": "Standard",
+      "volume_label": "2 контроллера домена"
+    },
+    "me-adaudit-plus-professional-2-domain-controllers": {
+      "sku": "ZOHO-LIC-ADAUDPRO-UNI-1Y-PACK-2DC",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 2 контроллера домена",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ADAudit Plus Professional — на год: подписка на систему аудит Active Directory, файловых серверов и GPO: лицензия на два контроллера домена.\n\nProfessional расширяет Standard тремя вещами: аудитом доступа к файлам на Windows-серверах и NAS, построчными изменениями GPO и оповещениями в реальном времени с анализом поведения пользователей.\n\nПодписка на год с обновлениями и техподдержкой ManageEngine. Больший объём — апгрейдом полосы с оплатой разницы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Файловые серверы",
+              "d": "Кто открыл, изменил, удалил или переместил файл на Windows-серверах, NetApp, EMC, Synology, Hitachi."
+            },
+            {
+              "t": "GPO",
+              "d": "Изменения политик построчно: какой параметр, кто, когда."
+            },
+            {
+              "t": "Оповещения и UBA",
+              "d": "Правила в реальном времени, аномалии поведения — массовые удаления, входы в нерабочее время."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Изменения AD, входы, отчёты по стандартам."
+            }
+          ],
+          "links": [
+            "me-adaudit-plus-standard-2-domain-controllers"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Файловые серверы, GPO, оповещения."
+            },
+            {
+              "t": "Standard",
+              "d": "Только каталог и входы.",
+              "link": "me-adaudit-plus-standard-2-domain-controllers"
+            }
+          ],
+          "links": [
+            "me-adaudit-plus-standard-2-domain-controllers"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Контроллеры домена",
+              "d": "Два в пакете; остальные — доплатой."
+            },
+            {
+              "t": "Файловые серверы и NAS",
+              "d": "Лицензируются отдельными полосами по числу серверов — уточняем при заказе."
+            },
+            {
+              "t": "Windows-серверы",
+              "d": "Аудит серверов-членов — по отдельной полосе."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с регламентом ИБ, где нужно видеть доступ к файлам и изменения политик, а не только учётные записи."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Две единицы расчёта",
+              "d": "DC и файловые серверы считаются раздельно."
+            },
+            {
+              "t": "DataSecurity Plus",
+              "d": "Если задача — файлы, а не AD, посмотрите DataSecurity Plus."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ADAudit Plus Standard",
+              "d": "Дешевле, без файлов и GPO.",
+              "link": "me-adaudit-plus-standard-2-domain-controllers"
+            },
+            {
+              "t": "DataSecurity Plus File Server Auditing",
+              "d": "Аудит файлов как отдельный продукт.",
+              "link": "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входят ли файловые серверы в пакет на 2 DC?",
+          "a": "Нет, файловые серверы лицензируются отдельно от контроллеров домена."
+        }
+      ],
+      "related_products": [
+        "me-adaudit-plus-standard-2-domain-controllers",
+        "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+      ],
+      "meta_title": "ADAudit Plus Professional, 2 контроллера домена | BIZSoft",
+      "meta_description": "ManageEngine ADAudit Plus Professional: аудит AD, файловых серверов и GPO, оповещения в реальном времени, UBA; 2 контроллера домена. Договор, ЭДО.",
+      "seo_intents": [
+        "adaudit plus professional — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "2 контроллера домена"
     }
   }
 }
