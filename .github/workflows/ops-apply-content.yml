@@ -113,6 +113,12 @@ jobs:
             if missing: raise SystemExit(2)
             PYEOF
 
+      # Локальный action journal-post — файлы репозитория: без checkout с
+      # always() при падении шага запись в журнал не проходит (сторож
+      # scripts/ci/check-workflow-journal.py).
+      - name: Checkout for journal action
+        if: always()
+        uses: actions/checkout@v4
       - name: Post results to journal (issue #22)
         if: always()
         uses: ./.github/actions/journal-post
