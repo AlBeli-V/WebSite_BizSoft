@@ -18,7 +18,7 @@
 //       "products": [
 //         {
 //           "key": "TEAMS",            // суффикс SKU
-//           "sku": "INT-AI-CHATGPT",   // необяз.: готовый SKU вместо prefix-key —
+//           "sku": "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD",   // необяз.: готовый SKU вместо prefix-key —
 //                                      // для карточки, которая уже живёт в
 //                                      // Directus под «интеграционным» sku;
 //                                      // upsert идёт по нему, слаг не меняется
@@ -46,7 +46,8 @@ import * as XLSX from 'xlsx';
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const HEADERS = [
-  'sku', 'name', 'vendor', 'origin', 'category', 'license_type',
+  'sku', 'sku_kind', 'sku_product', 'sku_plan', 'sku_term', 'sku_unit', 'sku_variant',
+  'name', 'vendor', 'origin', 'category', 'license_type',
   'short_description', 'description', 'keywords',
   'base_price_usd', 'base_price_eur', 'peg_currency', 'markup_coeff', 'price_locked',
   'price', 'price_note', 'vat_percent', 'currency',
@@ -153,11 +154,15 @@ for (const v of input.vendors) {
   const vendorCat = v.category || input.block || 'design';
   for (const p of v.products) {
     const category = p.category || vendorCat;
-    const sku = (p.sku || `${v.prefix}-${p.key}`).toUpperCase().replace(/[^A-Z0-9-]/g, '');
+    // Позиция без sku, но с сегментами sku_* — артикул соберёт импорт
+    // (docs/rules/sku-system.md); prefix-key — прежний способ для карточек,
+    // заведённых до единой системы.
+    const auto = !p.sku && p.sku_product;
+    const sku = auto ? '' : (p.sku || `${v.prefix}-${p.key}`).toUpperCase().replace(/[^A-Z0-9-]/g, '');
     // Сквозной sort двигается на каждой позиции реестра, а не только на
     // отобранных: иначе --only переставлял бы карточки в разделе каталога.
     const rowSort = p.sort ?? (sort += 10);
-    if (only && !only.has(sku)) continue;
+    if (only && !only.has(sku || p.key)) continue;
     const por = !!p.price_on_request;
     let base_usd = '', base_eur = '', peg = '';
     if (!por) {
@@ -166,6 +171,8 @@ for (const v of input.vendors) {
     }
     rows.push({
       sku,
+      sku_kind: p.sku_kind || '', sku_product: p.sku_product || '', sku_plan: p.sku_plan || '',
+      sku_term: p.sku_term || '', sku_unit: p.sku_unit || '', sku_variant: p.sku_variant || '',
       name: p.name,
       vendor: v.vendor,
       origin: 'Иностранное',

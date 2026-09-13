@@ -1,0 +1,71 @@
+# Сбор кандидатов знаков продуктов на раннере (правило docs/rules/product-logos.md).
+# Сессия ходить во внешнюю сеть не может, выбирать знак по картинке может
+# только она — поэтому раннер скачивает кандидатов и листы превью в рабочую
+# ветку, а выбор и нормализация идут в сессии (scripts/catalog/build-product-icons.mjs).
+# Только чтение внешних сайтов и запись в рабочую ветку: ни SSH, ни Directus,
+# ни почты — запускается с рабочей ветки. Google Custom Search — по ключу
+# из секретов; без ключа заявки без официального источника ждут (needs_key).
+name: ops-logo-candidates
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Ветка назначения (рабочая, не main)'
+        required: true
+        default: 'claude/logo-candidates'
+      only:
+        description: 'Идентификаторы заявок через запятую (пусто — все)'
+        required: false
+        default: ''
+      google_limit:
+        description: 'Потолок запросов Google за прогон (квота 100/сутки)'
+        required: false
+        default: '90'
+      refresh:
+        description: 'Пересобрать уже собранные заявки (true/false)'
+        required: false
+        default: 'false'
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Fetch candidates
+        env:
+          GOOGLE_CSE_KEY: ${{ secrets.GOOGLE_CSE_KEY }}
+          GOOGLE_CSE_CX: ${{ secrets.GOOGLE_CSE_CX }}
+          GOOGLE_LIMIT: ${{ inputs.google_limit }}
+          ONLY: ${{ inputs.only }}
+          REFRESH: ${{ inputs.refresh == 'true' && '1' || '' }}
+        run: node scripts/catalog/fetch-logo-candidates.mjs
+      - name: Commit to branch
+        env:
+          TARGET: ${{ inputs.branch }}
+        run: |
+          set -e
+          # main не защищена тарифом: запись сюда из workflow запрещена.
+          if [ "$TARGET" = "main" ]; then
+            echo "Запись в main из этого workflow запрещена — укажите рабочую ветку."
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git fetch origin "$TARGET" || true
+          git checkout -B "$TARGET"
+          git add -A assets/incoming/logos
+          git commit -m "Знаки продуктов: кандидаты с раннера" || { echo 'нечего коммитить'; exit 0; }
+          git push -u origin "$TARGET"
+          echo "запушено в ветку $TARGET"

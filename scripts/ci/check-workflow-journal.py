@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Сторож: локальный action journal-post требует checkout в том же job.
+"""Сторож: локальные action journal-post и ssh-run требуют checkout в том же job.
 
 03.09.2026 запись в журнал операций перестала проходить у 31 воркфлоу
 одновременно: аудит #352 заменил ~60 копий шага «Post to issue» на общий
@@ -21,13 +21,17 @@
      при падении основной работы. Шаг без этого условия в упавшем job
      пропускается, и checkout снова не случится.
 
+Обёртка ssh-run (issue #542, 13.09.2026) — тоже локальный action и тоже
+требует checkout выше себя; условие always() к ней не относится: шаг сам
+не падает.
+
     python3 scripts/ci/check-workflow-journal.py
 """
 import pathlib
 import re
 import sys
 
-ACTION = "./.github/actions/journal-post"
+ACTIONS = ("./.github/actions/journal-post", "./.github/actions/ssh-run")
 WORKFLOWS = pathlib.Path(".github/workflows")
 
 
@@ -51,7 +55,9 @@ def is_first_step(lines: list[str], step_index: int) -> bool:
 
 def check(path: pathlib.Path) -> list[str]:
     lines = path.read_text(encoding="utf-8").splitlines()
-    journal = [i for i, l in enumerate(lines) if ACTION in l]
+    # Комментарии шапки упоминают action по имени — это не шаг.
+    journal = [i for i, l in enumerate(lines)
+               if not l.lstrip().startswith("#") and any(a in l for a in ACTIONS)]
     if not journal:
         return []
     checkouts = [i for i, l in enumerate(lines) if "actions/checkout@" in l]
@@ -59,8 +65,8 @@ def check(path: pathlib.Path) -> list[str]:
     for ji in journal:
         before = [ci for ci in checkouts if ci < ji]
         if not before:
-            problems.append(f"строка {ji + 1}: journal-post без actions/checkout выше — "
-                            "локальный action не найдётся на раннере")
+            problems.append(f"строка {ji + 1}: локальный action без actions/checkout выше — "
+                            "на раннере он не найдётся")
             continue
         ci = before[-1]
         # Шаг журнала объявлен always()? Тогда и checkout обязан быть always(),
@@ -76,7 +82,7 @@ def check(path: pathlib.Path) -> list[str]:
 
 def main() -> int:
     files = sorted(WORKFLOWS.glob("*.yml"))
-    with_journal = [f for f in files if ACTION in f.read_text(encoding="utf-8")]
+    with_journal = [f for f in files if any(a in f.read_text(encoding="utf-8") for a in ACTIONS)]
     bad = 0
     for f in with_journal:
         for p in check(f):

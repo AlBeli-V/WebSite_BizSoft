@@ -1,0 +1,257 @@
+{
+  "family_key": "ZOHO-RMMCTRL",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-rmm-central-enterprise-50-devices-with-1-user",
+  "classification_notes": [
+    "Одиночная позиция: RMM Central редакции Enterprise, пакет 50 устройств + 1 техник. Другие редакции и объёмы на витрине не заведены — «по запросу». Packaging single.",
+    "Витрина ставит «Командный план»; индивидуальной альтернативы нет — OWNERSHIP = universal, плашку привести к «Универсальный план». Единица — пакет устройств по всем клиентам провайдера; рост — переходом на следующий пакет.",
+    "Альтернативы вне семейства — MSP-версии специализированных продуктов: Endpoint Central MSP и OpManager MSP."
+  ],
+  "products": {
+    "me-rmm-central-enterprise-50-devices-with-1-user": {
+      "sku": "ZOHO-LIC-RMMCTRLENT-TEAM-1Y-PACK-50DEV1USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "single"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "50 устройств, 1 техник",
+      "unit_label": "пакет: 50 устройств, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "RMM Central Enterprise — годовая подписка на платформу удалённого мониторинга и управления ManageEngine для сервис-провайдеров: сеть, серверы и рабочие станции клиентов под наблюдением, патчи, развёртывание ПО, удалённый доступ и инвентарь из одной консоли с разделением по клиентам. Пакет на 50 устройств и одного техника, установка на сервер провайдера.\n\nОт пары Endpoint Central MSP + OpManager MSP отличается тем, что мониторинг и управление сведены в один продукт с одной лицензией по устройствам; глубина каждой части меньше, чем у специализированных продуктов.\n\nСрок — 1 год; рост парка клиентов — переходом на следующий пакет с доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет RMM Central",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Мониторинг сети и серверов",
+              "d": "Доступность и производительность коммутаторов, маршрутизаторов, серверов и ВМ по SNMP и WMI; пороги, оповещения, карты по каждому клиенту."
+            },
+            {
+              "t": "Управление конечными точками",
+              "d": "Патчи Windows, macOS, Linux и стороннего ПО, установка и удаление программ, скрипты, конфигурации, ограничения USB."
+            },
+            {
+              "t": "Удалённый доступ",
+              "d": "Подключение к рабочей станции клиента из консоли, передача файлов, чат, запись сеанса."
+            },
+            {
+              "t": "Инвентарь",
+              "d": "Оборудование и ПО клиентов, лицензии, отчёты по каждому аккаунту и сводные по всем."
+            },
+            {
+              "t": "Мультиклиентность",
+              "d": "Изолированные аккаунты клиентов, техники с доступом к назначенным аккаунтам, агент и отчёты под брендом провайдера."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Реакция на аларм: перезапуск службы, скрипт, уведомление; заявки — через интеграцию с ServiceDesk Plus MSP."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "RMM Central или связка MSP-продуктов",
+          "kind": "items",
+          "items": [
+            {
+              "t": "RMM Central",
+              "d": "Провайдер обслуживает клиентов целиком — и сеть, и компьютеры — и хочет одну консоль, одну лицензию и одного агента."
+            },
+            {
+              "t": "Endpoint Central MSP",
+              "d": "Нужно только управление компьютерами и серверами клиентов: патчи, ПО, удалённый доступ; сетевого оборудования нет или за ним следят иначе.",
+              "link": "me-endpoint-central-msp-50-endpoints-and-1-technician"
+            },
+            {
+              "t": "OpManager MSP",
+              "d": "Нужен только мониторинг сетей клиентов с глубиной полноценного OpManager: NetFlow, конфигурации, виртуализация.",
+              "link": "me-opmanager-msp-50-devices-pack-with-2-users"
+            }
+          ],
+          "links": [
+            "me-endpoint-central-msp-50-endpoints-and-1-technician",
+            "me-opmanager-msp-50-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Устройство",
+              "d": "Любой управляемый или наблюдаемый узел клиента — ПК, сервер, коммутатор, принтер — расходует единицу; 50 в пакете считаются по всем клиентам вместе."
+            },
+            {
+              "t": "Техник",
+              "d": "Сотрудник провайдера с логином в консоль; в пакете один, дополнительные — по запросу."
+            },
+            {
+              "t": "Редакции",
+              "d": "На витрине — Enterprise; состав других редакций RMM Central — по матрице вендора на дату заказа."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server на площадке провайдера, встроенная СУБД; на устройствах клиентов — агент, сетевое оборудование опрашивается без агента."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Аутсорсеру с несколькими клиентами по 5–20 компьютеров и одним-двумя коммутаторами у каждого, где один инженер делает всё: следит, патчит, подключается."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Внутреннему ИТ-отделу одной компании — там Endpoint Central и OpManager без MSP-надстроек дешевле и глубже. Провайдеру с сотнями сетевых устройств у клиентов — OpManager MSP."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Считайте устройства всех клиентов",
+              "d": "50 — суммарно; четыре клиента по 15 узлов — это уже следующий пакет, а не два по 50."
+            },
+            {
+              "t": "Техники",
+              "d": "Каждому инженеру — своя лицензия техника; общий логин нарушает условия вендора."
+            },
+            {
+              "t": "Без срока",
+              "d": "Лицензия без срока действия и AMS 20 % в год к ней — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central MSP, 50 конечных точек",
+              "d": "Только управление компьютерами клиентов.",
+              "link": "me-endpoint-central-msp-50-endpoints-and-1-technician"
+            },
+            {
+              "t": "OpManager MSP, 50 устройств",
+              "d": "Только мониторинг сетей клиентов.",
+              "link": "me-opmanager-msp-50-devices-pack-with-2-users"
+            },
+            {
+              "t": "ServiceDesk Plus MSP Professional",
+              "d": "Сервис-деск и учёт активов клиентов рядом с RMM.",
+              "link": "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сетевое устройство и компьютер считаются одинаково?",
+          "a": "Да, единица лицензии — устройство любого типа; 30 ПК и 20 коммутаторов — ровно пакет на 50."
+        },
+        {
+          "q": "Нужны ли отдельные лицензии OpManager или Endpoint Central?",
+          "a": "Нет, RMM Central — самостоятельный продукт со своей лицензией; докупать эти продукты не требуется."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-msp-50-endpoints-and-1-technician",
+        "me-opmanager-msp-50-devices-pack-with-2-users",
+        "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+      ],
+      "meta_title": "RMM Central Enterprise, 50 устройств — подписка | BIZSoft",
+      "meta_description": "ManageEngine RMM Central Enterprise: мониторинг сети, патчи, удалённый доступ и инвентарь клиентов сервис-провайдера; 50 устройств и 1 техник. Договор, ЭДО.",
+      "seo_intents": [
+        "rmm central купить / manageengine rmm лицензия — hero, meta",
+        "rmm для сервис-провайдера / rmm central vs endpoint central msp — PLAN_COMPARE, FIT",
+        "rmm central лицензирование устройства техники — DEPENDENCIES, FAQ"
+      ],
+      "uncertainties": [
+        "Состав редакций RMM Central помимо Enterprise — по матрице вендора; страница pricing в сессии не открывалась.",
+        "Интеграция с ServiceDesk Plus MSP и ограничения USB — по общей архитектуре Endpoint Central; для RMM Central не подтверждено первоисточником.",
+        "Сервер только на Windows — по аналогии с Endpoint Central; уточнить при заказе."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT и BEFORE_ORDER; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что умеет продукт",
+          "new_information": "шесть групп: мониторинг, управление, доступ, инвентарь, мультиклиентность, автоматизация",
+          "sibling_overlap": "одиночка",
+          "decision": "UNDERSTAND",
+          "seo_intent": "rmm central возможности",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "RMM Central или два MSP-продукта",
+          "new_information": "три правила выбора со ссылками",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "rmm central vs endpoint central msp",
+          "source": "профиль"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как считать",
+          "new_information": "устройство, техник, редакции, сервер",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "rmm central licensing",
+          "source": "https://www.manageengine.com/remote-monitoring-management/pricing.html"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль аутсорсера и два выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "rmm для аутсорсинга ит",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "суммарный подсчёт, техники, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "rmm central pricing",
+          "source": "https://www.manageengine.com/remote-monitoring-management/pricing.html"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "три MSP-продукта",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

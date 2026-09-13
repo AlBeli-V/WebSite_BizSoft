@@ -9,6 +9,10 @@
 # а в заголовке записи журнала стоит ✗. Прежде и отсутствие токена, и HTTP
 # 429 по каждому URL давали зелёный прогон и запись, читавшуюся как «переобход
 # запрошен» (аудит 03.09.2026).
+#
+# Шаг по SSH идёт через ./.github/actions/ssh-run: вывод и код завершения
+# доезжают до журнала и при сбое (13.09.2026 отказ по квоте, HTTP 429 по
+# каждому URL, дал в issue #22 запись ✗ без причины — issue #542).
 
 name: ops-yandex-recrawl
 
@@ -40,10 +44,9 @@ jobs:
 
       - name: Send recrawl requests
         id: run
-        # Отчёт в журнал должен попасть и при поломке; красный статус
-        # возвращает отдельный шаг ниже.
-        continue-on-error: true
-        uses: appleboy/ssh-action@v1
+        # Шаг не падает сам: исход в outputs.outcome, красный статус
+        # возвращает journal-post ниже.
+        uses: ./.github/actions/ssh-run
         env:
           URLS: ${{ inputs.urls }}
           YTOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
@@ -52,7 +55,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           envs: URLS,YTOKEN
-          capture_stdout: true
           script: |
             set -e
             if [ -z "$YTOKEN" ]; then
@@ -116,5 +118,5 @@ jobs:
         uses: ./.github/actions/journal-post
         with:
           title: "ops-yandex-recrawl"
-          outcome: ${{ steps.run.outcome }}
-          body: ${{ steps.run.outputs.stdout }}
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}
