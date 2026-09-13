@@ -8199,7 +8199,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Места принадлежат компании и переназначаются",
           "Управление лицензиями из единой консоли"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       },
       "MAXON-C4D-TEAMS": {
         "badge": "3D и анимация",
@@ -8209,7 +8210,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Redshift для Cinema 4D включён",
           "Места переназначаются между сотрудниками"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       },
       "MAXON-REDGIANT-TEAMS": {
         "badge": "VFX и моушн",
@@ -8282,7 +8284,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
             "a": "Юридически доступ оформляется как результат оказания услуги Договором с юридическим лицом Заказчика. Фактически учётная запись регистрируется либо на организацию (при наличии такой возможности), либо на произвольные учётные данные физического лица с биллинг-адресом вне территории РФ, либо иным способом, позволяющим Заказчику получить доступ к функционалу программного продукта или веб-сервиса. Конкретный вариант согласуется Сторонами до момента размещения заказа, на этапе формирования проектной спецификации."
           }
         ],
-        "shortName": "Red Giant"
+        "shortName": "Red Giant",
+        "minQty": 3
       },
       "MAXON-REDSHIFT-TEAMS": {
         "badge": "GPU-рендер",
@@ -8292,7 +8295,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "C4D, Maya, 3ds Max, Houdini, Blender, Katana",
           "Места переназначаются между сотрудниками"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       },
       "MAXON-ZBRUSH-TEAMS": {
         "badge": "скульптинг",
@@ -8302,7 +8306,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "ZBrush для iPad включён",
           "Места переназначаются между сотрудниками"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       }
     },
     "order": [
