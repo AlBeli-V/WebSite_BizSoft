@@ -55,6 +55,9 @@ export function planType(name: string, extra = '', sku = ''): PlanType | null {
   if (bySku) return bySku;
   const s = `${name} ${extra}`.toLowerCase();
   if (/\b(teams?|business|enterprise|corporate|company|organizations?|workspace)\b|организаци|команд|корпоратив/.test(s)) return 'team';
-  if (/\b(individual|personal|solo|plus)\b|индивидуальн|персональн|личн/.test(s)) return 'individual';
+  // «Plus» — редакция (ADAudit Plus, Dropbox Plus, Business Plus), а не
+  // признак индивидуального плана: на карточках ManageEngine оно давало
+  // «Индивидуальный план» у корпоративных продуктов.
+  if (/\b(individual|personal|solo)\b|индивидуальн|персональн|личн/.test(s)) return 'individual';
   return null;
 }

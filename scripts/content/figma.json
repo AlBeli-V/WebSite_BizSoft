@@ -27,7 +27,8 @@
         "Безлимит файлов и проектов",
         "Командные библиотеки"
       ],
-      "qtyLabel": "Мест"
+      "qtyLabel": "Мест",
+      "marker": "team"
     },
     "FIGMA-PROF-DEV": {
       "badge": "Professional",
@@ -38,7 +39,8 @@
         "Комментарии и задачи",
         "Экспорт кода и ресурсов"
       ],
-      "qtyLabel": "Мест"
+      "qtyLabel": "Мест",
+      "marker": "team"
     },
     "FIGMA-PROF-COLLAB": {
       "badge": "Professional",
@@ -49,7 +51,8 @@
         "Участие в воркшопах",
         "Без редактирования дизайна"
       ],
-      "qtyLabel": "Мест"
+      "qtyLabel": "Мест",
+      "marker": "team"
     },
     "FIGMA-ORG-FULL": {
       "badge": "Organization",
@@ -60,7 +63,8 @@
         "Централизованное администрирование",
         "Только годовая оплата"
       ],
-      "qtyLabel": "Мест"
+      "qtyLabel": "Мест",
+      "marker": "team"
     },
     "FIGMA-ORG-DEV": {
       "badge": "Organization",
@@ -71,7 +75,8 @@
         "Аналитика использования",
         "Только годовая оплата"
       ],
-      "qtyLabel": "Мест"
+      "qtyLabel": "Мест",
+      "marker": "team"
     },
     "FIGMA-ORG-COLLAB": {
       "badge": "Organization",
@@ -82,7 +87,8 @@
         "Контроль доступа",
         "Только годовая оплата"
       ],
-      "qtyLabel": "Мест"
+      "qtyLabel": "Мест",
+      "marker": "team"
     },
     "int-design-figma": {
       "badge": "Organization",
@@ -104,7 +110,8 @@
         "SSO и расширенная безопасность",
         "Максимальные AI-кредиты"
       ],
-      "qtyLabel": "Мест"
+      "qtyLabel": "Мест",
+      "marker": "team"
     },
     "FIGMA-ENT-DEV": {
       "badge": "Enterprise",
@@ -115,7 +122,8 @@
         "Централизованное администрирование",
         "Только годовая оплата"
       ],
-      "qtyLabel": "Мест"
+      "qtyLabel": "Мест",
+      "marker": "team"
     },
     "FIGMA-ENT-COLLAB": {
       "badge": "Enterprise",
@@ -126,7 +134,11 @@
         "SSO и контроль доступа",
         "Только годовая оплата"
       ],
-      "qtyLabel": "Мест"
+      "qtyLabel": "Мест",
+      "marker": "team"
+    },
+    "INT-DESIGN-FIGMA": {
+      "marker": "team"
     }
   },
   "order": [

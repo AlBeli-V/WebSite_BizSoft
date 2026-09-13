@@ -519,7 +519,87 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "q": "Предоставляете ли закрывающие документы для бухгалтерии?",
         "a": "Да. При покупке через BizSoft вы получаете договор, счёт и УПД с выделенным НДС 5% (или акт со счётом-фактурой) — всё, что нужно для учёта расходов юрлица. Закрывающие можно передавать через ЭДО."
       }
-    ]
+    ],
+    "cards": {
+      "ADOBE-PS": {
+        "marker": "individual"
+      },
+      "ADOBE-AI": {
+        "marker": "individual"
+      },
+      "ADOBE-ID": {
+        "marker": "individual"
+      },
+      "ADOBE-INCOPY": {
+        "marker": "individual"
+      },
+      "ADOBE-PR": {
+        "marker": "individual"
+      },
+      "ADOBE-AE": {
+        "marker": "individual"
+      },
+      "ADOBE-ANIMATE": {
+        "marker": "individual"
+      },
+      "ADOBE-AUDITION": {
+        "marker": "individual"
+      },
+      "ADOBE-DW": {
+        "marker": "individual"
+      },
+      "ADOBE-LR": {
+        "marker": "individual"
+      },
+      "ADOBE-PHOTO": {
+        "marker": "individual"
+      },
+      "ADOBE-EXPRESS": {
+        "marker": "individual"
+      },
+      "ADOBE-ACRO-STD": {
+        "marker": "individual"
+      },
+      "ADOBE-ACRO-PRO": {
+        "marker": "individual"
+      },
+      "ADOBE-ACRO-STUDIO": {
+        "marker": "individual"
+      },
+      "ADOBE-CC-STD": {
+        "marker": "individual"
+      },
+      "ADOBE-CC-PRO": {
+        "marker": "individual"
+      },
+      "ADOBE-SUBSTANCE": {
+        "marker": "individual"
+      },
+      "ADOBE-STOCK-10": {
+        "marker": "individual"
+      },
+      "ADOBE-ACRO-PRO-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-CC-PRO-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-SINGLE-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-EXPRESS-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-SUBSTANCE-TEAM": {
+        "marker": "team"
+      },
+      "ADOBE-FF-TEAMS": {
+        "marker": "team"
+      },
+      "ADOBE-FF-ENTERPRISE": {
+        "marker": "team"
+      }
+    }
   },
   "airalo": {
     "summary": "Ваучер Airalo — цифровой код, который пополняет баланс аккаунта Airalo на номинал в USD; с баланса оплачиваются eSIM-тарифы мобильного интернета для поездок. Регион Global, номиналы от 5 до 50 USD. BIZSoft не является партнёром Airalo: коды поставляем как посредник, оформляем на юрлицо или ИП по договору и счёту.",
@@ -4393,7 +4473,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Безлимит файлов и проектов",
           "Командные библиотеки"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-PROF-DEV": {
         "badge": "Professional",
@@ -4404,7 +4485,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Комментарии и задачи",
           "Экспорт кода и ресурсов"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-PROF-COLLAB": {
         "badge": "Professional",
@@ -4415,7 +4497,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Участие в воркшопах",
           "Без редактирования дизайна"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ORG-FULL": {
         "badge": "Organization",
@@ -4426,7 +4509,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Централизованное администрирование",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ORG-DEV": {
         "badge": "Organization",
@@ -4437,7 +4521,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Аналитика использования",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ORG-COLLAB": {
         "badge": "Organization",
@@ -4448,7 +4533,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Контроль доступа",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "int-design-figma": {
         "badge": "Organization",
@@ -4470,7 +4556,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "SSO и расширенная безопасность",
           "Максимальные AI-кредиты"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ENT-DEV": {
         "badge": "Enterprise",
@@ -4481,7 +4568,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Централизованное администрирование",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "FIGMA-ENT-COLLAB": {
         "badge": "Enterprise",
@@ -4492,7 +4580,11 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "SSO и контроль доступа",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
+      },
+      "INT-DESIGN-FIGMA": {
+        "marker": "team"
       }
     },
     "order": [
@@ -8199,7 +8291,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Места принадлежат компании и переназначаются",
           "Управление лицензиями из единой консоли"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       },
       "MAXON-C4D-TEAMS": {
         "badge": "3D и анимация",
@@ -8209,7 +8302,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Redshift для Cinema 4D включён",
           "Места переназначаются между сотрудниками"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       },
       "MAXON-REDGIANT-TEAMS": {
         "badge": "VFX и моушн",
@@ -8282,7 +8376,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
             "a": "Юридически доступ оформляется как результат оказания услуги Договором с юридическим лицом Заказчика. Фактически учётная запись регистрируется либо на организацию (при наличии такой возможности), либо на произвольные учётные данные физического лица с биллинг-адресом вне территории РФ, либо иным способом, позволяющим Заказчику получить доступ к функционалу программного продукта или веб-сервиса. Конкретный вариант согласуется Сторонами до момента размещения заказа, на этапе формирования проектной спецификации."
           }
         ],
-        "shortName": "Red Giant"
+        "shortName": "Red Giant",
+        "minQty": 3
       },
       "MAXON-REDSHIFT-TEAMS": {
         "badge": "GPU-рендер",
@@ -8292,7 +8387,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "C4D, Maya, 3ds Max, Houdini, Blender, Katana",
           "Места переназначаются между сотрудниками"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       },
       "MAXON-ZBRUSH-TEAMS": {
         "badge": "скульптинг",
@@ -8302,7 +8398,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "ZBrush для iPad включён",
           "Места переназначаются между сотрудниками"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       }
     },
     "order": [
@@ -8695,7 +8792,15 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "q": "Можно ли добавить Copilot к подписке?",
         "a": "Да, Microsoft 365 Copilot оформляется как дополнение к бизнес-планам Microsoft 365 на тех же условиях: только на tenant в поддерживаемой стране после предварительной проверки. Укажите это в заявке — включим в расчёт."
       }
-    ]
+    ],
+    "cards": {
+      "MSCOPILOT-M365": {
+        "marker": "team"
+      },
+      "INT-OFFICE-M365": {
+        "marker": "team"
+      }
+    }
   },
   "midjourney": {
     "summary": "Midjourney — генеративная нейросеть для создания изображений по текстовому описанию: концепт-арт, рекламные визуалы, мудборды, иллюстрации и дизайн-референсы фотореалистичного и художественного качества. Для российских юрлиц доступ оформляется через BizSoft по счёту, с закрывающими документами. Тарифы — Basic, Standard, Pro и Mega — оформляются на год за одного пользователя и различаются месячным объёмом быстрых GPU-часов (Fast), наличием безлимитного Relax-режима и приватного Stealth-режима. Начинающим командам подойдёт Basic или Standard, студиям с потоком генераций — Pro, а для закрытых проектов под NDA нужен Stealth из Pro или Mega.",

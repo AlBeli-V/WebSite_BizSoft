@@ -17,7 +17,7 @@ import CARD_TERMS from '../data/card-terms.json';
 import type { CardComposition } from './product-composition';
 
 export const TERM = {
-  year: '12 месяцев',
+  year: '1 год',
   perpetual: 'бессрочно',
   balance: 'до истечения баланса',
 } as const;
@@ -25,8 +25,12 @@ export const TERM = {
 /** Поправки оператора: артикул → строка срока (значения из TERM или «N месяцев»). */
 const TERM_OVERRIDE = CARD_TERMS as Record<string, string>;
 
-/** «1 месяц», «3 месяца», «12 месяцев», «24 месяца». */
+/** «1 месяц», «3 месяца», «1 год», «2 года»: полные годы — годами, по решению руководителя. */
 export function monthsLabel(n: number): string {
+  if (n > 0 && n % 12 === 0) {
+    const y = n / 12;
+    return y === 1 ? TERM.year : `${y} ${y >= 2 && y <= 4 ? 'года' : 'лет'}`;
+  }
   const m10 = n % 10;
   const m100 = n % 100;
   const word = m100 >= 11 && m100 <= 19 ? 'месяцев'
@@ -41,11 +45,12 @@ export function monthsLabel(n: number): string {
  * Enterprise, Organization), тип места (Premium seat, Dev seat) и
  * «продление» остаются — это разные товары, а не разные условия одного.
  */
+/** Маркеры плана и срока внутри скобок и через запятую: «(подписка, Individual)» → «», «(полная, годовая)» → «(полная)». */
+const TOKEN = /^(teams?|individuals?|individual seats?|личная|личная лицензия|индивидуальн(ый|ая)|командн(ый|ая)|бессрочн(ый|ая)|perpetual|подписка|подписка 365|годов(ая|ой)( подписка)?|квартальн(ая|ой)( подписка)?|полугодов(ая|ой)( подписка)?|год|\d+\s*(год|года|лет|месяц(а|ев)?)|1\s*\(один\)\s*год|для команд|для организаций|for teams|for individuals)$/i;
+
 const NAME_STRIP: RegExp[] = [
-  // (Teams), (Individuals), (Individual), (личная), (индивидуальный), (бессрочная), (1 год), (12 месяцев)
-  /\s*\((teams?|individuals?|личная|индивидуальн(ый|ая)|командн(ый|ая)|бессрочн(ый|ая)|perpetual|\d+\s*(год|года|лет|месяц(а|ев)?)|1\s*\(один\)\s*год)\)/gi,
-  // «, вечная лицензия», «, 1 год», «, 12 месяцев», «, бессрочная»
-  /,\s*(вечная лицензия|бессрочн(ый|ая)|\d+\s*(год|года|лет|месяц(а|ев)?))(?=,|\s*\(|$)/gi,
+  // «, вечная лицензия», «, 1 год», «, 1 год», «, бессрочная», «, годовая»
+  /,\s*(вечная лицензия|бессрочн(ый|ая)|годов(ая|ой)( подписка)?|\d+\s*(год|года|лет|месяц(а|ев)?))(?=,|\s*\(|$)/gi,
   // «Cinema 4D 1Y (Teams)», «Maxon One 1Y»
   /\s+\d[YМ]\b/g,
   // «Adobe Firefly for teams», «Acrobat Pro для команд», «for individuals»
@@ -57,8 +62,17 @@ const NAME_STRIP: RegExp[] = [
   /\s+Teams?$/g,
 ];
 
+/** Скобки: убрать маркеры плана и срока по одному, пустые скобки снять. */
+function stripParens(name: string): string {
+  return name.replace(/\s*\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g, (m, inner: string) => {
+    if (/\(/.test(inner)) return m; // вложенные скобки — регион номинала, не трогаем
+    const kept = inner.split(/\s*,\s*/).filter((t) => !TOKEN.test(t.trim()));
+    return kept.length ? ` (${kept.join(', ')})` : '';
+  });
+}
+
 export function displayName(name: string): string {
-  let s = name;
+  let s = stripParens(name);
   for (const re of NAME_STRIP) s = s.replace(re, '');
   return s.replace(/\s{2,}/g, ' ').replace(/\s+([,)])/g, '$1').trim();
 }
@@ -77,7 +91,9 @@ function explicitTerm(p: TermSource): string | null {
   if (skuMonths) return monthsLabel(Number(skuMonths[1]));
   const years = name.match(/\b(\d)Y\b/) || sku.match(/-(\d)Y\b/);
   if (years) return monthsLabel(12 * Number(years[1]));
-  if (/\(1\s*\(один\)\s*год\)|\(1 год\)|на 1 \(один\) год|на год\b|,\s*1 год\b/i.test(name)) return TERM.year;
+  if (/квартальн/i.test(name)) return monthsLabel(3);
+  if (/полугодов/i.test(name)) return monthsLabel(6);
+  if (/\(1\s*\(один\)\s*год\)|\(1 год\)|на 1 \(один\) год|на год\b|,\s*1 год\b|годов(ая|ой)|\(год\)|подписка 365|(?<!microsoft\s)(?<!m)\b365\b/i.test(name)) return TERM.year;
   // Описание годится только для бессрочности: «в месяц» там означает квоту.
   if (/бессрочн|вечная лицензия/.test(desc)) return TERM.perpetual;
   return null;

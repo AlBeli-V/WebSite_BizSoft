@@ -250,7 +250,8 @@ describe('вид позиции задаёт композицию', () => {
   it('карточка не показывает счётчик мест там, где мест нет', () => {
     // Счётчик рабочих мест на пополнении баланса — неверный вопрос.
     expect(page).toContain('const isUnitPlan = composition');
-    expect(page).toContain("k: 'Расчётная единица'");
+    // Блок фактов у пополнения тоже есть, но минимум там — сумма, а не места.
+    expect(page).toContain('min: factMin(composition, commerce.minQty, term, balanceMin)');
     expect(page).toContain('data-composition={composition}');
   });
 });
@@ -355,8 +356,7 @@ describe('композиция, одобренная 12.09.2026', () => {
     expect(rg?.includes).toHaveLength(5);
     expect(rg?.faq).toHaveLength(9);
     // Шаблон обязан их показывать, а не молча игнорировать.
-    expect(page).toContain("k: 'Срок', v: term");
-    expect(page).toContain("k: 'Переназначение', v: cardMeta.reassign");
+    expect(page).toContain('transfer: factTransfer(composition, planKind, cardMeta?.reassign)');
     expect(page).toContain('Переназначение пользователей:');
     expect(page).toContain('Управление:');
     expect(page).toContain('cardMeta.includes.map');

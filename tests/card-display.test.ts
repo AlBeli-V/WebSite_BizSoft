@@ -34,6 +34,15 @@ describe('имя продукта в заголовке', () => {
     expect(displayName('ManageEngine OpManager Standard, 10 устройств и 2 пользователя, вечная лицензия'))
       .toBe('ManageEngine OpManager Standard, 10 устройств и 2 пользователя');
     expect(displayName('Discord Nitro, 12 месяцев (Все страны (Global))')).toBe('Discord Nitro (Все страны (Global))');
+    expect(displayName('Houdini FX (полная, годовая)')).toBe('Houdini FX (полная)');
+    expect(displayName('SketchUp Pro Scan (годовая подписка)')).toBe('SketchUp Pro Scan');
+    expect(displayName('VEGAS Pro Edit (подписка 365)')).toBe('VEGAS Pro Edit');
+    expect(displayName('Shutterstock 10 изображений/мес (год)')).toBe('Shutterstock 10 изображений/мес');
+    expect(displayName('Avid Media Composer (подписка)')).toBe('Avid Media Composer');
+    expect(displayName('Marmoset Toolbag (подписка, Individual)')).toBe('Marmoset Toolbag');
+    expect(displayName('Clip Studio Paint EX (подписка, 1 устройство)')).toBe('Clip Studio Paint EX (1 устройство)');
+    expect(displayName('JetBrains CLion (личная лицензия)')).toBe('JetBrains CLion');
+    expect(displayName('Mari (для команд)')).toBe('Mari');
   });
 
   it('тип места остаётся: у продукта их несколько, и они различают товары', () => {
@@ -61,7 +70,12 @@ describe('срок в строке под заголовком', () => {
     expect(termLabel({ sku: 'MAXON-C4D-TEAMS', name: 'Cinema 4D 1Y (Teams)' }, sub)).toBe(TERM.year);
     expect(termLabel({ sku: 'X', name: 'Acronis Cyber Protect Standard Server (1 год)' }, sub)).toBe(TERM.year);
     expect(termLabel({ sku: 'DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-1M', name: 'Discord Nitro, 1 месяц (Все страны (Global))' }, 'balance_topup')).toBe('1 месяц');
-    expect(termLabel({ sku: 'X-3Y', name: 'Продукт' }, sub)).toBe('36 месяцев');
+    expect(termLabel({ sku: 'X-3Y', name: 'Продукт' }, sub)).toBe('3 года');
+    expect(termLabel({ sku: 'X', name: 'Houdini Core (годовая)' }, sub)).toBe(TERM.year);
+    expect(termLabel({ sku: 'X', name: 'VEGAS Pro Edit (подписка 365)' }, sub)).toBe(TERM.year);
+    expect(termLabel({ sku: 'X', name: 'SOLIDWORKS xDesign Online (квартальная подписка)' }, sub)).toBe('3 месяца');
+    // «Microsoft 365» — имя продукта, а не срок: срок у него по умолчанию.
+    expect(termIsAssumed({ sku: 'MSCOPILOT-M365', name: 'Microsoft 365 Copilot' }, sub)).toBe(true);
   });
 
   it('бессрочность читается из артикула, названия и описания', () => {
@@ -95,9 +109,10 @@ describe('срок в строке под заголовком', () => {
   it('склонение месяцев', () => {
     expect(monthsLabel(1)).toBe('1 месяц');
     expect(monthsLabel(3)).toBe('3 месяца');
-    expect(monthsLabel(12)).toBe('12 месяцев');
-    expect(monthsLabel(24)).toBe('24 месяца');
-    expect(monthsLabel(36)).toBe('36 месяцев');
+    expect(monthsLabel(12)).toBe('1 год');
+    expect(monthsLabel(24)).toBe('2 года');
+    expect(monthsLabel(36)).toBe('3 года');
+    expect(monthsLabel(60)).toBe('5 лет');
   });
 });
 
@@ -120,7 +135,7 @@ describe('карточка использует заголовок и строк
     expect(page).toContain('const term = termLabel(product, composition)');
     expect(page).toContain('const subtitleParts = [planLine, term]');
     // Срок один на всю карточку: строка, факты и параметры читают одно значение.
-    expect(page).toContain("if (term) heroFacts.push({ k: 'Срок', v: term })");
+    expect(page).toContain('term: factTerm(term)');
     expect(page).toContain('{term && <div class="prow"><span class="k">Срок:</span>');
     expect(page).not.toContain('cardMeta?.term');
   });
@@ -129,7 +144,7 @@ describe('карточка использует заголовок и строк
     const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
     expect(claude).toContain('docs/rules/card-title.md');
     const rule = readFileSync(resolve(ROOT, 'docs/rules/card-title.md'), 'utf8');
-    expect(rule).toContain('12 месяцев');
+    expect(rule).toContain('1 год');
     expect(rule).toContain('до истечения баланса');
     expect(rule).toContain('card-terms.json');
   });

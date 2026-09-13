@@ -1,9 +1,9 @@
-# Срок «12 месяцев» по умолчанию — перечень на проверку
+# Срок «1 год» по умолчанию — перечень на проверку
 
 Дата: 2026-09-13. Источник — выгрузка ops-export-products, 1561 позиций.
 
 Правило docs/rules/card-title.md: подписка и дополнение без явного срока в
-названии, артикуле и описании выходят с «12 месяцев». Ниже — все такие
+названии, артикуле и описании выходят с «1 год». Ниже — все такие
 позиции; поправка вносится в src/data/card-terms.json (артикул → срок).
 
 ## Итог
@@ -12,17 +12,18 @@
 |---|---:|
 | бессрочно — по данным | 121 |
 | до истечения баланса — по данным | 77 |
-| без срока — по данным | 54 |
-| 12 месяцев — по данным | 28 |
+| без срока — по данным | 53 |
+| 1 год — по данным | 52 |
 | 1 месяц — по данным | 2 |
-| 12 месяцев — по умолчанию, плагины JetBrains Marketplace | 867 |
-| 12 месяцев — по умолчанию, остальные | 412 |
+| 3 месяца — по данным | 1 |
+| 1 год — по умолчанию, плагины JetBrains Marketplace | 867 |
+| 1 год — по умолчанию, остальные | 388 |
 
 ## Плагины JetBrains Marketplace — 867
 
 Подписка Marketplace годовая у всех плагинов; отдельно не перечисляются.
 
-## Остальные позиции — 412
+## Остальные позиции — 388
 
 ### Zoho — 102
 
@@ -51,7 +52,7 @@
 - ManageEngine DDI Central Enterprise, 5 кластеров DNS `ME-DDI-CENTRAL-ENTERPRISE-5-DNS-CLUSTERS-5-DHCP-CLUSTERS-5-NTP-SERVERS`
 - ManageEngine DDI Central Professional, 2 кластера DNS `ME-DDI-CENTRAL-PROFESSIONAL-2-DNS-CLUSTERS-2-DHCP-CLUSTERS-3-NTP-SERVERS`
 - ManageEngine Device Control Plus Professional, 100 компьютеров `ME-DEVICE-CONTROL-PLUS-PROFESSIONAL-100-COMPUTERS`
-- ManageEngine Endpoint Central Enterprise(Distributed), 10 серверов и одно рабочее место администратора `ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE`
+- ManageEngine Endpoint Central Enterprise (Distributed), 10 серверов и одно рабочее место администратора `ME-ENDPOINT-CENTRAL-ENTERPRISE-DISTRIBUTED-ENTERPRISE-10-SERVERS-AND-SINGLE-USER-LICENSE`
 - ManageEngine Endpoint Central MSP, 50 рабочих мест и один специалист `ME-ENDPOINT-CENTRAL-MSP-50-ENDPOINTS-AND-1-TECHNICIAN`
 - ManageEngine Endpoint Central Professional, 10 серверов и одно рабочее место администратора `ME-ENDPOINT-CENTRAL-PROFESSIONAL-10-SERVERS-AND-SINGLE-USER-LICENSE`
 - ManageEngine Endpoint Central Security, 10 серверов и одно рабочее место администратора `ME-ENDPOINT-CENTRAL-SECURITY-10-SERVERS-AND-SINGLE-USER-LICENSE`
@@ -132,32 +133,32 @@
 ### JetBrains — 27
 
 - JetBrains All Products Pack `INT-DEV-JETBRAINS`
+- JetBrains All Products Pack `JB-ALL-PACK-IND`
 - JetBrains All Products Pack `JB-ALL-PACK-ORG`
-- JetBrains All Products Pack (личная лицензия) `JB-ALL-PACK-IND`
+- JetBrains CLion `JB-CLION-IND`
 - JetBrains CLion `JB-CLION-ORG`
-- JetBrains CLion (личная лицензия) `JB-CLION-IND`
+- JetBrains DataGrip `JB-DATAGRIP-IND`
 - JetBrains DataGrip `JB-DATAGRIP-ORG`
-- JetBrains DataGrip (личная лицензия) `JB-DATAGRIP-IND`
+- JetBrains dotUltimate `JB-DOTULTIMATE-IND`
 - JetBrains dotUltimate `JB-DOTULTIMATE-ORG`
-- JetBrains dotUltimate (личная лицензия) `JB-DOTULTIMATE-IND`
+- JetBrains GoLand `JB-GOLAND-IND`
 - JetBrains GoLand `JB-GOLAND-ORG`
-- JetBrains GoLand (личная лицензия) `JB-GOLAND-IND`
+- JetBrains IntelliJ IDEA Ultimate `JB-IDEA-ULT-IND`
 - JetBrains IntelliJ IDEA Ultimate `JB-IDEA-ULT-ORG`
-- JetBrains IntelliJ IDEA Ultimate (личная лицензия) `JB-IDEA-ULT-IND`
+- JetBrains PhpStorm `JB-PHPSTORM-IND`
 - JetBrains PhpStorm `JB-PHPSTORM-ORG`
-- JetBrains PhpStorm (личная лицензия) `JB-PHPSTORM-IND`
+- JetBrains PyCharm Pro `JB-PYCHARM-PRO-IND`
 - JetBrains PyCharm Pro `JB-PYCHARM-PRO-ORG`
-- JetBrains PyCharm Pro (личная лицензия) `JB-PYCHARM-PRO-IND`
+- JetBrains ReSharper `JB-RESHARPER-IND`
 - JetBrains ReSharper `JB-RESHARPER-ORG`
-- JetBrains ReSharper (личная лицензия) `JB-RESHARPER-IND`
+- JetBrains Rider `JB-RIDER-IND`
 - JetBrains Rider `JB-RIDER-ORG`
-- JetBrains Rider (личная лицензия) `JB-RIDER-IND`
+- JetBrains RubyMine `JB-RUBYMINE-IND`
 - JetBrains RubyMine `JB-RUBYMINE-ORG`
-- JetBrains RubyMine (личная лицензия) `JB-RUBYMINE-IND`
+- JetBrains RustRover `JB-RUSTROVER-IND`
 - JetBrains RustRover `JB-RUSTROVER-ORG`
-- JetBrains RustRover (личная лицензия) `JB-RUSTROVER-IND`
+- JetBrains WebStorm `JB-WEBSTORM-IND`
 - JetBrains WebStorm `JB-WEBSTORM-ORG`
-- JetBrains WebStorm (личная лицензия) `JB-WEBSTORM-IND`
 
 ### Adobe — 24
 
@@ -213,17 +214,6 @@
 - Figma Professional — Dev seat `FIGMA-PROF-DEV`
 - Figma Professional — Full seat `FIGMA-PROF-FULL`
 
-### SOLIDWORKS — 8
-
-- SOLIDWORKS Design Premium `SOLIDWORKS-DESIGN-PREMIUM`
-- SOLIDWORKS Design Premium с облачными сервисами (на устройство) `SOLIDWORKS-DESIGN-PREMIUM-DEVICE`
-- SOLIDWORKS Design Professional `SOLIDWORKS-DESIGN-PROFESSIONAL`
-- SOLIDWORKS Design Professional с облачными сервисами (на устройство) `SOLIDWORKS-DESIGN-PROFESSIONAL-DEVICE`
-- SOLIDWORKS Design Standard `SOLIDWORKS-DESIGN-STANDARD`
-- SOLIDWORKS Design Standard с облачными сервисами (на устройство) `SOLIDWORKS-DESIGN-STANDARD-DEVICE`
-- SOLIDWORKS xDesign Online (годовая подписка) `SOLIDWORKS-XDESIGN-YEARLY`
-- SOLIDWORKS xDesign Online (квартальная подписка) `SOLIDWORKS-XDESIGN-QUARTERLY`
-
 ### Autodesk — 6
 
 - Autodesk 3ds Max `ADSK-3DSMAX`
@@ -245,11 +235,20 @@
 ### Foundry — 6
 
 - Katana `FNDRY-KATANA-TEAM`
-- Mari (для команд) `FNDRY-MARI`
+- Mari `FNDRY-MARI`
 - Nuke `FNDRY-NUKE`
 - Nuke Indie `FNDRY-NUKE-INDIE`
 - Nuke Studio `FNDRY-NUKE-STUDIO`
 - NukeX `FNDRY-NUKEX`
+
+### SOLIDWORKS — 6
+
+- SOLIDWORKS Design Premium `SOLIDWORKS-DESIGN-PREMIUM`
+- SOLIDWORKS Design Premium с облачными сервисами (на устройство) `SOLIDWORKS-DESIGN-PREMIUM-DEVICE`
+- SOLIDWORKS Design Professional `SOLIDWORKS-DESIGN-PROFESSIONAL`
+- SOLIDWORKS Design Professional с облачными сервисами (на устройство) `SOLIDWORKS-DESIGN-PROFESSIONAL-DEVICE`
+- SOLIDWORKS Design Standard `SOLIDWORKS-DESIGN-STANDARD`
+- SOLIDWORKS Design Standard с облачными сервисами (на устройство) `SOLIDWORKS-DESIGN-STANDARD-DEVICE`
 
 ### AnyDesk — 4
 
@@ -267,17 +266,17 @@
 
 ### Avid — 4
 
-- Avid Media Composer (подписка) `AVID-MC-SUB`
-- Avid Media Composer | Ultimate (подписка) `AVID-MC-ULT`
-- Avid Pro Tools Artist (подписка) `AVID-PT-ARTIST`
-- Avid Pro Tools Studio (подписка) `AVID-PT-STUDIO`
+- Avid Media Composer `AVID-MC-SUB`
+- Avid Media Composer | Ultimate `AVID-MC-ULT`
+- Avid Pro Tools Artist `AVID-PT-ARTIST`
+- Avid Pro Tools Studio `AVID-PT-STUDIO`
 
 ### Boris FX — 4
 
-- Boris FX Continuum (подписка) `BORIS-CONTINUUM-SUB`
-- Boris FX Mocha Pro (подписка) `BORIS-MOCHA-SUB`
-- Boris FX Sapphire (подписка) `BORIS-SAPPHIRE-SUB`
-- Boris FX Suite (подписка, все хосты) `BORIS-SUITE-SUB`
+- Boris FX Continuum `BORIS-CONTINUUM-SUB`
+- Boris FX Mocha Pro `BORIS-MOCHA-SUB`
+- Boris FX Sapphire `BORIS-SAPPHIRE-SUB`
+- Boris FX Suite (все хосты) `BORIS-SUITE-SUB`
 
 ### Hailuo AI — 4
 
@@ -307,33 +306,12 @@
 - Photon Fusion 2000 CCU `PHOTON-FUSION-2000`
 - Photon Fusion 500 CCU `PHOTON-FUSION-500`
 
-### SideFX Houdini — 4
-
-- Houdini Core (годовая) `HOU-CORE`
-- Houdini Engine (рабочая станция) `HOU-ENGINE-WS`
-- Houdini FX (полная, годовая) `HOU-FX`
-- Houdini Indie (годовая) `HOU-INDIE`
-
-### SketchUp — 4
-
-- SketchUp Go `SKETCHUP-GO`
-- SketchUp Pro `SKETCHUP-PRO`
-- SketchUp Pro Civil Contractor (годовая подписка) `SKETCHUP-PRO-CIVIL`
-- SketchUp Pro Scan (годовая подписка) `SKETCHUP-PRO-SCAN`
-
 ### TeamViewer — 4
 
 - TeamViewer Business `TEAMVIEWER-BUSINESS`
 - TeamViewer Corporate `TEAMVIEWER-CORPORATE`
 - TeamViewer Premium `TEAMVIEWER-PREMIUM`
 - TeamViewer Remote Access `TEAMVIEWER-REMOTE-ACCESS`
-
-### Topaz Labs — 4
-
-- Topaz Gigapixel (годовая) `TOPAZ-GIGAPIXEL`
-- Topaz Photo (годовая) `TOPAZ-PHOTO`
-- Topaz Studio (годовая, всё включено) `TOPAZ-STUDIO`
-- Topaz Video (годовая) `TOPAZ-VIDEO`
 
 ### WordPress.com — 4
 
@@ -408,12 +386,6 @@
 - Lumion Pro Floating `LUMION-PRO-FLOATING`
 - Lumion View `LUMION-VIEW`
 
-### Marvelous Designer — 3
-
-- Marvelous Designer Enterprise (годовая) `MVLS-ENT-Y`
-- Marvelous Designer Enterprise + Linux (годовая) `MVLS-ENT-LINUX`
-- Marvelous Designer Personal (годовая) `MVLS-PERSONAL-Y`
-
 ### Midjourney — 3
 
 - Midjourney Mega `MJ-MEGA`
@@ -430,7 +402,7 @@
 
 - Parallels Desktop Business Edition `PARALLELS-DESKTOP-BUSINESS`
 - Parallels Desktop Pro Edition `PARALLELS-DESKTOP-PRO`
-- Parallels Desktop Standard (подписка) `PARALLELS-DESKTOP-STANDARD-SUB`
+- Parallels Desktop Standard `PARALLELS-DESKTOP-STANDARD-SUB`
 
 ### QuadSpinner Gaea — 3
 
@@ -450,12 +422,6 @@
 - Runway Pro `RUNWAY-PRO`
 - Runway Standard `RUNWAY-STANDARD`
 
-### Shutterstock — 3
-
-- Shutterstock 10 изображений/мес (год) `SHUTTER-IMG-10`
-- Shutterstock 350 изображений/мес (год) `SHUTTER-IMG-350`
-- Shutterstock 50 изображений/мес (год) `SHUTTER-IMG-50`
-
 ### SpeedTree — 3
 
 - SpeedTree Indie `SPDTR-INDIE`
@@ -473,12 +439,6 @@
 - Telestream ScreenFlow (Mac) `TLSTR-SCREENFLOW`
 - Telestream Wirecast Pro `TLSTR-WIRECAST-PRO`
 - Telestream Wirecast Studio `TLSTR-WIRECAST-STUDIO`
-
-### Wondershare — 3
-
-- Wondershare Filmora `WNDR-FILMORA-TEAM`
-- Wondershare Filmora (годовая, Windows) `WNDR-FILMORA-ANNUAL`
-- Wondershare Filmora Cross-Platform `WNDR-FILMORA-XPLAT`
 
 ### Ableton — 2
 
@@ -517,8 +477,8 @@
 
 ### Clip Studio Paint — 2
 
-- Clip Studio Paint EX (подписка, 1 устройство) `CSP-EX-SUB`
-- Clip Studio Paint PRO (подписка, 1 устройство) `CSP-PRO-SUB`
+- Clip Studio Paint EX (1 устройство) `CSP-EX-SUB`
+- Clip Studio Paint PRO (1 устройство) `CSP-PRO-SUB`
 
 ### Cloudflare — 2
 
@@ -527,18 +487,13 @@
 
 ### CorelDRAW — 2
 
-- Corel Painter (подписка) `CDR-PAINTER-SUB`
-- CorelDRAW Graphics Suite (подписка) `CDR-GS-SUB`
+- Corel Painter `CDR-PAINTER-SUB`
+- CorelDRAW Graphics Suite `CDR-GS-SUB`
 
 ### Cursor — 2
 
 - Cursor Business `CURSOR-BUSINESS`
 - Cursor Business Premium `CURSOR-BUSINESS-PREMIUM`
-
-### Depositphotos — 2
-
-- Depositphotos пакет 100 изображений `DEPOSIT-PACK-100`
-- Depositphotos Unlimited (годовая) `DEPOSIT-UNL-YEAR`
 
 ### Descript — 2
 
@@ -575,20 +530,10 @@
 - Lovable Business `LOVABLE-BUSINESS`
 - Lovable Pro `LOVABLE-PRO`
 
-### MAGIX Vegas — 2
-
-- VEGAS Pro Edit (подписка 365) `VEGAS-EDIT-SUB`
-- VEGAS Pro Post (подписка 365) `VEGAS-POST-SUB`
-
-### Magnific (Freepik) — 2
-
-- Magnific Premium (годовая) `FREEPIK-PREMIUM`
-- Magnific Premium+ (годовая) `FREEPIK-PREMIUM-PLUS`
-
 ### Marmoset — 2
 
-- Marmoset Toolbag (подписка, Individual) `MRMST-TB-SUB-IND`
-- Marmoset Toolbag (подписка, Studio) `MRMST-TB-SUB-STUDIO`
+- Marmoset Toolbag `MRMST-TB-SUB-IND`
+- Marmoset Toolbag (Studio) `MRMST-TB-SUB-STUDIO`
 
 ### Miro — 2
 
@@ -632,8 +577,8 @@
 
 ### RizomUV — 2
 
-- RizomUV Real Space (подписка, NodeLocked) `RIZOM-RS-SUB`
-- RizomUV Virtual Spaces (подписка, NodeLocked) `RIZOM-VS-SUB`
+- RizomUV Real Space (NodeLocked) `RIZOM-RS-SUB`
+- RizomUV Virtual Spaces (NodeLocked) `RIZOM-VS-SUB`
 
 ### Sentry — 2
 
@@ -644,6 +589,11 @@
 
 - Sketch Professional `SKETCH-PRO`
 - Sketch Standard `SKETCH-STANDARD`
+
+### SketchUp — 2
+
+- SketchUp Go `SKETCHUP-GO`
+- SketchUp Pro `SKETCHUP-PRO`
 
 ### Slack — 2
 
@@ -659,6 +609,11 @@
 
 - RealityScan (RealityCapture) `UE-REALITYSCAN`
 - Unreal Subscription (за место) `UE-SUB`
+
+### Wondershare — 2
+
+- Wondershare Filmora `WNDR-FILMORA-TEAM`
+- Wondershare Filmora Cross-Platform `WNDR-FILMORA-XPLAT`
 
 ### ГК «Астра» — 1
 
@@ -687,6 +642,10 @@
 ### Astute Graphics — 1
 
 - Astute Graphics — полный набор плагинов `ASTUTE-BUNDLE`
+
+### Depositphotos — 1
+
+- Depositphotos пакет 100 изображений `DEPOSIT-PACK-100`
 
 ### Google — 1
 
@@ -720,9 +679,9 @@
 
 - Principle — продление обновлений на год `PRINCIPLE-UPDATES`
 
-### Reallusion — 1
+### SideFX Houdini — 1
 
-- Reallusion 3D Suite 365 (годовая) `RLSN-SUITE365`
+- Houdini Engine (рабочая станция) `HOU-ENGINE-WS`
 
 ### Toon Boom — 1
 
