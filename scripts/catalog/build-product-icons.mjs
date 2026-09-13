@@ -64,7 +64,22 @@ for (const ch of choices) {
   if (isSvg) {
     // Вектор: содержимое кладём в группу, вписанную в холст через вложенный svg.
     const src = buf.toString('utf8').replace(/<\?xml[^>]*>/, '').replace(/<!DOCTYPE[^>]*>/i, '').trim();
-    const nested = src.replace(/<svg\b/, `<svg x="${PAD}" y="${PAD}" width="${SIZE - PAD * 2}" height="${SIZE - PAD * 2}" preserveAspectRatio="xMidYMid meet"`);
+    // У корневого <svg> снимаем свои x/y/width/height (иначе атрибут задаётся
+    // дважды и XML не разбирается — иконки Marketplace несут width/height);
+    // без viewBox выводим его из исходных размеров, чтобы знак вписался в холст.
+    const nested = src.replace(/<svg\b([^>]*)>/, (_m, attrs) => {
+      const w = /\bwidth="([\d.]+)(?:px)?"/.exec(attrs)?.[1];
+      const h = /\bheight="([\d.]+)(?:px)?"/.exec(attrs)?.[1];
+      let rest = attrs.replace(/\s(?:x|y|width|height|preserveAspectRatio)="[^"]*"/g, '');
+      // Инлайновый style корня (width: 1em; height: 1em у иконок Marketplace)
+      // перекрывает атрибуты размера — объявления размера из него снимаем.
+      rest = rest.replace(/\sstyle="([^"]*)"/, (_s, css) => {
+        const kept = css.split(';').map((d) => d.trim()).filter((d) => d && !/^(width|height|min-width|min-height|max-width|max-height)\s*:/i.test(d));
+        return kept.length ? ` style="${kept.join('; ')}"` : '';
+      });
+      if (!/\bviewBox=/.test(rest) && w && h) rest += ` viewBox="0 0 ${w} ${h}"`;
+      return `<svg x="${PAD}" y="${PAD}" width="${SIZE - PAD * 2}" height="${SIZE - PAD * 2}" preserveAspectRatio="xMidYMid meet"${rest}>`;
+    });
     colorSvg = wrapSvg(ch.id, title, desc, nested);
     // Монохром векторного знака — растеризация и обесцвечивание: перекрашивать
     // заливки внутри чужого SVG ненадёжно (градиенты, маски, стили).
@@ -94,5 +109,5 @@ for (const ch of choices) {
   console.log(`${ch.id}: ${isSvg ? 'вектор' : 'растр'} ← ${item?.source || file} (${req.slugs.length} поз.)`);
 }
 writeFileSync(MAP, JSON.stringify(Object.fromEntries(Object.entries(map).sort()), null, 1) + '\n');
-writeFileSync(MANIFEST, JSON.stringify(manifest, null, 1) + '\n');
+writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
 console.log(`готово: ${done} знаков; карта ${Object.keys(map).length} позиций`);
