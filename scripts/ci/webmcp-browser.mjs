@@ -134,7 +134,7 @@ try {
     });
     const searchData = JSON.parse(searchOut?.content?.[0]?.text || 'null');
     report('исполнение: search_products возвращает structured-ответ с товаром',
-      searchOut?.content?.[0]?.type === 'text' && searchData?.items?.some((i) => i.sku === 'INT-AI-CHATGPT'),
+      searchOut?.content?.[0]?.type === 'text' && searchData?.items?.some((i) => i.sku === 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD'),
       searchData?.items?.map((i) => i.sku).join(', ') || String(searchOut).slice(0, 80));
 
     const productOut = await page.evaluate(async () => {

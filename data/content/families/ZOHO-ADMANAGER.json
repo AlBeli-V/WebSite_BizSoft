@@ -1,0 +1,874 @@
+{
+  "family_key": "ZOHO-ADMANAGER",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians",
+  "classification_notes": [
+    "ADManager Plus: Standard/Professional (по доменам) + MSP-линия с дополнениями (AD Backup, техники). Носитель — Standard."
+  ],
+  "products": {
+    "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians": {
+      "sku": "ZOHO-LIC-ADMGRSTD-UNI-1Y-PACK-1DOM2TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 1 домен, 2 техника службы поддержки",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ADManager Plus Standard — годовая подписка на систему управление Active Directory: лицензия на один домен и двух техников службы поддержки.\n\nStandard — управление объектами AD и отчётность: учётные записи по шаблонам, массовые операции из CSV, 200+ готовых отчётов по AD, Exchange и Microsoft 365. Делегирование задач техникам без прав администратора домена, рабочие процессы согласования и автоматизация — в Professional.\n\nСрок — 1 год, обновления и поддержка вендора включены. Больший объём — апгрейдом полосы с оплатой разницы.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Учётные записи",
+              "d": "Создание, изменение и отключение пользователей, групп и компьютеров по шаблонам; массовый импорт из CSV."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Более 200 готовых отчётов: неактивные учётные записи, пароли, членство в группах, права; по Exchange и Microsoft 365."
+            },
+            {
+              "t": "Служба поддержки",
+              "d": "Два техника выполняют типовые операции — сброс пароля, разблокировка — без прав администратора домена."
+            },
+            {
+              "t": "Без прав домена",
+              "d": "Действия идут через сервисную учётную запись ADManager Plus с аудитом."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Управление и отчёты вручную."
+            },
+            {
+              "t": "Professional",
+              "d": "Плюс рабочие процессы согласования, автоматизация по расписанию, расширенное делегирование.",
+              "link": "me-admanager-plus-professional-1-domain"
+            },
+            {
+              "t": "MSP",
+              "d": "Для провайдера с доменами нескольких клиентов.",
+              "link": "me-admanager-plus-msp-500-domain-users"
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Домен",
+              "d": "Лицензия на один домен AD; дополнительные домены — доплатой."
+            },
+            {
+              "t": "Техники",
+              "d": "Два техника службы поддержки в пакете; администраторы консоли считаются отдельно по прайсу вендора."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server на площадке; агент не нужен — работа через API AD и Exchange."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-отделу компании на 100–1000 пользователей, где заведение и увольнение сотрудников идёт вручную, а сброс паролей отнимает время администраторов."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Один домен",
+              "d": "Лес из нескольких доменов — по числу доменов."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Если нужны автоматические процессы найма и увольнения — Professional."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ADManager Plus Professional",
+              "d": "С автоматизацией и согласованиями.",
+              "link": "me-admanager-plus-professional-1-domain"
+            },
+            {
+              "t": "ADAudit Plus Standard",
+              "d": "Аудит изменений в AD, а не управление.",
+              "link": "me-adaudit-plus-standard-2-domain-controllers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужны ли техникам права администратора домена?",
+          "a": "Нет, они работают через делегирование ADManager Plus с полным журналом действий."
+        }
+      ],
+      "related_products": [
+        "me-admanager-plus-professional-1-domain",
+        "me-admanager-plus-msp-500-domain-users",
+        "me-adaudit-plus-standard-2-domain-controllers"
+      ],
+      "meta_title": "ADManager Plus Standard, 1 домен — подписка | BIZSoft",
+      "meta_description": "ManageEngine ADManager Plus Standard: управление объектами AD, 200+ отчётов, два техника службы поддержки без прав домена. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "admanager plus купить лицензия — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard",
+      "volume_label": "1 домен, 2 техника"
+    },
+    "me-admanager-plus-professional-1-domain": {
+      "sku": "ZOHO-LIC-ADMGRPRO-UNI-1Y-PACK-1DOM",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 1 домен",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ADManager Plus Professional — подписка на 1 год на систему управление Active Directory с автоматизацией: лицензия на один домен.\n\nProfessional добавляет к Standard то, ради чего продукт берут в крупных компаниях: рабочие процессы согласования запросов, автоматизацию найма и увольнения по расписанию и из HR-систем, расширенное делегирование по OU и ролям.\n\nПодписка на год с обновлениями и техподдержкой ManageEngine. Ступени объёма меняются доплатой, а не покупкой второго пакета.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Автоматизация",
+              "d": "Заведение, перевод и отключение сотрудников по расписанию и по данным из CSV или HR-системы; автоочистка неактивных учётных записей."
+            },
+            {
+              "t": "Согласования",
+              "d": "Запрос → согласование → исполнение с журналом; многоуровневые маршруты."
+            },
+            {
+              "t": "Делегирование",
+              "d": "Роли с точными правами по OU, группам и атрибутам для техников и HR."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Шаблоны, массовые операции, 200+ отчётов, Exchange и Microsoft 365."
+            }
+          ],
+          "links": [
+            "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Регулярный найм и увольнение, согласования, роли."
+            },
+            {
+              "t": "Standard",
+              "d": "Ручное управление без процессов.",
+              "link": "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
+            }
+          ],
+          "links": [
+            "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям от 500 пользователей с HR-процессами, где учётные записи должны заводиться и отключаться автоматически и по согласованию."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Техники",
+              "d": "В пакете Professional — по прайсу вендора; дополнительные — доплатой."
+            },
+            {
+              "t": "Backup AD",
+              "d": "Резервное копирование объектов AD — отдельная надстройка."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ADManager Plus Standard",
+              "d": "Дешевле, без автоматизации.",
+              "link": "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
+            },
+            {
+              "t": "ADAudit Plus Professional",
+              "d": "Аудит изменений в дополнение к управлению.",
+              "link": "me-adaudit-plus-professional-2-domain-controllers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли подключить кадровую систему?",
+          "a": "Да, через импорт CSV по расписанию и API — автоматическое заведение и отключение сотрудников."
+        }
+      ],
+      "related_products": [
+        "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians",
+        "me-adaudit-plus-professional-2-domain-controllers"
+      ],
+      "meta_title": "ADManager Plus Professional, 1 домен — подписка | BIZSoft",
+      "meta_description": "ManageEngine ADManager Plus Professional: автоматизация найма и увольнения в AD, согласования, роли делегирования, 200+ отчётов. Договор, ЭДО.",
+      "seo_intents": [
+        "admanager plus professional — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "1 домен"
+    },
+    "me-admanager-plus-msp-500-domain-users": {
+      "sku": "ZOHO-LIC-ADMGRMSP-UNI-1Y-PACK-500USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: домен клиента на 500 пользователей",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ADManager Plus MSP — годовой план: систему управление Active Directory клиентов сервис-провайдера: лицензия на один клиентский домен до 500 доменных пользователей.\n\nMSP-версия предназначена сервис-провайдерам: данные клиентов изолированы по аккаунтам, техники видят всех, отчёты и биллинг — по каждому заказчику. Функции — уровня Professional: шаблоны, автоматизация, согласования, отчёты; подробно — на карточках обычной версии.\n\nГод подписки; обновления и поддержка — в цене. Рост объёма оформляется переходом на следующую полосу с доплатой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет",
+          "kind": "prose",
+          "body": "Состав функций совпадает с ADManager Plus Professional: управление объектами, автоматизация найма и увольнения, согласования, делегирование, 200+ отчётов — см. карточку Professional. MSP добавляет изоляцию клиентских доменов и отчёты по каждому.",
+          "links": [
+            "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP, 500 пользователей",
+              "d": "Домен клиента до 500 пользователей; следующие полосы — по запросу."
+            },
+            {
+              "t": "Техники MSP",
+              "d": "Дополнительные техники службы поддержки провайдера — отдельная позиция.",
+              "link": "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians"
+            },
+            {
+              "t": "AD Backup для MSP",
+              "d": "Резервное копирование объектов AD клиента.",
+              "link": "me-admanager-plus-msp-active-directory-backup-an-250-user-objects"
+            }
+          ],
+          "links": [
+            "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Провайдерам ИТ-аутсорсинга, которые администрируют Active Directory нескольких клиентов и должны разделять доступ и отчётность."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Считаются пользователи домена",
+              "d": "Полоса — по числу объектов пользователей в домене клиента."
+            },
+            {
+              "t": "Каждый клиент — своя лицензия",
+              "d": "Домены клиентов лицензируются по отдельности."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ADManager Plus Professional",
+              "d": "Для собственного домена компании.",
+              "link": "me-admanager-plus-professional-1-domain"
+            },
+            {
+              "t": "Техник службы поддержки MSP",
+              "d": "Дополнительные места техников.",
+              "link": "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Один клиент с 1200 пользователями — сколько пакетов?",
+          "a": "Один пакет большей полосы; полосы не суммируются, считаем по запросу."
+        }
+      ],
+      "related_products": [
+        "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians",
+        "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians",
+        "me-admanager-plus-msp-active-directory-backup-an-250-user-objects",
+        "me-admanager-plus-professional-1-domain",
+        "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians"
+      ],
+      "meta_title": "ADManager Plus MSP, домен клиента 500 пользователей | BIZSof",
+      "meta_description": "ManageEngine ADManager Plus MSP: управление AD клиентов провайдера с изоляцией и отчётами, домен до 500 пользователей. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "admanager plus msp — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "MSP",
+      "volume_label": "1 домен клиента, 500 пользователей"
+    },
+    "me-admanager-plus-msp-active-directory-backup-an-250-user-objects": {
+      "sku": "ZOHO-ADD-ADMGRMSPBKP-UNI-1Y-PACK-250OBJ",
+      "classification": {
+        "nature": "addon",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 250 объектов пользователей",
+      "min_qty": 1,
+      "base_product_sku": "ZOHO-LIC-ADMGRMSP-UNI-1Y-PACK-500USR",
+      "short_description": "ADManager Plus MSP, дополнение Active Directory Backup — годовая подписка на резервное копирование и восстановление объектов AD клиента провайдера: пользователи, группы, GPO и атрибуты с версионностью и восстановлением без перезагрузки контроллера. Полоса — 250 объектов пользователей; дополнение работает только при действующей лицензии ADManager Plus MSP.\n\nЭто не резервная копия сервера, а объектный бэкап каталога: восстановить можно удалённого пользователя или ошибочно изменённый атрибут, не откатывая контроллер целиком.\n\nДействует 12 месяцев, включая обновления и поддержку производителя.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что добавляет AD Backup",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объектный бэкап",
+              "d": "Пользователи, группы, компьютеры, OU, GPO с историей версий."
+            },
+            {
+              "t": "Восстановление",
+              "d": "Точечное восстановление объекта или атрибута, откат изменений, без перезагрузки DC."
+            },
+            {
+              "t": "Требуется",
+              "d": "Лицензия ADManager Plus MSP на домен клиента."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Дополнение к MSP",
+              "d": "Клиенты с высокими требованиями к восстановлению каталога."
+            },
+            {
+              "t": "ADManager Plus MSP",
+              "d": "Базовая лицензия, к которой подключается дополнение.",
+              "link": "me-admanager-plus-msp-500-domain-users"
+            }
+          ],
+          "links": [
+            "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовый продукт",
+              "d": "ADManager Plus MSP на домен клиента; без него дополнение не активируется."
+            },
+            {
+              "t": "Полоса",
+              "d": "250 объектов пользователей; следующие полосы — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Провайдерам, обслуживающим клиентов с регламентом восстановления каталога."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ADManager Plus MSP",
+              "d": "Базовая лицензия.",
+              "link": "me-admanager-plus-msp-500-domain-users"
+            },
+            {
+              "t": "Техник службы поддержки MSP",
+              "d": "Расширение первой линии.",
+              "link": "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли это бэкап контроллера домена?",
+          "a": "Нет, это объектный бэкап каталога; резервное копирование сервера остаётся отдельной задачей."
+        }
+      ],
+      "related_products": [
+        "me-admanager-plus-msp-500-domain-users",
+        "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians",
+        "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians"
+      ],
+      "meta_title": "ADManager Plus MSP: AD Backup, 250 объектов | BIZSoft",
+      "meta_description": "Дополнение AD Backup к ManageEngine ADManager Plus MSP: объектный бэкап и восстановление пользователей, групп и GPO клиента, 250 объектов. Договор, ЭДО.",
+      "seo_intents": [
+        "admanager plus ad backup — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "MSP, AD Backup",
+      "volume_label": "250 объектов пользователей",
+      "addon_source": "vendor",
+      "license_model": "annual"
+    },
+    "me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians": {
+      "sku": "ZOHO-ADD-ADMGRMSPTECH-UNI-1Y-PACK-1TECH",
+      "classification": {
+        "nature": "addon",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "1 техник службы поддержки",
+      "min_qty": 1,
+      "base_product_sku": "ZOHO-LIC-ADMGRMSP-UNI-1Y-PACK-500USR",
+      "short_description": "ADManager Plus MSP, дополнительный техник службы поддержки — годовая подписка на одно место техника провайдера в ADManager Plus MSP: сотрудник, который выполняет делегированные операции — сброс паролей, разблокировку, заведение учётных записей — в доменах клиентов без прав администратора. Требуется действующая лицензия ADManager Plus MSP.\n\nТехники докупаются по мере роста службы поддержки; их число не зависит от числа клиентских доменов.\n\nСрок — год; в стоимость входят обновления и поддержка.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что добавляет место техника",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Место техника",
+              "d": "Вход в консоль ADManager Plus MSP с ролью и правами по клиентам."
+            },
+            {
+              "t": "Делегирование",
+              "d": "Операции по шаблонам без прав домена, с аудитом."
+            },
+            {
+              "t": "Требуется",
+              "d": "Лицензия ADManager Plus MSP."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Дополнительный техник",
+              "d": "Служба поддержки растёт быстрее числа клиентов."
+            },
+            {
+              "t": "ADManager Plus MSP",
+              "d": "Базовая лицензия с включёнными техниками.",
+              "link": "me-admanager-plus-msp-500-domain-users"
+            }
+          ],
+          "links": [
+            "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовый продукт",
+              "d": "ADManager Plus MSP; без него место не активируется."
+            },
+            {
+              "t": "Штуки",
+              "d": "Лицензируется по техникам, добавляется по одному."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Провайдерам с растущей первой линией поддержки."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ADManager Plus MSP",
+              "d": "Базовая лицензия.",
+              "link": "me-admanager-plus-msp-500-domain-users"
+            },
+            {
+              "t": "AD Backup для MSP",
+              "d": "Объектный бэкап каталога клиента.",
+              "link": "me-admanager-plus-msp-active-directory-backup-an-250-user-objects"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считается ли администратор консоли техником?",
+          "a": "Нет, администраторы лицензируются отдельно по прайсу вендора; техник — роль первой линии."
+        }
+      ],
+      "related_products": [
+        "me-admanager-plus-msp-500-domain-users",
+        "me-admanager-plus-standard-1-domain-with-2-help-desk-technicians",
+        "me-admanager-plus-msp-active-directory-backup-an-250-user-objects"
+      ],
+      "meta_title": "ADManager Plus MSP: техник службы поддержки | BIZSoft",
+      "meta_description": "Дополнительное место техника службы поддержки для ManageEngine ADManager Plus MSP: делегированные операции в доменах клиентов без прав администратора. Договор, ",
+      "seo_intents": [
+        "admanager plus техник — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "MSP, техник",
+      "volume_label": "1 техник службы поддержки",
+      "addon_source": "vendor",
+      "license_model": "annual"
+    }
+  }
+}
