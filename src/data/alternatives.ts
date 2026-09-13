@@ -205,7 +205,7 @@ export const alternativesPages: AlternativesPage[] = [
       { q: "Кто ближе всего к Cursor по опыту работы?", a: "Windsurf — тоже отдельный AI-редактор на базе VS Code; отличие в ставке на автономного агента Cascade. Сравнение: /compare/cursor-vs-windsurf." },
       { q: "Можно ли оформить сам Cursor?", a: "Да, Cursor Business мы поставляем с оформлением на юрлицо — договор, счёт в рублях, ЭДО. Страница вендора — /vendors/cursor." },
     ],
-    related: [{ label: "Cursor vs Windsurf", href: "/compare/cursor-vs-windsurf" }, { label: "Cursor vs GitHub Copilot", href: "/compare/cursor-vs-copilot" }],
+    related: [{ label: "Cursor — тарифы для команд", href: "/vendors/cursor" }, { label: "Cursor vs Windsurf", href: "/compare/cursor-vs-windsurf" }, { label: "Cursor vs GitHub Copilot", href: "/compare/cursor-vs-copilot" }],
     category: { name: "Программирование", slug: "ai/code" },
   },
   // Кластер «аналоги figma» — ≈363 показов/мес (Вордстат, замер 30.08.2026)

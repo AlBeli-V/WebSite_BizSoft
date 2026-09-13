@@ -20,6 +20,7 @@
 // пополнения переоцениваются тем же ежедневным механизмом, что и подписки.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
+import { buildSku } from '../src/lib/sku.ts';
 
 const REGISTRY = 'scripts/api-balance.json';
 const OUT = 'scripts/api-balance-cards.json';
@@ -36,7 +37,11 @@ export function buildCards(reg) {
 
     // Родительская карточка: сумма вне ряда номиналов и любой нестандартный
     // случай. Она же держит поисковый интент «пополнить баланс <вендор>» —
-    // номиналы из поиска закрыты правилом CREDITS_PACK.
+    // номиналы из поиска закрыты индексной матрицей (CRD с вариантом).
+    // Артикулы — по единой системе (docs/rules/sku-system.md): родитель
+    // <вендор>-CRD-<продукт>-UNI-BAL-NOM, номинал — тот же с вариантом-суммой.
+    const skuOf = (variant) => buildSku({ vendor: v.sku_vendor, kind: 'CRD', product: v.sku_product, plan: 'UNI', term: 'BAL', unit: 'NOM', variant });
+    if (skuOf(null) !== v.parent_sku) throw new Error(`${v.vendor}: parent_sku «${v.parent_sku}» не совпадает с артикулом по сегментам «${skuOf(null)}»`);
     products.push({
       sku: v.parent_sku,
       key: 'API-BALANCE',
@@ -61,7 +66,7 @@ export function buildCards(reg) {
 
     v.denominations.forEach((nominal, i) => {
       products.push({
-        sku: `${v.prefix}-CREDITS-${nominal}`,
+        sku: skuOf(String(nominal)),
         key: `CREDITS-${nominal}`,
         name: `${v.api_name} — пополнение баланса на ${money(nominal)}`,
         license_type: d.license_type,

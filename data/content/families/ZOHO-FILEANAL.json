@@ -1,0 +1,225 @@
+{
+  "family_key": "ZOHO-FILEANAL",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-fileanalysis-professional-2-tb",
+  "classification_notes": [
+    "FileAnalysis — самостоятельный продукт ManageEngine с единственной редакцией Professional и одной позицией на витрине: packaging = single, носитель — сама позиция.",
+    "Функционально совпадает с модулем File Analysis внутри DataSecurity Plus (семейство ZOHO-DATASEC); связь — через ALTERNATIVES и FAQ, различие сформулировано условно.",
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы нет — ownership = universal."
+  ],
+  "products": {
+    "me-fileanalysis-professional-2-tb": {
+      "sku": "ZOHO-LIC-FILEANALPRO-TEAM-1Y-PACK-2TB",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "single"
+      },
+      "edition_label": "Professional",
+      "volume_label": "2 ТБ данных",
+      "unit_label": "пакет: 2 ТБ анализируемых данных",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "FileAnalysis Professional — годовая подписка на самостоятельный продукт ManageEngine для разбора файловых хранилищ: сколько места занято и чем, какие файлы устарели или продублированы, у кого есть доступ к каким папкам. Устанавливается на свой Windows-сервер; лицензия считается по объёму данных, пакет на 2 ТБ.\n\nОт одноимённого модуля DataSecurity Plus продукт отличается не функциями, а упаковкой: это отдельная установка без консоли аудита, DLP и оценки рисков. Его берут, когда задача одна — навести порядок в хранилище — и расширять её не планируют.\n\nСрок — 1 год с обновлениями и поддержкой; следующий объём оформляется доплатой разницы между пакетами.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет FileAnalysis",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Карта занятого места",
+              "d": "Хранилища в разрезе папок, типов, владельцев и давности обращения; динамика роста по неделям, чтобы понимать, когда закончится текущий массив."
+            },
+            {
+              "t": "Лишние файлы",
+              "d": "Не открывавшиеся годами документы, дубликаты по содержимому, временные, пустые и файлы личного характера — музыка, видео, архивы — с оценкой высвобождаемого объёма."
+            },
+            {
+              "t": "Права и владельцы",
+              "d": "Эффективные права на папку с учётом вложенности групп, ресурсы с доступом для всех, файлы без владельца после увольнений."
+            },
+            {
+              "t": "Очистка из консоли",
+              "d": "Удаление, перенос и уведомление владельцев списком по итогам отчёта; действия записываются в журнал продукта."
+            },
+            {
+              "t": "Что сканирует",
+              "d": "Общие папки Windows Server, кластеров и рабочих групп, хранилища NAS через сетевые ресурсы — без агентов на стороне хранилища."
+            },
+            {
+              "t": "Оповещения",
+              "d": "Пороги заполнения и появление файлов нежелательных типов — письмом; отчёты по расписанию ответственным за подразделения."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Администратору, у которого файловый сервер заполнен на девять десятых и ежегодно просит новые диски, а какие папки можно чистить — неизвестно. Одного полного сканирования обычно хватает, чтобы обосновать отказ от закупки СХД."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если параллельно нужны аудит действий с файлами, поиск персональных данных или контроль USB — это модули DataSecurity Plus, и анализ там разумнее брать в той же консоли. Если данные лежат в облачных дисках, а не на своих серверах, продукт их не видит."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Терабайты — по данным",
+              "d": "В лицензию входит суммарный объём файлов на подключённых ресурсах; свободное место на дисках не считается. 2 ТБ — этот пакет, рост — переходом на следующий."
+            },
+            {
+              "t": "Сервер продукта",
+              "d": "Windows Server на площадке заказчика, встроенная база данных; отдельная СУБД не требуется. Пробный период 30 дней."
+            },
+            {
+              "t": "Доступ к хранилищам",
+              "d": "Учётная запись с правом чтения общих папок по SMB; для отчёта о правах — право читать ACL."
+            },
+            {
+              "t": "Нагрузка",
+              "d": "Первое сканирование терабайт занимает часы и планируется на ночь; дальше проверяются только изменённые файлы."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Сложите объём общих папок",
+              "d": "Считается то, что войдёт в сканирование, включая NAS. Данных на 2,5 ТБ — уже больший пакет; ряд объёмов — по матрице вендора, считаем по запросу."
+            },
+            {
+              "t": "Продукт или модуль",
+              "d": "Если через год возможен аудит файловых серверов или DLP, выгоднее сразу взять модуль File Analysis в DataSecurity Plus: остальное добавится ключами в ту же консоль, миграция не понадобится.",
+              "link": "me-datasecurity-plus-professional-fileanalysis-2-tb"
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Оформляется по запросу: разовая оплата и AMS 20 % в год на обновления и поддержку."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "DataSecurity Plus, модуль File Analysis, 2 ТБ",
+              "d": "Тот же анализ внутри платформы с аудитом, DLP и оценкой рисков — задел на расширение.",
+              "link": "me-datasecurity-plus-professional-fileanalysis-2-tb"
+            },
+            {
+              "t": "DataSecurity Plus, Data Risk Assessment, 2 ТБ",
+              "d": "Если важнее не место, а где лежат персональные данные.",
+              "link": "me-datasecurity-plus-professional-data-risk-assessment-2-tb"
+            },
+            {
+              "t": "DataSecurity Plus, File Server Auditing, 2 сервера",
+              "d": "Кто и когда менял файлы, а не что хранится.",
+              "link": "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "В чём разница между FileAnalysis и модулем File Analysis в DataSecurity Plus?",
+          "a": "Набор отчётов совпадает; разница в том, что FileAnalysis — отдельная установка только для этой задачи, а модуль живёт в консоли DataSecurity Plus рядом с аудитом, DLP и оценкой рисков. Различия в деталях сборок уточняются по матрице вендора на дату заказа."
+        },
+        {
+          "q": "Можно ли потом перейти с FileAnalysis на DataSecurity Plus?",
+          "a": "Переход возможен через новую лицензию DataSecurity Plus; автоматический перенос накопленных отчётов вендором не гарантируется, поэтому при вероятном расширении лучше сразу брать модуль."
+        }
+      ],
+      "related_products": [
+        "me-datasecurity-plus-professional-fileanalysis-2-tb",
+        "me-datasecurity-plus-professional-data-risk-assessment-2-tb",
+        "me-datasecurity-plus-professional-file-server-auditing-2-file-servers"
+      ],
+      "meta_title": "FileAnalysis Professional, 2 ТБ — подписка на год | BIZSoft",
+      "meta_description": "ManageEngine FileAnalysis: анализ файловых хранилищ — занятое место, устаревшие и дублирующиеся файлы, права доступа. Пакет на 2 ТБ. Договор, счёт, ЭДО.",
+      "seo_intents": [
+        "manageengine fileanalysis купить / лицензия — hero, meta",
+        "анализ файлового сервера занятое место дубликаты — CAPABILITIES, FIT",
+        "fileanalysis vs datasecurity plus — FAQ, BEFORE_ORDER, ALTERNATIVES",
+        "fileanalysis лицензирование терабайт — DEPENDENCIES"
+      ],
+      "uncertainties": [
+        "Полное совпадение функций самостоятельного FileAnalysis и модуля DataSecurity Plus — по общему описанию вендора; различия отдельных сборок не проверялись, в FAQ оговорено.",
+        "Перенос данных при переходе с FileAnalysis на DataSecurity Plus — не подтверждён, сформулировано как «не гарантируется».",
+        "Адрес страницы продукта у вендора (file-analysis) — по памяти, в сессии не открывался."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; поле опустошить",
+        "description": "→ FIT / PLAN_COMPARE / DEPENDENCIES; поле опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает продукт",
+          "new_information": "шесть групп: место, лишние файлы, права, очистка, источники, оповещения",
+          "sibling_overlap": "одиночка; с модулем DataSecurity Plus совпадает по сути, формулировки свои",
+          "decision": "UNDERSTAND",
+          "seo_intent": "fileanalysis manageengine возможности",
+          "source": "https://www.manageengine.com/file-analysis/"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль администратора и два выхода к DataSecurity Plus",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "анализ файлового сервера",
+          "source": "uncertain"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и где ставить",
+          "new_information": "ТБ по данным, сервер, доступ, нагрузка первого прохода",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "fileanalysis лицензия терабайт",
+          "source": "https://www.manageengine.com/file-analysis/"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что решить до КП",
+          "new_information": "арифметика объёма, продукт или модуль, perpetual",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "fileanalysis или datasecurity plus",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "модуль File Analysis и два соседних модуля DataSecurity Plus",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        }
+      ]
+    }
+  }
+}
