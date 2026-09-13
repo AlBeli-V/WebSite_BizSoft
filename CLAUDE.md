@@ -36,7 +36,9 @@
 
 - **Доступ к проду** (`docs/rules/prod-access.md`). Сетевой доступ из сессии
   закрыт: проверки и операции — через ops-* workflows, результаты — в
-  issue #22. Деплой — только deploy.yml при пуше в main.
+  issue #22. Деплой — только deploy.yml при пуше в main. Журнал прогона
+  маскирует секреты: слово `deploy` в слаге выводится как `***` — такую
+  строку в данные не заводить (`tests/no-masked-slugs.test.ts`).
 - **Production-workflow — только с main** (`docs/rules/production-workflow-main-only.md`).
   Ручной запуск workflow, который деплоит, ходит по SSH, пишет в Directus,
   меняет аналитику или шлёт письма, — только с ветки main; Guard не
