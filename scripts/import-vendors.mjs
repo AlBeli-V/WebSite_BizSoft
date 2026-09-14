@@ -31,7 +31,18 @@ const args = process.argv.slice(2);
 const apply = args.includes('--apply');
 const emitIdx = args.indexOf('--emit');
 const emitPath = emitIdx >= 0 ? args[emitIdx + 1] : null;
-const slugs = args.filter((a, i) => a !== '--apply' && a !== '--emit' && i !== emitIdx + 1);
+// --only ARTIKUL1,ARTIKUL2 — взять из пакетов только эти позиции. Нужен, когда
+// на витрину выводится одна новая карточка: без фильтра upsert переписывает
+// short_description у каждой позиции пакета поверх текстов, записанных
+// ops-apply-descriptions (14.09.2026, заведение базовой лицензии OpUtils —
+// в пакете zoho.json 4700 строк при 183 карточках на витрине).
+const onlyIdx = args.indexOf('--only');
+const only = onlyIdx >= 0
+  ? new Set(String(args[onlyIdx + 1] || '').split(/[\s,]+/).filter(Boolean))
+  : null;
+const slugs = args.filter((a, i) =>
+  a !== '--apply' && a !== '--emit' && a !== '--only'
+  && i !== emitIdx + 1 && i !== onlyIdx + 1);
 
 const files = readdirSync(CATALOG_DIR)
   .filter((f) => f.endsWith('.json'))
@@ -54,6 +65,7 @@ for (const f of files) {
   const pkg = JSON.parse(readFileSync(resolve(CATALOG_DIR, f), 'utf8'));
   const vendor = pkg.vendor_entry?.vendor || '';
   for (const p of pkg.products || []) {
+    if (only && !only.has(p.sku)) continue;
     // Архивный стаб: {sku, archive: true} — upsert только статуса (снятие с витрины).
     if (p.archive) {
       rows.push({ sku: p.sku, status: 'archived' });
@@ -110,7 +122,11 @@ const sheet = XLSX.utils.aoa_to_sheet([COLS, ...rows.map((r) => COLS.map((c) => 
 const wb = XLSX.utils.book_new();
 XLSX.utils.book_append_sheet(wb, sheet, 'Товары');
 const xlsxBase64 = XLSX.write(wb, { type: 'base64', bookType: 'xlsx' });
-console.log(`пакетов: ${files.length}, строк: ${rows.length}${emitPath ? ' — только файл' : apply ? ' — ПРИМЕНЯЕМ' : ' — dry-run'}`);
+if (only && rows.length !== only.size) {
+  console.error(`--only: запрошено ${only.size} артикулов, найдено ${rows.length} — проверьте написание`);
+  process.exit(1);
+}
+console.log(`пакетов: ${files.length}, строк: ${rows.length}${only ? ` (отбор по ${only.size} артикулам)` : ''}${emitPath ? ' — только файл' : apply ? ' — ПРИМЕНЯЕМ' : ' — dry-run'}`);
 
 if (emitPath) {
   writeFileSync(emitPath, Buffer.from(xlsxBase64, 'base64'));
