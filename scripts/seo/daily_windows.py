@@ -58,12 +58,16 @@ def load_series(source: str, base_dir: pathlib.Path | None = None) -> dict | Non
         return None
 
 
-def build_source(report_date: str, source: str,
-                 store: dict | None, lag: int | None = None) -> dict:
+def build_source(report_date: str, source: str, store: dict | None,
+                 lag: int | None = None, metrics: tuple | None = None) -> dict:
     """Окна одного источника: {available, complete, windows, missing_dates}.
 
     lag — переопределение лага созревания: общее окно воронки строится с
     лагом самого медленного источника, чтобы все ряды кончались одним днём.
+    metrics — свой набор рядов вместо обязательного: так блок «Аудитория»
+    строит окна по разрезу «устройство × канал», не делая эти ряды
+    обязательными для KPI (их история короче, и старые дни без них не
+    должны объявлять неполным окно показателей роста).
     """
     if not store or not (store.get('series') or {}):
         return {'available': False, 'error': 'витрина не заполнена',
@@ -80,6 +84,7 @@ def build_source(report_date: str, source: str,
         return v
 
     lag = LAG_DAYS[source] if lag is None else lag
+    metrics = METRICS[source] if metrics is None else tuple(metrics)
     end = dt.date.fromisoformat(report_date) - dt.timedelta(days=lag)
     cur_start = end - dt.timedelta(days=WINDOW_DAYS - 1)
     prev_start = cur_start - dt.timedelta(days=WINDOW_DAYS)
@@ -88,7 +93,7 @@ def build_source(report_date: str, source: str,
 
     windows: dict = {}
     missing: set[str] = set()
-    for metric in METRICS[source]:
+    for metric in metrics:
         days = series.get(metric) or {}
         cur_vals = [value_of(days, d) for d in cur_dates]
         prev_vals = [value_of(days, d) for d in prev_dates]

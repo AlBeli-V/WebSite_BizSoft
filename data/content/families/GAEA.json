@@ -1,0 +1,423 @@
+{
+  "family_key": "GAEA",
+  "vendor": "QuadSpinner",
+  "vendor_profile": "data/content/vendors/gaea.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "gaea-pro",
+  "classification_notes": [
+    "Indie / Professional / Enterprise. Носитель — Professional."
+  ],
+  "products": {
+    "gaea-indie": {
+      "sku": "QDSP-LIC-GAEAINDIE-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "QuadSpinner Gaea Indie — индивидуальная подписка на 1 год на процедурную генерацию ландшафтов для организаций с доходом до порога вендора: нодовый граф эрозии, текстурирование, экспорт карт высот и масок в Unreal, Unity, Houdini; разрешение до 4K. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Gaea Indie",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ландшафты",
+              "d": "Эрозия, реки, снег, процедурные узлы."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Карты высот, маски, тайлы для движков."
+            },
+            {
+              "t": "Лимиты",
+              "d": "До 4K, доход ниже порога."
+            }
+          ],
+          "links": [
+            "gaea-pro"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Indie",
+              "d": "Малая студия."
+            },
+            {
+              "t": "Professional",
+              "d": "8K+, без лимита дохода, коммерческие проекты.",
+              "link": "gaea-pro"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Плавающие лицензии, поддержка, договор.",
+              "link": "gaea-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Инди-разработчикам открытых миров."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Какой порог дохода?",
+          "a": "По условиям QuadSpinner на дату заказа."
+        }
+      ],
+      "related_products": [
+        "gaea-pro",
+        "gaea-ent"
+      ],
+      "meta_title": "Gaea Indie — подписка на год | BIZSoft",
+      "meta_description": "QuadSpinner Gaea Indie: процедурные ландшафты с эрозией и экспортом в движки, до 4K, для малых студий. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "gaea indie — hero"
+      ],
+      "uncertainties": [
+        "Порог дохода Indie — по условиям вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "gaea-pro": {
+      "sku": "QDSP-LIC-GAEAPRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "QuadSpinner Gaea Professional — индивидуальная подписка на 1 год на полный Gaea без ограничений по доходу: разрешение 8K и выше, тайлы, автоматизация, коммерческое использование. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Gaea Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Разрешение",
+              "d": "8K и выше, тайлинг больших миров."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Командная строка, пакетная сборка."
+            },
+            {
+              "t": "Всё из Indie",
+              "d": "Узлы, эрозия, экспорт."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка привязана к аккаунту специалиста и не переносится между людьми; для ротации сотрудников нужен командный план, если он есть у вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Коммерческая студия."
+            },
+            {
+              "t": "Indie",
+              "d": "Ниже порога.",
+              "link": "gaea-indie"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Команда с плавающими лицензиями.",
+              "link": "gaea-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям открытых миров и архвиза."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли с Unreal Landscape?",
+          "a": "Да, экспорт тайлов и слоёв под Landscape."
+        }
+      ],
+      "related_products": [
+        "gaea-indie",
+        "gaea-ent"
+      ],
+      "meta_title": "Gaea Professional — подписка на год | BIZSoft",
+      "meta_description": "QuadSpinner Gaea Professional: процедурные ландшафты 8K+, тайлинг, автоматизация, коммерческое использование. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "gaea professional — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "gaea-ent": {
+      "sku": "QDSP-LIC-GAEAENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "QuadSpinner Gaea Enterprise — командная подписка на 1 год на Gaea для студий: плавающие лицензии на организацию, приоритетная поддержка, доступ к бета-версиям, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Gaea Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плавающие",
+              "d": "Лицензии на пул рабочих мест."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная, ранний доступ."
+            },
+            {
+              "t": "Всё из Professional",
+              "d": "8K+, автоматизация."
+            }
+          ],
+          "links": [
+            "gaea-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Несколько художников по очереди."
+            },
+            {
+              "t": "Professional",
+              "d": "Один художник.",
+              "link": "gaea-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "По запросу."
+            },
+            {
+              "t": "Минимум",
+              "d": "По условиям вендора."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям с несколькими ландшафтными художниками."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от Professional?",
+          "a": "Плавающая модель и поддержка."
+        }
+      ],
+      "related_products": [
+        "gaea-pro"
+      ],
+      "meta_title": "Gaea Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "QuadSpinner Gaea Enterprise: плавающие лицензии для студии, приоритетная поддержка; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "gaea enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
