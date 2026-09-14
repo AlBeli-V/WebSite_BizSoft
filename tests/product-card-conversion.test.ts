@@ -111,10 +111,12 @@ describe('призыв называет результат', () => {
 
   it('подборка — обратимое действие с видимым состоянием', () => {
     // Одноразовое «Добавлено ✓» не давало ни состояния, ни способа
-    // передумать: человек шёл искать корзину.
+    // передумать: человек шёл искать корзину. Состояние называет сама кнопка —
+    // подписью и знаком «+» / «×» (отдельный флажок снят 14.09.2026).
     expect(page).toContain('Исключить из подборки');
     expect(page).toContain('removeFromCart');
-    expect(page).toContain('data-coll-check');
+    expect(page).toContain("addBtn?.classList.toggle('is-in', on);");
+    expect(page).not.toContain('data-coll-check');
   });
 
   it('окно заявки называет то, за чем пришли', () => {
@@ -315,7 +317,8 @@ describe('расхождения выката 12.09.2026 закрыты', () => 
 
   it('доверительные признаки есть и у подарочной карты', () => {
     const gift = page.slice(page.indexOf('<GiftCardSelector'), page.indexOf('class="card buy-card"'));
-    expect(gift).toContain('TRUST_LINES');
+    // Компонент один на обе колонки — обычную и подарочной карты.
+    expect(gift).toContain('<TrustLines />');
   });
 
   it('командные планы Maxon считаются местами, а не лицензиями', () => {
@@ -350,7 +353,10 @@ describe('композиция, одобренная 12.09.2026', () => {
     // Строка условий, заведённая в шаблоне мимо policies.ts, разъедется с
     // ответом агента при первой же правке.
     expect(page).toContain('PROCUREMENT_FLOW');
-    expect(page).toContain('TRUST_LINES');
+    // Доверительные строки карточка берёт компонентом, а он — из policies.ts.
+    expect(page).toContain('<TrustLines />');
+    expect(readFileSync(resolve(ROOT, 'src/components/TrustLines.astro'), 'utf8'))
+      .toContain("import { TRUST_LINES } from '../data/policies'");
     expect(page).not.toContain('Закрывающие бухгалтерские документы');
     expect(PROCUREMENT_FLOW).toHaveLength(5);
     expect(TRUST_LINES.length).toBeGreaterThan(2);
@@ -468,7 +474,9 @@ describe('колонка покупки, решение руководителя
     // а кнопка называет тот же объём со склонением.
     expect(page).toContain("qtyInput.value = b.dataset.team || String(minQty)");
     expect(page).toContain('if (totalEl) totalEl.textContent = formatRub(unit * q);');
-    expect(page).toContain('b.textContent = quoteCtaLabel(commerce, q, namedUnit);');
+    // Подпись пишется в свой узел: textContent на кнопке снёс бы стрелку.
+    expect(page).toContain("const txt = b.querySelector('[data-cta-txt]') ?? b;");
+    expect(page).toContain('txt.textContent = quoteCtaLabel(commerce, q, namedUnit);');
     expect(page).toContain("qtyInput.value = String(curQty() + 1);");
     expect(page).toContain("qtyInput.value = String(Math.max(minQty, curQty() - 1));");
     const s = commerceState({ price: 1000, qtyLabel: 'Рабочих мест' });
@@ -480,33 +488,44 @@ describe('колонка покупки, решение руководителя
     expect(quoteCtaLabel(s, 21)).toBe('Получить КП на 21 рабочее место');
   });
 
-  it('подпись про единое КП выровнена по центру', () => {
-    const rule = page.slice(page.indexOf('.coll-strip p {'));
-    expect(rule.slice(0, rule.indexOf('}'))).toContain('text-align: center');
+  it('подсказка про единое КП стоит под кнопками, со знаком слева', () => {
+    // Сначала действие, потом объяснение, зачем оно нужно.
+    const rule = page.slice(page.indexOf('.coll-hint {'));
+    const decl = rule.slice(0, rule.indexOf('}'));
+    expect(decl).toContain('display: flex');
+    expect(decl).toContain('align-items: flex-start');
+    expect(page).toContain('class="hint-ic"');
+    expect(page.indexOf('class="act-row"')).toBeLessThan(page.indexOf('class="coll-hint"'));
   });
 
-  it('кнопка подборки собрана как плашка шапки: знак, разделитель, подпись, знак действия', () => {
-    const rule = page.slice(page.indexOf('.coll-btn {'));
+  it('подборка и вопрос — обводкой акцентом, заливка в колонке одна', () => {
+    const rule = page.slice(page.indexOf('.coll-btn, .ask-btn {'));
     const decl = rule.slice(0, rule.indexOf('}'));
     // Скругление — как у .btn в global.css: кнопки колонки читаются одной семьёй.
     expect(decl).toContain('border-radius: 980px');
+    expect(decl).toContain('border: 1.5px solid var(--color-accent)');
+    expect(decl).toContain('background: var(--color-bg-card)');
+    expect(decl).toContain('color: var(--color-accent)');
     expect(decl).toContain('flex: 1 1 auto');
     // Жёсткая ширина без права сжаться вынесла бы кнопку за край колонки.
     expect(decl).toContain('min-width: 0');
-    expect(decl).not.toMatch(/(^|[^-])width: \d/);
-    // Состав кнопки повторяет плашку «Подборка для КП» из шапки.
+    // Заливка акцентом остаётся у главного призыва.
+    expect(page).toContain('class="btn btn-primary btn-caps"');
+    // Состав кнопки подборки повторяет плашку «Подборка для КП» из шапки.
     expect(page).toContain('<CollectionMark size={18} />');
-    expect(page).toContain('class="coll-sep"');
     expect(page).toContain('class="coll-txt" data-coll-label');
     expect(page).toContain('class="coll-sign"');
+    // Вопрос отличается знаком-облачком, а не весом.
+    expect(page).toContain('class="ask-ic"');
   });
 
-  it('подписи кнопок колонки — прописными', () => {
-    for (const sel of ['.coll-txt {', '.ask-btn {', '.btn-caps {']) {
+  it('подписи кнопок колонки — прописными, у призыва стрелка', () => {
+    for (const sel of ['.coll-btn, .ask-btn {', '.btn-caps {']) {
       const decl = page.slice(page.indexOf(sel));
       expect(decl.slice(0, decl.indexOf('}')), sel).toContain('text-transform: uppercase');
     }
-    expect(page).toContain('class="btn btn-primary btn-caps"');
+    expect(page).toContain('class="cta-arrow"');
+    expect(page).toContain('class="cta-txt" data-cta-txt');
   });
 
   it('состояние подборки называет и знак: плюс сменяется диагональным крестиком', () => {
@@ -520,24 +539,29 @@ describe('колонка покупки, решение руководителя
 
   it('«Задать вопрос» — кнопка в том же ряду, что подборка; перенос запрещён', () => {
     expect(page).toContain('class="ask-btn"');
-    expect(page).toContain('>Задать вопрос</button>');
-    // Заливка акцентом, как у призыва и подборки: в колонке одна семья кнопок,
-    // иерархию держат порядок и ширина, а не вес (решение 14.09.2026).
-    const ask = page.slice(page.indexOf('.ask-btn {'));
-    expect(ask.slice(0, ask.indexOf('}'))).toContain('background: var(--color-accent)');
+    expect(page).toContain('<span>Задать вопрос</span>');
+    // Обводка акцентом на белом, как у подборки: заливка в колонке одна, у
+    // главного призыва (решение руководителя 14.09.2026 по референсу).
+    const ask = page.slice(page.indexOf('.coll-btn, .ask-btn {'));
+    expect(ask.slice(0, ask.indexOf('}'))).toContain('border: 1.5px solid var(--color-accent)');
     // Ссылкой это действие больше не оформляется.
     expect(page).not.toContain('btn-link');
-    const row = page.slice(page.indexOf('.coll-toggle {'));
+    const row = page.slice(page.indexOf('.act-row {'));
     expect(row.slice(0, row.indexOf('}'))).toContain('flex-wrap: nowrap');
-    // Порядок в ряду: флажок, подборка, вопрос.
-    const strip = page.slice(page.indexOf('<div class="coll-toggle">'), page.indexOf('</div>', page.indexOf('class="ask-btn"')));
-    expect(strip.indexOf('coll-check')).toBeLessThan(strip.indexOf('coll-btn'));
+    // Порядок в ряду: подборка, затем вопрос.
+    const strip = page.slice(page.indexOf('<div class="act-row">'));
     expect(strip.indexOf('coll-btn')).toBeLessThan(strip.indexOf('ask-btn'));
   });
 
-  it('доверительные строки остались', () => {
+  it('доверительные строки остались, каждая со своим знаком', () => {
     const buy = page.slice(page.indexOf('class="card buy-card"'), page.indexOf('<div class="col-rest">'));
-    expect(buy).toContain('TRUST_LINES.map');
+    expect(buy).toContain('<TrustLines />');
+    const trust = readFileSync(resolve(ROOT, 'src/components/TrustLines.astro'), 'utf8');
+    expect(trust).toContain('TRUST_LINES.map');
+    // Знак у каждой строки: четыре одинаковых пункта читались перечислением.
+    expect(trust).toContain('class="trust-ic"');
+    const icons = trust.match(/^\s*\[.*\],$/gm) ?? [];
+    expect(icons.length).toBe(TRUST_LINES.length);
   });
 
   it('знак подборки — один на шапку и карточку', () => {
