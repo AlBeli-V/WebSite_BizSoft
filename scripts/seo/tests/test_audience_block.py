@@ -157,8 +157,32 @@ class ExternalChannelsCase(AudienceCase):
         self.assertEqual(totals, sorted(totals, reverse=True))
 
     def test_split_threshold_opens_classes_when_volume_grows(self):
-        """42 внешних визита за неделю и три домена — классы уже что-то значат."""
-        self.assertTrue(self.block["split_external"])
+        """42 внешних визита за неделю — классы уже что-то значат."""
+        self.assertTrue(self.block["visits"]["blocks"][0]["split_external"])
+
+    def test_split_decided_per_system_not_by_maximum(self):
+        """У Метрики и GA4 разная атрибуция: порог считается каждой отдельно.
+
+        На боевом срезе 14.09.2026 GA4 насчитал 26 внешних визитов при одном
+        у Метрики. Общий порог раскрыл бы классы в обеих таблицах, и у
+        Метрики появились бы три строки нулей.
+        """
+        rich, poor = self.block["visits"]["blocks"][0], dict(
+            self.block["visits"]["blocks"][1])
+        poor["channels"] = [dict(c, total=0, devices={d: 0 for d in audience.DEVICES})
+                            if c["key"] in audience.EXTERNAL_CHANNELS else c
+                            for c in poor["channels"]]
+        self.assertTrue(audience.split_external(rich, self.block["referrals"]))
+        self.assertFalse(audience.split_external(poor, {"rows": []}))
+
+    def test_email_rows_drop_empty_classes_when_split(self):
+        """Развёрнутая разбивка не печатает классы, в которых ноль."""
+        blk = dict(self.block["visits"]["blocks"][0], split_external=True)
+        blk["channels"] = [dict(c, total=0) if c["key"] == "forums" else c
+                           for c in blk["channels"]]
+        labels = [r["label"] for r in audience.email_rows(blk)]
+        self.assertNotIn(audience.CHANNEL_LABEL["forums"], labels)
+        self.assertIn(audience.CHANNEL_LABEL["catalogs"], labels)
 
     def test_split_threshold_holds_while_volume_is_small(self):
         """Единичные переходы письмо не разворачивает в четыре строки нулей."""
@@ -176,7 +200,9 @@ class ExternalChannelsCase(AudienceCase):
                                                 encoding="utf-8")
         block = audience.build(REPORT_DATE, directory)
         self.assertEqual(len(block["referrals"]["rows"]), 1)
-        self.assertFalse(block["split_external"])
+        self.assertFalse(block["visits"]["blocks"][0]["split_external"])
+        labels = [r["label"] for r in audience.email_rows(block["visits"]["blocks"][0])]
+        self.assertIn(audience.EXTERNAL_LABEL, labels)
 
 
 class AudienceGapsCase(unittest.TestCase):
@@ -381,11 +407,21 @@ class RenderCase(unittest.TestCase):
         self.tmp.cleanup()
 
     def test_email_section_names_every_channel(self):
+        """В письме — короткие подписи, в отчёте — полные: ширина телефона."""
         html = self.r4._audience_html(self.block)
         for channel in audience.CHANNELS:
-            self.assertIn(audience.CHANNEL_LABEL[channel], html)
+            label = audience.CHANNEL_SHORT.get(channel, audience.CHANNEL_LABEL[channel])
+            self.assertIn(label, html)
         self.assertIn("Показы · Яндекс", html)
         self.assertIn("Визиты · GA4", html)
+        web = self.web._audience_section(self.block)
+        self.assertIn(audience.CHANNEL_LABEL["other"], web)
+
+    def test_email_table_has_three_device_columns(self):
+        """Колонка «прочие» в письмо не помещается — её заменяет примечание."""
+        html = self.r4._audience_html(self.block)
+        self.assertIn(audience.DEVICE_SHORT["desktop"], html)
+        self.assertNotIn(audience.DEVICE_SHORT["other"], html)
 
     def test_email_section_has_no_unresolved_placeholders(self):
         html = self.r4._audience_html(self.block)

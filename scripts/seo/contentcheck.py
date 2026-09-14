@@ -69,6 +69,23 @@ def audience_checks(blocks: dict) -> list[dict]:
     add("audience_internally_consistent", not gaps,
         "; ".join(gaps) if gaps else "суммы каналов и устройств сходятся с итогом")
 
+    # Независимая сверка: ряд всех визитов Метрики собирается своим запросом,
+    # и совпадение с суммой каналов доказывает, что разрез ничего не потерял
+    # и не задвоил. Допуск 2% — на округление и разное время сбора рядов.
+    control = []
+    for blk in (aud.get("visits") or {}).get("blocks", []):
+        gap = blk.get("control_gap")
+        if gap is None:
+            continue
+        control.append(f"{blk['label']}: разрез {int(blk['total'])}, "
+                       f"ряд {blk['control_metric']} {int(blk['control_total'])}, "
+                       f"расхождение {gap:+.1%}")
+        if abs(gap) > 0.02:
+            control[-1] = "РАСХОЖДЕНИЕ — " + control[-1]
+    add("audience_matches_control_series",
+        not any(c.startswith("РАСХОЖДЕНИЕ") for c in control),
+        "; ".join(control) if control else "контрольного ряда нет")
+
     thin = [f"{r['label']} — покрытие {r['coverage']:.0%}"
             for r in (aud.get("impressions") or {}).get("rows", [])
             if r.get("available") and (r.get("coverage") or 0) < 0.9]
