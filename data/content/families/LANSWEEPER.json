@@ -1,0 +1,314 @@
+{
+  "family_key": "LANSWEEPER",
+  "vendor": "Lansweeper",
+  "vendor_profile": "data/content/vendors/lansweeper.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "lansweeper-starter-2000-devices",
+  "classification_notes": [
+    "Starter / Pro. Носитель — Starter."
+  ],
+  "products": {
+    "lansweeper-starter-2000-devices": {
+      "sku": "LNSW-LIC-STARTER-TEAM-1Y-PACK-2000",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 2 000 активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Lansweeper Starter на 2 000 устройств — командная подписка на 1 год на платформу инвентаризации ИТ-активов: безагентное обнаружение всего в сети — компьютеры, серверы, сетевое оборудование, ПО, лицензии, облака; отчёты и интеграции. Лицензия организации на 2 000 активов.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Lansweeper Starter, 2 000 устройств",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение",
+              "d": "Безагентное сканирование сети, Active Directory, облака, плюс агент для удалённых."
+            },
+            {
+              "t": "Инвентарь",
+              "d": "Оборудование, ПО, лицензии, гарантии."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Сотни готовых, SQL-запросы, интеграции с ITSM."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Starter",
+              "d": "До 2 000 активов, базовые функции."
+            },
+            {
+              "t": "Pro, 2 000–9 000",
+              "d": "Больше активов, OT-устройства, расширенные функции.",
+              "link": "lansweeper-pro-2000-9000-devices"
+            },
+            {
+              "t": "ManageEngine AssetExplorer",
+              "d": "Альтернатива.",
+              "link": "me-assetexplorer-250-it-assets"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Активы",
+              "d": "Считаются все обнаруженные устройства."
+            },
+            {
+              "t": "Полосы",
+              "d": "Рост — переход на Pro."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-отделам средних компаний."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что считается активом?",
+          "a": "Любое обнаруженное устройство."
+        }
+      ],
+      "related_products": [
+        "lansweeper-pro-2000-9000-devices",
+        "me-assetexplorer-250-it-assets"
+      ],
+      "meta_title": "Lansweeper Starter 2 000 устройств — подписка | BIZSoft",
+      "meta_description": "Lansweeper Starter: безагентная инвентаризация ИТ-активов, отчёты, интеграции; 2 000 устройств. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "lansweeper starter, 2 000 устройств купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "lansweeper-pro-2000-9000-devices": {
+      "sku": "LNSW-LIC-PRO-TEAM-1Y-PACK-9000",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: до 9 000 активов",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Lansweeper Pro от 2 000 до 9 000 устройств — командная подписка на 1 год на расширенную платформу инвентаризации ИТ- и OT-активов: всё из Starter плюс OT-обнаружение, анализ рисков, расширенные интеграции, больше активов. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Lansweeper Pro, 2 000–9 000 устройств",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OT",
+              "d": "Промышленные и IoT-устройства."
+            },
+            {
+              "t": "Риски",
+              "d": "Уязвимости и соответствие."
+            },
+            {
+              "t": "Всё из Starter",
+              "d": "Инвентарь, отчёты."
+            }
+          ],
+          "links": [
+            "lansweeper-starter-2000-devices"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Более 2 000 активов или OT."
+            },
+            {
+              "t": "Starter",
+              "d": "До 2 000.",
+              "link": "lansweeper-starter-2000-devices"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Полоса",
+              "d": "2 000–9 000."
+            },
+            {
+              "t": "Цена",
+              "d": "Выше Starter."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным компаниям и производствам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Больше 9 000?",
+          "a": "По запросу."
+        }
+      ],
+      "related_products": [
+        "lansweeper-starter-2000-devices"
+      ],
+      "meta_title": "Lansweeper Pro 2 000–9 000 устройств — подписка | BIZSoft",
+      "meta_description": "Lansweeper Pro: инвентаризация ИТ и OT, анализ рисков; от 2 000 до 9 000 устройств. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "lansweeper pro, 2 000–9 000 устройств купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

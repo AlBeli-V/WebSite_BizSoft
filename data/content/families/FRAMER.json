@@ -1,0 +1,601 @@
+{
+  "family_key": "FRAMER",
+  "vendor": "Framer",
+  "vendor_profile": "data/content/vendors/framer.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "framer-basic",
+  "classification_notes": [
+    "Basic / Pro / Scale (лицензия на сайт) / Enterprise. Носитель — Basic."
+  ],
+  "products": {
+    "framer-basic": {
+      "sku": "FRMR-LIC-BASIC-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "сайт",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Framer Basic — подписка на 1 год на сайт в Framer: визуальный конструктор с публикацией, собственный домен, базовая CMS, формы, аналитика; лимиты страниц, коллекций CMS и посетителей по тарифу. Лицензия на сайт, оформляется на организацию.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Framer Basic",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Конструктор",
+              "d": "Дизайн как в Figma с адаптивностью и анимациями, публикация одним щелчком."
+            },
+            {
+              "t": "Сайт",
+              "d": "Домен, SSL, CDN, SEO-настройки, формы."
+            },
+            {
+              "t": "CMS",
+              "d": "Коллекции для блога и каталога по лимиту."
+            },
+            {
+              "t": "Лимиты",
+              "d": "Страницы, записи CMS, посетители — по тарифу."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Basic",
+              "d": "Лендинг или небольшой сайт."
+            },
+            {
+              "t": "Pro",
+              "d": "Больше страниц и CMS, локализация, аналитика.",
+              "link": "framer-pro"
+            },
+            {
+              "t": "Scale",
+              "d": "Высокий трафик, редактирование в CMS без ограничений.",
+              "link": "framer-scale"
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, договор.",
+              "link": "framer-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с сайтом-визиткой или лендингом."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Один сайт",
+              "d": "План привязан к сайту; второй проект — второй план."
+            },
+            {
+              "t": "Редакторы",
+              "d": "Места редакторов CMS и дизайна — отдельная позиция."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли редакторы?",
+          "a": "Места редакторов — отдельная позиция; план — за сайт."
+        }
+      ],
+      "related_products": [
+        "framer-pro",
+        "framer-scale",
+        "framer-ent"
+      ],
+      "meta_title": "Framer Basic — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Framer Basic: сайт на конструкторе Framer с доменом, CMS и формами; лицензия на сайт. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "framer купить сайт — hero, meta"
+      ],
+      "uncertainties": [
+        "Лимиты — по прайсу Framer."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "framer-pro": {
+      "sku": "FRMR-LIC-PRO-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "сайт",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Framer Pro — подписка на 1 год на сайт с расширенными лимитами: больше страниц и записей CMS, локализация на несколько языков, встроенная аналитика, защита паролем, приоритетная публикация. Лицензия на сайт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Framer Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Масштаб",
+              "d": "Больше страниц, CMS и трафика."
+            },
+            {
+              "t": "Локализация",
+              "d": "Многоязычные версии сайта."
+            },
+            {
+              "t": "Аналитика",
+              "d": "Встроенная, без сторонних скриптов."
+            },
+            {
+              "t": "Доступ",
+              "d": "Защита паролем, staging."
+            }
+          ],
+          "links": [
+            "framer-basic"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Корпоративный сайт с блогом на нескольких языках."
+            },
+            {
+              "t": "Basic",
+              "d": "Небольшой сайт.",
+              "link": "framer-basic"
+            },
+            {
+              "t": "Scale",
+              "d": "Большой трафик.",
+              "link": "framer-scale"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с многостраничным сайтом и блогом."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Локализация",
+              "d": "Языки считаются по тарифу; уточните число."
+            },
+            {
+              "t": "Домены",
+              "d": "Один основной домен на сайт."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Pro ради локализации?",
+          "a": "Да, многоязычность начинается с Pro."
+        }
+      ],
+      "related_products": [
+        "framer-basic",
+        "framer-scale"
+      ],
+      "meta_title": "Framer Pro — подписка на год | BIZSoft",
+      "meta_description": "Framer Pro: расширенные лимиты страниц и CMS, локализация, аналитика, защита паролем; лицензия на сайт. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "framer pro — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "framer-scale": {
+      "sku": "FRMR-LIC-SCALE-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "сайт",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Framer Scale — подписка на 1 год на сайт с высоким трафиком: расширенные лимиты посетителей и пропускной способности, больше CMS-записей и страниц, приоритетная поддержка; всё из Pro. Лицензия на сайт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Framer Scale",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Трафик",
+              "d": "Высокие лимиты посетителей и bandwidth."
+            },
+            {
+              "t": "Контент",
+              "d": "Тысячи страниц и записей CMS."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Локализация, аналитика."
+            }
+          ],
+          "links": [
+            "framer-basic"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Scale",
+              "d": "Сайт с большим трафиком."
+            },
+            {
+              "t": "Pro",
+              "d": "Средний трафик.",
+              "link": "framer-pro"
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, SLA, договор.",
+              "link": "framer-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Маркетплейсам контента и медиа на Framer."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Трафик",
+              "d": "Оцените посетителей в месяц по аналитике текущего сайта."
+            },
+            {
+              "t": "Миграция",
+              "d": "Перенос с Webflow или Tilda — импорт вручную."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что будет при превышении трафика?",
+          "a": "Framer предложит апгрейд; сайт не отключается сразу."
+        }
+      ],
+      "related_products": [
+        "framer-basic",
+        "framer-pro",
+        "framer-ent"
+      ],
+      "meta_title": "Framer Scale — подписка на год | BIZSoft",
+      "meta_description": "Framer Scale: высокие лимиты трафика и контента, приоритетная поддержка; лицензия на сайт. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "framer scale — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "framer-ent": {
+      "sku": "FRMR-LIC-ENTERPRISE-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "организация",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Framer Enterprise — командный план Framer корпоративного уровня на 1 год: SSO, роли и аудит, несколько сайтов под одной организацией, SLA, выделенная поддержка и договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Framer Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Организация",
+              "d": "Несколько сайтов, SSO, роли, аудит."
+            },
+            {
+              "t": "SLA",
+              "d": "Гарантии доступности и поддержка."
+            },
+            {
+              "t": "Всё из Scale",
+              "d": "Трафик, контент, локализация."
+            }
+          ],
+          "links": [
+            "framer-basic"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Несколько сайтов и ИБ-требования."
+            },
+            {
+              "t": "Scale",
+              "d": "Один сайт с большим трафиком.",
+              "link": "framer-scale"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Минимумы."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Корпорациям с несколькими сайтами на Framer."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли объединить существующие сайты?",
+          "a": "Да, при переходе на Enterprise они переносятся в организацию."
+        }
+      ],
+      "related_products": [
+        "framer-basic",
+        "framer-scale"
+      ],
+      "meta_title": "Framer Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Framer Enterprise: SSO, роли, несколько сайтов, SLA, выделенная поддержка; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "framer enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

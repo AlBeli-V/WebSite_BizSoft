@@ -1,0 +1,454 @@
+{
+  "family_key": "SHUTTERSTOCK",
+  "vendor": "Shutterstock",
+  "vendor_profile": "data/content/vendors/shutterstock.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "shutter-img-50",
+  "classification_notes": [
+    "10 / 50 / 350 изображений в месяц. Носитель — 50."
+  ],
+  "products": {
+    "shutter-img-10": {
+      "sku": "SHTR-LIC-IMG10-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Shutterstock, 10 изображений в месяц — годовая лицензия организации на пользователя: десять загрузок фото, векторов и иллюстраций каждый месяц по стандартной royalty-free лицензии и доступ ко всей библиотеке. Начальный объём линейки для одного маркетолога.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Shutterstock 10 изображений в месяц",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Десять в месяц",
+              "d": "Загрузки фото, векторов и иллюстраций; остаток по правилам тарифа."
+            },
+            {
+              "t": "Стандартная лицензия",
+              "d": "Royalty-free; для больших тиражей — расширенная."
+            },
+            {
+              "t": "Доступ",
+              "d": "Вся библиотека Shutterstock."
+            }
+          ],
+          "links": [
+            "shutter-img-50"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "10 в месяц",
+              "d": "Маркетологу с небольшой регулярной потребностью."
+            },
+            {
+              "t": "50 в месяц",
+              "d": "Команда.",
+              "link": "shutter-img-50"
+            },
+            {
+              "t": "350 в месяц",
+              "d": "Издательский объём.",
+              "link": "shutter-img-350"
+            },
+            {
+              "t": "Adobe Stock 10",
+              "d": "Интеграция с Creative Cloud.",
+              "link": "adobe-stock-10"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Маркетологу с небольшой регулярной потребностью."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Оцените расход",
+              "d": "Если больше десяти в месяц — 50."
+            },
+            {
+              "t": "Видео",
+              "d": "Отдельная подписка."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Хватит ли десяти изображений?",
+          "a": "Для одного сайта и соцсетей обычно да."
+        }
+      ],
+      "related_products": [
+        "shutter-img-50",
+        "shutter-img-350",
+        "adobe-stock-10"
+      ],
+      "meta_title": "Shutterstock 10 изображений в месяц — подписка | BIZSoft",
+      "meta_description": "Shutterstock: 10 загрузок изображений в месяц по стандартной лицензии, годовая оплата. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "shutterstock 10 — hero"
+      ],
+      "uncertainties": [
+        "Перенос неиспользованных загрузок — по условиям вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "shutter-img-50": {
+      "sku": "SHTR-LIC-IMG50-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Shutterstock, 50 изображений в месяц — подписка на 1 год с годовой оплатой: 50 загрузок ежемесячно по стандартной лицензии — рабочий объём для команды дизайна или агентства. Лицензия организации на пользователя.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Shutterstock 50 изображений в месяц",
+          "kind": "items",
+          "items": [
+            {
+              "t": "50 загрузок",
+              "d": "Ежемесячно по стандартной лицензии."
+            },
+            {
+              "t": "Команда",
+              "d": "Объём под нескольких пользователей контента."
+            },
+            {
+              "t": "Расширенная лицензия",
+              "d": "Доплатой при необходимости."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "50 в месяц",
+              "d": "Дизайн-командам и агентствам."
+            },
+            {
+              "t": "10 в месяц",
+              "d": "Малый объём.",
+              "link": "shutter-img-10"
+            },
+            {
+              "t": "350 в месяц",
+              "d": "Максимум.",
+              "link": "shutter-img-350"
+            },
+            {
+              "t": "Adobe Stock 10",
+              "d": "Если команда уже в Adobe.",
+              "link": "adobe-stock-10"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайн-командам и агентствам."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пользователь",
+              "d": "Лицензия на одного; команде — несколько или Enterprise."
+            },
+            {
+              "t": "Перенос",
+              "d": "По условиям Shutterstock."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Переносятся ли неиспользованные загрузки?",
+          "a": "По условиям Shutterstock на дату заказа — уточняем."
+        }
+      ],
+      "related_products": [
+        "shutter-img-10",
+        "shutter-img-350",
+        "adobe-stock-10"
+      ],
+      "meta_title": "Shutterstock 50 изображений в месяц — подписка | BIZSoft",
+      "meta_description": "Shutterstock: 50 загрузок изображений в месяц по стандартной лицензии, годовая оплата. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "shutterstock 50 — hero"
+      ],
+      "uncertainties": [
+        "Перенос неиспользованных загрузок — по условиям вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "shutter-img-350": {
+      "sku": "SHTR-LIC-IMG350-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Shutterstock, 350 изображений в месяц — старшая позиция линейки с годовой оплатой: 350 загрузок в месяц по стандартной лицензии и минимальная цена за файл; оформляется на организацию для одного пользователя.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Shutterstock 350 изображений в месяц",
+          "kind": "items",
+          "items": [
+            {
+              "t": "350 загрузок",
+              "d": "Максимальный ежемесячный объём линейки."
+            },
+            {
+              "t": "Цена за файл",
+              "d": "Самая низкая."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Стандартная; расширенная — доплатой."
+            }
+          ],
+          "links": [
+            "shutter-img-50"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "350 в месяц",
+              "d": "Издательствам и крупным агентствам."
+            },
+            {
+              "t": "10 в месяц",
+              "d": "Малый объём.",
+              "link": "shutter-img-10"
+            },
+            {
+              "t": "50 в месяц",
+              "d": "Команда.",
+              "link": "shutter-img-50"
+            },
+            {
+              "t": "Adobe Stock 10",
+              "d": "Меньший объём с Creative Cloud.",
+              "link": "adobe-stock-10"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Издательствам и крупным агентствам."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "При потребности выше — договор Shutterstock."
+            },
+            {
+              "t": "Видео и музыка",
+              "d": "Отдельно."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли больший объём?",
+          "a": "Да, по договору Enterprise."
+        }
+      ],
+      "related_products": [
+        "shutter-img-50",
+        "shutter-img-10",
+        "adobe-stock-10"
+      ],
+      "meta_title": "Shutterstock 350 изображений в месяц — подписка | BIZSoft",
+      "meta_description": "Shutterstock: 350 загрузок изображений в месяц по стандартной лицензии, годовая оплата. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "shutterstock 350 — hero"
+      ],
+      "uncertainties": [
+        "Перенос неиспользованных загрузок — по условиям вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

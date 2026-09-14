@@ -1,0 +1,318 @@
+{
+  "family_key": "ZEPLIN",
+  "vendor": "Zeplin",
+  "vendor_profile": "data/content/vendors/zeplin.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "zeplin-advanced",
+  "classification_notes": [
+    "Advanced / Enterprise. Носитель — Advanced."
+  ],
+  "products": {
+    "zeplin-advanced": {
+      "sku": "ZPLN-LIC-ADVANCED-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Zeplin Advanced — командная подписка на 1 год на платформу передачи дизайна разработчикам: экспорт макетов из Figma и Sketch, спецификации, ассеты, стайлгайды, флоу и версии, неограниченные проекты; интеграции с Jira и Slack. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Zeplin Advanced",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Передача",
+              "d": "Спецификации, ассеты в нужных форматах, код стилей."
+            },
+            {
+              "t": "Организация",
+              "d": "Проекты без лимита, флоу, версии, стайлгайды."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Figma, Sketch, Jira, Slack, Storybook."
+            },
+            {
+              "t": "Роли",
+              "d": "Дизайнеры и разработчики."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced",
+              "d": "Команда с несколькими проектами."
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, SCIM, договор.",
+              "link": "zeplin-ent"
+            },
+            {
+              "t": "Figma Dev seat",
+              "d": "Handoff внутри Figma без Zeplin.",
+              "link": "figma-prof-dev"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Дублирование",
+              "d": "Если все в Figma, Dev Mode может заменить Zeplin."
+            },
+            {
+              "t": "Места",
+              "d": "Платные — активные участники."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, где разработчики не работают в Figma напрямую."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Зачем Zeplin при Figma Dev Mode?",
+          "a": "Ради стайлгайдов, флоу и фиксированных версий для разработки вне Figma."
+        }
+      ],
+      "related_products": [
+        "zeplin-ent",
+        "figma-prof-dev"
+      ],
+      "meta_title": "Zeplin Advanced — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Zeplin Advanced: передача дизайна разработчикам — спецификации, ассеты, стайлгайды, версии, интеграции. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "zeplin купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "zeplin-ent": {
+      "sku": "ZPLN-LIC-ENTERPRISE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Zeplin Enterprise — командный план корпоративного уровня на 1 год: всё из Advanced плюс SSO и SCIM, расширенные права и аудит, выделенная поддержка, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Zeplin Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Управление",
+              "d": "SSO, SCIM, аудит, роли."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенный менеджер."
+            },
+            {
+              "t": "Всё из Advanced",
+              "d": "Передача дизайна, стайлгайды."
+            }
+          ],
+          "links": [
+            "zeplin-advanced"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Сотни участников и ИБ-требования."
+            },
+            {
+              "t": "Advanced",
+              "d": "Десятки.",
+              "link": "zeplin-advanced"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Минимумы."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным продуктовым организациям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли on-premises?",
+          "a": "Нет."
+        }
+      ],
+      "related_products": [
+        "zeplin-advanced"
+      ],
+      "meta_title": "Zeplin Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Zeplin Enterprise: SSO, SCIM, аудит, выделенная поддержка; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "zeplin enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
