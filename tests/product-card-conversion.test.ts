@@ -113,10 +113,23 @@ describe('призыв называет результат', () => {
     // Одноразовое «Добавлено ✓» не давало ни состояния, ни способа
     // передумать: человек шёл искать корзину. Состояние называет сама кнопка —
     // подписью и знаком «+» / «×» (отдельный флажок снят 14.09.2026).
-    expect(page).toContain('Исключить из подборки');
     expect(page).toContain('removeFromCart');
     expect(page).toContain("addBtn?.classList.toggle('is-in', on);");
     expect(page).not.toContain('data-coll-check');
+  });
+
+  it('кнопка подборки не меняет размер при нажатии', () => {
+    // Растущая подпись двигала колонку под пальцем: обе подписи лежат в одной
+    // ячейке сетки, видимую переключает класс (постановка 14.09.2026).
+    expect(page).toContain('<span class="ct-add">Добавить в подборку</span>');
+    expect(page).toContain('<span class="ct-out">Исключить</span>');
+    expect(page).toContain('.coll-txt > span { grid-area: 1 / 1; }');
+    expect(page).toContain('.coll-btn.is-in .ct-add { visibility: hidden; }');
+    expect(page).toContain('.coll-btn.is-in .ct-out { visibility: visible; }');
+    // Перезапись подписи скриптом вернула бы скачок.
+    expect(page).not.toContain('collLabel.textContent');
+    // Полная фраза остаётся доступным именем кнопки.
+    expect(page).toContain("'Исключить из подборки для КП'");
   });
 
   it('окно заявки называет то, за чем пришли', () => {
@@ -507,9 +520,12 @@ describe('колонка покупки, решение руководителя
     expect(decl).toContain('border: 1.5px solid var(--color-accent)');
     expect(decl).toContain('background: var(--color-bg-card)');
     expect(decl).toContain('color: var(--color-accent)');
-    expect(decl).toContain('flex: 1 1 auto');
     // Жёсткая ширина без права сжаться вынесла бы кнопку за край колонки.
     expect(decl).toContain('min-width: 0');
+    // Подборка забирает остаток строки, вопрос стоит по содержимому: подпись
+    // вопроса не меняется, поэтому обе ширины постоянны (14.09.2026).
+    expect(page).toContain('.coll-btn { flex: 1 1 auto; }');
+    expect(page).toContain('.ask-btn { flex: 0 1 auto; }');
     // Заливка акцентом остаётся у главного призыва.
     expect(page).toContain('class="btn btn-primary btn-caps"');
     // Состав кнопки подборки повторяет плашку «Подборка для КП» из шапки.

@@ -629,7 +629,17 @@ try {
                     data-price={eff.price}
                   >
                     <CollectionMark size={18} />
-                    <span class="coll-txt" data-coll-label>Добавить в подборку</span>
+                    {/* Обе подписи лежат в одной ячейке сетки: видимая меняется
+                        по классу состояния, а ячейка всегда шириной и высотой
+                        с большую из двух. Кнопка поэтому не меняет размер при
+                        нажатии, и колонка под пальцем не прыгает (постановка
+                        руководителя 14.09.2026). Подпись «Исключить» короткая
+                        намеренно — длинная всё равно не влезла бы в ту же
+                        ячейку без переноса. */}
+                    <span class="coll-txt" data-coll-label>
+                      <span class="ct-add">Добавить в подборку</span>
+                      <span class="ct-out">Исключить</span>
+                    </span>
                     <svg class="coll-sign" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false">
                       <g class="sign-plus"><line x1="12" y1="4.5" x2="12" y2="19.5" /><line x1="4.5" y1="12" x2="19.5" y2="12" /></g>
                       <g class="sign-cross" opacity="0"><line x1="5.8" y1="5.8" x2="18.2" y2="18.2" /><line x1="18.2" y1="5.8" x2="5.8" y2="18.2" /></g>
@@ -1070,7 +1080,7 @@ try {
   /* Обе кнопки ряда — обводкой акцентом на белом: заливка в колонке одна, у
      главного призыва. Между собой они различаются знаком, а не весом. */
   .coll-btn, .ask-btn {
-    flex: 1 1 auto; min-width: 0;
+    min-width: 0;
     display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
     padding: 0.7rem 0.9rem;
     border: 1.5px solid var(--color-accent); border-radius: 980px;
@@ -1081,7 +1091,17 @@ try {
   }
   .coll-btn:hover, .ask-btn:hover { background: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg-card)); }
   .coll-btn:active, .ask-btn:active { transform: translateY(1px); }
-  .coll-txt { min-width: 0; }
+  /* Ячейка подписи — сетка из одной клетки: обе подписи стоят друг на друге,
+     размер клетки равен большей из них и не зависит от состояния. */
+  /* Подборка забирает остаток строки, вопрос стоит по содержимому: подпись
+     вопроса не меняется никогда, поэтому обе ширины постоянны. */
+  .coll-btn { flex: 1 1 auto; }
+  .ask-btn { flex: 0 1 auto; }
+  .coll-txt { min-width: 0; display: grid; }
+  .coll-txt > span { grid-area: 1 / 1; }
+  .ct-out { visibility: hidden; }
+  .coll-btn.is-in .ct-add { visibility: hidden; }
+  .coll-btn.is-in .ct-out { visibility: visible; }
   .coll-sign { flex: none; width: 16px; height: 16px; }
   .ask-ic { flex: none; width: 18px; height: 18px; }
   /* Позиция уже в подборке — плюс сменяется диагональным крестиком: кнопка
@@ -1414,16 +1434,15 @@ try {
   // Действие обратимое: пока позиция в подборке, кнопка предлагает исключить
   // и показывает крестик вместо плюса. Одноразовое «Добавлено ✓» не давало ни
   // состояния, ни способа передумать — покупатель шёл искать корзину.
-  const collLabel = document.querySelector<HTMLElement>('[data-coll-label]');
-
   function inCollection(): boolean {
     return readCart().some((i) => i.sku === (addBtn?.dataset.sku || ''));
   }
   function paintCollection() {
     const on = inCollection();
-    if (collLabel) collLabel.textContent = on ? 'Исключить из подборки' : 'Добавить в подборку';
-    // Знак — второй, не словесный признак состояния: плюс или крестик.
+    // Подпись и знак меняет один класс: обе подписи уже в разметке, и кнопка
+    // не меняет размер при нажатии. Перезапись textContent вернула бы скачок.
     addBtn?.classList.toggle('is-in', on);
+    addBtn?.setAttribute('aria-label', on ? 'Исключить из подборки для КП' : 'Добавить в подборку для КП');
   }
   function toggleCollection() {
     if (!addBtn) return;
