@@ -24,6 +24,7 @@ import VendorLogo from '../../components/VendorLogo.astro';
 import CollectionMark from '../../components/CollectionMark.astro';
 import { cardParams } from '../../lib/card-params';
 import TrustLines from '../../components/TrustLines.astro';
+import AssistBanner from '../../components/AssistBanner.astro';
 import { vendorContent } from '../../data/vendor-content';
 import { vendorSlug } from '../../lib/vendor-links';
 import { vendorBySlug } from '../../data/vendors';
@@ -872,24 +873,7 @@ try {
               {/* Помощь с выбором — другое намерение, чем запрос КП: человек
                   не знает, что выбрать, а не готов запрашивать предложение.
                   Письмо открывается с готовой темой и началом текста. */}
-              <div class="assist assist-inline">
-                <span class="assist-art" aria-hidden="true">
-                  <svg viewBox="0 0 96 80" fill="none" focusable="false">
-                    <circle cx="44" cy="40" r="36" fill="var(--assist-halo)" />
-                    <path d="M62 20H26a8 8 0 0 0-8 8v18a8 8 0 0 0 8 8h4v10l12-10h20a8 8 0 0 0 8-8V28a8 8 0 0 0-8-8Z" fill="var(--color-accent)" />
-                    <circle cx="32" cy="37" r="3" fill="#fff" /><circle cx="44" cy="37" r="3" fill="#fff" /><circle cx="56" cy="37" r="3" fill="#fff" />
-                    <path d="M76 38H58a6 6 0 0 0-6 6v12a6 6 0 0 0 6 6h10l8 7v-7a6 6 0 0 0 6-6V44a6 6 0 0 0-6-6Z" fill="var(--assist-bubble)" stroke="var(--color-bg-card)" stroke-width="3" />
-                  </svg>
-                </span>
-                <div class="assist-body">
-                  <h3>Не уверены, что выбран правильный план?</h3>
-                  <p>Подскажем, сравним варианты и поможем подобрать оптимальные условия.</p>
-                </div>
-                <a class="btn btn-primary assist-cta" href={askHref}>
-                  <span>Задать вопрос специалисту</span>
-                  <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" y1="12" x2="19" y2="12" /><polyline points="13,6 19,12 13,18" /></svg>
-                </a>
-              </div>
+              <AssistBanner href={askHref} variant="inline" />
             </div>
           </section>
         )}
@@ -898,24 +882,7 @@ try {
           <div class="prose-bizsoft block"><p>{product.seo_text}</p></div>
         )}
         {hasModules && (
-          <section class="sec"><div class="assist">
-              <span class="assist-art" aria-hidden="true">
-                <svg viewBox="0 0 96 80" fill="none" focusable="false">
-                  <circle cx="44" cy="40" r="36" fill="var(--assist-halo)" />
-                  <path d="M62 20H26a8 8 0 0 0-8 8v18a8 8 0 0 0 8 8h4v10l12-10h20a8 8 0 0 0 8-8V28a8 8 0 0 0-8-8Z" fill="var(--color-accent)" />
-                  <circle cx="32" cy="37" r="3" fill="#fff" /><circle cx="44" cy="37" r="3" fill="#fff" /><circle cx="56" cy="37" r="3" fill="#fff" />
-                  <path d="M76 38H58a6 6 0 0 0-6 6v12a6 6 0 0 0 6 6h10l8 7v-7a6 6 0 0 0 6-6V44a6 6 0 0 0-6-6Z" fill="var(--assist-bubble)" stroke="var(--color-bg-card)" stroke-width="3" />
-                </svg>
-              </span>
-              <div class="assist-body">
-                <h3>Не уверены, что выбран правильный план?</h3>
-                <p>Подскажем, сравним варианты и поможем подобрать оптимальные условия.</p>
-              </div>
-              <a class="btn btn-primary assist-cta" href={askHref}>
-                <span>Задать вопрос специалисту</span>
-                <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" y1="12" x2="19" y2="12" /><polyline points="13,6 19,12 13,18" /></svg>
-              </a>
-            </div></section>
+          <section class="sec"><AssistBanner href={askHref} /></section>
         )}
 
         <FAQ items={faq} title={gift ? 'Вопросы и ответы' : 'Частые вопросы'} columns={2} mark={true} allHref="/faq" />
@@ -1231,56 +1198,9 @@ try {
   .cmp .me { font-weight: 600; }
   .split { display: grid; grid-template-columns: minmax(0, 1fr) 328px; gap: 3rem; align-items: start; }
   .longread h3 { font-size: 1rem; margin: 1.6rem 0 0.6rem; }
-  /* Баннер помощи с выбором (решение руководителя 14.09.2026 по референсу):
-     мягкая акцентная заливка, рисунок слева, текст по центру, призыв справа.
-     Рисунок декоративный и построен на переменных — на тёмной теме он берёт
-     те же токены, а не зашитый цвет. */
-  .assist {
-    --assist-halo: color-mix(in srgb, var(--color-accent) 14%, transparent);
-    --assist-bubble: color-mix(in srgb, var(--color-text-dim) 24%, var(--color-bg-card));
-    /* Перенос обязателен: призыв не сжимается, и без него текстовая колонка
-       в узком контейнере схлопывалась до нуля — заголовок вставал столбиком
-       по букве, а кнопка уходила за край экрана (разбор 14.09.2026). */
-    display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
-    border-radius: var(--radius); padding: 1.3rem 1.5rem;
-    background: linear-gradient(100deg,
-      color-mix(in srgb, var(--color-accent) 12%, var(--color-bg-card)),
-      color-mix(in srgb, var(--color-accent) 4%, var(--color-bg-card)));
-  }
-  .assist-art { flex: none; width: 96px; }
-  .assist-art svg { display: block; width: 100%; height: auto; }
-  /* Базис, а не `auto`: текст требует себе 14rem, и когда строка перестаёт
-     их вмещать, ряд переносится — вместо того чтобы сжать текст в нить. */
-  .assist-body { flex: 1 1 14rem; min-width: 0; }
-  .assist h3 { font-size: 1.25rem; line-height: 1.25; margin: 0 0 0.4rem; }
-  .assist p { color: var(--color-text-muted); font-size: 0.92rem; line-height: 1.45; margin: 0; }
-  .assist-cta { flex: none; gap: 0.7rem; }
-  /* Только в строке: призыв не забирает всю фразу в одну линию — подпись
-     ложится в две строки, а освободившаяся ширина уходит заголовку, и тот
-     встаёт в две строки, как в референсе, а не в три узкие. В колонке
-     (`.assist-inline` и телефон) призыв, наоборот, во всю ширину. */
-  .assist:not(.assist-inline) .assist-cta { max-width: 13.5rem; text-align: left; }
-  /* В узкой колонке (вёрстка в две колонки) баннер складывается столбиком. */
-  .assist-inline { flex-direction: column; align-items: stretch; text-align: center; max-width: 328px; }
-  .assist-inline .assist-art { width: 88px; margin: 0 auto; }
-  .assist-inline .assist-cta { justify-content: center; }
-  /* В колонке главная ось вертикальная, и базис текста стал бы его высотой:
-     под абзацем открывался пустой провал в четырнадцать строк. Здесь текст
-     занимает ровно столько, сколько занимает. */
-  .assist-inline .assist-body { flex: 0 1 auto; }
-  /* На телефоне баннер складывается той же формой, что и в узкой колонке:
-     рисунок сверху, текст по центру, призыв во всю ширину. Переноса строки
-     недостаточно — кнопка встала бы по содержимому и палец мимо неё. */
-  @media (max-width: 700px) {
-    .assist { flex-direction: column; align-items: stretch; text-align: center; padding: 1.2rem 1.1rem; }
-    .assist-art { width: 88px; margin: 0 auto; }
-    .assist-body { flex: 0 1 auto; }
-    .assist h3 { font-size: 1.12rem; }
-    .assist:not(.assist-inline) .assist-cta { max-width: none; text-align: center; }
-    .assist-cta { justify-content: center; }
-  }
-
+  /* Баннер помощи с выбором — свой компонент со своими стилями:
+     `src/components/AssistBanner.astro`. Форму он выбирает по собственной
+     ширине (запрос к контейнеру), поэтому странице о нём знать нечего. */
   /* ── Прочее ──────────────────────────────────────────────────────── */
   .gallery { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.4rem; }
   .gthumb { padding: 0; border: 1px solid var(--color-border); border-radius: 10px; background: #fff; cursor: zoom-in; overflow: hidden; }
