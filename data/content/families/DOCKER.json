@@ -1,0 +1,459 @@
+{
+  "family_key": "DOCKER",
+  "vendor": "Docker, Inc.",
+  "vendor_profile": "data/content/vendors/docker.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "docker-team",
+  "classification_notes": [
+    "Pro (индивидуальный) / Team / Business. Носитель — Team."
+  ],
+  "products": {
+    "docker-pro": {
+      "sku": "DCKR-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Docker Pro — индивидуальная подписка на 1 год для одного разработчика: Docker Desktop с коммерческим использованием, Docker Hub с приватными репозиториями и повышенным лимитом загрузок образов, Docker Scout для анализа уязвимостей, Build Cloud в базовом объёме. Личный аккаунт.\n\nPro нужен там, где бесплатный Docker Desktop нельзя использовать по лицензии — в компаниях свыше 250 сотрудников или 10 млн долларов выручки; команде — Team или Business.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Docker Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Docker Desktop",
+              "d": "Лицензия на коммерческое использование Desktop на Windows, macOS, Linux."
+            },
+            {
+              "t": "Hub",
+              "d": "Приватные репозитории, 5 000 загрузок в сутки, история образов."
+            },
+            {
+              "t": "Scout",
+              "d": "Анализ уязвимостей образов с рекомендациями."
+            },
+            {
+              "t": "Build Cloud",
+              "d": "Минуты облачной сборки по тарифу."
+            }
+          ],
+          "links": [
+            "docker-team"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Один разработчик."
+            },
+            {
+              "t": "Team",
+              "d": "Команда с общими репозиториями и ролями.",
+              "link": "docker-team"
+            },
+            {
+              "t": "Business",
+              "d": "SSO, SCIM, управление Desktop, приватный доступ к Hub.",
+              "link": "docker-business"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Разработчику-одиночке или подрядчику в компании, где Desktop должен быть лицензирован."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Когда Docker Desktop нужно покупать?",
+          "a": "Если организация больше 250 сотрудников или 10 млн долларов выручки — бесплатная Personal-лицензия не подходит."
+        }
+      ],
+      "related_products": [
+        "docker-team",
+        "docker-business"
+      ],
+      "meta_title": "Docker Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Docker Pro: лицензированный Docker Desktop, приватные репозитории Hub, Scout, Build Cloud для одного разработчика. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "docker pro купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Лимиты загрузок и минуты Build Cloud — по прайсу Docker."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "docker-team": {
+      "sku": "DCKR-LIC-TEAM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Docker Team — командная подписка на 1 год для команды разработки: всё из Pro на каждого участника плюс общие приватные репозитории, роли и команды в Hub, аудит-лог, больше минут Build Cloud, централизованное управление лицензиями Desktop. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Docker Team",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Организация",
+              "d": "Команды, роли, общие репозитории, аудит."
+            },
+            {
+              "t": "Desktop",
+              "d": "Лицензии Desktop на всех участников, базовое управление настройками."
+            },
+            {
+              "t": "Scout и Build",
+              "d": "Анализ и облачная сборка на команду."
+            },
+            {
+              "t": "Хаб",
+              "d": "Повышенные лимиты загрузок."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Team",
+              "d": "Команда до сотен человек без SSO."
+            },
+            {
+              "t": "Business",
+              "d": "SSO, SCIM, Hardened Desktop, управление реестрами.",
+              "link": "docker-business"
+            },
+            {
+              "t": "Pro",
+              "d": "Один человек.",
+              "link": "docker-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Без SSO",
+              "d": "Вход по аккаунтам Docker."
+            },
+            {
+              "t": "Лимит",
+              "d": "Число мест — по договору Docker."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам разработки, которым нужен лицензированный Desktop и общий Hub."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли CI-агенты?",
+          "a": "Нет, лицензируются пользователи Desktop; CI без Desktop не требует мест."
+        }
+      ],
+      "related_products": [
+        "docker-business",
+        "docker-pro"
+      ],
+      "meta_title": "Docker Team — подписка на год | BIZSoft",
+      "meta_description": "Docker Team: лицензии Desktop на команду, общие приватные репозитории, роли, аудит, Build Cloud. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "docker team купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "docker-business": {
+      "sku": "DCKR-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Docker Business — командная подписка на 1 год для компаний с ИБ-требованиями: SSO и SCIM, централизованное управление настройками Desktop (Hardened Desktop, ограничение реестров и расширений), управление доступом к образам, расширенный аудит, приоритетная поддержка. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Docker Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Управление Desktop",
+              "d": "Политики, Hardened Desktop, Registry Access Management, Image Access Management."
+            },
+            {
+              "t": "Идентификация",
+              "d": "SSO, SCIM, принудительный вход."
+            },
+            {
+              "t": "Аудит и поддержка",
+              "d": "Расширенные журналы, приоритет."
+            },
+            {
+              "t": "Всё из Team",
+              "d": "Hub, Scout, Build Cloud."
+            }
+          ],
+          "links": [
+            "docker-team"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "ИБ требует контроля Desktop и SSO."
+            },
+            {
+              "t": "Team",
+              "d": "Команда без корпоративных требований.",
+              "link": "docker-team"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Team."
+            },
+            {
+              "t": "Развёртывание",
+              "d": "Требует настройки политик в консоли."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с политикой безопасности для рабочих станций разработчиков."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что такое Registry Access Management?",
+          "a": "Ограничение, из каких реестров Desktop может тянуть образы."
+        }
+      ],
+      "related_products": [
+        "docker-team"
+      ],
+      "meta_title": "Docker Business — подписка на год | BIZSoft",
+      "meta_description": "Docker Business: SSO, SCIM, Hardened Desktop, контроль реестров и образов, расширенный аудит. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "docker business — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
