@@ -4,6 +4,7 @@
  * Примеры — реальные названия каталога из выгрузки ops-export-products #23.
  */
 import { describe, expect, it } from 'vitest';
+import { cardParams } from '../src/lib/card-params';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { displayName, termLabel, termIsAssumed, monthsLabel, TERM } from '../src/lib/card-display';
@@ -151,7 +152,14 @@ describe('карточка использует заголовок и строк
     expect(page).toContain('const subtitleParts = [planLine, term]');
     // Срок один на всю карточку: строка, факты и параметры читают одно значение.
     expect(page).toContain('term: factTerm(term)');
-    expect(page).toContain('{term && <div class="prow"><span class="k">Срок:</span>');
+    // В параметрах это строка «Срок плана», её собирает cardParams из того же
+    // term (постановка руководителя 14.09.2026).
+    expect(page).toContain('  term,');
+    expect(cardParams({
+      vendorLegal: 'OpenAI, Inc.', category: 'Текстовые AI', planShort: 'Командный',
+      term: '1 год', sku: 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER', qtyLabel: 'Рабочих мест',
+      minQty: 2, vat: 5,
+    })).toContainEqual({ key: 'Срок плана', value: '1 год' });
     expect(page).not.toContain('cardMeta?.term');
   });
 

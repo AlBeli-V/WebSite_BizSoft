@@ -22,6 +22,7 @@ import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
 import VendorLogo from '../../components/VendorLogo.astro';
 import CollectionMark from '../../components/CollectionMark.astro';
+import { cardParams } from '../../lib/card-params';
 import { vendorContent } from '../../data/vendor-content';
 import { vendorSlug } from '../../lib/vendor-links';
 import { vendorBySlug } from '../../data/vendors';
@@ -185,6 +186,35 @@ const unitName = unitNoun(commerce.qtyLabel);
 const planLine = planMarker || PLAN_MARKER_UNIVERSAL;
 const term = termLabel(product, composition);
 const subtitleParts = [planLine, term].filter(Boolean) as string[];
+
+// Строки таблицы параметров: состав и порядок задаёт card-params.ts, значения
+// приходят отсюда — те же поля, что в плашках, подзаголовке и блоке цены.
+// Категория берётся из плашки под крошками, а не из product.category: у
+// пополнений и дополнений плашка называет основную категорию вендора, и
+// таблица обязана говорить то же, что навигация.
+const params = cardParams({
+  vendorLegal: vendorLegal(product.vendor),
+  category: categoryMarker?.name || '',
+  planShort,
+  term,
+  sku: product.sku,
+  unitField: product.unit_label,
+  qtyLabel: commerce.qtyLabel,
+  minQty: commerce.minQty,
+  vat: (!byRequest || isGift) ? vat : 0,
+  // Строки вида позиции идут после «Минимального количества», канонический
+  // порядок восьми параметров они не рвут. «Переназначение пользователей»
+  // снято постановкой 14.09.2026 — оно повторяет колонку ТРАНСФЕР блока
+  // фактов; «Управление» остаётся: это содержательное поле контента вендора,
+  // и больше его на карточке негде показать.
+  extra: [
+    ...(cardMeta?.management ? [{ key: 'Управление', value: cardMeta.management }] : []),
+    ...(isGift && giftRegions.length > 0 ? [
+      { key: 'Регионы', value: giftRegions.map((r) => `${r.name} (${r.currency})`).join(', ') },
+      { key: 'Номиналов', value: String(giftRegions.reduce((n, r) => n + r.variants.length, 0)) },
+    ] : []),
+  ],
+});
 
 // Блок фактов под описанием (правило docs/rules/card-lede-facts.md): три
 // колонки у любой позиции — срок действия плана, минимальное количество,
@@ -725,49 +755,24 @@ try {
 
         <section class="sec">
           <h2 class="sec-head"><i aria-hidden="true">/</i>Основные параметры</h2>
-          {/* Таблица без границ: строка — подпись и значение, а не ячейки
-              сетки. Полезные покупателю параметры идут выше административных,
-              артикул — последним: внутренний артикул BIZSoft при выборе не
-              используется. */}
+          {/* Состав, порядок и значения строк собирает `cardParams`
+              (src/lib/card-params.ts) — одна логика на весь каталог, а не
+              перечень в разметке: иначе порядок разъезжается от карточки к
+              карточке. Строка — подпись и значение на одной оси, значение
+              под подпись не переносится даже на телефоне (постановка
+              руководителя 14.09.2026, docs/rules/card-params.md). */}
           <div class="params">
-            {product.vendor && <div class="prow"><span class="k">Производитель:</span><span class="v">{vendorLegal(product.vendor)}</span></div>}
-            {planShort && <div class="prow"><span class="k">Тип плана:</span><span class="v">{planShort}</span></div>}
-            {term && <div class="prow"><span class="k">Срок:</span><span class="v">{term}</span></div>}
-            {(isUnitPlan || product.unit_label) && <div class="prow"><span class="k">Расчётная единица:</span><span class="v">{product.unit_label || unitName}</span></div>}
-            {isUnitPlan && <div class="prow"><span class="k">Минимальное количество:</span><span class="v">{commerce.minQty}</span></div>}
-            {cardMeta?.reassign && <div class="prow"><span class="k">Переназначение пользователей:</span><span class="v">{cardMeta.reassign}</span></div>}
-            {cardMeta?.management && <div class="prow"><span class="k">Управление:</span><span class="v">{cardMeta.management}</span></div>}
-            {category && <div class="prow"><span class="k">Категория:</span><span class="v">{category.name}</span></div>}
-            {product.license_type && LICENSE_LABEL[product.license_type] && (
-              <div class="prow"><span class="k">Тип использования:</span><span class="v">{LICENSE_LABEL[product.license_type]}</span></div>
-            )}
-            {isGift && giftRegions.length > 0 && (
-              <div class="prow"><span class="k">Регионы:</span><span class="v">{giftRegions.map((r) => `${r.name} (${r.currency})`).join(', ')}</span></div>
-            )}
-            {isGift && giftRegions.length > 0 && (
-              <div class="prow"><span class="k">Номиналов:</span><span class="v">{giftRegions.reduce((n, r) => n + r.variants.length, 0)}</span></div>
-            )}
-            {/* Объяснение налога переехало сюда из блока цены (14.09.2026).
-                В колонке покупки налог назван цифрой — у суммы и в ИТОГО, —
-                а «включён, не сверху, принимается к вычету» это ответ
-                бухгалтерии, и его место в параметрах. Совсем убирать текст
-                нельзя: до 12.09.2026 покупатель читал одну цифру и делал
-                вывод, что вычета не будет (`tests/taxation-consistency`). */}
-            {(!byRequest || isGift) && vat > 0 && (
+            {params.map((row) => (
               <div class="prow">
-                <span class="k">НДС:</span>
+                <span class="k">{row.key}:</span>
                 <span class="v">
-                  {vat}% (включено в стоимость)
-                  <span class="vat-note">
-                    Налог включён в цену, сверху не добавляется. В счёте, КП и
-                    закрывающих документах выделен отдельной строкой.
-                    {' '}Принимается к вычету, если вы на общей системе.
-                    {' '}<a href="/blog/zakryvayushchie-dokumenty-na-po">Подробнее о документах</a>
-                  </span>
+                  {row.key === 'Производитель' && vendorPageSlug && (
+                    <VendorLogo slug={vendorPageSlug} name={row.value} size={18} fluid />
+                  )}
+                  <span>{row.value}</span>
                 </span>
               </div>
-            )}
-            <div class="prow"><span class="k">Артикул BIZSoft:</span><span class="v">{product.sku}</span></div>
+            ))}
           </div>
         </section>
 
@@ -1110,12 +1115,19 @@ try {
   .incl-wide li { padding-left: 0.85rem; color: var(--color-text); }
   .incl-wide b { display: block; font-weight: 600; margin-bottom: 0.2rem; }
   .incl-wide p { margin: 0; color: var(--color-text-muted); font-size: 0.93rem; line-height: 1.55; max-width: 68ch; }
-  /* Параметры без границ ячеек: строка — подпись и значение. */
+  /* Параметры без границ ячеек. Строка — одна строка: подпись и значение на
+     общей вертикальной оси, значение не уезжает под подпись даже на телефоне
+     (постановка руководителя 14.09.2026). Поэтому flex, а не сетка с колонкой
+     фиксированной ширины: на узком экране подпись сжимается, но остаётся
+     слева. Знак вендора стоит в той же оси, что его название. */
   .params { display: grid; gap: 0.1rem; }
-  .prow { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--color-border); font-size: 0.93rem; }
-  .prow .k { color: var(--color-text-dim); }
-  .prow .v { color: var(--color-text); font-weight: 600; }
-  .vat-note { display: block; margin-top: 0.3rem; font-weight: 400; font-size: 0.85rem; line-height: 1.45; color: var(--color-text-muted); }
+  .prow { display: flex; align-items: center; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--color-border); font-size: 0.93rem; }
+  /* overflow-wrap: normal отменяет глобальное anywhere только для подписи:
+     иначе «Артикул:» ломался пополам («Артику / л:»), отдавая место длинному
+     артикулу справа. Значение правило не отменяет — там anywhere и держит
+     ширину страницы (global.css). */
+  .prow .k { flex: 0 0 290px; max-width: 52%; overflow-wrap: normal; color: var(--color-text-dim); }
+  .prow .v { flex: 1 1 auto; min-width: 0; display: inline-flex; align-items: center; gap: 0.45rem; color: var(--color-text); font-weight: 600; }
   .deal { display: grid; }
   .deal-row { display: grid; grid-template-columns: 52px 210px minmax(0, 1fr); gap: 1.2rem; padding: 1.3rem 0; border-top: 1px solid var(--color-border); align-items: start; }
   .deal-row:first-child { border-top: 0; padding-top: 0.3rem; }
@@ -1197,7 +1209,7 @@ try {
   @media (max-width: 1100px) {
     .product-layout { column-gap: 2.2rem; grid-template-columns: minmax(0, 1fr) 330px; }
     .split { grid-template-columns: minmax(0, 1fr); gap: 1.8rem; }
-    .prow { grid-template-columns: 220px minmax(0, 1fr); }
+    .prow .k { flex-basis: 220px; }
   }
   @media (max-width: 900px) {
     /* Одна колонка: порядок в разметке (экран → покупка → остальное) даёт
@@ -1223,7 +1235,15 @@ try {
     .deal-row { grid-template-columns: 44px minmax(0, 1fr); gap: 0.6rem 0.9rem; }
     .deal-row h3 { grid-column: 2; }
     .deal-row ul { grid-column: 2; }
-    .prow { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+  }
+  /* Параметры на телефоне: строка остаётся строкой. Подпись отдаёт
+     фиксированную ширину и сжимается по содержимому, кегль чуть мельче —
+     значение встаёт рядом с подписью, а не под ней. */
+  @media (max-width: 700px) {
+    .prow { gap: 0.6rem; font-size: 0.85rem; padding: 0.5rem 0; }
+    /* Подпись сжимается по содержимому, но не уже самого длинного слова:
+       переносы между словами остаются, внутри слова — нет. */
+    .prow .k { flex: 0 1 auto; min-width: min-content; }
   }
   /* На телефоне ячейки цены остаются рядом (решение руководителя
      13.09.2026): сумма чуть мельче, зазор меньше — колонку не складываем. */
