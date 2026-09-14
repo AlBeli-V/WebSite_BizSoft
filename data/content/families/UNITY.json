@@ -1,59 +1,56 @@
 {
-  "family_key": "WINDSURF",
-  "vendor": "Windsurf (Codeium)",
-  "vendor_profile": "data/content/vendors/windsurf.md",
+  "family_key": "UNITY",
+  "vendor": "Unity Technologies",
+  "vendor_profile": "data/content/vendors/unity.md",
   "content_version": "cm-1.0",
   "generated_at": "2026-09-13",
-  "carrier_slug": "windsurf-teams",
+  "carrier_slug": "unity-pro",
   "classification_notes": [
-    "Pro (индивидуальный) / Teams. Носитель — Teams."
+    "Pro / Enterprise. Носитель — Pro."
   ],
   "products": {
-    "windsurf-pro": {
-      "sku": "WNDS-LIC-PRO-IND-1Y-USER",
+    "unity-pro": {
+      "sku": "UNTY-LIC-PRO-TEAM-1Y-USER",
       "classification": {
         "nature": "mono",
-        "ownership": "individual",
+        "ownership": "team",
         "term": "subscription:1Y",
         "metric": "USER",
         "packaging": "edition_tier"
       },
-      "unit_label": "разработчик",
+      "unit_label": "место",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Windsurf Pro — индивидуальная подписка на 1 год на ИИ-редактор Windsurf (бывший Codeium) для одного разработчика: агент Cascade, автодополнение, чат по репозиторию, кредиты на премиальные модели по тарифу. Личный аккаунт.\n\nКомандные функции — администрирование, SSO, приватность на уровне организации — в Teams.\n\nСрок — 1 год.",
+      "short_description": "Unity Pro — командная подписка на 1 год на игровой движок Unity для студий с доходом выше порога бесплатной версии: полный редактор, консольные и мобильные платформы, сплэш-скрин на выбор, Unity Cloud, приоритетная поддержка. Места на организации.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Windsurf Pro",
+          "title": "Что даёт Unity Pro",
           "kind": "items",
           "items": [
             {
-              "t": "Cascade",
-              "d": "Агент, выполняющий многошаговые задачи по проекту."
+              "t": "Движок",
+              "d": "Редактор, рендер-пайплайны URP/HDRP, DOTS, все платформы."
             },
             {
-              "t": "Дополнение",
-              "d": "Supercomplete и чат с контекстом кода."
+              "t": "Сервисы",
+              "d": "Unity Cloud: сборки, Version Control, аналитика по тарифу."
             },
             {
-              "t": "Модели",
-              "d": "Кредиты на премиальные модели по тарифу."
+              "t": "Лицензия",
+              "d": "Места на разработчиков, назначение в Unity ID организации."
             },
             {
-              "t": "Один пользователь",
-              "d": "Личный аккаунт."
+              "t": "Обязательность",
+              "d": "Pro обязателен при доходе выше порога Unity."
             }
-          ],
-          "links": [
-            "windsurf-teams"
           ]
         },
         {
-          "code": "INDIVIDUAL_MODEL",
-          "title": "Индивидуальный план",
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
           "kind": "prose",
-          "body": "План на одного: вход под личным аккаунтом на своих устройствах, передача коллеге исключена условиями вендора."
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
         },
         {
           "code": "PLAN_COMPARE",
@@ -62,17 +59,32 @@
           "items": [
             {
               "t": "Pro",
-              "d": "Один разработчик."
+              "d": "Студия выше порога дохода."
             },
             {
-              "t": "Teams",
-              "d": "Команда с консолью и SSO.",
-              "link": "windsurf-teams"
+              "t": "Enterprise",
+              "d": "Крупная студия: SLA, консультации, расширенные сервисы — от 20 мест.",
+              "link": "unity-ent"
             },
             {
-              "t": "Cursor Business",
-              "d": "Альтернатива.",
-              "link": "cursor-business"
+              "t": "Unreal Engine",
+              "d": "Альтернативный движок.",
+              "link": "ue-sub"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Runtime Fee",
+              "d": "Правила Unity по оплате менялись; актуальные условия — на дату заказа."
+            },
+            {
+              "t": "Минимум",
+              "d": "Enterprise от 20 мест."
             }
           ]
         },
@@ -80,26 +92,26 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Разработчику, который пробует агентную разработку самостоятельно."
+          "body": "Игровым и индустриальным студиям на Unity."
         }
       ],
       "faq": [
         {
-          "q": "Что такое кредиты Windsurf?",
-          "a": "Единицы расхода премиальных моделей; базовые модели без кредитов."
+          "q": "Когда обязателен Pro?",
+          "a": "Если доход или привлечённые инвестиции организации выше порога Unity для Personal/Plus."
         }
       ],
       "related_products": [
-        "windsurf-teams",
-        "cursor-business"
+        "unity-ent",
+        "ue-sub"
       ],
-      "meta_title": "Windsurf Pro — подписка на год для юрлица | BIZSoft",
-      "meta_description": "Windsurf Pro: ИИ-редактор с агентом Cascade, автодополнением и кредитами на премиальные модели для одного разработчика. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Unity Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Unity Pro: полный движок и редактор, все платформы, Unity Cloud, приоритетная поддержка; места на организации. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "windsurf купить — hero"
+        "unity pro купить — hero, meta"
       ],
       "uncertainties": [
-        "Объём кредитов — по прайсу Windsurf."
+        "Порог дохода и условия Runtime Fee — по правилам Unity на дату заказа."
       ],
       "legacy_disposition": {
         "features": "→ модули; опустошить",
@@ -118,11 +130,11 @@
           "source": "профиль/официальный сайт вендора"
         },
         {
-          "module": "INDIVIDUAL_MODEL",
+          "module": "TEAM_MODEL",
           "question": "—",
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
-          "decision": "FIT",
+          "decision": "UNDERSTAND",
           "seo_intent": "—",
           "source": "профиль/официальный сайт вендора"
         },
@@ -132,6 +144,15 @@
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
           "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
           "seo_intent": "—",
           "source": "профиль/официальный сайт вендора"
         },
@@ -146,8 +167,8 @@
         }
       ]
     },
-    "windsurf-teams": {
-      "sku": "WNDS-LIC-TEAMS-TEAM-1Y-USER",
+    "unity-ent": {
+      "sku": "UNTY-LIC-ENTERPRISE-TEAM-1Y-USER",
       "classification": {
         "nature": "mono",
         "ownership": "team",
@@ -158,32 +179,39 @@
       "unit_label": "место",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Windsurf Teams — командная подписка на 1 год на Windsurf для команды: всё из Pro на каждое место плюс админ-консоль, SSO, приватность кода на уровне организации, аналитика использования, общий пул кредитов. Места на организации.\n\nСрок — 1 год.",
+      "short_description": "Unity Enterprise — командный план Unity корпоративного уровня на 1 год: всё из Pro плюс расширенные сервисы, техподдержка с SLA, доступ к исходному коду по договору, консультации. Минимум 20 мест; цена по запросу.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Windsurf Teams",
+          "title": "Что даёт Unity Enterprise",
           "kind": "items",
           "items": [
             {
-              "t": "Команда",
-              "d": "Консоль, роли, аналитика, пул кредитов."
+              "t": "Поддержка",
+              "d": "SLA, выделенные инженеры, консультации."
             },
             {
-              "t": "Безопасность",
-              "d": "SSO, код не используется для обучения."
+              "t": "Исходники",
+              "d": "Доступ к исходному коду движка — по договору."
+            },
+            {
+              "t": "Сервисы",
+              "d": "Расширенные квоты Unity Cloud."
             },
             {
               "t": "Всё из Pro",
-              "d": "Cascade, дополнение, чат."
+              "d": "Движок и платформы."
             }
+          ],
+          "links": [
+            "unity-pro"
           ]
         },
         {
           "code": "TEAM_MODEL",
           "title": "Командная модель",
           "kind": "prose",
-          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
         },
         {
           "code": "PLAN_COMPARE",
@@ -191,17 +219,13 @@
           "kind": "items",
           "items": [
             {
-              "t": "Teams",
-              "d": "Команда с администрированием."
+              "t": "Enterprise",
+              "d": "От 20 разработчиков и требования к поддержке."
             },
             {
               "t": "Pro",
-              "d": "Один человек.",
-              "link": "windsurf-pro"
-            },
-            {
-              "t": "Enterprise",
-              "d": "Self-hosted и договор — по запросу."
+              "d": "Меньше 20 мест.",
+              "link": "unity-pro"
             }
           ]
         },
@@ -211,12 +235,12 @@
           "kind": "items",
           "items": [
             {
-              "t": "Кредиты",
-              "d": "Пул на команду; сверх — доплата."
+              "t": "Минимум 20",
+              "d": "Мест."
             },
             {
-              "t": "Self-hosted",
-              "d": "Только Enterprise."
+              "t": "Договор",
+              "d": "Цикл согласования."
             }
           ]
         },
@@ -224,22 +248,22 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Командам разработки, выбравшим Windsurf."
+          "body": "Крупным студиям и корпорациям с Unity в продуктах."
         }
       ],
       "faq": [
         {
-          "q": "Можно ли развернуть Windsurf у себя?",
-          "a": "В Enterprise — да, по запросу."
+          "q": "Даёт ли Enterprise исходный код?",
+          "a": "По отдельному соглашению в рамках Enterprise."
         }
       ],
       "related_products": [
-        "windsurf-pro"
+        "unity-pro"
       ],
-      "meta_title": "Windsurf Teams — подписка на год | BIZSoft",
-      "meta_description": "Windsurf Teams: ИИ-редактор для команды с консолью, SSO, приватностью и общим пулом кредитов; места на организации. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Unity Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Unity Enterprise: Pro плюс SLA-поддержка, консультации, доступ к исходникам по договору; от 20 мест. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "windsurf teams — hero"
+        "unity enterprise — hero"
       ],
       "uncertainties": [],
       "legacy_disposition": {

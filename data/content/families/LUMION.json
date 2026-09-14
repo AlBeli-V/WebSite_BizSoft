@@ -1,16 +1,16 @@
 {
-  "family_key": "DROPBOX",
-  "vendor": "Dropbox",
-  "vendor_profile": "data/content/vendors/dropbox.md",
+  "family_key": "LUMION",
+  "vendor": "Lumion (Act-3D)",
+  "vendor_profile": "data/content/vendors/lumion.md",
   "content_version": "cm-1.0",
   "generated_at": "2026-09-13",
-  "carrier_slug": "dropbox-standard",
+  "carrier_slug": "lumion-pro",
   "classification_notes": [
-    "Plus (индивидуальный) / Standard / Advanced. Носитель — Standard."
+    "View / Pro / Pro floating. Носитель — Pro."
   ],
   "products": {
-    "dropbox-plus": {
-      "sku": "DRBX-LIC-PLUS-IND-1Y-USER",
+    "lumion-view": {
+      "sku": "LMON-LIC-VIEW-IND-1Y-USER",
       "classification": {
         "nature": "mono",
         "ownership": "individual",
@@ -21,32 +21,28 @@
       "unit_label": "пользователь",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Dropbox Plus — индивидуальная подписка на 1 год на облачное хранилище 2 ТБ для одного пользователя: синхронизация на всех устройствах, история версий 30 дней, восстановление файлов, передача больших файлов Dropbox Transfer, оффлайн-папки. Личный аккаунт.\n\nКомандные планы Standard и Advanced дают общее хранилище, консоль и права.\n\nСрок — 1 год.",
+      "short_description": "Lumion View — индивидуальная подписка на 1 год на визуализацию в реальном времени внутри CAD: Lumion работает как плагин к Revit, SketchUp, Archicad и Rhino, рендерит сцену синхронно с моделью, без отдельного приложения. Личный аккаунт.\n\nView — для архитектора, которому нужны быстрые картинки по ходу проектирования; полноценные сцены, анимации и библиотека — в Lumion Pro.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Dropbox Plus",
+          "title": "Что даёт Lumion View",
           "kind": "items",
           "items": [
             {
-              "t": "Хранилище",
-              "d": "2 ТБ, синхронизация, Smart Sync без занятия диска."
+              "t": "В CAD",
+              "d": "Рендер в реальном времени из Revit, SketchUp, Archicad, Rhino."
             },
             {
-              "t": "Защита",
-              "d": "История 30 дней, восстановление, удалённое стирание устройства."
+              "t": "Материалы и свет",
+              "d": "Автоматические материалы, освещение, окружение."
             },
             {
-              "t": "Обмен",
-              "d": "Ссылки с паролем и сроком, Transfer до 50 ГБ."
-            },
-            {
-              "t": "Один пользователь",
-              "d": "Личный аккаунт; передаче не подлежит."
+              "t": "Вывод",
+              "d": "Изображения; анимации и полная библиотека — в Pro."
             }
           ],
           "links": [
-            "dropbox-standard"
+            "lumion-pro"
           ]
         },
         {
@@ -61,18 +57,18 @@
           "kind": "items",
           "items": [
             {
-              "t": "Plus",
-              "d": "Один сотрудник."
+              "t": "View",
+              "d": "Картинки по ходу проектирования."
             },
             {
-              "t": "Standard",
-              "d": "Команда с общим хранилищем и консолью.",
-              "link": "dropbox-standard"
+              "t": "Pro",
+              "d": "Полный Lumion: библиотека, анимации, сцены.",
+              "link": "lumion-pro"
             },
             {
-              "t": "Advanced",
-              "d": "Безлимитное хранилище, расширенное управление.",
-              "link": "dropbox-advanced"
+              "t": "Pro плавающая",
+              "d": "Pro на команду посменно.",
+              "link": "lumion-pro-floating"
             }
           ]
         },
@@ -80,23 +76,23 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Сотруднику, которому нужен персональный облачный диск."
+          "body": "Архитекторам для промежуточных визуализаций."
         }
       ],
       "faq": [
         {
-          "q": "Можно ли объединить несколько Plus в команду?",
-          "a": "Нет, для команды — Standard."
+          "q": "Нужен ли Lumion Pro рядом с View?",
+          "a": "Нет, View самостоятелен; Pro — для финальных рендеров."
         }
       ],
       "related_products": [
-        "dropbox-standard",
-        "dropbox-advanced"
+        "lumion-pro",
+        "lumion-pro-floating"
       ],
-      "meta_title": "Dropbox Plus — подписка на год для юрлица | BIZSoft",
-      "meta_description": "Dropbox Plus: 2 ТБ облака для одного пользователя, синхронизация, история версий, Transfer. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Lumion View — подписка на год | BIZSoft",
+      "meta_description": "Lumion View: визуализация в реальном времени внутри Revit, SketchUp, Archicad и Rhino без отдельного приложения. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "dropbox plus купить — hero"
+        "lumion view — hero"
       ],
       "uncertainties": [],
       "legacy_disposition": {
@@ -144,48 +140,48 @@
         }
       ]
     },
-    "dropbox-standard": {
-      "sku": "DRBX-LIC-STANDARD-TEAM-1Y-USER",
+    "lumion-pro": {
+      "sku": "LMON-LIC-PRO-IND-1Y-USER",
       "classification": {
         "nature": "mono",
-        "ownership": "team",
+        "ownership": "individual",
         "term": "subscription:1Y",
         "metric": "USER",
         "packaging": "edition_tier"
       },
-      "unit_label": "место",
+      "unit_label": "пользователь",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Dropbox Standard — командная подписка на 1 год на облачное хранилище компании: 5 ТБ общего пространства на команду, консоль администратора, папки команды с правами, история версий 180 дней, восстановление, Dropbox Transfer, интеграции с Microsoft 365 и Google. Лицензии на организации, минимум 3 пользователя.\n\nСрок — 1 год.",
+      "short_description": "Lumion Pro — индивидуальная подписка на 1 год на архитектурную визуализацию: сцены с библиотекой из тысяч объектов, материалов и растений, рендер изображений, панорам и анимаций, LiveSync с Revit, SketchUp, Archicad, Rhino, Vectorworks. Личный аккаунт.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Dropbox Standard",
+          "title": "Что даёт Lumion Pro",
           "kind": "items",
           "items": [
             {
-              "t": "Хранилище",
-              "d": "5 ТБ на команду, папки команды, права на папки."
+              "t": "Библиотека",
+              "d": "Тысячи моделей, растений, людей, материалов."
             },
             {
-              "t": "Администрирование",
-              "d": "Консоль, аудит активности, удалённое стирание."
+              "t": "Вывод",
+              "d": "Изображения, 360°-панорамы, видео, ray tracing."
             },
             {
-              "t": "Защита",
-              "d": "История и восстановление 180 дней, ссылки с паролем."
+              "t": "LiveSync",
+              "d": "Синхронизация с CAD в реальном времени."
             },
             {
-              "t": "Интеграции",
-              "d": "Microsoft 365, Google Workspace, Slack, Zoom."
+              "t": "Один пользователь",
+              "d": "Именная лицензия."
             }
           ]
         },
         {
-          "code": "TEAM_MODEL",
-          "title": "Командная модель",
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
           "kind": "prose",
-          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
+          "body": "Подписка привязана к аккаунту специалиста и не переносится между людьми; для ротации сотрудников нужен командный план, если он есть у вендора."
         },
         {
           "code": "PLAN_COMPARE",
@@ -193,33 +189,18 @@
           "kind": "items",
           "items": [
             {
-              "t": "Standard",
-              "d": "Команда с общим диском."
+              "t": "Pro",
+              "d": "Один визуализатор."
             },
             {
-              "t": "Advanced",
-              "d": "Столько хранилища, сколько нужно, SSO, расширенный аудит.",
-              "link": "dropbox-advanced"
+              "t": "Pro плавающая",
+              "d": "Несколько сотрудников посменно.",
+              "link": "lumion-pro-floating"
             },
             {
-              "t": "Plus",
-              "d": "Один пользователь.",
-              "link": "dropbox-plus"
-            }
-          ]
-        },
-        {
-          "code": "TRADEOFFS",
-          "title": "Что учитывать",
-          "kind": "items",
-          "items": [
-            {
-              "t": "Минимум 3",
-              "d": "Меньше — индивидуальные Plus."
-            },
-            {
-              "t": "Хранилище",
-              "d": "5 ТБ общее, не на пользователя."
+              "t": "View",
+              "d": "Только картинки в CAD.",
+              "link": "lumion-view"
             }
           ]
         },
@@ -227,23 +208,23 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Небольшим командам с общими файлами и одним администратором."
+          "body": "Архитектурным бюро с финальной визуализацией проектов."
         }
       ],
       "faq": [
         {
-          "q": "Можно ли добавить пользователей в течение года?",
-          "a": "Да, доплатой с выравниванием срока."
+          "q": "Требования к GPU?",
+          "a": "Высокие: современная видеокарта уровня RTX для комфортной работы."
         }
       ],
       "related_products": [
-        "dropbox-advanced",
-        "dropbox-plus"
+        "lumion-pro-floating",
+        "lumion-view"
       ],
-      "meta_title": "Dropbox Standard — подписка на год для юрлица | BIZSoft",
-      "meta_description": "Dropbox Standard: 5 ТБ на команду, папки с правами, консоль, история 180 дней; от 3 пользователей. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Lumion Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Lumion Pro: архитектурная визуализация с библиотекой объектов, анимациями, панорамами и LiveSync с CAD. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "dropbox standard купить — hero, meta"
+        "lumion pro купить — hero, meta"
       ],
       "uncertainties": [],
       "legacy_disposition": {
@@ -263,11 +244,11 @@
           "source": "профиль/официальный сайт вендора"
         },
         {
-          "module": "TEAM_MODEL",
+          "module": "INDIVIDUAL_MODEL",
           "question": "—",
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
-          "decision": "UNDERSTAND",
+          "decision": "FIT",
           "seo_intent": "—",
           "source": "профиль/официальный сайт вендора"
         },
@@ -277,15 +258,6 @@
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
           "decision": "COMPARE",
-          "seo_intent": "—",
-          "source": "профиль/официальный сайт вендора"
-        },
-        {
-          "module": "TRADEOFFS",
-          "question": "—",
-          "new_information": "см. текст",
-          "sibling_overlap": "общее — на носителе",
-          "decision": "LIMITATIONS",
           "seo_intent": "—",
           "source": "профиль/официальный сайт вендора"
         },
@@ -300,8 +272,8 @@
         }
       ]
     },
-    "dropbox-advanced": {
-      "sku": "DRBX-LIC-ADVANCED-TEAM-1Y-USER",
+    "lumion-pro-floating": {
+      "sku": "LMON-LIC-PROFLOAT-TEAM-1Y-USER",
       "classification": {
         "nature": "mono",
         "ownership": "team",
@@ -312,39 +284,35 @@
       "unit_label": "место",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Dropbox Advanced — командная подписка на 1 год для компаний с большими объёмами: хранилище по потребности (от 15 ТБ на команду с расширением), SSO, расширенное управление устройствами и общим доступом, аудит и отчёты, история версий год. Оформляется на компанию от трёх пользователей; подписка годовая.",
+      "short_description": "Lumion Pro, плавающая лицензия — командная подписка на 1 год на Lumion Pro для организации, где лицензию по очереди используют разные сотрудники: одновременно работает один, переключение через аккаунт компании без переустановки. Состав — как у Lumion Pro.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Dropbox Advanced",
+          "title": "Что даёт Lumion Pro (плавающая)",
           "kind": "items",
           "items": [
             {
-              "t": "Хранилище",
-              "d": "От 15 ТБ на команду с ростом по запросу."
+              "t": "Плавающая",
+              "d": "Один активный пользователь в момент времени, любой сотрудник."
+            },
+            {
+              "t": "Состав",
+              "d": "Полный Lumion Pro."
             },
             {
               "t": "Управление",
-              "d": "SSO, многоуровневое администрирование, контроль общего доступа."
-            },
-            {
-              "t": "Аудит",
-              "d": "Журналы, отчёты, история 365 дней."
-            },
-            {
-              "t": "Всё из Standard",
-              "d": "Консоль, папки, интеграции."
+              "d": "Аккаунт организации, назначение администратором."
             }
           ],
           "links": [
-            "dropbox-standard"
+            "lumion-pro"
           ]
         },
         {
           "code": "TEAM_MODEL",
           "title": "Командная модель",
           "kind": "prose",
-          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
         },
         {
           "code": "PLAN_COMPARE",
@@ -352,13 +320,13 @@
           "kind": "items",
           "items": [
             {
-              "t": "Advanced",
-              "d": "Много данных, SSO, аудит."
+              "t": "Плавающая",
+              "d": "Визуализация нужна нескольким людям по очереди."
             },
             {
-              "t": "Standard",
-              "d": "5 ТБ и базовое управление.",
-              "link": "dropbox-standard"
+              "t": "Pro именная",
+              "d": "Один постоянный визуализатор.",
+              "link": "lumion-pro"
             }
           ]
         },
@@ -368,12 +336,12 @@
           "kind": "items",
           "items": [
             {
-              "t": "Минимум 3",
-              "d": "Как у Standard."
+              "t": "Одна сессия",
+              "d": "Двое одновременно не смогут."
             },
             {
-              "t": "Объём",
-              "d": "Расширение сверх стартового — по запросу."
+              "t": "Цена",
+              "d": "Выше именной."
             }
           ]
         },
@@ -381,26 +349,24 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Компаниям, которые хранят в Dropbox проектные архивы и требуют аудита."
+          "body": "Бюро, где рендерят несколько архитекторов, но не одновременно."
         }
       ],
       "faq": [
         {
-          "q": "Безлимитно ли хранилище?",
-          "a": "Стартовый объём фиксирован, расширяется по запросу — не безлимит по умолчанию."
+          "q": "Сколько станций можно подготовить?",
+          "a": "Любое число; активна одна сессия."
         }
       ],
       "related_products": [
-        "dropbox-standard"
+        "lumion-pro"
       ],
-      "meta_title": "Dropbox Advanced — подписка на год | BIZSoft",
-      "meta_description": "Dropbox Advanced: хранилище от 15 ТБ на команду, SSO, аудит, история версий год; от 3 пользователей. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Lumion Pro плавающая лицензия — подписка | BIZSoft",
+      "meta_description": "Lumion Pro плавающая: полный Lumion Pro для организации с использованием по очереди разными сотрудниками. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "dropbox advanced — hero"
+        "lumion floating — hero"
       ],
-      "uncertainties": [
-        "Стартовый объём Advanced — по прайсу Dropbox."
-      ],
+      "uncertainties": [],
       "legacy_disposition": {
         "features": "→ модули; опустошить",
         "description": "→ модули; опустошить",
