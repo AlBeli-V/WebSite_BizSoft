@@ -80,6 +80,13 @@ desktop → списки UX SAFE и SEO IMPACT → **остановка** → и
 7. **Приёмка**: `pnpm test`, `pnpm typecheck`, `pnpm build`, `pnpm smoke`,
    `pnpm check:mobile`.
 
+Текст карточки любого из этих видов пишется тем же конвейером, что и у
+типовой подписки, — профиль вендора, семейство, валидатор (навык
+`vendor-page-rebuild`, п. 6а). Матрица модулей там задаёт для `credit`
+`CREDIT_USAGE`, `PLAN_COMPARE`, `FIT` и `BEFORE_ORDER`, для `addon` —
+`ADDON_SCOPE`, `DEPENDENCIES` и `FIT`, и запрещает обоим «Что входит»,
+командную модель и счётчик мест.
+
 ## Границы
 
 - Первая плашка называет вид позиции: у пополнения и номинала —
