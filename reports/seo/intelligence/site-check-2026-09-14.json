@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-09-14T06:06:19+00:00",
+ "checked_at": "2026-09-14T08:07:54+00:00",
  "experiments": {
   "snippets-5-vendors": {
    "pages_total": 5,
@@ -298,7 +298,7 @@
   "content-10-clusters": {
    "pages_total": 20,
    "pages_recrawled": 20,
-   "new_snippets_detected": 20,
+   "new_snippets_detected": 19,
    "pages": [
     {
      "page": "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
@@ -401,9 +401,9 @@
     {
      "page": "/vendors/box",
      "http_ok": true,
-     "title": "Купить Box для юрлица — тарифы, счёт и КП — BIZSoft",
-     "faqpage_blocks": 1,
-     "new_snippet_detected": true
+     "title": "502 Bad Gateway",
+     "faqpage_blocks": 0,
+     "new_snippet_detected": false
     },
     {
      "page": "/vendors/cloudflare",
