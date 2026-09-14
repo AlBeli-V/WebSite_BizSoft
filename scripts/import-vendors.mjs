@@ -50,7 +50,9 @@ const files = readdirSync(CATALOG_DIR)
 if (files.length === 0) { console.error('нет пакетов в scripts/catalog/'); process.exit(1); }
 
 // Колонки листа «Товары» (схема штатного импорта, см. src/lib/bulk-import.ts).
-const COLS = ['sku', 'name', 'vendor', 'origin', 'category', 'license_type',
+// slug — адрес карточки; импорт принимает его только при заведении новой
+// позиции (src/lib/bulk-import.ts), у существующей строка игнорируется.
+const COLS = ['sku', 'slug', 'name', 'vendor', 'origin', 'category', 'license_type',
   'short_description', 'description', 'keywords',
   'base_price_usd', 'peg_currency', 'markup_coeff', 'price_locked',
   'price', 'price_note', 'vat_percent', 'currency', 'features', 'status', 'sort',
@@ -78,6 +80,7 @@ for (const f of files) {
     }
     rows.push({
       sku: p.sku || '',
+      slug: p.slug || '',
       name: p.name,
       vendor,
       origin: 'Иностранное',
