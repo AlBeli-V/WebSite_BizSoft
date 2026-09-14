@@ -1,0 +1,56 @@
+{
+  "purpose": "Классы внешних переходов для блока «Аудитория» отчёта Growth Intelligence: каталог или площадка. Домен, которого здесь нет, попадает в «внешние ссылки» — догадок классификатор не делает.",
+  "rule": "docs/rules/audience-devices.md",
+  "match": "по суффиксу домена: запись vc.ru покрывает vc.ru и m.vc.ru, но не myvc.ru",
+  "classes": {
+    "catalogs": {
+      "title": "Внешние каталоги",
+      "description": "Каталоги и справочники программного обеспечения, агрегаторы и маркетплейсы лицензий: площадки, где карточка продукта стоит рядом с карточками конкурентов.",
+      "domains": [
+        "soware.ru",
+        "startpack.ru",
+        "tadviser.ru",
+        "cnews.ru",
+        "otzyvmarketing.ru",
+        "itsoft.ru",
+        "reestr.digital.gov.ru",
+        "catalog.apkit.ru",
+        "b2b-center.ru",
+        "softkey.ru",
+        "allsoft.ru",
+        "yandex.ru/maps",
+        "2gis.ru",
+        "zoon.ru",
+        "rusprofile.ru",
+        "list-org.com"
+      ]
+    },
+    "platforms": {
+      "title": "Внешние площадки",
+      "description": "Площадки, где мы публикуем материалы и ведём присутствие: контент-платформы, соцсети, видео, мессенджеры и сообщества.",
+      "domains": [
+        "dzen.ru",
+        "zen.yandex.ru",
+        "vc.ru",
+        "spark.ru",
+        "tenchat.ru",
+        "habr.com",
+        "pikabu.ru",
+        "t.me",
+        "telegram.org",
+        "vk.com",
+        "vk.ru",
+        "ok.ru",
+        "youtube.com",
+        "rutube.ru",
+        "linkedin.com",
+        "facebook.com",
+        "instagram.com",
+        "x.com",
+        "twitter.com",
+        "pinterest.com",
+        "reddit.com"
+      ]
+    }
+  }
+}

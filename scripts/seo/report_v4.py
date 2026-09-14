@@ -5,7 +5,7 @@
 состояние экспериментов и следующие контрольные точки. Порядок блоков фиксирован:
 
   A Header · B Status bar · C От вас · D Четыре показателя · E Сигналы дня ·
-  E-а Заявки за сутки · E-б Реклама · F Драйверы и детракторы ·
+  E-а Заявки за сутки · E-б Реклама · E-в Аудитория · F Драйверы и детракторы ·
   G Контроль экспериментов · H Автономное исполнение · I Радар возможностей ·
   J Здоровье данных и риски · K Контрольные точки · L Ссылки
 
@@ -30,6 +30,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "viz"))
 
 import ads_block                      # noqa: E402
+import audience_block as audience_mod       # noqa: E402
 import charts_v4                      # noqa: E402
 import kpi_kit as kit                 # noqa: E402
 import drivers as drivers_mod         # noqa: E402
@@ -993,6 +994,10 @@ def assemble(snap, prev, dq, actions_cfg, site_check):
             date, (snap.get("analytics") or {}).get("metrika", {})
             .get("direct_attribution")),
         "growth_ideas": growth_ideas,
+        # Аудитория: показы по устройствам и визиты по каналам (постановка
+        # руководителя 14.09.2026). Считается из дневной витрины, а не из
+        # снимка: разрез живёт полными окнами, как и карточки показателей.
+        "audience": audience_mod.build(date),
         "measurement_summary": _measurement_summary(dq),
         "checkpoints": _checkpoints(exps, actions_cfg, date),
         "links": {"web": url, "web_public": public,
@@ -1709,6 +1714,116 @@ def _tech_issue_text(issues: list[dict]) -> str:
     return "; ".join(out)
 
 
+def _audience_period(block: dict) -> str:
+    """Окна обеих таблиц строкой: у поиска и аналитики они разной свежести."""
+    parts = []
+    for key, label in (("impressions", "показы"), ("visits", "визиты")):
+        period = (block.get(key) or {}).get("period")
+        if period:
+            parts.append(f"{label} {ru_date(period['current']['from'])}–"
+                         f"{ru_date(period['current']['to'])}")
+    return " · ".join(parts)
+
+
+def _audience_tile(tile: dict, devices: list[str]) -> str:
+    """Плитка блока «Аудитория»: итог недели, динамика и состав устройств."""
+    if not tile.get("available"):
+        return kit.email_tile(tile["title"], num(None), "",
+                              note=f"Нет данных: {tile.get('reason', '')}",
+                              muted=True)
+    split = " · ".join(
+        f"{audience_mod.DEVICE_LABEL[d]} {pct((tile.get('shares') or {}).get(d), 0)}"
+        for d in devices if (tile.get("devices") or {}).get(d) is not None)
+    rel = tile.get("delta_pct")
+    return kit.email_tile(
+        tile["title"], num(tile["total"]), tile["unit"],
+        delta=signed_pct(rel) or None,
+        direction=kit.delta_dir(rel) if rel is not None else None,
+        note=split,
+        meta=f"{tile['source_label']} · к прошлой неделе "
+             f"{signed(tile.get('delta')) if rel is not None else 'сравнение не публикуется: низкая база'}")
+
+
+def _audience_channel_table(block: dict, devices: list[str]) -> str:
+    """Таблица визитов: канал × устройство, блоком на каждую систему учёта."""
+    head = ("<tr>"
+            f"<th align=\"left\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+            f"font-weight:700;padding:0 0 6px;\">Канал</th>"
+            f"<th align=\"right\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+            f"font-weight:700;padding:0 0 6px 8px;\">Всего</th>"
+            + "".join(
+                f"<th align=\"right\" style=\"font-size:12.5px;"
+                f"color:{T['text_secondary']};font-weight:700;padding:0 0 6px 8px;\">"
+                f"{audience_mod.DEVICE_SHORT[d]}</th>" for d in devices)
+            + f"<th align=\"right\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+              f"font-weight:700;padding:0 0 6px 8px;\">Δ нед.</th></tr>")
+    parts = []
+    for blk in (block.get("visits") or {}).get("blocks", []):
+        title = f"{blk['label']} · {blk['source_label']}"
+        if not blk.get("available"):
+            parts.append(f"<div style=\"font-size:14.5px;padding:{SP['s']}px 0;"
+                         f"color:{T['text_secondary']};\"><b>{title}</b> — "
+                         f"нет данных: {blk.get('reason', '')}</div>")
+            continue
+        body = []
+        for ch in blk["channels"]:
+            cells = "".join(
+                f"<td align=\"right\" style=\"font-size:14px;padding:6px 0 6px 8px;"
+                f"border-bottom:1px solid {T['border']};white-space:nowrap;\">"
+                f"{num((ch['devices'] or {}).get(d) or 0)}</td>" for d in devices)
+            rel = ch.get("delta_pct")
+            body.append(
+                f"<tr><td style=\"font-size:14px;padding:6px 8px 6px 0;"
+                f"border-bottom:1px solid {T['border']};\">{ch['label']}</td>"
+                f"<td align=\"right\" style=\"font-size:14px;font-weight:700;"
+                f"padding:6px 0 6px 8px;border-bottom:1px solid {T['border']};\">"
+                f"{num(ch['total'])}</td>{cells}"
+                f"<td align=\"right\" style=\"font-size:14px;padding:6px 0 6px 8px;"
+                f"border-bottom:1px solid {T['border']};color:"
+                f"{T['positive'] if (rel or 0) > 0 else T['danger'] if rel else T['text_secondary']};"
+                f"white-space:nowrap;\">{signed_pct(rel) or '—'}</td></tr>")
+        total_cells = "".join(
+            f"<td align=\"right\" style=\"font-size:14px;font-weight:700;"
+            f"padding:6px 0 6px 8px;\">{num((blk['devices'] or {}).get(d) or 0)}</td>"
+            for d in devices)
+        body.append(
+            f"<tr><td style=\"font-size:14px;font-weight:700;padding:6px 8px 6px 0;\">"
+            f"Итого</td><td align=\"right\" style=\"font-size:14px;font-weight:700;"
+            f"padding:6px 0 6px 8px;\">{num(blk['total'])}</td>{total_cells}"
+            f"<td align=\"right\" style=\"font-size:14px;font-weight:700;"
+            f"padding:6px 0 6px 8px;\">{signed_pct(blk.get('delta_pct')) or '—'}</td></tr>")
+        parts.append(
+            f"<div data-meta=\"1\" style=\"font-size:12.5px;font-weight:700;"
+            f"color:{T['text_secondary']};padding:{SP['m']}px 0 {SP['xs']}px;\">"
+            f"{title}</div>"
+            f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" "
+            f"cellspacing=\"0\" style=\"border-collapse:collapse;\">"
+            f"{head}{''.join(body)}</table>")
+    return "".join(parts)
+
+
+def _audience_html(block: dict) -> str:
+    """Блок «Аудитория»: четыре плитки, под ними визиты по каналам."""
+    devices = block.get("devices") or ["desktop", "mobile", "tablet"]
+    cells = []
+    for i, tile in enumerate(block.get("tiles") or []):
+        mso_open = ("<!--[if mso]><table role=\"presentation\" width=\"100%\"><tr>"
+                    "<td width=\"50%\" valign=\"top\"><![endif]-->" if i == 0 else
+                    "<!--[if mso]></td><td width=\"50%\" valign=\"top\"><![endif]-->"
+                    if i % 2 == 1 else
+                    "<!--[if mso]></td></tr><tr><td width=\"50%\" valign=\"top\">"
+                    "<![endif]-->")
+        cells.append(
+            f"{mso_open}<div style=\"display:inline-block;width:100%;"
+            f"max-width:290px;vertical-align:top;padding:{SP['s']}px;\">"
+            f"{_audience_tile(tile, devices)}</div>")
+    cells.append("<!--[if mso]></td></tr></table><![endif]-->")
+    return (f"<div style=\"font-size:15px;line-height:1.6;\">{block['headline']}</div>"
+            f"<div data-meta=\"1\" style=\"font-size:0;margin:-{SP['s']}px;"
+            f"padding-top:{SP['s']}px;\">{''.join(cells)}</div>"
+            f"{_audience_channel_table(block, devices)}")
+
+
 def _section(title: str, body: str, note: str = "") -> str:
     n = (f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
          f"padding-top:2px;line-height:1.45;\">{note}</div>" if note else "")
@@ -1888,6 +2003,20 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
             f"{ads_headline(ads)}</div>"
             f"<div style=\"padding-top:{SP['s']}px;\">{ad_rows}</div>{dec_html}",
             ads.get("note", "")))
+
+    # E-в. Аудитория: показы по устройствам и визиты по каналам.
+    #
+    # Стоит после результата (заявки, реклама) и перед разбором изменения:
+    # это состав аудитории, из которого вырос сегодняшний результат. Таблицы
+    # называют своё окно: у поиска данные зреют три дня, у аналитики один.
+    aud = b.get("audience") or {}
+    if aud.get("available"):
+        rows.append(_section(
+            "Аудитория: устройства и каналы",
+            _audience_html(aud),
+            f"Окна: {_audience_period(aud)} · «Яндекс» и «Гугл» в таблице "
+            f"визитов — Метрика и GA4, два счётчика одного сайта: расхождение "
+            f"между ними — свойство измерения, а не разница трафика."))
 
     # F. Драйверы и детракторы
     parts = []
@@ -2282,6 +2411,33 @@ def plain_text(b: dict) -> str:
             L.append(f"  ТРЕБУЕТ РЕШЕНИЯ: {d['text']}")
         if ads.get("note"):
             L.append(f"  {ads['note']}")
+    aud = b.get("audience") or {}
+    if aud.get("available"):
+        L += ["", "АУДИТОРИЯ: УСТРОЙСТВА И КАНАЛЫ", aud["headline"],
+              f"окна: {_audience_period(aud)}"]
+        devices = aud.get("devices") or ["desktop", "mobile", "tablet"]
+        for tile in aud.get("tiles") or []:
+            if not tile.get("available"):
+                L.append(f"- {tile['title']}: нет данных — {tile.get('reason', '')}")
+                continue
+            split = ", ".join(
+                f"{audience_mod.DEVICE_LABEL[d].lower()} {pct((tile.get('shares') or {}).get(d), 0)}"
+                for d in devices if (tile.get("devices") or {}).get(d) is not None)
+            L.append(f"- {tile['title']}: {num(tile['total'])} {tile['unit']} "
+                     f"({signed_pct(tile.get('delta_pct')) or 'сравнение не публикуется'}); "
+                     f"{split}")
+        for blk in (aud.get("visits") or {}).get("blocks", []):
+            if not blk.get("available"):
+                L.append(f"  {blk['label']} · {blk['source_label']}: нет данных — "
+                         f"{blk.get('reason', '')}")
+                continue
+            L.append(f"  {blk['label']} · {blk['source_label']} — визиты по каналам:")
+            for ch in blk["channels"]:
+                split = ", ".join(
+                    f"{audience_mod.DEVICE_SHORT[d].lower()} {num((ch['devices'] or {}).get(d) or 0)}"
+                    for d in devices)
+                L.append(f"    {ch['label']}: {num(ch['total'])} ({split}) "
+                         f"{signed_pct(ch.get('delta_pct'))}".rstrip())
     L += ["", "ЧТО ДАЛО ИЗМЕНЕНИЕ", b["driver_summary"]]
     for r in b["driver_rows"]:
         L.append(f"  {r['entity']}: {signed(r['delta'])} "

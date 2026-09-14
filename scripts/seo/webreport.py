@@ -25,6 +25,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "viz"))
 
+import audience_block as audience_mod  # noqa: E402
 import cannibalization as cannibal_mod  # noqa: E402
 import daily_windows  # noqa: E402
 import kpi_kit as kit  # noqa: E402
@@ -1061,6 +1062,132 @@ def _live_charts(b: dict) -> str:
     return "".join(parts)
 
 
+AUDIENCE_COLOUR = {"yandex": "yandex", "gsc": "google",
+                   "metrika": "metrika", "ga4": "ga4"}
+
+
+def _audience_period(block: dict, key: str) -> str:
+    """Окно одной таблицы строкой «с — по»; пусто, когда данных нет."""
+    period = (block.get(key) or {}).get("period")
+    if not period:
+        return ""
+    return (f"{ru_date(period['current']['from'])}–{ru_date(period['current']['to'])} "
+            f"против {ru_date(period['previous']['from'])}–"
+            f"{ru_date(period['previous']['to'])}")
+
+
+def _audience_impressions_table(block: dict, devices: list[str]) -> str:
+    """Показы поиска: строка на систему, колонка на устройство, CTR и Δ недели."""
+    rows_data = (block.get("impressions") or {}).get("rows", [])
+    vmax = max((r.get("total") or 0 for r in rows_data if r.get("available")), default=0)
+    columns = [{"key": "source", "label": "Поисковая система"},
+               {"key": "total", "label": "Показы", "align": "right"}]
+    columns += [{"key": d, "label": audience_mod.DEVICE_LABEL[d], "align": "right"}
+                for d in devices]
+    columns += [{"key": "ctr", "label": "CTR", "align": "right"},
+                {"key": "delta", "label": "Δ к прошлой неделе", "align": "right"}]
+    rows = []
+    for row in rows_data:
+        name = f"{kit.esc(row['label'])} <span class='muted'>{kit.esc(row['source_label'])}</span>"
+        if not row.get("available"):
+            rows.append({"source": name, "total": "нет данных",
+                         **{d: "—" for d in devices}, "ctr": "—",
+                         "delta": kit.esc(row.get("reason", ""))})
+            continue
+        rel = row.get("delta_pct")
+        cells = {d: (f"{num((row['devices'] or {}).get(d) or 0)} "
+                     f"<span class='muted'>{pct((row.get('shares') or {}).get(d), 0, dash='')}</span>")
+                 for d in devices}
+        rows.append({
+            "source": name,
+            "total": kit.bar_cell(row["total"], vmax,
+                                  kit.series_color(AUDIENCE_COLOUR.get(row["key"], "yandex"))),
+            **cells,
+            "ctr": pct(row.get("ctr"), 2, dash="—"),
+            "delta": kit.delta_html(pct(abs(rel), 1) if rel is not None else "—",
+                                    kit.delta_dir(rel) if rel is not None else None)})
+    return kit.dense_table(columns, rows, sortable=False)
+
+
+def _audience_channels_table(blk: dict, devices: list[str]) -> str:
+    """Визиты по каналам: всего, разбивка по устройствам и изменение недели."""
+    colour = kit.series_color(AUDIENCE_COLOUR.get(blk.get("key", ""), "metrika"))
+    vmax = max((c["total"] for c in blk.get("channels") or []), default=0)
+    columns = [{"key": "channel", "label": "Канал"},
+               {"key": "total", "label": "Всего", "align": "right"}]
+    columns += [{"key": d, "label": audience_mod.DEVICE_LABEL[d], "align": "right"}
+                for d in devices]
+    columns.append({"key": "delta", "label": "Δ к прошлой неделе", "align": "right"})
+    rows = []
+    total_row = _audience_total_row(blk)
+    for ch in (blk.get("channels") or []) + [total_row]:
+        rel = ch.get("delta_pct")
+        is_total = ch is total_row
+        # У итога полосы нет: она задаёт масштаб колонки и сплющила бы
+        # полосы каналов, ради которых таблица и читается.
+        row = {"channel": (f"<b>{kit.esc(ch['label'])}</b>" if is_total
+                           else kit.esc(ch["label"])),
+               "total": (f"<b>{num(ch['total'])}</b>" if is_total
+                         else kit.bar_cell(ch["total"], vmax, colour)),
+               "delta": kit.delta_html(pct(abs(rel), 1) if rel is not None else "—",
+                                       kit.delta_dir(rel) if rel is not None else None)}
+        for d in devices:
+            value = (ch["devices"] or {}).get(d) or 0
+            cell = (f"{num(value)} <span class='muted'>"
+                    f"{pct((ch['shares'] or {}).get(d), 0, dash='')}</span>")
+            row[d] = f"<b>{cell}</b>" if is_total else cell
+        rows.append(row)
+    return kit.dense_table(columns, rows, sortable=False)
+
+
+def _audience_total_row(blk: dict) -> dict:
+    """Строка «Итого» блока визитов — те же поля, что у канала."""
+    return {"label": "Итого", "total": blk.get("total") or 0,
+            "devices": blk.get("devices") or {}, "shares": blk.get("shares") or {},
+            "delta_pct": blk.get("delta_pct")}
+
+
+def _audience_section(block: dict) -> str:
+    """Раздел «Аудитория»: плитки источников, показы и визиты таблицами.
+
+    Плитки отвечают на вопрос «сколько и куда двинулось», таблицы под ними —
+    «из чего это сложилось». Углубления по клику здесь нет намеренно: весь
+    состав и так на странице, прятать его за кнопку незачем.
+    """
+    if not block.get("available"):
+        return (f"<p class='muted'>Нет данных: "
+                f"{kit.esc(block.get('reason', 'разрез не собран'))}.</p>")
+    devices = block.get("devices") or ["desktop", "mobile", "tablet"]
+    tiles = []
+    for tile in block.get("tiles") or []:
+        if not tile.get("available"):
+            tiles.append(kit.stat_tile(tile["title"], num(None), "", muted=True,
+                                       note=kit.esc(tile.get("reason", ""))))
+            continue
+        rel = tile.get("delta_pct")
+        note = " · ".join(
+            f"{audience_mod.DEVICE_LABEL[d]} {pct((tile.get('shares') or {}).get(d), 0)}"
+            for d in devices if (tile.get("devices") or {}).get(d) is not None)
+        tiles.append(kit.stat_tile(
+            tile["title"], num(tile["total"]), tile["unit"],
+            delta=pct(abs(rel), 1) if rel is not None else None,
+            direction=kit.delta_dir(rel) if rel is not None else None,
+            color=kit.series_color(AUDIENCE_COLOUR.get(tile["key"], "yandex")),
+            note=note,
+            meta=f"{tile['source_label']} · {_audience_period(block, tile['kind'])}"))
+    parts = [f"<p>{kit.esc(block['headline'])}</p>", kit.kpi_row(tiles),
+             "<h3>Показы поиска по устройствам</h3>",
+             _audience_impressions_table(block, devices)]
+    for blk in (block.get("visits") or {}).get("blocks", []):
+        parts.append(f"<h3>{kit.esc(blk['label'])} · {kit.esc(blk['source_label'])} — "
+                     f"визиты по каналам</h3>")
+        if not blk.get("available"):
+            parts.append(f"<p class='muted'>Нет данных: {kit.esc(blk.get('reason', ''))}.</p>")
+            continue
+        parts.append(_audience_channels_table(blk, devices))
+    return "".join(parts)
+
+
 def _entity_table(entities: list[dict], kind: str, colour: str, limit: int) -> str:
     """Таблица-дашборд запросов или страниц: бар показов, позиция, статус."""
     ents = sorted(entities or [], key=lambda e: -e["impressions"])[:limit]
@@ -1416,6 +1543,16 @@ def build_html(b: dict, snap: dict, dq: dict, date: str) -> str:
                  "положительное, нейтральное и отрицательное. Сигнал строится "
                  "только по источникам, доступным в оба дня.",
          "html": signals_html},
+        {"id": "audience", "title": "Аудитория: устройства и каналы",
+         "crit": 1,
+         "desc": "Кто видит сайт в поиске и кто на него заходит: показы "
+                 "Яндекса и Google по типам устройств и визиты по каналам — "
+                 "органика, реклама, внешние ссылки, каталоги и площадки — "
+                 "с той же разбивкой. «Яндекс» и «Гугл» в таблице визитов — "
+                 "Метрика и GA4, два счётчика одного сайта: расхождение между "
+                 "ними говорит о разнице измерения, а не о разнице трафика. "
+                 "Окна — полные недели витрины, неполное окно не публикуется.",
+         "html": _audience_section(b.get("audience") or {})},
         {"id": "loop", "title": "Работа конвейера",
          "crit": 3 if lh.get("overdue") else 1,
          "desc": "Подтверждение, что каждый контур системы реально отработал: "
@@ -1649,6 +1786,44 @@ def build_markdown(b: dict, snap: dict, dq: dict, date: str) -> str:
         L.append(f"| {s_['metric']} | {s_['previous']} | {s_['current']} | "
                  f"{s_['delta']} | {s_['meaning']} |")
     L.append("")
+
+    aud = b.get("audience") or {}
+    if aud.get("available"):
+        devices = aud.get("devices") or ["desktop", "mobile", "tablet"]
+        head = " | ".join(audience_mod.DEVICE_LABEL[d] for d in devices)
+        sep = "|".join(["---"] * (len(devices) + 3))
+        L += ["## Аудитория: устройства и каналы", "", aud["headline"], "",
+              f"*Показы: {_audience_period(aud, 'impressions')}; "
+              f"визиты: {_audience_period(aud, 'visits')}.*", "",
+              f"| Источник | Всего | {head} | Δ к прошлой неделе |", f"|{sep}|"]
+        for tile in aud.get("tiles") or []:
+            if not tile.get("available"):
+                L.append(f"| {tile['title']} | нет данных | "
+                         + " | ".join("—" for _ in devices)
+                         + f" | {tile.get('reason', '')} |")
+                continue
+            cells = " | ".join(
+                f"{num((tile['devices'] or {}).get(d) or 0)} "
+                f"({pct((tile.get('shares') or {}).get(d), 0, dash='—')})"
+                for d in devices)
+            L.append(f"| {tile['title']} | {num(tile['total'])} {tile['unit']} | "
+                     f"{cells} | {pct(tile.get('delta_pct'), 1, dash='—')} |")
+        L.append("")
+        for blk in (aud.get("visits") or {}).get("blocks", []):
+            L += [f"### {blk['label']} · {blk['source_label']} — визиты по каналам", ""]
+            if not blk.get("available"):
+                L += [f"Нет данных: {blk.get('reason', '')}.", ""]
+                continue
+            L += [f"| Канал | Всего | {head} | Δ к прошлой неделе |", f"|{sep}|"]
+            for ch in blk["channels"]:
+                cells = " | ".join(
+                    f"{num((ch['devices'] or {}).get(d) or 0)}" for d in devices)
+                L.append(f"| {ch['label']} | {num(ch['total'])} | {cells} | "
+                         f"{pct(ch.get('delta_pct'), 1, dash='—')} |")
+            L += [f"| **Итого** | **{num(blk['total'])}** | "
+                  + " | ".join(f"**{num((blk['devices'] or {}).get(d) or 0)}**"
+                               for d in devices)
+                  + f" | {pct(blk.get('delta_pct'), 1, dash='—')} |", ""]
 
     L += ["## Что дало изменение", ""]
     for db in b["driver_blocks"]:
