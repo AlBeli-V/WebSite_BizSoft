@@ -23,12 +23,25 @@ Design Approval Gate для шаблона пройден; дальнейшие 
 | 1 (готово, ветка claude/friendly-hopper-rpidvh) | остальные ManageEngine после волны 2: OpManager MSP/Nexus/интерфейсы (в ZOHO-OPMANAGER), DataSecurity Plus (5), FileAnalysis, MDM Plus (4), Cloud Security Plus, Firewall Analyzer (3), NetFlow Analyzer (3), NCM (2), OpUtils (2), DDI Central (2), Applications Manager (2), Analytics Plus (2), AppCreator, AssetExplorer, RMM Central; 49 позиций ManageEngine ушли волной 2 | 33 | manageengine — разделы по каждому продукту (35 новых); 8 позиций needs_operator (название витрины расходится с артикулом) |
 | 2 | JetBrains AI/Qodana/TeamCity/YouTrack/Datalore (quote-only, JB-TOOLS); Microsoft; SolidWorks | ~25 | jetbrains (готов), microsoft, dassault |
 | 3 | Adobe Acrobat / Express / Substance / Firefly / Stock; Maxon One / C4D / Redshift / ZBrush / Universe; Figma; Parallels | ~30 | adobe, maxon (готов), figma, parallels |
-| 4 | AI-сервисы (OpenAI, Anthropic, Midjourney, Runway, ElevenLabs, Kling, Hailuo, Recraft…) — классы `credit` и `edition_tier` | ~60 | по вендору |
+| 4 (следующая, решение 14.09.2026) | AI-сервисы (OpenAI, Anthropic, Midjourney, Runway, ElevenLabs, Kling, Hailuo, Recraft…) — классы `credit` и `edition_tier` | ~60 | по вендору |
 | 5 | Длинный хвост: вендоры с 1–3 карточками | ~230 | по вендору, профиль короткий |
 
 Порядок внутри волны — по убыванию числа карточек. Семейство считается
 готовым, когда `node scripts/content/validate-family.mjs <file> --published
 <slugs>` возвращает 0 ошибок.
+
+## Состояние на 14.09.2026
+
+Переведены 274 карточки из ~490 на витрине (56 %), все записаны в прод и
+несут `content_version = cm-1.0`; позиций с непрояснённым `needs_operator`
+не осталось. Без контента — 216 карточек: волны 2–5 очереди.
+
+Решение руководителя 14.09.2026 о порядке дальше: следующей идёт волна 4
+(AI-сервисы, классы `credit` и `edition_tier`, ~60 карточек) — это самая
+масса из оставшегося, и на ней обкатывается композиция пополнений до
+длинного хвоста. Волны 2 и 3 очереди (JetBrains tools, Microsoft,
+SolidWorks; Adobe, Maxon, Figma, Parallels) в основном уже закрыты
+партиями 100 и 68, их остаток идёт вместе с хвостом.
 
 ## Применение (одна волна)
 1. `ops-apply-content apply=false` по семействам волны — план и счётчик изменений в issue #22.
