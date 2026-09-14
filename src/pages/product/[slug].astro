@@ -21,6 +21,7 @@ import { getAiInterlinks } from '../../data/ai-interlinks';
 import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
 import VendorLogo from '../../components/VendorLogo.astro';
+import CollectionMark from '../../components/CollectionMark.astro';
 import { vendorContent } from '../../data/vendor-content';
 import { vendorSlug } from '../../lib/vendor-links';
 import { vendorBySlug } from '../../data/vendors';
@@ -574,7 +575,7 @@ try {
               вопрос задаётся из шапки и из блоков ниже. */}
           <div class="buy-cta">
             <button
-              class="btn btn-primary"
+              class="btn btn-primary btn-caps"
               data-open-question
               data-quote-cta
               data-product={product.name}
@@ -590,6 +591,11 @@ try {
                   <label for="coll-check" class="coll-box" aria-label="Добавить в подборку для КП">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5" /></svg>
                   </label>
+                  {/* Знак-матрица слева — тот же, что в плашке «Подборка для
+                      КП» в шапке: покупатель видит, куда уходит позиция.
+                      Справа знак действия: плюс — положить, диагональный
+                      крестик — исключить. Состояние названо дважды, словом
+                      и знаком, и читается, не читая подпись. */}
                   <button
                     class="coll-btn" type="button"
                     data-add-cart
@@ -597,7 +603,19 @@ try {
                     data-slug={product.slug}
                     data-name={product.name}
                     data-price={eff.price}
-                  ><span data-coll-label>Добавить в подборку</span></button>
+                  >
+                    <CollectionMark size={18} />
+                    <span class="coll-sep" aria-hidden="true"></span>
+                    <span class="coll-txt" data-coll-label>Добавить в подборку</span>
+                    <svg class="coll-sign" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false">
+                      <g class="sign-plus"><line x1="12" y1="4.5" x2="12" y2="19.5" /><line x1="4.5" y1="12" x2="19.5" y2="12" /></g>
+                      <g class="sign-cross" opacity="0"><line x1="5.8" y1="5.8" x2="18.2" y2="18.2" /><line x1="18.2" y1="5.8" x2="5.8" y2="18.2" /></g>
+                    </svg>
+                  </button>
+                  {/* «Задать вопрос» вернулся в колонку кнопкой и стоит в том
+                      же ряду, что подборка (решение руководителя 14.09.2026).
+                      Обводка, а не заливка: главный призыв в колонке один. */}
+                  <button class="ask-btn" type="button" data-open-question data-product={product.name} data-sku={product.sku}>Задать вопрос</button>
                 </div>
               </div>
             )}
@@ -1023,11 +1041,20 @@ try {
   .bt-row b { font-size: 1.3rem; font-variant-numeric: tabular-nums; }
   .buy-cta { display: flex; flex-direction: column; gap: 0.8rem; }
   .buy-cta .btn { width: 100%; }
+  /* Главный призыв — в той же типографике, что подборка и вопрос: прописные,
+     тот же трекинг. Кегль чуть меньше обычного: «ПОЛУЧИТЬ КП НА 20 РАБОЧИХ
+     МЕСТ» прописными длиннее строчного и иначе ломается на две строки уже на
+     широкой колонке. */
+  .btn-caps { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; }
   /* Подборка: отметка видна флажком, а не только подписью кнопки —
      состояние «позиция уже в подборке» читается без чтения текста. */
   .coll-strip { border-top: 1px dashed var(--color-border); padding-top: 0.8rem; }
   .coll-strip p { margin: 0 0 0.6rem; color: var(--color-text-dim); font-size: 0.81rem; line-height: 1.45; text-align: center; }
-  .coll-toggle { display: flex; align-items: center; gap: 0.6rem; }
+  /* Ряд подборки: флажок, кнопка подборки и «Задать вопрос» — строго в одну
+     строку (решение руководителя 14.09.2026). Перенос запрещён: обе кнопки
+     сжимаются, подпись внутри ложится на две строки — это честнее, чем
+     уронить вопрос на свою строку и разорвать пару действий. */
+  .coll-toggle { display: flex; align-items: stretch; gap: 0.45rem; flex-wrap: nowrap; }
   .coll-check { position: absolute; opacity: 0; width: 0; height: 0; }
   .coll-box { width: 22px; height: 22px; flex: none; border: 1.5px solid var(--color-border-strong); border-radius: 6px; display: grid; place-items: center; cursor: pointer; background: var(--color-bg); }
   .coll-box svg { width: 14px; height: 14px; color: #fff; opacity: 0; }
@@ -1040,9 +1067,34 @@ try {
      переключает подборку. min-width: 0 обязателен — без него длинная
      подпись «Исключить из подборки» распирает строку и выносит кнопку за
      край колонки. */
-  .coll-btn { flex: 1 1 auto; min-width: 0; display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; border: 1px solid transparent; border-radius: 980px; background: var(--color-accent); color: #fff; font: inherit; font-size: 0.95rem; font-weight: 500; cursor: pointer; text-align: center; transition: background-color 0.22s ease, transform 0.15s ease; }
+  /* Кнопка подборки повторяет плашку «Подборка для КП» из шапки: знак-матрица,
+     тонкий разделитель, прописная подпись, знак действия справа. */
+  .coll-btn { flex: 1 1 auto; min-width: 0; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.7rem 0.9rem; border: 1px solid transparent; border-radius: 980px; background: var(--color-accent); color: #fff; font: inherit; cursor: pointer; text-align: center; transition: background-color 0.22s ease, transform 0.15s ease; }
   .coll-btn:hover { background: var(--color-accent-hover); }
   .coll-btn:active { transform: translateY(1px); }
+  .coll-sep { flex: none; width: 1px; align-self: stretch; margin: 0.1rem 0; background: color-mix(in srgb, #fff 55%, transparent); }
+  .coll-txt { min-width: 0; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; line-height: 1.25; }
+  .coll-sign { flex: none; width: 16px; height: 16px; }
+  /* Позиция уже в подборке — плюс сменяется диагональным крестиком: кнопка
+     называет и показывает обратное действие, а не то же самое другими словами. */
+  .coll-btn.is-in .sign-plus { opacity: 0; }
+  .coll-btn.is-in .sign-cross { opacity: 1; }
+  /* Второе действие ряда — обводкой: заливок акцентом в колонке ровно две,
+     главный призыв и подборка. */
+  .ask-btn { flex: 0 1 auto; min-width: 0; display: inline-flex; align-items: center; justify-content: center; padding: 0.7rem 0.9rem; border: 1px solid var(--color-border-strong); border-radius: 980px; background: var(--color-bg-card); color: var(--color-text); font: inherit; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; line-height: 1.25; cursor: pointer; transition: border-color 0.22s ease, color 0.22s ease, transform 0.15s ease; }
+  .ask-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .ask-btn:active { transform: translateY(1px); }
+  /* На телефоне ряд остаётся рядом, но при прежнем кегле «ДОБАВИТЬ В
+     ПОДБОРКУ» ложилось в три строки и кнопки вырастали в столбики. Кегль,
+     отступы и промежутки поджимаются — две строки максимум. */
+  @media (max-width: 560px) {
+    .coll-toggle { gap: 0.35rem; }
+    .coll-btn { gap: 0.35rem; padding: 0.6rem 0.5rem; }
+    .coll-sep { margin: 0.2rem 0; }
+    .coll-txt { font-size: 0.68rem; letter-spacing: 0.01em; }
+    .coll-sign { width: 14px; height: 14px; }
+    .ask-btn { font-size: 0.68rem; letter-spacing: 0.01em; padding: 0.6rem 0.6rem; }
+  }
   .buy-trust { list-style: none; padding: 1rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.35rem; color: var(--color-text-muted); font-size: 0.83rem; }
 
   /* ── Разделы страницы ────────────────────────────────────────────── */
@@ -1345,6 +1397,8 @@ try {
     const on = inCollection();
     if (collCheck) collCheck.checked = on;
     if (collLabel) collLabel.textContent = on ? 'Исключить из подборки' : 'Добавить в подборку';
+    // Диагональ на знаке — второй, не словесный признак состояния.
+    addBtn?.classList.toggle('is-in', on);
   }
   function toggleCollection() {
     if (!addBtn) return;

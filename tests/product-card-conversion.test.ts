@@ -476,32 +476,95 @@ describe('колонка покупки, решение руководителя
     expect(rule.slice(0, rule.indexOf('}'))).toContain('text-align: center');
   });
 
-  it('кнопка подборки повторяет форму призыва и тянется до правого края', () => {
+  it('кнопка подборки собрана как плашка шапки: знак, разделитель, подпись, знак действия', () => {
     const rule = page.slice(page.indexOf('.coll-btn {'));
     const decl = rule.slice(0, rule.indexOf('}'));
-    // Скругление и высота — как у .btn в global.css: две кнопки читаются парой.
+    // Скругление — как у .btn в global.css: кнопки колонки читаются одной семьёй.
     expect(decl).toContain('border-radius: 980px');
-    expect(decl).toContain('padding: 0.75rem 1.5rem');
-    // Ширина — вся оставшаяся строка, короче призыва ровно на флажок.
     expect(decl).toContain('flex: 1 1 auto');
-    // Жёсткая ширина без права сжаться выносила бы кнопку за край колонки.
+    // Жёсткая ширина без права сжаться вынесла бы кнопку за край колонки.
     expect(decl).toContain('min-width: 0');
     expect(decl).not.toMatch(/(^|[^-])width: \d/);
+    // Состав кнопки повторяет плашку «Подборка для КП» из шапки.
+    expect(page).toContain('<CollectionMark size={18} />');
+    expect(page).toContain('class="coll-sep"');
+    expect(page).toContain('class="coll-txt" data-coll-label');
+    expect(page).toContain('class="coll-sign"');
   });
 
-  it('третьего действия в колонке нет, доверительные строки остались', () => {
-    expect(page).not.toContain('>Задать вопрос</button>');
+  it('подписи кнопок колонки — прописными', () => {
+    for (const sel of ['.coll-txt {', '.ask-btn {', '.btn-caps {']) {
+      const decl = page.slice(page.indexOf(sel));
+      expect(decl.slice(0, decl.indexOf('}')), sel).toContain('text-transform: uppercase');
+    }
+    expect(page).toContain('class="btn btn-primary btn-caps"');
+  });
+
+  it('состояние подборки называет и знак: плюс сменяется диагональным крестиком', () => {
+    expect(page).toContain('class="sign-plus"');
+    expect(page).toContain('class="sign-cross"');
+    expect(page).toContain('.coll-btn.is-in .sign-plus { opacity: 0; }');
+    expect(page).toContain('.coll-btn.is-in .sign-cross { opacity: 1; }');
+    // Класс состояния ставит тот же обработчик, что меняет подпись.
+    expect(page).toContain("addBtn?.classList.toggle('is-in', on);");
+  });
+
+  it('«Задать вопрос» — кнопка в том же ряду, что подборка; перенос запрещён', () => {
+    expect(page).toContain('class="ask-btn"');
+    expect(page).toContain('>Задать вопрос</button>');
+    // Ссылкой это действие больше не оформляется.
     expect(page).not.toContain('btn-link');
+    const row = page.slice(page.indexOf('.coll-toggle {'));
+    expect(row.slice(0, row.indexOf('}'))).toContain('flex-wrap: nowrap');
+    // Порядок в ряду: флажок, подборка, вопрос.
+    const strip = page.slice(page.indexOf('<div class="coll-toggle">'), page.indexOf('</div>', page.indexOf('class="ask-btn"')));
+    expect(strip.indexOf('coll-check')).toBeLessThan(strip.indexOf('coll-btn'));
+    expect(strip.indexOf('coll-btn')).toBeLessThan(strip.indexOf('ask-btn'));
+  });
+
+  it('доверительные строки остались', () => {
     const buy = page.slice(page.indexOf('class="card buy-card"'), page.indexOf('<div class="col-rest">'));
     expect(buy).toContain('TRUST_LINES.map');
   });
 
-  it('правило записано в свод, в файл правил и в скилы заведения позиций', () => {
+  it('знак подборки — один на шапку и карточку', () => {
+    const header = readFileSync(resolve(ROOT, 'src/components/Header.astro'), 'utf8');
+    const mark = readFileSync(resolve(ROOT, 'src/components/CollectionMark.astro'), 'utf8');
+    // Второго начертания не заводится: точки рисует один компонент.
+    expect(header).toContain('<CollectionMark size={20} class="cart-mark" />');
+    expect(page).toContain('<CollectionMark size={18} />');
+    expect(mark).toContain('const AXIS = [5, 12, 19];');
+    // Плашка шапки: знак, разделитель, прописное название, счётчик.
+    expect(header).toContain('class="cart-sep"');
+    const label = header.slice(header.indexOf('.cart-label {'));
+    expect(label.slice(0, label.indexOf('}'))).toContain('text-transform: uppercase');
+    // Счётчик двойной: кружок с цифрой и дуга сбоку, оба акцентом.
+    expect(header).toContain('class="cart-arc"');
+    expect(header).toContain('data-cart-num');
+    const badge = header.slice(header.indexOf('.cart-badge {'));
+    expect(badge.slice(0, badge.indexOf('}'))).toContain('color: var(--color-accent)');
+    const num = header.slice(header.indexOf('.cart-num {'));
+    expect(num.slice(0, num.indexOf('}'))).toContain('background: var(--color-accent)');
+    // Цифра пишется в свой узел: textContent на самом счётчике снёс бы дугу.
+    expect(header).toContain("const num = node.querySelector('[data-cart-num]');");
+  });
+
+  it('правило записано в свод, в файлы правил и в скилы заведения позиций', () => {
+    // Глобальное правило живёт не только в шаблоне: его читает каждая сессия,
+    // в том числе та, что заводит нового вендора или товар.
     const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
     expect(claude).toContain('docs/rules/card-price-block.md');
+    expect(claude).toContain('docs/rules/collection-plate.md');
     const rule = readFileSync(resolve(ROOT, 'docs/rules/card-price-block.md'), 'utf8');
     expect(rule).toContain('14.09.2026');
-    expect(rule).toContain('Задать вопрос');
+    expect(rule).toContain('ЗАДАТЬ ВОПРОС');
+    expect(rule).toContain('CollectionMark');
+    // Знак и плашка — отдельное правило: они живут на всех страницах, не
+    // только в карточке товара.
+    const plate = readFileSync(resolve(ROOT, 'docs/rules/collection-plate.md'), 'utf8');
+    expect(plate).toContain('CollectionMark.astro');
+    expect(plate).toContain('ПОДБОРКА ДЛЯ КП');
+    expect(plate).toContain('--cart=');
     for (const skill of [
       '.claude/skills/bizsoft-product-conversion-flow/SKILL.md',
       '.claude/skills/vendor-page-rebuild/SKILL.md',

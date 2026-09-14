@@ -53,6 +53,22 @@ const PER_GROUP = Number(args['per-group'] || 3);
 const MAX_PAGES = Number(args['max-pages'] || 48);
 /** Ширина сплошного прохода по всем адресам карты сайта; 0 — не делать. */
 const SWEEP_WIDTH = Number(args['sweep-width'] || 0);
+/**
+ * Сколько позиций положить в подборку перед замером.
+ *
+ * Шапка со счётчиком шире пустой: плашка «Подборка для КП» получает кружок с
+ * цифрой и дугу. Ровно этот случай 14.09.2026 упёрся в край экрана на 320px, а
+ * прогон его не видел — он мерил страницы с пустой подборкой. Меряем худший
+ * случай: по умолчанию подборка непустая. `--cart=0` возвращает прежнее
+ * поведение.
+ *
+ * Сама страница `/cart` в карту сайта не входит и в прогон не попадает. Это
+ * не значит, что с ней всё в порядке: замер вручную 14.09.2026 показал, что с
+ * непустой подборкой она отдаёт документу 702px и на 375px уезжает вбок на
+ * 327px. Дефект старше этой правки и вынесен руководителю отдельно; заводя
+ * её в список адресов, сначала чинят страницу.
+ */
+const CART_ITEMS = Number(args.cart ?? 3);
 const TOLERANCE = 1;
 
 const procs = [];
@@ -205,6 +221,19 @@ async function main() {
       userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 '
         + '(KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
     });
+    // Подборка кладётся в localStorage до первой навигации: шапка читает её
+    // при загрузке, и счётчик попадает в замер ширины.
+    if (CART_ITEMS > 0) {
+      await ctx.addInitScript((n) => {
+        try {
+          const items = Array.from({ length: n }, (_, i) => ({
+            sku: `LAYOUT-CHECK-${i + 1}`, slug: `layout-check-${i + 1}`,
+            name: `Позиция ${i + 1}`, price: 1000, qty: 1,
+          }));
+          localStorage.setItem('bizsoft_cart', JSON.stringify(items));
+        } catch { /* приватный режим — меряем с пустой подборкой */ }
+      }, CART_ITEMS);
+    }
     const page = await ctx.newPage();
     for (const path of list) {
       let res = null;

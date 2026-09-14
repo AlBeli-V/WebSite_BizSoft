@@ -2,6 +2,7 @@
 import { mainNav, site, seller, vendorLandings } from '../config/site';
 import SiteLogo from './SiteLogo.astro';
 import CategoryIcon from './CategoryIcon.astro';
+import CollectionMark from './CollectionMark.astro';
 import { getVendors, getCategories } from '../lib/directus';
 import { aiSubcategories } from '../data/ai-hub';
 import { logoFile } from '../data/logos';
@@ -94,15 +95,21 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     </div>
 
     <div class="header-actions">
+      {/* Подборка для КП — обведённая плашка: знак-матрица, разделитель,
+          прописное название и счётчик. Счётчик двойной: залитый кружок с
+          цифрой и дуга сбоку (решение руководителя 14.09.2026). Прежде здесь
+          был контурный лист со счётчиком-каплей в углу — он читался как
+          значок, а не как место, куда собирается предложение. */}
       <a href="/cart" class="cart-link" aria-label="Подборка для КП — сформировать предложение">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M8 2h6l4 4v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"></path>
-          <path d="M14 2v4h4"></path>
-          <path d="M9 13h6"></path>
-          <path d="M9 17h4"></path>
-        </svg>
-        <span class="cart-count" data-cart-count hidden>0</span>
+        <CollectionMark size={20} class="cart-mark" />
+        <span class="cart-sep" aria-hidden="true"></span>
         <span class="cart-label">Подборка для КП</span>
+        <span class="cart-badge" data-cart-count hidden>
+          <svg class="cart-arc" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+            <path d="M21.3 2.8A14.2 14.2 0 0 1 21.3 29.2" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" />
+          </svg>
+          <span class="cart-num" data-cart-num>0</span>
+        </span>
       </a>
       <a href="/cart" class="btn btn-primary btn-kp" data-goal="header_kp">Получить КП</a>
       <button class="burger" aria-label="Меню" aria-expanded="false" data-burger>
@@ -303,7 +310,6 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   .dd-dot { width: 18px; height: 18px; border-radius: 4px; background: var(--color-bg-elevated); border: 1px solid var(--color-border); display: inline-flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 800; color: var(--color-text-muted); flex-shrink: 0; }
   .dd-ic { width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; color: var(--color-accent); flex-shrink: 0; }
   .dd-cap { grid-column: 1 / -1; margin: 0.35rem 0 0.1rem; padding: 0 0.7rem; font-family: ui-monospace, monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent); font-weight: 700; }
-  .cart-label { font-size: 0.85rem; font-weight: 600; }
   .h-msg { display: flex; gap: 0.45rem; }
   .h-msg a { color: var(--color-text-muted); display: inline-flex; padding: 4px; border-radius: 8px; transition: color 0.15s ease; }
   .h-msg a:hover { color: var(--color-accent); }
@@ -312,35 +318,58 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     align-items: center;
     gap: 0.75rem;
   }
+  /* Подборка для КП — обведённая плашка (решение руководителя 14.09.2026):
+     знак-матрица, тонкий разделитель, прописное название, счётчик. Прежде это
+     был контурный значок-лист с каплей-счётчиком в углу: он читался как
+     иконка, а не как место, куда собирается предложение. */
   .cart-link {
-    position: relative;
     display: inline-flex;
-    color: var(--color-text-muted);
-    transition: color 0.18s ease;
-  }
-  .cart-link:hover {
-    color: var(--color-accent);
-  }
-  /* Значок расчёта — лист спецификации: пустой контур, при добавленных
-     позициях выделяется акцентом. Прежде здесь было сердечко: оно читалось
-     как закладка «на потом», а не как шаг сделки. */
-  .cart-link.has-items svg { stroke: var(--color-accent); }
-  .cart-link .cart-count { background: var(--color-accent); }
-  .cart-count {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    min-width: 16px;
-    height: 16px;
-    padding: 0 4px;
-    background: var(--color-accent);
-    color: #fff;
-    font-size: 0.68rem;
-    font-weight: 700;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+    padding: 0.36rem 0.5rem 0.36rem 0.65rem;
+    border: 1px solid var(--color-border-strong);
     border-radius: 999px;
-    display: flex;
+    background: var(--color-bg-card);
+    color: var(--color-text);
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.18s ease, color 0.18s ease;
+  }
+  .cart-link:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .cart-link.has-items { border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border-strong)); }
+  .cart-sep { display: block; flex: none; width: 1px; align-self: stretch; margin: 0.1rem 0; background: var(--color-border-strong); }
+  .cart-label { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
+  /* Счётчик двойной: залитый кружок с цифрой и дуга сбоку, оба — акцентом.
+     Пока подборка пуста, счётчика нет: пустой кружок обещает позиции,
+     которых ещё не набрали. */
+  .cart-badge {
+    position: relative;
+    flex: none;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    color: var(--color-accent);
+  }
+  .cart-badge[hidden] { display: none; }
+  /* Дуга живёт внутри той же коробки, что и кружок, а не свисает наружу:
+     свисающий край обрезался соседом и пропадал целиком. */
+  .cart-arc { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .cart-num {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 2px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-variant-numeric: tabular-nums;
   }
   .burger {
     display: none;
@@ -398,7 +427,7 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   /* Подпись прячется только в зоне сжатия первого ряда: ниже 920px поиск,
      телефон и «Получить КП» уже скрыты, место освободилось — и кнопка снова
      называет себя, а не остаётся безымянным значком со счётчиком. */
-  @media (max-width: 1180px) { .cart-label { display: none; } }
+  @media (max-width: 1180px) { .cart-label, .cart-sep { display: none; } }
   @media (max-width: 1120px) { .h-msg { display: none; } }
   @media (max-width: 1020px) { .h-phone { display: none; } }
   @media (max-width: 920px) {
@@ -409,20 +438,33 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
     .btn-kp { display: none; }
     .burger { display: flex; }
     /* Поиск/телефон скрыты — прижимаем подборку и бургер к правому краю */
-    .cart-label { display: inline; font-size: 0.8rem; white-space: nowrap; }
-    .cart-link svg { display: none; }
+    .cart-label { display: inline; font-size: 0.74rem; white-space: nowrap; }
+    .cart-sep { display: block; }
+    .cart-link { gap: 0.45rem; padding-left: 0.55rem; }
     .header-actions { min-width: 0; }
     .header-inner { justify-content: flex-end; }
     .header-actions { margin-left: auto; }
     .mobile-nav[data-open] { display: flex; }
   }
-  /* Уже 400px подпись не помещается рядом с логотипом: строка шапки
-     перестаёт сжиматься и отдаёт документу ширину больше экрана — Safari
-     тогда съезжает влево с пустой полосой справа. Ниже этой границы
-     остаётся значок со счётчиком (сторож — pnpm check:mobile на 320px). */
+  /* Прописное название шире прежнего строчного: со знаком, разделителем и
+     счётчиком плашка занимает около 220px. Рядом с логотипом и бургером это
+     помещается примерно до 560px — ниже остаётся знак со счётчиком. */
+  @media (max-width: 560px) {
+    .cart-label, .cart-sep { display: none; }
+  }
+  /* Ниже 400px в строке остаются логотип, плашка и бургер. Плашка сжимается
+     ещё: на 320px с непустой подборкой лишние полтора десятка пикселей отдают
+     документу ширину больше экрана, и Safari съезжает влево (сторож —
+     pnpm check:mobile --cart=3). */
   @media (max-width: 400px) {
-    .cart-label { display: none; }
-    .cart-link svg { display: block; }
+    .cart-link { gap: 0.3rem; padding: 0.26rem 0.3rem 0.26rem 0.42rem; }
+    .header-actions { gap: 0.45rem; }
+    .cart-badge { width: 24px; height: 24px; }
+    .cart-num { min-width: 16px; height: 16px; font-size: 0.62rem; }
+    .header-inner { gap: 0.5rem; }
+    /* Логотип на 320px отдаёт двадцать пикселей плашке: со счётчиком она
+       шире, чем пустая, и именно этот случай упирался в край экрана. */
+    .wordmark { width: clamp(165px, 42vw, 232px); }
   }
 </style>
 
@@ -503,10 +545,13 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
       const count = Array.isArray(items) ? items.reduce((s, i) => s + (i.qty || 0), 0) : 0;
       // Значок расчёта: выделен, когда в спецификации есть позиции
       document.querySelectorAll('.cart-link').forEach((el) => el.classList.toggle('has-items', count > 0));
+      // Цифра лежит отдельным узлом внутри счётчика: писать её в сам
+      // счётчик нельзя — textContent снёс бы дугу вместе с кружком.
       document.querySelectorAll('[data-cart-count]').forEach((el) => {
         const node = el as HTMLElement;
+        const num = node.querySelector('[data-cart-num]');
         if (count > 0) {
-          node.textContent = String(count);
+          if (num) num.textContent = String(count);
           node.removeAttribute('hidden');
         } else {
           node.setAttribute('hidden', '');
