@@ -5,6 +5,7 @@ import { defaultLeadOwner } from '../../config/site';
 import { createLeadTolerant } from '../../lib/lead-write';
 import { sendMail, managerEmail } from '../../lib/mailer';
 import { attributionFields } from '../../lib/quote-lead';
+import { mirrorLeadAndLog } from '../../lib/bitrix24';
 import { verifyCompany } from '../../lib/inn';
 import { findParty } from '../../lib/dadata';
 import { buildManagerLeadEmail } from '../../lib/email/lead-manager';
@@ -83,6 +84,31 @@ export const POST: APIRoute = async ({ request }) => {
     console.error('createLead failed', e);
     return new Response(JSON.stringify({ error: 'не удалось сохранить заявку' }), { status: 502 });
   }
+
+  // Зеркало в Bitrix24: копия обращения в окно, в котором работает менеджер.
+  // Источник воронки остаётся здесь, в Directus (docs/rules/crm-mirror.md).
+  // Отдельным фоном от письма: отказ одного канала не должен гасить другой,
+  // а ошибка портала — доходить до заказчика, у которого заявка уже принята.
+  const attr = attributionFields(body);
+  mirrorLeadAndLog({
+    title: `Заявка с сайта — ${payload.company}`,
+    name: payload.name,
+    company: payload.company,
+    inn: payload.inn,
+    email: payload.email,
+    phone: payload.phone,
+    comments: payload.message,
+    formSource: payload.form_source,
+    channel: attr.last_touch_source,
+    productRef: payload.product_ref,
+    utm: {
+      utm_source: attr.utm_source,
+      utm_medium: attr.utm_medium,
+      utm_campaign: attr.utm_campaign,
+      utm_content: attr.utm_content,
+      utm_term: attr.utm_term,
+    },
+  }).catch((e) => console.error('b24 mirror failed', e));
 
   // Уведомление менеджеру: фирменное HTML-письмо с источником перехода,
   // сверкой ИНН с ЕГРЮЛ и карточкой организации. Собирается в фоне и не

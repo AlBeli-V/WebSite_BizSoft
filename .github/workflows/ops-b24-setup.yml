@@ -1,0 +1,144 @@
+# Зеркало заявок в Bitrix24: проверка вебхука и запись его на прод.
+#
+# Адрес входящего вебхука — это одновременно пароль и права выписавшего его
+# пользователя, поэтому он читается из секрета репозитория B24_WEBHOOK_URL, а
+# не из параметров запуска: параметры workflow_dispatch видны в интерфейсе
+# Actions всем, у кого есть доступ к репозиторию, и остаются там навсегда.
+#
+# check — спросить портал, кто мы и есть ли право crm, ничего не меняя.
+# apply — то же плюс запись значения в /opt/bizsoft/astro.env и перезапуск
+# приложения, после которого сайт начинает зеркалить заявки.
+#
+# В журнал уходят домен портала, имя пользователя вебхука и список прав.
+# Сам код не печатается ни на одном шаге: в выводе он был бы замаскирован
+# раннером, но полагаться на маскировку вместо того, чтобы не печатать, —
+# та же ошибка, что печатать.
+name: ops-b24-setup
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check — только проверить вебхук; apply — записать на сервер и перезапустить"
+        required: true
+        default: "check"
+        type: choice
+        options: [check, apply]
+
+permissions:
+  # Явный блок permissions обнуляет всё неперечисленное: без contents токен
+  # не читает репозиторий, и checkout падает с «Repository not found».
+  contents: read
+  issues: write
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      # Локальные actions едут с репозиторием: без checkout раннер не находит
+      # ни ssh-run, ни journal-post.
+      - uses: actions/checkout@v4
+
+      - name: Verify webhook
+        id: verify
+        env:
+          B24_WEBHOOK_URL: ${{ secrets.B24_WEBHOOK_URL }}
+        run: |
+          set -o pipefail
+          if [ -z "$B24_WEBHOOK_URL" ]; then
+            echo "Секрет B24_WEBHOOK_URL не задан в репозитории." | tee /tmp/b24.txt
+            echo "Добавьте его: Settings -> Secrets and variables -> Actions -> New secret." | tee -a /tmp/b24.txt
+            echo "Значение — адрес входящего вебхука целиком, вместе с кодом." | tee -a /tmp/b24.txt
+            exit 1
+          fi
+          BASE="${B24_WEBHOOK_URL%/}/"
+          HOST=$(printf '%s' "$BASE" | sed -E 's#^https?://([^/]+)/.*#\1#')
+          echo "Портал: $HOST" | tee /tmp/b24.txt
+          echo "Длина адреса: ${#B24_WEBHOOK_URL} символов." | tee -a /tmp/b24.txt
+
+          CODE=$(curl -sS --max-time 20 -o /tmp/b24-profile.json -w '%{http_code}' \
+            "${BASE}profile.json" || echo 000)
+          echo "profile: HTTP $CODE" | tee -a /tmp/b24.txt
+          CODE=$(curl -sS --max-time 20 -o /tmp/b24-fields.json -w '%{http_code}' \
+            "${BASE}crm.lead.fields.json" || echo 000)
+          echo "crm.lead.fields: HTTP $CODE" | tee -a /tmp/b24.txt
+
+          python3 - <<'PY' | tee -a /tmp/b24.txt
+          import json
+
+          def load(path):
+              try:
+                  return json.load(open(path, encoding='utf-8'))
+              except Exception as e:
+                  print(f'{path}: ответ не разобран ({e})')
+                  return None
+
+          prof = load('/tmp/b24-profile.json')
+          if not prof or 'result' not in prof:
+              err = (prof or {}).get('error_description') or (prof or {}).get('error') or 'ответа нет'
+              print('вебхук не принят порталом:', err)
+              raise SystemExit(1)
+          r = prof['result']
+          print('пользователь вебхука: {} {} (ID {}), админ портала: {}'.format(
+              r.get('NAME', ''), r.get('LAST_NAME', ''), r.get('ID'),
+              'да' if r.get('ADMIN') else 'нет'))
+
+          fields = load('/tmp/b24-fields.json')
+          if not fields or 'result' not in fields:
+              err = (fields or {}).get('error_description') or (fields or {}).get('error') or 'ответа нет'
+              print('права crm у вебхука нет — лиды заводить нечем:', err)
+              raise SystemExit(1)
+          need = ['TITLE', 'NAME', 'COMPANY_TITLE', 'EMAIL', 'PHONE', 'COMMENTS', 'SOURCE_ID', 'STATUS_ID']
+          missing = [f for f in need if f not in fields['result']]
+          if missing:
+              print('в лиде портала нет полей, которые мы шлём:', ', '.join(missing))
+              raise SystemExit(1)
+          print('право crm есть, все поля зеркала приняты порталом')
+          PY
+
+      - name: Write webhook to server
+        id: write
+        if: inputs.mode == 'apply'
+        uses: ./.github/actions/ssh-run
+        env:
+          P_HOOK: ${{ secrets.B24_WEBHOOK_URL }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_HOOK
+          script: |
+            set -e
+            ENV_FILE=/opt/bizsoft/astro.env
+            cp "$ENV_FILE" "$ENV_FILE.bak.$(date +%s)"
+            # Старое значение убираем, чтобы не плодить дубли строк.
+            sed -i '/^B24_WEBHOOK_URL=/d' "$ENV_FILE"
+            printf 'B24_WEBHOOK_URL=%s\n' "$P_HOOK" >> "$ENV_FILE"
+            echo "записано, строк с B24_WEBHOOK_URL: $(grep -c '^B24_WEBHOOK_URL=' "$ENV_FILE")"
+            cd /opt/bizsoft && docker compose up -d --force-recreate astro
+            sleep 6
+            docker compose ps astro
+
+      - name: Merge server output into journal body
+        if: always()
+        run: |
+          BODY='${{ steps.write.outputs.body-file }}'
+          if [ -n "$BODY" ] && [ -f "$BODY" ]; then
+            printf '\n--- сервер ---\n' >> /tmp/b24.txt
+            cat "$BODY" >> /tmp/b24.txt
+          fi
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-b24-setup (${{ inputs.mode }})"
+          outcome: ${{ inputs.mode == 'apply' && steps.write.outputs.outcome || steps.verify.outcome }}
+          body-file: /tmp/b24.txt
