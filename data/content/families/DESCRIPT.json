@@ -1,0 +1,450 @@
+{
+  "family_key": "DESCRIPT",
+  "vendor": "Descript",
+  "vendor_profile": "data/content/vendors/descript.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "dscrpt-creator",
+  "classification_notes": [
+    "Creator / Business / Enterprise. Носитель — Creator."
+  ],
+  "products": {
+    "dscrpt-creator": {
+      "sku": "DSCR-LIC-CREATOR-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Descript Creator — индивидуальная подписка на 1 год на редактор видео и подкастов Descript: монтаж правкой текста транскрипта, удаление слов-паразитов, Overdub-голос, Studio Sound, часы транскрипции по тарифу, 4K. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Descript Creator",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Монтаж текстом",
+              "d": "Транскрипт = таймлайн."
+            },
+            {
+              "t": "ИИ",
+              "d": "Studio Sound, Overdub, Eye Contact, удаление пауз."
+            },
+            {
+              "t": "Лимиты",
+              "d": "Часы транскрипции по тарифу."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Creator",
+              "d": "Один автор."
+            },
+            {
+              "t": "Business",
+              "d": "Команда, больше часов.",
+              "link": "dscrpt-business"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор.",
+              "link": "dscrpt-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Подкастерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли русская транскрипция?",
+          "a": "Да, среди поддерживаемых языков."
+        }
+      ],
+      "related_products": [
+        "dscrpt-business",
+        "dscrpt-ent"
+      ],
+      "meta_title": "Descript Creator — подписка на год | BIZSoft",
+      "meta_description": "Descript Creator: монтаж видео и подкастов правкой текста, Studio Sound, Overdub, 4K. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "descript creator купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "dscrpt-business": {
+      "sku": "DSCR-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Descript Business — командная подписка на 1 год: места, общие проекты, больше часов транскрипции, брендинг, администрирование. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Descript Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Места, проекты, роли."
+            },
+            {
+              "t": "Часы",
+              "d": "Расширенная квота."
+            },
+            {
+              "t": "Всё из Creator",
+              "d": "ИИ-инструменты."
+            }
+          ],
+          "links": [
+            "dscrpt-creator"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Команда."
+            },
+            {
+              "t": "Creator",
+              "d": "Один.",
+              "link": "dscrpt-creator"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор.",
+              "link": "dscrpt-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты не переносятся",
+              "d": "Месячная квота сгорает; Top-up — по условиям вендора."
+            },
+            {
+              "t": "Модели меняются",
+              "d": "Состав доступных моделей и стоимость генерации — по прайсу на дату."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Медиакомандам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Делятся ли часы?",
+          "a": "Да, общий пул."
+        }
+      ],
+      "related_products": [
+        "dscrpt-creator",
+        "dscrpt-ent"
+      ],
+      "meta_title": "Descript Business — подписка на год | BIZSoft",
+      "meta_description": "Descript Business: команда, общие проекты, расширенные часы. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "descript business купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "dscrpt-ent": {
+      "sku": "DSCR-LIC-ENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Descript Enterprise — командный план корпоративного уровня на 1 год: SSO, договорные условия, выделенная поддержка, расширенные лимиты. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Descript Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Безопасность",
+              "d": "SSO."
+            },
+            {
+              "t": "Лимиты",
+              "d": "По договору."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенная."
+            }
+          ],
+          "links": [
+            "dscrpt-creator"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Корпорация."
+            },
+            {
+              "t": "Business",
+              "d": "Команда.",
+              "link": "dscrpt-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Квота помесячно",
+              "d": "Неиспользованное не копится."
+            },
+            {
+              "t": "Прайс подвижен",
+              "d": "Стоимость генерации и набор моделей вендор меняет без предупреждения."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным медиа."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум?",
+          "a": "По договору."
+        }
+      ],
+      "related_products": [
+        "dscrpt-creator",
+        "dscrpt-business"
+      ],
+      "meta_title": "Descript Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Descript Enterprise: SSO, договорные лимиты; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "descript enterprise купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

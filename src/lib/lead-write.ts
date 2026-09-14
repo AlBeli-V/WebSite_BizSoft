@@ -18,9 +18,9 @@ const OPTIONAL_FIELDS: readonly string[] = [
   ...ATTRIBUTION_EXTRA_FIELDS,
 ];
 
-export async function createLeadTolerant(record: Record<string, unknown>): Promise<void> {
+export async function createLeadTolerant(record: Record<string, unknown>): Promise<string | number | null> {
   try {
-    await createLead(record);
+    return await createLead(record);
   } catch (e) {
     const stripped = { ...record };
     const dropped: string[] = [];
@@ -30,6 +30,6 @@ export async function createLeadTolerant(record: Record<string, unknown>): Promi
     // Полей не было — значит, дело не в схеме, и глушить ошибку нельзя.
     if (!dropped.length) throw e;
     console.warn(`lead: поля не приняты (${dropped.join(', ')}), повтор без них`, e);
-    await createLead(stripped);
+    return await createLead(stripped);
   }
 }

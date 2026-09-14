@@ -1,0 +1,288 @@
+{
+  "family_key": "WORDPRESS",
+  "vendor": "Automattic (WordPress.com)",
+  "vendor_profile": "data/content/vendors/wordpress.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "wordpress-business",
+  "classification_notes": [
+    "Business / Commerce. Носитель — Business."
+  ],
+  "products": {
+    "wordpress-business": {
+      "sku": "AUTM-LIC-WPBUSINESS-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "сайт",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "WordPress.com Business — подписка на 1 год на хостинг сайта на WordPress с управляемой инфраструктурой Automattic: установка плагинов и тем, свой домен, 50 ГБ, бэкапы, SFTP и SSH, CDN. Лицензия на сайт, оформляется на организацию; цена первого года.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт WordPress.com Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хостинг",
+              "d": "Управляемый, CDN, бэкапы, защита."
+            },
+            {
+              "t": "Плагины и темы",
+              "d": "Любые."
+            },
+            {
+              "t": "Доступ",
+              "d": "SFTP, SSH, WP-CLI."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Сайт компании."
+            },
+            {
+              "t": "Commerce",
+              "d": "Магазин с WooCommerce.",
+              "link": "wordpress-commerce"
+            },
+            {
+              "t": "Framer Pro",
+              "d": "Альтернатива без WordPress.",
+              "link": "framer-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям на WordPress."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Домен",
+              "d": "Переносится или регистрируется на организацию."
+            },
+            {
+              "t": "Продление",
+              "d": "Цена второго года отличается."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Цена продления?",
+          "a": "Обычно выше первого года — уточняйте."
+        }
+      ],
+      "related_products": [
+        "wordpress-commerce",
+        "framer-pro"
+      ],
+      "meta_title": "WordPress.com Business — подписка на год | BIZSoft",
+      "meta_description": "WordPress.com Business: управляемый хостинг с плагинами, доменом, бэкапами, SSH; лицензия на сайт. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "wordpress.com business купить — hero"
+      ],
+      "uncertainties": [
+        "Цена продления — по условиям Automattic."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "wordpress-commerce": {
+      "sku": "AUTM-LIC-WPCOMMERCE-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "сайт",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "WordPress.com Commerce — подписка на 1 год на хостинг интернет-магазина на WordPress с предустановленным WooCommerce и премиум-расширениями: всё из Business плюс инструменты продаж, 0 % комиссии платформы. Лицензия на сайт; цена первого года.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт WordPress.com Commerce",
+          "kind": "items",
+          "items": [
+            {
+              "t": "WooCommerce",
+              "d": "Магазин с премиум-расширениями."
+            },
+            {
+              "t": "Комиссия",
+              "d": "0 % платформы."
+            },
+            {
+              "t": "Всё из Business",
+              "d": "Хостинг, плагины, SSH."
+            }
+          ],
+          "links": [
+            "wordpress-business"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Commerce",
+              "d": "Магазин."
+            },
+            {
+              "t": "Business",
+              "d": "Сайт без магазина.",
+              "link": "wordpress-business"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Интернет-магазинам."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Платёжные плагины",
+              "d": "Проверьте доступность нужных шлюзов."
+            },
+            {
+              "t": "Продление",
+              "d": "Цена второго года отличается."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Платежи в России?",
+          "a": "Зависят от платёжных плагинов."
+        }
+      ],
+      "related_products": [
+        "wordpress-business"
+      ],
+      "meta_title": "WordPress.com Commerce — подписка на год | BIZSoft",
+      "meta_description": "WordPress.com Commerce: хостинг магазина с WooCommerce и премиум-расширениями; лицензия на сайт. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "wordpress.com commerce купить — hero"
+      ],
+      "uncertainties": [
+        "Цена продления — по условиям Automattic."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

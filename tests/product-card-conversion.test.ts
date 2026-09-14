@@ -16,6 +16,7 @@ import { resolve } from 'node:path';
 import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, unitPlural, qtyPresets, UNIT_FORMS } from '../src/lib/product-commerce';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../src/data/policies';
 import { cardComposition, KIND_MARKER } from '../src/lib/product-composition';
+import { PARAM_ORDER, cardParams, unitLabel } from '../src/lib/card-params';
 import { PLAN_MARKER, PLAN_MARKER_UNIVERSAL } from '../src/lib/plan-type';
 import { VENDOR_CONTENT } from '../src/data/vendor-content';
 
@@ -66,7 +67,10 @@ describe('цена не меньше реального заказа', () => {
     // Решение руководителя 13.09.2026 (docs/rules/card-price-block.md):
     // слева цена единицы и «в том числе НДС», без «цена за 1 место»;
     // справа «1 рабочее место (от 2)», срок, план; ИТОГО — за минимум.
-    expect(page).not.toContain('`от ${formatRub(');
+    // «от» запрещено в блоке цены; в списке похожих товаров оно законно —
+    // там цена линейки, а не этой позиции. Проверка поэтому по колонке.
+    const buyCard = page.slice(page.indexOf('class="card buy-card"'), page.indexOf('<div class="col-rest">'));
+    expect(buyCard).not.toContain('`от ${formatRub(');
     expect(page).not.toContain('цена за {unitPhrase(1, commerce.qtyLabel)}');
     expect(page).toContain("(commerce.minQty > 1 ? ` (от ${commerce.minQty})` : '')");
     expect(page).toContain("if (term === TERM.balance) priceWhat.push('до истечения');");
@@ -110,10 +114,25 @@ describe('призыв называет результат', () => {
 
   it('подборка — обратимое действие с видимым состоянием', () => {
     // Одноразовое «Добавлено ✓» не давало ни состояния, ни способа
-    // передумать: человек шёл искать корзину.
-    expect(page).toContain('Исключить из подборки');
+    // передумать: человек шёл искать корзину. Состояние называет сама кнопка —
+    // подписью и знаком «+» / «×» (отдельный флажок снят 14.09.2026).
     expect(page).toContain('removeFromCart');
-    expect(page).toContain('data-coll-check');
+    expect(page).toContain("addBtn?.classList.toggle('is-in', on);");
+    expect(page).not.toContain('data-coll-check');
+  });
+
+  it('кнопка подборки не меняет размер при нажатии', () => {
+    // Растущая подпись двигала колонку под пальцем: обе подписи лежат в одной
+    // ячейке сетки, видимую переключает класс (постановка 14.09.2026).
+    expect(page).toContain('<span class="ct-add">Добавить в подборку</span>');
+    expect(page).toContain('<span class="ct-out">Исключить</span>');
+    expect(page).toContain('.coll-txt > span { grid-area: 1 / 1; }');
+    expect(page).toContain('.coll-btn.is-in .ct-add { visibility: hidden; }');
+    expect(page).toContain('.coll-btn.is-in .ct-out { visibility: visible; }');
+    // Перезапись подписи скриптом вернула бы скачок.
+    expect(page).not.toContain('collLabel.textContent');
+    // Полная фраза остаётся доступным именем кнопки.
+    expect(page).toContain("'Исключить из подборки для КП'");
   });
 
   it('окно заявки называет то, за чем пришли', () => {
@@ -303,8 +322,9 @@ describe('расхождения выката 12.09.2026 закрыты', () => 
     expect(page).not.toContain('cardMeta?.badge');
   });
 
-  it('строка типа использования не выводится без подписи', () => {
-    expect(page).toContain('product.license_type && LICENSE_LABEL[product.license_type]');
+  it('строки типа использования в параметрах больше нет', () => {
+    // Постановка руководителя 14.09.2026: она повторяет «Тип плана».
+    expect(page).not.toContain('LICENSE_LABEL[product.license_type]');
   });
 
   it('хвостовой призыв страницы убран: он дублирует помощь с выбором', () => {
@@ -313,7 +333,8 @@ describe('расхождения выката 12.09.2026 закрыты', () => 
 
   it('доверительные признаки есть и у подарочной карты', () => {
     const gift = page.slice(page.indexOf('<GiftCardSelector'), page.indexOf('class="card buy-card"'));
-    expect(gift).toContain('TRUST_LINES');
+    // Компонент один на обе колонки — обычную и подарочной карты.
+    expect(gift).toContain('<TrustLines />');
   });
 
   it('командные планы Maxon считаются местами, а не лицензиями', () => {
@@ -348,7 +369,10 @@ describe('композиция, одобренная 12.09.2026', () => {
     // Строка условий, заведённая в шаблоне мимо policies.ts, разъедется с
     // ответом агента при первой же правке.
     expect(page).toContain('PROCUREMENT_FLOW');
-    expect(page).toContain('TRUST_LINES');
+    // Доверительные строки карточка берёт компонентом, а он — из policies.ts.
+    expect(page).toContain('<TrustLines />');
+    expect(readFileSync(resolve(ROOT, 'src/components/TrustLines.astro'), 'utf8'))
+      .toContain("import { TRUST_LINES } from '../data/policies'");
     expect(page).not.toContain('Закрывающие бухгалтерские документы');
     expect(PROCUREMENT_FLOW).toHaveLength(5);
     expect(TRUST_LINES.length).toBeGreaterThan(2);
@@ -357,7 +381,10 @@ describe('композиция, одобренная 12.09.2026', () => {
   it('артикул ушёл из первого экрана в параметры', () => {
     const hero = page.slice(page.indexOf('class="col-hero"'), page.indexOf('class="product-aside"'));
     expect(hero).not.toContain('product.sku}');
-    expect(page).toContain('Артикул BIZSoft:');
+    // Подпись — просто «Артикул»: приставка BIZSoft снята 14.09.2026, она не
+    // часть артикула. Строку собирает cardParams.
+    expect(PARAM_ORDER).toContain('Артикул');
+    expect(page).not.toContain('Артикул BIZSoft');
   });
 
   it('интерфейсные решения не выводятся из слага, названия или вендора', () => {
@@ -378,8 +405,13 @@ describe('композиция, одобренная 12.09.2026', () => {
     expect(rg?.faq).toHaveLength(9);
     // Шаблон обязан их показывать, а не молча игнорировать.
     expect(page).toContain('transfer: factTransfer(composition, planKind, cardMeta?.reassign)');
-    expect(page).toContain('Переназначение пользователей:');
-    expect(page).toContain('Управление:');
+    // Отдельной строки «Переназначение пользователей» в параметрах больше нет:
+    // она повторяла колонку ТРАНСФЕР блока фактов (постановка 14.09.2026).
+    expect(page).not.toContain('Переназначение пользователей:');
+    // «Управление» и «Трансфер» — канонические строки параметров, значения
+    // приходят из контента вендора и из той же функции, что колонка ТРАНСФЕР.
+    expect(page).toContain('management: cardMeta?.management,');
+    expect(page).toContain('transfer: factTransfer(composition, planKind, cardMeta?.reassign),');
     expect(page).toContain('cardMeta.includes.map');
     expect(page).toContain('cardMeta?.faq');
   });
@@ -440,5 +472,244 @@ describe('путь до карточки', () => {
     const rule = readFileSync(resolve(ROOT, 'docs/rules/breadcrumbs.md'), 'utf8');
     expect(rule).toContain('Главная / <Производитель> / <Продукт>');
     expect(rule).toContain('src/data/vendors.ts');
+  });
+});
+
+describe('колонка покупки, решение руководителя 14.09.2026', () => {
+  it('под ценой нет ни приписки, ни рыжей раскладки НДС', () => {
+    // «за пользователя в год» повторяло пункты справа, а «в т.ч. НДС N% ⓘ» —
+    // строку под суммой. Налог называется один раз, у цены, и в ИТОГО.
+    expect(page).not.toContain('class="price-note"');
+    expect(page).not.toContain('vat-hint');
+    expect(page).not.toContain('product.price_note');
+    expect(page).toContain('{vat > 0 && <span>в том числе НДС {vat}%</span>}');
+    expect(page).toContain("ИТОГО{vat > 0 ? ` в т.ч. НДС ${vat}%` : ''}:");
+  });
+
+  it('ступень объёма ведёт счётчик, ИТОГО и подпись призыва', () => {
+    // Покупатель всё время видит цену единицы и сумму за выбранный объём,
+    // а кнопка называет тот же объём со склонением.
+    expect(page).toContain("qtyInput.value = b.dataset.team || String(minQty)");
+    expect(page).toContain('if (totalEl) totalEl.textContent = formatRub(unit * q);');
+    // Подпись пишется в свой узел: textContent на кнопке снёс бы стрелку.
+    expect(page).toContain("const txt = b.querySelector('[data-cta-txt]') ?? b;");
+    expect(page).toContain('txt.textContent = quoteCtaLabel(commerce, q, namedUnit);');
+    expect(page).toContain("qtyInput.value = String(curQty() + 1);");
+    expect(page).toContain("qtyInput.value = String(Math.max(minQty, curQty() - 1));");
+    const s = commerceState({ price: 1000, qtyLabel: 'Рабочих мест' });
+    expect(quoteCtaLabel(s, 1)).toBe('Получить КП на 1 рабочее место');
+    expect(quoteCtaLabel(s, 2)).toBe('Получить КП на 2 рабочих места');
+    expect(quoteCtaLabel(s, 3)).toBe('Получить КП на 3 рабочих места');
+    expect(quoteCtaLabel(s, 5)).toBe('Получить КП на 5 рабочих мест');
+    expect(quoteCtaLabel(s, 20)).toBe('Получить КП на 20 рабочих мест');
+    expect(quoteCtaLabel(s, 21)).toBe('Получить КП на 21 рабочее место');
+  });
+
+  it('подсказка про единое КП стоит под кнопками, со знаком слева', () => {
+    // Сначала действие, потом объяснение, зачем оно нужно.
+    const rule = page.slice(page.indexOf('.coll-hint {'));
+    const decl = rule.slice(0, rule.indexOf('}'));
+    expect(decl).toContain('display: flex');
+    expect(decl).toContain('align-items: flex-start');
+    expect(page).toContain('class="hint-ic"');
+    expect(page.indexOf('class="act-row"')).toBeLessThan(page.indexOf('class="coll-hint"'));
+  });
+
+  it('подборка и вопрос — обводкой акцентом, заливка в колонке одна', () => {
+    const rule = page.slice(page.indexOf('.coll-btn, .ask-btn {'));
+    const decl = rule.slice(0, rule.indexOf('}'));
+    // Скругление — как у .btn в global.css: кнопки колонки читаются одной
+    // семьёй. Строгие 12px вместо пилюли — решение руководителя 14.09.2026.
+    expect(decl).toContain('border-radius: 12px');
+    const btn = readFileSync(resolve(ROOT, 'src/styles/global.css'), 'utf8');
+    const base = btn.slice(btn.indexOf('  .btn {'));
+    expect(base.slice(0, base.indexOf('}'))).toContain('border-radius: 12px');
+    expect(decl).toContain('border: 1.5px solid var(--color-accent)');
+    expect(decl).toContain('background: var(--color-bg-card)');
+    expect(decl).toContain('color: var(--color-accent)');
+    // Жёсткая ширина без права сжаться вынесла бы кнопку за край колонки.
+    expect(decl).toContain('min-width: 0');
+    // Подборка забирает остаток строки, вопрос стоит по содержимому: подпись
+    // вопроса не меняется, поэтому обе ширины постоянны (14.09.2026).
+    expect(page).toContain('.coll-btn { flex: 1 1 auto; }');
+    expect(page).toContain('.ask-btn { flex: 0 1 auto; }');
+    // Заливка акцентом остаётся у главного призыва.
+    expect(page).toContain('class="btn btn-primary btn-caps"');
+    // Состав кнопки подборки повторяет плашку «Подборка для КП» из шапки.
+    expect(page).toContain('<CollectionMark size={18} />');
+    expect(page).toContain('class="coll-txt" data-coll-label');
+    expect(page).toContain('class="coll-sign"');
+    // Вопрос отличается знаком-облачком, а не весом.
+    expect(page).toContain('class="ask-ic"');
+  });
+
+  it('подписи кнопок колонки — прописными, у призыва стрелка', () => {
+    for (const sel of ['.coll-btn, .ask-btn {', '.btn-caps {']) {
+      const decl = page.slice(page.indexOf(sel));
+      expect(decl.slice(0, decl.indexOf('}')), sel).toContain('text-transform: uppercase');
+    }
+    expect(page).toContain('class="cta-arrow"');
+    expect(page).toContain('class="cta-txt" data-cta-txt');
+  });
+
+  it('состояние подборки называет и знак: плюс сменяется диагональным крестиком', () => {
+    expect(page).toContain('class="sign-plus"');
+    expect(page).toContain('class="sign-cross"');
+    expect(page).toContain('.coll-btn.is-in .sign-plus { opacity: 0; }');
+    expect(page).toContain('.coll-btn.is-in .sign-cross { opacity: 1; }');
+    // Класс состояния ставит тот же обработчик, что меняет подпись.
+    expect(page).toContain("addBtn?.classList.toggle('is-in', on);");
+  });
+
+  it('«Задать вопрос» — кнопка в том же ряду, что подборка; перенос запрещён', () => {
+    expect(page).toContain('class="ask-btn"');
+    expect(page).toContain('<span>Задать вопрос</span>');
+    // Обводка акцентом на белом, как у подборки: заливка в колонке одна, у
+    // главного призыва (решение руководителя 14.09.2026 по референсу).
+    const ask = page.slice(page.indexOf('.coll-btn, .ask-btn {'));
+    expect(ask.slice(0, ask.indexOf('}'))).toContain('border: 1.5px solid var(--color-accent)');
+    // Ссылкой это действие больше не оформляется.
+    expect(page).not.toContain('btn-link');
+    const row = page.slice(page.indexOf('.act-row {'));
+    expect(row.slice(0, row.indexOf('}'))).toContain('flex-wrap: nowrap');
+    // Порядок в ряду: подборка, затем вопрос.
+    const strip = page.slice(page.indexOf('<div class="act-row">'));
+    expect(strip.indexOf('coll-btn')).toBeLessThan(strip.indexOf('ask-btn'));
+  });
+
+  it('доверительные строки остались, каждая со своим знаком', () => {
+    const buy = page.slice(page.indexOf('class="card buy-card"'), page.indexOf('<div class="col-rest">'));
+    expect(buy).toContain('<TrustLines />');
+    const trust = readFileSync(resolve(ROOT, 'src/components/TrustLines.astro'), 'utf8');
+    expect(trust).toContain('TRUST_LINES.map');
+    // Знак у каждой строки: четыре одинаковых пункта читались перечислением.
+    expect(trust).toContain('class="trust-ic"');
+    const icons = trust.match(/^\s*\[.*\],$/gm) ?? [];
+    expect(icons.length).toBe(TRUST_LINES.length);
+  });
+
+  it('знак подборки — один на шапку и карточку', () => {
+    const header = readFileSync(resolve(ROOT, 'src/components/Header.astro'), 'utf8');
+    const mark = readFileSync(resolve(ROOT, 'src/components/CollectionMark.astro'), 'utf8');
+    // Второго начертания не заводится: точки рисует один компонент.
+    expect(header).toContain('<CollectionMark size={20} class="cart-mark" />');
+    expect(page).toContain('<CollectionMark size={18} />');
+    expect(mark).toContain('const AXIS = [5, 12, 19];');
+    // Плашка шапки: знак, разделитель, прописное название, счётчик.
+    expect(header).toContain('class="cart-sep"');
+    const label = header.slice(header.indexOf('.cart-label {'));
+    expect(label.slice(0, label.indexOf('}'))).toContain('text-transform: uppercase');
+    // Счётчик двойной: кружок с цифрой и дуга сбоку, оба акцентом.
+    expect(header).toContain('class="cart-arc"');
+    expect(header).toContain('data-cart-num');
+    const badge = header.slice(header.indexOf('.cart-badge {'));
+    expect(badge.slice(0, badge.indexOf('}'))).toContain('color: var(--color-accent)');
+    const num = header.slice(header.indexOf('.cart-num {'));
+    expect(num.slice(0, num.indexOf('}'))).toContain('background: var(--color-accent)');
+    // Цифра пишется в свой узел: textContent на самом счётчике снёс бы дугу.
+    expect(header).toContain("const num = node.querySelector('[data-cart-num]');");
+    // Дуга развёрнута на 45°: счётчик не читается симметричной скобкой.
+    const arc = header.slice(header.indexOf('.cart-arc {'));
+    expect(arc.slice(0, arc.indexOf('}'))).toContain('transform: rotate(-45deg)');
+  });
+
+  it('правило записано в свод, в файлы правил и в скилы заведения позиций', () => {
+    // Глобальное правило живёт не только в шаблоне: его читает каждая сессия,
+    // в том числе та, что заводит нового вендора или товар.
+    const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
+    expect(claude).toContain('docs/rules/card-price-block.md');
+    expect(claude).toContain('docs/rules/collection-plate.md');
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/card-price-block.md'), 'utf8');
+    expect(rule).toContain('14.09.2026');
+    expect(rule).toContain('ЗАДАТЬ ВОПРОС');
+    expect(rule).toContain('CollectionMark');
+    // Знак и плашка — отдельное правило: они живут на всех страницах, не
+    // только в карточке товара.
+    const plate = readFileSync(resolve(ROOT, 'docs/rules/collection-plate.md'), 'utf8');
+    expect(plate).toContain('CollectionMark.astro');
+    expect(plate).toContain('ПОДБОРКА ДЛЯ КП');
+    expect(plate).toContain('--cart=');
+    for (const skill of [
+      '.claude/skills/bizsoft-product-conversion-flow/SKILL.md',
+      '.claude/skills/vendor-page-rebuild/SKILL.md',
+    ]) {
+      expect(readFileSync(resolve(ROOT, skill), 'utf8'), skill)
+        .toContain('docs/rules/card-price-block.md');
+    }
+  });
+});
+
+describe('баннер помощи с выбором складывается, а не рвётся', () => {
+  // Разборы 14.09.2026. Сперва широкий баннер был жёсткой строкой из трёх
+  // частей: рисунок и призыв не сжимались, текст схлопывался до нуля, и на
+  // телефоне заголовок вставал столбиком по букве. Затем выяснилось, что и
+  // починка по ширине окна гадает: в узкой колонке окно широкое, а места нет,
+  // в альбомной ориентации телефона окно «мобильное», а места вдоволь.
+  // Форму задаёт запрос к собственной ширине баннера.
+  const banner = readFileSync(resolve(ROOT, 'src/components/AssistBanner.astro'), 'utf8');
+  const decl = (sel: string) => {
+    const at = banner.indexOf(sel);
+    expect(at, sel).toBeGreaterThan(-1);
+    return banner.slice(at, banner.indexOf('}', at));
+  };
+
+  it('баннер один на обе площадки — компонент, а не две копии разметки', () => {
+    // Две копии расходятся: одну правят, вторую забывают.
+    expect(page).toContain("import AssistBanner from '../../components/AssistBanner.astro';");
+    expect(page).toContain('<AssistBanner href={askHref} variant="inline" />');
+    expect(page).toContain('<section class="sec"><AssistBanner href={askHref} /></section>');
+    // Разметки и стилей баннера в странице не осталось.
+    expect(page).not.toContain('class="assist');
+    expect(page.slice(page.indexOf('<style>'))).not.toContain('.assist');
+  });
+
+  it('форму задаёт собственная ширина баннера, а не ширина окна', () => {
+    expect(decl('.assist-wrap {')).toContain('container-type: inline-size');
+    expect(banner).toContain('@container (max-width: 42rem)');
+    // Порог в rem: при крупном системном шрифте требования ряда растут вместе
+    // с ним, пиксельный порог отстал бы.
+    expect(banner).not.toMatch(/@container \(max-width: \d+px\)/);
+  });
+
+  it('в сложенной форме столбик читается намеренным', () => {
+    const mq = banner.slice(banner.indexOf('@container (max-width: 42rem) {'));
+    const body = mq.slice(0, mq.indexOf('\n  }'));
+    expect(body).toContain('.assist { flex-direction: column');
+    expect(body).toContain('align-items: stretch');
+    // В колонке главная ось вертикальная: базис стал бы высотой текста и
+    // открыл бы под абзацем пустой провал.
+    expect(body).toContain('.assist-body { flex: 0 1 auto;');
+    // Сложенная форма достаётся и широкому месту (альбомный телефон): кнопка
+    // во всю ширину растянулась бы на шестьсот пикселей.
+    expect(body).toContain('max-width: 22rem');
+    expect(body).toContain('margin-inline: auto');
+  });
+
+  it('есть страховка на случай, когда запрос к контейнеру не поддержан', () => {
+    // Старый браузер не знает @container — ряд обязан сложиться сам, а не
+    // сжать текст в нить и вытолкнуть кнопку за экран.
+    expect(decl('.assist {')).toContain('flex-wrap: wrap');
+    expect(decl('.assist-body {')).toContain('flex: 1 1 14rem');
+  });
+
+  it('размер стрелки живёт вместе со стрелкой', () => {
+    // SVG с одним viewBox и без ширины растягивается во всё доступное место;
+    // стили карточки в область компонента не достают.
+    expect(decl('.cta-arrow {')).toContain('width: 20px');
+  });
+
+  it('заглушка рендерит широкий баннер, иначе прогоны его не видят', () => {
+    // Широкий баннер живёт в модульной ветке (`hasModules`), а в заглушке не
+    // было ни одной позиции с `content_modules` — поломка и ушла в прод.
+    const stub = readFileSync(resolve(ROOT, 'scripts/ci/stub-directus.mjs'), 'utf8');
+    expect(stub).toContain('content_modules: [');
+    expect(page).toContain('{hasModules && (');
+  });
+
+  it('правило записано в файл правил', () => {
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/card-price-block.md'), 'utf8');
+    expect(rule).toContain('Баннер помощи');
+    expect(rule).toContain('content_modules');
+    expect(rule).toContain('@container');
   });
 });

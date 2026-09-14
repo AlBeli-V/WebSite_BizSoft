@@ -129,7 +129,8 @@ describe('пакеты scripts/catalog', () => {
 
   it('слаги товаров уникальны, enterprise/quote-only тарифы не заведены', () => {
     const all = packages.flatMap(({ pkg }) =>
-      pkg.products.map((p: { slug: string; name: string; base_price_usd?: number | null }) => p));
+      pkg.products.map((p: { slug: string; name: string; base_price_usd?: number | null;
+        price_confidence?: string | null }) => p));
     expect(new Set(all.map((p) => p.slug)).size).toBe(all.length);
     // Запрет на enterprise-тарифы существует потому, что у большинства
     // вендоров «Enterprise» означает «цены нет, обращайтесь в отдел продаж».
@@ -149,6 +150,17 @@ describe('пакеты scripts/catalog', () => {
     // доступны по карте, на сайте оставляем» (docs/rules/catalog.md).
     const PRICED_ENTERPRISE = new Set(['postman-enterprise']);
     for (const p of all) {
+      // Продукт, у которого вендор не публикует цену вовсе: страница магазина
+      // отдаёт конфигуратор с нулевым итогом (docs/rules/catalog.md, решение
+      // руководителя 14.09.2026). Послабление узкое — оно про продукт
+      // целиком, а не про старшую редакцию линейки, где соседние редакции
+      // стоят с ценой: такой тариф ниже по-прежнему требует цену со страницы.
+      if (p.price_confidence === 'quote-only') {
+        expect(p.base_price_usd, `${p.slug}: у позиции по запросу стоит цена`).toBeNull();
+        expect(p.name.toLowerCase(), `enterprise-тариф по запросу ${p.slug}`)
+          .not.toContain('enterprise');
+        continue;
+      }
       if (fromZohoPipeline(p.slug) || PRICED_ENTERPRISE.has(p.slug)) {
         // Условие послабления: цена карточки взята со страницы вендора.
         expect(p.base_price_usd, `${p.slug}: позиция без цены источника`).toBeGreaterThan(0);

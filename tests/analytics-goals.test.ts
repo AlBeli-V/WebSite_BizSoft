@@ -42,7 +42,10 @@ function calledGoals(): Set<string> {
     // сканер по одним лишь одинарным кавычкам их не видел, и цель могла
     // годами уходить в счётчик, не значась в реестре (так было с
     // click_get_quote — главным призывом всех лендингов производителей).
-    for (const m of src.matchAll(/data-ev(?:-view)?="([a-z0-9_]+)"/g)) {
+    // data-ev и data-goal — два механизма разметки целей прямо в атрибуте,
+    // мимо trackGoal(. Оба сканируются здесь: имя, которого нет в реестре,
+    // улетает в счётчик незаведённым и в отчёте не существует.
+    for (const m of src.matchAll(/data-(?:ev(?:-view)?|goal)="([a-z0-9_]+)"/g)) {
       if (names.includes(m[1])) found.add(m[1]);
     }
     for (const m of src.matchAll(/'([a-z_]+)'/g)) {
@@ -63,7 +66,7 @@ function calledGoals(): Set<string> {
 function dataEvGoals(): Set<string> {
   const found = new Set<string>();
   for (const f of walk(resolve(ROOT, 'src'))) {
-    for (const m of readFileSync(f, 'utf8').matchAll(/data-ev(?:-view)?="([a-z0-9_]+)"/g)) {
+    for (const m of readFileSync(f, 'utf8').matchAll(/data-(?:ev(?:-view)?|goal)="([a-z0-9_]+)"/g)) {
       found.add(m[1]);
     }
   }
@@ -73,7 +76,7 @@ function dataEvGoals(): Set<string> {
 describe('реестр целей', () => {
   const called = calledGoals();
 
-  it('каждая data-ev цель заведена в реестре', () => {
+  it('каждая цель из атрибута (data-ev, data-goal) заведена в реестре', () => {
     const unregistered = [...dataEvGoals()].filter((g) => !GOALS[g]).sort();
     expect(unregistered).toEqual([]);
   });
