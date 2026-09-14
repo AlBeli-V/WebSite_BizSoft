@@ -1,0 +1,1676 @@
+{
+  "family_key": "ADBE-DOCS",
+  "vendor": "Adobe Inc.",
+  "vendor_profile": "data/content/vendors/adobe.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "adobe-acro-pro",
+  "classification_notes": [
+    "Acrobat (Standard/Pro/Studio/Pro для команд), Express (Premium/для команд), Substance 3D (Collection/для команд), Firefly (для команд/enterprise — договорные), Stock. Носитель — Acrobat Pro."
+  ],
+  "products": {
+    "adobe-acro-pro": {
+      "sku": "ADBE-LIC-ACROBATPRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acrobat Pro — индивидуальная подписка Adobe на 1 год на полный набор для PDF одному пользователю: создание и редактирование текста и изображений в PDF, конвертация в Word, Excel и PowerPoint и обратно, распознавание сканов, сравнение версий, вымарывание, электронные подписи и формы. Windows, macOS, веб и мобильные.\n\nСредняя редакция линейки: Standard закрывает базовые операции, Studio добавляет ИИ-ассистента и PDF-пространства. Подписка на личный Adobe ID; командный вариант с Admin Console — Acrobat Pro для команд.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Acrobat Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Редактирование",
+              "d": "Текст, изображения и страницы прямо в PDF; объединение, разделение, сжатие."
+            },
+            {
+              "t": "Конвертация и OCR",
+              "d": "PDF ↔ Office, распознавание сканов в редактируемый текст."
+            },
+            {
+              "t": "Юридические сценарии",
+              "d": "Сравнение двух версий, вымарывание конфиденциального, защита паролем, штампы Bates."
+            },
+            {
+              "t": "Подписи и формы",
+              "d": "Отправка на подпись Acrobat Sign, отслеживание, заполняемые формы с автосборкой."
+            },
+            {
+              "t": "Везде",
+              "d": "Настольные, веб и мобильные версии; вход на двух устройствах, работа на одном."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard, Pro или Studio",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Acrobat Standard",
+              "d": "Просмотр, создание, базовое редактирование и подписи — дешевле.",
+              "link": "adobe-acro-std"
+            },
+            {
+              "t": "Acrobat Pro",
+              "d": "Сравнение, вымарывание, OCR, расширенные подписи и формы."
+            },
+            {
+              "t": "Acrobat Studio",
+              "d": "Pro плюс ИИ-ассистент по подборкам документов, PDF Spaces и Express Premium.",
+              "link": "adobe-acro-studio"
+            },
+            {
+              "t": "Acrobat Pro для команд",
+              "d": "То же на местах организации с Admin Console.",
+              "link": "adobe-acro-pro-team"
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личном Adobe ID: устанавливается на два устройства, активна на одном, передаче другому сотруднику не подлежит. Организация оформляет её на конкретного пользователя по договору; если лицензии должны принадлежать компании — командный план."
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Юристам, бухгалтерам, менеджерам по договорам — всем, кто ежедневно правит, сравнивает и подписывает PDF и работает с отсканированными документами."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Acrobat Standard",
+              "d": "Базовые операции дешевле.",
+              "link": "adobe-acro-std"
+            },
+            {
+              "t": "Acrobat Studio",
+              "d": "С ИИ-ассистентом.",
+              "link": "adobe-acro-studio"
+            },
+            {
+              "t": "Acrobat Pro для команд",
+              "d": "Владение у компании.",
+              "link": "adobe-acro-pro-team"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Acrobat Pro в Creative Cloud Pro?",
+          "a": "Да, Creative Cloud Pro включает Acrobat Pro; отдельная подписка нужна тем, кому не нужны остальные приложения."
+        },
+        {
+          "q": "Чем Pro отличается от Standard?",
+          "a": "Сравнением версий, вымарыванием, OCR сканов, расширенными формами и подписями; Standard — базовое редактирование и подписи."
+        }
+      ],
+      "related_products": [
+        "adobe-acro-std",
+        "adobe-acro-studio",
+        "adobe-acro-pro-team"
+      ],
+      "meta_title": "Adobe Acrobat Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Acrobat Pro на одного пользователя: редактирование PDF, конвертация, OCR, сравнение, вымарывание, электронные подписи. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acrobat pro купить подписка — hero, meta",
+        "acrobat standard vs pro — PLAN_COMPARE, FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adobe-acro-pro-team": {
+      "sku": "ADBE-LIC-ACROBATPRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acrobat Pro для команд — годовой командный план Adobe на полноценный Acrobat на рабочих местах организации: лицензии принадлежат компании, назначаются в Admin Console и переназначаются при кадровых изменениях; функции — те же, что у индивидуального Acrobat Pro.\n\nКомандный план добавляет то, чего нет у индивидуального: консоль, реклamацию файлов уволившихся сотрудников, командное администрирование подписей Acrobat Sign и расширенную поддержку. Минимум — 1 место.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Acrobat Pro",
+          "kind": "prose",
+          "body": "Редактирование текста и изображений в PDF, конвертация в форматы Office и обратно, OCR, сравнение версий, вымарывание, формы и подписи — полный состав расписан на карточке индивидуального Acrobat Pro; набор идентичен.",
+          "links": [
+            "adobe-acro-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как устроен командный план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Admin Console",
+              "d": "Администратор назначает и снимает места; лицензия остаётся у компании при уходе сотрудника."
+            },
+            {
+              "t": "Реклamация",
+              "d": "Облачные документы уволившегося переносятся в аккаунт организации."
+            },
+            {
+              "t": "Подписи",
+              "d": "Командное управление транзакциями Acrobat Sign и шаблонами."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Расширенная поддержка и единая дата продления VIP."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Командный или индивидуальный Acrobat Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Для команд",
+              "d": "Два и больше пользователей, кадровая ротация, документы должны остаться у компании."
+            },
+            {
+              "t": "Индивидуальный",
+              "d": "Один пользователь, лицензия на его Adobe ID — дешевле.",
+              "link": "adobe-acro-pro"
+            },
+            {
+              "t": "Creative Cloud Pro для команд",
+              "d": "Если кроме Acrobat нужны дизайн-приложения.",
+              "link": "adobe-cc-pro-team"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Единая организация",
+              "d": "Все места в одном аккаунте Adobe; индивидуальные подписки изолированы."
+            },
+            {
+              "t": "Место — один активный пользователь",
+              "d": "Общий компьютер в сменах требует отдельной модели — уточняйте."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Юридическим отделам, бухгалтериям и канцеляриям от двух человек, где договоры подписывают и правят разные сотрудники, а архив документов должен принадлежать компании."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли передать место новому сотруднику?",
+          "a": "Да, администратор снимает лицензию в Admin Console и назначает другому; его облачные документы реклamируются."
+        }
+      ],
+      "related_products": [
+        "adobe-acro-pro",
+        "adobe-cc-pro-team"
+      ],
+      "meta_title": "Acrobat Pro для команд — подписка на год | BIZSoft",
+      "meta_description": "Acrobat Pro на рабочих местах организации: Admin Console, переназначение, реклamация документов, подписи Acrobat Sign. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acrobat pro для команд купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adobe-acro-std": {
+      "sku": "ADBE-LIC-ACROBATSTD-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acrobat Standard — индивидуальная подписка Adobe на 1 год на базовый набор для PDF одному пользователю: просмотр и создание PDF, редактирование текста и изображений, конвертация в Office, объединение файлов, заполнение форм и отправка на подпись. Windows, macOS, веб и мобильные.\n\nМладшая редакция линейки: нет сравнения версий, вымарывания, OCR сканов и расширенных форм — за ними идут в Acrobat Pro. Для сотрудника, который читает, правит и подписывает договоры, этого чаще всего достаточно.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Acrobat Standard — и чего в нём нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Есть",
+              "d": "Создание PDF из любых файлов, правка текста и картинок, объединение и разделение, конвертация в Word и Excel, комментарии, защита паролем."
+            },
+            {
+              "t": "Есть",
+              "d": "Заполнение форм и отправка на электронную подпись, мобильное сканирование."
+            },
+            {
+              "t": "Нет",
+              "d": "Сравнения версий, вымарывания, распознавания сканов (OCR), пакетной обработки, штампов Bates — только в Pro."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия на личном Adobe ID: два устройства, одно активно; передаче не подлежит. Командного Standard на витрине нет — команды берут Acrobat Pro для команд."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard или Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Правка и подписи без юридической обработки."
+            },
+            {
+              "t": "Pro",
+              "d": "Сравнение, вымарывание, OCR — если работаете со сканами или чувствительными документами.",
+              "link": "adobe-acro-pro"
+            },
+            {
+              "t": "Studio",
+              "d": "ИИ-ассистент и PDF-пространства.",
+              "link": "adobe-acro-studio"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Менеджерам, HR и офисным сотрудникам, которым нужно уверенно править и подписывать PDF без юридических инструментов Pro."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли в Standard распознавание сканов?",
+          "a": "Нет, OCR — функция Acrobat Pro; Standard редактирует только PDF с текстовым слоем."
+        }
+      ],
+      "related_products": [
+        "adobe-acro-pro",
+        "adobe-acro-studio"
+      ],
+      "meta_title": "Adobe Acrobat Standard — подписка на год | BIZSoft",
+      "meta_description": "Acrobat Standard на одного пользователя: создание и правка PDF, конвертация, формы и подписи; без OCR и сравнения. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acrobat standard купить — hero, meta",
+        "acrobat standard ocr — FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adobe-acro-studio": {
+      "sku": "ADBE-LIC-ACROBATSTUD-UNI-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Acrobat Studio — индивидуальная подписка Adobe на 1 год на старший план для документов одному пользователю: всё из Acrobat Pro плюс ИИ-ассистент, который отвечает по подборке документов и делает выжимки, PDF Spaces для совместной работы над наборами файлов и Adobe Express Premium в составе.\n\nЭто Acrobat Pro для тех, кто работает не с одним договором, а с сотнями: аналитики, юристы на due diligence, закупщики с тендерной документацией.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в Acrobat Studio",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Acrobat Pro",
+              "d": "Полный набор редактирования, OCR, сравнения, подписей — см. карточку Pro.",
+              "link": "adobe-acro-pro"
+            },
+            {
+              "t": "ИИ-ассистент",
+              "d": "Вопросы и выжимки по одному документу или целой подборке с цитированием источников."
+            },
+            {
+              "t": "PDF Spaces",
+              "d": "Рабочие пространства с наборами документов, комментариями и ролями для коллег."
+            },
+            {
+              "t": "Adobe Express Premium",
+              "d": "Быстрый дизайн по шаблонам для презентаций и соцсетей."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личном Adobe ID; коллеги входят в PDF Spaces по приглашению без своей подписки Studio, но редактируют документы только владельцы лицензий."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Studio или Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Studio",
+              "d": "Десятки документов в работе, нужны ответы по ним, а не только правка."
+            },
+            {
+              "t": "Pro",
+              "d": "Правка, сравнение и подписи без ИИ-ассистента — дешевле.",
+              "link": "adobe-acro-pro"
+            },
+            {
+              "t": "Standard",
+              "d": "Базовые операции.",
+              "link": "adobe-acro-std"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аналитикам, юристам и закупщикам, которые читают больше, чем правят: выжимка по пакету документов вместо ручного чтения."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Понимает ли ИИ-ассистент русскоязычные договоры?",
+          "a": "Ассистент читает документы на разных языках; качество ответов по русским текстам стоит проверить на пробном периоде."
+        }
+      ],
+      "related_products": [
+        "adobe-acro-pro",
+        "adobe-acro-std"
+      ],
+      "meta_title": "Adobe Acrobat Studio — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Acrobat Studio: Acrobat Pro плюс ИИ-ассистент по подборкам документов, PDF Spaces и Express Premium на одного пользователя. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "acrobat studio купить — hero, meta",
+        "acrobat ai assistant — INCLUDED"
+      ],
+      "uncertainties": [
+        "Поддержка русского языка ИИ-ассистентом — не подтверждена первоисточником."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adobe-express": {
+      "sku": "ADBE-LIC-EXPRESS-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Express Premium — индивидуальная подписка Adobe на 1 год на быстрый дизайн по шаблонам одному пользователю: посты и сторис, презентации, флаеры, короткие видео и анимация из тысяч шаблонов, шрифты Adobe Fonts, стоковые фото и генеративные функции Firefly. Работает в браузере и на телефоне.\n\nExpress — инструмент для тех, кто делает контент, но не дизайнер: маркетологов, SMM, предпринимателей. Организации с общим бренд-китом и ротацией сотрудников берут Express для команд.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Express Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Шаблоны",
+              "d": "Тысячи шаблонов для соцсетей, печати и презентаций с настройкой под бренд."
+            },
+            {
+              "t": "Медиа",
+              "d": "Стоковые фото и видео Adobe Stock в составе, Adobe Fonts, удаление фона."
+            },
+            {
+              "t": "Firefly",
+              "d": "Text to Image, генеративная заливка, Text to Template — по месячному лимиту кредитов."
+            },
+            {
+              "t": "Публикация",
+              "d": "Планировщик публикаций в соцсети, экспорт в любых форматах."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия на личном Adobe ID, работа в браузере и мобильном приложении под одним аккаунтом; передаче другому сотруднику не подлежит."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Express Premium или Express для команд",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Один пользователь ведёт свои каналы."
+            },
+            {
+              "t": "Для команд",
+              "d": "Общие бренд-киты, блокировка шаблонов, Admin Console — при нескольких авторах контента.",
+              "link": "adobe-express-team"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Если нужны Photoshop и Illustrator.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "SMM-специалисту или предпринимателю, который сам делает визуал для соцсетей и презентаций без Photoshop."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Express в другие подписки Adobe?",
+          "a": "Express Premium входит в Creative Cloud Pro и Standard, а также в Acrobat Studio."
+        }
+      ],
+      "related_products": [
+        "adobe-express-team",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Adobe Express Premium — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Adobe Express Premium на одного пользователя: шаблоны для соцсетей и презентаций, Adobe Stock, Fonts, Firefly, планировщик публикаций. Договор, ЭДО.",
+      "seo_intents": [
+        "adobe express premium купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adobe-express-team": {
+      "sku": "ADBE-LIC-EXPRESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Express для команд — командная подписка Adobe на 1 год на дизайн по шаблонам для отдела маркетинга: всё из Express Premium плюс общие бренд-киты, блокировка элементов шаблонов и Admin Console. Места принадлежат компании и переназначаются администратором; минимума нет.\n\nСмысл командного плана — контроль бренда: дизайнер задаёт шаблон и цвета, остальные сотрудники меняют только разрешённые поля.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт командный Express",
+          "kind": "prose",
+          "body": "Возможности самого Express — шаблоны, Stock, Fonts, Firefly, планировщик — описаны у Express Premium. Командный план добавляет общие бренд-киты, блокировку шаблонов, совместные библиотеки и администрирование мест.",
+          "links": [
+            "adobe-express"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как устроен командный план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бренд-киты",
+              "d": "Логотипы, цвета, шрифты — общие для всей организации; дизайнер обновляет один раз."
+            },
+            {
+              "t": "Блокировка шаблонов",
+              "d": "Сотрудники правят текст и фото, но не сдвигают логотип и не меняют палитру."
+            },
+            {
+              "t": "Admin Console",
+              "d": "Назначение и переназначение мест, реклamация файлов уволившихся."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Командный или индивидуальный Express",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Для команд",
+              "d": "Несколько авторов контента и единый бренд."
+            },
+            {
+              "t": "Express Premium",
+              "d": "Один пользователь.",
+              "link": "adobe-express"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Не замена Photoshop",
+              "d": "Сложную ретушь и вёрстку Express не делает — для дизайнера нужен Creative Cloud."
+            },
+            {
+              "t": "Один аккаунт организации",
+              "d": "Как у всех командных планов Adobe."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделам маркетинга и продаж, региональным менеджерам и франчайзи, которые выпускают материалы в фирменном стиле без дизайнера на каждый макет."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли дизайнеру отдельный Creative Cloud?",
+          "a": "Для создания самих шаблонов — обычно да; Express для команд закрывает их тиражирование сотрудниками."
+        }
+      ],
+      "related_products": [
+        "adobe-express"
+      ],
+      "meta_title": "Adobe Express для команд — подписка на год | BIZSoft",
+      "meta_description": "Adobe Express для команд: шаблоны, общие бренд-киты, блокировка элементов, Admin Console; места на организации, минимума нет. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe express для команд купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adobe-substance": {
+      "sku": "ADBE-LIC-SUBSTANCE3D-IND-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Substance 3D Collection — индивидуальная подписка Adobe на 1 год на набор приложений для 3D одному специалисту: Painter для текстурирования, Designer для процедурных материалов, Sampler для материалов из фото, Stager для сцен и рендера, Modeler для скульптинга, плюс библиотека 3D-ассетов. Windows, macOS, Linux (часть приложений).\n\nОтдельный от Creative Cloud продукт: в Creative Cloud Pro входят только базовые Substance-возможности. Командный вариант с Admin Console — Substance 3D для команд.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в Substance 3D Collection",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Painter",
+              "d": "Текстурирование моделей кистями и масками, экспорт в игровые движки и рендеры."
+            },
+            {
+              "t": "Designer",
+              "d": "Процедурные материалы и узлы, генераторы текстур."
+            },
+            {
+              "t": "Sampler и Stager",
+              "d": "Материалы из фотографий; композиция сцен, свет и рендер."
+            },
+            {
+              "t": "Modeler",
+              "d": "Скульптинг и моделирование на десктопе и в VR."
+            },
+            {
+              "t": "Ассеты",
+              "d": "Библиотека материалов, моделей и HDRI с месячной квотой загрузок."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за Adobe ID художника: установка на рабочую и домашнюю машины, активна одна; передать коллеге нельзя. Студиям с ротацией — командный план."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Collection или отдельные продукты",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Collection",
+              "d": "Два и больше приложений Substance — пакет дешевле."
+            },
+            {
+              "t": "Для команд",
+              "d": "Те же приложения на местах организации.",
+              "link": "adobe-substance-team"
+            },
+            {
+              "t": "Cinema 4D / Maya",
+              "d": "Substance — про материалы; моделирование и анимация — в 3D-пакетах.",
+              "link": "maxon-c4d"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "3D-художникам игр, продуктового дизайна и архвиза, которые текстурируют и собирают сцены под Unreal, Unity, Cinema 4D или Maya."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Substance в Creative Cloud Pro?",
+          "a": "Только базовые функции Substance 3D; полный набор приложений — отдельная подписка Collection."
+        }
+      ],
+      "related_products": [
+        "adobe-substance-team",
+        "maxon-c4d"
+      ],
+      "meta_title": "Adobe Substance 3D Collection — подписка на год | BIZSoft",
+      "meta_description": "Substance 3D Collection на одного специалиста: Painter, Designer, Sampler, Stager, Modeler и библиотека ассетов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "substance 3d купить подписка — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adobe-substance-team": {
+      "sku": "ADBE-LIC-SUBSTANCE3D-TEAM-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Substance 3D для команд — командная подписка Adobe на 1 год на набор 3D-приложений Substance на рабочих местах организации: пять приложений Substance и библиотека ассетов; лицензии принадлежат компании и назначаются в Admin Console. Минимума по местам нет.\n\nСостав тот же, что у индивидуальной Collection; отличие — владение лицензиями компанией, переназначение при ротации художников и реклamация файлов.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит",
+          "kind": "prose",
+          "body": "Painter, Designer, Sampler, Stager, Modeler и библиотека ассетов — поимённый разбор на карточке индивидуальной Collection; набор идентичен.",
+          "links": [
+            "adobe-substance"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как устроен командный план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Admin Console",
+              "d": "Назначение и снятие мест администратором, единая дата продления."
+            },
+            {
+              "t": "Реклamация",
+              "d": "Проекты и ассеты уволившегося художника остаются у студии."
+            },
+            {
+              "t": "Квоты ассетов",
+              "d": "Загрузки библиотеки считаются на место."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Командный или индивидуальный",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Для команд",
+              "d": "Студия с несколькими художниками и сменяемым составом."
+            },
+            {
+              "t": "Collection",
+              "d": "Один специалист — дешевле.",
+              "link": "adobe-substance"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Один аккаунт организации",
+              "d": "Общая точка доступа для всех мест."
+            },
+            {
+              "t": "Не заменяет 3D-пакет",
+              "d": "Моделирование и анимация — Cinema 4D, Maya, Blender."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Игровым и продуктовым студиям от двух 3D-художников, где текстуры и сцены должны принадлежать компании."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли переназначить место при уходе художника?",
+          "a": "Да, из Admin Console, с реклamацией его облачных файлов."
+        }
+      ],
+      "related_products": [
+        "adobe-substance"
+      ],
+      "meta_title": "Adobe Substance 3D для команд — подписка на год | BIZSoft",
+      "meta_description": "Substance 3D для команд: Painter, Designer, Sampler, Stager, Modeler на местах организации с Admin Console. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "substance 3d teams купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adobe-ff-teams": {
+      "sku": "ADBE-LIC-FIREFLYTEAMS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Firefly для команд — командная подписка на 1 год на генеративный ИИ Adobe для организации: изображения, векторы и видео на моделях, обученных на лицензионном контенте, с правом коммерческого использования; премиальные функции — по кредитам. Места назначаются в Admin Console; цена — по запросу, под число мест и объём кредитов.\n\nFirefly для команд берут, когда генерации нужны сотрудникам без Creative Cloud: маркетингу, продажам, контент-командам.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Firefly",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Генерация",
+              "d": "Text to Image, Text to Vector, Generative Fill, видео и звук — в веб-приложении Firefly и в Express."
+            },
+            {
+              "t": "Юридическая чистота",
+              "d": "Модели обучены на Adobe Stock и открытом контенте; Adobe даёт коммерческое право на результат."
+            },
+            {
+              "t": "Кредиты",
+              "d": "Стандартные генерации без лимита, премиальные — из месячного пула кредитов на место; докупаются Top-up."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командный план",
+          "kind": "prose",
+          "body": "Места на организации с Admin Console и реклamацией; объём премиальных кредитов на место фиксируется в заказе. Правила командных планов Adobe общие — см. Creative Cloud Pro для команд.",
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Firefly для команд, Enterprise или Creative Cloud",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Для команд",
+              "d": "Отделу нужны генерации без дизайн-приложений."
+            },
+            {
+              "t": "Firefly for enterprise",
+              "d": "Кастомные модели на бренд-контенте, API, IP-индемнификация.",
+              "link": "adobe-ff-enterprise"
+            },
+            {
+              "t": "Creative Cloud Pro для команд",
+              "d": "Дизайнерам — Firefly уже внутри с 4000 кредитов.",
+              "link": "adobe-cc-pro-team"
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Число мест и кредитов",
+              "d": "Цена зависит от обоих; посчитаем под план генераций."
+            },
+            {
+              "t": "Партнёрские модели",
+              "d": "Использование сторонних моделей расходует больше кредитов."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты сгорают",
+              "d": "Месячный пул на место не переносится и не перераспределяется между сотрудниками."
+            },
+            {
+              "t": "Без индемнификации",
+              "d": "Юридические гарантии по IP — только в Firefly for enterprise."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Маркетингу и контент-командам, которым нужны генерации в фирменном стиле без полного Creative Cloud."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли использовать сгенерированное в рекламе?",
+          "a": "Да, Adobe предоставляет коммерческое право на результаты Firefly; для индемнификации нужен Enterprise."
+        }
+      ],
+      "related_products": [
+        "adobe-cc-pro-team",
+        "adobe-ff-enterprise"
+      ],
+      "meta_title": "Adobe Firefly для команд — подписка на год | BIZSoft",
+      "meta_description": "Adobe Firefly для организаций: генерация изображений, векторов и видео с коммерческим правом, места в Admin Console, кредиты по запросу. Договор, ЭДО.",
+      "seo_intents": [
+        "adobe firefly для команд купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Объём кредитов на место и партнёрские модели — по условиям Adobe на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "—"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "adobe-ff-enterprise": {
+      "sku": "ADBE-LIC-FIREFLYENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочее место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Firefly for enterprise — командный план Adobe корпоративного уровня на 1 год: генеративный ИИ с индемнификацией по IP, кастомные модели, обученные на контенте бренда, API Firefly Services для автоматизации и интеграции в собственные системы. Цена договорная — по числу мест, кредитов и API-вызовов.\n\nОт Firefly для команд отличается юридическими гарантиями и возможностью встроить генерацию в свои процессы, а не только в веб-приложение.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Индемнификация",
+              "d": "Adobe принимает риски по IP на результаты Firefly в договоре."
+            },
+            {
+              "t": "Кастомные модели",
+              "d": "Обучение на активах бренда для стиля и персонажей."
+            },
+            {
+              "t": "API",
+              "d": "Firefly Services для пакетной генерации и интеграции в CMS и DAM."
+            },
+            {
+              "t": "Управление",
+              "d": "Admin Console, SSO, политики использования."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Как устроен корпоративный план",
+          "kind": "prose",
+          "body": "Договорной план: места, кредиты, API-квоты и кастомные модели фиксируются в спецификации; пользователи заводятся через Admin Console и SSO, лицензии принадлежат организации и переназначаются. Общие правила командных планов Adobe — у Creative Cloud Pro для команд.",
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Enterprise или для команд",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Нужны индемнификация, API или кастомные модели."
+            },
+            {
+              "t": "Для команд",
+              "d": "Генерации в веб-приложении без API.",
+              "link": "adobe-ff-teams"
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Состав договора",
+              "d": "Спецификация договора перечисляет всё, что вы покупаете: число пользователей, объём кредитов, квоты API и обучение моделей."
+            },
+            {
+              "t": "Сроки",
+              "d": "Договорные планы Adobe согласуются дольше стандартной поставки."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Брендам и агентствам, которые генерируют контент в масштабе и должны защитить его юридически."
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договорной цикл",
+              "d": "Согласование условий с Adobe занимает дольше стандартной поставки."
+            },
+            {
+              "t": "Кастомные модели",
+              "d": "Требуют подготовки датасета бренда и проходят обучение на стороне Adobe."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что такое индемнификация по IP?",
+          "a": "Adobe в договоре берёт на себя претензии третьих лиц по интеллектуальной собственности к результатам Firefly."
+        }
+      ],
+      "related_products": [
+        "adobe-ff-teams"
+      ],
+      "meta_title": "Adobe Firefly for enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Adobe Firefly for enterprise: индемнификация, кастомные модели, API Firefly Services, SSO. Цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe firefly enterprise — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "—"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "adobe-stock-10": {
+      "sku": "ADBE-LIC-STOCK-UNI-1Y-PACK-10IMG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пакет: 10 изображений в месяц",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Stock, 10 изображений в месяц — индивидуальная подписка на 1 год на банк роялти-фри контента одному пользователю: 10 лицензий в месяц на стандартные фото, иллюстрации, векторы, шаблоны и 3D-ассеты с правом коммерческого использования; неиспользованные лицензии переносятся на следующий месяц в пределах года.\n\nВидео, премиум-коллекции и редакционный контент в этот план не входят и лицензируются отдельно; интеграция с Creative Cloud позволяет искать и лицензировать прямо из Photoshop и InDesign.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт подписка и как расходуются лицензии",
+          "kind": "items",
+          "items": [
+            {
+              "t": "10 в месяц",
+              "d": "Каждая загрузка стандартного ассета — одна лицензия; неиспользованные копятся до 120 за год и сгорают при окончании подписки."
+            },
+            {
+              "t": "Что входит",
+              "d": "Фото, иллюстрации, векторы, шаблоны, 3D — стандартная коллекция."
+            },
+            {
+              "t": "Что не входит",
+              "d": "Видео, аудио, премиум и редакционные материалы — отдельные лицензии."
+            },
+            {
+              "t": "Право",
+              "d": "Стандартная лицензия для коммерческого использования с лимитом тиража; расширенная — за доплату."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личном Adobe ID; лицензии оформляются на пользователя, переуступка ассетов внутри организации — по условиям лицензии Adobe Stock."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "10 в месяц или другой объём",
+          "kind": "items",
+          "items": [
+            {
+              "t": "10 изображений",
+              "d": "Один маркетолог или дизайнер с регулярной, но небольшой потребностью."
+            },
+            {
+              "t": "Другие планы",
+              "d": "40 и 750 ассетов в месяц, кредитные пакеты — по запросу."
+            },
+            {
+              "t": "Express Premium",
+              "d": "Стоковые фото Adobe Stock в составе Express для соцсетей.",
+              "link": "adobe-express"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Маркетологу или дизайнеру, которому нужны легальные фото и векторы для сайта и презентаций каждый месяц, но не десятки в неделю."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Переносятся ли неиспользованные лицензии?",
+          "a": "Да, в пределах срока подписки, до 120 накопленных; при окончании подписки остаток сгорает."
+        },
+        {
+          "q": "Можно ли использовать фото в рекламе?",
+          "a": "Да, по стандартной лицензии с ограничением тиража; для больших тиражей — расширенная лицензия."
+        }
+      ],
+      "related_products": [
+        "adobe-express"
+      ],
+      "meta_title": "Adobe Stock, 10 изображений в месяц — подписка | BIZSoft",
+      "meta_description": "Adobe Stock: 10 лицензий в месяц на фото, векторы, шаблоны и 3D с коммерческим правом, перенос неиспользованных. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe stock купить подписка юрлицо — hero, meta",
+        "adobe stock лицензия коммерческое использование — CREDIT_USAGE, FAQ"
+      ],
+      "uncertainties": [
+        "Лимит накопления и условия переуступки ассетов — по лицензионному соглашению Adobe Stock."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

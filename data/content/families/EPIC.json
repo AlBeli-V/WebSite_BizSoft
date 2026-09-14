@@ -1,0 +1,296 @@
+{
+  "family_key": "EPIC",
+  "vendor": "Epic Games",
+  "vendor_profile": "data/content/vendors/epic.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "ue-sub",
+  "classification_notes": [
+    "Unreal Engine seat / RealityScan Premium. Носитель — UE seat."
+  ],
+  "products": {
+    "ue-sub": {
+      "sku": "EPIC-LIC-UESEAT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Unreal Engine, подписка на место — командная подписка на 1 год на Unreal Engine для компаний, которые используют движок вне игр (архвиз, автопром, кино, симуляции) и попадают под платную модель Epic: полный движок и исходники, Twinmotion и RealityCapture в составе, поддержка. Места на организации.\n\nДля игр и малых компаний ниже порога дохода Unreal остаётся бесплатным с роялти.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Unreal Engine (подписка для не-игр)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Движок",
+              "d": "Unreal Engine 5 с исходным кодом, Nanite, Lumen, все платформы."
+            },
+            {
+              "t": "В составе",
+              "d": "Twinmotion и RealityCapture для подписчиков."
+            },
+            {
+              "t": "Кому платно",
+              "d": "Компаниям вне игр с доходом выше порога Epic."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Доступ к поддержке по подписке."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подписка на место",
+              "d": "Не-игровое использование выше порога."
+            },
+            {
+              "t": "RealityScan Premium",
+              "d": "Фотограмметрия как отдельный продукт.",
+              "link": "ue-realityscan"
+            },
+            {
+              "t": "Unity Pro",
+              "d": "Альтернативный движок.",
+              "link": "unity-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Игры",
+              "d": "Модель роялти, не подписка."
+            },
+            {
+              "t": "Порог",
+              "d": "Доход организации по правилам Epic."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Архвиз-студиям, автопрому, виртуальному продакшену."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужна ли подписка игровой студии?",
+          "a": "Нет, игры — по модели роялти с порога дохода."
+        }
+      ],
+      "related_products": [
+        "ue-realityscan",
+        "unity-pro"
+      ],
+      "meta_title": "Unreal Engine — подписка на место для юрлица | BIZSoft",
+      "meta_description": "Unreal Engine для не-игровых компаний: подписка на место с исходниками, Twinmotion и RealityCapture, поддержка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "unreal engine лицензия купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Порог дохода и состав подписки — по правилам Epic на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "ue-realityscan": {
+      "sku": "EPIC-LIC-REALITYSCAN-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "RealityScan Premium (RealityCapture) — индивидуальная подписка на 1 год на фотограмметрию Epic: реконструкция 3D-моделей и облаков точек из фото и лазерного сканирования, без лимитов на разрешение и экспорт. Личный аккаунт.\n\nБесплатная версия ограничена порогом дохода; Premium — для коммерческих компаний.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт RealityScan Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Реконструкция",
+              "d": "Фото, дроны, лазерные сканы — в меши и облака точек."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Без ограничений, форматы для Unreal, Maya, CAD."
+            },
+            {
+              "t": "Скорость",
+              "d": "GPU-ускорение."
+            }
+          ],
+          "links": [
+            "ue-sub"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Коммерческое использование выше порога."
+            },
+            {
+              "t": "Unreal Engine подписка",
+              "d": "RealityCapture в составе.",
+              "link": "ue-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Геодезистам, реставраторам, студиям виртуального продакшена."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли в подписку Unreal?",
+          "a": "Да, подписчики Unreal получают RealityCapture; Premium — для тех, кому нужен только он."
+        }
+      ],
+      "related_products": [
+        "ue-sub"
+      ],
+      "meta_title": "RealityScan Premium — подписка на год | BIZSoft",
+      "meta_description": "RealityScan Premium (RealityCapture): фотограмметрия без лимитов — модели и облака точек из фото и сканов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "realitycapture купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,637 @@
+{
+  "family_key": "INTEGRATIONS",
+  "vendor": "Разные вендоры",
+  "vendor_profile": "data/content/vendors/integrations.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "int-office-m365",
+  "classification_notes": [
+    "Обобщённые позиции витрины (int-*): Figma Org, JetBrains APP, AutoCAD, Microsoft 365. Носитель — M365."
+  ],
+  "products": {
+    "int-design-figma": {
+      "sku": "INTG-LIC-FIGMAORG-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Organization — командная подписка на 1 год на дизайн интерфейсов в общем пространстве компании: несколько команд, SSO, ветвление, аналитика дизайн-системы. Позиция витрины-интегратора; выбор типа места — на карточках Figma Organization Full/Dev/Collab. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Figma Organization (интеграция)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "План",
+              "d": "Organization: команды, SSO, консоль."
+            },
+            {
+              "t": "Места",
+              "d": "Full, Dev, Collab — выбираются при заказе."
+            },
+            {
+              "t": "Подробно",
+              "d": "На карточках Figma."
+            }
+          ],
+          "links": [
+            "int-office-m365"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места закреплены за организацией Figma; администратор распределяет типы мест по командам."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Full seat",
+              "d": "Дизайнер.",
+              "link": "figma-org-full"
+            },
+            {
+              "t": "Dev seat",
+              "d": "Разработчик.",
+              "link": "figma-org-dev"
+            },
+            {
+              "t": "Collab seat",
+              "d": "Менеджер.",
+              "link": "figma-org-collab"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Тип места",
+              "d": "Определяется при заказе."
+            },
+            {
+              "t": "SSO",
+              "d": "Входит в Organization."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с несколькими дизайн-командами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем эта карточка отличается от figma-org-full?",
+          "a": "Это обобщённая позиция; при заказе выбирается тип места."
+        }
+      ],
+      "related_products": [
+        "int-office-m365",
+        "figma-org-full",
+        "figma-org-dev",
+        "figma-org-collab"
+      ],
+      "meta_title": "Figma Organization — подписка на год | BIZSoft",
+      "meta_description": "Figma Organization: несколько команд, SSO, ветвление; тип места выбирается при заказе. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "figma organization (интеграция) — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "int-dev-jetbrains": {
+      "sku": "INTG-LIC-JBALLPACK-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "JetBrains All Products Pack — командная подписка на 1 год на все IDE и инструменты JetBrains одной лицензией на разработчика: IntelliJ IDEA Ultimate, PyCharm, WebStorm, Rider, GoLand и остальные, с AI-кредитами. Позиция витрины-интегратора; подробно — на карточке All Products Pack для организаций.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт JetBrains All Products Pack (интеграция)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пакет",
+              "d": "Все IDE JetBrains."
+            },
+            {
+              "t": "Лицензия",
+              "d": "На организацию, переназначение."
+            },
+            {
+              "t": "Подробно",
+              "d": "На карточке All Products Pack."
+            }
+          ],
+          "links": [
+            "int-office-m365"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии живут в JetBrains Account организации и переназначаются администратором между разработчиками."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "All Products Pack",
+              "d": "Основная карточка.",
+              "link": "jb-all-pack-org"
+            },
+            {
+              "t": "ReSharper",
+              "d": "Только .NET в Visual Studio.",
+              "link": "jb-resharper-org"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Именная",
+              "d": "Лицензия закрепляется за разработчиком."
+            },
+            {
+              "t": "Кредиты AI",
+              "d": "Входят в пакет."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам с разными языками."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от jb-all-pack-org?",
+          "a": "Обобщённая позиция витрины."
+        }
+      ],
+      "related_products": [
+        "int-office-m365",
+        "jb-all-pack-org",
+        "jb-resharper-org"
+      ],
+      "meta_title": "JetBrains All Products Pack — подписка | BIZSoft",
+      "meta_description": "JetBrains All Products Pack: все IDE одной лицензией на разработчика. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "jetbrains all products pack (интеграция) — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "int-eng-autocad": {
+      "sku": "INTG-LIC-AUTOCAD-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Autodesk AutoCAD — командная подписка на 1 год на 2D-черчение и 3D-проектирование, отраслевой стандарт обмена чертежами DWG: специализированные наборы инструментов (Architecture, Mechanical, Electrical, MEP и др.), веб и мобильные версии, автоматизация. Именная лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Autodesk AutoCAD",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Черчение",
+              "d": "2D-чертежи, 3D-модели, DWG."
+            },
+            {
+              "t": "Наборы",
+              "d": "Architecture, Mechanical, Electrical, MEP, Map 3D, Plant 3D."
+            },
+            {
+              "t": "Везде",
+              "d": "Windows, macOS, веб, мобильные."
+            }
+          ],
+          "links": [
+            "int-office-m365"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Именные лицензии Autodesk назначаются в Autodesk Account администратором; перенос между сотрудниками — без вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "AutoCAD",
+              "d": "Универсальный CAD."
+            },
+            {
+              "t": "SOLIDWORKS Standard",
+              "d": "Машиностроительный 3D.",
+              "link": "solidworks-design-standard"
+            },
+            {
+              "t": "3ds Max",
+              "d": "Визуализация.",
+              "link": "adsk-3dsmax"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Именная лицензия",
+              "d": "Три устройства, одна сессия."
+            },
+            {
+              "t": "Наборы",
+              "d": "Часть только для Windows."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Проектным организациям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входят ли отраслевые наборы?",
+          "a": "Да, в подписку AutoCAD."
+        }
+      ],
+      "related_products": [
+        "int-office-m365",
+        "solidworks-design-standard",
+        "adsk-3dsmax"
+      ],
+      "meta_title": "Autodesk AutoCAD — подписка на год | BIZSoft",
+      "meta_description": "Autodesk AutoCAD: 2D/3D-проектирование, DWG, отраслевые наборы инструментов; именная лицензия. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "autodesk autocad — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "int-office-m365": {
+      "sku": "INTG-LIC-M365BS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Microsoft 365 Business Standard — командная подписка на 1 год на облачный офис для компании до 300 пользователей: настольные Word, Excel, PowerPoint, Outlook, почта Exchange 50 ГБ, Teams, OneDrive 1 ТБ, SharePoint. Места на организации; цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Microsoft 365 Business Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приложения",
+              "d": "Настольные и веб Office на 5 устройствах."
+            },
+            {
+              "t": "Сервисы",
+              "d": "Exchange, Teams, OneDrive 1 ТБ, SharePoint."
+            },
+            {
+              "t": "Управление",
+              "d": "Admin Center, до 300 пользователей."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии Microsoft 365 назначаются пользователям в Admin Center; при уходе сотрудника место освобождается и выдаётся другому."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business Standard",
+              "d": "Компания до 300."
+            },
+            {
+              "t": "Office Professional Plus 2024",
+              "d": "Бессрочный без облака.",
+              "link": "ms-office-proplus-2024"
+            },
+            {
+              "t": "Google Workspace",
+              "d": "Альтернатива.",
+              "link": "gemini-workspace-standard"
+            },
+            {
+              "t": "Copilot",
+              "d": "Дополнение.",
+              "link": "mscopilot-m365"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "До 300",
+              "d": "Пользователей."
+            },
+            {
+              "t": "Доступность",
+              "d": "По условиям Microsoft."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с почтой и совместной работой."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Доступность?",
+          "a": "Условия Microsoft в регионе — уточняйте."
+        }
+      ],
+      "related_products": [
+        "ms-office-proplus-2024",
+        "gemini-workspace-standard",
+        "mscopilot-m365"
+      ],
+      "meta_title": "Microsoft 365 Business Standard — подписка | BIZSoft",
+      "meta_description": "Microsoft 365 Business Standard: Office, Exchange, Teams, OneDrive 1 ТБ до 300 пользователей; цена по запросу. Договор, ЭДО.",
+      "seo_intents": [
+        "microsoft 365 business standard — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

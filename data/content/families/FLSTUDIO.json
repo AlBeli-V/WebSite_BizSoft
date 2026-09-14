@@ -1,0 +1,587 @@
+{
+  "family_key": "FLSTUDIO",
+  "vendor": "Image-Line",
+  "vendor_profile": "data/content/vendors/flstudio.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "fl-studio-producer",
+  "classification_notes": [
+    "Fruity / Producer / Signature / All Plugins (perpetual, lifetime updates). Носитель — Producer."
+  ],
+  "products": {
+    "fl-studio-fruity": {
+      "sku": "IMGL-LIC-FLFRUITY-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "FL Studio Fruity Edition — бессрочная лицензия на младшую редакцию FL Studio с пожизненными бесплатными обновлениями: пошаговый секвенсор, пианоролл, базовые инструменты и эффекты; без записи аудио и аудиоклипов. Одна покупка.\n\nБессрочная лицензия с бесплатными обновлениями версий.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет FL Studio Fruity Edition",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Секвенсор",
+              "d": "Пианоролл, паттерны, плейлист."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Базовые синтезаторы и эффекты."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Записи аудио, аудиоклипов, части плагинов."
+            }
+          ],
+          "links": [
+            "fl-studio-producer"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Все будущие версии бесплатно — политика Image-Line."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До старших редакций доплатой."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Fruity",
+              "d": "Битмейкинг без записи."
+            },
+            {
+              "t": "Producer",
+              "d": "Запись аудио и клипы.",
+              "link": "fl-studio-producer"
+            },
+            {
+              "t": "Signature",
+              "d": "Плюс ключевые плагины.",
+              "link": "fl-studio-signature"
+            },
+            {
+              "t": "All Plugins",
+              "d": "Все плагины Image-Line.",
+              "link": "fl-studio-all-plugins"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Начинающим битмейкерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Правда ли обновления бесплатны навсегда?",
+          "a": "Да, Image-Line даёт пожизненные обновления всем редакциям."
+        }
+      ],
+      "related_products": [
+        "fl-studio-producer",
+        "fl-studio-signature",
+        "fl-studio-all-plugins"
+      ],
+      "meta_title": "FL Studio Fruity Edition — бессрочная лицензия | BIZSoft",
+      "meta_description": "FL Studio Fruity Edition: секвенсор и пианоролл с пожизненными обновлениями, без записи аудио; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "fl studio fruity купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "fl-studio-producer": {
+      "sku": "IMGL-LIC-FLPRODUCER-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "FL Studio Producer Edition — бессрочная лицензия на полный FL Studio: запись аудио, аудиоклипы, редактор Edison, все базовые инструменты; пожизненные обновления. Одна покупка.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет FL Studio Producer Edition",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Запись",
+              "d": "Аудио, клипы, Edison, слайсинг."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Полный базовый набор."
+            },
+            {
+              "t": "Обновления",
+              "d": "Бесплатно навсегда."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Все версии бесплатно."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До Signature и All Plugins."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Producer",
+              "d": "Стандартная редакция."
+            },
+            {
+              "t": "Signature",
+              "d": "Плюс Harmor, Gross Beat и другие.",
+              "link": "fl-studio-signature"
+            },
+            {
+              "t": "All Plugins",
+              "d": "Всё.",
+              "link": "fl-studio-all-plugins"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продюсерам с записью вокала и инструментов."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем отличается от Fruity?",
+          "a": "Записью аудио и аудиоклипами."
+        }
+      ],
+      "related_products": [
+        "fl-studio-signature",
+        "fl-studio-all-plugins"
+      ],
+      "meta_title": "FL Studio Producer Edition — бессрочная лицензия | BIZSoft",
+      "meta_description": "FL Studio Producer Edition: полный FL Studio с записью аудио и пожизненными обновлениями; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "fl studio producer купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "fl-studio-signature": {
+      "sku": "IMGL-LIC-FLSIGNATURE-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "FL Studio Signature Bundle — бессрочная лицензия на Producer Edition плюс набор ключевых плагинов: Harmor, Gross Beat, NewTone, Pitcher, Sytrus и другие; пожизненные обновления. Одна покупка.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет FL Studio Signature Bundle",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плагины",
+              "d": "Harmor, Gross Beat, NewTone, Pitcher, Sytrus, Hardcore, DirectWave full."
+            },
+            {
+              "t": "Всё из Producer",
+              "d": "Запись, клипы."
+            },
+            {
+              "t": "Обновления",
+              "d": "Бесплатно."
+            }
+          ],
+          "links": [
+            "fl-studio-producer"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Все версии."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До All Plugins."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Signature",
+              "d": "Популярный выбор продюсеров."
+            },
+            {
+              "t": "Producer",
+              "d": "Без плагинов набора.",
+              "link": "fl-studio-producer"
+            },
+            {
+              "t": "All Plugins",
+              "d": "Всё, включая FLEX Premium.",
+              "link": "fl-studio-all-plugins"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продюсерам, которым нужны фирменные плагины Image-Line."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Vocodex?",
+          "a": "В All Plugins; в Signature — нет."
+        }
+      ],
+      "related_products": [
+        "fl-studio-producer",
+        "fl-studio-all-plugins"
+      ],
+      "meta_title": "FL Studio Signature Bundle — бессрочная лицензия | BIZSoft",
+      "meta_description": "FL Studio Signature Bundle: Producer Edition плюс Harmor, Gross Beat, NewTone и другие; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "fl studio signature купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "fl-studio-all-plugins": {
+      "sku": "IMGL-LIC-FLALLPLUGINS-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "FL Studio All Plugins Edition — бессрочная лицензия на полный FL Studio со всеми плагинами Image-Line, включая FLEX Premium, Vocodex, Morphine, Ogun и остальные; пожизненные обновления. Одна покупка.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет FL Studio All Plugins Edition",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Все плагины",
+              "d": "Полный каталог Image-Line на дату покупки и будущие."
+            },
+            {
+              "t": "Всё из Signature",
+              "d": "Ключевые плагины, запись."
+            },
+            {
+              "t": "Обновления",
+              "d": "Бесплатно навсегда."
+            }
+          ],
+          "links": [
+            "fl-studio-producer"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Все версии и новые плагины."
+            },
+            {
+              "t": "Максимум",
+              "d": "Дальше апгрейдить некуда."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "All Plugins",
+              "d": "Всё сразу."
+            },
+            {
+              "t": "Signature",
+              "d": "Основные плагины.",
+              "link": "fl-studio-signature"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям и продюсерам, работающим только в FL."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Добавляются ли новые плагины?",
+          "a": "Да, будущие плагины Image-Line входят."
+        }
+      ],
+      "related_products": [
+        "fl-studio-producer",
+        "fl-studio-signature"
+      ],
+      "meta_title": "FL Studio All Plugins Edition — бессрочная лицензия | BIZSof",
+      "meta_description": "FL Studio All Plugins Edition: полный FL Studio со всеми плагинами Image-Line и пожизненными обновлениями. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "fl studio all купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
