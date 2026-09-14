@@ -61,7 +61,12 @@ const PRODUCTS = [
   product({ id: 901, name: 'Пополнение баланса OpenAI API', sku: 'OPAI-CRD-API-UNI-BAL-NOM', vendor: 'OpenAI', slug: 'openai-api-balance', price: 0 }),
   product({ id: 902, name: 'OpenAI API — пополнение баланса на 50 $', sku: 'OPAI-CRD-API-UNI-BAL-NOM-50', vendor: 'OpenAI', slug: 'openai-credits-50', price: 11504 }),
   product({ id: 903, name: 'OpenAI API — пополнение баланса на 100 $', sku: 'OPAI-CRD-API-UNI-BAL-NOM-100', vendor: 'OpenAI', slug: 'openai-credits-100', price: 23008 }),
-  product({ id: 102, name: 'Figma Organization', sku: 'FIGM-LIC-ORGANIZATION-TEAM-1Y-USER', vendor: 'Figma', slug: 'figma-organization', category: CATEGORIES[1] }),
+  // Вопросы и похожие позиции есть только здесь: без них смоук и снимки не
+  // видели ни блока «Частые вопросы» со ссылкой на общий список, ни строк
+  // похожих товаров (добавлено 14.09.2026 вместе с их перестройкой).
+  product({ id: 102, name: 'Figma Organization', sku: 'FIGM-LIC-ORGANIZATION-TEAM-1Y-USER', vendor: 'Figma', slug: 'figma-organization', category: CATEGORIES[1],
+    faq: [{ q: 'Можно ли с Collab seat открыть Dev Mode?', a: 'Нет, Dev Mode входит в Full seat.' }],
+    related_products: ['chatgpt-business', 'anthropic-team'] }),
   // Второй товар из кураторского списка бестселлеров главной: блок hero-карточек
   // рендерится только от двух позиций с ценой, и без него смоук не видел ни
   // структуру заголовков героя, ни сами карточки.

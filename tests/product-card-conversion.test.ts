@@ -67,7 +67,10 @@ describe('цена не меньше реального заказа', () => {
     // Решение руководителя 13.09.2026 (docs/rules/card-price-block.md):
     // слева цена единицы и «в том числе НДС», без «цена за 1 место»;
     // справа «1 рабочее место (от 2)», срок, план; ИТОГО — за минимум.
-    expect(page).not.toContain('`от ${formatRub(');
+    // «от» запрещено в блоке цены; в списке похожих товаров оно законно —
+    // там цена линейки, а не этой позиции. Проверка поэтому по колонке.
+    const buyCard = page.slice(page.indexOf('class="card buy-card"'), page.indexOf('<div class="col-rest">'));
+    expect(buyCard).not.toContain('`от ${formatRub(');
     expect(page).not.toContain('цена за {unitPhrase(1, commerce.qtyLabel)}');
     expect(page).toContain("(commerce.minQty > 1 ? ` (от ${commerce.minQty})` : '')");
     expect(page).toContain("if (term === TERM.balance) priceWhat.push('до истечения');");
@@ -515,8 +518,12 @@ describe('колонка покупки, решение руководителя
   it('подборка и вопрос — обводкой акцентом, заливка в колонке одна', () => {
     const rule = page.slice(page.indexOf('.coll-btn, .ask-btn {'));
     const decl = rule.slice(0, rule.indexOf('}'));
-    // Скругление — как у .btn в global.css: кнопки колонки читаются одной семьёй.
-    expect(decl).toContain('border-radius: 980px');
+    // Скругление — как у .btn в global.css: кнопки колонки читаются одной
+    // семьёй. Строгие 12px вместо пилюли — решение руководителя 14.09.2026.
+    expect(decl).toContain('border-radius: 12px');
+    const btn = readFileSync(resolve(ROOT, 'src/styles/global.css'), 'utf8');
+    const base = btn.slice(btn.indexOf('  .btn {'));
+    expect(base.slice(0, base.indexOf('}'))).toContain('border-radius: 12px');
     expect(decl).toContain('border: 1.5px solid var(--color-accent)');
     expect(decl).toContain('background: var(--color-bg-card)');
     expect(decl).toContain('color: var(--color-accent)');
