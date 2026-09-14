@@ -106,7 +106,7 @@ describe('подсказки', () => {
 });
 
 describe('форма заявки', () => {
-  const page = require('node:fs').readFileSync('src/pages/cart/index.astro', 'utf8');
+  const page = require('node:fs').readFileSync('src/components/QuoteDialog.astro', 'utf8');
 
   it('подставленные реквизиты остаются доступны для правки', () => {
     // Филиал, недавнее переименование, работа под другим названием —
