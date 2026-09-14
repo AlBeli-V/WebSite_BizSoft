@@ -1,16 +1,16 @@
 {
-  "family_key": "DROPBOX",
-  "vendor": "Dropbox",
-  "vendor_profile": "data/content/vendors/dropbox.md",
+  "family_key": "GAEA",
+  "vendor": "QuadSpinner",
+  "vendor_profile": "data/content/vendors/gaea.md",
   "content_version": "cm-1.0",
   "generated_at": "2026-09-13",
-  "carrier_slug": "dropbox-standard",
+  "carrier_slug": "gaea-pro",
   "classification_notes": [
-    "Plus (индивидуальный) / Standard / Advanced. Носитель — Standard."
+    "Indie / Professional / Enterprise. Носитель — Professional."
   ],
   "products": {
-    "dropbox-plus": {
-      "sku": "DRBX-LIC-PLUS-IND-1Y-USER",
+    "gaea-indie": {
+      "sku": "QDSP-LIC-GAEAINDIE-IND-1Y-USER",
       "classification": {
         "nature": "mono",
         "ownership": "individual",
@@ -21,39 +21,35 @@
       "unit_label": "пользователь",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Dropbox Plus — индивидуальная подписка на 1 год на облачное хранилище 2 ТБ для одного пользователя: синхронизация на всех устройствах, история версий 30 дней, восстановление файлов, передача больших файлов Dropbox Transfer, оффлайн-папки. Личный аккаунт.\n\nКомандные планы Standard и Advanced дают общее хранилище, консоль и права.\n\nСрок — 1 год.",
+      "short_description": "QuadSpinner Gaea Indie — индивидуальная подписка на 1 год на процедурную генерацию ландшафтов для организаций с доходом до порога вендора: нодовый граф эрозии, текстурирование, экспорт карт высот и масок в Unreal, Unity, Houdini; разрешение до 4K. Личный аккаунт.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Dropbox Plus",
+          "title": "Что даёт Gaea Indie",
           "kind": "items",
           "items": [
             {
-              "t": "Хранилище",
-              "d": "2 ТБ, синхронизация, Smart Sync без занятия диска."
+              "t": "Ландшафты",
+              "d": "Эрозия, реки, снег, процедурные узлы."
             },
             {
-              "t": "Защита",
-              "d": "История 30 дней, восстановление, удалённое стирание устройства."
+              "t": "Экспорт",
+              "d": "Карты высот, маски, тайлы для движков."
             },
             {
-              "t": "Обмен",
-              "d": "Ссылки с паролем и сроком, Transfer до 50 ГБ."
-            },
-            {
-              "t": "Один пользователь",
-              "d": "Личный аккаунт; передаче не подлежит."
+              "t": "Лимиты",
+              "d": "До 4K, доход ниже порога."
             }
           ],
           "links": [
-            "dropbox-standard"
+            "gaea-pro"
           ]
         },
         {
           "code": "INDIVIDUAL_MODEL",
           "title": "Индивидуальный план",
           "kind": "prose",
-          "body": "Личный аккаунт сотрудника, оплата от организации; при увольнении лицензия не возвращается компании."
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
         },
         {
           "code": "PLAN_COMPARE",
@@ -61,18 +57,18 @@
           "kind": "items",
           "items": [
             {
-              "t": "Plus",
-              "d": "Один сотрудник."
+              "t": "Indie",
+              "d": "Малая студия."
             },
             {
-              "t": "Standard",
-              "d": "Команда с общим хранилищем и консолью.",
-              "link": "dropbox-standard"
+              "t": "Professional",
+              "d": "8K+, без лимита дохода, коммерческие проекты.",
+              "link": "gaea-pro"
             },
             {
-              "t": "Advanced",
-              "d": "Безлимитное хранилище, расширенное управление.",
-              "link": "dropbox-advanced"
+              "t": "Enterprise",
+              "d": "Плавающие лицензии, поддержка, договор.",
+              "link": "gaea-ent"
             }
           ]
         },
@@ -80,23 +76,153 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Сотруднику, которому нужен персональный облачный диск."
+          "body": "Инди-разработчикам открытых миров."
         }
       ],
       "faq": [
         {
-          "q": "Можно ли объединить несколько Plus в команду?",
-          "a": "Нет, для команды — Standard."
+          "q": "Какой порог дохода?",
+          "a": "По условиям QuadSpinner на дату заказа."
         }
       ],
       "related_products": [
-        "dropbox-standard",
-        "dropbox-advanced"
+        "gaea-pro",
+        "gaea-ent"
       ],
-      "meta_title": "Dropbox Plus — подписка на год для юрлица | BIZSoft",
-      "meta_description": "Dropbox Plus: 2 ТБ облака для одного пользователя, синхронизация, история версий, Transfer. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Gaea Indie — подписка на год | BIZSoft",
+      "meta_description": "QuadSpinner Gaea Indie: процедурные ландшафты с эрозией и экспортом в движки, до 4K, для малых студий. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "dropbox plus купить — hero"
+        "gaea indie — hero"
+      ],
+      "uncertainties": [
+        "Порог дохода Indie — по условиям вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "gaea-pro": {
+      "sku": "QDSP-LIC-GAEAPRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "QuadSpinner Gaea Professional — индивидуальная подписка на 1 год на полный Gaea без ограничений по доходу: разрешение 8K и выше, тайлы, автоматизация, коммерческое использование. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Gaea Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Разрешение",
+              "d": "8K и выше, тайлинг больших миров."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Командная строка, пакетная сборка."
+            },
+            {
+              "t": "Всё из Indie",
+              "d": "Узлы, эрозия, экспорт."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка привязана к аккаунту специалиста и не переносится между людьми; для ротации сотрудников нужен командный план, если он есть у вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Коммерческая студия."
+            },
+            {
+              "t": "Indie",
+              "d": "Ниже порога.",
+              "link": "gaea-indie"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Команда с плавающими лицензиями.",
+              "link": "gaea-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям открытых миров и архвиза."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли с Unreal Landscape?",
+          "a": "Да, экспорт тайлов и слоёв под Landscape."
+        }
+      ],
+      "related_products": [
+        "gaea-indie",
+        "gaea-ent"
+      ],
+      "meta_title": "Gaea Professional — подписка на год | BIZSoft",
+      "meta_description": "QuadSpinner Gaea Professional: процедурные ландшафты 8K+, тайлинг, автоматизация, коммерческое использование. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "gaea professional — hero"
       ],
       "uncertainties": [],
       "legacy_disposition": {
@@ -144,8 +270,8 @@
         }
       ]
     },
-    "dropbox-standard": {
-      "sku": "DRBX-LIC-STANDARD-TEAM-1Y-USER",
+    "gaea-ent": {
+      "sku": "QDSP-LIC-GAEAENT-TEAM-1Y-USER",
       "classification": {
         "nature": "mono",
         "ownership": "team",
@@ -156,188 +282,28 @@
       "unit_label": "место",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Dropbox Standard — командная подписка на 1 год на облачное хранилище компании: 5 ТБ общего пространства на команду, консоль администратора, папки команды с правами, история версий 180 дней, восстановление, Dropbox Transfer, интеграции с Microsoft 365 и Google. Лицензии на организации, минимум 3 пользователя.\n\nСрок — 1 год.",
+      "short_description": "QuadSpinner Gaea Enterprise — командная подписка на 1 год на Gaea для студий: плавающие лицензии на организацию, приоритетная поддержка, доступ к бета-версиям, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Dropbox Standard",
+          "title": "Что даёт Gaea Enterprise",
           "kind": "items",
           "items": [
             {
-              "t": "Хранилище",
-              "d": "5 ТБ на команду, папки команды, права на папки."
+              "t": "Плавающие",
+              "d": "Лицензии на пул рабочих мест."
             },
             {
-              "t": "Администрирование",
-              "d": "Консоль, аудит активности, удалённое стирание."
+              "t": "Поддержка",
+              "d": "Приоритетная, ранний доступ."
             },
             {
-              "t": "Защита",
-              "d": "История и восстановление 180 дней, ссылки с паролем."
-            },
-            {
-              "t": "Интеграции",
-              "d": "Microsoft 365, Google Workspace, Slack, Zoom."
-            }
-          ]
-        },
-        {
-          "code": "TEAM_MODEL",
-          "title": "Командная модель",
-          "kind": "prose",
-          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
-        },
-        {
-          "code": "PLAN_COMPARE",
-          "title": "Этот план или соседний",
-          "kind": "items",
-          "items": [
-            {
-              "t": "Standard",
-              "d": "Команда с общим диском."
-            },
-            {
-              "t": "Advanced",
-              "d": "Столько хранилища, сколько нужно, SSO, расширенный аудит.",
-              "link": "dropbox-advanced"
-            },
-            {
-              "t": "Plus",
-              "d": "Один пользователь.",
-              "link": "dropbox-plus"
-            }
-          ]
-        },
-        {
-          "code": "TRADEOFFS",
-          "title": "Что учитывать",
-          "kind": "items",
-          "items": [
-            {
-              "t": "Минимум 3",
-              "d": "Меньше — индивидуальные Plus."
-            },
-            {
-              "t": "Хранилище",
-              "d": "5 ТБ общее, не на пользователя."
-            }
-          ]
-        },
-        {
-          "code": "FIT",
-          "title": "Кому подходит",
-          "kind": "prose",
-          "body": "Небольшим командам с общими файлами и одним администратором."
-        }
-      ],
-      "faq": [
-        {
-          "q": "Можно ли добавить пользователей в течение года?",
-          "a": "Да, доплатой с выравниванием срока."
-        }
-      ],
-      "related_products": [
-        "dropbox-advanced",
-        "dropbox-plus"
-      ],
-      "meta_title": "Dropbox Standard — подписка на год для юрлица | BIZSoft",
-      "meta_description": "Dropbox Standard: 5 ТБ на команду, папки с правами, консоль, история 180 дней; от 3 пользователей. Договор, счёт в рублях, ЭДО.",
-      "seo_intents": [
-        "dropbox standard купить — hero, meta"
-      ],
-      "uncertainties": [],
-      "legacy_disposition": {
-        "features": "→ модули; опустошить",
-        "description": "→ модули; опустошить",
-        "faq": "проверить vendor-content.ts",
-        "seo_text": "проверить"
-      },
-      "module_log": [
-        {
-          "module": "CAPABILITIES",
-          "question": "—",
-          "new_information": "см. текст",
-          "sibling_overlap": "общее — на носителе",
-          "decision": "UNDERSTAND",
-          "seo_intent": "—",
-          "source": "профиль/официальный сайт вендора"
-        },
-        {
-          "module": "TEAM_MODEL",
-          "question": "—",
-          "new_information": "см. текст",
-          "sibling_overlap": "общее — на носителе",
-          "decision": "UNDERSTAND",
-          "seo_intent": "—",
-          "source": "профиль/официальный сайт вендора"
-        },
-        {
-          "module": "PLAN_COMPARE",
-          "question": "—",
-          "new_information": "см. текст",
-          "sibling_overlap": "общее — на носителе",
-          "decision": "COMPARE",
-          "seo_intent": "—",
-          "source": "профиль/официальный сайт вендора"
-        },
-        {
-          "module": "TRADEOFFS",
-          "question": "—",
-          "new_information": "см. текст",
-          "sibling_overlap": "общее — на носителе",
-          "decision": "LIMITATIONS",
-          "seo_intent": "—",
-          "source": "профиль/официальный сайт вендора"
-        },
-        {
-          "module": "FIT",
-          "question": "—",
-          "new_information": "см. текст",
-          "sibling_overlap": "общее — на носителе",
-          "decision": "FIT",
-          "seo_intent": "—",
-          "source": "профиль/официальный сайт вендора"
-        }
-      ]
-    },
-    "dropbox-advanced": {
-      "sku": "DRBX-LIC-ADVANCED-TEAM-1Y-USER",
-      "classification": {
-        "nature": "mono",
-        "ownership": "team",
-        "term": "subscription:1Y",
-        "metric": "USER",
-        "packaging": "edition_tier"
-      },
-      "unit_label": "место",
-      "min_qty": 1,
-      "base_product_sku": null,
-      "short_description": "Dropbox Advanced — командная подписка на 1 год для компаний с большими объёмами: хранилище по потребности (от 15 ТБ на команду с расширением), SSO, расширенное управление устройствами и общим доступом, аудит и отчёты, история версий год. Оформляется на компанию от трёх пользователей; подписка годовая.",
-      "content_modules": [
-        {
-          "code": "CAPABILITIES",
-          "title": "Что даёт Dropbox Advanced",
-          "kind": "items",
-          "items": [
-            {
-              "t": "Хранилище",
-              "d": "От 15 ТБ на команду с ростом по запросу."
-            },
-            {
-              "t": "Управление",
-              "d": "SSO, многоуровневое администрирование, контроль общего доступа."
-            },
-            {
-              "t": "Аудит",
-              "d": "Журналы, отчёты, история 365 дней."
-            },
-            {
-              "t": "Всё из Standard",
-              "d": "Консоль, папки, интеграции."
+              "t": "Всё из Professional",
+              "d": "8K+, автоматизация."
             }
           ],
           "links": [
-            "dropbox-standard"
+            "gaea-pro"
           ]
         },
         {
@@ -352,13 +318,13 @@
           "kind": "items",
           "items": [
             {
-              "t": "Advanced",
-              "d": "Много данных, SSO, аудит."
+              "t": "Enterprise",
+              "d": "Несколько художников по очереди."
             },
             {
-              "t": "Standard",
-              "d": "5 ТБ и базовое управление.",
-              "link": "dropbox-standard"
+              "t": "Professional",
+              "d": "Один художник.",
+              "link": "gaea-pro"
             }
           ]
         },
@@ -368,12 +334,12 @@
           "kind": "items",
           "items": [
             {
-              "t": "Минимум 3",
-              "d": "Как у Standard."
+              "t": "Договор",
+              "d": "По запросу."
             },
             {
-              "t": "Объём",
-              "d": "Расширение сверх стартового — по запросу."
+              "t": "Минимум",
+              "d": "По условиям вендора."
             }
           ]
         },
@@ -381,26 +347,24 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Компаниям, которые хранят в Dropbox проектные архивы и требуют аудита."
+          "body": "Студиям с несколькими ландшафтными художниками."
         }
       ],
       "faq": [
         {
-          "q": "Безлимитно ли хранилище?",
-          "a": "Стартовый объём фиксирован, расширяется по запросу — не безлимит по умолчанию."
+          "q": "Отличие от Professional?",
+          "a": "Плавающая модель и поддержка."
         }
       ],
       "related_products": [
-        "dropbox-standard"
+        "gaea-pro"
       ],
-      "meta_title": "Dropbox Advanced — подписка на год | BIZSoft",
-      "meta_description": "Dropbox Advanced: хранилище от 15 ТБ на команду, SSO, аудит, история версий год; от 3 пользователей. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Gaea Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "QuadSpinner Gaea Enterprise: плавающие лицензии для студии, приоритетная поддержка; цена по запросу. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "dropbox advanced — hero"
+        "gaea enterprise — hero"
       ],
-      "uncertainties": [
-        "Стартовый объём Advanced — по прайсу Dropbox."
-      ],
+      "uncertainties": [],
       "legacy_disposition": {
         "features": "→ модули; опустошить",
         "description": "→ модули; опустошить",

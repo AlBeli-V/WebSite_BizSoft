@@ -1,16 +1,16 @@
 {
-  "family_key": "GAMMA",
-  "vendor": "Gamma",
-  "vendor_profile": "data/content/vendors/gamma.md",
+  "family_key": "TOONBOOM",
+  "vendor": "Toon Boom Animation",
+  "vendor_profile": "data/content/vendors/toonboom.md",
   "content_version": "cm-1.0",
   "generated_at": "2026-09-13",
-  "carrier_slug": "gamma-business",
+  "carrier_slug": "toonboom-harmony-advanced",
   "classification_notes": [
-    "Pro (индивидуальный) / Business. Носитель — Business."
+    "Harmony Advanced / Premium. Носитель — Advanced."
   ],
   "products": {
-    "gamma-pro": {
-      "sku": "GAMA-LIC-PRO-IND-1Y-USER",
+    "toonboom-harmony-advanced": {
+      "sku": "TBAN-LIC-HARMONYADV-IND-1Y-USER",
       "classification": {
         "nature": "mono",
         "ownership": "individual",
@@ -21,39 +21,36 @@
       "unit_label": "пользователь",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Gamma Pro — индивидуальная подписка на 1 год на ИИ-генератор презентаций, документов и сайтов Gamma для одного пользователя: неограниченные генерации, экспорт в PowerPoint и PDF, свои шрифты и бренд, аналитика просмотров, без водяных знаков. Личный аккаунт.\n\nСрок — 1 год.",
+      "short_description": "Toon Boom Harmony Advanced — индивидуальная подписка на 1 год на 2D-анимацию для студий и сериалов: покадровая и перекладочная анимация, векторные и растровые кисти, риггинг с деформерами, композитинг эффектов, камера. Личный аккаунт.\n\nPremium добавляет продвинутый риггинг, 3D-интеграцию и узловой композитинг.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Gamma Pro",
+          "title": "Что даёт Toon Boom Harmony Advanced",
           "kind": "items",
           "items": [
             {
-              "t": "Генерация",
-              "d": "Презентации, документы, лендинги из текста и файлов; ИИ-изображения."
+              "t": "Рисование",
+              "d": "Векторные и растровые кисти, покадровая анимация, онион-скин."
             },
             {
-              "t": "Бренд",
-              "d": "Свои шрифты, цвета, шаблоны."
+              "t": "Риггинг",
+              "d": "Деформеры, иерархии, перекладка."
             },
             {
-              "t": "Экспорт",
-              "d": "PPTX, PDF, публикация с аналитикой."
+              "t": "Композитинг",
+              "d": "Эффекты, камера, экспорт видео."
             },
             {
-              "t": "Один пользователь",
-              "d": "Личный аккаунт."
+              "t": "Пайплайн",
+              "d": "Storyboard Pro, Producer."
             }
-          ],
-          "links": [
-            "gamma-business"
           ]
         },
         {
           "code": "INDIVIDUAL_MODEL",
           "title": "Индивидуальный план",
           "kind": "prose",
-          "body": "Личный аккаунт сотрудника, оплата от организации; при увольнении лицензия не возвращается компании."
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
         },
         {
           "code": "PLAN_COMPARE",
@@ -61,13 +58,18 @@
           "kind": "items",
           "items": [
             {
-              "t": "Pro",
-              "d": "Один автор презентаций."
+              "t": "Advanced",
+              "d": "Аниматоры сериалов и рекламы."
             },
             {
-              "t": "Business",
-              "d": "Команда: общие шаблоны, папки, SSO.",
-              "link": "gamma-business"
+              "t": "Premium",
+              "d": "Продвинутый риг, 3D, узлы.",
+              "link": "toonboom-harmony-premium"
+            },
+            {
+              "t": "Adobe Animate",
+              "d": "Веб-анимация.",
+              "link": "adobe-animate"
             }
           ]
         },
@@ -75,22 +77,23 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Менеджерам и продавцам, которые делают презентации сами."
+          "body": "Анимационным студиям и фрилансерам 2D."
         }
       ],
       "faq": [
         {
-          "q": "Редактируется ли экспорт в PowerPoint?",
-          "a": "Да, PPTX открывается и правится."
+          "q": "Работает ли с Wacom?",
+          "a": "Да, полная поддержка планшетов."
         }
       ],
       "related_products": [
-        "gamma-business"
+        "toonboom-harmony-premium",
+        "adobe-animate"
       ],
-      "meta_title": "Gamma Pro — подписка на год для юрлица | BIZSoft",
-      "meta_description": "Gamma Pro: ИИ-генерация презентаций и документов без лимита, бренд, экспорт в PowerPoint и PDF. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Toon Boom Harmony Advanced — подписка на год | BIZSoft",
+      "meta_description": "Toon Boom Harmony Advanced: 2D-анимация, риггинг с деформерами, композитинг, векторные кисти. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "gamma ai купить — hero, meta"
+        "toon boom harmony купить — hero, meta"
       ],
       "uncertainties": [],
       "legacy_disposition": {
@@ -138,48 +141,51 @@
         }
       ]
     },
-    "gamma-business": {
-      "sku": "GAMA-LIC-BUSINESS-TEAM-1Y-USER",
+    "toonboom-harmony-premium": {
+      "sku": "TBAN-LIC-HARMONYPRM-IND-1Y-USER",
       "classification": {
         "nature": "mono",
-        "ownership": "team",
+        "ownership": "individual",
         "term": "subscription:1Y",
         "metric": "USER",
         "packaging": "edition_tier"
       },
-      "unit_label": "место",
+      "unit_label": "пользователь",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Gamma Business — командная подписка на 1 год на Gamma для команды: всё из Pro на каждое место плюс общие папки и шаблоны, бренд-кит компании, роли, SSO, приоритетная поддержка. Места на организации.\n\nСрок — 1 год.",
+      "short_description": "Toon Boom Harmony Premium — индивидуальная подписка на 1 год на старшую редакцию Harmony: всё из Advanced плюс продвинутый риггинг персонажей, 3D-интеграция, узловой композитинг, частицы, расширенные эффекты. Личный аккаунт.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Gamma Business",
+          "title": "Что даёт Toon Boom Harmony Premium",
           "kind": "items",
           "items": [
             {
-              "t": "Команда",
-              "d": "Общие папки, шаблоны, бренд-кит, роли."
+              "t": "Риггинг",
+              "d": "Продвинутые деформеры, мастер-контроллеры."
             },
             {
-              "t": "Безопасность",
-              "d": "SSO, управление местами."
+              "t": "3D",
+              "d": "Импорт моделей и камер, смешение 2D и 3D."
             },
             {
-              "t": "Всё из Pro",
-              "d": "Генерации, экспорт, аналитика."
+              "t": "Узлы",
+              "d": "Нодовый композитинг, частицы."
             },
             {
-              "t": "Поддержка",
-              "d": "Приоритетная."
+              "t": "Всё из Advanced",
+              "d": "Рисование, анимация."
             }
+          ],
+          "links": [
+            "toonboom-harmony-advanced"
           ]
         },
         {
-          "code": "TEAM_MODEL",
-          "title": "Командная модель",
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
           "kind": "prose",
-          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+          "body": "Индивидуальная модель: один человек, один аккаунт, без администратора и переназначения; юрлицо платит, пользователь владеет доступом."
         },
         {
           "code": "PLAN_COMPARE",
@@ -187,28 +193,13 @@
           "kind": "items",
           "items": [
             {
-              "t": "Business",
-              "d": "Отдел продаж или маркетинга."
+              "t": "Premium",
+              "d": "Полнометражная и сложная анимация."
             },
             {
-              "t": "Pro",
-              "d": "Один человек.",
-              "link": "gamma-pro"
-            }
-          ]
-        },
-        {
-          "code": "TRADEOFFS",
-          "title": "Что учитывать",
-          "kind": "items",
-          "items": [
-            {
-              "t": "Минимум",
-              "d": "По условиям Gamma."
-            },
-            {
-              "t": "Данные",
-              "d": "Облако Gamma."
+              "t": "Advanced",
+              "d": "Сериалы и реклама.",
+              "link": "toonboom-harmony-advanced"
             }
           ]
         },
@@ -216,22 +207,22 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Командам, выпускающим презентации в едином стиле."
+          "body": "Студиям полного метра и сложных персонажей."
         }
       ],
       "faq": [
         {
-          "q": "Можно ли запретить менять бренд-кит?",
-          "a": "Да, администратор фиксирует бренд для команды."
+          "q": "Нужен ли Premium сериальной студии?",
+          "a": "Обычно Advanced, Premium — ведущим риггерам."
         }
       ],
       "related_products": [
-        "gamma-pro"
+        "toonboom-harmony-advanced"
       ],
-      "meta_title": "Gamma Business — подписка на год | BIZSoft",
-      "meta_description": "Gamma Business: командные шаблоны и бренд-кит, папки, роли, SSO; места на организации. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Toon Boom Harmony Premium — подписка на год | BIZSoft",
+      "meta_description": "Toon Boom Harmony Premium: продвинутый риггинг, 3D-интеграция, узловой композитинг плюс всё из Advanced. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "gamma business — hero"
+        "harmony premium — hero"
       ],
       "uncertainties": [],
       "legacy_disposition": {
@@ -251,11 +242,11 @@
           "source": "профиль/официальный сайт вендора"
         },
         {
-          "module": "TEAM_MODEL",
+          "module": "INDIVIDUAL_MODEL",
           "question": "—",
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
-          "decision": "UNDERSTAND",
+          "decision": "FIT",
           "seo_intent": "—",
           "source": "профиль/официальный сайт вендора"
         },
@@ -265,15 +256,6 @@
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
           "decision": "COMPARE",
-          "seo_intent": "—",
-          "source": "профиль/официальный сайт вендора"
-        },
-        {
-          "module": "TRADEOFFS",
-          "question": "—",
-          "new_information": "см. текст",
-          "sibling_overlap": "общее — на носителе",
-          "decision": "LIMITATIONS",
           "seo_intent": "—",
           "source": "профиль/официальный сайт вендора"
         },

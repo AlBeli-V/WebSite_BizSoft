@@ -1,18 +1,18 @@
 {
-  "family_key": "CANVA",
-  "vendor": "Canva",
-  "vendor_profile": "data/content/vendors/canva.md",
+  "family_key": "COREL",
+  "vendor": "Corel (Alludo)",
+  "vendor_profile": "data/content/vendors/corel.md",
   "content_version": "cm-1.0",
   "generated_at": "2026-09-13",
-  "carrier_slug": "canva-business",
+  "carrier_slug": "cdr-gs-sub",
   "classification_notes": [
-    "Pro (индивидуальный) / Business / Enterprise. Носитель — Business."
+    "CDR Suite / Suite Business / Painter. Носитель — Suite."
   ],
   "products": {
-    "canva-pro": {
-      "sku": "CNVA-LIC-PRO-IND-1Y-USER",
+    "cdr-gs-sub": {
+      "sku": "CORL-LIC-CDRGS-IND-1Y-USER",
       "classification": {
-        "nature": "mono",
+        "nature": "suite",
         "ownership": "individual",
         "term": "subscription:1Y",
         "metric": "USER",
@@ -21,32 +21,25 @@
       "unit_label": "пользователь",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Canva Pro — индивидуальная подписка на 1 год на дизайн-платформу Canva для одного пользователя: премиум-шаблоны, фото и видео из библиотеки, бренд-кит, удаление фона, Magic Studio с ИИ, планировщик публикаций, 1 ТБ облака. Личный аккаунт.\n\nКомандные функции — общие бренд-киты с контролем, роли, SSO — в Business и Enterprise.\n\nСрок — 1 год.",
+      "short_description": "CorelDRAW Graphics Suite — индивидуальная подписка на 1 год на набор для векторной графики и вёрстки: CorelDRAW, Corel PHOTO-PAINT, Font Manager, CAPTURE, веб-версия и iPad; Windows и macOS. Личный аккаунт.\n\nСрок — 1 год.",
       "content_modules": [
         {
-          "code": "CAPABILITIES",
-          "title": "Что даёт Canva Pro",
+          "code": "INCLUDED",
+          "title": "Что даёт CorelDRAW Graphics Suite",
           "kind": "items",
           "items": [
             {
-              "t": "Контент",
-              "d": "100+ млн стоковых фото, видео, аудио, графики и шаблонов."
+              "t": "CorelDRAW",
+              "d": "Вектор, вёрстка, макеты, печать."
             },
             {
-              "t": "ИИ",
-              "d": "Magic Studio: генерация изображений, текста, редактирование, презентации."
+              "t": "PHOTO-PAINT",
+              "d": "Растр и ретушь."
             },
             {
-              "t": "Бренд",
-              "d": "Один бренд-кит, шрифты, цвета."
-            },
-            {
-              "t": "Публикация",
-              "d": "Планировщик соцсетей, печать, 1 ТБ облака."
+              "t": "Дополнения",
+              "d": "Font Manager, AfterShot, веб и iPad."
             }
-          ],
-          "links": [
-            "canva-business"
           ]
         },
         {
@@ -61,23 +54,23 @@
           "kind": "items",
           "items": [
             {
-              "t": "Pro",
-              "d": "Один пользователь."
+              "t": "Suite",
+              "d": "Один дизайнер."
             },
             {
-              "t": "Business",
-              "d": "Команда: несколько бренд-китов, контроль шаблонов, роли.",
-              "link": "canva-business"
+              "t": "Suite для бизнеса",
+              "d": "Места для компании с управлением.",
+              "link": "cdr-gs-biz"
             },
             {
-              "t": "Enterprise",
-              "d": "SSO, SCIM, аналитика, договор.",
-              "link": "canva-ent"
+              "t": "Painter",
+              "d": "Цифровая живопись.",
+              "link": "cdr-painter-sub"
             },
             {
-              "t": "Adobe Express Premium",
+              "t": "Adobe Illustrator",
               "d": "Альтернатива.",
-              "link": "adobe-express"
+              "link": "adobe-ai"
             }
           ]
         },
@@ -85,24 +78,24 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Маркетологу или SMM-специалисту с одним брендом."
+          "body": "Дизайнерам печати, вывесок, упаковки."
         }
       ],
       "faq": [
         {
-          "q": "Можно ли использовать контент Canva в рекламе?",
-          "a": "Да, по лицензии Canva на стоковые материалы в платных планах."
+          "q": "Открывает ли AI-файлы?",
+          "a": "Да, импорт форматов Adobe."
         }
       ],
       "related_products": [
-        "canva-business",
-        "canva-ent",
-        "adobe-express"
+        "cdr-gs-biz",
+        "cdr-painter-sub",
+        "adobe-ai"
       ],
-      "meta_title": "Canva Pro — подписка на год для юрлица | BIZSoft",
-      "meta_description": "Canva Pro на одного пользователя: премиум-шаблоны и стоки, Magic Studio, бренд-кит, планировщик, 1 ТБ. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "CorelDRAW Graphics Suite — подписка на год | BIZSoft",
+      "meta_description": "CorelDRAW Graphics Suite: вектор, вёрстка, PHOTO-PAINT, Font Manager; Windows и macOS; подписка. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "canva pro купить юрлицо — hero, meta"
+        "coreldraw купить — hero, meta"
       ],
       "uncertainties": [],
       "legacy_disposition": {
@@ -113,7 +106,7 @@
       },
       "module_log": [
         {
-          "module": "CAPABILITIES",
+          "module": "INCLUDED",
           "question": "—",
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
@@ -150,10 +143,10 @@
         }
       ]
     },
-    "canva-business": {
-      "sku": "CNVA-LIC-BUSINESS-TEAM-1Y-USER",
+    "cdr-gs-biz": {
+      "sku": "CORL-LIC-CDRGSBIZ-TEAM-1Y-USER",
       "classification": {
-        "nature": "mono",
+        "nature": "suite",
         "ownership": "team",
         "term": "subscription:1Y",
         "metric": "USER",
@@ -162,36 +155,35 @@
       "unit_label": "место",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Canva Business (бывший Teams) — командная подписка на 1 год на Canva для команды: всё из Pro на каждое место плюс несколько бренд-китов, блокировка элементов шаблонов, согласования, роли администратора и дизайнера, общие папки, отчёты. Места на организации.\n\nСрок — 1 год.",
+      "short_description": "CorelDRAW Graphics Suite для бизнеса — командная подписка на 1 год на тот же набор с управлением местами: администратор назначает и переназначает, единый счёт, развёртывание в сети. Места на организации.\n\nСрок — 1 год.",
       "content_modules": [
         {
-          "code": "CAPABILITIES",
-          "title": "Что даёт Canva Business",
+          "code": "INCLUDED",
+          "title": "Что даёт CorelDRAW Graphics Suite для бизнеса",
           "kind": "items",
           "items": [
             {
-              "t": "Бренд",
-              "d": "Несколько бренд-китов, контроль шаблонов, согласование дизайнов."
+              "t": "Управление",
+              "d": "Портал администратора, переназначение."
             },
             {
-              "t": "Команда",
-              "d": "Роли, общие папки, комментарии, назначение задач."
+              "t": "Развёртывание",
+              "d": "Сетевая установка."
             },
             {
-              "t": "Всё из Pro",
-              "d": "Стоки, Magic Studio, планировщик, облако."
-            },
-            {
-              "t": "Администрирование",
-              "d": "Управление местами, отчёты об использовании."
+              "t": "Всё из Suite",
+              "d": "CorelDRAW, PHOTO-PAINT, Font Manager."
             }
+          ],
+          "links": [
+            "cdr-gs-sub"
           ]
         },
         {
           "code": "TEAM_MODEL",
           "title": "Командная модель",
           "kind": "prose",
-          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
         },
         {
           "code": "PLAN_COMPARE",
@@ -199,18 +191,13 @@
           "kind": "items",
           "items": [
             {
-              "t": "Business",
-              "d": "Отдел маркетинга с несколькими авторами."
+              "t": "Для бизнеса",
+              "d": "Несколько дизайнеров."
             },
             {
-              "t": "Pro",
+              "t": "Suite индивидуальная",
               "d": "Один человек.",
-              "link": "canva-pro"
-            },
-            {
-              "t": "Enterprise",
-              "d": "SSO, SCIM, аналитика, договор.",
-              "link": "canva-ent"
+              "link": "cdr-gs-sub"
             }
           ]
         },
@@ -221,11 +208,11 @@
           "items": [
             {
               "t": "Минимум",
-              "d": "Business оформляется от нескольких мест — уточняем."
+              "d": "По условиям Corel."
             },
             {
-              "t": "Без SSO",
-              "d": "Только Enterprise."
+              "t": "Цена",
+              "d": "Выше индивидуальной."
             }
           ]
         },
@@ -233,27 +220,24 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Отделам маркетинга и продаж, выпускающим материалы в фирменном стиле."
+          "body": "Компаниям с отделом дизайна."
         }
       ],
       "faq": [
         {
-          "q": "Можно ли запретить менять логотип в шаблоне?",
-          "a": "Да, блокировка элементов — функция Business."
+          "q": "Можно ли переназначать?",
+          "a": "Да."
         }
       ],
       "related_products": [
-        "canva-pro",
-        "canva-ent"
+        "cdr-gs-sub"
       ],
-      "meta_title": "Canva Business — подписка на год | BIZSoft",
-      "meta_description": "Canva Business для команды: несколько бренд-китов, блокировка шаблонов, согласования, роли; места на организации. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "CorelDRAW Graphics Suite для бизнеса — подписка | BIZSoft",
+      "meta_description": "CorelDRAW Graphics Suite для бизнеса: места с управлением и сетевым развёртыванием. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "canva teams business купить — hero, meta"
+        "coreldraw business — hero"
       ],
-      "uncertainties": [
-        "Минимум мест Business — по условиям Canva."
-      ],
+      "uncertainties": [],
       "legacy_disposition": {
         "features": "→ модули; опустошить",
         "description": "→ модули; опустошить",
@@ -262,7 +246,7 @@
       },
       "module_log": [
         {
-          "module": "CAPABILITIES",
+          "module": "INCLUDED",
           "question": "—",
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
@@ -308,51 +292,47 @@
         }
       ]
     },
-    "canva-ent": {
-      "sku": "CNVA-LIC-ENTERPRISE-TEAM-1Y-USER",
+    "cdr-painter-sub": {
+      "sku": "CORL-LIC-PAINTER-IND-1Y-USER",
       "classification": {
         "nature": "mono",
-        "ownership": "team",
+        "ownership": "individual",
         "term": "subscription:1Y",
         "metric": "USER",
         "packaging": "edition_tier"
       },
-      "unit_label": "место",
+      "unit_label": "пользователь",
       "min_qty": 1,
       "base_product_sku": null,
-      "short_description": "Canva Enterprise — командный план Canva корпоративного уровня на 1 год: всё из Business плюс SSO и SCIM, несколько команд под одной организацией, контроль публикаций, аналитика дизайнов, выделенная поддержка и договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "short_description": "Corel Painter — индивидуальная подписка на 1 год на цифровую живопись: сотни натуральных кистей, имитация масла, акварели, пастели, поддержка планшетов. Личный аккаунт.\n\nСрок — 1 год.",
       "content_modules": [
         {
           "code": "CAPABILITIES",
-          "title": "Что даёт Canva Enterprise",
+          "title": "Что даёт Corel Painter",
           "kind": "items",
           "items": [
             {
-              "t": "Управление",
-              "d": "SSO, SCIM, роли по командам, политики."
+              "t": "Кисти",
+              "d": "Натуральные медиа, толстая краска, частицы."
             },
             {
-              "t": "Контроль",
-              "d": "Согласование публикаций, аналитика использования."
+              "t": "Планшеты",
+              "d": "Wacom и другие с наклоном и давлением."
             },
             {
-              "t": "Поддержка",
-              "d": "Выделенный менеджер."
-            },
-            {
-              "t": "Всё из Business",
-              "d": "Бренд-киты, шаблоны, стоки."
+              "t": "Форматы",
+              "d": "PSD, RIFF."
             }
           ],
           "links": [
-            "canva-business"
+            "cdr-gs-sub"
           ]
         },
         {
-          "code": "TEAM_MODEL",
-          "title": "Командная модель",
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
           "kind": "prose",
-          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+          "body": "Подписка привязана к аккаунту специалиста и не переносится между людьми; для ротации сотрудников нужен командный план, если он есть у вендора."
         },
         {
           "code": "PLAN_COMPARE",
@@ -360,28 +340,18 @@
           "kind": "items",
           "items": [
             {
-              "t": "Enterprise",
-              "d": "Сотни пользователей и ИБ-требования."
+              "t": "Painter",
+              "d": "Иллюстрация и концепт-арт."
             },
             {
-              "t": "Business",
-              "d": "Десятки пользователей.",
-              "link": "canva-business"
-            }
-          ]
-        },
-        {
-          "code": "TRADEOFFS",
-          "title": "Что учитывать",
-          "kind": "items",
-          "items": [
-            {
-              "t": "Договор",
-              "d": "Минимумы."
+              "t": "CorelDRAW Suite",
+              "d": "Вектор и вёрстка.",
+              "link": "cdr-gs-sub"
             },
             {
-              "t": "Цена",
-              "d": "По запросу."
+              "t": "Clip Studio Paint Pro",
+              "d": "Альтернатива.",
+              "link": "csp-pro-sub"
             }
           ]
         },
@@ -389,22 +359,23 @@
           "code": "FIT",
           "title": "Кому подходит",
           "kind": "prose",
-          "body": "Крупным брендам с несколькими подразделениями и агентствами."
+          "body": "Иллюстраторам и концепт-художникам."
         }
       ],
       "faq": [
         {
-          "q": "Есть ли SCIM в Business?",
-          "a": "Нет, только в Enterprise."
+          "q": "Есть ли бессрочная?",
+          "a": "У вендора — да; на витрине подписка."
         }
       ],
       "related_products": [
-        "canva-business"
+        "cdr-gs-sub",
+        "csp-pro-sub"
       ],
-      "meta_title": "Canva Enterprise — корпоративный план | BIZSoft",
-      "meta_description": "Canva Enterprise: SSO, SCIM, несколько команд, контроль публикаций, аналитика; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "meta_title": "Corel Painter — подписка на год | BIZSoft",
+      "meta_description": "Corel Painter: цифровая живопись с натуральными кистями и поддержкой планшетов; подписка. Договор, счёт в рублях, ЭДО.",
       "seo_intents": [
-        "canva enterprise — hero"
+        "corel painter — hero"
       ],
       "uncertainties": [],
       "legacy_disposition": {
@@ -424,11 +395,11 @@
           "source": "профиль/официальный сайт вендора"
         },
         {
-          "module": "TEAM_MODEL",
+          "module": "INDIVIDUAL_MODEL",
           "question": "—",
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
-          "decision": "UNDERSTAND",
+          "decision": "FIT",
           "seo_intent": "—",
           "source": "профиль/официальный сайт вендора"
         },
@@ -438,15 +409,6 @@
           "new_information": "см. текст",
           "sibling_overlap": "общее — на носителе",
           "decision": "COMPARE",
-          "seo_intent": "—",
-          "source": "профиль/официальный сайт вендора"
-        },
-        {
-          "module": "TRADEOFFS",
-          "question": "—",
-          "new_information": "см. текст",
-          "sibling_overlap": "общее — на носителе",
-          "decision": "LIMITATIONS",
           "seo_intent": "—",
           "source": "профиль/официальный сайт вендора"
         },
