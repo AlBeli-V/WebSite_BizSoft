@@ -158,8 +158,9 @@ describe('карточка использует заголовок и строк
     expect(cardParams({
       vendorLegal: 'OpenAI, Inc.', category: 'Текстовые AI', planShort: 'Командный',
       term: '1 год', sku: 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER', qtyLabel: 'Рабочих мест',
-      minQty: 2, vat: 5,
-    })).toContainEqual({ key: 'Срок плана', value: '1 год' });
+      minQty: 2, transfer: 'Да', vat: 5,
+      // В параметрах год разворачивается в месяцы (docs/rules/card-params.md).
+    })).toContainEqual({ key: 'Срок', value: '12 месяцев' });
     expect(page).not.toContain('cardMeta?.term');
   });
 

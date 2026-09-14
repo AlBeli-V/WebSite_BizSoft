@@ -202,19 +202,17 @@ const params = cardParams({
   unitField: product.unit_label,
   qtyLabel: commerce.qtyLabel,
   minQty: commerce.minQty,
+  // Трансфер — то же значение, что в колонке ТРАНСФЕР блока фактов: два
+  // ответа на один вопрос на одной странице расходиться не должны.
+  transfer: factTransfer(composition, planKind, cardMeta?.reassign),
+  management: cardMeta?.management,
   vat: (!byRequest || isGift) ? vat : 0,
-  // Строки вида позиции идут после «Минимального количества», канонический
-  // порядок восьми параметров они не рвут. «Переназначение пользователей»
-  // снято постановкой 14.09.2026 — оно повторяет колонку ТРАНСФЕР блока
-  // фактов; «Управление» остаётся: это содержательное поле контента вендора,
-  // и больше его на карточке негде показать.
-  extra: [
-    ...(cardMeta?.management ? [{ key: 'Управление', value: cardMeta.management }] : []),
-    ...(isGift && giftRegions.length > 0 ? [
-      { key: 'Регионы', value: giftRegions.map((r) => `${r.name} (${r.currency})`).join(', ') },
-      { key: 'Номиналов', value: String(giftRegions.reduce((n, r) => n + r.variants.length, 0)) },
-    ] : []),
-  ],
+  // Строки вида позиции идут после «Управления» — канонический порядок они
+  // не рвут.
+  extra: isGift && giftRegions.length > 0 ? [
+    { key: 'Регионы', value: giftRegions.map((r) => `${r.name} (${r.currency})`).join(', ') },
+    { key: 'Номиналов', value: String(giftRegions.reduce((n, r) => n + r.variants.length, 0)) },
+  ] : [],
 });
 
 // Блок фактов под описанием (правило docs/rules/card-lede-facts.md): три
@@ -767,10 +765,17 @@ try {
               <div class="prow">
                 <span class="k">{row.key}:</span>
                 <span class="v">
-                  {row.key === 'Производитель' && vendorPageSlug && (
-                    <VendorLogo slug={vendorPageSlug} name={row.value} size={18} fluid />
+                  {row.key === 'Производитель' && vendorPageSlug ? (
+                    /* Знак и название — одна ссылка на раздел производителя, без
+                       подчёркивания и цвета ссылки: та же подача, что в строке
+                       производителя первого экрана (docs/rules/vendor-line.md). */
+                    <a class="v-vendor" href={`/vendors/${vendorPageSlug}`}>
+                      <VendorLogo slug={vendorPageSlug} name={row.value} size={18} fluid />
+                      <span>{row.value}</span>
+                    </a>
+                  ) : (
+                    <span>{row.value}</span>
                   )}
-                  <span>{row.value}</span>
                 </span>
               </div>
             ))}
@@ -1123,6 +1128,8 @@ try {
      ширину страницы (global.css). */
   .prow .k { flex: 0 0 290px; max-width: 52%; overflow-wrap: normal; color: var(--color-text-dim); }
   .prow .v { flex: 1 1 auto; min-width: 0; display: inline-flex; align-items: center; gap: 0.45rem; color: var(--color-text); font-weight: 600; }
+  .v-vendor { display: inline-flex; align-items: center; gap: 0.45rem; min-width: 0; color: inherit; text-decoration: none; }
+  .v-vendor:hover { color: var(--color-accent); }
   .deal { display: grid; }
   .deal-row { display: grid; grid-template-columns: 52px 210px minmax(0, 1fr); gap: 1.2rem; padding: 1.3rem 0; border-top: 1px solid var(--color-border); align-items: start; }
   .deal-row:first-child { border-top: 0; padding-top: 0.3rem; }

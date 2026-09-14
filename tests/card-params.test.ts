@@ -7,7 +7,8 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { PARAM_ORDER, SKU_UNIT_LABEL, cardParams, unitLabel } from '../src/lib/card-params';
+import { PARAM_ORDER, SKU_UNIT_LABEL, cardParams, paramTerm, unitLabel } from '../src/lib/card-params';
+import { TERM } from '../src/lib/card-display';
 import { vendorLegal } from '../src/lib/catalog';
 import { VENDORS } from '../src/data/vendors';
 import { SKU_UNITS } from '../src/lib/sku';
@@ -23,33 +24,45 @@ const BASE = {
   sku: 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD',
   qtyLabel: 'Рабочих мест',
   minQty: 2,
+  transfer: 'Да',
+  management: 'Централизованная консоль',
   vat: 5,
 };
 
 describe('порядок параметров един для каталога', () => {
-  it('восемь строк в утверждённой последовательности', () => {
+  it('строки идут в утверждённой последовательности', () => {
     expect([...PARAM_ORDER]).toEqual([
-      'Производитель', 'Категория', 'Тип плана', 'Срок плана',
-      'Расчётная единица', 'Минимальное количество', 'НДС', 'Артикул',
+      'Производитель', 'Категория', 'Тип плана', 'Срок', 'Расчётная единица',
+      'Мин. кол-во', 'Трансфер', 'Управление', 'НДС', 'Артикул',
     ]);
     expect(cardParams(BASE).map((r) => r.key)).toEqual([...PARAM_ORDER]);
   });
 
-  it('строки вида позиции встают после минимального количества и не рвут порядок', () => {
+  it('длинные подписи заменены короткими: строка не ложится в два яруса', () => {
+    // «Минимальное количество» и «Переназначение пользователей» переносились
+    // на телефоне — постановка руководителя 14.09.2026.
+    expect(PARAM_ORDER).not.toContain('Минимальное количество');
+    expect(PARAM_ORDER).not.toContain('Переназначение пользователей');
+    for (const key of PARAM_ORDER) expect(key.length, key).toBeLessThanOrEqual(18);
+  });
+
+  it('строки вида позиции встают после «Управления» и не рвут порядок', () => {
     const keys = cardParams({
       ...BASE,
       extra: [{ key: 'Регионы', value: 'Global (USD)' }, { key: 'Номиналов', value: '4' }],
     }).map((r) => r.key);
-    expect(keys.indexOf('Регионы')).toBe(keys.indexOf('Минимальное количество') + 1);
+    expect(keys.indexOf('Регионы')).toBe(keys.indexOf('Управление') + 1);
     // Канонические НДС и артикул остаются последними.
     expect(keys.slice(-2)).toEqual(['НДС', 'Артикул']);
   });
 
   it('пустое значение строку не создаёт', () => {
     // У договорной позиции срока нет — выдумывать его нельзя.
-    const keys = cardParams({ ...BASE, term: null, category: '' }).map((r) => r.key);
-    expect(keys).not.toContain('Срок плана');
+    const keys = cardParams({ ...BASE, term: null, category: '', management: null }).map((r) => r.key);
+    expect(keys).not.toContain('Срок');
     expect(keys).not.toContain('Категория');
+    // Управление заводится не у каждого вендора — пустого поля в таблице нет.
+    expect(keys).not.toContain('Управление');
     // Без НДС (позиция по запросу) строки налога тоже нет.
     expect(cardParams({ ...BASE, vat: 0 }).map((r) => r.key)).not.toContain('НДС');
   });
@@ -91,9 +104,23 @@ describe('значения семантически верны для вида �
     }
   });
 
-  it('минимальное количество — тот же минимум, что в счётчике', () => {
-    expect(cardParams(BASE).find((r) => r.key === 'Минимальное количество')?.value).toBe('2');
-    expect(cardParams({ ...BASE, minQty: 0 }).find((r) => r.key === 'Минимальное количество')?.value).toBe('1');
+  it('минимум и трансфер — те же значения, что в блоке фактов', () => {
+    expect(cardParams(BASE).find((r) => r.key === 'Мин. кол-во')?.value).toBe('2');
+    expect(cardParams({ ...BASE, minQty: 0 }).find((r) => r.key === 'Мин. кол-во')?.value).toBe('1');
+    expect(cardParams(BASE).find((r) => r.key === 'Трансфер')?.value).toBe('Да');
+    expect(cardParams({ ...BASE, transfer: 'Нет' }).find((r) => r.key === 'Трансфер')?.value).toBe('Нет');
+  });
+
+  it('срок в параметрах — месяцами, бессрочный — знаком бесконечности', () => {
+    // В подзаголовке под H1 срок остаётся годами: там он читается фразой,
+    // здесь — значением таблицы, и месяцы сравнимы между позициями.
+    expect(paramTerm(TERM.year)).toBe('12 месяцев');
+    expect(paramTerm('2 года')).toBe('24 месяца');
+    expect(paramTerm('3 года')).toBe('36 месяцев');
+    expect(paramTerm(TERM.perpetual)).toBe('∞');
+    expect(paramTerm(TERM.balance)).toBe('до истечения баланса');
+    expect(paramTerm('3 месяца')).toBe('3 месяца');
+    expect(paramTerm(null)).toBe('');
   });
 
   it('НДС — только значение, без пояснения под строкой', () => {
@@ -122,9 +149,13 @@ describe('производитель называется юридическим
     for (const v of VENDORS) expect(vendorLegal(v.vendor), v.slug).toBe(v.legalName);
   });
 
-  it('строка производителя несёт знак вендора на той же оси', () => {
+  it('строка производителя — знак и название одной ссылкой на его раздел', () => {
     expect(page).toContain("row.key === 'Производитель' && vendorPageSlug");
     expect(page).toContain('<VendorLogo slug={vendorPageSlug} name={row.value} size={18} fluid />');
+    expect(page).toContain('<a class="v-vendor" href={`/vendors/${vendorPageSlug}`}>');
+    // Без подчёркивания и цвета ссылки — как в строке первого экрана.
+    const rule = page.slice(page.indexOf('.v-vendor {'));
+    expect(rule.slice(0, rule.indexOf('}'))).toContain('text-decoration: none');
   });
 });
 
@@ -154,6 +185,7 @@ describe('правило записано в свод и в файл прави�
     expect(claude).toContain('docs/rules/card-params.md');
     const rule = readFileSync(resolve(ROOT, 'docs/rules/card-params.md'), 'utf8');
     for (const key of PARAM_ORDER) expect(rule, key).toContain(key);
+    expect(rule).toContain('12 месяцев');
     expect(rule).toContain('legalName');
     expect(rule).toContain('unit_label');
   });
