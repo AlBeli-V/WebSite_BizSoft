@@ -1,0 +1,318 @@
+{
+  "family_key": "SENTRY",
+  "vendor": "Sentry (Functional Software)",
+  "vendor_profile": "data/content/vendors/sentry.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "sentry-team",
+  "classification_notes": [
+    "Team / Business; лицензия на организацию по квоте событий."
+  ],
+  "products": {
+    "sentry-team": {
+      "sku": "SNTR-LIC-TEAM-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "организация",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Sentry Team — командная подписка на 1 год на мониторинг ошибок и производительности приложений: сбор ошибок и трассировок с фронтенда, бэкенда и мобильных, оповещения, интеграции с Jira и Slack; квота событий по тарифу, неограниченное число пользователей. Лицензия на организацию.\n\nSentry считает события, а не людей: Team отличается от Business квотой, хранением и функциями аналитики.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Sentry Team",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ошибки",
+              "d": "Группировка, стек с исходниками, релизы, регрессии."
+            },
+            {
+              "t": "Производительность",
+              "d": "Трассировки, Web Vitals, профилирование по тарифу."
+            },
+            {
+              "t": "Оповещения",
+              "d": "Правила, Jira, Slack, PagerDuty."
+            },
+            {
+              "t": "Пользователи",
+              "d": "Без ограничений."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Team",
+              "d": "Небольшой продукт с базовой квотой."
+            },
+            {
+              "t": "Business",
+              "d": "Больше квоты и хранения, кросс-проектная аналитика, SSO, приоритетная поддержка.",
+              "link": "sentry-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Квота событий",
+              "d": "Сверх — доплата или семплирование."
+            },
+            {
+              "t": "Хранение",
+              "d": "Короче, чем в Business."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продуктовым командам, которые хотят видеть ошибки раньше пользователей."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Лицензия на пользователей или события?",
+          "a": "На события и трассировки; пользователей — сколько угодно."
+        }
+      ],
+      "related_products": [
+        "sentry-business"
+      ],
+      "meta_title": "Sentry Team — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Sentry Team: мониторинг ошибок и производительности с квотой событий, оповещения, интеграции; пользователи без лимита. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sentry купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Квоты событий — по прайсу Sentry."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "sentry-business": {
+      "sku": "SNTR-LIC-BUSINESS-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "организация",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Sentry Business — командная подписка на 1 год на расширенный план Sentry: больше квот событий и трассировок, 90 дней хранения, кросс-проектные панели и аналитика, SSO, приоритетная поддержка. Лицензия на организацию.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Sentry Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Квоты",
+              "d": "Больше событий, трассировок, профилей; гибкое распределение."
+            },
+            {
+              "t": "Аналитика",
+              "d": "Dashboards и Discover по всем проектам, 90 дней истории."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SSO, роли."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            }
+          ],
+          "links": [
+            "sentry-team"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Несколько продуктов, аналитика, SSO."
+            },
+            {
+              "t": "Team",
+              "d": "Один продукт с базовой квотой.",
+              "link": "sentry-team"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Team."
+            },
+            {
+              "t": "Enterprise",
+              "d": "SLA и договор — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с несколькими сервисами и требованиями к истории инцидентов."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли self-hosted?",
+          "a": "Открытая self-hosted версия существует; коммерческая поддержка — по запросу."
+        }
+      ],
+      "related_products": [
+        "sentry-team"
+      ],
+      "meta_title": "Sentry Business — подписка на год | BIZSoft",
+      "meta_description": "Sentry Business: расширенные квоты, 90 дней хранения, кросс-проектная аналитика, SSO, приоритетная поддержка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sentry business — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

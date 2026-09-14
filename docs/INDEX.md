@@ -27,9 +27,10 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | Логотипы/иконки | `scripts/build-logos.mjs`, `src/components/VendorLogo.astro`, `VendorIcon/ProductIcon/CategoryIcon.astro` | `docs/*icons-manifest.json`, `docs/*icon-map.json` | `ops-fetch-assets` (приём архивов) | skill `add-logo-and-icons` | `pnpm check:artifacts` |
 | Фиды | `src/lib/feeds/*` (yml, registry, select) | — (SSR из Directus на лету) | `ops-yandex-feeds-toggle`, `ops-yandex-feeds` | `docs/yandex-feeds.md` | `pnpm smoke` (закрыты по умолчанию) |
 | Визуальный слой отчётов (KPI-kit) | `scripts/viz/kpi_kit.py` (плитки, светофор, линии, теплокарта, малые кратные, таблицы-дашборды; email-варианты) | — | входит в `seo-daily-report`, `competitive-intelligence-daily` | `docs/rules/kpi-kit.md`, витрина `docs/design/kpi-dashboards/` | `scripts/seo/tests/test_kpi_kit.py` |
+| Аудитория (устройства и каналы) | `scripts/seo/audience_block.py`, разрезы в `scripts/seo/collect_daily.py` | ряды витрины `reports/seo/data/daily/*` (ветка `seo-data`), реестр `data/seo/referral-classes.json` | входит в `seo-data-collect` и `seo-daily-report` | `docs/rules/audience-devices.md` | `scripts/seo/tests/test_audience_block.py` |
 | Письма | `scripts/seo/report_v4.py`, `committee.py`; `competitive-intelligence/mailer/*` | ветки `seo-data` / `competitive-data` | `seo-report-email`, `seo-committee-build`+`seo-committee-email`, `competitive-intelligence-mail`, `ops-send-mail`, `ops-mail` | `reports/seo/README.md` | `uxlint_v4.py`, `contentcheck.py` (в конвейере отчёта) |
 | Сторож каталога | `scripts/ops/catalog_watch.py` | снимки на сервере `/opt/bizsoft/ops/catalog` | `ops-catalog-watch` (ежедневно, письмо через `ops-send-mail`) | `docs/rules/catalog-watch.md` | `python3 -m unittest discover -s scripts/ops/tests -t scripts/ops/tests` |
-| Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup` | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
+| Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup`, сторож `ops-backup-watch` (ежедневно 07:00 МСК, письмо через `ops-send-mail`) | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
 | Операционные прогоны | — (детерминированные workflow, без сессий Claude/Routine) | — | `seo-daily-report`, `competitive-intelligence-daily`, `seo-committee-build`, `seo-tasks-due`; кросс-запуск между workflow — `scripts/ops/gh_dispatch_wait.sh` | заголовки этих workflow объясняют, какую Routine они заменили | — |
 
 ## Где что искать
@@ -93,6 +94,12 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   `ops-lead-source-mail` + `scripts/ops/lead_source_enrich.py`; правило и
   границы — `docs/rules/lead-source.md`. Признаки перехода внешних площадок
   ведутся в `data/marketing/platform-accounts.json` (`referrer_match`).
+- **Заявка в Bitrix24** — зеркало `src/lib/bitrix24.ts`, вызовы из
+  `src/pages/api/lead.ts` и `src/pages/api/quote.ts`, проверка и установка
+  вебхука — `ops-b24-setup`; правило и границы — `docs/rules/crm-mirror.md`.
+  Обратный канал по стадиям — приёмник `src/pages/api/b24/hook.ts`, карта
+  стадий `data/sales/b24-stages.json`, общий расчёт дат `src/lib/lead-stage.ts`.
+  Воронка при этом остаётся в Directus: сделки портала не зеркалятся.
 - **Правка письма отчёта** — блоки письма в `scripts/seo/report_v4.py`
   (Growth Intelligence) или `scripts/seo/committee.py` (Growth Committee);
   методика — `docs/seo/reporting-methodology.md`, открывать нужный раздел,

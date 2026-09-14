@@ -55,6 +55,19 @@ jobs:
           npm install --no-save playwright@1.49.1
           npx playwright install --with-deps chromium
 
+      # Этапы details и pricing читают карту, снятую этапом discovery, из
+      # рабочего дерева, а коммитится она в ветку снимков. Прогон стартует с
+      # main (правило production-workflow-main-only), поэтому без этого шага
+      # details за отдельный запуск не находит discovery.json и молча выходит.
+      - name: Снимки прошлых этапов из ветки назначения
+        env:
+          TARGET: ${{ inputs.branch }}
+        run: |
+          set -e
+          git fetch origin "$TARGET" || true
+          git checkout "origin/$TARGET" -- data/sources/manageengine 2>/dev/null \
+            || echo "снимков в ветке $TARGET нет — этап discovery начнёт с нуля"
+
       - name: Crawl
         id: run
         env:
