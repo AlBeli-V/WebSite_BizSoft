@@ -1,0 +1,566 @@
+{
+  "family_key": "RUNWAY",
+  "vendor": "Runway",
+  "vendor_profile": "data/content/vendors/runway.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "runway-standard",
+  "classification_notes": [
+    "Standard / Pro / Max (individual), Enterprise (team). Носитель — Standard."
+  ],
+  "products": {
+    "runway-standard": {
+      "sku": "RNWY-LIC-STANDARD-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Runway Standard — индивидуальная подписка на 1 год на генеративное видео и изображения Runway: модели Gen-4, кредиты в месяц, экспорт без водяного знака, 100 ГБ хранилища, инструменты Act-One и Aleph. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Runway Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Генерация",
+              "d": "Текст и изображение в видео, редактирование сцен, Act-One (перенос актёрской игры)."
+            },
+            {
+              "t": "Кредиты",
+              "d": "Месячная квота по тарифу; Explore-режим без кредитов — в старших планах."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Без водяного знака, до 4K апскейл."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Начало работы."
+            },
+            {
+              "t": "Pro",
+              "d": "Больше кредитов, 500 ГБ, кастомные голоса.",
+              "link": "runway-pro"
+            },
+            {
+              "t": "Max",
+              "d": "Максимум кредитов и Explore.",
+              "link": "runway-max"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Пул кредитов и договор.",
+              "link": "runway-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Видеомейкерам и маркетологам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сгорают ли кредиты?",
+          "a": "Да, помесячно."
+        }
+      ],
+      "related_products": [
+        "runway-pro",
+        "runway-max",
+        "runway-ent"
+      ],
+      "meta_title": "Runway Standard — подписка на год | BIZSoft",
+      "meta_description": "Runway Standard: генеративное видео Gen-4, кредиты в месяц, экспорт без водяного знака, 100 ГБ. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "runway standard купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "runway-pro": {
+      "sku": "RNWY-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Runway Pro — индивидуальная подписка на 1 год на расширенный план: больше кредитов, 500 ГБ, кастомные голоса, все инструменты. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Runway Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "Расширенная квота."
+            },
+            {
+              "t": "Хранилище",
+              "d": "500 ГБ."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Кастомные голоса, все модели."
+            }
+          ],
+          "links": [
+            "runway-standard"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Регулярная работа."
+            },
+            {
+              "t": "Standard",
+              "d": "Базовый.",
+              "link": "runway-standard"
+            },
+            {
+              "t": "Max",
+              "d": "Explore без лимита.",
+              "link": "runway-max"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продакшенам с еженедельными роликами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Explore?",
+          "a": "В Pro — ограниченно; полный — в Max."
+        }
+      ],
+      "related_products": [
+        "runway-standard",
+        "runway-max"
+      ],
+      "meta_title": "Runway Pro — подписка на год | BIZSoft",
+      "meta_description": "Runway Pro: расширенные кредиты, 500 ГБ, кастомные голоса. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "runway pro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "runway-max": {
+      "sku": "RNWY-LIC-MAX-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Runway Max — индивидуальная подписка на 1 год на максимальный план: наибольшая квота кредитов, безлимитный Explore-режим, 1 ТБ хранилища. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Runway Max",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "Максимум плюс Explore без лимита."
+            },
+            {
+              "t": "Хранилище",
+              "d": "1 ТБ."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Голоса, модели."
+            }
+          ],
+          "links": [
+            "runway-standard"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Max",
+              "d": "Поток генераций."
+            },
+            {
+              "t": "Pro",
+              "d": "Меньше.",
+              "link": "runway-pro"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Команда.",
+              "link": "runway-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что такое Explore?",
+          "a": "Медленная очередь без расхода кредитов."
+        }
+      ],
+      "related_products": [
+        "runway-standard",
+        "runway-pro",
+        "runway-ent"
+      ],
+      "meta_title": "Runway Max — подписка на год | BIZSoft",
+      "meta_description": "Runway Max: максимальные кредиты, Explore без лимита, 1 ТБ. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "runway max купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "runway-ent": {
+      "sku": "RNWY-LIC-ENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Runway Enterprise — командный план Runway на 1 год: общий пул кредитов на организацию, SSO, приватные рабочие пространства, приоритетная поддержка, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Runway Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пул",
+              "d": "Кредиты на организацию."
+            },
+            {
+              "t": "Управление",
+              "d": "SSO, роли, пространства."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенная."
+            }
+          ],
+          "links": [
+            "runway-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Команда."
+            },
+            {
+              "t": "Max",
+              "d": "Один пользователь.",
+              "link": "runway-max"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты не переносятся",
+              "d": "Месячная квота сгорает; Top-up — по условиям вендора."
+            },
+            {
+              "t": "Модели меняются",
+              "d": "Состав доступных моделей и стоимость генерации — по прайсу на дату."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам и медиакомпаниям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли API?",
+          "a": "Да, по договору."
+        }
+      ],
+      "related_products": [
+        "runway-standard",
+        "runway-max"
+      ],
+      "meta_title": "Runway Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Runway Enterprise: пул кредитов, SSO, приватные пространства; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "runway enterprise купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

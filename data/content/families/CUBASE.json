@@ -1,0 +1,440 @@
+{
+  "family_key": "CUBASE",
+  "vendor": "Steinberg",
+  "vendor_profile": "data/content/vendors/cubase.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "cubase-pro",
+  "classification_notes": [
+    "Elements / Artist / Pro (perpetual). Носитель — Pro."
+  ],
+  "products": {
+    "cubase-elements": {
+      "sku": "STNB-LIC-CUBASEELEM-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Steinberg Cubase Elements — бессрочная лицензия на младшую редакцию Cubase: 48 аудио- и 64 MIDI-трека, базовые инструменты и эффекты, редактор нот, экспорт. Одна покупка; активация через Steinberg Licensing на 3 компьютерах.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Cubase Elements",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Треки",
+              "d": "48 аудио, 64 MIDI, 24 инструментальных."
+            },
+            {
+              "t": "Инструменты",
+              "d": "HALion Sonic SE, Groove Agent SE, базовые эффекты."
+            },
+            {
+              "t": "Активация",
+              "d": "Steinberg Activation Manager, до 3 компьютеров."
+            }
+          ],
+          "links": [
+            "cubase-pro"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри крупной версии; следующая — платно."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До Artist и Pro доплатой."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Elements",
+              "d": "Домашняя студия."
+            },
+            {
+              "t": "Artist",
+              "d": "Больше треков и инструментов.",
+              "link": "cubase-artist"
+            },
+            {
+              "t": "Pro",
+              "d": "Без лимитов, полный набор.",
+              "link": "cubase-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Начинающим и подкастерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли USB-eLicenser?",
+          "a": "Нет, актуальные версии активируются через Steinberg Licensing без ключа."
+        }
+      ],
+      "related_products": [
+        "cubase-pro",
+        "cubase-artist"
+      ],
+      "meta_title": "Cubase Elements — бессрочная лицензия | BIZSoft",
+      "meta_description": "Steinberg Cubase Elements: 48 аудио- и 64 MIDI-трека, базовые инструменты; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cubase elements купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "cubase-artist": {
+      "sku": "STNB-LIC-CUBASEART-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Steinberg Cubase Artist — бессрочная лицензия на среднюю редакцию: 256 аудио- и MIDI-треков, расширенные инструменты и эффекты, VariAudio, Chord Track, MixConsole. Одна покупка; активация на 3 компьютерах.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Cubase Artist",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Треки",
+              "d": "256 аудио и MIDI, 64 инструментальных."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Расширенный набор, VariAudio, Chord Pads."
+            },
+            {
+              "t": "Микс",
+              "d": "MixConsole с каналами и эффектами."
+            }
+          ],
+          "links": [
+            "cubase-pro"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри версии."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До Pro доплатой."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Artist",
+              "d": "Продюсер без нужды в постпродакшене."
+            },
+            {
+              "t": "Pro",
+              "d": "Surround, Dolby Atmos, Score Editor полный, расширенные функции.",
+              "link": "cubase-pro"
+            },
+            {
+              "t": "Elements",
+              "d": "Бюджетный вход.",
+              "link": "cubase-elements"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Музыкантам и продюсерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Dolby Atmos?",
+          "a": "Нет, только в Pro."
+        }
+      ],
+      "related_products": [
+        "cubase-pro",
+        "cubase-elements"
+      ],
+      "meta_title": "Cubase Artist — бессрочная лицензия | BIZSoft",
+      "meta_description": "Steinberg Cubase Artist: 256 треков, VariAudio, расширенные инструменты; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cubase artist купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "cubase-pro": {
+      "sku": "STNB-LIC-CUBASEPRO-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Steinberg Cubase Pro — бессрочная лицензия на полный Cubase: без лимита треков, Dolby Atmos и surround, полный Score Editor, VariAudio, Control Room, расширенные эффекты и инструменты. Одна покупка; активация на 3 компьютерах.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Cubase Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Без лимитов",
+              "d": "Треки, шины, инструменты."
+            },
+            {
+              "t": "Постпродакшн",
+              "d": "Dolby Atmos, surround, Control Room, ADR."
+            },
+            {
+              "t": "Нотация",
+              "d": "Полный редактор нот."
+            },
+            {
+              "t": "Всё из Artist",
+              "d": "VariAudio, Chord Track, MixConsole."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри версии; следующая — платно."
+            },
+            {
+              "t": "3 компьютера",
+              "d": "Одна лицензия."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Профессиональная студия."
+            },
+            {
+              "t": "Artist",
+              "d": "Без Atmos и постпродакшена.",
+              "link": "cubase-artist"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям звукозаписи и композиторам кино."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли с Nuendo-проектами?",
+          "a": "Да, форматы совместимы в базовом объёме."
+        }
+      ],
+      "related_products": [
+        "cubase-artist"
+      ],
+      "meta_title": "Cubase Pro — бессрочная лицензия | BIZSoft",
+      "meta_description": "Steinberg Cubase Pro: полный Cubase с Dolby Atmos, surround, нотацией; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cubase pro купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

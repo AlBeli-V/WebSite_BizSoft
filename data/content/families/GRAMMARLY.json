@@ -1,0 +1,322 @@
+{
+  "family_key": "GRAMMARLY",
+  "vendor": "Grammarly",
+  "vendor_profile": "data/content/vendors/grammarly.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "grammarly-business",
+  "classification_notes": [
+    "Business / Enterprise. Носитель — Business."
+  ],
+  "products": {
+    "grammarly-business": {
+      "sku": "GRMR-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Grammarly Business — командная подписка на 1 год на ИИ-помощник для письма на английском в команде: проверка грамматики и стиля, тон, переписывание и генерация с GrammarlyGO, стилевые руководства компании, аналитика, работа в браузере, Office, Google Docs и почте. Места на организации, минимум 3.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Grammarly Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Письмо",
+              "d": "Грамматика, ясность, тон, плагиат, переписывание, генерация."
+            },
+            {
+              "t": "Бренд",
+              "d": "Стилевые гиды, словарь терминов, тон компании."
+            },
+            {
+              "t": "Везде",
+              "d": "Расширения браузера, Windows, macOS, Office, Google Docs."
+            },
+            {
+              "t": "Администрирование",
+              "d": "Аналитика, роли, SAML SSO."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Команда с общим стилем."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор, SCIM, аудит, расширенная безопасность.",
+              "link": "grammarly-enterprise"
+            },
+            {
+              "t": "DeepL Write",
+              "d": "Альтернатива с переводом.",
+              "link": "deepl-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум 3",
+              "d": "Мест."
+            },
+            {
+              "t": "Язык",
+              "d": "Только английский."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с деловой перепиской на английском."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли с русским?",
+          "a": "Нет, Grammarly проверяет только английский."
+        }
+      ],
+      "related_products": [
+        "grammarly-enterprise",
+        "deepl-business"
+      ],
+      "meta_title": "Grammarly Business — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Grammarly Business: ИИ-помощник для делового английского в команде, стилевые гиды, аналитика, SSO; от 3 мест. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "grammarly business купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "grammarly-enterprise": {
+      "sku": "GRMR-LIC-ENTERPRISE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Grammarly Enterprise — командный план корпоративного уровня на 1 год: всё из Business плюс SCIM, аудит, расширенные политики данных, приоритетная поддержка и договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Grammarly Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Управление",
+              "d": "SCIM, аудит, политики."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Договорные гарантии по данным."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенный менеджер."
+            },
+            {
+              "t": "Всё из Business",
+              "d": "Письмо, гиды, аналитика."
+            }
+          ],
+          "links": [
+            "grammarly-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Сотни пользователей."
+            },
+            {
+              "t": "Business",
+              "d": "Десятки.",
+              "link": "grammarly-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Минимумы."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным организациям с англоязычной коммуникацией."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от Business?",
+          "a": "SCIM, аудит и договор."
+        }
+      ],
+      "related_products": [
+        "grammarly-business"
+      ],
+      "meta_title": "Grammarly Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Grammarly Enterprise: SCIM, аудит, расширенные политики данных, выделенная поддержка; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "grammarly enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

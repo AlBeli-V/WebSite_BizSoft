@@ -1,0 +1,404 @@
+{
+  "family_key": "MIDJOURNEY",
+  "vendor": "Midjourney",
+  "vendor_profile": "data/content/vendors/midjourney.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "mj-standard",
+  "classification_notes": [
+    "Standard / Pro / Mega (individual). Носитель — Standard."
+  ],
+  "products": {
+    "mj-standard": {
+      "sku": "MDJR-LIC-STANDARD-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Midjourney Standard — индивидуальная подписка на 1 год на генерацию изображений и видео Midjourney: 15 часов быстрых генераций в месяц плюс безлимитный режим Relax, коммерческое использование, редактор, стилизация по референсам. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Midjourney Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Генерация",
+              "d": "Изображения и короткие видео по тексту и референсам, редактор, вариации."
+            },
+            {
+              "t": "Квота",
+              "d": "15 часов Fast в месяц, Relax без лимита."
+            },
+            {
+              "t": "Права",
+              "d": "Коммерческое использование; компаниям с выручкой выше порога — Pro и выше."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Регулярная работа."
+            },
+            {
+              "t": "Pro",
+              "d": "30 часов Fast, Stealth-режим приватности.",
+              "link": "mj-pro"
+            },
+            {
+              "t": "Mega",
+              "d": "60 часов Fast для студий.",
+              "link": "mj-mega"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам и маркетологам с постоянной генерацией."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что такое Relax?",
+          "a": "Медленная очередь без расхода часов Fast."
+        }
+      ],
+      "related_products": [
+        "mj-pro",
+        "mj-mega"
+      ],
+      "meta_title": "Midjourney Standard — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Midjourney Standard: 15 часов быстрых генераций в месяц, Relax без лимита, коммерческое использование. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "midjourney standard купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "mj-pro": {
+      "sku": "MDJR-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Midjourney Pro — индивидуальная подписка на 1 год: 30 часов быстрых генераций, Relax без лимита, режим Stealth — генерации не публикуются в галерее, 12 параллельных задач. Личный аккаунт. Обязателен для компаний с выручкой выше порога Midjourney.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Midjourney Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Квота",
+              "d": "30 часов Fast, безлимитный Relax, 12 задач параллельно."
+            },
+            {
+              "t": "Stealth",
+              "d": "Приватные генерации."
+            },
+            {
+              "t": "Обязательность",
+              "d": "Компании выше порога выручки — только Pro и Mega."
+            }
+          ],
+          "links": [
+            "mj-standard"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Приватность и объём."
+            },
+            {
+              "t": "Standard",
+              "d": "Без Stealth.",
+              "link": "mj-standard"
+            },
+            {
+              "t": "Mega",
+              "d": "Вдвое больше часов.",
+              "link": "mj-mega"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам с NDA-проектами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Зачем Stealth?",
+          "a": "Чтобы клиентские генерации не были видны в публичной галерее."
+        }
+      ],
+      "related_products": [
+        "mj-standard",
+        "mj-mega"
+      ],
+      "meta_title": "Midjourney Pro — подписка на год | BIZSoft",
+      "meta_description": "Midjourney Pro: 30 часов Fast, Stealth-приватность, 12 параллельных задач. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "midjourney pro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "mj-mega": {
+      "sku": "MDJR-LIC-MEGA-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Midjourney Mega — индивидуальная подписка на 1 год на максимальный план: 60 часов быстрых генераций, Relax, Stealth, 12 параллельных задач. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Midjourney Mega",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Квота",
+              "d": "60 часов Fast в месяц."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Stealth, параллельные задачи."
+            },
+            {
+              "t": "Для кого",
+              "d": "Поток генераций студийного объёма."
+            }
+          ],
+          "links": [
+            "mj-standard"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mega",
+              "d": "Максимум."
+            },
+            {
+              "t": "Pro",
+              "d": "Половина часов.",
+              "link": "mj-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям с большим потоком."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли докупить часы?",
+          "a": "Да, дополнительные часы Fast — у вендора."
+        }
+      ],
+      "related_products": [
+        "mj-standard",
+        "mj-pro"
+      ],
+      "meta_title": "Midjourney Mega — подписка на год | BIZSoft",
+      "meta_description": "Midjourney Mega: 60 часов быстрых генераций, Stealth, Relax без лимита. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "midjourney mega купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

@@ -47,12 +47,36 @@ const args = Object.fromEntries(process.argv.slice(2)
 
 const STUB_PORT = Number(args['stub-port'] || 8096);
 const APP_PORT = Number(args['app-port'] || 4396);
-/** Ширины: iPhone Pro Max, Pro, mini и самый узкий поддерживаемый экран. */
-const WIDTHS = (args.widths || '440,393,375,320').split(',').map(Number);
+/**
+ * Ширины: телефон в портрете (Pro Max, Pro, mini и самый узкий поддерживаемый
+ * экран) и он же в альбоме (852 — Pro, 667 — mini и SE).
+ *
+ * Альбом добавлен 14.09.2026: прогон мерил только портрет, а поворот телефона
+ * даёт «настольную» ширину при телефонной высоте — там блоки берут ряд вместо
+ * столбика, и именно в этой полосе баннер помощи ломался незамеченным. Полоса
+ * 560–900px до этого не измерялась вообще.
+ */
+const WIDTHS = (args.widths || '852,667,440,393,375,320').split(',').map(Number);
 const PER_GROUP = Number(args['per-group'] || 3);
 const MAX_PAGES = Number(args['max-pages'] || 48);
 /** Ширина сплошного прохода по всем адресам карты сайта; 0 — не делать. */
 const SWEEP_WIDTH = Number(args['sweep-width'] || 0);
+/**
+ * Сколько позиций положить в подборку перед замером.
+ *
+ * Шапка со счётчиком шире пустой: плашка «Подборка для КП» получает кружок с
+ * цифрой и дугу. Ровно этот случай 14.09.2026 упёрся в край экрана на 320px, а
+ * прогон его не видел — он мерил страницы с пустой подборкой. Меряем худший
+ * случай: по умолчанию подборка непустая. `--cart=0` возвращает прежнее
+ * поведение.
+ *
+ * Сама страница `/cart` в карту сайта не входит и в прогон не попадает. Это
+ * не значит, что с ней всё в порядке: замер вручную 14.09.2026 показал, что с
+ * непустой подборкой она отдаёт документу 702px и на 375px уезжает вбок на
+ * 327px. Дефект старше этой правки и вынесен руководителю отдельно; заводя
+ * её в список адресов, сначала чинят страницу.
+ */
+const CART_ITEMS = Number(args.cart ?? 3);
 const TOLERANCE = 1;
 
 const procs = [];
@@ -78,6 +102,17 @@ async function waitFor(url, tries = 80) {
  * содержимое (длинный артикул, широкая таблица), поэтому от каждого слоя
  * берётся несколько представителей.
  */
+/**
+ * Адреса вне карты сайта, которые всё равно надо мерить.
+ *
+ * Подборка для КП закрыта от индексации и в карту не попадает — поэтому её
+ * поломку прогон не видел: с непустой подборкой колонки сетки раздувались до
+ * min-width КП-таблицы, и на 375px документ выходил 702px (найдено и
+ * исправлено 14.09.2026). Страница, куда ведёт главное действие сайта,
+ * обязана быть в замерах независимо от индексации.
+ */
+const ALWAYS = ['/cart'];
+
 async function collectPaths(base) {
   if (args.paths) {
     const list = args.paths.split(',').map((s) => s.trim()).filter(Boolean);
@@ -105,7 +140,8 @@ async function collectPaths(base) {
   const picked = [...groups.values()].flat();
   // Корень и ключевые разделы — первыми, чтобы при обрезке остались они.
   picked.sort((a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b));
-  return { sampled: [...new Set(picked)].slice(0, MAX_PAGES), all: [...new Set(paths)] };
+  const sampled = [...new Set([...ALWAYS, ...picked])].slice(0, MAX_PAGES);
+  return { sampled, all: [...new Set([...ALWAYS, ...paths])] };
 }
 
 /** Замер одной страницы: ширина документа и виновники выхода за край. */
@@ -205,6 +241,19 @@ async function main() {
       userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 '
         + '(KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
     });
+    // Подборка кладётся в localStorage до первой навигации: шапка читает её
+    // при загрузке, и счётчик попадает в замер ширины.
+    if (CART_ITEMS > 0) {
+      await ctx.addInitScript((n) => {
+        try {
+          const items = Array.from({ length: n }, (_, i) => ({
+            sku: `LAYOUT-CHECK-${i + 1}`, slug: `layout-check-${i + 1}`,
+            name: `Позиция ${i + 1}`, price: 1000, qty: 1,
+          }));
+          localStorage.setItem('bizsoft_cart', JSON.stringify(items));
+        } catch { /* приватный режим — меряем с пустой подборкой */ }
+      }, CART_ITEMS);
+    }
     const page = await ctx.newPage();
     for (const path of list) {
       let res = null;

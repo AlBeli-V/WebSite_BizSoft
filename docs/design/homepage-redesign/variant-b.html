@@ -1,0 +1,428 @@
+<title>Четыре двери</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prosto+One&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--elev:#f5f5f7;--bd:#e8e8ed;--bds:#d2d2d7;--tx:#1d1d1f;--mut:#3f3f46;--dim:#52525b;
+--acc:#f2591d;--acch:#d64a12;--accs:#fff2ec;--ok:#1a8f4c;--r:14px;--rl:20px;--rs:10px;--w:1180px;
+--sh-s:0 1px 2px rgba(0,0,0,.04),0 1px 3px rgba(0,0,0,.05);--sh:0 4px 18px rgba(0,0,0,.06),0 1px 4px rgba(0,0,0,.04);
+--sh-l:0 18px 48px rgba(0,0,0,.10),0 4px 12px rgba(0,0,0,.05);
+--fs:'Raleway',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;--fd:'Prosto One',-apple-system,system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--fs);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:400;line-height:1.15;margin:0;text-wrap:balance}
+a{color:inherit;text-decoration:none}p{margin:0}
+.wrap{width:100%;max-width:var(--w);margin-inline:auto;padding-inline:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:980px;font-weight:500;font-size:.95rem;font-family:var(--fs);cursor:pointer;border:1px solid transparent;transition:.2s;white-space:nowrap}
+.btn-p{background:var(--acc);color:#fff}.btn-p:hover{background:var(--acch)}
+.btn-g{background:transparent;border-color:var(--bds);color:var(--tx)}.btn-g:hover{border-color:var(--acc);color:var(--acc)}
+.btn-s{padding:.45rem .95rem;font-size:.84rem}
+.mock{position:fixed;left:12px;bottom:12px;z-index:90;background:#1d1d1f;color:#fff;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .7rem;border-radius:999px;opacity:.82}
+/* шапка */
+.hdr{border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(255,255,255,.93);backdrop-filter:blur(12px);z-index:50}
+.hgrid{display:grid;grid-template-columns:auto 1fr;gap:0 2rem;padding:.7rem 0 0}
+.mark{display:flex;align-items:center;gap:.55rem;grid-row:span 2;align-self:center}
+.mark-i{width:38px;height:38px;border-radius:11px;background:var(--acc);color:#fff;font-family:var(--fd);font-size:1.25rem;display:grid;place-items:center}
+.mark-t{font-family:var(--fd);font-size:1.3rem}
+.mark-t small{display:block;font-family:var(--fs);font-size:.62rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.hrow{display:flex;align-items:center;gap:1rem}
+.hsearch{flex:1;display:flex;align-items:center;gap:.5rem;background:var(--elev);border:1px solid var(--bd);border-radius:999px;padding:.45rem .9rem;max-width:300px;color:var(--dim);font-size:.85rem}
+.hphone{font-weight:700;font-size:.95rem}.hmsg{display:flex;gap:.4rem;color:var(--dim);font-size:.85rem}
+.hact{display:flex;align-items:center;gap:.7rem;margin-left:auto}
+.spec-link{display:flex;align-items:center;gap:.45rem;font-size:.85rem;font-weight:600;color:var(--mut)}
+.spec-link:hover{color:var(--acc)}
+.badge{min-width:19px;height:19px;border-radius:999px;background:var(--acc);color:#fff;font-size:.68rem;font-weight:800;display:grid;place-items:center;padding:0 5px}
+.nav{display:flex;gap:1.6rem;padding:.55rem 0 .8rem;font-size:.88rem;font-weight:600;color:var(--mut)}
+.nav a:hover{color:var(--acc)}
+
+/* B1. Короткий hero + развилка */
+.top{padding:2.8rem 0 0}
+.top h1{font-size:clamp(2.1rem,3.8vw,3rem);max-width:18ch}
+.top .lead{color:var(--mut);margin-top:.8rem;max-width:58ch;font-size:1.05rem}
+.doors{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:2rem;border:1px solid var(--bds);border-radius:var(--rl) var(--rl) 0 0;overflow:hidden;background:#fff}
+.door{padding:1.15rem 1.2rem;border-right:1px solid var(--bd);cursor:pointer;background:#fcfcfd;text-align:left;font-family:var(--fs);transition:.15s;border-top:3px solid transparent}
+.door:last-child{border-right:0}
+.door:hover{background:#fff}
+.door.on{background:#fff;border-top-color:var(--acc)}
+.door b{display:block;font-size:1rem;font-weight:700;margin-bottom:.2rem}
+.door span{font-size:.8rem;color:var(--dim);line-height:1.4;display:block}
+.door.on b{color:var(--acc)}
+/* дорожка маршрута */
+.lane{border:1px solid var(--bds);border-top:0;border-radius:0 0 var(--rl) var(--rl);background:#fff;padding:1.7rem 1.8rem;box-shadow:var(--sh);min-height:330px}
+.lane[hidden]{display:none}
+.lane-h{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.lane-h h2{font-size:1.35rem}
+.lane-h p{color:var(--mut);font-size:.92rem;max-width:58ch;margin-top:.25rem}
+/* дорожка 1 — поиск */
+.sfield{display:flex;align-items:center;gap:.8rem;background:#fff;border:2px solid var(--tx);border-radius:14px;padding:.7rem .9rem;max-width:560px}
+.sfield input{flex:1;border:0;outline:0;font-family:var(--fs);font-size:1rem;background:transparent;color:var(--tx)}
+.rows{margin-top:1rem;border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.row{display:grid;grid-template-columns:30px 1fr auto auto;gap:.8rem;align-items:center;padding:.62rem .9rem;border-bottom:1px solid var(--bd)}
+.row:last-child{border-bottom:0}.row:hover{background:#fcfcfd}
+.row .ico{width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);display:grid;place-items:center;background:#fff}
+.row .ico svg{width:18px;height:18px}
+.rname{font-weight:600;font-size:.92rem;line-height:1.25}.rmeta{color:var(--dim);font-size:.76rem}
+.rprice{font-weight:800;font-size:.94rem;white-space:nowrap;text-align:right}
+.rprice small{display:block;font-weight:400;color:var(--dim);font-size:.69rem}
+.plus{width:30px;height:30px;border-radius:999px;border:1px solid var(--bds);background:#fff;color:var(--mut);font-size:1.1rem;cursor:pointer;display:grid;place-items:center;font-family:var(--fs)}
+.plus:hover{border-color:var(--acc);color:var(--acc);background:var(--accs)}
+/* дорожка 2 — наборы */
+.sets{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.set{border:1px solid var(--bd);border-radius:var(--r);padding:1.1rem 1.2rem;display:flex;flex-direction:column;background:#fff}
+.set.hot{border-color:var(--acc);box-shadow:0 0 0 3px var(--accs)}
+.set h3{font-size:1.05rem;margin-bottom:.15rem}
+.set .who{font-size:.78rem;color:var(--acc);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem}
+.set ul{list-style:none;padding:0;margin:0 0 .9rem;font-size:.86rem;color:var(--mut)}
+.set li{padding:.3rem 0 .3rem 1.3rem;position:relative;border-top:1px solid #f2f2f5}
+.set li:first-child{border-top:0}
+.set li::before{content:'';position:absolute;left:0;top:.72rem;width:10px;height:6px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg)}
+.set .tot{margin-top:auto;padding-top:.7rem;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.75rem}
+.set .tot b{font-family:var(--fd);font-size:1.3rem}
+.set .tot span{font-size:.74rem;color:var(--dim)}
+.set .acts{display:flex;gap:.45rem;flex-wrap:wrap}
+/* дорожка 3 — юрлицо / самообслуживание */
+.legal{display:grid;grid-template-columns:1fr 300px;gap:2rem;align-items:start}
+.legal ul{list-style:none;padding:0;margin:0}
+.legal li{padding:.65rem 0 .65rem 1.8rem;border-top:1px solid var(--bd);position:relative;color:var(--mut);font-size:.92rem}
+.legal li b{color:var(--tx)}
+.legal li::before{content:'';position:absolute;left:0;top:1rem;width:12px;height:8px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg)}
+.dl{border:1px solid var(--bds);border-radius:var(--r);padding:1.1rem;background:var(--elev)}
+.dl b{display:block;margin-bottom:.35rem}
+.dl p{font-size:.82rem;color:var(--dim);margin-bottom:.8rem}
+.dl .btn{width:100%;margin-bottom:.45rem}
+/* дорожка 4 — квиз + знания */
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.quiz{border:1px solid var(--bds);border-radius:var(--r);padding:1.2rem;background:var(--accs)}
+.quiz b{display:block;margin-bottom:.2rem}
+.quiz p{font-size:.86rem;color:var(--mut);margin-bottom:.9rem}
+.qopts{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:.9rem}
+.qopt{border:1px solid var(--bds);background:#fff;border-radius:999px;padding:.35rem .85rem;font-size:.84rem;font-weight:600;cursor:pointer;font-family:var(--fs);color:var(--mut)}
+.qopt:hover,.qopt.on{border-color:var(--acc);color:var(--acc)}
+.klist a{display:flex;justify-content:space-between;gap:1rem;padding:.6rem 0;border-top:1px solid var(--bd);font-weight:600;font-size:.89rem}
+.klist a:hover{color:var(--acc)}.klist a span{color:#b9b9c0;font-weight:400}
+.kcap{font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);font-weight:700;margin:0 0 .2rem}
+/* полоса-подпись: единственное место про документы наверху */
+.strip{border-block:1px solid var(--bd);background:var(--elev);margin-top:2.6rem;padding:.9rem 0;font-size:.87rem;color:var(--mut)}
+.strip .wrap{display:flex;gap:2.2rem;flex-wrap:wrap;align-items:center}
+.strip b{color:var(--tx)}
+/* секции */
+.sec{padding:3.4rem 0}
+.sec.band{background:var(--elev);border-block:1px solid var(--bd)}
+.h2{font-size:clamp(1.5rem,2.4vw,2rem);margin-bottom:.5rem}
+.sub{color:var(--mut);max-width:62ch;margin-bottom:1.6rem}
+.dirs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;background:#fff}
+.dir{padding:1.1rem 1.2rem;border-right:1px solid var(--bd)}
+.dir:last-child{border-right:0}.dir:hover{background:var(--accs)}
+.dir em{font-style:normal;color:var(--acc);font-weight:800;font-size:1.35rem;font-family:var(--fd)}
+.dir b{display:block;font-size:1rem;margin-bottom:.15rem}.dir span{font-size:.8rem;color:var(--dim)}
+/* «не нашли сервис» — своя дорожка */
+.miss{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:center;background:#fff;border:1px solid var(--bds);border-radius:var(--rl);padding:1.8rem 2rem}
+.miss h2{font-size:1.5rem;margin-bottom:.5rem}
+.missform{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.missform input{flex:1;min-width:190px;font-family:var(--fs);font-size:.95rem;padding:.62rem .85rem;border:1px solid var(--bds);border-radius:var(--rs)}
+.mstat{font-size:.8rem;color:var(--dim);margin-top:.6rem}
+/* липкая нижняя полка подборки */
+.shelf{position:fixed;left:0;right:0;bottom:0;background:#1d1d1f;color:#fff;z-index:70;transform:translateY(110%);transition:.28s cubic-bezier(.2,.8,.3,1)}
+.shelf.on{transform:none}
+.shelf .wrap{display:flex;align-items:center;gap:1.2rem;padding:.75rem 22px;flex-wrap:wrap}
+.shelf .n{font-size:.88rem;color:#d4d4d8}
+.shelf .n b{color:#fff;font-family:var(--fd);font-size:1.15rem;margin-left:.3rem}
+.shelf .acts{margin-left:auto;display:flex;gap:.5rem}
+.shelf .btn-g{border-color:#52525b;color:#fff}
+.shelf .btn-g:hover{border-color:#fff}
+/* финал: две двери */
+.fin{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.fcard{border:1px solid var(--bds);border-radius:var(--rl);padding:1.7rem 1.8rem;background:#fff}
+.fcard.alt{background:#1d1d1f;color:#fff;border-color:#1d1d1f}
+.fcard.alt p{color:#a1a1aa}
+.fcard h3{font-size:1.25rem;margin-bottom:.4rem}
+.fcard p{color:var(--mut);font-size:.92rem;margin-bottom:1rem}
+.fcard label{display:block;font-size:.8rem;color:var(--dim);font-weight:600;margin-bottom:.65rem}
+.fcard.alt label{color:#a1a1aa}
+.fcard input{width:100%;font-family:var(--fs);font-size:.95rem;padding:.6rem .8rem;border:1px solid var(--bds);border-radius:var(--rs);margin-top:.25rem}
+.step2{font-size:.75rem;color:var(--dim);margin-top:.55rem}
+.ftr{background:#1d1d1f;color:#a1a1aa;padding:2.2rem 0 4.5rem;font-size:.82rem}.ftr b{color:#fff}
+.toast{position:fixed;right:18px;bottom:76px;background:#1d1d1f;color:#fff;padding:.75rem 1.1rem;border-radius:12px;font-size:.85rem;box-shadow:var(--sh-l);opacity:0;transform:translateY(8px);transition:.25s;z-index:80;pointer-events:none;border:1px solid #3f3f46}
+.toast.on{opacity:1;transform:none}
+@media(max-width:980px){
+ .doors{grid-template-columns:1fr 1fr}.door{border-bottom:1px solid var(--bd)}
+ .sets,.legal,.pick,.miss,.fin,.dirs{grid-template-columns:1fr}
+ .dir{border-bottom:1px solid var(--bd)}
+ .hsearch,.hphone,.hmsg,.nav{display:none}
+}
+</style>
+
+<span class="mock">Макет B · данные условные</span>
+
+<header class="hdr">
+  <div class="wrap hgrid">
+    <a href="#" class="mark"><span class="mark-i">B</span><span class="mark-t">BIZSoft<small>ПО для бизнеса</small></span></a>
+    <div>
+      <div class="hrow">
+        <div class="hsearch"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Поиск: ChatGPT, Figma…</div>
+        <span class="hphone">+7 (495) 000-00-00</span>
+        <span class="hmsg">Telegram · WhatsApp</span>
+        <div class="hact">
+          <a href="#fin" class="spec-link">Подборка <span class="badge" id="hbadge">0</span></a>
+          <a href="#fin" class="btn btn-p btn-s">Получить КП</a>
+        </div>
+      </div>
+      <nav class="nav"><a>Производители</a><a>Назначение ПО</a><a>Решения</a><a>Сравнения</a><a>Кейсы</a><a>Документы</a><a>Блог</a></nav>
+    </div>
+  </div>
+</header>
+
+<section class="top">
+  <div class="wrap">
+    <h1>Зарубежное ПО для российской компании</h1>
+    <p class="lead">Adobe, Figma, JetBrains, ChatGPT, Claude и ещё полторы тысячи сервисов. С чего начнём?</p>
+
+    <div class="doors" role="tablist">
+      <button class="door on" data-t="1" role="tab"><b>Знаю, что купить</b><span>Найти сервис и собрать подборку</span></button>
+      <button class="door" data-t="2" role="tab"><b>Нужно решение под задачу</b><span>Готовые наборы под роль команды</span></button>
+      <button class="door" data-t="3" role="tab"><b>Закупка на юрлицо</b><span>Документы, НДС, ЭДО, сроки</span></button>
+      <button class="door" data-t="4" role="tab"><b>Ещё выбираю</b><span>Сравнения и подбор за три вопроса</span></button>
+    </div>
+
+    <!-- ДОРОЖКА 1 -->
+    <div class="lane" data-l="1">
+      <div class="lane-h">
+        <div><h2>Найдите сервис и добавьте в подборку</h2>
+        <p>Цена за место в год, с НДС. Количество мест уточним в КП — сейчас это не нужно.</p></div>
+        <a class="btn btn-g btn-s">Весь каталог: 1 512 позиций →</a>
+      </div>
+      <div class="sfield">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#8a8a92" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input value="ai для команды" aria-label="Поиск по каталогу">
+        <button class="btn btn-p btn-s">Найти</button>
+      </div>
+      <div class="rows" id="rows"></div>
+    </div>
+
+    <!-- ДОРОЖКА 2: наборы — главный инструмент этого варианта -->
+    <div class="lane" data-l="2" hidden>
+      <div class="lane-h">
+        <div><h2>Готовые наборы под роль команды</h2>
+        <p>Набор добавляется целиком одной кнопкой. Состав можно менять — это черновик спецификации, а не заказ.</p></div>
+      </div>
+      <div class="sets" id="sets"></div>
+    </div>
+
+    <!-- ДОРОЖКА 3: юрлицо, самообслуживание -->
+    <div class="lane" data-l="3" hidden>
+      <div class="lane-h">
+        <div><h2>Закупка выглядит как обычная поставка ПО</h2>
+        <p>Договор с российским поставщиком, оплата в рублях по безналу. Валютной операции у вашей компании не возникает.</p></div>
+      </div>
+      <div class="legal">
+        <ul>
+          <li><b>Договор поставки</b> на ООО или ИП, с вашими реквизитами</li>
+          <li><b>Счёт в рублях</b> по курсу ЦБ на дату выставления, НДС указан отдельной строкой</li>
+          <li><b>Акт и УПД через ЭДО</b> — Диадок, СБИС, Контур</li>
+          <li><b>Продление</b> — напоминаем заранее и выставляем счёт так, чтобы доступ не прерывался</li>
+          <li><b>Аккаунты корпоративные</b>, оформлены на вашу команду, а не на личные карты сотрудников</li>
+        </ul>
+        <div class="dl">
+          <b>Забрать документы сразу</b>
+          <p>Типовое КП и проект договора — посмотреть и показать юристу до разговора с менеджером.</p>
+          <button class="btn btn-p btn-s" onclick="toast('Мини-форма: компания и почта → пакет документов')">Скачать пакет (PDF)</button>
+          <button class="btn btn-g btn-s" onclick="toast('Реквизиты BIZSoft — макет')">Наши реквизиты</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ДОРОЖКА 4: ещё выбираю -->
+    <div class="lane" data-l="4" hidden>
+      <div class="lane-h">
+        <div><h2>Помочь выбрать</h2>
+        <p>Три вопроса — и мы назовём два-три подходящих сервиса с ценой. Без звонка и без реквизитов.</p></div>
+      </div>
+      <div class="pick">
+        <div class="quiz">
+          <b>Вопрос 1 из 3: чем занимается команда?</b>
+          <p>Ответ не отправляется никуда — подбор идёт в браузере.</p>
+          <div class="qopts">
+            <button class="qopt" onclick="pick(this)">Разработка</button>
+            <button class="qopt" onclick="pick(this)">Дизайн</button>
+            <button class="qopt" onclick="pick(this)">Маркетинг</button>
+            <button class="qopt" onclick="pick(this)">Аналитика</button>
+            <button class="qopt" onclick="pick(this)">Видео</button>
+          </div>
+          <p id="qres" style="font-size:.85rem;color:var(--mut)"></p>
+        </div>
+        <div>
+          <p class="kcap">Сравнения</p>
+          <div class="klist">
+            <a>ChatGPT или Claude: что выбрать бизнесу <span>→</span></a>
+            <a>Cursor или GitHub Copilot <span>→</span></a>
+            <a>Midjourney или Adobe Firefly <span>→</span></a>
+          </div>
+          <p class="kcap" style="margin-top:1.1rem">База знаний</p>
+          <div class="klist">
+            <a>Как оформить AI-подписку на юрлицо <span>→</span></a>
+            <a>Enterprise или Team: чем отличаются тарифы <span>→</span></a>
+            <a>Безопасность данных в корпоративных AI <span>→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strip"><div class="wrap">
+  <span><b>Договор и счёт в ₽</b> — без валютных операций</span>
+  <span><b>Закрывающие через ЭДО</b> — акт и УПД</span>
+  <span><b>Поставка 1–3 дня</b> после оплаты</span>
+  <span><b>112 вендоров</b> в каталоге</span>
+</div></div>
+
+<section class="sec">
+  <div class="wrap">
+    <h2 class="h2">Каталог по направлениям</h2>
+    <p class="sub">Счётчик живой: столько позиций с ценой в разделе прямо сейчас.</p>
+    <div class="dirs">
+      <a class="dir"><em>412</em><b>AI-сервисы</b><span>ChatGPT, Claude, Copilot, Midjourney</span></a>
+      <a class="dir"><em>287</em><b>Дизайн и графика</b><span>Figma, Adobe, Canva, CorelDRAW</span></a>
+      <a class="dir"><em>521</em><b>Разработка</b><span>JetBrains, GitHub, Unity, Docker</span></a>
+      <a class="dir"><em>96</em><b>Видео и медиа</b><span>DaVinci, Avid, Runway, Artlist</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec band">
+  <div class="wrap">
+    <div class="miss">
+      <div>
+        <h2>Нужного сервиса нет в каталоге?</h2>
+        <p style="color:var(--mut)">Подключаем почти любого зарубежного вендора, включая тех, кто не принимает карту. Назовите сервис — ответим, как его закупить и сколько это выйдет.</p>
+        <div class="missform">
+          <input id="mi" placeholder="Например: Notion Enterprise">
+          <button class="btn btn-p" onclick="miss()">Проверить</button>
+        </div>
+        <p class="mstat" id="mstat">Проверка бесплатна и ни к чему не обязывает.</p>
+      </div>
+      <div style="border-left:1px solid var(--bd);padding-left:2rem">
+        <p style="font-size:.82rem;color:var(--dim);margin-bottom:.5rem">За последний месяц подключили по такому запросу:</p>
+        <p style="font-weight:700">Notion · Linear · Perplexity Enterprise · Descript · ElevenLabs</p>
+        <p style="font-size:.8rem;color:var(--dim);margin-top:.6rem">Список условный — в реальной версии подтягивается из каталога.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="fin">
+  <div class="wrap">
+    <h2 class="h2">Дальше — как удобнее</h2>
+    <p class="sub">Два пути к одному и тому же КП: быстрее самому или спокойнее с менеджером.</p>
+    <div class="fin">
+      <div class="fcard">
+        <h3>Забрать КП самому</h3>
+        <p id="fctx">Достаточно компании и почты. КП придёт файлом со составом, ценами, реквизитами и сроком действия.</p>
+        <label>Компания или ИНН<input placeholder="Начните вводить название"></label>
+        <label>Рабочая почта<input type="email" placeholder="you@company.ru"></label>
+        <button class="btn btn-p" style="width:100%" onclick="toast('КП формируется — макет')">Сформировать КП</button>
+        <p class="step2">Телефон и ФИО спросим только если понадобится уточнение</p>
+      </div>
+      <div class="fcard alt">
+        <h3>Обсудить с менеджером</h3>
+        <p>Если состав ещё не ясен или нужен нестандартный вендор. Отвечаем в рабочее время, с 9:00 до 18:00 МСК.</p>
+        <label style="color:#a1a1aa">Рабочая почта или телефон<input placeholder="you@company.ru"></label>
+        <button class="btn btn-p" style="width:100%" onclick="toast('Заявка отправлена — макет')">Написать нам</button>
+        <p class="step2" style="color:#71717a">Или сразу: +7 (495) 000-00-00 · Telegram · WhatsApp</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="ftr"><div class="wrap"><b>BIZSoft</b> · ИП Беляев А. В. · зарубежное ПО и AI-сервисы для российских юрлиц · макет, данные условные</div></footer>
+
+<!-- полка появляется только после первого добавления -->
+<div class="shelf" id="shelf">
+  <div class="wrap">
+    <span class="n">В подборке <b id="sn">0</b> позиций на <b id="st">0 ₽</b></span>
+    <span class="n" style="font-size:.8rem;color:#a1a1aa">количество мест уточним в КП</span>
+    <span class="acts">
+      <button class="btn btn-g btn-s" onclick="toast('Открыт состав подборки — макет')">Показать состав</button>
+      <button class="btn btn-p btn-s" onclick="document.getElementById('fin').scrollIntoView({behavior:'smooth'})">Получить КП</button>
+    </span>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const I={
+ openai:'<svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5.5" fill="#10A37F"/><text x="12" y="12.5" text-anchor="middle" dominant-baseline="central" font-size="12.5" font-weight="800" fill="#fff">O</text></svg>',
+ anthropic:'<svg viewBox="0 0 24 24"><path fill="#191919" d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg>',
+ figma:'<svg viewBox="0 0 24 24"><path fill="#F24E1E" d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>',
+ github:'<svg viewBox="0 0 24 24"><path fill="#181717" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>',
+ cursor:'<svg viewBox="0 0 24 24"><path fill="#000" d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></svg>',
+ adobe:'<svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5.5" fill="#FA0F00"/><text x="12" y="12.5" text-anchor="middle" dominant-baseline="central" font-size="12.5" font-weight="800" fill="#fff">A</text></svg>',
+ microsoft:'<svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5.5" fill="#0078D4"/><text x="12" y="12.5" text-anchor="middle" dominant-baseline="central" font-size="12.5" font-weight="800" fill="#fff">M</text></svg>'
+};
+const ITEMS=[
+ {id:'gpt',i:'openai',n:'ChatGPT Business',v:'OpenAI · 12 мес, 1 место',p:78000},
+ {id:'cl',i:'anthropic',n:'Claude Team',v:'Anthropic · 12 мес, 1 место',p:86000},
+ {id:'cop',i:'github',n:'GitHub Copilot Business',v:'GitHub · 12 мес, 1 место',p:64000},
+ {id:'cur',i:'cursor',n:'Cursor Business',v:'Cursor · 12 мес, 1 место',p:59000},
+ {id:'fig',i:'figma',n:'Figma Organization',v:'Figma · 12 мес, 1 место',p:52000},
+ {id:'cc',i:'adobe',n:'Adobe Creative Cloud для команд',v:'Adobe · 12 мес, 1 место',p:94000},
+ {id:'m365',i:'microsoft',n:'Microsoft 365 Copilot',v:'Microsoft · 12 мес, 1 место',p:71000}
+];
+const SETS=[
+ {id:'s1',n:'Отдел разработки',who:'Для CTO и тимлида',items:['cop','cur','cl'],hot:true},
+ {id:'s2',n:'AI-ассистенты команде',who:'Для операционного директора',items:['gpt','cl','m365']},
+ {id:'s3',n:'Дизайн и маркетинг',who:'Для арт-директора',items:['fig','cc']}
+];
+const rub=n=>n.toLocaleString('ru-RU')+' ₽';
+const get=id=>ITEMS.find(x=>x.id===id);
+let cart=[];
+
+document.getElementById('rows').innerHTML=ITEMS.slice(0,5).map(h=>`
+ <div class="row"><span class="ico">${I[h.i]}</span>
+ <span><span class="rname">${h.n}</span><span class="rmeta">${h.v}</span></span>
+ <span class="rprice">${rub(h.p)}<small>в год за место</small></span>
+ <button class="plus" onclick="add('${h.id}')" aria-label="Добавить в подборку">+</button></div>`).join('');
+
+document.getElementById('sets').innerHTML=SETS.map(s=>{
+ const its=s.items.map(get), tot=its.reduce((a,x)=>a+x.p,0);
+ return `<div class="set${s.hot?' hot':''}">
+  <span class="who">${s.who}</span><h3>${s.n}</h3>
+  <ul>${its.map(x=>`<li>${x.n}</li>`).join('')}</ul>
+  <div class="tot"><b>от ${rub(tot)}</b><span>за место в год</span></div>
+  <div class="acts">
+   <button class="btn btn-p btn-s" onclick="addSet('${s.id}')">Добавить набор</button>
+   <button class="btn btn-g btn-s" onclick="kpSet('${s.id}')">Скачать КП по набору</button>
+  </div></div>`}).join('');
+
+document.querySelectorAll('.door').forEach(d=>d.addEventListener('click',()=>{
+ document.querySelectorAll('.door').forEach(x=>x.classList.remove('on'));
+ d.classList.add('on');
+ document.querySelectorAll('.lane').forEach(l=>l.hidden=l.dataset.l!==d.dataset.t);
+ toast('Маршрут: '+d.querySelector('b').textContent);
+}));
+
+function add(id){const it=get(id);if(!it)return;
+ const e=cart.find(c=>c.id===id); e?e.q++:cart.push({...it,q:1});
+ render(); toast(`«${it.n}» в подборке`);}
+function addSet(sid){const s=SETS.find(x=>x.id===sid);
+ s.items.forEach(id=>{const it=get(id);const e=cart.find(c=>c.id===id);e?e.q++:cart.push({...it,q:1})});
+ render(); toast(`Набор «${s.n}» добавлен целиком — ${s.items.length} поз.`);}
+function kpSet(sid){const s=SETS.find(x=>x.id===sid);
+ toast(`КП по набору «${s.n}»: спросим компанию и почту`);}
+function render(){
+ const n=cart.reduce((a,c)=>a+c.q,0), t=cart.reduce((a,c)=>a+c.p*c.q,0);
+ document.getElementById('hbadge').textContent=n;
+ document.getElementById('sn').textContent=n;
+ document.getElementById('st').textContent=rub(t);
+ document.getElementById('shelf').classList.toggle('on',n>0);
+ document.getElementById('fctx').textContent=n
+  ? `В подборке ${n} позиций на ${rub(t)} — состав уже подставлен в КП. Достаточно компании и почты.`
+  : 'Достаточно компании и почты. КП придёт файлом со составом, ценами, реквизитами и сроком действия.';
+}
+function pick(b){document.querySelectorAll('.qopt').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+ document.getElementById('qres').textContent=`Подходят: Claude Team, GitHub Copilot Business, Cursor Business. Вопрос 2 из 3 — сколько человек в команде?`;}
+function miss(){const v=document.getElementById('mi').value.trim();
+ document.getElementById('mstat').textContent=v?`«${v}» — такого в каталоге нет. Оставьте почту, и мы ответим, как его закупить.`:'Назовите сервис, который ищете.';
+ if(v)toast('Запрос записан — спрос без товара попадёт в отчёт');}
+let tt;function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),2300)}
+render();
+</script>

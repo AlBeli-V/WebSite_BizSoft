@@ -1,0 +1,411 @@
+{
+  "family_key": "VEGAS",
+  "vendor": "MAGIX (VEGAS Creative Software)",
+  "vendor_profile": "data/content/vendors/vegas.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "vegas-edit-sub",
+  "classification_notes": [
+    "Edit/Post (подписка), Suite (perpetual). Носитель — Edit."
+  ],
+  "products": {
+    "vegas-edit-sub": {
+      "sku": "MAGX-LIC-VEGASEDIT-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "VEGAS Pro Edit — индивидуальная подписка на 1 год на видеомонтаж VEGAS Pro для Windows: многодорожечный монтаж, цветокоррекция, ИИ-инструменты, HDR, стабилизация, аудио. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт VEGAS Pro Edit (подписка)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Монтаж",
+              "d": "Таймлайн, вложенные проекты, прокси, ИИ-маскирование."
+            },
+            {
+              "t": "Цвет",
+              "d": "Цветовые колёса, LUT, HDR."
+            },
+            {
+              "t": "Аудио",
+              "d": "Многодорожечный звук, эффекты."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "План на одного: вход под личным аккаунтом на своих устройствах, передача коллеге исключена условиями вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Edit",
+              "d": "Только монтаж."
+            },
+            {
+              "t": "Post",
+              "d": "Плюс VEGAS Effects и Image.",
+              "link": "vegas-post-sub"
+            },
+            {
+              "t": "Suite бессрочная",
+              "d": "Разовая покупка.",
+              "link": "vegas-suite-perp"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Монтажёрам на Windows."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Mac-версия?",
+          "a": "Нет."
+        }
+      ],
+      "related_products": [
+        "vegas-post-sub",
+        "vegas-suite-perp"
+      ],
+      "meta_title": "VEGAS Pro Edit — подписка на год | BIZSoft",
+      "meta_description": "VEGAS Pro Edit: видеомонтаж для Windows с цветокоррекцией и ИИ-инструментами; подписка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "vegas pro купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "vegas-post-sub": {
+      "sku": "MAGX-LIC-VEGASPOST-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "VEGAS Pro Post — индивидуальная подписка на 1 год на VEGAS Pro с композитингом VEGAS Effects и редактором VEGAS Image: монтаж плюс VFX и обработка фото. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт VEGAS Pro Post (подписка)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "VEGAS Effects",
+              "d": "Нодовый композитинг, трекинг, частицы."
+            },
+            {
+              "t": "VEGAS Image",
+              "d": "Редактор изображений."
+            },
+            {
+              "t": "Всё из Edit",
+              "d": "Монтаж, цвет, аудио."
+            }
+          ],
+          "links": [
+            "vegas-edit-sub"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Личный аккаунт сотрудника, оплата от организации; при увольнении лицензия не возвращается компании."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Post",
+              "d": "Монтаж и VFX."
+            },
+            {
+              "t": "Edit",
+              "d": "Только монтаж.",
+              "link": "vegas-edit-sub"
+            },
+            {
+              "t": "Suite бессрочная",
+              "d": "Разово.",
+              "link": "vegas-suite-perp"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Монтажёрам с композитингом."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли Effects After Effects?",
+          "a": "Для базового композитинга — да."
+        }
+      ],
+      "related_products": [
+        "vegas-edit-sub",
+        "vegas-suite-perp"
+      ],
+      "meta_title": "VEGAS Pro Post — подписка на год | BIZSoft",
+      "meta_description": "VEGAS Pro Post: монтаж плюс композитинг VEGAS Effects и VEGAS Image; подписка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "vegas post — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "vegas-suite-perp": {
+      "sku": "MAGX-LIC-VEGASSUITE-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "VEGAS Pro Suite — бессрочная лицензия на VEGAS Pro с полным набором: монтаж, VEGAS Effects, VEGAS Image, дополнительные плагины и звуковые инструменты. Одна покупка; обновления внутри версии.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет VEGAS Pro Suite (бессрочная)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Всё из Post",
+              "d": "Монтаж, Effects, Image."
+            },
+            {
+              "t": "Дополнения",
+              "d": "Плагины и звук в составе."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри версии."
+            }
+          ],
+          "links": [
+            "vegas-edit-sub"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Следующая версия — платно."
+            },
+            {
+              "t": "Windows",
+              "d": "Только."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Suite бессрочная",
+              "d": "Долгая работа."
+            },
+            {
+              "t": "Post подписка",
+              "d": "Всегда новая версия.",
+              "link": "vegas-post-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям с капитальным бюджетом."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что выгоднее?",
+          "a": "При работе дольше двух лет — бессрочная."
+        }
+      ],
+      "related_products": [
+        "vegas-edit-sub",
+        "vegas-post-sub"
+      ],
+      "meta_title": "VEGAS Pro Suite — бессрочная лицензия | BIZSoft",
+      "meta_description": "VEGAS Pro Suite: монтаж, композитинг, обработка изображений и плагины; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "vegas suite — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
