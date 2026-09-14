@@ -1,0 +1,306 @@
+{
+  "family_key": "MONOTYPE",
+  "vendor": "Monotype",
+  "vendor_profile": "data/content/vendors/monotype.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "mono-team",
+  "classification_notes": [
+    "Fonts Business (team) / MyFonts (perpetual)."
+  ],
+  "products": {
+    "mono-team": {
+      "sku": "MONO-LIC-TEAM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Monotype Fonts Business — командная подписка на 1 год на библиотеку шрифтов Monotype для отделов дизайна: 150 000+ шрифтов, лицензия на веб, приложения и печать по тарифу, синхронизация в Creative Cloud и Figma, управление командой. Места на организации. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Monotype Fonts Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Библиотека",
+              "d": "Helvetica, Futura, Gotham и десятки тысяч других."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Десктоп, веб, приложения — по объёму тарифа."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Creative Cloud, Figma, Canva."
+            },
+            {
+              "t": "Команда",
+              "d": "Места, общие коллекции."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Дизайн-отдел."
+            },
+            {
+              "t": "MyFonts",
+              "d": "Разовая покупка одного шрифта.",
+              "link": "mono-myfonts"
+            },
+            {
+              "t": "Adobe Fonts в Creative Cloud",
+              "d": "Входит в CC.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объёмы лицензий",
+              "d": "Просмотры и установки — по тарифу."
+            },
+            {
+              "t": "Договор",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Брендам и агентствам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Остаются ли шрифты после окончания?",
+          "a": "Нет, подписочная лицензия; для бессрочной — MyFonts."
+        }
+      ],
+      "related_products": [
+        "mono-myfonts",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Monotype Fonts Business — подписка на год | BIZSoft",
+      "meta_description": "Monotype Fonts Business: 150 000+ шрифтов с лицензией на веб, приложения и печать, места команды; цена по запросу. Договор, ЭДО.",
+      "seo_intents": [
+        "monotype fonts — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "mono-myfonts": {
+      "sku": "MONO-LIC-MYFONTS-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "MyFonts, покупка отдельного шрифта — бессрочная лицензия на конкретное семейство или начертание из каталога MyFonts: десктоп, веб, приложение или цифровая реклама по выбранному типу лицензии; цена зависит от шрифта и типа. Оформляется по запросу.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет MyFonts — покупка шрифта",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Каталог",
+              "d": "Десятки тысяч семейств от сотен фаундри."
+            },
+            {
+              "t": "Типы лицензий",
+              "d": "Desktop, Webfont, App, Digital Ads, ePub."
+            },
+            {
+              "t": "Объём",
+              "d": "По числу пользователей или просмотров."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Право по выбранной лицензии без срока."
+            },
+            {
+              "t": "Объём",
+              "d": "Пользователи и просмотры фиксируются при покупке."
+            },
+            {
+              "t": "Обновления",
+              "d": "Версии шрифта — по правилам фаундри."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MyFonts",
+              "d": "Один-два шрифта навсегда."
+            },
+            {
+              "t": "Monotype Fonts",
+              "d": "Подписка на всё.",
+              "link": "mono-team"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с фирменным шрифтом."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Как считается цена?",
+          "a": "По шрифту, типу лицензии и объёму."
+        }
+      ],
+      "related_products": [
+        "mono-team"
+      ],
+      "meta_title": "MyFonts — бессрочная лицензия на шрифт | BIZSoft",
+      "meta_description": "MyFonts: бессрочная лицензия на конкретный шрифт — десктоп, веб, приложение; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "myfonts купить шрифт — hero"
+      ],
+      "uncertainties": [
+        "Цена и объём — по выбранному шрифту."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

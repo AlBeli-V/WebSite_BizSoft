@@ -1,0 +1,285 @@
+{
+  "family_key": "EPIDEMIC",
+  "vendor": "Epidemic Sound",
+  "vendor_profile": "data/content/vendors/epidemic.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "epsnd-commercial",
+  "classification_notes": [
+    "Personal / Commercial. Носитель — Commercial."
+  ],
+  "products": {
+    "epsnd-personal": {
+      "sku": "EPSD-LIC-PERSONAL-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Epidemic Sound Personal — индивидуальная подписка на 1 год на музыку и эффекты для личных каналов: YouTube, соцсети, подкасты, стримы с очисткой Content ID; клиентские и рекламные проекты — Commercial. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Epidemic Sound Personal",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Библиотека",
+              "d": "Музыка и SFX без лимита."
+            },
+            {
+              "t": "Каналы",
+              "d": "Свои YouTube, соцсети, подкасты, Twitch."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Клиентских работ и рекламы."
+            }
+          ],
+          "links": [
+            "epsnd-commercial"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Personal",
+              "d": "Свои каналы."
+            },
+            {
+              "t": "Commercial",
+              "d": "Клиенты, реклама, вещание.",
+              "link": "epsnd-commercial"
+            },
+            {
+              "t": "Artlist Social",
+              "d": "Альтернатива.",
+              "link": "artlst-social"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Блогерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что с Content ID?",
+          "a": "Каналы регистрируются, претензии снимаются."
+        }
+      ],
+      "related_products": [
+        "epsnd-commercial",
+        "artlst-social"
+      ],
+      "meta_title": "Epidemic Sound Personal — подписка на год | BIZSoft",
+      "meta_description": "Epidemic Sound Personal: музыка и эффекты для личных каналов с очисткой Content ID. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "epidemic sound personal купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "epsnd-commercial": {
+      "sku": "EPSD-LIC-COMMERCIAL-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Epidemic Sound Commercial — подписка на 1 год на музыку и эффекты для коммерческого использования: клиентские проекты, реклама в интернете, корпоративные видео, ивенты; ТВ и кино — по отдельным условиям. Лицензия организации на пользователя.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Epidemic Sound Commercial",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лицензия",
+              "d": "Клиенты, онлайн-реклама, корпоративное видео."
+            },
+            {
+              "t": "Библиотека",
+              "d": "Музыка и SFX."
+            },
+            {
+              "t": "Ограничения",
+              "d": "ТВ, кино, игры — Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Commercial",
+              "d": "Агентство или бизнес."
+            },
+            {
+              "t": "Personal",
+              "d": "Свои каналы.",
+              "link": "epsnd-personal"
+            },
+            {
+              "t": "Artlist Pro",
+              "d": "Альтернатива с ТВ.",
+              "link": "artlst-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам и корпоративному видео."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Каналы клиентов",
+              "d": "Регистрируются в аккаунте для очистки Content ID."
+            },
+            {
+              "t": "Вещание",
+              "d": "ТВ и кино требуют Enterprise-договора."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Покрывает ли ТВ?",
+          "a": "Нет, для вещания — Enterprise."
+        }
+      ],
+      "related_products": [
+        "epsnd-personal",
+        "artlst-pro"
+      ],
+      "meta_title": "Epidemic Sound Commercial — подписка на год | BIZSoft",
+      "meta_description": "Epidemic Sound Commercial: музыка и эффекты для клиентских и рекламных проектов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "epidemic sound commercial купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}
