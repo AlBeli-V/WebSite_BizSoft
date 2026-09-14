@@ -17,6 +17,7 @@ interface Position {
   status: string;
   official_name: string;
   base_price_usd: number | null;
+  price_confidence?: string | null;
   billing: string;
   notes: string;
   keywords: string;
@@ -49,8 +50,20 @@ describe('состав пакета', () => {
     expect(new Set(positions.map((p) => p.slug)).size).toBe(positions.length);
   });
 
-  it('у каждой позиции есть цена источника', () => {
+  it('у каждой позиции есть цена источника, кроме позиций по запросу', () => {
     for (const p of positions) {
+      // Позиция по запросу — продукт, у которого вендор не публикует цену
+      // вовсе: страница магазина отдаёт конфигуратор с нулевым итогом, и
+      // ступеней объёма на ней нет (docs/rules/catalog.md, решение
+      // руководителя 14.09.2026). Такая позиция обязана нести признак и
+      // пояснение, чтобы её нельзя было спутать с позицией, у которой цену
+      // просто забыли проставить.
+      if (p.price_confidence === 'quote-only') {
+        expect(p.base_price_usd, `${p.sku}: у позиции по запросу стоит цена`).toBeNull();
+        expect(String(p.notes || ''), `${p.sku}: позиция по запросу без пояснения`)
+          .toContain('конфигуратор');
+        continue;
+      }
       expect(p.base_price_usd, `${p.sku}: нет цены`).not.toBeNull();
       expect(p.base_price_usd!, `${p.sku}: цена не положительная`).toBeGreaterThan(0);
     }
