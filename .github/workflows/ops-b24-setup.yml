@@ -43,8 +43,13 @@ jobs:
           fi
 
       # Локальные actions едут с репозиторием: без checkout раннер не находит
-      # ни ssh-run, ни journal-post.
-      - uses: actions/checkout@v4
+      # ни ssh-run, ни journal-post. `always()` — потому что шаг журнала ниже
+      # объявлен always() и обязан отработать при падении: без него checkout
+      # пропускается ровно в тех прогонах, ради которых журнал и нужен
+      # (сторож scripts/ci/check-workflow-journal.py).
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
 
       - name: Verify webhook
         id: verify
