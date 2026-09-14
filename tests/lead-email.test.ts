@@ -28,7 +28,7 @@ const party = {
 const lead = {
   name: 'Иванов Иван', company: 'ООО «Ромашка» <script>', inn: '7701234567',
   email: 'ivanov@romashka.ru', phone: '+7 916 000-00-00',
-  message: 'Нужна лицензия\nна 10 мест', product_ref: 'Claude Team (ANTHROPIC-TEAM)',
+  message: 'Нужна лицензия\nна 10 мест', product_ref: 'Claude Team (ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-STD)',
   form_source: 'vendor-anthropic', date: '28.08.2026',
 };
 

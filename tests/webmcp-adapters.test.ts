@@ -65,7 +65,7 @@ describe('toAgentProductBrief / toAgentProductFull', () => {
     const b = toAgentProductBrief(product());
     expect(b.license).toBe('Для организаций');
     expect(b.kind).toBe('Основной продукт');
-    const addon = toAgentProductBrief(product({ sku: 'JB-PLG-RUBY' }));
+    const addon = toAgentProductBrief(product({ sku: 'JB-ADD-RUBY-TEAM-1Y-USER' }));
     expect(addon.kind).toBe('Плагин или дополнение');
   });
 

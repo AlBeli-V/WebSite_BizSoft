@@ -8,9 +8,9 @@
       "why": "Оба варианта — один тариф ChatGPT Business, различаются только типом места. Места смешиваются в одной команде: тем, кто упирается в лимиты, берут Premium seat, остальным — Standard seat.",
       "keys": [
         "chatgpt-business",
-        "INT-AI-CHATGPT",
+        "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD",
         "chatgpt-business-premium",
-        "CHATGPT-BUSINESS-PREMIUM"
+        "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-PREM"
       ]
     },
     {
@@ -20,7 +20,7 @@
       "why": "SCIM, EKM, RBAC, аналитика и расширенная приватность есть только в Enterprise. Цена договорная: считаем под число мест и требования ИБ.",
       "keys": [
         "openai-enterprise",
-        "OPENAI-ENTERPRISE"
+        "OPAI-LIC-CHATGPTENT-TEAM-1Y-USER"
       ]
     },
     {
@@ -30,7 +30,7 @@
       "why": "Другая модель продажи: платите не за места, а за фактическое использование — за токены на входе и выходе. Выбираете номинал пополнения баланса; счёт и закрывающие оформляем так же, на юрлицо.",
       "keys": [
         "openai-api-balance",
-        "OPENAI-API-BALANCE"
+        "OPAI-CRD-API-UNI-BAL-NOM"
       ]
     }
   ],
@@ -63,7 +63,7 @@
       "qtyLabel": "Мест",
       "seg": "team"
     },
-    "OPENAI-ENTERPRISE": {
+    "OPAI-LIC-CHATGPTENT-TEAM-1Y-USER": {
       "badge": "по запросу",
       "forWhom": "Крупные организации с требованиями ИБ",
       "features": [
@@ -92,13 +92,13 @@
   },
   "order": [
     "chatgpt-business",
-    "INT-AI-CHATGPT",
+    "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD",
     "chatgpt-business-premium",
-    "CHATGPT-BUSINESS-PREMIUM",
+    "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-PREM",
     "openai-enterprise",
-    "OPENAI-ENTERPRISE",
+    "OPAI-LIC-CHATGPTENT-TEAM-1Y-USER",
     "openai-api-balance",
-    "OPENAI-API-BALANCE"
+    "OPAI-CRD-API-UNI-BAL-NOM"
   ],
   "denominations": {
     "title": "Номиналы пополнения баланса API",

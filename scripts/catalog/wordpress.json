@@ -14,7 +14,7 @@
   },
   "products": [
     {
-      "sku": "WORDPRESS-BUSINESS",
+      "sku": "WPC-LIC-BUSINESS-UNI-1Y-ORG",
       "slug": "wordpress-business",
       "name": "WordPress.com Business (первая покупка)",
       "official_name": "WordPress.com Business (первый год, годовая оплата)",
@@ -38,13 +38,13 @@
       "source_url": "https://wordpress.com/pricing/",
       "checkout_url": "https://wordpress.com/pricing/",
       "checked_at": "2026-08-29",
-      "notes": "Цена первого года со страницы тарифов вендора 29.08.2026 (ops-price-scan, рендер Chrome, три прогона): $25 в месяц при оплате за 12 месяцев = 300 за год. Продление — отдельная карточка WORDPRESS-BUSINESS-RENEWAL (noindex).",
+      "notes": "Цена первого года со страницы тарифов вендора 29.08.2026 (ops-price-scan, рендер Chrome, три прогона): $25 в месяц при оплате за 12 месяцев = 300 за год. Продление — отдельная карточка WPC-LIC-BUSINESS-UNI-1Y-ORG-RENEWAL (noindex).",
       "status": "published",
       "markup_coeff": null,
       "sort": null
     },
     {
-      "sku": "WORDPRESS-BUSINESS-RENEWAL",
+      "sku": "WPC-LIC-BUSINESS-UNI-1Y-ORG-RENEWAL",
       "slug": "wordpress-business-renewal",
       "name": "WordPress.com Business (продление)",
       "official_name": "WordPress.com Business (продление со второго года, годовая оплата)",
@@ -73,7 +73,7 @@
       "sort": null
     },
     {
-      "sku": "WORDPRESS-COMMERCE",
+      "sku": "WPC-LIC-COMMERCE-UNI-1Y-ORG",
       "slug": "wordpress-commerce",
       "name": "WordPress.com Commerce (первая покупка)",
       "official_name": "WordPress.com Commerce (первый год, годовая оплата)",
@@ -97,13 +97,13 @@
       "source_url": "https://wordpress.com/pricing/",
       "checkout_url": "https://wordpress.com/pricing/",
       "checked_at": "2026-08-29",
-      "notes": "Цена первого года со страницы тарифов вендора 29.08.2026 (ops-price-scan, рендер Chrome, три прогона): $45 в месяц при оплате за 12 месяцев = 540 за год. Продление — отдельная карточка WORDPRESS-COMMERCE-RENEWAL (noindex).",
+      "notes": "Цена первого года со страницы тарифов вендора 29.08.2026 (ops-price-scan, рендер Chrome, три прогона): $45 в месяц при оплате за 12 месяцев = 540 за год. Продление — отдельная карточка WPC-LIC-COMMERCE-UNI-1Y-ORG-RENEWAL (noindex).",
       "status": "published",
       "markup_coeff": null,
       "sort": null
     },
     {
-      "sku": "WORDPRESS-COMMERCE-RENEWAL",
+      "sku": "WPC-LIC-COMMERCE-UNI-1Y-ORG-RENEWAL",
       "slug": "wordpress-commerce-renewal",
       "name": "WordPress.com Commerce (продление)",
       "official_name": "WordPress.com Commerce (продление со второго года, годовая оплата)",

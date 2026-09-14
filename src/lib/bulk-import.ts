@@ -4,6 +4,8 @@
  */
 import type { Product } from './types';
 import { computePegRub, defaultMarkupCoeff, type Rates } from './pricing';
+import { buildSku, validateSkuParts, type SkuKind, type SkuPlan, type SkuUnit } from './sku';
+import SKU_VENDORS from '../../data/catalog/sku-vendors.json';
 
 export interface RawRow { [key: string]: string | number | null | undefined }
 
@@ -17,7 +19,40 @@ export const IMPORT_COLUMNS = [
   // Тип товара и варианты (подарочные карты, docs/gift-cards.md).
   'product_type', 'parent_sku', 'region_code', 'region_name', 'denomination', 'denomination_currency', 'availability',
   'variant_label', 'price_from',
+  // Сегменты артикула новой системы (docs/rules/sku-system.md): при пустом
+  // sku импорт собирает артикул сам — <вендор>-<вид>-<продукт>-<план>-<срок>-<единица>[-<вариант>].
+  'sku_kind', 'sku_product', 'sku_plan', 'sku_term', 'sku_unit', 'sku_variant',
 ] as const;
+
+const VENDOR_CODES = (SKU_VENDORS as { vendors: Record<string, string> }).vendors;
+
+/**
+ * Автоприсваивание артикула по сегментам строки. Код вендора — из реестра
+ * data/catalog/sku-vendors.json по точному значению vendor; вендора без
+ * кода импорт не принимает — код заводится в реестре через PR, потому что
+ * он входит во все артикулы вендора и потом не меняется. Пустые план,
+ * срок и единица получают умолчания правила: UNI, 1Y (BAL у CRD/GFT),
+ * USER (NOM у CRD/GFT). Ошибка — строка пропускается с пояснением.
+ */
+export function autoSku(row: Record<string, string>): { sku: string } | { errors: string[] } {
+  const vendor = row.vendor || '';
+  const vcode = VENDOR_CODES[vendor];
+  if (!vcode) return { errors: [`артикул: нет кода вендора «${vendor}» в data/catalog/sku-vendors.json`] };
+  const kind = (row.sku_kind || 'LIC').toUpperCase() as SkuKind;
+  const balance = kind === 'CRD' || kind === 'GFT';
+  const parts = {
+    vendor: vcode,
+    kind,
+    product: (row.sku_product || '').toUpperCase(),
+    plan: (row.sku_plan || 'UNI').toUpperCase() as SkuPlan,
+    term: (row.sku_term || (balance ? 'BAL' : '1Y')).toUpperCase(),
+    unit: (row.sku_unit || (balance ? 'NOM' : 'USER')).toUpperCase() as SkuUnit,
+    variant: (row.sku_variant || '').toUpperCase() || null,
+  };
+  const errs = validateSkuParts(parts);
+  if (errs.length) return { errors: errs.map((e) => `артикул: ${e}`) };
+  return { sku: buildSku(parts) };
+}
 
 const NUM = new Set(['price', 'vat_percent', 'base_price_usd', 'base_price_eur', 'markup_coeff', 'promo_price', 'sort', 'denomination']);
 
@@ -101,8 +136,14 @@ export function buildPlan(
   let create = 0, update = 0, errors = 0;
 
   for (const row of rows) {
-    const sku = row.sku || '';
+    let sku = row.sku || '';
     const errs: string[] = [];
+    // Пустой sku при заполненном sku_product — автоприсваивание по сегментам.
+    if (!sku && row.sku_product) {
+      const auto = autoSku(row);
+      if ('errors' in auto) { items.push({ sku: '', name: row.name || '', mode: 'skip', payload: {}, changes: [], errors: auto.errors }); errors++; continue; }
+      sku = auto.sku;
+    }
     if (!sku) { items.push({ sku: '', name: row.name || '', mode: 'skip', payload: {}, changes: [], errors: ['пустой sku'] }); errors++; continue; }
 
     const cur = bySku.get(sku);
