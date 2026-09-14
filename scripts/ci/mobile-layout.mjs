@@ -94,6 +94,17 @@ async function waitFor(url, tries = 80) {
  * содержимое (длинный артикул, широкая таблица), поэтому от каждого слоя
  * берётся несколько представителей.
  */
+/**
+ * Адреса вне карты сайта, которые всё равно надо мерить.
+ *
+ * Подборка для КП закрыта от индексации и в карту не попадает — поэтому её
+ * поломку прогон не видел: с непустой подборкой колонки сетки раздувались до
+ * min-width КП-таблицы, и на 375px документ выходил 702px (найдено и
+ * исправлено 14.09.2026). Страница, куда ведёт главное действие сайта,
+ * обязана быть в замерах независимо от индексации.
+ */
+const ALWAYS = ['/cart'];
+
 async function collectPaths(base) {
   if (args.paths) {
     const list = args.paths.split(',').map((s) => s.trim()).filter(Boolean);
@@ -121,7 +132,8 @@ async function collectPaths(base) {
   const picked = [...groups.values()].flat();
   // Корень и ключевые разделы — первыми, чтобы при обрезке остались они.
   picked.sort((a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b));
-  return { sampled: [...new Set(picked)].slice(0, MAX_PAGES), all: [...new Set(paths)] };
+  const sampled = [...new Set([...ALWAYS, ...picked])].slice(0, MAX_PAGES);
+  return { sampled, all: [...new Set([...ALWAYS, ...paths])] };
 }
 
 /** Замер одной страницы: ширина документа и виновники выхода за край. */

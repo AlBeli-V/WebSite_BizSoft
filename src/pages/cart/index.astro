@@ -147,6 +147,13 @@ try {
   h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 2rem; }
   .h1-spec { font-size: clamp(1.4rem, 2.8vw, 2.1rem); max-width: 26ch; }
   .cart-layout { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start; }
+  /* min-width: 0 обязателен обеим колонкам: у элемента сетки минимальная
+     ширина по умолчанию равна min-content, и колонка раздувалась до
+     min-width КП-таблицы (680px). Прокрутка внутри .table-wrap тогда не
+     включалась — вбок ехала вся страница: на 375px документ выходил 702px
+     (правило docs/rules/kpi-kit.md: пиксельная ширина — только вместе с
+     правом сжаться). */
+  .cart-items, .cart-summary { min-width: 0; }
   .cart-items { display: flex; flex-direction: column; gap: 0.8rem; }
   .empty { color: var(--color-text-muted); }
   .empty a { color: var(--color-accent); }
@@ -213,11 +220,17 @@ try {
   /* КП-таблица: строки создаются скриптом (innerHTML) и не получают
      Astro-scoped атрибут — поэтому эти правила глобальные. */
   .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .kp-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 680px; background: var(--color-bg-card); }
+  /* Минимум таблицы поднят с 680px до 760px: при 680 колонки не помещались в
+     объявленные ширины, и «Производитель» сжимался до 31px — заголовок и имя
+     вендора вставали в столбик по букве. Внутри .table-wrap таблица
+     прокручивается, поэтому лишние восемьдесят пикселей ничего не ломают. */
+  .kp-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 760px; background: var(--color-bg-card); }
   .kp-table th, .kp-table td { border: 1px solid var(--color-border-strong); padding: 0.45rem 0.6rem; text-align: left; vertical-align: middle; }
   .kp-table thead th { background: var(--color-bg-elevated); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted); }
   .kp-table .c-num { width: 3rem; text-align: center; }
-  .kp-table .c-vendor { width: 9rem; }
+  /* min-width, а не только width: доля под «Состав и описание» съедала эту
+     колонку, и ширина 9rem не соблюдалась. */
+  .kp-table .c-vendor { width: 9rem; min-width: 6.5rem; }
   .kp-table .c-name { width: 40%; min-width: 220px; }
   .kp-table td.c-num { color: var(--color-text-muted); }
   .kp-table .c-qty { width: 7.6rem; white-space: nowrap; }
