@@ -645,7 +645,18 @@ try {
                       <g class="sign-cross" opacity="0"><line x1="5.8" y1="5.8" x2="18.2" y2="18.2" /><line x1="18.2" y1="5.8" x2="5.8" y2="18.2" /></g>
                     </svg>
                   </button>
-                  <button class="ask-btn" type="button" data-open-question data-product={product.name} data-sku={product.sku}>
+                  {/* Окно называет то, за чем пришли: кнопка вопроса не должна
+                      открывать окно с тем же словом, что на ней, — человек не
+                      понимает, что изменилось (решение руководителя
+                      14.09.2026). Заголовок и подводка приходят от кнопки. */}
+                  <button
+                    class="ask-btn" type="button"
+                    data-open-question
+                    data-product={product.name}
+                    data-sku={product.sku}
+                    data-dialog-title="Вопрос специалисту"
+                    data-dialog-lead="Опишите вопрос — ответим на указанную почту. Позиция уже подставлена."
+                  >
                     <svg class="ask-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9 9 0 0 1-3.8-.8L3 20.5l1.6-4.4a8.2 8.2 0 0 1-1.1-4.1A8.4 8.4 0 0 1 12 3.2a8.4 8.4 0 0 1 9 8.3Z" /></svg>
                     <span>Задать вопрос</span>
                   </button>
@@ -861,10 +872,23 @@ try {
               {/* Помощь с выбором — другое намерение, чем запрос КП: человек
                   не знает, что выбрать, а не готов запрашивать предложение.
                   Письмо открывается с готовой темой и началом текста. */}
-              <div class="assist">
-                <h3>Не уверены, что выбран правильный план?</h3>
-                <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
-                <a class="btn btn-primary" href={askHref}>Задать вопрос специалисту</a>
+              <div class="assist assist-inline">
+                <span class="assist-art" aria-hidden="true">
+                  <svg viewBox="0 0 96 80" fill="none" focusable="false">
+                    <circle cx="44" cy="40" r="36" fill="var(--assist-halo)" />
+                    <path d="M62 20H26a8 8 0 0 0-8 8v18a8 8 0 0 0 8 8h4v10l12-10h20a8 8 0 0 0 8-8V28a8 8 0 0 0-8-8Z" fill="var(--color-accent)" />
+                    <circle cx="32" cy="37" r="3" fill="#fff" /><circle cx="44" cy="37" r="3" fill="#fff" /><circle cx="56" cy="37" r="3" fill="#fff" />
+                    <path d="M76 38H58a6 6 0 0 0-6 6v12a6 6 0 0 0 6 6h10l8 7v-7a6 6 0 0 0 6-6V44a6 6 0 0 0-6-6Z" fill="var(--assist-bubble)" stroke="var(--color-bg-card)" stroke-width="3" />
+                  </svg>
+                </span>
+                <div class="assist-body">
+                  <h3>Не уверены, что выбран правильный план?</h3>
+                  <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
+                </div>
+                <a class="btn btn-primary assist-cta" href={askHref}>
+                  <span>Задать вопрос специалисту</span>
+                  <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" y1="12" x2="19" y2="12" /><polyline points="13,6 19,12 13,18" /></svg>
+                </a>
               </div>
             </div>
           </section>
@@ -874,25 +898,59 @@ try {
           <div class="prose-bizsoft block"><p>{product.seo_text}</p></div>
         )}
         {hasModules && (
-          <section class="sec"><div class="assist assist-inline">
-            <h3>Не уверены, что выбран правильный план?</h3>
-            <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
-            <a class="btn btn-primary" href={askHref}>Задать вопрос специалисту</a>
-          </div></section>
+          <section class="sec"><div class="assist">
+              <span class="assist-art" aria-hidden="true">
+                <svg viewBox="0 0 96 80" fill="none" focusable="false">
+                  <circle cx="44" cy="40" r="36" fill="var(--assist-halo)" />
+                  <path d="M62 20H26a8 8 0 0 0-8 8v18a8 8 0 0 0 8 8h4v10l12-10h20a8 8 0 0 0 8-8V28a8 8 0 0 0-8-8Z" fill="var(--color-accent)" />
+                  <circle cx="32" cy="37" r="3" fill="#fff" /><circle cx="44" cy="37" r="3" fill="#fff" /><circle cx="56" cy="37" r="3" fill="#fff" />
+                  <path d="M76 38H58a6 6 0 0 0-6 6v12a6 6 0 0 0 6 6h10l8 7v-7a6 6 0 0 0 6-6V44a6 6 0 0 0-6-6Z" fill="var(--assist-bubble)" stroke="var(--color-bg-card)" stroke-width="3" />
+                </svg>
+              </span>
+              <div class="assist-body">
+                <h3>Не уверены, что выбран правильный план?</h3>
+                <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
+              </div>
+              <a class="btn btn-primary assist-cta" href={askHref}>
+                <span>Задать вопрос специалисту</span>
+                <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" y1="12" x2="19" y2="12" /><polyline points="13,6 19,12 13,18" /></svg>
+              </a>
+            </div></section>
         )}
 
-        <FAQ items={faq} title={gift ? 'Вопросы и ответы' : 'Частые вопросы'} columns={2} mark={true} />
+        <FAQ items={faq} title={gift ? 'Вопросы и ответы' : 'Частые вопросы'} columns={2} mark={true} allHref="/faq" />
 
         {relatedProducts.length > 0 && (
+          /* Строка позиции, а не плитка (решение руководителя 14.09.2026 по
+             референсу): знак, название с производителем, цена и стрелка на
+             одной оси — так строки сравнимы между собой. Плитка знака
+             светлая: сайт воздушный, тёмный квадрат в нём читается как
+             дыра. */
           <section class="sec">
-            <h2 class="sec-head"><i aria-hidden="true">/</i>Похожие товары</h2>
-            <div class="related-grid">
-              {relatedProducts.map((rp) => (
-                <a href={`/product/${rp.slug}`} class="card card-hover related-card">
-                  <strong>{rp.name}</strong>
-                  {rp.vendor && <span>{rp.vendor}</span>}
-                </a>
-              ))}
+            <div class="sec-row">
+              <h2 class="sec-head"><i aria-hidden="true">/</i>Похожие товары</h2>
+              {vendorPageSlug && <a class="sec-all" href={`/vendors/${vendorPageSlug}`}>Все похожие <span aria-hidden="true">›</span></a>}
+            </div>
+            <div class="related-list">
+              {relatedProducts.map((rp) => {
+                const rprice = effectivePrice(rp);
+                return (
+                  <a href={`/product/${rp.slug}`} class="card card-hover related-row">
+                    <span class="rr-ic">
+                      <ProductIcon slug={rp.slug} name={rp.name} size={28} variant="color" />
+                      {productIcons(rp.slug).length === 0 && rp.vendor && (
+                        <VendorLogo slug={vendorSlug(rp.vendor)} name={rp.vendor} size={24} />
+                      )}
+                    </span>
+                    <span class="rr-name">
+                      <strong>{rp.name}</strong>
+                      {rp.vendor && <span>{rp.vendor}</span>}
+                    </span>
+                    <span class="rr-price">{rprice.price > 0 ? `от ${formatRub(rprice.price)}` : 'по запросу'}</span>
+                    <span class="rr-go" aria-hidden="true">›</span>
+                  </a>
+                );
+              })}
             </div>
           </section>
         )}
@@ -1083,7 +1141,7 @@ try {
     min-width: 0;
     display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
     padding: 0.7rem 0.9rem;
-    border: 1.5px solid var(--color-accent); border-radius: 980px;
+    border: 1.5px solid var(--color-accent); border-radius: 12px;
     background: var(--color-bg-card); color: var(--color-accent);
     font: inherit; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.03em;
     text-transform: uppercase; line-height: 1.25; text-align: center; cursor: pointer;
@@ -1171,13 +1229,32 @@ try {
   .cmp th { font-weight: 600; color: var(--color-text-dim); }
   .cmp td:first-child { color: var(--color-text-dim); }
   .cmp .me { font-weight: 600; }
-  .assist-inline { max-width: 328px; }
   .split { display: grid; grid-template-columns: minmax(0, 1fr) 328px; gap: 3rem; align-items: start; }
   .longread h3 { font-size: 1rem; margin: 1.6rem 0 0.6rem; }
-  .assist { border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.3rem; background: var(--color-bg-card); }
-  .assist h3 { font-size: 1rem; margin: 0 0 0.6rem; }
-  .assist p { color: var(--color-text-muted); font-size: 0.9rem; margin: 0 0 1rem; }
-  .assist .btn { width: 100%; }
+  /* Баннер помощи с выбором (решение руководителя 14.09.2026 по референсу):
+     мягкая акцентная заливка, рисунок слева, текст по центру, призыв справа.
+     Рисунок декоративный и построен на переменных — на тёмной теме он берёт
+     те же токены, а не зашитый цвет. */
+  .assist {
+    --assist-halo: color-mix(in srgb, var(--color-accent) 14%, transparent);
+    --assist-bubble: color-mix(in srgb, var(--color-text-dim) 24%, var(--color-bg-card));
+    display: flex; align-items: center; gap: 1.4rem;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
+    border-radius: var(--radius); padding: 1.3rem 1.5rem;
+    background: linear-gradient(100deg,
+      color-mix(in srgb, var(--color-accent) 12%, var(--color-bg-card)),
+      color-mix(in srgb, var(--color-accent) 4%, var(--color-bg-card)));
+  }
+  .assist-art { flex: none; width: 96px; }
+  .assist-art svg { display: block; width: 100%; height: auto; }
+  .assist-body { flex: 1 1 auto; min-width: 0; }
+  .assist h3 { font-size: 1.25rem; line-height: 1.25; margin: 0 0 0.4rem; }
+  .assist p { color: var(--color-text-muted); font-size: 0.92rem; line-height: 1.45; margin: 0; }
+  .assist-cta { flex: none; gap: 0.7rem; }
+  /* В узкой колонке (вёрстка в две колонки) баннер складывается столбиком. */
+  .assist-inline { flex-direction: column; align-items: stretch; text-align: center; max-width: 328px; }
+  .assist-inline .assist-art { width: 88px; margin: 0 auto; }
+  .assist-inline .assist-cta { justify-content: center; }
 
   /* ── Прочее ──────────────────────────────────────────────────────── */
   .gallery { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.4rem; }
@@ -1217,10 +1294,26 @@ try {
   .ai-interlinks h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-dim); margin-bottom: 0.6rem; }
   .ai-interlinks ul { list-style: none; padding: 0; display: grid; gap: 0.4rem; }
   .ai-interlinks a { color: var(--color-accent); font-weight: 600; font-size: 0.92rem; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 0.8rem; }
-  .related-card { padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.2rem; }
-  .related-card strong { font-size: 0.98rem; }
-  .related-card span { color: var(--color-text-dim); font-size: 0.8rem; }
+  /* Заголовок раздела и ссылка «все …» — одной строкой, по краям. */
+  .sec-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.4rem; }
+  .sec-row .sec-head { margin: 0; }
+  .sec-all { flex: none; color: var(--color-accent); font-size: 0.88rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .sec-all:hover { text-decoration: underline; }
+  .related-list { display: grid; gap: 0.6rem; }
+  .related-row { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.1rem; text-decoration: none; color: inherit; }
+  /* Плитка знака светлая: тёмный квадрат в воздушной вёрстке читается дырой. */
+  .rr-ic { flex: none; width: 48px; height: 48px; border-radius: 12px; background: var(--color-bg-elevated); border: 1px solid var(--color-border); display: grid; place-items: center; }
+  .rr-name { flex: 1 1 auto; min-width: 0; display: grid; gap: 0.1rem; }
+  .rr-name strong { font-size: 0.98rem; line-height: 1.25; }
+  .rr-name span { color: var(--color-text-dim); font-size: 0.82rem; }
+  .rr-price { flex: none; color: var(--color-text-muted); font-size: 0.92rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .rr-go { flex: none; color: var(--color-text-dim); font-size: 1.3rem; line-height: 1; }
+  .related-row:hover .rr-go { color: var(--color-accent); }
+  @media (max-width: 520px) {
+    .related-row { gap: 0.7rem; padding: 0.7rem 0.8rem; }
+    .rr-ic { width: 40px; height: 40px; border-radius: 10px; }
+    .rr-price { font-size: 0.85rem; }
+  }
   .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: flex; align-items: center; justify-content: center; }
   .lightbox[hidden] { display: none; }
   .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; background: #fff; border-radius: 8px; }
