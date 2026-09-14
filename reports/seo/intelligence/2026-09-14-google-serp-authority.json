@@ -3,71 +3,58 @@
  "generated_for": "2026-09-14",
  "as_of_google": "2026-09-14",
  "as_of_yandex": "2026-09-14",
- "queries_google": 256,
+ "queries_google": 264,
  "queries_yandex": 500,
- "queries_common": 256,
+ "queries_common": 264,
  "google_top10": 0,
  "google_top20": 0,
- "yandex_top10": 145,
- "gap_queries": 145,
+ "yandex_top10": 150,
+ "gap_queries": 150,
  "doc_types_by_intent": {
   "BUY": {
-   "PRODUCT_LISTING": 106,
-   "HOW_TO": 96,
-   "COMMERCIAL_LANDING": 48,
+   "PRODUCT_LISTING": 110,
+   "HOW_TO": 100,
+   "COMMERCIAL_LANDING": 49,
    "PRICING": 42,
    "OTHER": 38,
    "ARTICLE": 35,
    "VENDOR_PAGE": 21,
    "CATEGORY": 19,
-   "FORUM_THREAD": 12,
+   "FORUM_THREAD": 13,
    "COMPARISON": 1
   },
   "PAY": {
-   "HOW_TO": 511,
-   "COMMERCIAL_LANDING": 141,
-   "OTHER": 93,
-   "ARTICLE": 54,
-   "FORUM_THREAD": 51,
-   "PRODUCT_LISTING": 47,
-   "PRICING": 45,
+   "HOW_TO": 532,
+   "COMMERCIAL_LANDING": 148,
+   "OTHER": 96,
+   "ARTICLE": 56,
+   "FORUM_THREAD": 53,
+   "PRODUCT_LISTING": 48,
+   "PRICING": 46,
    "VENDOR_PAGE": 42,
-   "CATEGORY": 20,
+   "CATEGORY": 21,
    "COMPARISON": 5,
-   "REFERENCE": 5,
    "ALTERNATIVES": 5,
+   "REFERENCE": 5,
    "NEWS": 1
   },
   "B2B_LEGAL": {
-   "HOW_TO": 123,
+   "HOW_TO": 128,
    "OTHER": 51,
-   "COMMERCIAL_LANDING": 42,
-   "ARTICLE": 30,
+   "COMMERCIAL_LANDING": 45,
+   "ARTICLE": 31,
    "FORUM_THREAD": 16,
    "PRICING": 16,
-   "PRODUCT_LISTING": 12,
+   "PRODUCT_LISTING": 13,
    "VENDOR_PAGE": 11,
    "ALTERNATIVES": 7,
    "CATEGORY": 5,
    "COMPARISON": 4
   },
-  "GENERIC": {
-   "HOW_TO": 58,
-   "PRODUCT_LISTING": 29,
-   "COMMERCIAL_LANDING": 22,
-   "OTHER": 19,
-   "ARTICLE": 11,
-   "FORUM_THREAD": 10,
-   "CATEGORY": 8,
-   "PRICING": 6,
-   "COMPARISON": 1,
-   "REFERENCE": 1,
-   "VENDOR_PAGE": 1
-  },
   "PRICING": {
-   "HOW_TO": 50,
-   "PRICING": 47,
-   "ARTICLE": 34,
+   "HOW_TO": 51,
+   "PRICING": 49,
+   "ARTICLE": 40,
    "COMMERCIAL_LANDING": 29,
    "OTHER": 28,
    "PRODUCT_LISTING": 18,
@@ -78,7 +65,7 @@
    "VENDOR_PAGE": 1
   },
   "HOW_TO": {
-   "HOW_TO": 194,
+   "HOW_TO": 195,
    "COMMERCIAL_LANDING": 51,
    "PRODUCT_LISTING": 29,
    "ARTICLE": 19,
@@ -88,54 +75,56 @@
    "PRICING": 6,
    "VENDOR_PAGE": 6,
    "COMPARISON": 1
+  },
+  "GENERIC": {
+   "HOW_TO": 58,
+   "PRODUCT_LISTING": 30,
+   "COMMERCIAL_LANDING": 24,
+   "OTHER": 23,
+   "ARTICLE": 12,
+   "FORUM_THREAD": 11,
+   "CATEGORY": 8,
+   "PRICING": 6,
+   "COMPARISON": 1,
+   "REFERENCE": 1,
+   "VENDOR_PAGE": 1
   }
  },
  "domain_classes_by_intent": {
   "BUY": {
-   "MARKETPLACE": 106,
-   "UGC": 96,
+   "MARKETPLACE": 110,
+   "UGC": 99,
    "OTHER": 61,
    "RESELLER": 43,
-   "INTERMEDIARY": 39,
+   "INTERMEDIARY": 40,
    "OFFICIAL": 37,
-   "MEDIA": 24,
-   "FORUM": 12
+   "MEDIA": 25,
+   "FORUM": 13
   },
   "PAY": {
-   "INTERMEDIARY": 328,
-   "UGC": 276,
-   "OTHER": 131,
+   "INTERMEDIARY": 343,
+   "UGC": 286,
+   "OTHER": 135,
    "OFFICIAL": 68,
-   "MEDIA": 59,
-   "RESELLER": 55,
-   "FORUM": 51,
-   "MARKETPLACE": 47,
+   "MEDIA": 63,
+   "RESELLER": 57,
+   "FORUM": 53,
+   "MARKETPLACE": 48,
    "REFERENCE": 5
   },
   "B2B_LEGAL": {
    "OTHER": 76,
-   "UGC": 71,
-   "INTERMEDIARY": 65,
-   "MEDIA": 36,
+   "UGC": 73,
+   "INTERMEDIARY": 71,
+   "MEDIA": 37,
    "RESELLER": 23,
    "OFFICIAL": 18,
    "FORUM": 16,
-   "MARKETPLACE": 12
-  },
-  "GENERIC": {
-   "UGC": 40,
-   "MARKETPLACE": 29,
-   "INTERMEDIARY": 27,
-   "OTHER": 23,
-   "RESELLER": 17,
-   "MEDIA": 16,
-   "FORUM": 10,
-   "OFFICIAL": 3,
-   "REFERENCE": 1
+   "MARKETPLACE": 13
   },
   "PRICING": {
-   "OTHER": 57,
-   "UGC": 45,
+   "OTHER": 60,
+   "UGC": 51,
    "INTERMEDIARY": 35,
    "MEDIA": 29,
    "MARKETPLACE": 18,
@@ -148,29 +137,40 @@
    "UGC": 109,
    "INTERMEDIARY": 104,
    "MEDIA": 33,
-   "OTHER": 32,
+   "OTHER": 33,
    "MARKETPLACE": 29,
    "FORUM": 15,
    "RESELLER": 14,
    "OFFICIAL": 7
+  },
+  "GENERIC": {
+   "UGC": 41,
+   "MARKETPLACE": 30,
+   "INTERMEDIARY": 27,
+   "OTHER": 27,
+   "RESELLER": 19,
+   "MEDIA": 16,
+   "FORUM": 11,
+   "OFFICIAL": 3,
+   "REFERENCE": 1
   }
  },
  "domain_classes_total": {
-  "UGC": 637,
-  "INTERMEDIARY": 598,
-  "OTHER": 380,
-  "MARKETPLACE": 241,
-  "MEDIA": 197,
-  "RESELLER": 169,
+  "UGC": 659,
+  "INTERMEDIARY": 620,
+  "OTHER": 392,
+  "MARKETPLACE": 248,
+  "MEDIA": 203,
+  "RESELLER": 173,
   "OFFICIAL": 145,
-  "FORUM": 110,
+  "FORUM": 114,
   "REFERENCE": 7
  },
  "hubs": {
   "ai-subscriptions": {
-   "queries": 53,
-   "gap": 27,
-   "b2b": 8,
+   "queries": 54,
+   "gap": 28,
+   "b2b": 9,
    "vendors": [
     "anthropic",
     "deepl",
@@ -185,9 +185,10 @@
     "recraft"
    ],
    "top_gap_queries": [
-    "оплата magnific ai юридическим лицом",
     "купить openai api юридическим лицом",
+    "оплата magnific ai юридическим лицом",
     "корпоративная оплата recraft",
+    "leonardo ai оплата с российского счета",
     "perplexity enterprise купить",
     "perplexity enterprise pro купить",
     "как оплатить recraft без иностранной карты",
@@ -195,14 +196,13 @@
     "claude team купить",
     "claude team plan купить",
     "купить perplexity pro юридическим лицом",
-    "купить claude enterprise",
-    "как купить recraft без иностранной карты"
+    "купить claude enterprise"
    ],
-   "weakness_avg": 25.2
+   "weakness_avg": 25.4
   },
   "dev-tools": {
-   "queries": 79,
-   "gap": 48,
+   "queries": 80,
+   "gap": 49,
    "b2b": 6,
    "vendors": [
     "atlassian",
@@ -229,8 +229,8 @@
    "weakness_avg": 21.1
   },
   "design-software": {
-   "queries": 65,
-   "gap": 44,
+   "queries": 67,
+   "gap": 45,
    "b2b": 5,
    "vendors": [
     "adobe",
@@ -258,8 +258,8 @@
    "weakness_avg": 27.3
   },
   "video-creative": {
-   "queries": 20,
-   "gap": 11,
+   "queries": 22,
+   "gap": 12,
    "b2b": 3,
    "vendors": [
     "artlist",
@@ -268,6 +268,7 @@
     "runway"
    ],
    "top_gap_queries": [
+    "runway тарифы habr.com",
     "оплата descript юридическим лицом",
     "оплата artlist юридическим лицом",
     "runway standard оплата из россии",
@@ -280,17 +281,18 @@
     "motion array подписка",
     "купить подписку descript"
    ],
-   "weakness_avg": 24.6
+   "weakness_avg": 26.0
   },
   "cross-cutting": {
-   "queries": 27,
-   "gap": 10,
+   "queries": 29,
+   "gap": 11,
    "b2b": 8,
    "vendors": [],
    "top_gap_queries": [
     "оплата иностранной подписки для бизнеса документы",
     "купить подарочную ссылку дискорд нитро",
     "оплата airalo юридическим лицом",
+    "лицензия скетч license",
     "procreate dreams оплата из россии",
     "оплата зарубежного по для юрлица стоимость",
     "spine 2d купить",
@@ -299,7 +301,7 @@
     "оплата box для россиян",
     "toon boom harmony купить"
    ],
-   "weakness_avg": 27.4
+   "weakness_avg": 27.7
   },
   "gift-cards": {
    "queries": 3,
@@ -479,40 +481,6 @@
    ]
   },
   {
-   "query": "runway оплата ежемесячно из россии",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "runway",
-   "hub": "video-creative",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": 5,
-   "gap": true,
-   "weakness": 28,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10",
-    "топ разбавлен повторами доменов: sostav.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "sostav.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "oplatym.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
    "query": "оплата artlist юридическим лицом",
    "intent": "B2B_LEGAL",
    "b2b": true,
@@ -581,6 +549,40 @@
    ]
   },
   {
+   "query": "runway оплата ежемесячно из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "runway",
+   "hub": "video-creative",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 5,
+   "gap": true,
+   "weakness": 28,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10",
+    "топ разбавлен повторами доменов: sostav.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "sostav.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "oplatym.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
    "query": "оплата motion array юридическим лицом",
    "intent": "B2B_LEGAL",
    "b2b": true,
@@ -609,40 +611,6 @@
      "domain": "oplata.guru",
      "class": "INTERMEDIARY",
      "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "оплата magnific ai юридическим лицом",
-   "intent": "B2B_LEGAL",
-   "b2b": true,
-   "vendor": "freepik",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 4,
-   "gap": true,
-   "weakness": 44,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 56% топ-10",
-    "запрос про юрлицо, а документов для юрлица в топе нет"
-   ],
-   "google_top3": [
-    {
-     "domain": "getpayall.com",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "sostav.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "companies.rbc.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
     }
    ]
   },
@@ -681,69 +649,33 @@
    ]
   },
   {
-   "query": "продление подписки postman из россии",
-   "intent": "GENERIC",
-   "b2b": false,
-   "vendor": "postman",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 10,
-   "yandex_position": 4,
-   "gap": true,
-   "weakness": 34,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 50% топ-10",
-    "топ разбавлен повторами доменов: dtf.ru, migsoft.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "migsoft.ru",
-     "class": "RESELLER",
-     "doc": "PRICING"
-    }
-   ]
-  },
-  {
-   "query": "оплата descript юридическим лицом",
+   "query": "оплата зарубежного по для юр лица документы",
    "intent": "B2B_LEGAL",
    "b2b": true,
-   "vendor": "descript",
-   "hub": "video-creative",
+   "vendor": null,
+   "hub": "cross-cutting",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
+   "yandex_position": 3,
    "gap": true,
-   "weakness": 41,
+   "weakness": 22,
    "weakness_reasons": [
-    "нет специализированного продавца",
-    "запрос про юрлицо, а документов для юрлица в топе нет",
-    "топ разбавлен повторами доменов: descript.com"
+    "нет официального сайта вендора"
    ],
    "google_top3": [
     {
-     "domain": "kikugawa.ru",
+     "domain": "corp.pay-saas.ru",
      "class": "OTHER",
      "doc": "OTHER"
     },
     {
-     "domain": "selsup.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
+     "domain": "global-payments.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
     },
     {
-     "domain": "mymeet.ai",
-     "class": "OTHER",
+     "domain": "companies.rbc.ru",
+     "class": "MEDIA",
      "doc": "HOW_TO"
     }
    ]
@@ -782,33 +714,70 @@
    ]
   },
   {
-   "query": "оплата зарубежного по для юр лица документы",
+   "query": "оплата descript юридическим лицом",
    "intent": "B2B_LEGAL",
    "b2b": true,
-   "vendor": null,
-   "hub": "cross-cutting",
+   "vendor": "descript",
+   "hub": "video-creative",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 2,
    "gap": true,
-   "weakness": 22,
+   "weakness": 41,
    "weakness_reasons": [
-    "нет официального сайта вендора"
+    "нет специализированного продавца",
+    "запрос про юрлицо, а документов для юрлица в топе нет",
+    "топ разбавлен повторами доменов: descript.com"
    ],
    "google_top3": [
     {
-     "domain": "corp.pay-saas.ru",
+     "domain": "kikugawa.ru",
      "class": "OTHER",
      "doc": "OTHER"
     },
     {
-     "domain": "global-payments.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
+     "domain": "selsup.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
     },
     {
-     "domain": "companies.rbc.ru",
-     "class": "MEDIA",
+     "domain": "mymeet.ai",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "оплата capture one",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "capture-one",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 18,
+   "yandex_position": 6,
+   "gap": true,
+   "weakness": 33,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10",
+    "маркетплейсы ключей — 30% топ-10",
+    "топ разбавлен повторами доменов: reddit.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "reddit.com",
+     "class": "FORUM",
+     "doc": "FORUM_THREAD"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
      "doc": "HOW_TO"
     }
    ]
@@ -909,41 +878,6 @@
      "domain": "adobe.datasystem.ru",
      "class": "OTHER",
      "doc": "OTHER"
-    }
-   ]
-  },
-  {
-   "query": "оплата capture one",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "capture-one",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 18,
-   "yandex_position": 6,
-   "gap": true,
-   "weakness": 33,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10",
-    "маркетплейсы ключей — 30% топ-10",
-    "топ разбавлен повторами доменов: reddit.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "reddit.com",
-     "class": "FORUM",
-     "doc": "FORUM_THREAD"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
     }
    ]
   },
@@ -1080,6 +1014,40 @@
    ]
   },
   {
+   "query": "тарифные планы anthropic для бизнеса",
+   "intent": "B2B_LEGAL",
+   "b2b": true,
+   "vendor": "anthropic",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 4,
+   "gap": true,
+   "weakness": 31,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 50% топ-10",
+    "топ разбавлен повторами доменов: reddit.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "reddit.com",
+     "class": "FORUM",
+     "doc": "FORUM_THREAD"
+    },
+    {
+     "domain": "migsoft.ru",
+     "class": "RESELLER",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
    "query": "framer тариф россия",
    "intent": "PRICING",
    "b2b": false,
@@ -1113,35 +1081,36 @@
    ]
   },
   {
-   "query": "тарифные планы anthropic для бизнеса",
-   "intent": "B2B_LEGAL",
-   "b2b": true,
-   "vendor": "anthropic",
-   "hub": "ai-subscriptions",
+   "query": "как продлить icloud в россии klerk.ru/blogs/era2/699557",
+   "intent": "HOW_TO",
+   "b2b": false,
+   "vendor": "apple",
+   "hub": "gift-cards",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 4,
-   "gap": true,
-   "weakness": 31,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 61,
    "weakness_reasons": [
     "нет официального сайта вендора",
-    "UGC и СМИ занимают 50% топ-10",
-    "топ разбавлен повторами доменов: reddit.com"
+    "нет специализированного продавца",
+    "UGC и СМИ занимают 90% топ-10",
+    "топ разбавлен повторами доменов: klerk.ru"
    ],
    "google_top3": [
     {
-     "domain": "vc.ru",
-     "class": "UGC",
+     "domain": "klerk.ru",
+     "class": "MEDIA",
      "doc": "HOW_TO"
     },
     {
-     "domain": "reddit.com",
-     "class": "FORUM",
-     "doc": "FORUM_THREAD"
+     "domain": "klerk.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
     },
     {
-     "domain": "migsoft.ru",
-     "class": "RESELLER",
+     "domain": "klerk.ru",
+     "class": "MEDIA",
      "doc": "HOW_TO"
     }
    ]
@@ -1182,38 +1151,6 @@
    ]
   },
   {
-   "query": "postman оплата подписки",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "postman",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 6,
-   "gap": true,
-   "weakness": 13,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: dtf.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "migsoft.ru",
-     "class": "RESELLER",
-     "doc": "PRICING"
-    }
-   ]
-  },
-  {
    "query": "как оплатить фреймер из россии",
    "intent": "HOW_TO",
    "b2b": false,
@@ -1243,41 +1180,6 @@
     {
      "domain": "dtf.ru",
      "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "как продлить icloud в россии klerk.ru/blogs/era2/699557",
-   "intent": "HOW_TO",
-   "b2b": false,
-   "vendor": "apple",
-   "hub": "gift-cards",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 61,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "нет специализированного продавца",
-    "UGC и СМИ занимают 90% топ-10",
-    "топ разбавлен повторами доменов: klerk.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "klerk.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "klerk.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "klerk.ru",
-     "class": "MEDIA",
      "doc": "HOW_TO"
     }
    ]
@@ -1347,35 +1249,34 @@
    ]
   },
   {
-   "query": "gitlab годовая подписка из россии",
-   "intent": "PRICING",
+   "query": "gitlab saas оплата из россии",
+   "intent": "PAY",
    "b2b": false,
    "vendor": "gitlab",
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 3,
+   "yandex_position": 2,
    "gap": true,
-   "weakness": 25,
+   "weakness": 10,
    "weakness_reasons": [
-    "нет официального сайта вендора",
     "UGC и СМИ занимают 40% топ-10"
    ],
    "google_top3": [
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
     {
      "domain": "vc.ru",
      "class": "UGC",
      "doc": "HOW_TO"
     },
     {
-     "domain": "dtf.ru",
+     "domain": "habr.com",
      "class": "UGC",
      "doc": "ARTICLE"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
     }
    ]
   },
@@ -1413,68 +1314,35 @@
    ]
   },
   {
-   "query": "gitlab saas оплата из россии",
-   "intent": "PAY",
+   "query": "gitlab годовая подписка из россии",
+   "intent": "PRICING",
    "b2b": false,
    "vendor": "gitlab",
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 19,
-   "yandex_position": 2,
+   "yandex_position": 3,
    "gap": true,
-   "weakness": 10,
+   "weakness": 25,
    "weakness_reasons": [
+    "нет официального сайта вендора",
     "UGC и СМИ занимают 40% топ-10"
    ],
    "google_top3": [
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
     {
      "domain": "vc.ru",
      "class": "UGC",
      "doc": "HOW_TO"
     },
     {
-     "domain": "habr.com",
+     "domain": "dtf.ru",
      "class": "UGC",
      "doc": "ARTICLE"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "perplexity enterprise max купить",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "perplexity",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 38,
-   "weakness_reasons": [
-    "нет специализированного продавца",
-    "маркетплейсы ключей — 44% топ-10",
-    "топ разбавлен повторами доменов: perplexity.ai"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "perplexity.ai",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
     }
    ]
   },
@@ -1645,36 +1513,6 @@
    ]
   },
   {
-   "query": "оплата jira из россии",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 6,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "getpayall.com",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "gitlab оформить подписку россия",
    "intent": "BUY",
    "b2b": false,
@@ -1739,40 +1577,6 @@
    ]
   },
   {
-   "query": "windsurf ai купить",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "windsurf",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 31,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10",
-    "маркетплейсы ключей — 40% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "funpay.com",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    }
-   ]
-  },
-  {
    "query": "оплатить git lab",
    "intent": "PAY",
    "b2b": false,
@@ -1806,19 +1610,20 @@
    ]
   },
   {
-   "query": "framer купить подписку россия",
+   "query": "windsurf ai купить",
    "intent": "BUY",
    "b2b": false,
-   "vendor": "framer",
-   "hub": "design-software",
+   "vendor": "windsurf",
+   "hub": "dev-tools",
    "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 4,
-   "gap": true,
-   "weakness": 30,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 31,
    "weakness_reasons": [
     "нет официального сайта вендора",
-    "маркетплейсы ключей — 44% топ-10"
+    "UGC и СМИ занимают 40% топ-10",
+    "маркетплейсы ключей — 40% топ-10"
    ],
    "google_top3": [
     {
@@ -1827,47 +1632,14 @@
      "doc": "PRODUCT_LISTING"
     },
     {
-     "domain": "mshopy.ru",
-     "class": "RESELLER",
-     "doc": "CATEGORY"
+     "domain": "funpay.com",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
     },
     {
      "domain": "plati.market",
      "class": "MARKETPLACE",
      "doc": "PRODUCT_LISTING"
-    }
-   ]
-  },
-  {
-   "query": "купить perplexity pro юридическим лицом",
-   "intent": "B2B_LEGAL",
-   "b2b": true,
-   "vendor": "perplexity",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": 3,
-   "gap": true,
-   "weakness": 30,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 50% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "klerk.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "companies.rbc.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "syssoft.ru",
-     "class": "RESELLER",
-     "doc": "PRICING"
     }
    ]
   },
@@ -1906,6 +1678,39 @@
    ]
   },
   {
+   "query": "купить perplexity pro юридическим лицом",
+   "intent": "B2B_LEGAL",
+   "b2b": true,
+   "vendor": "perplexity",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 3,
+   "gap": true,
+   "weakness": 30,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 50% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "klerk.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "companies.rbc.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "syssoft.ru",
+     "class": "RESELLER",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
    "query": "оплата postman картой",
    "intent": "PAY",
    "b2b": false,
@@ -1934,69 +1739,6 @@
      "domain": "vc.ru",
      "class": "UGC",
      "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "gitlab оплата рублями",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 5,
-   "gap": true,
-   "weakness": 26,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 44% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "ARTICLE"
-    }
-   ]
-  },
-  {
-   "query": "gitlab купить",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 9,
-   "gap": true,
-   "weakness": 6,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "about.gitlab.com",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "gitlab.softmart.ru",
-     "class": "RESELLER",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "ARTICLE"
     }
    ]
   },
@@ -2068,6 +1810,38 @@
    ]
   },
   {
+   "query": "оплата jira для российского ооо",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 18,
+   "yandex_position": 5,
+   "gap": true,
+   "weakness": 8,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: atlassian.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "raketapay.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
    "query": "фреймер оплата из россии",
    "intent": "PAY",
    "b2b": false,
@@ -2098,38 +1872,6 @@
      "domain": "dtf.ru",
      "class": "UGC",
      "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "оплата jira для российского ооо",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 18,
-   "yandex_position": 5,
-   "gap": true,
-   "weakness": 8,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: atlassian.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "raketapay.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "ARTICLE"
     }
    ]
   },
@@ -2168,36 +1910,6 @@
    ]
   },
   {
-   "query": "купить подписку descript",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "descript",
-   "hub": "video-creative",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 8,
-   "gap": true,
-   "weakness": 6,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "mshopy.ru",
-     "class": "RESELLER",
-     "doc": "CATEGORY"
-    },
-    {
-     "domain": "mymeet.ai",
-     "class": "OTHER",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "оплата бокс из россии",
    "intent": "PAY",
    "b2b": false,
@@ -2227,39 +1939,6 @@
      "domain": "consultant.ru",
      "class": "OTHER",
      "doc": "OTHER"
-    }
-   ]
-  },
-  {
-   "query": "framer домен оплата рф",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "framer",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": 4,
-   "gap": true,
-   "weakness": 32,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 60% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "reddit.com",
-     "class": "FORUM",
-     "doc": "FORUM_THREAD"
-    },
-    {
-     "domain": "mshopy.ru",
-     "class": "RESELLER",
-     "doc": "CATEGORY"
     }
    ]
   },
@@ -2331,6 +2010,39 @@
    ]
   },
   {
+   "query": "framer домен оплата рф",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "framer",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 4,
+   "gap": true,
+   "weakness": 32,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 60% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "reddit.com",
+     "class": "FORUM",
+     "doc": "FORUM_THREAD"
+    },
+    {
+     "domain": "mshopy.ru",
+     "class": "RESELLER",
+     "doc": "CATEGORY"
+    }
+   ]
+  },
+  {
    "query": "framer план оплата россия",
    "intent": "PAY",
    "b2b": false,
@@ -2361,6 +2073,38 @@
      "domain": "platipomiru.com",
      "class": "INTERMEDIARY",
      "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "оплатить jira",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 8,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: atlassian.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
     }
    ]
   },
@@ -2399,38 +2143,6 @@
    ]
   },
   {
-   "query": "оплатить jira",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 8,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: atlassian.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    }
-   ]
-  },
-  {
    "query": "gitlab enterprise оплата из россии",
    "intent": "PAY",
    "b2b": false,
@@ -2465,39 +2177,6 @@
    ]
   },
   {
-   "query": "gitlab premium оплата из россии",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": 4,
-   "gap": true,
-   "weakness": 25,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "iesoft.ru",
-     "class": "RESELLER",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "купить after effects юридическим лицом",
    "intent": "B2B_LEGAL",
    "b2b": true,
@@ -2527,6 +2206,39 @@
     {
      "domain": "vc.ru",
      "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "gitlab premium оплата из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 4,
+   "gap": true,
+   "weakness": 25,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "iesoft.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
      "doc": "HOW_TO"
     }
    ]
@@ -2601,39 +2313,6 @@
    ]
   },
   {
-   "query": "leonardo apprentice оплата из россии",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "leonardo-ai",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 18,
-   "yandex_position": 5,
-   "gap": true,
-   "weakness": 28,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "companies.rbc.ru",
-     "class": "MEDIA",
-     "doc": "ARTICLE"
-    }
-   ]
-  },
-  {
    "query": "framer team оплата россия",
    "intent": "PAY",
    "b2b": false,
@@ -2668,57 +2347,25 @@
    ]
   },
   {
-   "query": "как купить recraft без иностранной карты",
-   "intent": "HOW_TO",
+   "query": "leonardo apprentice оплата из россии",
+   "intent": "PAY",
    "b2b": false,
-   "vendor": "recraft",
+   "vendor": "leonardo-ai",
    "hub": "ai-subscriptions",
    "google_position": null,
-   "google_depth": 19,
-   "yandex_position": 4,
+   "google_depth": 18,
+   "yandex_position": 5,
    "gap": true,
    "weakness": 28,
    "weakness_reasons": [
     "нет официального сайта вендора",
-    "UGC и СМИ занимают 50% топ-10"
+    "UGC и СМИ занимают 40% топ-10"
    ],
    "google_top3": [
-    {
-     "domain": "phygital.plus",
-     "class": "OTHER",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "klerk.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
     {
      "domain": "dtf.ru",
      "class": "UGC",
      "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "atlassian jira оплата из россии",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 20,
-   "yandex_position": 7,
-   "gap": true,
-   "weakness": 8,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: atlassian.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
     },
     {
      "domain": "vc.ru",
@@ -2726,9 +2373,9 @@
      "doc": "HOW_TO"
     },
     {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
+     "domain": "companies.rbc.ru",
+     "class": "MEDIA",
+     "doc": "ARTICLE"
     }
    ]
   },
@@ -2762,6 +2409,39 @@
      "domain": "platipomiru.com",
      "class": "INTERMEDIARY",
      "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "как купить recraft без иностранной карты",
+   "intent": "HOW_TO",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 4,
+   "gap": true,
+   "weakness": 28,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 50% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "phygital.plus",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "klerk.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
     }
    ]
   },
@@ -2800,6 +2480,38 @@
    ]
   },
   {
+   "query": "atlassian jira оплата из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 20,
+   "yandex_position": 7,
+   "gap": true,
+   "weakness": 8,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: atlassian.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
    "query": "framer оплата через сервис",
    "intent": "PAY",
    "b2b": false,
@@ -2829,106 +2541,6 @@
     {
      "domain": "sravni.ru",
      "class": "MEDIA",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "github copilot business оплата из россии",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "github",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 4,
-   "gap": true,
-   "weakness": 20,
-   "weakness_reasons": [
-    "UGC и СМИ занимают 67% топ-10",
-    "топ разбавлен повторами доменов: dtf.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "market.cnews.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "ARTICLE"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "framer оплатить из рф",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "framer",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 10,
-   "gap": true,
-   "weakness": 33,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 44% топ-10",
-    "топ разбавлен повторами доменов: vc.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "продление подписки capture one из россии",
-   "intent": "GENERIC",
-   "b2b": false,
-   "vendor": "capture-one",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": 3,
-   "gap": true,
-   "weakness": 27,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "маркетплейсы ключей — 30% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "oplata.guru",
-     "class": "INTERMEDIARY",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
      "doc": "HOW_TO"
     }
    ]
@@ -2965,6 +2577,39 @@
      "domain": "mshopy.ru",
      "class": "RESELLER",
      "doc": "CATEGORY"
+    }
+   ]
+  },
+  {
+   "query": "продление подписки capture one из россии",
+   "intent": "GENERIC",
+   "b2b": false,
+   "vendor": "capture-one",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 3,
+   "gap": true,
+   "weakness": 27,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "маркетплейсы ключей — 30% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "oplata.guru",
+     "class": "INTERMEDIARY",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
     }
    ]
   },
@@ -3098,39 +2743,6 @@
    ]
   },
   {
-   "query": "купить openai api юридическим лицом",
-   "intent": "B2B_LEGAL",
-   "b2b": true,
-   "vendor": "openai",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 3,
-   "gap": true,
-   "weakness": 44,
-   "weakness_reasons": [
-    "нет специализированного продавца",
-    "запрос про юрлицо, а документов для юрлица в топе нет"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "proxyapi.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "openai.com",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    }
-   ]
-  },
-  {
    "query": "capture one для россиян оплата",
    "intent": "PAY",
    "b2b": false,
@@ -3228,170 +2840,6 @@
     {
      "domain": "platipomiru.com",
      "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "как оплатить jira из россии в 2026 году dtf",
-   "intent": "HOW_TO",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 5,
-   "gap": true,
-   "weakness": 38,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 78% топ-10",
-    "топ разбавлен повторами доменов: dtf.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "raketapay.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "jira оплата рублями",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 9,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: atlassian.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "pay-saas.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "gamma business оплата из россии",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "gamma",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 26,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 44% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "oplatym.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "sostav.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "оплата framer из россии 2026",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "framer",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 10,
-   "gap": true,
-   "weakness": 26,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 44% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "taptop.pro",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "get-started-int.com",
-     "class": "OTHER",
-     "doc": "OTHER"
-    }
-   ]
-  },
-  {
-   "query": "gitlab купить подписку россия",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 7,
-   "gap": true,
-   "weakness": 12,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: vc.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "gitlab.softmart.ru",
-     "class": "RESELLER",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "iesoft.ru",
-     "class": "RESELLER",
      "doc": "COMMERCIAL_LANDING"
     }
    ]
@@ -3530,35 +2978,35 @@
    ]
   },
   {
-   "query": "runway ai тарифы",
-   "intent": "PRICING",
+   "query": "gitlab оплата через сервис",
+   "intent": "PAY",
    "b2b": false,
-   "vendor": "runway",
-   "hub": "video-creative",
+   "vendor": "gitlab",
+   "hub": "dev-tools",
    "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 26,
+   "google_depth": 18,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 13,
    "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 44% топ-10"
+    "UGC и СМИ занимают 40% топ-10",
+    "топ разбавлен повторами доменов: vc.ru"
    ],
    "google_top3": [
     {
-     "domain": "runway.com",
-     "class": "OTHER",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "somake.ai",
-     "class": "OTHER",
-     "doc": "PRICING"
-    },
-    {
      "domain": "vc.ru",
      "class": "UGC",
-     "doc": "PRICING"
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "raketapay.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
     }
    ]
   },
@@ -3630,21 +3078,26 @@
    ]
   },
   {
-   "query": "gitlab оплата через сервис",
-   "intent": "PAY",
+   "query": "гитлаб подписка рф",
+   "intent": "GENERIC",
    "b2b": false,
    "vendor": "gitlab",
    "hub": "dev-tools",
    "google_position": null,
-   "google_depth": 18,
-   "yandex_position": 9,
+   "google_depth": 19,
+   "yandex_position": 7,
    "gap": true,
-   "weakness": 13,
+   "weakness": 25,
    "weakness_reasons": [
-    "UGC и СМИ занимают 40% топ-10",
-    "топ разбавлен повторами доменов: vc.ru"
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10"
    ],
    "google_top3": [
+    {
+     "domain": "gitlab.softmart.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    },
     {
      "domain": "vc.ru",
      "class": "UGC",
@@ -3652,11 +3105,6 @@
     },
     {
      "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "raketapay.ru",
      "class": "INTERMEDIARY",
      "doc": "HOW_TO"
     }
@@ -3697,30 +3145,31 @@
    ]
   },
   {
-   "query": "гитлаб подписка рф",
-   "intent": "GENERIC",
+   "query": "gitlab ultimate оплата рф",
+   "intent": "PAY",
    "b2b": false,
    "vendor": "gitlab",
    "hub": "dev-tools",
    "google_position": null,
-   "google_depth": 19,
-   "yandex_position": 7,
-   "gap": true,
-   "weakness": 25,
+   "google_depth": 18,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 31,
    "weakness_reasons": [
     "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10"
+    "UGC и СМИ занимают 50% топ-10",
+    "топ разбавлен повторами доменов: vc.ru"
    ],
    "google_top3": [
-    {
-     "domain": "gitlab.softmart.ru",
-     "class": "RESELLER",
-     "doc": "COMMERCIAL_LANDING"
-    },
     {
      "domain": "vc.ru",
      "class": "UGC",
      "doc": "HOW_TO"
+    },
+    {
+     "domain": "iesoft.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
     },
     {
      "domain": "exnode.ru",
@@ -3765,35 +3214,36 @@
    ]
   },
   {
-   "query": "gitlab ultimate оплата рф",
-   "intent": "PAY",
+   "query": "купить подписку github copilot business",
+   "intent": "BUY",
    "b2b": false,
-   "vendor": "gitlab",
+   "vendor": "github",
    "hub": "dev-tools",
    "google_position": null,
    "google_depth": 18,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 31,
+   "yandex_position": 6,
+   "gap": true,
+   "weakness": 38,
    "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 50% топ-10",
-    "топ разбавлен повторами доменов: vc.ru"
+    "нет специализированного продавца",
+    "UGC и СМИ занимают 40% топ-10",
+    "маркетплейсы ключей — 30% топ-10",
+    "топ разбавлен повторами доменов: docs.github.com"
    ],
    "google_top3": [
     {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "docs.github.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
      "domain": "vc.ru",
      "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "iesoft.ru",
-     "class": "RESELLER",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
      "doc": "HOW_TO"
     }
    ]
@@ -3867,75 +3317,6 @@
    ]
   },
   {
-   "query": "купить подписку github copilot business",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "github",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 18,
-   "yandex_position": 6,
-   "gap": true,
-   "weakness": 38,
-   "weakness_reasons": [
-    "нет специализированного продавца",
-    "UGC и СМИ занимают 40% топ-10",
-    "маркетплейсы ключей — 30% топ-10",
-    "топ разбавлен повторами доменов: docs.github.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "docs.github.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "купить hailuo ai habr.com",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": null,
-   "hub": "cross-cutting",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 37,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 67% топ-10",
-    "топ разбавлен повторами доменов: habr.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "ARTICLE"
-    },
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "ARTICLE"
-    }
-   ]
-  },
-  {
    "query": "тариф recraft",
    "intent": "PRICING",
    "b2b": false,
@@ -3962,6 +3343,39 @@
     },
     {
      "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "envato elements тариф россия",
+   "intent": "PRICING",
+   "b2b": false,
+   "vendor": "envato",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 25,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "ecomtoday.ru",
+     "class": "MEDIA",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "raketapay.ru",
      "class": "INTERMEDIARY",
      "doc": "COMMERCIAL_LANDING"
     }
@@ -4003,39 +3417,6 @@
    ]
   },
   {
-   "query": "envato elements тариф россия",
-   "intent": "PRICING",
-   "b2b": false,
-   "vendor": "envato",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 25,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "ecomtoday.ru",
-     "class": "MEDIA",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "raketapay.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
    "query": "gitlab подписка из рф гайд",
    "intent": "GENERIC",
    "b2b": false,
@@ -4065,36 +3446,6 @@
      "domain": "gitlab.softmart.ru",
      "class": "RESELLER",
      "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "оплата depositphotos из россии",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "depositphotos",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 8,
-   "gap": true,
-   "weakness": 6,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "pikabu.ru",
-     "class": "FORUM",
-     "doc": "FORUM_THREAD"
-    },
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "remoney.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
     }
    ]
   },
@@ -4198,40 +3549,6 @@
    ]
   },
   {
-   "query": "как купить gitlab в россии",
-   "intent": "HOW_TO",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 6,
-   "gap": true,
-   "weakness": 29,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 44% топ-10",
-    "топ разбавлен повторами доменов: gitlab.softmart.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "gitlab.softmart.ru",
-     "class": "RESELLER",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "iesoft.ru",
-     "class": "RESELLER",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "windsurf купить подписку",
    "intent": "BUY",
    "b2b": false,
@@ -4262,6 +3579,38 @@
     {
      "domain": "vc.ru",
      "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "envato elements оплата помощь россия",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "envato",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 18,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 22,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "oplata.guru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "wanttopay.net",
+     "class": "INTERMEDIARY",
      "doc": "HOW_TO"
     }
    ]
@@ -4301,38 +3650,6 @@
    ]
   },
   {
-   "query": "envato elements оплата помощь россия",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "envato",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 18,
-   "yandex_position": 9,
-   "gap": true,
-   "weakness": 22,
-   "weakness_reasons": [
-    "нет официального сайта вендора"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "oplata.guru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "wanttopay.net",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "энвато элементс оплата рф",
    "intent": "PAY",
    "b2b": false,
@@ -4361,72 +3678,6 @@
     {
      "domain": "vc.ru",
      "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "оплата depositphotos",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "depositphotos",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 7,
-   "gap": true,
-   "weakness": 6,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: depositphotos.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "depositphotos.com",
-     "class": "OFFICIAL",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "play.google.com",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "depositphotos.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    }
-   ]
-  },
-  {
-   "query": "gitlab оплата зарубежной картой",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 36,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 56% топ-10",
-    "топ разбавлен повторами доменов: vc.ru, dtf.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
      "doc": "HOW_TO"
     }
    ]
@@ -4493,39 +3744,6 @@
      "domain": "servernews.ru",
      "class": "OTHER",
      "doc": "PRICING"
-    }
-   ]
-  },
-  {
-   "query": "оплата бокс для россиян",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "box",
-   "hub": "productivity-collab",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 7,
-   "gap": true,
-   "weakness": 38,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "нет специализированного продавца"
-   ],
-   "google_top3": [
-    {
-     "domain": "pochta.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "consultant.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "invoicebox.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
     }
    ]
   },
@@ -4693,35 +3911,35 @@
    ]
   },
   {
-   "query": "как купить recraft pro",
-   "intent": "HOW_TO",
+   "query": "оплата capture one без vpn",
+   "intent": "PAY",
    "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
+   "vendor": "capture-one",
+   "hub": "design-software",
    "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 9,
-   "gap": true,
-   "weakness": 26,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 27,
    "weakness_reasons": [
     "нет официального сайта вендора",
-    "маркетплейсы ключей — 33% топ-10"
+    "топ разбавлен повторами доменов: captureoneai.ru"
    ],
    "google_top3": [
     {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
+     "domain": "captureoneai.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
     },
     {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
     },
     {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
     }
    ]
   },
@@ -4754,39 +3972,6 @@
     {
      "domain": "pay-saas.ru",
      "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "оплата capture one без vpn",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "capture-one",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 27,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "топ разбавлен повторами доменов: captureoneai.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "captureoneai.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
      "doc": "HOW_TO"
     }
    ]
@@ -4851,6 +4036,39 @@
      "domain": "exnode.ru",
      "class": "INTERMEDIARY",
      "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "оплата postman без vpn",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "postman",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 18,
+   "yandex_position": 10,
+   "gap": true,
+   "weakness": 28,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 50% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "plativputi.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
     }
    ]
   },
@@ -4923,35 +4141,35 @@
    ]
   },
   {
-   "query": "оплата postman без vpn",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "postman",
-   "hub": "dev-tools",
+   "query": "корпоративные тарифы slack для бизнеса из рф",
+   "intent": "B2B_LEGAL",
+   "b2b": true,
+   "vendor": "slack",
+   "hub": "productivity-collab",
    "google_position": null,
-   "google_depth": 18,
-   "yandex_position": 10,
+   "google_depth": 19,
+   "yandex_position": 3,
    "gap": true,
-   "weakness": 28,
+   "weakness": 38,
    "weakness_reasons": [
     "нет официального сайта вендора",
-    "UGC и СМИ занимают 50% топ-10"
+    "нет специализированного продавца"
    ],
    "google_top3": [
     {
-     "domain": "plativputi.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
+     "domain": "bitrix24.ru",
+     "class": "OTHER",
+     "doc": "ALTERNATIVES"
     },
     {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "ARTICLE"
+     "domain": "scrile.ru",
+     "class": "OTHER",
+     "doc": "ALTERNATIVES"
     },
     {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
+     "domain": "leadertask.ru",
+     "class": "OTHER",
+     "doc": "ALTERNATIVES"
     }
    ]
   },
@@ -5016,39 +4234,6 @@
      "domain": "exnode.ru",
      "class": "INTERMEDIARY",
      "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "корпоративные тарифы slack для бизнеса из рф",
-   "intent": "B2B_LEGAL",
-   "b2b": true,
-   "vendor": "slack",
-   "hub": "productivity-collab",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": 3,
-   "gap": true,
-   "weakness": 38,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "нет специализированного продавца"
-   ],
-   "google_top3": [
-    {
-     "domain": "bitrix24.ru",
-     "class": "OTHER",
-     "doc": "ALTERNATIVES"
-    },
-    {
-     "domain": "scrile.ru",
-     "class": "OTHER",
-     "doc": "ALTERNATIVES"
-    },
-    {
-     "domain": "leadertask.ru",
-     "class": "OTHER",
-     "doc": "ALTERNATIVES"
     }
    ]
   },
@@ -5119,40 +4304,6 @@
    ]
   },
   {
-   "query": "оплата hailuo ai habr.com",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": null,
-   "hub": "cross-cutting",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 36,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 70% топ-10",
-    "топ разбавлен повторами доменов: habr.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "ARTICLE"
-    },
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "ARTICLE"
-    }
-   ]
-  },
-  {
    "query": "envato elements оплата инструкция",
    "intent": "HOW_TO",
    "b2b": false,
@@ -5217,65 +4368,36 @@
    ]
   },
   {
-   "query": "recraft pro стоимость",
-   "intent": "PRICING",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 9,
-   "gap": true,
-   "weakness": 6,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "proxyapi.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    }
-   ]
-  },
-  {
-   "query": "leonardo ai токены оплата из россии",
+   "query": "оплата hailuo ai habr.com",
    "intent": "PAY",
    "b2b": false,
-   "vendor": "leonardo-ai",
-   "hub": "ai-subscriptions",
+   "vendor": null,
+   "hub": "cross-cutting",
    "google_position": null,
-   "google_depth": 9,
+   "google_depth": 19,
    "yandex_position": null,
    "gap": false,
-   "weakness": 28,
+   "weakness": 36,
    "weakness_reasons": [
     "нет официального сайта вендора",
-    "UGC и СМИ занимают 44% топ-10"
+    "UGC и СМИ занимают 70% топ-10",
+    "топ разбавлен повторами доменов: habr.com"
    ],
    "google_top3": [
     {
-     "domain": "dtf.ru",
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "habr.com",
      "class": "UGC",
      "doc": "HOW_TO"
     },
     {
-     "domain": "oplati-podpisku.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "vc.ru",
+     "domain": "habr.com",
      "class": "UGC",
-     "doc": "HOW_TO"
+     "doc": "ARTICLE"
     }
    ]
   },
@@ -5306,6 +4428,40 @@
     },
     {
      "domain": "getpayall.com",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "оплата gitlab",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 28,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10",
+    "топ разбавлен повторами доменов: vc.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "raketapay.ru",
      "class": "INTERMEDIARY",
      "doc": "HOW_TO"
     }
@@ -5346,39 +4502,6 @@
    ]
   },
   {
-   "query": "framer sites оплата из россии",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "framer",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 10,
-   "gap": true,
-   "weakness": 32,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 67% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "taptop.pro",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "reddit.com",
-     "class": "FORUM",
-     "doc": "FORUM_THREAD"
-    }
-   ]
-  },
-  {
    "query": "стоимость подписки runway в рублях",
    "intent": "PRICING",
    "b2b": false,
@@ -5408,72 +4531,6 @@
      "domain": "dtf.ru",
      "class": "UGC",
      "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "оплата gitlab",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 28,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10",
-    "топ разбавлен повторами доменов: vc.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "raketapay.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "купить одноразовую kling ai",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "kling-ai",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 12,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: kling.ai"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "kling.ai",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "ARTICLE"
     }
    ]
   },
@@ -5577,38 +4634,6 @@
    ]
   },
   {
-   "query": "chatgpt business team купить",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "openai",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 9,
-   "gap": true,
-   "weakness": 9,
-   "weakness_reasons": [
-    "маркетплейсы ключей — 44% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "funpay.com",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    }
-   ]
-  },
-  {
    "query": "купить рекрафт за рубли",
    "intent": "BUY",
    "b2b": false,
@@ -5639,6 +4664,38 @@
      "domain": "habr.com",
      "class": "UGC",
      "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
+   "query": "оплата зарубежного по для юрлица",
+   "intent": "B2B_LEGAL",
+   "b2b": true,
+   "vendor": null,
+   "hub": "cross-cutting",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 22,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "companies.rbc.ru",
+     "class": "MEDIA",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "corp.pay-saas.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "global-payments.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
     }
    ]
   },
@@ -5709,70 +4766,6 @@
    ]
   },
   {
-   "query": "оплата зарубежного по для юрлица",
-   "intent": "B2B_LEGAL",
-   "b2b": true,
-   "vendor": null,
-   "hub": "cross-cutting",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 22,
-   "weakness_reasons": [
-    "нет официального сайта вендора"
-   ],
-   "google_top3": [
-    {
-     "domain": "companies.rbc.ru",
-     "class": "MEDIA",
-     "doc": "ARTICLE"
-    },
-    {
-     "domain": "corp.pay-saas.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "global-payments.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "envato elements оплата через сервис",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "envato",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 8,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 26,
-   "weakness_reasons": [
-    "нет официального сайта вендора"
-   ],
-   "google_top3": [
-    {
-     "domain": "wanttopay.net",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "купить подписку hailuo habr.com",
    "intent": "BUY",
    "b2b": false,
@@ -5834,38 +4827,6 @@
     },
     {
      "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "gitlab silver оплата рф",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 11,
-   "weakness_reasons": [
-    "UGC и СМИ занимают 44% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "vc.ru",
      "class": "UGC",
      "doc": "HOW_TO"
     }
@@ -5940,30 +4901,32 @@
    ]
   },
   {
-   "query": "jira оплата рф",
+   "query": "envato elements оплатить из рф",
    "intent": "PAY",
    "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
+   "vendor": "envato",
+   "hub": "design-software",
    "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 9,
-   "gap": true,
-   "weakness": 6,
-   "weakness_reasons": [],
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 24,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
    "google_top3": [
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
     {
      "domain": "vc.ru",
      "class": "UGC",
      "doc": "HOW_TO"
     },
     {
-     "domain": "raketapay.ru",
+     "domain": "payholder.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "wanttopay.net",
      "class": "INTERMEDIARY",
      "doc": "HOW_TO"
     }
@@ -6001,38 +4964,6 @@
      "domain": "klerk.ru",
      "class": "MEDIA",
      "doc": "PRICING"
-    }
-   ]
-  },
-  {
-   "query": "envato elements оплатить из рф",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "envato",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 24,
-   "weakness_reasons": [
-    "нет официального сайта вендора"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "payholder.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "wanttopay.net",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
     }
    ]
   },
@@ -6171,136 +5102,6 @@
    ]
   },
   {
-   "query": "framer оплата санкции",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "framer",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 10,
-   "gap": true,
-   "weakness": 11,
-   "weakness_reasons": [
-    "UGC и СМИ занимают 44% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "sravni.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "jira оплата 2026",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 9,
-   "gap": true,
-   "weakness": 9,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: atlassian.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "raketapay.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "windsurf pro купить плати по миру",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "windsurf",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 31,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 56% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    }
-   ]
-  },
-  {
-   "query": "github copilot enterprise оплата рф",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "github",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 6,
-   "gap": true,
-   "weakness": 17,
-   "weakness_reasons": [
-    "UGC и СМИ занимают 56% топ-10",
-    "топ разбавлен повторами доменов: docs.github.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "market.cnews.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "docs.github.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    }
-   ]
-  },
-  {
    "query": "framer не проходит оплата",
    "intent": "PAY",
    "b2b": false,
@@ -6331,169 +5132,6 @@
      "domain": "reddit.com",
      "class": "FORUM",
      "doc": "FORUM_THREAD"
-    }
-   ]
-  },
-  {
-   "query": "корпоративная оплата recraft",
-   "intent": "B2B_LEGAL",
-   "b2b": true,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 3,
-   "gap": true,
-   "weakness": 41,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 44% топ-10",
-    "запрос про юрлицо, а документов для юрлица в топе нет"
-   ],
-   "google_top3": [
-    {
-     "domain": "notruble.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "phygital.plus",
-     "class": "OTHER",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "как оплатить recraft pro",
-   "intent": "HOW_TO",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 8,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 30,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "топ разбавлен повторами доменов: vc.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "notruble.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "phygital.plus",
-     "class": "OTHER",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "recraft оплата для ип",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 10,
-   "yandex_position": 6,
-   "gap": true,
-   "weakness": 28,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10",
-    "топ разбавлен повторами доменов: vc.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "notruble.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "jira оплата помощь россия",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 7,
-   "gap": true,
-   "weakness": 6,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: atlassian.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    }
-   ]
-  },
-  {
-   "query": "цена recraft",
-   "intent": "PRICING",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 7,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "recraft.ai",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "startpack.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "syssoft.ru",
-     "class": "RESELLER",
-     "doc": "PRICING"
     }
    ]
   },
@@ -6594,69 +5232,6 @@
    ]
   },
   {
-   "query": "gitlab bronze оплата россия",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 8,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "PRICING"
-    }
-   ]
-  },
-  {
-   "query": "framer подписка рф 2026",
-   "intent": "GENERIC",
-   "b2b": false,
-   "vendor": "framer",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 31,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 56% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "ya.zerocoder.ru",
-     "class": "MEDIA",
-     "doc": "ARTICLE"
-    },
-    {
-     "domain": "skillbox.ru",
-     "class": "MEDIA",
-     "doc": "ARTICLE"
-    }
-   ]
-  },
-  {
    "query": "recraft по договору купить",
    "intent": "B2B_LEGAL",
    "b2b": true,
@@ -6689,38 +5264,6 @@
    ]
   },
   {
-   "query": "recraft для команды купить",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 22,
-   "weakness_reasons": [
-    "нет официального сайта вендора"
-   ],
-   "google_top3": [
-    {
-     "domain": "mshopy.ru",
-     "class": "RESELLER",
-     "doc": "CATEGORY"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "migsoft.ru",
-     "class": "RESELLER",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
    "query": "leonardo ai тариф россия",
    "intent": "PRICING",
    "b2b": false,
@@ -6749,6 +5292,38 @@
      "domain": "companies.rbc.ru",
      "class": "MEDIA",
      "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
+   "query": "recraft для команды купить",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 22,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "mshopy.ru",
+     "class": "RESELLER",
+     "doc": "CATEGORY"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "migsoft.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
     }
    ]
   },
@@ -6882,41 +5457,6 @@
      "domain": "plati.market",
      "class": "MARKETPLACE",
      "doc": "PRODUCT_LISTING"
-    }
-   ]
-  },
-  {
-   "query": "продлить icloud россиянам klerk.ru/blogs/era2/699557",
-   "intent": "GENERIC",
-   "b2b": false,
-   "vendor": "apple",
-   "hub": "gift-cards",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 61,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "нет специализированного продавца",
-    "UGC и СМИ занимают 89% топ-10",
-    "топ разбавлен повторами доменов: klerk.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "klerk.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "klerk.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "klerk.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
     }
    ]
   },
@@ -7082,34 +5622,36 @@
    ]
   },
   {
-   "query": "оплата coreldraw",
+   "query": "framer оплата без иностранной карты",
    "intent": "PAY",
    "b2b": false,
-   "vendor": "coreldraw",
+   "vendor": "framer",
    "hub": "design-software",
    "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 7,
-   "gap": true,
-   "weakness": 21,
+   "google_depth": 17,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 33,
    "weakness_reasons": [
-    "нет официального сайта вендора"
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 60% топ-10",
+    "топ разбавлен повторами доменов: vc.ru"
    ],
    "google_top3": [
     {
-     "domain": "store.softline.ru",
-     "class": "RESELLER",
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
      "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "sravni.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
     },
     {
      "domain": "vc.ru",
      "class": "UGC",
-     "doc": "ARTICLE"
-    },
-    {
-     "domain": "syssoft.ru",
-     "class": "RESELLER",
-     "doc": "COMMERCIAL_LANDING"
+     "doc": "HOW_TO"
     }
    ]
   },
@@ -7143,70 +5685,6 @@
      "domain": "ru.linkedin.com",
      "class": "OTHER",
      "doc": "OTHER"
-    }
-   ]
-  },
-  {
-   "query": "recraft годовой тариф цена",
-   "intent": "PRICING",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 8,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "recraft.ai",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "framer оплата без иностранной карты",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "framer",
-   "hub": "design-software",
-   "google_position": null,
-   "google_depth": 17,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 33,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 60% топ-10",
-    "топ разбавлен повторами доменов: vc.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "sravni.ru",
-     "class": "MEDIA",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
     }
    ]
   },
@@ -7275,34 +5753,34 @@
    ]
   },
   {
-   "query": "оплата box для россиян",
+   "query": "оплата confluence",
    "intent": "PAY",
    "b2b": false,
-   "vendor": null,
-   "hub": "cross-cutting",
+   "vendor": "atlassian",
+   "hub": "dev-tools",
    "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 8,
-   "gap": true,
-   "weakness": 18,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 6,
    "weakness_reasons": [
-    "нет официального сайта вендора"
+    "топ разбавлен повторами доменов: atlassian.com"
    ],
    "google_top3": [
     {
-     "domain": "platipomiru.com",
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "raketapay.ru",
      "class": "INTERMEDIARY",
      "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "grinny.io",
-     "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "citi-box.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
     }
    ]
   },
@@ -7372,72 +5850,6 @@
    ]
   },
   {
-   "query": "оплата confluence",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 6,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: atlassian.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "raketapay.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "gitlab оплата без иностранной карты",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 32,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 56% топ-10",
-    "топ разбавлен повторами доменов: vc.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "platipomiru.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "как купить recraft официально",
    "intent": "HOW_TO",
    "b2b": false,
@@ -7466,38 +5878,6 @@
      "domain": "plati.market",
      "class": "MARKETPLACE",
      "doc": "PRODUCT_LISTING"
-    }
-   ]
-  },
-  {
-   "query": "как купить deepl pro из россии",
-   "intent": "HOW_TO",
-   "b2b": false,
-   "vendor": "deepl",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 8,
-   "gap": true,
-   "weakness": 13,
-   "weakness_reasons": [
-    "маркетплейсы ключей — 33% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "pikabu.ru",
-     "class": "FORUM",
-     "doc": "FORUM_THREAD"
     }
    ]
   },
@@ -7534,70 +5914,6 @@
    ]
   },
   {
-   "query": "recraft счет на оплату",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 8,
-   "gap": true,
-   "weakness": 22,
-   "weakness_reasons": [
-    "нет официального сайта вендора"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "phygital.plus",
-     "class": "OTHER",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "jira оплата через посредника",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 9,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: atlassian.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    }
-   ]
-  },
-  {
    "query": "купить подарочную ссылку дискорд нитро",
    "intent": "BUY",
    "b2b": false,
@@ -7627,39 +5943,6 @@
      "domain": "support.discord.com",
      "class": "OTHER",
      "doc": "OTHER"
-    }
-   ]
-  },
-  {
-   "query": "купить hailuo ai на год",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": null,
-   "hub": "cross-cutting",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 30,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "маркетплейсы ключей — 44% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
     }
    ]
   },
@@ -7763,73 +6046,6 @@
    ]
   },
   {
-   "query": "годовая подписка recraft",
-   "intent": "PRICING",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 26,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "маркетплейсы ключей — 33% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "ranvik.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "оплата cloudflare из россии dtf",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "cloudflare",
-   "hub": "infrastructure-security",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 41,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 89% топ-10",
-    "топ разбавлен повторами доменов: dtf.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "toon boom harmony купить",
    "intent": "BUY",
    "b2b": false,
@@ -7862,40 +6078,6 @@
    ]
   },
   {
-   "query": "способы оплаты cloudflare dtf",
-   "intent": "HOW_TO",
-   "b2b": false,
-   "vendor": "cloudflare",
-   "hub": "infrastructure-security",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 38,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 78% топ-10",
-    "топ разбавлен повторами доменов: dtf.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "dtf.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "как купить recraft в россии",
    "intent": "HOW_TO",
    "b2b": false,
@@ -7924,38 +6106,6 @@
      "domain": "notruble.ru",
      "class": "INTERMEDIARY",
      "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "официальная оплата recraft",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 25,
-   "weakness_reasons": [
-    "нет официального сайта вендора"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "phygital.plus",
-     "class": "OTHER",
-     "doc": "HOW_TO"
     }
    ]
   },
@@ -8025,40 +6175,6 @@
    ]
   },
   {
-   "query": "artlist подписка",
-   "intent": "GENERIC",
-   "b2b": false,
-   "vendor": "artlist",
-   "hub": "video-creative",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 9,
-   "gap": true,
-   "weakness": 19,
-   "weakness_reasons": [
-    "UGC и СМИ занимают 44% топ-10",
-    "маркетплейсы ключей — 33% топ-10",
-    "топ разбавлен повторами доменов: dtf.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "artlist.io",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    }
-   ]
-  },
-  {
    "query": "оплата hailuo ai",
    "intent": "PAY",
    "b2b": false,
@@ -8089,103 +6205,6 @@
      "domain": "funpay.com",
      "class": "MARKETPLACE",
      "doc": "PRODUCT_LISTING"
-    }
-   ]
-  },
-  {
-   "query": "recraft pro тариф стоимость",
-   "intent": "PRICING",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 7,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "recraft.ai",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "proxyapi.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "notruble.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    }
-   ]
-  },
-  {
-   "query": "купить платную версию recraft",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 28,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 40% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "exnode.ru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "mshopy.ru",
-     "class": "RESELLER",
-     "doc": "CATEGORY"
-    }
-   ]
-  },
-  {
-   "query": "recraft зарубежная карта оплата",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 32,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "UGC и СМИ занимают 56% топ-10",
-    "топ разбавлен повторами доменов: vc.ru"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "plativputi.com",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "phygital.plus",
-     "class": "OTHER",
-     "doc": "HOW_TO"
     }
    ]
   },
@@ -8224,34 +6243,35 @@
    ]
   },
   {
-   "query": "jira оплата usdt",
-   "intent": "PAY",
+   "query": "купить платную версию recraft",
+   "intent": "BUY",
    "b2b": false,
-   "vendor": "atlassian",
-   "hub": "dev-tools",
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
    "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 7,
-   "gap": true,
-   "weakness": 9,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 28,
    "weakness_reasons": [
-    "топ разбавлен повторами доменов: atlassian.com"
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10"
    ],
    "google_top3": [
     {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
     },
     {
-     "domain": "atlassian.com",
-     "class": "OFFICIAL",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "raketapay.ru",
+     "domain": "exnode.ru",
      "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "mshopy.ru",
+     "class": "RESELLER",
+     "doc": "CATEGORY"
     }
    ]
   },
@@ -8353,6 +6373,2088 @@
    ]
   },
   {
+   "query": "купить cursor",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "cursor",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 30,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "маркетплейсы ключей — 50% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "payment.mts.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    }
+   ]
+  },
+  {
+   "query": "тариф corporat является закрытым",
+   "intent": "PRICING",
+   "b2b": false,
+   "vendor": null,
+   "hub": "cross-cutting",
+   "google_position": null,
+   "google_depth": 18,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 35,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "нет специализированного продавца"
+   ],
+   "google_top3": [
+    {
+     "domain": "bezlimitik.ru",
+     "class": "OTHER",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "hmao.t2.ru",
+     "class": "OTHER",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "dagestan.megafon.ru",
+     "class": "OTHER",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
+   "query": "как оплатить продлить подписку на айфоне",
+   "intent": "HOW_TO",
+   "b2b": false,
+   "vendor": null,
+   "hub": "cross-cutting",
+   "google_position": null,
+   "google_depth": 18,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 30,
+   "weakness_reasons": [
+    "нет специализированного продавца",
+    "UGC и СМИ занимают 40% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "t-j.ru",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
+   "query": "postman оплата подписки",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "postman",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 6,
+   "gap": true,
+   "weakness": 13,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: dtf.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "migsoft.ru",
+     "class": "RESELLER",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
+   "query": "оплата magnific ai юридическим лицом",
+   "intent": "B2B_LEGAL",
+   "b2b": true,
+   "vendor": "freepik",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 4,
+   "gap": true,
+   "weakness": 42,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 50% топ-10",
+    "запрос про юрлицо, а документов для юрлица в топе нет"
+   ],
+   "google_top3": [
+    {
+     "domain": "getpayall.com",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "sostav.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "companies.rbc.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "продление подписки postman из россии",
+   "intent": "GENERIC",
+   "b2b": false,
+   "vendor": "postman",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 10,
+   "yandex_position": 4,
+   "gap": true,
+   "weakness": 34,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 50% топ-10",
+    "топ разбавлен повторами доменов: dtf.ru, migsoft.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "migsoft.ru",
+     "class": "RESELLER",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
+   "query": "оплата jira из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 6,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "getpayall.com",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "perplexity enterprise max купить",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "perplexity",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 38,
+   "weakness_reasons": [
+    "нет специализированного продавца",
+    "маркетплейсы ключей — 44% топ-10",
+    "топ разбавлен повторами доменов: perplexity.ai"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "perplexity.ai",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    }
+   ]
+  },
+  {
+   "query": "gitlab купить",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 6,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "about.gitlab.com",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "gitlab.softmart.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
+   "query": "framer купить подписку россия",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "framer",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 4,
+   "gap": true,
+   "weakness": 30,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "маркетплейсы ключей — 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "mshopy.ru",
+     "class": "RESELLER",
+     "doc": "CATEGORY"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    }
+   ]
+  },
+  {
+   "query": "купить подписку descript",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "descript",
+   "hub": "video-creative",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 8,
+   "gap": true,
+   "weakness": 6,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "mshopy.ru",
+     "class": "RESELLER",
+     "doc": "CATEGORY"
+    },
+    {
+     "domain": "mymeet.ai",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "gitlab оплата рублями",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 5,
+   "gap": true,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
+   "query": "framer оплатить из рф",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "framer",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 10,
+   "gap": true,
+   "weakness": 33,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10",
+    "топ разбавлен повторами доменов: vc.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "купить openai api юридическим лицом",
+   "intent": "B2B_LEGAL",
+   "b2b": true,
+   "vendor": "openai",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 3,
+   "gap": true,
+   "weakness": 44,
+   "weakness_reasons": [
+    "нет специализированного продавца",
+    "запрос про юрлицо, а документов для юрлица в топе нет"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "proxyapi.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "openai.com",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
+   "query": "github copilot business оплата из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "github",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 4,
+   "gap": true,
+   "weakness": 20,
+   "weakness_reasons": [
+    "UGC и СМИ занимают 67% топ-10",
+    "топ разбавлен повторами доменов: dtf.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "market.cnews.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "как оплатить jira из россии в 2026 году dtf",
+   "intent": "HOW_TO",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 5,
+   "gap": true,
+   "weakness": 38,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 78% топ-10",
+    "топ разбавлен повторами доменов: dtf.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "raketapay.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "gamma business оплата из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "gamma",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "oplatym.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "sostav.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "оплата framer из россии 2026",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "framer",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 10,
+   "gap": true,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "taptop.pro",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "get-started-int.com",
+     "class": "OTHER",
+     "doc": "OTHER"
+    }
+   ]
+  },
+  {
+   "query": "gitlab купить подписку россия",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 7,
+   "gap": true,
+   "weakness": 12,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: vc.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "gitlab.softmart.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "iesoft.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "jira оплата рублями",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 9,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: atlassian.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "pay-saas.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "runway ai тарифы",
+   "intent": "PRICING",
+   "b2b": false,
+   "vendor": "runway",
+   "hub": "video-creative",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "runway.com",
+     "class": "OTHER",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "somake.ai",
+     "class": "OTHER",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
+   "query": "купить hailuo ai habr.com",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": null,
+   "hub": "cross-cutting",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 37,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 67% топ-10",
+    "топ разбавлен повторами доменов: habr.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
+   "query": "как купить gitlab в россии",
+   "intent": "HOW_TO",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 6,
+   "gap": true,
+   "weakness": 29,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10",
+    "топ разбавлен повторами доменов: gitlab.softmart.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "gitlab.softmart.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "iesoft.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "оплата depositphotos из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "depositphotos",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 8,
+   "gap": true,
+   "weakness": 6,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "pikabu.ru",
+     "class": "FORUM",
+     "doc": "FORUM_THREAD"
+    },
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "remoney.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "оплата depositphotos",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "depositphotos",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 7,
+   "gap": true,
+   "weakness": 6,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: depositphotos.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "depositphotos.com",
+     "class": "OFFICIAL",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "play.google.com",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "depositphotos.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    }
+   ]
+  },
+  {
+   "query": "gitlab оплата зарубежной картой",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 36,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 56% топ-10",
+    "топ разбавлен повторами доменов: vc.ru, dtf.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "как купить recraft pro",
+   "intent": "HOW_TO",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "маркетплейсы ключей — 33% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    }
+   ]
+  },
+  {
+   "query": "оплата бокс для россиян",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "box",
+   "hub": "productivity-collab",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 7,
+   "gap": true,
+   "weakness": 38,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "нет специализированного продавца"
+   ],
+   "google_top3": [
+    {
+     "domain": "pochta.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "consultant.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "invoicebox.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    }
+   ]
+  },
+  {
+   "query": "leonardo ai токены оплата из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "leonardo-ai",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 16,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "oplati-podpisku.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "recraft pro стоимость",
+   "intent": "PRICING",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 6,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "proxyapi.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    }
+   ]
+  },
+  {
+   "query": "chatgpt business team купить",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "openai",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 9,
+   "weakness_reasons": [
+    "маркетплейсы ключей — 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "funpay.com",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    }
+   ]
+  },
+  {
+   "query": "framer sites оплата из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "framer",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 10,
+   "gap": true,
+   "weakness": 32,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 67% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "taptop.pro",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "reddit.com",
+     "class": "FORUM",
+     "doc": "FORUM_THREAD"
+    }
+   ]
+  },
+  {
+   "query": "купить одноразовую kling ai",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "kling-ai",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 12,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: kling.ai"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "kling.ai",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
+   "query": "envato elements оплата через сервис",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "envato",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 8,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "wanttopay.net",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "gitlab silver оплата рф",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 11,
+   "weakness_reasons": [
+    "UGC и СМИ занимают 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "jira оплата рф",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 6,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "raketapay.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "windsurf pro купить плати по миру",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "windsurf",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 31,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 56% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    }
+   ]
+  },
+  {
+   "query": "jira оплата 2026",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 9,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: atlassian.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "raketapay.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "framer оплата санкции",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "framer",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 10,
+   "gap": true,
+   "weakness": 11,
+   "weakness_reasons": [
+    "UGC и СМИ занимают 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "sravni.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "github copilot enterprise оплата рф",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "github",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 6,
+   "gap": true,
+   "weakness": 17,
+   "weakness_reasons": [
+    "UGC и СМИ занимают 56% топ-10",
+    "топ разбавлен повторами доменов: docs.github.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "market.cnews.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "docs.github.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    }
+   ]
+  },
+  {
+   "query": "recraft оплата для ип",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 18,
+   "yandex_position": 6,
+   "gap": true,
+   "weakness": 28,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10",
+    "топ разбавлен повторами доменов: vc.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "notruble.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "корпоративная оплата recraft",
+   "intent": "B2B_LEGAL",
+   "b2b": true,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 3,
+   "gap": true,
+   "weakness": 41,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10",
+    "запрос про юрлицо, а документов для юрлица в топе нет"
+   ],
+   "google_top3": [
+    {
+     "domain": "notruble.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "phygital.plus",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "как оплатить recraft pro",
+   "intent": "HOW_TO",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 8,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 30,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "топ разбавлен повторами доменов: vc.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "notruble.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "phygital.plus",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "цена recraft",
+   "intent": "PRICING",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 7,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "recraft.ai",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "startpack.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "syssoft.ru",
+     "class": "RESELLER",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
+   "query": "gitlab bronze оплата россия",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 8,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
+   "query": "jira оплата помощь россия",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 7,
+   "gap": true,
+   "weakness": 6,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: atlassian.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    }
+   ]
+  },
+  {
+   "query": "продлить icloud россиянам klerk.ru/blogs/era2/699557",
+   "intent": "GENERIC",
+   "b2b": false,
+   "vendor": "apple",
+   "hub": "gift-cards",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 61,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "нет специализированного продавца",
+    "UGC и СМИ занимают 89% топ-10",
+    "топ разбавлен повторами доменов: klerk.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "klerk.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "klerk.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "klerk.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "framer подписка рф 2026",
+   "intent": "GENERIC",
+   "b2b": false,
+   "vendor": "framer",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 31,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 56% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "ya.zerocoder.ru",
+     "class": "MEDIA",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "skillbox.ru",
+     "class": "MEDIA",
+     "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
+   "query": "оплата coreldraw",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "coreldraw",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 7,
+   "gap": true,
+   "weakness": 21,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "store.softline.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "syssoft.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "recraft годовой тариф цена",
+   "intent": "PRICING",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 8,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "recraft.ai",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "gitlab оплата без иностранной карты",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 32,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 56% топ-10",
+    "топ разбавлен повторами доменов: vc.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "оплата box для россиян",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": null,
+   "hub": "cross-cutting",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 8,
+   "gap": true,
+   "weakness": 18,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "grinny.io",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "citi-box.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    }
+   ]
+  },
+  {
+   "query": "как купить deepl pro из россии",
+   "intent": "HOW_TO",
+   "b2b": false,
+   "vendor": "deepl",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 8,
+   "gap": true,
+   "weakness": 12,
+   "weakness_reasons": [
+    "маркетплейсы ключей — 30% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "pikabu.ru",
+     "class": "FORUM",
+     "doc": "FORUM_THREAD"
+    }
+   ]
+  },
+  {
+   "query": "купить hailuo ai на год",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": null,
+   "hub": "cross-cutting",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 31,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 40% топ-10",
+    "маркетплейсы ключей — 40% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "recraft счет на оплату",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 8,
+   "gap": true,
+   "weakness": 22,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "phygital.plus",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "jira оплата через посредника",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 9,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: atlassian.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
+   "query": "способы оплаты cloudflare dtf",
+   "intent": "HOW_TO",
+   "b2b": false,
+   "vendor": "cloudflare",
+   "hub": "infrastructure-security",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 38,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 78% топ-10",
+    "топ разбавлен повторами доменов: dtf.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "оплата cloudflare из россии dtf",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "cloudflare",
+   "hub": "infrastructure-security",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 41,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 89% топ-10",
+    "топ разбавлен повторами доменов: dtf.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "годовая подписка recraft",
+   "intent": "PRICING",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "маркетплейсы ключей — 33% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "ranvik.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "официальная оплата recraft",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 25,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "exnode.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "phygital.plus",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "artlist подписка",
+   "intent": "GENERIC",
+   "b2b": false,
+   "vendor": "artlist",
+   "hub": "video-creative",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 19,
+   "weakness_reasons": [
+    "UGC и СМИ занимают 44% топ-10",
+    "маркетплейсы ключей — 33% топ-10",
+    "топ разбавлен повторами доменов: dtf.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "artlist.io",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    }
+   ]
+  },
+  {
+   "query": "recraft зарубежная карта оплата",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 32,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 56% топ-10",
+    "топ разбавлен повторами доменов: vc.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "plativputi.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "phygital.plus",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "recraft pro тариф стоимость",
+   "intent": "PRICING",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 7,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "recraft.ai",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "proxyapi.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "notruble.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "jira оплата usdt",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "atlassian",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 7,
+   "gap": true,
+   "weakness": 9,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: atlassian.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "atlassian.com",
+     "class": "OFFICIAL",
+     "doc": "PRICING"
+    },
+    {
+     "domain": "raketapay.ru",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
    "query": "slack pro оплата из россии",
    "intent": "PAY",
    "b2b": false,
@@ -8445,6 +8547,38 @@
    ]
   },
   {
+   "query": "recraft оплата по факту использования",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "recraft",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 23,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "phygital.plus",
+     "class": "OTHER",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "oplata.guru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
    "query": "figma enterprise оплата рф",
    "intent": "PAY",
    "b2b": false,
@@ -8478,71 +8612,6 @@
    ]
   },
   {
-   "query": "купить cursor",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "cursor",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 19,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 30,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "маркетплейсы ключей — 50% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "ggsel.net",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "payment.mts.ru",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    }
-   ]
-  },
-  {
-   "query": "recraft оплата по факту использования",
-   "intent": "PAY",
-   "b2b": false,
-   "vendor": "recraft",
-   "hub": "ai-subscriptions",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 23,
-   "weakness_reasons": [
-    "нет официального сайта вендора"
-   ],
-   "google_top3": [
-    {
-     "domain": "phygital.plus",
-     "class": "OTHER",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "oplata.guru",
-     "class": "INTERMEDIARY",
-     "doc": "COMMERCIAL_LANDING"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
    "query": "jira оплата иностранной картой из россии",
    "intent": "PAY",
    "b2b": false,
@@ -8568,134 +8637,6 @@
     {
      "domain": "platipomiru.com",
      "class": "INTERMEDIARY",
-     "doc": "HOW_TO"
-    }
-   ]
-  },
-  {
-   "query": "motion array подписка",
-   "intent": "GENERIC",
-   "b2b": false,
-   "vendor": "motion-array",
-   "hub": "video-creative",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 4,
-   "gap": true,
-   "weakness": 13,
-   "weakness_reasons": [
-    "топ разбавлен повторами доменов: motionarray.com"
-   ],
-   "google_top3": [
-    {
-     "domain": "plati.market",
-     "class": "MARKETPLACE",
-     "doc": "PRODUCT_LISTING"
-    },
-    {
-     "domain": "motionarray.com",
-     "class": "OFFICIAL",
-     "doc": "VENDOR_PAGE"
-    },
-    {
-     "domain": "reddit.com",
-     "class": "FORUM",
-     "doc": "FORUM_THREAD"
-    }
-   ]
-  },
-  {
-   "query": "тариф corporat является закрытым",
-   "intent": "PRICING",
-   "b2b": false,
-   "vendor": null,
-   "hub": "cross-cutting",
-   "google_position": null,
-   "google_depth": 18,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 35,
-   "weakness_reasons": [
-    "нет официального сайта вендора",
-    "нет специализированного продавца"
-   ],
-   "google_top3": [
-    {
-     "domain": "bezlimitik.ru",
-     "class": "OTHER",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "hmao.t2.ru",
-     "class": "OTHER",
-     "doc": "PRICING"
-    },
-    {
-     "domain": "dagestan.megafon.ru",
-     "class": "OTHER",
-     "doc": "PRICING"
-    }
-   ]
-  },
-  {
-   "query": "как оплатить продлить подписку на айфоне",
-   "intent": "HOW_TO",
-   "b2b": false,
-   "vendor": null,
-   "hub": "cross-cutting",
-   "google_position": null,
-   "google_depth": 18,
-   "yandex_position": null,
-   "gap": false,
-   "weakness": 30,
-   "weakness_reasons": [
-    "нет специализированного продавца",
-    "UGC и СМИ занимают 40% топ-10"
-   ],
-   "google_top3": [
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "t-j.ru",
-     "class": "OTHER",
-     "doc": "HOW_TO"
-    },
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "ARTICLE"
-    }
-   ]
-  },
-  {
-   "query": "gitlab купить аккаунт",
-   "intent": "BUY",
-   "b2b": false,
-   "vendor": "gitlab",
-   "hub": "dev-tools",
-   "google_position": null,
-   "google_depth": 9,
-   "yandex_position": 3,
-   "gap": true,
-   "weakness": 7,
-   "weakness_reasons": [],
-   "google_top3": [
-    {
-     "domain": "grizzlysms.com",
-     "class": "OTHER",
-     "doc": "OTHER"
-    },
-    {
-     "domain": "habr.com",
-     "class": "UGC",
-     "doc": "ARTICLE"
-    },
-    {
-     "domain": "vc.ru",
-     "class": "UGC",
      "doc": "HOW_TO"
     }
    ]
@@ -8733,6 +8674,68 @@
    ]
   },
   {
+   "query": "motion array подписка",
+   "intent": "GENERIC",
+   "b2b": false,
+   "vendor": "motion-array",
+   "hub": "video-creative",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 4,
+   "gap": true,
+   "weakness": 13,
+   "weakness_reasons": [
+    "топ разбавлен повторами доменов: motionarray.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "plati.market",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "motionarray.com",
+     "class": "OFFICIAL",
+     "doc": "VENDOR_PAGE"
+    },
+    {
+     "domain": "reddit.com",
+     "class": "FORUM",
+     "doc": "FORUM_THREAD"
+    }
+   ]
+  },
+  {
+   "query": "gitlab купить аккаунт",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": "gitlab",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 3,
+   "gap": true,
+   "weakness": 7,
+   "weakness_reasons": [],
+   "google_top3": [
+    {
+     "domain": "grizzlysms.com",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
    "query": "spine 2d купить",
    "intent": "BUY",
    "b2b": false,
@@ -8764,15 +8767,282 @@
      "doc": "COMMERCIAL_LANDING"
     }
    ]
+  },
+  {
+   "query": "framer pro оплата из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "framer",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 19,
+   "yandex_position": 5,
+   "gap": true,
+   "weakness": 29,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 50% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "mshopy.ru",
+     "class": "RESELLER",
+     "doc": "CATEGORY"
+    },
+    {
+     "domain": "platipomiru.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    }
+   ]
+  },
+  {
+   "query": "leonardo ai оплата с российского счета",
+   "intent": "B2B_LEGAL",
+   "b2b": true,
+   "vendor": "leonardo-ai",
+   "hub": "ai-subscriptions",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 8,
+   "gap": true,
+   "weakness": 40,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "запрос про юрлицо, а документов для юрлица в топе нет"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "kupikod.com",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    }
+   ]
+  },
+  {
+   "query": "недорого оплатить runway из россии",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "runway",
+   "hub": "video-creative",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "sostav.ru",
+     "class": "MEDIA",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "oplatym.ru",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "купить подписку hailuo",
+   "intent": "BUY",
+   "b2b": false,
+   "vendor": null,
+   "hub": "cross-cutting",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 36,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10",
+    "маркетплейсы ключей — 44% топ-10",
+    "топ разбавлен повторами доменов: vc.ru"
+   ],
+   "google_top3": [
+    {
+     "domain": "ggsel.net",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "funpay.com",
+     "class": "MARKETPLACE",
+     "doc": "PRODUCT_LISTING"
+    },
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "envato elements оплата в россии 2026",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "envato",
+   "hub": "design-software",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": null,
+   "gap": false,
+   "weakness": 23,
+   "weakness_reasons": [
+    "нет официального сайта вендора"
+   ],
+   "google_top3": [
+    {
+     "domain": "vc.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "wanttopay.net",
+     "class": "INTERMEDIARY",
+     "doc": "HOW_TO"
+    }
+   ]
+  },
+  {
+   "query": "runway тарифы habr.com",
+   "intent": "PRICING",
+   "b2b": false,
+   "vendor": "runway",
+   "hub": "video-creative",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 9,
+   "gap": true,
+   "weakness": 55,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "нет специализированного продавца",
+    "UGC и СМИ занимают 67% топ-10",
+    "топ разбавлен повторами доменов: habr.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    }
+   ]
+  },
+  {
+   "query": "лицензия скетч license",
+   "intent": "GENERIC",
+   "b2b": false,
+   "vendor": null,
+   "hub": "cross-cutting",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 3,
+   "gap": true,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "топ разбавлен повторами доменов: help.sketchup.com"
+   ],
+   "google_top3": [
+    {
+     "domain": "cad.ru",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "help.sketchup.com",
+     "class": "OTHER",
+     "doc": "OTHER"
+    },
+    {
+     "domain": "iesoft.ru",
+     "class": "RESELLER",
+     "doc": "COMMERCIAL_LANDING"
+    }
+   ]
+  },
+  {
+   "query": "оплата postman без vpn москве",
+   "intent": "PAY",
+   "b2b": false,
+   "vendor": "postman",
+   "hub": "dev-tools",
+   "google_position": null,
+   "google_depth": 9,
+   "yandex_position": 7,
+   "gap": true,
+   "weakness": 26,
+   "weakness_reasons": [
+    "нет официального сайта вендора",
+    "UGC и СМИ занимают 44% топ-10"
+   ],
+   "google_top3": [
+    {
+     "domain": "plativputi.com",
+     "class": "INTERMEDIARY",
+     "doc": "COMMERCIAL_LANDING"
+    },
+    {
+     "domain": "dtf.ru",
+     "class": "UGC",
+     "doc": "HOW_TO"
+    },
+    {
+     "domain": "habr.com",
+     "class": "UGC",
+     "doc": "ARTICLE"
+    }
+   ]
   }
  ],
  "link_gap": [
   {
    "domain": "vc.ru",
    "class": "UGC",
-   "google_top10_hits": 268,
-   "google_queries": 220,
-   "yandex_top10_hits": 140,
+   "google_top10_hits": 275,
+   "google_queries": 226,
+   "yandex_top10_hits": 144,
    "google_only": false,
    "sample_queries": [
     "adobe купить для компании",
@@ -8783,9 +9053,9 @@
   {
    "domain": "dtf.ru",
    "class": "UGC",
-   "google_top10_hits": 254,
-   "google_queries": 212,
-   "yandex_top10_hits": 38,
+   "google_top10_hits": 260,
+   "google_queries": 218,
+   "yandex_top10_hits": 40,
    "google_only": false,
    "sample_queries": [
     "artlist подписка",
@@ -8796,22 +9066,22 @@
   {
    "domain": "platipomiru.com",
    "class": "INTERMEDIARY",
-   "google_top10_hits": 104,
-   "google_queries": 104,
-   "yandex_top10_hits": 116,
+   "google_top10_hits": 106,
+   "google_queries": 106,
+   "yandex_top10_hits": 119,
    "google_only": false,
    "sample_queries": [
     "envato elements как оплатить с рф",
-    "envato elements оплата инструкция",
-    "envato elements оплата помощь россия"
+    "envato elements оплата в россии 2026",
+    "envato elements оплата инструкция"
    ]
   },
   {
    "domain": "ggsel.net",
    "class": "MARKETPLACE",
-   "google_top10_hits": 95,
-   "google_queries": 90,
-   "yandex_top10_hits": 67,
+   "google_top10_hits": 97,
+   "google_queries": 92,
+   "yandex_top10_hits": 70,
    "google_only": false,
    "sample_queries": [
     "artlist подписка",
@@ -8822,22 +9092,22 @@
   {
    "domain": "exnode.ru",
    "class": "INTERMEDIARY",
-   "google_top10_hits": 92,
-   "google_queries": 92,
-   "yandex_top10_hits": 64,
+   "google_top10_hits": 94,
+   "google_queries": 94,
+   "yandex_top10_hits": 66,
    "google_only": false,
    "sample_queries": [
     "envato elements как оплатить с рф",
-    "envato elements оплата инструкция",
-    "envato elements оплата помощь россия"
+    "envato elements оплата в россии 2026",
+    "envato elements оплата инструкция"
    ]
   },
   {
    "domain": "habr.com",
    "class": "UGC",
-   "google_top10_hits": 69,
-   "google_queries": 61,
-   "yandex_top10_hits": 54,
+   "google_top10_hits": 76,
+   "google_queries": 63,
+   "yandex_top10_hits": 57,
    "google_only": false,
    "sample_queries": [
     "chatgpt business team купить",
@@ -8846,23 +9116,23 @@
    ]
   },
   {
-   "domain": "plati.market",
-   "class": "MARKETPLACE",
-   "google_top10_hits": 66,
-   "google_queries": 66,
-   "yandex_top10_hits": 21,
+   "domain": "oplata.guru",
+   "class": "INTERMEDIARY",
+   "google_top10_hits": 70,
+   "google_queries": 70,
+   "yandex_top10_hits": 17,
    "google_only": false,
    "sample_queries": [
-    "artlist подписка",
     "capture one для россиян оплата",
-    "chatgpt business team купить"
+    "envato elements как оплатить с рф",
+    "envato elements оплата в россии 2026"
    ]
   },
   {
    "domain": "reddit.com",
    "class": "FORUM",
-   "google_top10_hits": 66,
-   "google_queries": 60,
+   "google_top10_hits": 68,
+   "google_queries": 62,
    "yandex_top10_hits": 0,
    "google_only": true,
    "sample_queries": [
@@ -8872,16 +9142,16 @@
    ]
   },
   {
-   "domain": "oplata.guru",
-   "class": "INTERMEDIARY",
-   "google_top10_hits": 66,
-   "google_queries": 66,
-   "yandex_top10_hits": 15,
+   "domain": "plati.market",
+   "class": "MARKETPLACE",
+   "google_top10_hits": 67,
+   "google_queries": 67,
+   "yandex_top10_hits": 22,
    "google_only": false,
    "sample_queries": [
+    "artlist подписка",
     "capture one для россиян оплата",
-    "envato elements как оплатить с рф",
-    "envato elements оплата инструкция"
+    "chatgpt business team купить"
    ]
   },
   {
@@ -8889,7 +9159,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 63,
    "google_queries": 63,
-   "yandex_top10_hits": 164,
+   "yandex_top10_hits": 167,
    "google_only": false,
    "sample_queries": [
     "atlassian jira оплата из россии",
@@ -8924,10 +9194,23 @@
    ]
   },
   {
+   "domain": "sostav.ru",
+   "class": "MEDIA",
+   "google_top10_hits": 50,
+   "google_queries": 44,
+   "yandex_top10_hits": 21,
+   "google_only": false,
+   "sample_queries": [
+    "claude team купить",
+    "figma enterprise оплата рф",
+    "gamma business оплата из россии"
+   ]
+  },
+  {
    "domain": "mshopy.ru",
    "class": "RESELLER",
-   "google_top10_hits": 49,
-   "google_queries": 49,
+   "google_top10_hits": 50,
+   "google_queries": 50,
    "yandex_top10_hits": 6,
    "google_only": false,
    "sample_queries": [
@@ -8937,23 +9220,10 @@
    ]
   },
   {
-   "domain": "sostav.ru",
-   "class": "MEDIA",
-   "google_top10_hits": 48,
-   "google_queries": 42,
-   "yandex_top10_hits": 20,
-   "google_only": false,
-   "sample_queries": [
-    "claude team купить",
-    "figma enterprise оплата рф",
-    "gamma business оплата из россии"
-   ]
-  },
-  {
    "domain": "market.yandex.ru",
    "class": "MARKETPLACE",
-   "google_top10_hits": 39,
-   "google_queries": 39,
+   "google_top10_hits": 41,
+   "google_queries": 41,
    "yandex_top10_hits": 25,
    "google_only": false,
    "sample_queries": [
@@ -8965,27 +9235,53 @@
   {
    "domain": "youtube.com",
    "class": "UGC",
-   "google_top10_hits": 36,
-   "google_queries": 35,
+   "google_top10_hits": 38,
+   "google_queries": 37,
    "yandex_top10_hits": 2,
    "google_only": false,
    "sample_queries": [
+    "envato elements оплата в россии 2026",
     "envato elements оплата помощь россия",
-    "envato elements оплата рф",
-    "envato elements оплата через посредника"
+    "envato elements оплата рф"
+   ]
+  },
+  {
+   "domain": "wanttopay.net",
+   "class": "INTERMEDIARY",
+   "google_top10_hits": 36,
+   "google_queries": 36,
+   "yandex_top10_hits": 1,
+   "google_only": false,
+   "sample_queries": [
+    "envato elements как оплатить с рф",
+    "envato elements оплата в россии 2026",
+    "envato elements оплата инструкция"
    ]
   },
   {
    "domain": "sravni.ru",
    "class": "MEDIA",
-   "google_top10_hits": 34,
-   "google_queries": 34,
+   "google_top10_hits": 35,
+   "google_queries": 35,
    "yandex_top10_hits": 8,
    "google_only": false,
    "sample_queries": [
     "framer basic оплата россия",
     "framer mini оплата рф",
-    "framer pro подписка из россии"
+    "framer pro оплата из россии"
+   ]
+  },
+  {
+   "domain": "pikabu.ru",
+   "class": "FORUM",
+   "google_top10_hits": 33,
+   "google_queries": 33,
+   "yandex_top10_hits": 49,
+   "google_only": false,
+   "sample_queries": [
+    "envato elements как оплатить с рф",
+    "envato elements оплатить из рф",
+    "framer pro оплата из россии"
    ]
   },
   {
@@ -9002,37 +9298,11 @@
    ]
   },
   {
-   "domain": "wanttopay.net",
-   "class": "INTERMEDIARY",
-   "google_top10_hits": 32,
-   "google_queries": 32,
-   "yandex_top10_hits": 1,
-   "google_only": false,
-   "sample_queries": [
-    "envato elements как оплатить с рф",
-    "envato elements оплата инструкция",
-    "envato elements оплата помощь россия"
-   ]
-  },
-  {
-   "domain": "pikabu.ru",
-   "class": "FORUM",
-   "google_top10_hits": 31,
-   "google_queries": 31,
-   "yandex_top10_hits": 46,
-   "google_only": false,
-   "sample_queries": [
-    "envato elements как оплатить с рф",
-    "envato elements оплатить из рф",
-    "framer team оплата россия"
-   ]
-  },
-  {
    "domain": "companies.rbc.ru",
    "class": "MEDIA",
-   "google_top10_hits": 28,
-   "google_queries": 28,
-   "yandex_top10_hits": 41,
+   "google_top10_hits": 30,
+   "google_queries": 30,
+   "yandex_top10_hits": 44,
    "google_only": false,
    "sample_queries": [
     "claude team plan купить",
@@ -9054,6 +9324,19 @@
    ]
   },
   {
+   "domain": "migsoft.ru",
+   "class": "RESELLER",
+   "google_top10_hits": 27,
+   "google_queries": 25,
+   "yandex_top10_hits": 33,
+   "google_only": false,
+   "sample_queries": [
+    "adobe купить для компании",
+    "figma enterprise оплата рф",
+    "github business купить"
+   ]
+  },
+  {
    "domain": "syssoft.ru",
    "class": "RESELLER",
    "google_top10_hits": 27,
@@ -9064,19 +9347,6 @@
     "chatgpt business team купить",
     "github business купить",
     "gitlab enterprise оплата из россии"
-   ]
-  },
-  {
-   "domain": "migsoft.ru",
-   "class": "RESELLER",
-   "google_top10_hits": 26,
-   "google_queries": 24,
-   "yandex_top10_hits": 33,
-   "google_only": false,
-   "sample_queries": [
-    "adobe купить для компании",
-    "figma enterprise оплата рф",
-    "github business купить"
    ]
   },
   {
@@ -9097,7 +9367,7 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 22,
    "google_queries": 22,
-   "yandex_top10_hits": 11,
+   "yandex_top10_hits": 12,
    "google_only": false,
    "sample_queries": [
     "recraft basic тариф цена",
@@ -9121,35 +9391,35 @@
   {
    "domain": "oplati-podpisku.ru",
    "class": "INTERMEDIARY",
-   "google_top10_hits": 19,
-   "google_queries": 19,
+   "google_top10_hits": 20,
+   "google_queries": 20,
    "yandex_top10_hits": 1,
    "google_only": false,
    "sample_queries": [
+    "leonardo ai оплата с российского счета",
     "leonardo ai тариф россия",
-    "leonardo ai токены оплата из россии",
-    "leonardo apprentice оплата из россии"
+    "leonardo ai токены оплата из россии"
    ]
   },
   {
    "domain": "payholder.ru",
    "class": "INTERMEDIARY",
-   "google_top10_hits": 18,
-   "google_queries": 18,
-   "yandex_top10_hits": 13,
+   "google_top10_hits": 19,
+   "google_queries": 19,
+   "yandex_top10_hits": 14,
    "google_only": false,
    "sample_queries": [
     "envato elements как оплатить с рф",
-    "envato elements оплата инструкция",
-    "envato elements оплата рф"
+    "envato elements оплата в россии 2026",
+    "envato elements оплата инструкция"
    ]
   },
   {
    "domain": "funpay.com",
    "class": "MARKETPLACE",
-   "google_top10_hits": 17,
-   "google_queries": 16,
-   "yandex_top10_hits": 14,
+   "google_top10_hits": 18,
+   "google_queries": 17,
+   "yandex_top10_hits": 16,
    "google_only": false,
    "sample_queries": [
     "chatgpt business team купить",
@@ -9160,9 +9430,9 @@
   {
    "domain": "iesoft.ru",
    "class": "RESELLER",
-   "google_top10_hits": 17,
-   "google_queries": 17,
-   "yandex_top10_hits": 11,
+   "google_top10_hits": 18,
+   "google_queries": 18,
+   "yandex_top10_hits": 12,
    "google_only": false,
    "sample_queries": [
     "gitlab enterprise оплата из россии",
@@ -9210,6 +9480,19 @@
    ]
   },
   {
+   "domain": "virtualcards.shopping",
+   "class": "INTERMEDIARY",
+   "google_top10_hits": 15,
+   "google_queries": 15,
+   "yandex_top10_hits": 5,
+   "google_only": false,
+   "sample_queries": [
+    "envato elements оплата в россии 2026",
+    "envato elements оплата помощь россия",
+    "envato elements оплата рф"
+   ]
+  },
+  {
    "domain": "ya.zerocoder.ru",
    "class": "MEDIA",
    "google_top10_hits": 14,
@@ -9220,19 +9503,6 @@
     "framer basic оплата россия",
     "framer mini оплата рф",
     "framer sites оплата из россии"
-   ]
-  },
-  {
-   "domain": "virtualcards.shopping",
-   "class": "INTERMEDIARY",
-   "google_top10_hits": 14,
-   "google_queries": 14,
-   "yandex_top10_hits": 5,
-   "google_only": false,
-   "sample_queries": [
-    "envato elements оплата помощь россия",
-    "envato elements оплата рф",
-    "envato elements оплатить из рф"
    ]
   },
   {
@@ -9249,55 +9519,55 @@
    ]
   },
   {
-   "domain": "grinny.io",
+   "domain": "oplatym.ru",
    "class": "INTERMEDIARY",
-   "google_top10_hits": 11,
-   "google_queries": 11,
-   "yandex_top10_hits": 60,
-   "google_only": false,
+   "google_top10_hits": 12,
+   "google_queries": 12,
+   "yandex_top10_hits": 0,
+   "google_only": true,
    "sample_queries": [
-    "gitlab bronze оплата россия",
-    "gitlab premium оплата из россии",
-    "gitlab продлить подписку из рф"
+    "gamma business оплата из россии",
+    "leonardo ai оплата с российского счета",
+    "leonardo ai токены оплата из россии"
    ]
   },
   {
    "domain": "taptop.pro",
    "class": "INTERMEDIARY",
-   "google_top10_hits": 11,
-   "google_queries": 11,
+   "google_top10_hits": 12,
+   "google_queries": 12,
    "yandex_top10_hits": 5,
    "google_only": false,
    "sample_queries": [
+    "framer pro оплата из россии",
     "framer pro подписка из россии",
-    "framer sites оплата из россии",
-    "framer team оплата россия"
+    "framer sites оплата из россии"
    ]
   },
   {
    "domain": "ez1.gg",
    "class": "OTHER",
-   "google_top10_hits": 11,
-   "google_queries": 11,
+   "google_top10_hits": 12,
+   "google_queries": 12,
    "yandex_top10_hits": 5,
    "google_only": false,
    "sample_queries": [
     "chatgpt business team купить",
     "framer mini оплата рф",
-    "framer оплатить из рф"
+    "framer pro оплата из россии"
    ]
   },
   {
-   "domain": "oplatym.ru",
+   "domain": "grinny.io",
    "class": "INTERMEDIARY",
-   "google_top10_hits": 10,
-   "google_queries": 10,
-   "yandex_top10_hits": 0,
-   "google_only": true,
+   "google_top10_hits": 11,
+   "google_queries": 11,
+   "yandex_top10_hits": 61,
+   "google_only": false,
    "sample_queries": [
-    "gamma business оплата из россии",
-    "leonardo ai токены оплата из россии",
-    "runway pro оплата из россии"
+    "gitlab bronze оплата россия",
+    "gitlab premium оплата из россии",
+    "gitlab продлить подписку из рф"
    ]
   },
   {
@@ -9311,6 +9581,19 @@
     "github business купить",
     "github copilot business купить",
     "github copilot business оплата из россии"
+   ]
+  },
+  {
+   "domain": "plativputi.com",
+   "class": "INTERMEDIARY",
+   "google_top10_hits": 10,
+   "google_queries": 10,
+   "yandex_top10_hits": 22,
+   "google_only": false,
+   "sample_queries": [
+    "framer оплата без иностранной карты",
+    "framer оплата с российского счета",
+    "leonardo ai оплата с российского счета"
    ]
   },
   {
@@ -9392,19 +9675,6 @@
    ]
   },
   {
-   "domain": "plativputi.com",
-   "class": "INTERMEDIARY",
-   "google_top10_hits": 8,
-   "google_queries": 8,
-   "yandex_top10_hits": 19,
-   "google_only": false,
-   "sample_queries": [
-    "framer оплата без иностранной карты",
-    "framer оплата с российского счета",
-    "postman оплата подписки"
-   ]
-  },
-  {
    "domain": "pay2.house",
    "class": "OTHER",
    "google_top10_hits": 8,
@@ -9431,6 +9701,19 @@
    ]
   },
   {
+   "domain": "store.softline.ru",
+   "class": "RESELLER",
+   "google_top10_hits": 7,
+   "google_queries": 7,
+   "yandex_top10_hits": 5,
+   "google_only": false,
+   "sample_queries": [
+    "adobe купить для компании",
+    "купить дропбокс",
+    "лицензия скетч license"
+   ]
+  },
+  {
    "domain": "easypayments.online",
    "class": "OTHER",
    "google_top10_hits": 7,
@@ -9441,6 +9724,32 @@
     "оплата airalo юридическим лицом",
     "оплата зарубежного по для юр лица документы",
     "оплата зарубежного по для юрлица"
+   ]
+  },
+  {
+   "domain": "skillbox.ru",
+   "class": "MEDIA",
+   "google_top10_hits": 7,
+   "google_queries": 7,
+   "yandex_top10_hits": 2,
+   "google_only": false,
+   "sample_queries": [
+    "framer подписка из рф гайд",
+    "framer подписка рф 2026",
+    "framer работает в россии оплата"
+   ]
+  },
+  {
+   "domain": "yandex.cloud",
+   "class": "OTHER",
+   "google_top10_hits": 7,
+   "google_queries": 7,
+   "yandex_top10_hits": 4,
+   "google_only": false,
+   "sample_queries": [
+    "gitlab gold оплата из россии",
+    "gitlab saas оплата из россии",
+    "gitlab купить"
    ]
   },
   {
@@ -9470,16 +9779,16 @@
    ]
   },
   {
-   "domain": "yandex.cloud",
-   "class": "OTHER",
+   "domain": "kupikod.com",
+   "class": "MARKETPLACE",
    "google_top10_hits": 7,
    "google_queries": 7,
-   "yandex_top10_hits": 4,
+   "yandex_top10_hits": 6,
    "google_only": false,
    "sample_queries": [
-    "gitlab gold оплата из россии",
-    "gitlab saas оплата из россии",
-    "gitlab купить"
+    "leonardo ai оплата с российского счета",
+    "leonardo ai тариф россия",
+    "leonardo ai токены оплата из россии"
    ]
   },
   {
@@ -9509,24 +9818,11 @@
    ]
   },
   {
-   "domain": "store.softline.ru",
-   "class": "RESELLER",
-   "google_top10_hits": 6,
-   "google_queries": 6,
-   "yandex_top10_hits": 5,
-   "google_only": false,
-   "sample_queries": [
-    "adobe купить для компании",
-    "купить дропбокс",
-    "оплата coreldraw"
-   ]
-  },
-  {
    "domain": "dzen.ru",
    "class": "UGC",
    "google_top10_hits": 6,
    "google_queries": 6,
-   "yandex_top10_hits": 165,
+   "yandex_top10_hits": 170,
    "google_only": false,
    "sample_queries": [
     "framer оплата рф",
@@ -9539,25 +9835,12 @@
    "class": "INTERMEDIARY",
    "google_top10_hits": 6,
    "google_queries": 6,
-   "yandex_top10_hits": 48,
+   "yandex_top10_hits": 51,
    "google_only": false,
    "sample_queries": [
     "framer оплата рублями",
     "framer оплата рф",
     "framer оплата с российского счета"
-   ]
-  },
-  {
-   "domain": "skillbox.ru",
-   "class": "MEDIA",
-   "google_top10_hits": 6,
-   "google_queries": 6,
-   "yandex_top10_hits": 2,
-   "google_only": false,
-   "sample_queries": [
-    "framer подписка из рф гайд",
-    "framer подписка рф 2026",
-    "framer работает в россии оплата"
    ]
   },
   {
@@ -9574,19 +9857,6 @@
    ]
   },
   {
-   "domain": "softmap.ru",
-   "class": "OTHER",
-   "google_top10_hits": 6,
-   "google_queries": 6,
-   "yandex_top10_hits": 8,
-   "google_only": false,
-   "sample_queries": [
-    "gitlab купить",
-    "gitlab купить аккаунт",
-    "spine 2d купить"
-   ]
-  },
-  {
    "domain": "qna.habr.com",
    "class": "OTHER",
    "google_top10_hits": 6,
@@ -9600,16 +9870,16 @@
    ]
   },
   {
-   "domain": "kupikod.com",
-   "class": "MARKETPLACE",
+   "domain": "softmap.ru",
+   "class": "OTHER",
    "google_top10_hits": 6,
    "google_queries": 6,
-   "yandex_top10_hits": 6,
+   "yandex_top10_hits": 9,
    "google_only": false,
    "sample_queries": [
-    "leonardo ai тариф россия",
-    "leonardo ai токены оплата из россии",
-    "leonardo apprentice оплата из россии"
+    "gitlab купить",
+    "gitlab купить аккаунт",
+    "spine 2d купить"
    ]
   },
   {
@@ -9623,6 +9893,19 @@
     "recraft pro стоимость",
     "recraft pro тариф стоимость",
     "recraft годовой тариф цена"
+   ]
+  },
+  {
+   "domain": "o-plati.ru",
+   "class": "INTERMEDIARY",
+   "google_top10_hits": 5,
+   "google_queries": 5,
+   "yandex_top10_hits": 0,
+   "google_only": true,
+   "sample_queries": [
+    "runway оплата ежемесячно из россии",
+    "доступна ли оплата runway в россии",
+    "как оплатить runway в россии"
    ]
   },
   {
@@ -9691,6 +9974,19 @@
    ]
   },
   {
+   "domain": "business-key.com",
+   "class": "INTERMEDIARY",
+   "google_top10_hits": 5,
+   "google_queries": 5,
+   "yandex_top10_hits": 1,
+   "google_only": false,
+   "sample_queries": [
+    "postman оплата подписки",
+    "оплата postman без vpn",
+    "оплата postman без vpn москве"
+   ]
+  },
+  {
    "domain": "vibecoding.ru",
    "class": "OTHER",
    "google_top10_hits": 5,
@@ -9728,19 +10024,6 @@
    ]
   },
   {
-   "domain": "o-plati.ru",
-   "class": "INTERMEDIARY",
-   "google_top10_hits": 4,
-   "google_queries": 4,
-   "yandex_top10_hits": 0,
-   "google_only": true,
-   "sample_queries": [
-    "runway оплата ежемесячно из россии",
-    "доступна ли оплата runway в россии",
-    "как оплатить runway в россии"
-   ]
-  },
-  {
    "domain": "motionarray.com",
    "class": "OFFICIAL",
    "google_top10_hits": 4,
@@ -9751,19 +10034,6 @@
     "motion array подписка",
     "оплата motion array российской картой",
     "оплата motion array юридическим лицом"
-   ]
-  },
-  {
-   "domain": "business-key.com",
-   "class": "INTERMEDIARY",
-   "google_top10_hits": 4,
-   "google_queries": 4,
-   "yandex_top10_hits": 0,
-   "google_only": true,
-   "sample_queries": [
-    "postman оплата подписки",
-    "оплата postman без vpn",
-    "оплата postman картой"
    ]
   },
   {
