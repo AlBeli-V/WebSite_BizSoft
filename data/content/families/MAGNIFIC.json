@@ -1,0 +1,270 @@
+{
+  "family_key": "MAGNIFIC",
+  "vendor": "Freepik (Magnific)",
+  "vendor_profile": "data/content/vendors/magnific.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "freepik-premium",
+  "classification_notes": [
+    "Premium / Premium+. Носитель — Premium."
+  ],
+  "products": {
+    "freepik-premium": {
+      "sku": "FRPK-LIC-PREMIUM-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Magnific Premium (бывший Freepik Premium) — индивидуальная подписка на 1 год на платформу Magnific: 250+ млн стоковых ресурсов Freepik, Flaticon и Slidesgo без атрибуции, ИИ-генерация изображений и видео, апскейл Magnific, кредиты в месяц. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Magnific Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Стоки",
+              "d": "Freepik, Flaticon, Slidesgo без атрибуции."
+            },
+            {
+              "t": "ИИ",
+              "d": "Генерация, апскейл, редактирование."
+            },
+            {
+              "t": "Кредиты",
+              "d": "Месячная квота."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Один дизайнер."
+            },
+            {
+              "t": "Premium+",
+              "d": "Больше кредитов и загрузок.",
+              "link": "freepik-premium-plus"
+            },
+            {
+              "t": "Envato Core",
+              "d": "Альтернативная библиотека.",
+              "link": "envato-core"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам и маркетологам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужна ли атрибуция?",
+          "a": "Нет, на платных планах."
+        }
+      ],
+      "related_products": [
+        "freepik-premium-plus",
+        "envato-core"
+      ],
+      "meta_title": "Magnific Premium (Freepik) — подписка на год | BIZSoft",
+      "meta_description": "Magnific Premium: стоки Freepik и Flaticon без атрибуции плюс ИИ-генерация и апскейл. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "magnific premium купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "freepik-premium-plus": {
+      "sku": "FRPK-LIC-PREMIUMPLUS-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Magnific Premium+ — индивидуальная подписка на 1 год на старший план: больше кредитов ИИ, больше загрузок, приоритет. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Magnific Premium+",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "Расширенная квота."
+            },
+            {
+              "t": "Загрузки",
+              "d": "Больше в сутки."
+            },
+            {
+              "t": "Всё из Premium",
+              "d": "Стоки, ИИ."
+            }
+          ],
+          "links": [
+            "freepik-premium"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium+",
+              "d": "Активный ИИ."
+            },
+            {
+              "t": "Premium",
+              "d": "Базово.",
+              "link": "freepik-premium"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям контента."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли команда?",
+          "a": "По запросу."
+        }
+      ],
+      "related_products": [
+        "freepik-premium"
+      ],
+      "meta_title": "Magnific Premium+ — подписка на год | BIZSoft",
+      "meta_description": "Magnific Premium+: расширенные кредиты ИИ и загрузки. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "magnific premium+ купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

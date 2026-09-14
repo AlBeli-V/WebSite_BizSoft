@@ -15,9 +15,17 @@ WINDOW_LENGTH_MISMATCH и SAMPLE_CHURN и статус «сбой» при ис�
 
 Дозапись идемпотентна: значения за перечитываемый хвост перезаписываются
 (источники дозаполняют последние дни задним числом), остальная история не
-трогается. Первый прогон (пустой файл) забирает историю с HISTORY_START.
-Ошибка источника не стирает накопленные ряды: фиксируется в last_error,
-прежние значения остаются.
+трогается. Первый прогон (пустой файл) забирает историю с HISTORY_START;
+её же забирает прогон, у которого в витрине нет ряда из обязательного набора
+(EXPECTED) — так новый разрез дозаполняется задним числом, а не начинается
+с сегодняшнего дня. Ошибка источника не стирает накопленные ряды: фиксируется
+в last_error, прежние значения остаются.
+
+Разрез «устройство × канал» (блок «Аудитория» письма и веб-отчёта) живёт
+теми же рядами: показы и клики поиска — по типу устройства, визиты и сессии —
+по каналу и устройству. Классы внешних переходов (каталог, площадка, прочая
+ссылка) берутся из реестра data/seo/referral-classes.json: домена нет в
+реестре — переход считается обычной внешней ссылкой, а не угадывается.
 
 Запускается воркфлоу seo-data-collect тем же набором секретов, что и
 collect.py, рядом с ним; на переходный период оба пути пишут параллельно.
@@ -45,6 +53,135 @@ HISTORY_START = dt.date(2026, 6, 1)
 # «созревают» 2–3 дня и дозаполняются задним числом; 10 дней покрывают это
 # с запасом и остаются дешёвыми для API.
 TAIL_DAYS = 10
+
+
+# Разрез «устройство × канал»: словари и реестр.
+#
+# Устройства названы так же, как их называют оба поисковика и обе системы
+# аналитики; всё, что не попало в три знакомых класса (телевизоры, приставки,
+# неопознанное), складывается в other и в письме показывается только тогда,
+# когда там что-то есть.
+DEVICES = ('desktop', 'mobile', 'tablet', 'other')
+
+# Каналы визитов. Органика и реклама приходят каналом самого счётчика;
+# внешние классы разводит реестр доменов, остальное (прямые заходы,
+# внутренние переходы, почта, закладки) — other. Форумы отделены от площадок
+# присутствия: там содержание не наше, и вывод из них другой.
+CHANNELS = ('organic', 'ads', 'links', 'catalogs', 'platforms', 'forums', 'other')
+
+# Домены переходов хранятся рядом с каналами: письмо показывает внешние
+# переходы одной строкой с главными доменами, отчёт — таблицей с классом.
+# Решение руководителя 14.09.2026: на текущих объёмах (5 визитов за две
+# недели, один домен за десять дней) три строки классов — это три нуля,
+# а видимый домен позволяет назначить класс по факту.
+REFERRAL_PREFIX = 'referral_domain'
+
+REFERRAL_CLASSES = pathlib.Path('data/seo/referral-classes.json')
+
+# Канал Метрики (ym:s:lastTrafficSource) → наш канал. Соцсети, мессенджеры и
+# рекомендательные системы — это площадки, где мы присутствуем содержанием,
+# поэтому они идут одним классом с Дзеном и VC.
+METRIKA_CHANNEL = {
+    'organic': 'organic', 'ad': 'ads',
+    'social': 'platforms', 'messenger': 'platforms', 'recommend': 'platforms',
+    'direct': 'other', 'internal': 'other', 'saved': 'other',
+    'email': 'other', 'qr': 'other',
+}
+# Группа каналов GA4 (sessionDefaultChannelGroup) → наш канал. Группы Referral
+# здесь нет намеренно: переходы с сайтов раскрывает отдельный запрос по
+# доменам, и в общем срезе они пропускаются, чтобы не считаться дважды.
+#
+# Unassigned — сессии, которым GA4 не смог назначить канал; они относятся к
+# «прочему» явной записью, а не умолчанием словаря: зонд 14.09.2026 нашёл их
+# в нашем ресурсе, и незнакомое значение в письме — это молчаливая потеря
+# визитов, даже когда итог тот же.
+GA4_CHANNEL = {
+    'organic search': 'organic', 'organic shopping': 'organic',
+    'paid search': 'ads', 'paid social': 'ads', 'paid shopping': 'ads',
+    'paid video': 'ads', 'paid other': 'ads', 'display': 'ads',
+    'cross-network': 'ads',
+    'organic social': 'platforms', 'organic video': 'platforms',
+    'audio': 'platforms',
+    'direct': 'other', 'email': 'other', 'affiliates': 'other',
+    'sms': 'other', 'mobile push notifications': 'other',
+    'push notifications': 'other', 'unassigned': 'other',
+}
+# Тип устройства у источника → наш класс. Ключи — то, что реально приходит в
+# id измерения; незнакомое значение уходит в other, а не отбрасывается.
+# Телевизоры и приставки перечислены явно: Метрика отдаёт их значением tv,
+# GA4 — smart tv (зонд 14.09.2026), и они сознательно относятся к «прочим»,
+# а не попадают туда умолчанием, о котором никто не знает.
+DEVICE_ALIAS = {
+    'desktop': 'desktop', 'pc': 'desktop',
+    'mobile': 'mobile', 'phone': 'mobile', 'smartphone': 'mobile',
+    'tablet': 'tablet',
+    'tv': 'other', 'smart tv': 'other', 'smarttv': 'other',
+}
+# Значение device_type_indicator Вебмастера для каждого класса. Планшеты
+# Вебмастер отдаёт отдельным значением, поэтому MOBILE_AND_TABLET не нужен.
+YANDEX_DEVICE = {'desktop': 'DESKTOP', 'mobile': 'MOBILE', 'tablet': 'TABLET'}
+# Значение измерения device в Search Console.
+GSC_DEVICE = {'DESKTOP': 'desktop', 'MOBILE': 'mobile', 'TABLET': 'tablet'}
+
+
+def load_referral_classes(path: pathlib.Path | None = None) -> dict:
+    """Реестр доменов: {класс: (домен, ...)}. Нет файла — классов нет.
+
+    Отсутствие реестра не ломает сбор: все внешние переходы останутся
+    «внешними ссылками», и это видно в отчёте, а не подменяется догадкой.
+    """
+    path = path or REFERRAL_CLASSES
+    try:
+        data = json.loads(path.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return {}
+    classes = data.get('classes') or {}
+    return {name: tuple(str(d).strip().lower().lstrip('.')
+                        for d in (body.get('domains') or []) if str(d).strip())
+            for name, body in classes.items()}
+
+
+def classify_referral(source: str, classes: dict) -> str:
+    """Класс внешнего перехода по домену источника.
+
+    Совпадение по домену и его поддоменам: запись vc.ru покрывает vc.ru и
+    m.vc.ru, но не myvc.ru. Запись с путём (yandex.ru/maps) требует ещё и
+    совпадения начала пути. Домен вне реестра — обычная внешняя ссылка:
+    класс не угадывается.
+    """
+    raw = str(source or '').strip().lower()
+    for prefix in ('https://', 'http://'):
+        if raw.startswith(prefix):
+            raw = raw[len(prefix):]
+    host, _, path = raw.lstrip('.').partition('/')
+    if host.startswith('www.'):
+        host = host[4:]
+    if not host:
+        return 'links'
+    for name, domains in classes.items():
+        for domain in domains:
+            dhost, _, dpath = domain.partition('/')
+            if host != dhost and not host.endswith('.' + dhost):
+                continue
+            if dpath and not path.startswith(dpath):
+                continue
+            return name
+    return 'links'
+
+
+def device_class(value: str) -> str:
+    """Класс устройства по значению измерения источника."""
+    return DEVICE_ALIAS.get(str(value or '').strip().lower(), 'other')
+
+
+def channel_metrics(prefix: str) -> list[str]:
+    """Полный набор имён рядов «канал × устройство» для источника."""
+    return [f'{prefix}_{ch}_{dev}' for ch in CHANNELS for dev in DEVICES]
+
+
+def device_metrics(*bases: str) -> list[str]:
+    """Полный набор имён рядов «метрика × устройство» поискового источника."""
+    return [f'{base}_{dev}' for base in bases for dev in YANDEX_DEVICE]
 
 
 # ---------------------------------------------------------------------------
@@ -116,6 +253,150 @@ def parse_ga4_rows(payload: dict, metrics: list[str]) -> dict:
     return out
 
 
+def _dim_key(dim: dict) -> str:
+    """Значение измерения Метрики: идентификатор, а при его отсутствии — имя.
+
+    Имя измерения локализовано и меняется вместе с языком ответа, поэтому
+    классификация опирается на id («organic», «mobile»), а имя — страховка.
+    """
+    return str((dim or {}).get('id') or (dim or {}).get('name') or '').strip()
+
+
+def _ga4_date(raw) -> str:
+    """Дата GA4: YYYYMMDD → ISO."""
+    raw = str(raw or '')
+    return f'{raw[0:4]}-{raw[4:6]}-{raw[6:8]}' if len(raw) == 8 and raw.isdigit() else raw[:10]
+
+
+def parse_yandex_device_history(payload: dict, device: str) -> dict:
+    """История Вебмастера, запрошенная с device_type_indicator одного класса."""
+    base_series = parse_yandex_history(payload)
+    return {f'impressions_{device}': base_series['impressions'],
+            f'clicks_{device}': base_series['clicks']}
+
+
+def parse_gsc_device_rows(payload: dict) -> dict:
+    """searchAnalytics/query c dimensions=[date, device].
+
+    День, в который устройство не дало ни показа, в ответе отсутствует. Для
+    поисковых источников пропущенная дата означает дыру в данных, поэтому
+    такие дни заполняются нулём: ноль здесь измерен, а не предположен —
+    сама дата в ответе есть.
+    """
+    out = {m: {} for m in device_metrics('impressions', 'clicks')}
+    dates = set()
+    for row in payload.get('rows', []):
+        keys = row.get('keys') or []
+        if len(keys) < 2:
+            continue
+        date = str(keys[0])[:10]
+        dates.add(date)
+        device = GSC_DEVICE.get(str(keys[1]).strip().upper())
+        if not device:
+            continue
+        out[f'impressions_{device}'][date] = row.get('impressions')
+        out[f'clicks_{device}'][date] = row.get('clicks')
+    for date in dates:
+        for metric in out:
+            out[metric].setdefault(date, 0)
+    return out
+
+
+def parse_metrika_channel_rows(payload: dict, classes: dict,
+                               *, referral: bool = False) -> dict:
+    """Визиты Метрики в разрезе «дата × канал (или домен) × устройство».
+
+    referral=False — общий срез по каналам; строки переходов с сайтов из него
+    исключаются: их раскрывает отдельный запрос по доменам, и учёт в обоих
+    привёл бы к двойному счёту.
+    """
+    out = {m: {} for m in channel_metrics('visits')}
+    for row in payload.get('data', []):
+        dims = row.get('dimensions') or []
+        metrics = row.get('metrics') or []
+        if len(dims) < 3 or not metrics:
+            continue
+        date = str((dims[0] or {}).get('name') or '')[:10]
+        key = _dim_key(dims[1])
+        if not date:
+            continue
+        if referral:
+            channel = classify_referral(key, classes)
+        elif key == 'referral':
+            continue
+        else:
+            channel = METRIKA_CHANNEL.get(key.lower(), 'other')
+        metric = f'visits_{channel}_{device_class(_dim_key(dims[2]))}'
+        try:
+            value = float(metrics[0] or 0)
+        except (TypeError, ValueError):
+            continue
+        out[metric][date] = out[metric].get(date, 0) + value
+    return out
+
+
+def parse_referral_domains(payload: dict, *, ga4: bool = False) -> dict:
+    """Визиты по доменам переходов: ряд на домен, без классификации.
+
+    Класс домена решает реестр в момент чтения отчёта, а не сбора: правка
+    реестра тогда меняет и прошлые дни, а не только собранные после неё.
+    """
+    out: dict = {}
+    rows = payload.get('rows', []) if ga4 else payload.get('data', [])
+    for row in rows:
+        if ga4:
+            dims = [str((d or {}).get('value') or '') for d in (row.get('dimensionValues') or [])]
+            if len(dims) < 2:
+                continue
+            date, domain = _ga4_date(dims[0]), dims[1].strip().lower()
+            try:
+                value = float(((row.get('metricValues') or [{}])[0]).get('value') or 0)
+            except (TypeError, ValueError):
+                continue
+        else:
+            dims = row.get('dimensions') or []
+            if len(dims) < 2:
+                continue
+            date = str((dims[0] or {}).get('name') or '')[:10]
+            domain = _dim_key(dims[1]).lower()
+            try:
+                value = float((row.get('metrics') or [0])[0] or 0)
+            except (TypeError, ValueError):
+                continue
+        if not date or not domain:
+            continue
+        metric = f'{REFERRAL_PREFIX}|{domain}'
+        out.setdefault(metric, {})
+        out[metric][date] = out[metric].get(date, 0) + value
+    return out
+
+
+def parse_ga4_channel_rows(payload: dict, classes: dict,
+                           *, referral: bool = False) -> dict:
+    """Сессии GA4 в разрезе «дата × группа каналов (или источник) × устройство»."""
+    out = {m: {} for m in channel_metrics('sessions')}
+    for row in payload.get('rows', []):
+        dims = [str((d or {}).get('value') or '') for d in (row.get('dimensionValues') or [])]
+        metrics = row.get('metricValues') or []
+        if len(dims) < 3 or not metrics:
+            continue
+        date = _ga4_date(dims[0])
+        group = dims[1].strip().lower()
+        if referral:
+            channel = classify_referral(dims[1], classes)
+        elif group == 'referral':
+            continue
+        else:
+            channel = GA4_CHANNEL.get(group, 'other')
+        metric = f'sessions_{channel}_{device_class(dims[2])}'
+        try:
+            value = float((metrics[0] or {}).get('value') or 0)
+        except (TypeError, ValueError):
+            continue
+        out[metric][date] = out[metric].get(date, 0) + value
+    return out
+
+
 def merge_series(existing: dict, fresh: dict) -> dict:
     """Свежие значения перекрывают прежние по совпадающим датам.
 
@@ -148,11 +429,21 @@ def load_store(name: str) -> dict:
     return {}
 
 
-def window_for(store: dict) -> tuple[dt.date, dt.date]:
-    """Пустой ряд — забрать историю целиком; иначе — только хвост."""
+def window_for(store: dict, expected: tuple = ()) -> tuple[dt.date, dt.date]:
+    """Пустой ряд — забрать историю целиком; иначе — только хвост.
+
+    Новый разрез (например, «устройство × канал») появляется в коде позже
+    самой витрины. Если обязательного ряда в ней ещё нет, окно снова
+    становится историческим: разрез дозаполняется задним числом на всю
+    глубину источника, а не начинается с сегодняшнего дня. Ряд, который
+    источник отдал пустым, в витрине всё равно заведён — повторной выкачки
+    истории он не вызывает.
+    """
     end = base.today()
-    has_data = any((store.get('series') or {}).values())
-    if not has_data:
+    series = store.get('series') or {}
+    if not any(series.values()):
+        return HISTORY_START, end
+    if any(metric not in series for metric in expected):
         return HISTORY_START, end
     return end - dt.timedelta(days=TAIL_DAYS), end
 
@@ -207,6 +498,17 @@ def fetch_yandex(date_from: dt.date, date_to: dt.date):
     if not any(series.values()):
         return None, ('история пуста: ответ без точек indicators '
                       + json.dumps(data, ensure_ascii=False)[:300])
+    # Разрез по типу устройства — отдельный запрос на класс. Его сбой не
+    # закрывает источник: общий ряд показов уже собран, а блок «Аудитория»
+    # честно скажет «нет данных» по устройствам, пока ряда нет.
+    for device, indicator in YANDEX_DEVICE.items():
+        data, err = base.api_json(
+            f'{api}/{uid}/hosts/{host_id}/search-queries/all/history',
+            headers=headers, params={**params, 'device_type_indicator': indicator})
+        if err:
+            print(f'daily/yandex: разрез {device} не собран: {err}')
+            continue
+        series.update(parse_yandex_device_history(data, device))
     return series, None
 
 
@@ -233,12 +535,19 @@ def fetch_gsc(date_from: dt.date, date_to: dt.date):
         # Дней в максимальном окне заведомо меньше тысячи; лимит с запасом.
         'rowLimit': 1000,
     }
-    data, err = base.api_json(
-        f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/searchAnalytics/query',
-        headers=headers, body=body)
+    url = f'https://www.googleapis.com/webmasters/v3/sites/{site_url}/searchAnalytics/query'
+    data, err = base.api_json(url, headers=headers, body=body)
     if err:
         return None, f'searchAnalytics/query(date): {err}'
-    return parse_gsc_rows(data), None
+    series = parse_gsc_rows(data)
+    # Дней в окне меньше тысячи, устройств три — потолок строк с запасом.
+    devices, err = base.api_json(url, headers=headers, body={
+        **body, 'dimensions': ['date', 'device'], 'rowLimit': 25000})
+    if err:
+        print(f'daily/gsc: разрез по устройствам не собран: {err}')
+    else:
+        series.update(parse_gsc_device_rows(devices))
+    return series, None
 
 
 METRIKA_METRICS = ['visits_organic', 'users_organic', 'goal_reaches_organic']
@@ -270,6 +579,55 @@ def fetch_metrika(date_from: dt.date, date_to: dt.date):
     if err:
         return None, f'stat(all by date): {err}'
     series.update(parse_metrika_rows(total, METRIKA_ALL_METRICS))
+    # Разрез «канал × устройство». Оба запроса кладутся в витрину только
+    # вместе: срез без переходов с сайтов и срез по их доменам дополняют
+    # друг друга, и половина разреза дала бы заниженные внешние каналы.
+    channels, err = fetch_metrika_channels(stat, headers, {
+        'ids': counter, 'date1': date_from.isoformat(),
+        'date2': date_to.isoformat(), 'accuracy': 'full'})
+    if err:
+        print(f'daily/metrika: разрез «канал × устройство» не собран: {err}')
+    else:
+        series.update(channels)
+    return series, None
+
+
+def _metrika_paged(url: str, headers: dict, params: dict, limit: int = 10000):
+    """Постраничный обход stat-API: строк «дата × канал × устройство» много."""
+    rows, offset = [], 1
+    while True:
+        data, err = base.api_json(url, headers=headers,
+                                  params={**params, 'limit': limit, 'offset': offset})
+        if err:
+            return None, err
+        chunk = data.get('data') or []
+        rows.extend(chunk)
+        if len(chunk) < limit:
+            return {'data': rows}, None
+        offset += limit
+
+
+def fetch_metrika_channels(stat: str, headers: dict, common: dict):
+    """Визиты Метрики по каналам и устройствам: (ряды, None) либо (None, ошибка)."""
+    classes = load_referral_classes()
+    plain, err = _metrika_paged(stat, headers, {
+        **common, 'metrics': 'ym:s:visits',
+        'dimensions': 'ym:s:date,ym:s:lastTrafficSource,ym:s:deviceCategory'})
+    if err:
+        return None, f'stat(channels): {err}'
+    series = parse_metrika_channel_rows(plain, classes)
+    referral, err = _metrika_paged(stat, headers, {
+        **common, 'metrics': 'ym:s:visits',
+        'dimensions': 'ym:s:date,ym:s:lastReferalSource,ym:s:deviceCategory',
+        'filters': "ym:s:lastTrafficSource=='referral'"})
+    if err:
+        return None, f'stat(referral): {err}'
+    for metric, days in parse_metrika_channel_rows(referral, classes,
+                                                   referral=True).items():
+        for day, value in days.items():
+            series[metric][day] = series[metric].get(day, 0) + value
+    # Домены тем же ответом: отдельного запроса они не стоят.
+    series.update(parse_referral_domains(referral))
     return series, None
 
 
@@ -302,12 +660,50 @@ def fetch_ga4(date_from: dt.date, date_to: dt.date):
         'dimensionFilter': organic_clean,
         'limit': 1000,
     }
-    data, err = base.api_json(
-        f'https://analyticsdata.googleapis.com/v1beta/properties/{prop}:runReport',
-        headers=headers, body=body)
+    url = f'https://analyticsdata.googleapis.com/v1beta/properties/{prop}:runReport'
+    data, err = base.api_json(url, headers=headers, body=body)
     if err:
         return None, f'runReport(date): {err}'
-    return parse_ga4_rows(data, GA4_METRICS), None
+    series = parse_ga4_rows(data, GA4_METRICS)
+    dates = body['dateRanges']
+    channels, err = fetch_ga4_channels(url, headers, dates)
+    if err:
+        print(f'daily/ga4: разрез «канал × устройство» не собран: {err}')
+    else:
+        series.update(channels)
+    return series, None
+
+
+def fetch_ga4_channels(url: str, headers: dict, dates: list):
+    """Сессии GA4 по группам каналов и устройствам: (ряды, None) либо (None, ошибка).
+
+    Как и у Метрики, переходы с сайтов раскрываются отдельным запросом по
+    источникам: группа Referral в общем срезе пропускается.
+    """
+    classes = load_referral_classes()
+    body = {'dateRanges': dates,
+            'dimensions': [{'name': 'date'}, {'name': 'sessionDefaultChannelGroup'},
+                           {'name': 'deviceCategory'}],
+            'metrics': [{'name': 'sessions'}], 'limit': 100000}
+    plain, err = base.api_json(url, headers=headers, body=body)
+    if err:
+        return None, f'runReport(channels): {err}'
+    series = parse_ga4_channel_rows(plain, classes)
+    referral, err = base.api_json(url, headers=headers, body={
+        **body,
+        'dimensions': [{'name': 'date'}, {'name': 'sessionSource'},
+                       {'name': 'deviceCategory'}],
+        'dimensionFilter': {'filter': {
+            'fieldName': 'sessionDefaultChannelGroup',
+            'stringFilter': {'value': 'Referral'}}}})
+    if err:
+        return None, f'runReport(referral): {err}'
+    for metric, days in parse_ga4_channel_rows(referral, classes,
+                                               referral=True).items():
+        for day, value in days.items():
+            series[metric][day] = series[metric].get(day, 0) + value
+    series.update(parse_referral_domains(referral, ga4=True))
+    return series, None
 
 
 # ---------------------------------------------------------------------------
@@ -320,12 +716,23 @@ SOURCES = (
     ('ga4', fetch_ga4, 'GA4_PROPERTY_ID', 'site'),
 )
 
+# Ряды, которые витрина источника обязана содержать. Нет хотя бы одного —
+# прогон забирает историю целиком (см. window_for), а не хвост: так разрез,
+# заведённый позже витрины, дозаполняется задним числом.
+EXPECTED = {
+    'yandex': ('impressions', 'clicks', *device_metrics('impressions', 'clicks')),
+    'gsc': ('impressions', 'clicks', 'position',
+            *device_metrics('impressions', 'clicks')),
+    'metrika': (*METRIKA_METRICS, *METRIKA_ALL_METRICS, *channel_metrics('visits')),
+    'ga4': (*GA4_METRICS, *channel_metrics('sessions')),
+}
+
 
 def main() -> int:
     ok = True
     for name, fn, secret, scope in SOURCES:
         store = load_store(name)
-        date_from, date_to = window_for(store)
+        date_from, date_to = window_for(store, EXPECTED[name])
         if not os.environ.get(secret):
             series, err = None, f'секрет {secret} не задан'
         else:

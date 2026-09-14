@@ -1,0 +1,427 @@
+{
+  "family_key": "COREL",
+  "vendor": "Corel (Alludo)",
+  "vendor_profile": "data/content/vendors/corel.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "cdr-gs-sub",
+  "classification_notes": [
+    "CDR Suite / Suite Business / Painter. Носитель — Suite."
+  ],
+  "products": {
+    "cdr-gs-sub": {
+      "sku": "CORL-LIC-CDRGS-IND-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "CorelDRAW Graphics Suite — индивидуальная подписка на 1 год на набор для векторной графики и вёрстки: CorelDRAW, Corel PHOTO-PAINT, Font Manager, CAPTURE, веб-версия и iPad; Windows и macOS. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что даёт CorelDRAW Graphics Suite",
+          "kind": "items",
+          "items": [
+            {
+              "t": "CorelDRAW",
+              "d": "Вектор, вёрстка, макеты, печать."
+            },
+            {
+              "t": "PHOTO-PAINT",
+              "d": "Растр и ретушь."
+            },
+            {
+              "t": "Дополнения",
+              "d": "Font Manager, AfterShot, веб и iPad."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Suite",
+              "d": "Один дизайнер."
+            },
+            {
+              "t": "Suite для бизнеса",
+              "d": "Места для компании с управлением.",
+              "link": "cdr-gs-biz"
+            },
+            {
+              "t": "Painter",
+              "d": "Цифровая живопись.",
+              "link": "cdr-painter-sub"
+            },
+            {
+              "t": "Adobe Illustrator",
+              "d": "Альтернатива.",
+              "link": "adobe-ai"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам печати, вывесок, упаковки."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Открывает ли AI-файлы?",
+          "a": "Да, импорт форматов Adobe."
+        }
+      ],
+      "related_products": [
+        "cdr-gs-biz",
+        "cdr-painter-sub",
+        "adobe-ai"
+      ],
+      "meta_title": "CorelDRAW Graphics Suite — подписка на год | BIZSoft",
+      "meta_description": "CorelDRAW Graphics Suite: вектор, вёрстка, PHOTO-PAINT, Font Manager; Windows и macOS; подписка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "coreldraw купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "cdr-gs-biz": {
+      "sku": "CORL-LIC-CDRGSBIZ-TEAM-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "CorelDRAW Graphics Suite для бизнеса — командная подписка на 1 год на тот же набор с управлением местами: администратор назначает и переназначает, единый счёт, развёртывание в сети. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что даёт CorelDRAW Graphics Suite для бизнеса",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Управление",
+              "d": "Портал администратора, переназначение."
+            },
+            {
+              "t": "Развёртывание",
+              "d": "Сетевая установка."
+            },
+            {
+              "t": "Всё из Suite",
+              "d": "CorelDRAW, PHOTO-PAINT, Font Manager."
+            }
+          ],
+          "links": [
+            "cdr-gs-sub"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Для бизнеса",
+              "d": "Несколько дизайнеров."
+            },
+            {
+              "t": "Suite индивидуальная",
+              "d": "Один человек.",
+              "link": "cdr-gs-sub"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум",
+              "d": "По условиям Corel."
+            },
+            {
+              "t": "Цена",
+              "d": "Выше индивидуальной."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с отделом дизайна."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли переназначать?",
+          "a": "Да."
+        }
+      ],
+      "related_products": [
+        "cdr-gs-sub"
+      ],
+      "meta_title": "CorelDRAW Graphics Suite для бизнеса — подписка | BIZSoft",
+      "meta_description": "CorelDRAW Graphics Suite для бизнеса: места с управлением и сетевым развёртыванием. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "coreldraw business — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "cdr-painter-sub": {
+      "sku": "CORL-LIC-PAINTER-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Corel Painter — индивидуальная подписка на 1 год на цифровую живопись: сотни натуральных кистей, имитация масла, акварели, пастели, поддержка планшетов. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Corel Painter",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кисти",
+              "d": "Натуральные медиа, толстая краска, частицы."
+            },
+            {
+              "t": "Планшеты",
+              "d": "Wacom и другие с наклоном и давлением."
+            },
+            {
+              "t": "Форматы",
+              "d": "PSD, RIFF."
+            }
+          ],
+          "links": [
+            "cdr-gs-sub"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка привязана к аккаунту специалиста и не переносится между людьми; для ротации сотрудников нужен командный план, если он есть у вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Painter",
+              "d": "Иллюстрация и концепт-арт."
+            },
+            {
+              "t": "CorelDRAW Suite",
+              "d": "Вектор и вёрстка.",
+              "link": "cdr-gs-sub"
+            },
+            {
+              "t": "Clip Studio Paint Pro",
+              "d": "Альтернатива.",
+              "link": "csp-pro-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Иллюстраторам и концепт-художникам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бессрочная?",
+          "a": "У вендора — да; на витрине подписка."
+        }
+      ],
+      "related_products": [
+        "cdr-gs-sub",
+        "csp-pro-sub"
+      ],
+      "meta_title": "Corel Painter — подписка на год | BIZSoft",
+      "meta_description": "Corel Painter: цифровая живопись с натуральными кистями и поддержкой планшетов; подписка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "corel painter — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

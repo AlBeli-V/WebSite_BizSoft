@@ -1,0 +1,320 @@
+{
+  "family_key": "GITLAB",
+  "vendor": "GitLab Inc.",
+  "vendor_profile": "data/content/vendors/gitlab.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "gitlab-premium-saas",
+  "classification_notes": [
+    "Premium SaaS / Self-Managed. Носитель — SaaS."
+  ],
+  "products": {
+    "gitlab-premium-saas": {
+      "sku": "GTLB-LIC-PRMSAAS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "GitLab Premium, облако — командная подписка на 1 год на GitLab.com уровня Premium: защищённые ветки и правила слияния, ревью кода с несколькими согласующими, CI/CD с 10 000 вычислительных минут на группу, Agile-планирование (эпики, дорожные карты), приоритетная поддержка. Лицензии на организации.\n\nPremium — средний уровень между Free и Ultimate (безопасность и комплаенс).\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт GitLab Premium (SaaS)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Код",
+              "d": "Правила слияния, код-овнеры, защищённые ветки, ревью с одобрениями."
+            },
+            {
+              "t": "CI/CD",
+              "d": "Пайплайны, 10 000 минут, Auto DevOps, окружения."
+            },
+            {
+              "t": "Планирование",
+              "d": "Эпики, дорожные карты, итерации."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная; SLA доступности GitLab.com."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium SaaS",
+              "d": "Облако без своего сервера."
+            },
+            {
+              "t": "Premium Self-Managed",
+              "d": "То же на своей инфраструктуре.",
+              "link": "gitlab-premium-self-managed"
+            },
+            {
+              "t": "Ultimate",
+              "d": "Сканирование безопасности, комплаенс — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минуты CI",
+              "d": "Сверх лимита — доплата."
+            },
+            {
+              "t": "Данные",
+              "d": "На серверах GitLab."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, которым мало Free и не нужен свой сервер."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли GitLab Duo?",
+          "a": "ИИ-функции — дополнение к Premium и Ultimate по запросу."
+        }
+      ],
+      "related_products": [
+        "gitlab-premium-self-managed"
+      ],
+      "meta_title": "GitLab Premium (SaaS) — подписка на год | BIZSoft",
+      "meta_description": "GitLab Premium в облаке: правила слияния, ревью, CI/CD с 10 000 минут, эпики и дорожные карты. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "gitlab premium купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "gitlab-premium-self-managed": {
+      "sku": "GTLB-LIC-PRMSM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "GitLab Premium, свой сервер — командная подписка на 1 год на лицензию Premium для GitLab на вашей инфраструктуре: тот же набор Premium, но код, раннеры и данные остаются у вас; поддержка вендора по лицензии. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт GitLab Premium (Self-Managed)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Инфраструктура",
+              "d": "Установка на свои серверы или облако, свои раннеры без лимита минут."
+            },
+            {
+              "t": "Функции Premium",
+              "d": "Правила слияния, ревью, эпики, дорожные карты, гео-репликация."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная поддержка GitLab по лицензии."
+            },
+            {
+              "t": "Обновления",
+              "d": "Все версии за срок."
+            }
+          ],
+          "links": [
+            "gitlab-premium-saas"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Self-Managed",
+              "d": "Требования к локальному хранению кода."
+            },
+            {
+              "t": "SaaS",
+              "d": "Без своего сервера.",
+              "link": "gitlab-premium-saas"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Эксплуатация",
+              "d": "Обновления и резервирование — на вас."
+            },
+            {
+              "t": "Лицензия по пользователям",
+              "d": "Активные пользователи, включая читателей."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с требованием хранить исходники внутри периметра."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли гости?",
+          "a": "Guest-роли в Premium не занимают лицензию."
+        }
+      ],
+      "related_products": [
+        "gitlab-premium-saas"
+      ],
+      "meta_title": "GitLab Premium (Self-Managed) — подписка на год | BIZSoft",
+      "meta_description": "GitLab Premium на своём сервере: функции Premium без лимита CI-минут, данные внутри периметра, поддержка вендора. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "gitlab self managed premium — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

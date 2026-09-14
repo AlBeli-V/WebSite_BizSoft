@@ -1,0 +1,68 @@
+# Зонд разреза «устройство × канал» для блока «Аудитория».
+#
+# Блок опирается на четыре запроса, которых в конвейере раньше не было
+# (docs/rules/audience-devices.md): device_type_indicator у Вебмастера,
+# разрез date × device у Search Console, deviceCategory и lastReferalSource
+# у Метрики, deviceCategory и sessionSource у GA4. Проверить их из сессии
+# нечем: сеть к API оттуда закрыта, а токены живут здесь, в секретах.
+#
+# Зонд читает и ничего не пишет: ни прода, ни Directus, ни писем, ни ветки
+# данных — поэтому сторожа «только с main» у него нет намеренно. Смысл
+# ровно в том, чтобы запустить его с рабочей ветки, которая разрез вводит,
+# и увидеть ответы источников до слияния. Секреты в отчёт не попадают:
+# печатаются имена и статусы, не значения.
+#
+# Результат — запись в журнал операций (issue #22) со статусом прогона:
+# зелёные и красные проверки, значения измерений вне словарей сборщика и
+# домены переходов, которых ещё нет в реестре классов.
+name: ops-audience-probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Глубина окна зонда в днях (по умолчанию 10)"
+        required: false
+        default: "10"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: pip install --quiet requests google-auth
+
+      - name: Probe audience cut
+        id: run
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          DAYS: ${{ inputs.days || '10' }}
+        run: |
+          set -o pipefail
+          python3 scripts/seo/audience_probe.py "$DAYS" 2>&1 | tee /tmp/audience-probe.log
+
+      - name: Keep log for journal
+        if: always()
+        run: '[ -s /tmp/audience-probe.log ] || echo "(зонд не оставил вывода)" > /tmp/audience-probe.log'
+
+      # Пишется всегда, и при успехе тоже: это разовая приёмка нового
+      # разреза, её результат нужен в журнале целиком, а не только когда
+      # что-то сломалось.
+      - name: Post to journal (issue #22)
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-audience-probe — доступ к API и индикаторы разреза «устройство × канал»"
+          outcome: ${{ steps.run.outcome }}
+          body-file: /tmp/audience-probe.log

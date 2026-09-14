@@ -1,0 +1,320 @@
+{
+  "family_key": "SLACK",
+  "vendor": "Slack (Salesforce)",
+  "vendor_profile": "data/content/vendors/slack.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "slack-pro",
+  "classification_notes": [
+    "Pro / Business+. Носитель — Pro."
+  ],
+  "products": {
+    "slack-pro": {
+      "sku": "SLCK-LIC-PRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Slack Pro — командная подписка на 1 год на корпоративный мессенджер для одной команды: вся история сообщений без лимита, безлимитные интеграции и рабочие процессы, групповые звонки с демонстрацией экрана, гостевой доступ. Лицензии на организации.\n\nPro снимает главное ограничение бесплатного Slack — 90 дней истории; SSO, экспорт всех сообщений и SLA — в Business+.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Slack Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "История",
+              "d": "Полный архив сообщений и файлов."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Без лимита приложений, Workflow Builder."
+            },
+            {
+              "t": "Звонки",
+              "d": "Huddles с экраном на несколько участников."
+            },
+            {
+              "t": "Доступ",
+              "d": "Гости из других компаний, Slack Connect."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Одна команда без корпоративных требований."
+            },
+            {
+              "t": "Business+",
+              "d": "SSO, экспорт, SLA, отчёты — для компании.",
+              "link": "slack-business-plus"
+            },
+            {
+              "t": "Enterprise Grid",
+              "d": "Несколько рабочих пространств — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Без SSO",
+              "d": "Вход по паролю Slack."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Только публичных каналов."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам до сотни человек, которым нужен полный архив и интеграции."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Slack AI?",
+          "a": "Как дополнение к платным планам — по запросу."
+        }
+      ],
+      "related_products": [
+        "slack-business-plus"
+      ],
+      "meta_title": "Slack Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Slack Pro: полная история сообщений, безлимитные интеграции, Huddles, гостевой доступ; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "slack купить юрлицо — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "slack-business-plus": {
+      "sku": "SLCK-LIC-BUSPLUS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Slack Business+ — командная подписка на 1 год на план для компании: всё из Pro плюс SSO (SAML), экспорт всех сообщений для комплаенса, SLA доступности 99,99 %, круглосуточная поддержка, управление данными и пользователями. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Slack Business+",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Безопасность",
+              "d": "SAML SSO, SCIM, управление сессиями."
+            },
+            {
+              "t": "Комплаенс",
+              "d": "Экспорт всех каналов и личных сообщений по запросу."
+            },
+            {
+              "t": "Надёжность",
+              "d": "SLA 99,99 %, поддержка 24/7."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "История, интеграции, Huddles."
+            }
+          ],
+          "links": [
+            "slack-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business+",
+              "d": "Требования ИБ и комплаенса."
+            },
+            {
+              "t": "Pro",
+              "d": "Команда без SSO.",
+              "link": "slack-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Pro примерно на треть."
+            },
+            {
+              "t": "Grid",
+              "d": "Несколько пространств — договор."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с корпоративным провайдером идентификации и требованиями к архивированию."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Даёт ли Business+ экспорт личных сообщений?",
+          "a": "Да, по запросу для комплаенса."
+        }
+      ],
+      "related_products": [
+        "slack-pro"
+      ],
+      "meta_title": "Slack Business+ — подписка на год | BIZSoft",
+      "meta_description": "Slack Business+: SAML SSO, SCIM, экспорт всех сообщений, SLA 99,99 %, поддержка 24/7. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "slack business plus — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
