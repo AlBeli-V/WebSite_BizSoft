@@ -72,7 +72,15 @@ jobs:
                     note = "ПОХОЖЕ НА МЕСЯЧНУЮ ЗАКУПКУ"
                     suspects.append(r.get("sku") or r["slug"])
                 buy_s = f"{buy} {cur}" if buy else "—"
+                # Слаг нужен ops-rename-product и ops-apply-*: без него позицию
+                # нечем адресовать, и переименования 14.09.2026 прошли только по
+                # тем позициям, чей слаг случайно остался в старом снимке.
+                # Журнал маскирует секреты: слаг со словом «deploy» выводится
+                # как me-os-***er-* (docs/rules/prod-access.md). Поэтому рядом
+                # всегда печатается артикул — по нему ops-rename-product
+                # находит позицию, даже когда слаг в журнале замаскирован.
                 print(f"{i}. {v} — {r['name']} [sku: {r.get('sku') or '—'}] "
+                      f"[slug: {r['slug']}] "
                       f"[price: {price}] [закупка: {buy_s}]"
                       + (f" [от {upd}]" if upd else "") + (f"  ⚠ {note}" if note else ""))
             print()

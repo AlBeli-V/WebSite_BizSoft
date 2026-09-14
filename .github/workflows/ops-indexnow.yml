@@ -1,15 +1,42 @@
 # Отправка URL сайта в IndexNow (Яндекс + Bing) для быстрого переобхода.
+#
 # Ключ — публичный по протоколу IndexNow, файл ключа лежит в public/<key>.txt.
-# Запуск вручную после значимых обновлений контента (или по расписанию при желании).
-# Выполняется на сервере: берёт URL из живого sitemap.xml и шлёт пинги.
-
+# Выполняется на сервере: адреса берутся либо из входа `urls`, либо из живого
+# sitemap.xml, и уходят одним POST на каждую точку приёма.
+#
+# Два режима (решение руководителя 13.09.2026):
+#   urls задан  — адресная отправка: только перечисленные страницы. Это
+#                 основной канал переобхода после правки контента: лимит
+#                 IndexNow — 10 000 URL в сутки против 150 у ручного
+#                 переобхода Вебмастера (ops-yandex-recrawl), поэтому квота
+#                 Вебмастера остаётся приоритетным страницам.
+#   urls пуст   — весь sitemap скопом, как раньше (после массовых изменений
+#                 шаблона, когда менялась каждая страница).
+#
+# Проверка результата: Яндекс отвечает 202 (принято в очередь), общая точка
+# api.indexnow.org — 200; любой другой код — сбой прогона, а не «Готово»
+# (замечание аудита достоверности отчётов 03.09.2026). Адреса чужого хоста
+# и не-https отбрасываются до отправки: IndexNow принимает только адреса
+# хоста ключа. Запись — в журнал issue #22.
+#
+# Шаг по SSH идёт через ./.github/actions/ssh-run: вывод и код завершения
+# доезжают до журнала и при сбое (issue #542).
 name: ops-indexnow
 
 on:
   workflow_dispatch:
+    inputs:
+      urls:
+        description: "URL через запятую (полные https, хост biz-soft.pro). Пусто — весь sitemap"
+        required: false
+        default: ""
 
 env:
   INDEXNOW_KEY: 39db688a6ed52c4a5ad2a210dc3435b2
+
+permissions:
+  contents: read
+  issues: write
 
 jobs:
   indexnow:
@@ -21,18 +48,27 @@ jobs:
             echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
             exit 1
           fi
-      - name: Submit sitemap URLs to IndexNow (server-side)
-        uses: appleboy/ssh-action@v1
+
+      # Локальные action ssh-run и journal-post — файлы репозитория: без
+      # checkout раннер их не находит.
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Submit URLs to IndexNow (server-side)
+        id: run
+        uses: ./.github/actions/ssh-run
         env:
           KEY: ${{ env.INDEXNOW_KEY }}
+          URLS: ${{ inputs.urls }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: KEY
+          envs: KEY,URLS
           script: |
             set -e
-            export KEY
+            export KEY URLS
             echo "== Проверка ключа на сайте =="
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:3000/${KEY}.txt")
             echo "GET /${KEY}.txt → $code"
@@ -40,33 +76,64 @@ jobs:
               echo "!! файл ключа не отдаётся — сначала задеплойте public/${KEY}.txt"
               exit 1
             fi
-
-            echo "== Собираю URL из sitemap =="
-            curl -sf http://127.0.0.1:3000/sitemap.xml -o /tmp/sitemap.xml
+            if [ -z "$URLS" ]; then
+              echo "== Режим: весь sitemap =="
+              curl -sf http://127.0.0.1:3000/sitemap.xml -o /tmp/sitemap.xml
+            else
+              echo "== Режим: адресный =="
+            fi
             python3 - <<'PY'
-            import json, re, urllib.request
-
-            key = __import__('os').environ['KEY']
-            xml = open('/tmp/sitemap.xml', encoding='utf-8').read()
-            urls = re.findall(r'<loc>(.*?)</loc>', xml)
-            print(f'URL в sitemap: {len(urls)}')
-
+            import json, os, re, sys, urllib.request
+            key = os.environ['KEY']
+            raw = os.environ.get('URLS', '').strip()
+            if raw:
+                cand = [u.strip() for u in raw.split(',') if u.strip()]
+            else:
+                xml = open('/tmp/sitemap.xml', encoding='utf-8').read()
+                cand = re.findall(r'<loc>(.*?)</loc>', xml)
+            urls, bad = [], []
+            for u in cand:
+                (urls if u.startswith('https://biz-soft.pro/') else bad).append(u)
+            urls = list(dict.fromkeys(urls))
+            print(f'адресов к отправке: {len(urls)}' + (f', отброшено (чужой хост или не https): {len(bad)}' if bad else ''))
+            for u in bad:
+                print(f'  отброшен: {u}')
+            if not urls:
+                print('отправлять нечего'); sys.exit(1)
+            if raw:
+                for u in urls:
+                    print(f'  {u}')
             body = json.dumps({
                 'host': 'biz-soft.pro',
                 'key': key,
                 'keyLocation': f'https://biz-soft.pro/{key}.txt',
                 'urlList': urls[:10000],
             }).encode()
-
-            for endpoint in ('https://yandex.com/indexnow', 'https://api.indexnow.org/indexnow'):
+            ok_codes = {'https://yandex.com/indexnow': (200, 202), 'https://api.indexnow.org/indexnow': (200, 202)}
+            failed = []
+            for endpoint, good in ok_codes.items():
                 req = urllib.request.Request(endpoint, data=body, method='POST')
                 req.add_header('Content-Type', 'application/json; charset=utf-8')
                 try:
                     with urllib.request.urlopen(req, timeout=30) as r:
-                        print(f'{endpoint} → HTTP {r.status}')
+                        status, text = r.status, ''
+                except urllib.error.HTTPError as e:
+                    status, text = e.code, (e.read() or b'')[:300].decode('utf-8', 'replace')
                 except Exception as e:
-                    code = getattr(e, 'code', None)
-                    # 200/202 — принято; 4xx — смотреть текст
-                    print(f'{endpoint} → {code or e}')
+                    status, text = None, str(e)
+                mark = 'принято' if status in good else 'СБОЙ'
+                print(f'{endpoint} → HTTP {status} {mark}' + (f': {text}' if text else ''))
+                if status not in good:
+                    failed.append(endpoint)
+            print(f'итог: адресов {len(urls)}, точек приёма {len(ok_codes)}, сбоев {len(failed)}')
+            if failed:
+                sys.exit(1)
             PY
-            echo "== Готово =="
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-indexnow${{ inputs.urls && ' (адресно)' || ' (весь sitemap)' }}"
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}

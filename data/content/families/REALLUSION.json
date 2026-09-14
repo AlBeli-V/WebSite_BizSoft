@@ -1,0 +1,429 @@
+{
+  "family_key": "REALLUSION",
+  "vendor": "Reallusion",
+  "vendor_profile": "data/content/vendors/reallusion.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "rlsn-cc5",
+  "classification_notes": [
+    "CC5 (perpetual) / iClone 8 (perpetual) / Suite 365 (suite sub). Носитель — CC5."
+  ],
+  "products": {
+    "rlsn-cc5": {
+      "sku": "RLSN-LIC-CC5-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Reallusion Character Creator 5 — бессрочная лицензия на инструмент создания реалистичных и стилизованных 3D-персонажей: морфинг, одежда, волосы, PBR-материалы, экспорт в Unreal, Unity, Maya, Blender с ригом. Одна покупка, обновления в рамках версии 5.\n\nСледующая крупная версия — платное обновление; подписка Suite 365 даёт все версии.\n\nБессрочная лицензия на пользователя.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Character Creator 5",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Персонажи",
+              "d": "База тел, морфы, SkinGen, волосы, одежда."
+            },
+            {
+              "t": "Экспорт",
+              "d": "FBX/USD с ригом и морфами лица в движки и DCC."
+            },
+            {
+              "t": "Контент",
+              "d": "Магазин ассетов и AccuRIG."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия 5 работает без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри версии 5; переход на 6 — платно."
+            },
+            {
+              "t": "Контент",
+              "d": "Дополнительные ассеты — отдельно."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "CC5 бессрочная",
+              "d": "Персонажи как основная задача."
+            },
+            {
+              "t": "iClone 8",
+              "d": "Анимация персонажей.",
+              "link": "rlsn-iclone8"
+            },
+            {
+              "t": "Suite 365",
+              "d": "CC и iClone по подписке со всеми версиями.",
+              "link": "rlsn-suite365"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Игровым студиям и аниматорам, которым нужны готовые риггованные персонажи."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Обновится ли до CC6?",
+          "a": "Нет, платно; в Suite 365 — включено."
+        }
+      ],
+      "related_products": [
+        "rlsn-iclone8",
+        "rlsn-suite365"
+      ],
+      "meta_title": "Character Creator 5 — бессрочная лицензия | BIZSoft",
+      "meta_description": "Reallusion Character Creator 5: 3D-персонажи с ригом для Unreal, Unity, Maya; бессрочная лицензия. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "character creator 5 купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "rlsn-iclone8": {
+      "sku": "RLSN-LIC-ICLONE8-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Reallusion iClone 8 — бессрочная лицензия на анимацию персонажей в реальном времени: захват движения с камеры и mocap-систем, лицевая анимация, физика, толпы, экспорт в Unreal и Unity. Одна покупка, обновления внутри версии 8.\n\nБессрочная лицензия на пользователя.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет iClone 8",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Анимация",
+              "d": "Motion Live, лицевой mocap, ключевая анимация, физика."
+            },
+            {
+              "t": "Сцены",
+              "d": "Свет, камера, рендер в реальном времени."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Unreal Live Link, Unity, FBX."
+            }
+          ],
+          "links": [
+            "rlsn-cc5"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия 8 без срока."
+            },
+            {
+              "t": "Плагины",
+              "d": "Motion Live и профили mocap — отдельно."
+            },
+            {
+              "t": "Обновления",
+              "d": "До версии 9 — платно."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "iClone 8",
+              "d": "Анимация."
+            },
+            {
+              "t": "CC5",
+              "d": "Создание персонажей.",
+              "link": "rlsn-cc5"
+            },
+            {
+              "t": "Suite 365",
+              "d": "Всё по подписке.",
+              "link": "rlsn-suite365"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям виртуального продакшена и предвиза."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли CC для iClone?",
+          "a": "Нет, но связка типична."
+        }
+      ],
+      "related_products": [
+        "rlsn-cc5",
+        "rlsn-suite365"
+      ],
+      "meta_title": "iClone 8 — бессрочная лицензия | BIZSoft",
+      "meta_description": "Reallusion iClone 8: анимация персонажей в реальном времени, mocap, лицевая анимация, Unreal Live Link; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "iclone 8 купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "rlsn-suite365": {
+      "sku": "RLSN-LIC-SUITE365-IND-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Reallusion Suite 365 — индивидуальная подписка на 1 год на Character Creator и iClone с плагинами и всеми версиями за срок: персонажи и анимация без платных обновлений, доступ к контенту по тарифу. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что даёт Reallusion Suite 365",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Продукты",
+              "d": "Character Creator, iClone, плагины Motion Live и др."
+            },
+            {
+              "t": "Версии",
+              "d": "Все обновления и новые версии за срок."
+            },
+            {
+              "t": "Контент",
+              "d": "Кредиты на ассеты по тарифу."
+            }
+          ],
+          "links": [
+            "rlsn-cc5"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Оформляется на личный аккаунт работника по договору с организацией; переуступка другому сотруднику не поддерживается вендором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Suite 365",
+              "d": "Нужны оба продукта и новые версии."
+            },
+            {
+              "t": "CC5 бессрочная",
+              "d": "Только персонажи, одна версия.",
+              "link": "rlsn-cc5"
+            },
+            {
+              "t": "iClone 8 бессрочная",
+              "d": "Только анимация.",
+              "link": "rlsn-iclone8"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям, работающим в связке CC + iClone постоянно."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что будет после окончания подписки?",
+          "a": "Доступ прекращается; бессрочные лицензии остаются навсегда."
+        }
+      ],
+      "related_products": [
+        "rlsn-cc5",
+        "rlsn-iclone8"
+      ],
+      "meta_title": "Reallusion Suite 365 — подписка на год | BIZSoft",
+      "meta_description": "Reallusion Suite 365: Character Creator и iClone с плагинами и всеми версиями за год подписки. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "reallusion suite 365 — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

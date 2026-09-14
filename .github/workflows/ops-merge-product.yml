@@ -2,7 +2,8 @@
 #
 # Одна позиция, заведённая дважды (разные sku/слаги), делит спрос между
 # страницами и показывается в каталоге и фидах как два товара. Склейка:
-#   drop — снимается с витрины (status → draft, обратимо в админке),
+#   drop — снимается с витрины (status → draft, обратимо в админке; уже
+#   архивная остаётся в архиве),
 #   keep — получает слаг снятой в old_slugs, и /product/<drop> начинает
 #          отдавать 301 на /product/<keep> (src/pages/product/[slug].astro).
 # Ничего не удаляется: карточка остаётся в базе со всей историей.
@@ -135,7 +136,7 @@ jobs:
                 for f in ('base_price_usd', 'base_price_eur', 'purchase_updated_at'):
                     if drop.get(f) is not None:
                         keep_patch[f] = drop[f]
-            if drop.get('status') != 'draft':
+            if drop.get('status') not in ('draft', 'archived'):
                 drop_patch['status'] = 'draft'
 
             print(f"\nчто будет сделано ({'ПРИМЕНЕНО' if apply else 'план, без записи'}):")

@@ -1,0 +1,625 @@
+{
+  "family_key": "ANYDESK",
+  "vendor": "AnyDesk Software",
+  "vendor_profile": "data/content/vendors/anydesk.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "anydesk-standard",
+  "classification_notes": [
+    "Solo / Standard / Advanced + дополнение Custom Namespace (addon). Носитель — Standard."
+  ],
+  "products": {
+    "anydesk-solo": {
+      "sku": "ANDK-LIC-SOLO-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "AnyDesk Solo — подписка на 1 год для одного пользователя: удалённый доступ и поддержка с одним одновременным сеансом, неограниченное число устройств в адресной книге, передача файлов. Лицензия на организации, один пользователь.\n\nSolo — вход в линейку; команде нужен Standard с несколькими пользователями и консолью.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт AnyDesk Solo",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подключения",
+              "d": "Спонтанные и назначенные, Windows, macOS, Linux, мобильные."
+            },
+            {
+              "t": "Один сеанс",
+              "d": "Одно одновременное подключение."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Файлы, буфер, печать, чат."
+            }
+          ],
+          "links": [
+            "anydesk-standard"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Solo",
+              "d": "Один специалист."
+            },
+            {
+              "t": "Standard",
+              "d": "Команда с консолью.",
+              "link": "anydesk-standard"
+            },
+            {
+              "t": "Advanced",
+              "d": "Больше сеансов, интеграции, аудит.",
+              "link": "anydesk-advanced"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Одному ИТ-специалисту небольшой компании."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Один сеанс",
+              "d": "Параллельные подключения потребуют Standard."
+            },
+            {
+              "t": "Пользователь",
+              "d": "Лицензия именная, компьютеры не считаются."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько устройств можно добавить?",
+          "a": "Адресная книга не ограничена; ограничен один одновременный сеанс."
+        }
+      ],
+      "related_products": [
+        "anydesk-standard",
+        "anydesk-advanced"
+      ],
+      "meta_title": "AnyDesk Solo — подписка на год для юрлица | BIZSoft",
+      "meta_description": "AnyDesk Solo: удалённый доступ и поддержка для одного пользователя, один одновременный сеанс. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "anydesk solo купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "anydesk-standard": {
+      "sku": "ANDK-LIC-STANDARD-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "AnyDesk Standard — командная подписка на 1 год для службы поддержки: несколько пользователей, одновременные сеансы по тарифу, консоль управления с ролями и адресными книгами, настраиваемый клиент с логотипом. Лицензии на организации.\n\nStandard — план для команды из нескольких техников; расширенный аудит, интеграции и больше сеансов — в Advanced.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт AnyDesk Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Несколько пользователей, общие адресные книги, роли."
+            },
+            {
+              "t": "Сеансы",
+              "d": "Одновременные подключения по тарифу."
+            },
+            {
+              "t": "Брендинг",
+              "d": "Клиент с логотипом и настройками."
+            },
+            {
+              "t": "Управление",
+              "d": "Консоль my.anydesk с политиками."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Небольшая команда поддержки."
+            },
+            {
+              "t": "Solo",
+              "d": "Один человек.",
+              "link": "anydesk-solo"
+            },
+            {
+              "t": "Advanced",
+              "d": "Аудит, интеграции, больше сеансов.",
+              "link": "anydesk-advanced"
+            },
+            {
+              "t": "Namespace",
+              "d": "Собственное пространство имён — дополнение.",
+              "link": "anydesk-namespace"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Сеансы по тарифу",
+              "d": "Докупаются."
+            },
+            {
+              "t": "Аудит",
+              "d": "Подробные журналы — в Advanced."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службам поддержки из 2–10 человек."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли ограничить, к чему подключаются техники?",
+          "a": "Да, через роли и адресные книги в консоли."
+        }
+      ],
+      "related_products": [
+        "anydesk-solo",
+        "anydesk-advanced",
+        "anydesk-namespace"
+      ],
+      "meta_title": "AnyDesk Standard — подписка на год | BIZSoft",
+      "meta_description": "AnyDesk Standard: команда поддержки, одновременные сеансы, консоль с ролями, брендированный клиент. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "anydesk standard купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Число сеансов — по прайсу AnyDesk."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "anydesk-advanced": {
+      "sku": "ANDK-LIC-ADVANCED-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "AnyDesk Advanced — командная подписка на 1 год для крупной поддержки: больше одновременных сеансов, расширенный аудит и журналы, интеграции (REST API, SSO), массовое развёртывание, приоритетная поддержка. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт AnyDesk Advanced",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Масштаб",
+              "d": "Больше пользователей и сеансов."
+            },
+            {
+              "t": "Аудит",
+              "d": "Журналы сеансов и действий для ИБ."
+            },
+            {
+              "t": "Интеграции",
+              "d": "API, SSO, развёртывание через MSI с политиками."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            }
+          ],
+          "links": [
+            "anydesk-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced",
+              "d": "Аудит и интеграции обязательны."
+            },
+            {
+              "t": "Standard",
+              "d": "Команда без аудита.",
+              "link": "anydesk-standard"
+            },
+            {
+              "t": "Enterprise / on-premises",
+              "d": "Собственный сервер AnyDesk — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Standard; оправдана аудитом."
+            },
+            {
+              "t": "On-premises",
+              "d": "Свой сервер — отдельный договор."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с ИБ-требованиями к удалённому доступу."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли версия на своём сервере?",
+          "a": "Да, AnyDesk On-Premises по запросу."
+        }
+      ],
+      "related_products": [
+        "anydesk-standard"
+      ],
+      "meta_title": "AnyDesk Advanced — подписка на год | BIZSoft",
+      "meta_description": "AnyDesk Advanced: расширенный аудит, SSO и API, больше сеансов, приоритетная поддержка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "anydesk advanced — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "anydesk-namespace": {
+      "sku": "ANDK-ADD-NAMESPACE-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "addon",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пространство имён",
+      "min_qty": 1,
+      "base_product_sku": "ANDK-LIC-STANDARD-TEAM-1Y-USER",
+      "short_description": "AnyDesk Custom Namespace — командный план-дополнение к подписке AnyDesk на 1 год: собственное пространство имён для адресов устройств (например, pc-1@company) вместо числовых ID, чтобы сотрудники и техники подключались по понятным именам, а чужие клиенты в это пространство не попадали. Без базовой подписки Standard или Advanced не оформляется.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что добавляет Namespace",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что добавляет",
+              "d": "Именованные адреса устройств в вашем пространстве."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Подключения только внутри пространства при соответствующей политике."
+            },
+            {
+              "t": "Требуется",
+              "d": "Активная подписка AnyDesk Standard или Advanced."
+            }
+          ],
+          "links": [
+            "anydesk-standard"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что требуется",
+          "kind": "prose",
+          "body": "Действующая подписка AnyDesk Standard или Advanced на аккаунт организации; пространство имён привязывается к этому аккаунту."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Namespace",
+              "d": "Много устройств, нужны понятные адреса и изоляция."
+            },
+            {
+              "t": "Без Namespace",
+              "d": "Числовые ID по умолчанию.",
+              "link": "anydesk-standard"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Дополнение",
+              "d": "Не продаётся отдельно."
+            },
+            {
+              "t": "Одно пространство",
+              "d": "Имя фиксируется при заказе."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с десятками управляемых устройств."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли купить Namespace к Solo?",
+          "a": "Нет, только к Standard и Advanced."
+        }
+      ],
+      "related_products": [
+        "anydesk-standard"
+      ],
+      "meta_title": "AnyDesk Custom Namespace — дополнение | BIZSoft",
+      "meta_description": "Дополнение AnyDesk Custom Namespace: собственное пространство имён для адресов устройств; требуется Standard или Advanced. Договор, ЭДО.",
+      "seo_intents": [
+        "anydesk namespace — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "addon_source": "vendor",
+      "license_model": "annual"
+    }
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "family_key": "POSTMAN",
+  "vendor": "Postman, Inc.",
+  "vendor_profile": "data/content/vendors/postman.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "postman-professional",
+  "classification_notes": [
+    "Solo (индивидуальный) / Professional. Носитель — Professional."
+  ],
+  "products": {
+    "postman-solo": {
+      "sku": "PSTM-LIC-SOLO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Postman Solo — индивидуальная подписка на 1 год на платформу тестирования API для одного разработчика: неограниченные коллекции, моки, мониторы и запуски в базовых лимитах, Postbot с ИИ. Личный аккаунт.\n\nКомандные функции — общие рабочие пространства, роли, интеграции — в Professional.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Postman Solo",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Коллекции",
+              "d": "Запросы, окружения, тесты, документация."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Моки, мониторы, Flows, Postbot — по лимитам плана."
+            },
+            {
+              "t": "Один пользователь",
+              "d": "Личное пространство."
+            }
+          ],
+          "links": [
+            "postman-professional"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Личный аккаунт сотрудника, оплата от организации; при увольнении лицензия не возвращается компании."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Solo",
+              "d": "Один разработчик."
+            },
+            {
+              "t": "Professional",
+              "d": "Команда: общие пространства, роли, интеграции.",
+              "link": "postman-professional"
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, SCIM — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Разработчику, который тестирует API в одиночку."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли делиться коллекциями на Solo?",
+          "a": "Только экспортом; совместные пространства — Professional."
+        }
+      ],
+      "related_products": [
+        "postman-professional"
+      ],
+      "meta_title": "Postman Solo — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Postman Solo: платформа тестирования API для одного разработчика — коллекции, моки, мониторы, Postbot. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "postman solo — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "postman-professional": {
+      "sku": "PSTM-LIC-PRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Postman Professional — командная подписка на 1 год на Postman для команды: общие рабочие пространства и коллекции, роли, комментарии и ревью, приватная сеть API, расширенные лимиты моков, мониторов и запусков, интеграции с Git и CI. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Postman Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Общие пространства, роли, форки и ревью коллекций."
+            },
+            {
+              "t": "API-сеть",
+              "d": "Приватный каталог API организации."
+            },
+            {
+              "t": "Лимиты",
+              "d": "Больше моков, мониторов, запусков коллекций."
+            },
+            {
+              "t": "Интеграции",
+              "d": "GitHub, GitLab, Jenkins, Datadog и другие."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Команда без SSO."
+            },
+            {
+              "t": "Solo",
+              "d": "Один человек.",
+              "link": "postman-solo"
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, SCIM, аудит — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "По тарифу; сверх — доплата."
+            },
+            {
+              "t": "SSO",
+              "d": "Только Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, которые разрабатывают и документируют API совместно."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли читатели?",
+          "a": "Роли просмотра ограничены тарифом; редакторы — платные места."
+        }
+      ],
+      "related_products": [
+        "postman-solo"
+      ],
+      "meta_title": "Postman Professional — подписка на год | BIZSoft",
+      "meta_description": "Postman Professional: командные рабочие пространства, роли, приватная сеть API, расширенные лимиты, интеграции с CI. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "postman professional купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

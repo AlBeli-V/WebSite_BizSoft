@@ -1,0 +1,573 @@
+{
+  "family_key": "TOPAZ",
+  "vendor": "Topaz Labs",
+  "vendor_profile": "data/content/vendors/topaz.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "topaz-photo",
+  "classification_notes": [
+    "Photo/Video/Gigapixel (perpetual + год обновлений), Studio (подписка suite). Носитель — Photo AI."
+  ],
+  "products": {
+    "topaz-photo": {
+      "sku": "TPZL-LIC-PHOTO-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Topaz Photo AI — бессрочная лицензия с годом обновлений на ИИ-обработку фото: шумоподавление, повышение резкости, увеличение разрешения, восстановление лиц — автономно и как плагин Photoshop и Lightroom. Одна покупка; после года — работа на последней полученной версии, продление обновлений отдельно.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Topaz Photo AI",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ИИ-обработка",
+              "d": "Denoise, Sharpen, Upscale, Face Recovery, Autopilot."
+            },
+            {
+              "t": "Форматы",
+              "d": "RAW, плагины Photoshop и Lightroom."
+            },
+            {
+              "t": "Обновления",
+              "d": "12 месяцев, затем платное продление."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия на конец года обновлений."
+            },
+            {
+              "t": "Обновления",
+              "d": "Год включён; продление — отдельно."
+            },
+            {
+              "t": "Активация",
+              "d": "До 2 компьютеров."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Photo AI",
+              "d": "Фото."
+            },
+            {
+              "t": "Video AI",
+              "d": "Видео.",
+              "link": "topaz-video"
+            },
+            {
+              "t": "Gigapixel AI",
+              "d": "Только увеличение.",
+              "link": "topaz-gigapixel"
+            },
+            {
+              "t": "Topaz Studio",
+              "d": "Всё вместе по подписке.",
+              "link": "topaz-studio"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Фотографам и ретушёрам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что после года?",
+          "a": "Приложение работает; новые версии — после продления."
+        }
+      ],
+      "related_products": [
+        "topaz-video",
+        "topaz-gigapixel",
+        "topaz-studio"
+      ],
+      "meta_title": "Topaz Photo AI — бессрочная лицензия | BIZSoft",
+      "meta_description": "Topaz Photo AI: ИИ-шумоподавление, резкость, увеличение фото; бессрочно с годом обновлений. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "topaz photo ai купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "topaz-video": {
+      "sku": "TPZL-LIC-VIDEO-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Topaz Video AI — бессрочная лицензия с годом обновлений на ИИ-обработку видео: апскейл до 8K, шумоподавление, интерполяция кадров, стабилизация, восстановление старого видео. Одна покупка; продление обновлений отдельно.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Topaz Video AI",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ИИ-модели",
+              "d": "Апскейл, деинтерлейс, шум, интерполяция, стабилизация."
+            },
+            {
+              "t": "Вывод",
+              "d": "До 8K, ProRes и другие кодеки."
+            },
+            {
+              "t": "Обновления",
+              "d": "12 месяцев включены."
+            }
+          ],
+          "links": [
+            "topaz-photo"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия на конец года обновлений."
+            },
+            {
+              "t": "Обновления",
+              "d": "Продление отдельно."
+            },
+            {
+              "t": "GPU",
+              "d": "Требует мощной видеокарты."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Video AI",
+              "d": "Видео."
+            },
+            {
+              "t": "Photo AI",
+              "d": "Фото.",
+              "link": "topaz-photo"
+            },
+            {
+              "t": "Studio",
+              "d": "Подписка на всё.",
+              "link": "topaz-studio"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Видеостудиям и архивам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли без GPU?",
+          "a": "Формально да, но практически нужна современная видеокарта."
+        }
+      ],
+      "related_products": [
+        "topaz-photo",
+        "topaz-studio"
+      ],
+      "meta_title": "Topaz Video AI — бессрочная лицензия | BIZSoft",
+      "meta_description": "Topaz Video AI: ИИ-апскейл видео до 8K, шумоподавление, интерполяция; бессрочно с годом обновлений. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "topaz video ai купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "topaz-gigapixel": {
+      "sku": "TPZL-LIC-GIGAPIXEL-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Topaz Gigapixel AI — бессрочная лицензия с годом обновлений на увеличение изображений ИИ до 16 раз с генеративными моделями для деталей. Одна покупка; продление обновлений отдельно.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Topaz Gigapixel AI",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Увеличение",
+              "d": "До 16×, модели для фото, графики, лиц, генеративные."
+            },
+            {
+              "t": "Пакетная обработка",
+              "d": "Сотни файлов."
+            },
+            {
+              "t": "Обновления",
+              "d": "Год включён."
+            }
+          ],
+          "links": [
+            "topaz-photo"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия на конец года."
+            },
+            {
+              "t": "Обновления",
+              "d": "Продление отдельно."
+            },
+            {
+              "t": "Часть Photo AI",
+              "d": "Апскейл есть и в Photo AI."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Gigapixel",
+              "d": "Только увеличение."
+            },
+            {
+              "t": "Photo AI",
+              "d": "Увеличение плюс шум и резкость.",
+              "link": "topaz-photo"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Печатникам и дизайнерам, увеличивающим изображения."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Зачем Gigapixel при Photo AI?",
+          "a": "Ради генеративных моделей увеличения и пакетной обработки."
+        }
+      ],
+      "related_products": [
+        "topaz-photo"
+      ],
+      "meta_title": "Topaz Gigapixel AI — бессрочная лицензия | BIZSoft",
+      "meta_description": "Topaz Gigapixel AI: увеличение изображений ИИ до 16×; бессрочно с годом обновлений. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "topaz gigapixel ai купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "topaz-studio": {
+      "sku": "TPZL-LIC-STUDIO-IND-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Topaz Studio — индивидуальная подписка на 1 год на все приложения Topaz: Photo AI, Video AI, Gigapixel AI и новые продукты с постоянными обновлениями. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что даёт Topaz Studio (подписка)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Всё Topaz",
+              "d": "Photo, Video, Gigapixel и новинки."
+            },
+            {
+              "t": "Обновления",
+              "d": "Всегда актуальные версии."
+            },
+            {
+              "t": "Модель",
+              "d": "Подписка вместо разовых покупок."
+            }
+          ],
+          "links": [
+            "topaz-photo"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Индивидуальная модель: один человек, один аккаунт, без администратора и переназначения; юрлицо платит, пользователь владеет доступом."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Studio",
+              "d": "Нужны два и больше продуктов."
+            },
+            {
+              "t": "Photo AI бессрочная",
+              "d": "Один продукт.",
+              "link": "topaz-photo"
+            },
+            {
+              "t": "Video AI бессрочная",
+              "d": "Один продукт.",
+              "link": "topaz-video"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям, использующим весь набор Topaz."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что после окончания подписки?",
+          "a": "Доступ прекращается; бессрочные лицензии остаются."
+        }
+      ],
+      "related_products": [
+        "topaz-photo",
+        "topaz-video"
+      ],
+      "meta_title": "Topaz Studio — подписка на год | BIZSoft",
+      "meta_description": "Topaz Studio: Photo AI, Video AI, Gigapixel AI и новые продукты по подписке с обновлениями. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "topaz studio — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

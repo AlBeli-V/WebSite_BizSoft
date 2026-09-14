@@ -6,8 +6,11 @@ on:
   workflow_dispatch:
     inputs:
       slug:
-        description: 'Слаг товара'
-        required: true
+        description: 'Слаг товара (или заполните sku)'
+        required: false
+      sku:
+        description: 'Артикул товара — замена слагу'
+        required: false
       name:
         description: 'Новое название'
         required: true
@@ -36,12 +39,13 @@ jobs:
         uses: appleboy/ssh-action@v1
         env:
           P_SLUG: ${{ inputs.slug }}
+          P_SKU: ${{ inputs.sku }}
           P_NAME: ${{ inputs.name }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_SLUG,P_NAME
+          envs: P_SLUG,P_SKU,P_NAME
           capture_stdout: true
           script: |
             set -e
@@ -60,12 +64,25 @@ jobs:
                 return json.load(urllib.request.urlopen(r))
             auth = req('POST', '/auth/login', {'email': os.environ['ADMIN_EMAIL'], 'password': os.environ['ADMIN_PASSWORD']})
             tok = auth['data']['access_token']
-            slug, name = os.environ['P_SLUG'], os.environ['P_NAME']
-            items = req('GET', f'/items/products?filter[slug][_eq]={slug}&fields=id,name,slug', token=tok)['data']
+            # Адресовать позицию можно слагом или артикулом. Артикул нужен
+            # там, где слаг не достать: журнал Actions маскирует слово
+            # «deploy» звёздочками (docs/rules/prod-access.md), и слаги вроде
+            # me-os-deployer-* из выгрузки приходят покалеченными. Артикул
+            # в верхнем регистре под маскировку не попадает.
+            slug, sku, name = os.environ.get('P_SLUG', ''), os.environ.get('P_SKU', ''), os.environ['P_NAME']
+            slug, sku = slug.strip(), sku.strip()
+            if not slug and not sku:
+                print('не задан ни слаг, ни артикул'); raise SystemExit(1)
+            if slug and sku:
+                print('заданы и слаг, и артикул — оставьте что-то одно'); raise SystemExit(1)
+            key, val = ('slug', slug) if slug else ('sku', sku)
+            items = req('GET', f'/items/products?filter[{key}][_eq]={val}&fields=id,name,slug,sku', token=tok)['data']
             if not items:
-                print(f'товар со слагом {slug} не найден'); raise SystemExit(1)
+                print(f'товар не найден по полю {key}: {val}'); raise SystemExit(1)
+            if len(items) > 1:
+                print(f'по полю {key} найдено {len(items)} позиций — уточните адресацию'); raise SystemExit(1)
             it = items[0]
-            print(f"было: '{it['name']}' [slug: {it['slug']}]")
+            print(f"было: '{it['name']}' [slug: {it['slug']}] [sku: {it.get('sku') or '—'}]")
             req('PATCH', f"/items/products/{it['id']}", {'name': name}, token=tok)
             print(f"стало: '{name}'")
             PYEOF
