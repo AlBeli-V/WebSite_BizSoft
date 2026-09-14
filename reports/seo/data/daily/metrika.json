@@ -53,6 +53,37 @@
    "2026-09-12": 10.0,
    "2026-09-13": 6.0
   },
+  "referral_domain|alice.yandex.ru": {
+   "2026-08-20": 1.0,
+   "2026-08-23": 1.0,
+   "2026-08-26": 1.0,
+   "2026-08-27": 1.0,
+   "2026-08-29": 1.0,
+   "2026-09-11": 1.0,
+   "2026-09-14": 1.0
+  },
+  "referral_domain|android-app": {
+   "2026-07-25": 1.0
+  },
+  "referral_domain|bitrix.informatic.ru": {
+   "2026-08-31": 1.0
+  },
+  "referral_domain|iframe-tasks.yandex": {
+   "2026-08-29": 2.0
+  },
+  "referral_domain|iframe-yang.yandex": {
+   "2026-08-28": 1.0,
+   "2026-09-03": 1.0
+  },
+  "referral_domain|link.2gis.ru": {
+   "2026-09-01": 1.0
+  },
+  "referral_domain|srvoroncov.amocrm.ru": {
+   "2026-08-19": 1.0
+  },
+  "referral_domain|vc.ru": {
+   "2026-09-01": 1.0
+  },
   "users_organic": {
    "2026-07-06": 1.0,
    "2026-07-07": 1.0,
@@ -219,6 +250,10 @@
   "visits_catalogs_mobile": {},
   "visits_catalogs_other": {},
   "visits_catalogs_tablet": {},
+  "visits_forums_desktop": {},
+  "visits_forums_mobile": {},
+  "visits_forums_other": {},
+  "visits_forums_tablet": {},
   "visits_links_desktop": {
    "2026-08-19": 1.0,
    "2026-08-20": 1.0,
@@ -479,5 +514,5 @@
   "visits_platforms_tablet": {}
  },
  "source": "metrika",
- "updated_at": "2026-09-14T04:07:01+00:00"
+ "updated_at": "2026-09-14T04:36:27+00:00"
 }
