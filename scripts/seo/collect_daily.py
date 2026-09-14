@@ -82,20 +82,32 @@ METRIKA_CHANNEL = {
 # Группа каналов GA4 (sessionDefaultChannelGroup) → наш канал. Группы Referral
 # здесь нет намеренно: переходы с сайтов раскрывает отдельный запрос по
 # доменам, и в общем срезе они пропускаются, чтобы не считаться дважды.
+#
+# Unassigned — сессии, которым GA4 не смог назначить канал; они относятся к
+# «прочему» явной записью, а не умолчанием словаря: зонд 14.09.2026 нашёл их
+# в нашем ресурсе, и незнакомое значение в письме — это молчаливая потеря
+# визитов, даже когда итог тот же.
 GA4_CHANNEL = {
     'organic search': 'organic', 'organic shopping': 'organic',
     'paid search': 'ads', 'paid social': 'ads', 'paid shopping': 'ads',
     'paid video': 'ads', 'paid other': 'ads', 'display': 'ads',
     'cross-network': 'ads',
     'organic social': 'platforms', 'organic video': 'platforms',
+    'audio': 'platforms',
     'direct': 'other', 'email': 'other', 'affiliates': 'other',
+    'sms': 'other', 'mobile push notifications': 'other',
+    'push notifications': 'other', 'unassigned': 'other',
 }
 # Тип устройства у источника → наш класс. Ключи — то, что реально приходит в
 # id измерения; незнакомое значение уходит в other, а не отбрасывается.
+# Телевизоры и приставки перечислены явно: Метрика отдаёт их значением tv,
+# GA4 — smart tv (зонд 14.09.2026), и они сознательно относятся к «прочим»,
+# а не попадают туда умолчанием, о котором никто не знает.
 DEVICE_ALIAS = {
     'desktop': 'desktop', 'pc': 'desktop',
     'mobile': 'mobile', 'phone': 'mobile', 'smartphone': 'mobile',
     'tablet': 'tablet',
+    'tv': 'other', 'smart tv': 'other', 'smarttv': 'other',
 }
 # Значение device_type_indicator Вебмастера для каждого класса. Планшеты
 # Вебмастер отдаёт отдельным значением, поэтому MOBILE_AND_TABLET не нужен.

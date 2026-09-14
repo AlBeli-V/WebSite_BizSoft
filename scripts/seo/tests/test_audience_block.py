@@ -332,6 +332,26 @@ class RenderCase(unittest.TestCase):
         self.assertIn("Нет данных", html)
 
 
+class KnownValuesCase(unittest.TestCase):
+    """Значения, найденные зондом на боевых источниках 14.09.2026.
+
+    Телевизор и сессия без канала должны попадать в «прочее» записью
+    словаря, а не умолчанием: умолчание работает так же, но о нём никто
+    не знает, и следующая находка снова окажется незамеченной.
+    """
+
+    def test_tv_is_known_and_counted_as_other(self):
+        self.assertIn("tv", cd.DEVICE_ALIAS)
+        self.assertEqual(cd.device_class("tv"), "other")
+        self.assertEqual(cd.device_class("smart tv"), "other")
+
+    def test_ga4_unassigned_is_known_and_counted_as_other(self):
+        self.assertEqual(cd.GA4_CHANNEL["unassigned"], "other")
+
+    def test_channel_label_names_sessions_without_channel(self):
+        self.assertIn("без канала", audience.CHANNEL_LABEL["other"])
+
+
 class HistoryWindowCase(unittest.TestCase):
     """Новый ряд дозаполняется историей, а не начинается с сегодняшнего дня."""
 
