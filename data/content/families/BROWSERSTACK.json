@@ -1,0 +1,322 @@
+{
+  "family_key": "BROWSERSTACK",
+  "vendor": "BrowserStack",
+  "vendor_profile": "data/content/vendors/browserstack.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "browserstack-live-team",
+  "classification_notes": [
+    "Live Team / Live Team Pro. Носитель — Live Team."
+  ],
+  "products": {
+    "browserstack-live-team": {
+      "sku": "BRST-LIC-LIVETEAM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "BrowserStack Live Team — командная подписка на 1 год на ручное кроссбраузерное тестирование в облаке: реальные браузеры и устройства (3 000+ комбинаций), локальное тестирование, инструменты отладки, места на команду. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт BrowserStack Live Team",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Браузеры и устройства",
+              "d": "Реальные десктоп-браузеры и мобильные, включая iOS и Android."
+            },
+            {
+              "t": "Отладка",
+              "d": "DevTools, скриншоты, видео, сетевые логи."
+            },
+            {
+              "t": "Локальное тестирование",
+              "d": "Туннель к staging и localhost."
+            },
+            {
+              "t": "Команда",
+              "d": "Места на пользователей, общие настройки."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Live Team",
+              "d": "Ручное тестирование командой."
+            },
+            {
+              "t": "Live Team Pro",
+              "d": "Больше параллельных сессий и расширенная поддержка.",
+              "link": "browserstack-live-team-pro"
+            },
+            {
+              "t": "Automate",
+              "d": "Автотесты Selenium/Playwright — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Параллельность",
+              "d": "Число одновременных сессий по тарифу."
+            },
+            {
+              "t": "Минуты",
+              "d": "Ручные сессии без лимита минут на Team."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "QA-командам без собственной фермы устройств."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли реальные устройства или эмуляторы?",
+          "a": "Реальные устройства."
+        }
+      ],
+      "related_products": [
+        "browserstack-live-team-pro"
+      ],
+      "meta_title": "BrowserStack Live Team — подписка на год | BIZSoft",
+      "meta_description": "BrowserStack Live Team: ручное кроссбраузерное тестирование на реальных браузерах и устройствах, локальный туннель, отладка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "browserstack купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Число параллельных сессий — по прайсу BrowserStack."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "browserstack-live-team-pro": {
+      "sku": "BRST-LIC-LIVETEAMPRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "BrowserStack Live Team Pro — командная подписка на 1 год на расширенный план Live: больше параллельных сессий, приоритетный доступ к устройствам, расширенная поддержка и интеграции. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт BrowserStack Live Team Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Параллельность",
+              "d": "Больше одновременных тестовых сессий."
+            },
+            {
+              "t": "Приоритет",
+              "d": "Доступ к новым устройствам и очереди."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Расширенная."
+            },
+            {
+              "t": "Всё из Team",
+              "d": "Браузеры, устройства, туннель, отладка."
+            }
+          ],
+          "links": [
+            "browserstack-live-team"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Live Team Pro",
+              "d": "Большая QA-команда."
+            },
+            {
+              "t": "Live Team",
+              "d": "Небольшая команда.",
+              "link": "browserstack-live-team"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Team."
+            },
+            {
+              "t": "Automate",
+              "d": "Отдельно."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, где тестировщики работают параллельно весь день."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Pro отличается от Team?",
+          "a": "Параллельными сессиями и приоритетом устройств."
+        }
+      ],
+      "related_products": [
+        "browserstack-live-team"
+      ],
+      "meta_title": "BrowserStack Live Team Pro — подписка на год | BIZSoft",
+      "meta_description": "BrowserStack Live Team Pro: больше параллельных сессий, приоритетный доступ к устройствам, расширенная поддержка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "browserstack live pro — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

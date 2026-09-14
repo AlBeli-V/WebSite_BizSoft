@@ -1,0 +1,417 @@
+{
+  "family_key": "WONDERSHARE",
+  "vendor": "Wondershare",
+  "vendor_profile": "data/content/vendors/wondershare.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "wndr-filmora-annual",
+  "classification_notes": [
+    "Filmora annual / cross-platform / Team. Носитель — annual."
+  ],
+  "products": {
+    "wndr-filmora-annual": {
+      "sku": "WNDR-LIC-FILMORA-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Wondershare Filmora — индивидуальная подписка на 1 год на простой видеоредактор: шаблоны, эффекты, ИИ-инструменты (удаление фона, субтитры, генерация), стоки; Windows или macOS на выбор. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Filmora (годовая)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Монтаж",
+              "d": "Простой таймлайн, шаблоны, переходы."
+            },
+            {
+              "t": "ИИ",
+              "d": "Субтитры, удаление фона, генерация, улучшение звука."
+            },
+            {
+              "t": "Одна платформа",
+              "d": "Windows или macOS."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Личный аккаунт сотрудника, оплата от организации; при увольнении лицензия не возвращается компании."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Годовая",
+              "d": "Один компьютер, одна платформа."
+            },
+            {
+              "t": "Кроссплатформенная",
+              "d": "Windows и macOS плюс мобильные.",
+              "link": "wndr-filmora-xplat"
+            },
+            {
+              "t": "Team",
+              "d": "Места для команды.",
+              "link": "wndr-filmora-team"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Маркетологам и SMM без опыта монтажа."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входят ли стоки?",
+          "a": "Базовые — да; расширенные — отдельно."
+        }
+      ],
+      "related_products": [
+        "wndr-filmora-xplat",
+        "wndr-filmora-team"
+      ],
+      "meta_title": "Wondershare Filmora — подписка на год | BIZSoft",
+      "meta_description": "Wondershare Filmora: простой видеоредактор с шаблонами и ИИ-инструментами; подписка на год. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "filmora купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "wndr-filmora-xplat": {
+      "sku": "WNDR-LIC-FILMORAXPLAT-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Wondershare Filmora, кроссплатформенная — индивидуальная подписка на 1 год с работой на Windows, macOS, iOS и Android под одним аккаунтом. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Filmora (кроссплатформенная)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Платформы",
+              "d": "Десктоп и мобильные."
+            },
+            {
+              "t": "Всё из годовой",
+              "d": "Шаблоны, ИИ, стоки."
+            },
+            {
+              "t": "Синхронизация",
+              "d": "Проекты в облаке по тарифу."
+            }
+          ],
+          "links": [
+            "wndr-filmora-annual"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "План на одного: вход под личным аккаунтом на своих устройствах, передача коллеге исключена условиями вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кроссплатформенная",
+              "d": "Монтаж на ходу."
+            },
+            {
+              "t": "Годовая",
+              "d": "Одна платформа дешевле.",
+              "link": "wndr-filmora-annual"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Тем, кто монтирует и на телефоне."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько устройств?",
+          "a": "По тарифу Wondershare."
+        }
+      ],
+      "related_products": [
+        "wndr-filmora-annual"
+      ],
+      "meta_title": "Wondershare Filmora кроссплатформенная — подписка | BIZSoft",
+      "meta_description": "Wondershare Filmora на Windows, macOS, iOS и Android под одним аккаунтом; подписка на год. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "filmora cross platform — hero"
+      ],
+      "uncertainties": [
+        "Число устройств — по тарифу вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "wndr-filmora-team": {
+      "sku": "WNDR-LIC-FILMORATEAM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Wondershare Filmora Team — командная подписка на 1 год на Filmora для организации: места на сотрудников с централизованным управлением, общие ресурсы, коммерческая лицензия на контент. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Filmora Team",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Управление местами, единый счёт."
+            },
+            {
+              "t": "Контент",
+              "d": "Коммерческая лицензия на встроенные стоки."
+            },
+            {
+              "t": "Всё из Filmora",
+              "d": "Монтаж, ИИ."
+            }
+          ],
+          "links": [
+            "wndr-filmora-annual"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Team",
+              "d": "Несколько сотрудников."
+            },
+            {
+              "t": "Годовая",
+              "d": "Один человек.",
+              "link": "wndr-filmora-annual"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум",
+              "d": "По условиям Wondershare."
+            },
+            {
+              "t": "Платформы",
+              "d": "По тарифу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделам маркетинга."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли переназначать места?",
+          "a": "Да, администратором."
+        }
+      ],
+      "related_products": [
+        "wndr-filmora-annual"
+      ],
+      "meta_title": "Wondershare Filmora Team — подписка на год | BIZSoft",
+      "meta_description": "Wondershare Filmora Team: места для сотрудников с управлением и коммерческой лицензией на контент. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "filmora team — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

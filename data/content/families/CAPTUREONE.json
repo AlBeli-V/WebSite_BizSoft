@@ -1,0 +1,135 @@
+{
+  "family_key": "CAPTUREONE",
+  "vendor": "Capture One",
+  "vendor_profile": "data/content/vendors/captureone.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "capture-one-pro",
+  "classification_notes": [
+    "Pro (подписка)."
+  ],
+  "products": {
+    "capture-one-pro": {
+      "sku": "CPTO-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Capture One Pro — индивидуальная подписка на 1 год на RAW-конвертер и каталог для профессиональных фотографов: обработка с точной цветопередачей, слои и маски, привязанная съёмка (tethering), каталоги и сессии, поддержка сотен камер. Личный аккаунт, до 2 компьютеров.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Capture One Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "RAW",
+              "d": "Профили камер, цвет, слои, маски, ИИ-маски."
+            },
+            {
+              "t": "Tethering",
+              "d": "Съёмка в студии с live view."
+            },
+            {
+              "t": "Организация",
+              "d": "Сессии и каталоги, экспорт."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Capture One Pro",
+              "d": "Студийная и коммерческая съёмка."
+            },
+            {
+              "t": "Adobe Photography",
+              "d": "Lightroom и Photoshop.",
+              "link": "adobe-photo"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Коммерческим и студийным фотографам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бессрочная?",
+          "a": "Да, у вендора; на витрине — подписка."
+        }
+      ],
+      "related_products": [
+        "adobe-photo"
+      ],
+      "meta_title": "Capture One Pro — подписка на год | BIZSoft",
+      "meta_description": "Capture One Pro: RAW-обработка, tethering, каталоги для профессиональных фотографов; подписка на год. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "capture one купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

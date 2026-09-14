@@ -13,6 +13,11 @@ const { source = 'question' } = Astro.props as { source?: string };
         открывать окно «Задать вопрос». Состав полей при этом один и тот же —
         заявка и КП собирают одинаковые реквизиты (решение 28.08.2026). */}
     <h2 data-dialog-title>Задать вопрос</h2>
+    {/* Подводка под заголовком: окно одно на заявку и на вопрос, и без неё
+        человек, нажавший «Задать вопрос», видел ту же форму реквизитов и не
+        понимал, что изменилось. Текст задаёт кнопка (data-dialog-lead);
+        кнопка без него подводки не показывает. */}
+    <p class="qf-lead" data-dialog-lead hidden></p>
 
     <div class="qf-product" data-product-line hidden>
       Вопрос по товару: <strong data-product-name></strong>
@@ -69,6 +74,7 @@ const { source = 'question' } = Astro.props as { source?: string };
   .qf-dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(2px); }
   .qf-form { padding: 2rem; display: flex; flex-direction: column; gap: 0.9rem; position: relative; }
   .qf-form h2 { font-size: 1.5rem; }
+  .qf-lead { margin: -0.4rem 0 0.2rem; color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.45; }
   .qf-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--color-text-muted); font-size: 1.1rem; cursor: pointer; }
   .qf-product { background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.9rem; color: var(--color-text-muted); }
   .qf-product strong { color: var(--color-text); }
@@ -114,6 +120,7 @@ const { source = 'question' } = Astro.props as { source?: string };
     const productRef = dialog.querySelector('[data-product-ref]') as HTMLInputElement;
     const status = dialog.querySelector('[data-status]') as HTMLElement;
     const heading = dialog.querySelector('[data-dialog-title]') as HTMLElement | null;
+    const lead = dialog.querySelector('[data-dialog-lead]') as HTMLElement | null;
     const defaultTitle = heading?.textContent || 'Задать вопрос';
 
     // Шаги воронки считаются один раз на страницу: повторное открытие той
@@ -126,6 +133,10 @@ const { source = 'question' } = Astro.props as { source?: string };
         const el = btn as HTMLElement;
         const name = el.dataset.product;
         if (heading) heading.textContent = el.dataset.dialogTitle || defaultTitle;
+        if (lead) {
+          lead.textContent = el.dataset.dialogLead || '';
+          lead.hidden = !el.dataset.dialogLead;
+        }
         if (name) {
           productLine.hidden = false;
           productName.textContent = name;
