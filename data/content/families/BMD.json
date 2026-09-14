@@ -1,0 +1,148 @@
+{
+  "family_key": "BMD",
+  "vendor": "Blackmagic Design",
+  "vendor_profile": "data/content/vendors/bmd.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "bmd-resolve-studio",
+  "classification_notes": [
+    "Resolve Studio (perpetual)."
+  ],
+  "products": {
+    "bmd-resolve-studio": {
+      "sku": "BMDS-LIC-RESOLVESTUDIO-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Blackmagic DaVinci Resolve Studio — бессрочная лицензия на платную редакцию Resolve: всё из бесплатной версии плюс ИИ-инструменты Neural Engine, шумоподавление, HDR-градинг, 3D-стерео, Resolve FX, рендер до 32K, поддержка нескольких GPU. Одна покупка, все будущие версии бесплатно; активация ключом на 2 компьютерах.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет DaVinci Resolve Studio",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Монтаж, цвет, звук, VFX",
+              "d": "Cut, Edit, Fusion, Color, Fairlight в одном приложении."
+            },
+            {
+              "t": "Studio",
+              "d": "Neural Engine, Magic Mask, шумоподавление, HDR, Resolve FX."
+            },
+            {
+              "t": "Производительность",
+              "d": "Несколько GPU, рендер выше UHD."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Все будущие версии бесплатно."
+            },
+            {
+              "t": "Активация",
+              "d": "Ключ на 2 компьютерах."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Studio",
+              "d": "Профессиональный постпродакшн."
+            },
+            {
+              "t": "Adobe Premiere Pro",
+              "d": "Альтернатива по подписке.",
+              "link": "adobe-pr"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Колористам, монтажёрам и студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Обновится ли до следующей версии?",
+          "a": "Да, Blackmagic даёт обновления бесплатно."
+        }
+      ],
+      "related_products": [
+        "adobe-pr"
+      ],
+      "meta_title": "DaVinci Resolve Studio — бессрочная лицензия | BIZSoft",
+      "meta_description": "Blackmagic DaVinci Resolve Studio: монтаж, цвет, звук, VFX с Neural Engine; бессрочно, обновления бесплатно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "davinci resolve studio купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

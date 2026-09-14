@@ -1,0 +1,322 @@
+{
+  "family_key": "BOX",
+  "vendor": "Box",
+  "vendor_profile": "data/content/vendors/box.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "box-business",
+  "classification_notes": [
+    "Business / Business Plus. Носитель — Business."
+  ],
+  "products": {
+    "box-business": {
+      "sku": "BOX-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Box Business — командная подписка на 1 год на корпоративное облачное хранилище с упором на управление контентом: безлимитное хранилище, файлы до 5 ГБ, SSO, интеграции с Microsoft 365, Google и Slack, базовые отчёты, Box Notes и Sign. Лицензии на организации, минимум 3 пользователя.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Box Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хранилище",
+              "d": "Без лимита, файлы до 5 ГБ, версии 50."
+            },
+            {
+              "t": "Управление",
+              "d": "SSO, роли, базовые отчёты, ссылки с ограничениями."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Box Notes, Sign, Canvas, интеграции."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Шифрование, управление устройствами."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Команда с безлимитным хранилищем и SSO."
+            },
+            {
+              "t": "Business Plus",
+              "d": "Больше внешних коллабораторов, файлы 15 ГБ, расширенные отчёты.",
+              "link": "box-business-plus"
+            },
+            {
+              "t": "Dropbox Advanced",
+              "d": "Альтернатива.",
+              "link": "dropbox-advanced"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум 3",
+              "d": "Пользователей."
+            },
+            {
+              "t": "Внешние",
+              "d": "Лимит внешних коллабораторов по тарифу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, которым нужен контент-репозиторий с внешними партнёрами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли лимит хранилища?",
+          "a": "Нет, но есть лимит размера файла — 5 ГБ."
+        }
+      ],
+      "related_products": [
+        "box-business-plus",
+        "dropbox-advanced"
+      ],
+      "meta_title": "Box Business — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Box Business: безлимитное облачное хранилище, SSO, Box Sign и Notes, интеграции; от 3 пользователей. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "box business купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "box-business-plus": {
+      "sku": "BOX-LIC-BUSPLUS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Box Business Plus — командная подписка на 1 год на расширенный план Box: файлы до 15 ГБ, неограниченные внешние коллабораторы, расширенные отчёты и аналитика, больше версий, всё из Business. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Box Business Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Файлы",
+              "d": "До 15 ГБ, 100 версий."
+            },
+            {
+              "t": "Внешние",
+              "d": "Неограниченные коллабораторы вне компании."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Расширенная аналитика использования."
+            },
+            {
+              "t": "Всё из Business",
+              "d": "Хранилище, SSO, Sign."
+            }
+          ],
+          "links": [
+            "box-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business Plus",
+              "d": "Много внешних участников и больших файлов."
+            },
+            {
+              "t": "Business",
+              "d": "Базовый план.",
+              "link": "box-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Business."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Расширенная безопасность — договор."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам и проектным компаниям с постоянным внешним обменом."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Plus ради больших файлов?",
+          "a": "Если файлы регулярно больше 5 ГБ — да."
+        }
+      ],
+      "related_products": [
+        "box-business"
+      ],
+      "meta_title": "Box Business Plus — подписка на год | BIZSoft",
+      "meta_description": "Box Business Plus: файлы до 15 ГБ, неограниченные внешние коллабораторы, расширенные отчёты. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "box business plus — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
