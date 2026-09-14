@@ -42,8 +42,10 @@ from textfmt import num, pct  # noqa: E402 — числа и доли как в�
 DEVICES = ("desktop", "mobile", "tablet", "other")
 DEVICE_LABEL = {"desktop": "Десктоп", "mobile": "Мобильные",
                 "tablet": "Планшеты", "other": "Прочие"}
-DEVICE_SHORT = {"desktop": "Десктоп", "mobile": "Моб.",
-                "tablet": "Планш.", "other": "Проч."}
+# Подписи колонок письма короче подписей отчёта: ширина таблицы на телефоне
+# задаётся самой длинной подписью, а прокрутки письма вбок быть не должно.
+DEVICE_SHORT = {"desktop": "Деск.", "mobile": "Моб.",
+                "tablet": "План.", "other": "Проч."}
 
 CHANNELS = ("organic", "ads", "links", "catalogs", "platforms", "forums", "other")
 CHANNEL_LABEL = {
@@ -72,6 +74,11 @@ EXTERNAL_SPLIT_MIN_DOMAINS = 5
 
 # Класс домена → как он называется в отчёте. Домен вне реестра остаётся
 # «не размечен»: это видимый повод завести его в реестр, а не догадка.
+# Короткие подписи для письма: длинная метка канала задаёт минимальную
+# ширину таблицы, а письмо читают с телефона, где горизонтальной прокрутки
+# быть не должно. Полная формулировка остаётся в веб-отчёте.
+CHANNEL_SHORT = {"other": "Прочее"}
+
 DOMAIN_CLASS_LABEL = {
     "catalogs": "каталог",
     "platforms": "площадка присутствия",
@@ -210,6 +217,25 @@ def impressions_rows(report_date: str, base_dir: pathlib.Path | None = None) -> 
             "rows": rows, "period": period}
 
 
+# Ряд, которым проверяется сумма разреза: он собирается своим запросом, и
+# совпадение двух независимых чисел — доказательство, что каналы ничего не
+# потеряли. У GA4 такого ряда в витрине нет: дневной ряд там только по
+# органике, и сверять нечем.
+CONTROL_METRIC = {"metrika": "visits_all"}
+
+
+def _control_total(report_date: str, src: dict,
+                   base_dir: pathlib.Path | None) -> float | None:
+    """Сумма контрольного ряда системы за то же окно; None — ряда нет."""
+    metric = CONTROL_METRIC.get(src["key"])
+    if not metric:
+        return None
+    win = _window_block(report_date, src["key"], [metric], base_dir)
+    if win.get("missing_metrics") or not win.get("available") or not win.get("complete"):
+        return None
+    return _totals(win, [metric])[0]
+
+
 def visits_rows(report_date: str, base_dir: pathlib.Path | None = None) -> dict:
     """Визиты по каналам и устройствам: блок на систему учёта."""
     blocks, period = [], None
@@ -238,6 +264,10 @@ def visits_rows(report_date: str, base_dir: pathlib.Path | None = None) -> dict:
             })
         total, total_prev = _totals(win, metrics)
         devices = {d: sum(c["devices"][d] for c in channels) for d in DEVICES}
+        # Независимая сверка: у Метрики есть ряд всех визитов, собираемый
+        # отдельным запросом. Если сумма каналов с ним расходится, разрез
+        # что-то теряет или задваивает — и это видно, а не подразумевается.
+        control = _control_total(report_date, src, base_dir)
         blocks.append({
             **passport.available(_period(win)["current"]["to"]),
             "key": src["key"], "label": src["label"],
@@ -247,6 +277,10 @@ def visits_rows(report_date: str, base_dir: pathlib.Path | None = None) -> dict:
             "devices": devices,
             "shares": {d: _share(v, total) for d, v in devices.items()},
             "channels": channels,
+            "control_total": control,
+            "control_metric": CONTROL_METRIC.get(src["key"]),
+            "control_gap": (None if control in (None, 0)
+                            else (total - control) / control),
             "period": _period(win),
         })
     return {**passport.flag(any(b.get("available") for b in blocks), "no_file",
@@ -336,14 +370,35 @@ def email_channels(blk: dict) -> list[dict]:
     return rows
 
 
-def split_external(block: dict) -> bool:
-    """Пора ли письму показывать внешние классы по отдельности."""
-    visits = max(
-        (sum(c["total"] for c in blk.get("channels") or []
-             if c["key"] in EXTERNAL_CHANNELS)
-         for blk in (block.get("visits") or {}).get("blocks", [])
-         if blk.get("available")), default=0)
-    domains = len((block.get("referrals") or {}).get("rows") or [])
+def email_rows(blk: dict) -> list[dict]:
+    """Строки канала для письма: свёрнутые внешние либо непустые классы.
+
+    Даже когда объём внешних переходов заслужил разбивку, пустые классы в
+    неё не попадают: строка «Форумы и сообщества — 0» ничего не сообщает,
+    а место в письме занимает. Полный перечень классов, включая нулевые,
+    остаётся в веб-отчёте.
+    """
+    if not blk.get("split_external"):
+        return email_channels(blk)
+    return [c for c in blk.get("channels") or []
+            if c["key"] not in EXTERNAL_CHANNELS or c["total"]]
+
+
+def split_external(blk: dict, referrals: dict | None = None) -> bool:
+    """Пора ли письму показывать внешние классы этой системы по отдельности.
+
+    Решение принимается по каждой системе учёта отдельно, а не по максимуму
+    из двух: у Метрики и GA4 разные модели атрибуции, и на боевом срезе
+    14.09.2026 GA4 насчитал 26 внешних визитов при одном у Метрики. Общий
+    порог раскрыл бы классы в обеих таблицах, и у Метрики появились бы три
+    строки нулей — ровно то, ради чего внешние переходы и сворачивались.
+    """
+    if not blk.get("available"):
+        return False
+    visits = sum(c["total"] for c in blk.get("channels") or []
+                 if c["key"] in EXTERNAL_CHANNELS)
+    domains = sum(1 for r in ((referrals or {}).get("rows") or [])
+                  if (r.get("visits") or {}).get(blk["key"]))
     return visits >= EXTERNAL_SPLIT_MIN_VISITS or domains >= EXTERNAL_SPLIT_MIN_DOMAINS
 
 
@@ -422,6 +477,9 @@ def build(report_date: str, base_dir: pathlib.Path | None = None) -> dict:
     block["devices"] = visible_devices(block)
     block["tiles"] = tiles(block)
     block["referrals"] = referral_domains(report_date, vis, base_dir)
-    block["split_external"] = split_external(block)
+    for blk in vis.get("blocks", []):
+        blk["split_external"] = split_external(blk, block["referrals"])
+    block["split_external"] = any(b.get("split_external")
+                                  for b in vis.get("blocks", []))
     block["headline"] = headline(block)
     return block

@@ -1752,30 +1752,51 @@ def _audience_domains_line(block: dict) -> str:
     видимые домены, классы и полный список остаются в отчёте.
     """
     rows = (block.get("referrals") or {}).get("rows") or []
-    if not rows or block.get("split_external"):
+    if not rows:
         return ""
     top = ", ".join(f"{r['domain']} — {num(r['total'])}" for r in rows[:3])
     more = (f" и ещё {counted(len(rows) - 3, 'домен', 'домена', 'доменов')}"
             if len(rows) > 3 else "")
     return (f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
             f"padding-top:{SP['s']}px;line-height:1.45;\">"
-            f"Внешние переходы: {top}{more}. Класс каждого домена — каталог, "
-            f"площадка или форум — в подробном отчёте.</div>")
+            f"Внешние переходы привели: {top}{more}. Класс каждого домена — "
+            f"каталог, площадка или форум — в подробном отчёте.</div>")
+
+
+def _audience_other_note(blk: dict, devices: list[str]) -> str:
+    """Примечание о визитах с прочих устройств, если их нет в колонках.
+
+    Колонка «прочие» в письме не печатается: семь колонок не помещаются в
+    ширину телефона, а прокрутка письма вбок запрещена. Но visits с
+    телевизоров и приставок входят в «Всего», и умолчание сделало бы
+    сумму по колонкам меньше итога без объяснения.
+    """
+    if "other" in devices:
+        return ""
+    rest = (blk.get("devices") or {}).get("other") or 0
+    if not rest:
+        return ""
+    return (f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+            f"padding-top:{SP['xs']}px;line-height:1.45;\">"
+            f"В «Всего» входят также {counted(int(rest), 'визит', 'визита', 'визитов')} "
+            f"с прочих устройств (телевизоры, приставки): отдельной колонкой они "
+            f"не печатаются.</div>")
 
 
 def _audience_channel_table(block: dict, devices: list[str]) -> str:
     """Таблица визитов: канал × устройство, блоком на каждую систему учёта."""
     head = ("<tr>"
-            f"<th align=\"left\" style=\"font-size:12.5px;color:{T['text_secondary']};"
-            f"font-weight:700;padding:0 0 6px;\">Канал</th>"
-            f"<th align=\"right\" style=\"font-size:12.5px;color:{T['text_secondary']};"
-            f"font-weight:700;padding:0 0 6px 8px;\">Всего</th>"
+            f"<th data-meta=\"1\" align=\"left\" style=\"font-size:12.5px;"
+            f"color:{T['text_secondary']};font-weight:700;padding:0 0 6px;\">Канал</th>"
+            f"<th data-meta=\"1\" align=\"right\" style=\"font-size:12.5px;"
+            f"color:{T['text_secondary']};font-weight:700;padding:0 0 6px 4px;\">Всего</th>"
             + "".join(
-                f"<th align=\"right\" style=\"font-size:12.5px;"
-                f"color:{T['text_secondary']};font-weight:700;padding:0 0 6px 8px;\">"
+                f"<th data-meta=\"1\" align=\"right\" style=\"font-size:12.5px;"
+                f"color:{T['text_secondary']};font-weight:700;padding:0 0 6px 4px;\">"
                 f"{audience_mod.DEVICE_SHORT[d]}</th>" for d in devices)
-            + f"<th align=\"right\" style=\"font-size:12.5px;color:{T['text_secondary']};"
-              f"font-weight:700;padding:0 0 6px 8px;\">Δ нед.</th></tr>")
+            + f"<th data-meta=\"1\" align=\"right\" style=\"font-size:12.5px;"
+              f"color:{T['text_secondary']};font-weight:700;padding:0 0 6px 4px;\">"
+              f"Δ</th></tr>")
     parts = []
     for blk in (block.get("visits") or {}).get("blocks", []):
         title = f"{blk['label']} · {blk['source_label']}"
@@ -1785,30 +1806,29 @@ def _audience_channel_table(block: dict, devices: list[str]) -> str:
                          f"нет данных: {blk.get('reason', '')}</div>")
             continue
         body = []
-        rows_for_email = (blk["channels"] if block.get("split_external")
-                          else audience_mod.email_channels(blk))
-        for ch in rows_for_email:
+        for ch in audience_mod.email_rows(blk):
             cells = "".join(
-                f"<td align=\"right\" style=\"font-size:14px;padding:6px 0 6px 8px;"
-                f"border-bottom:1px solid {T['border']};white-space:nowrap;\">"
+                f"<td align=\"right\" style=\"font-size:14px;padding:6px 0 6px 4px;"
+                f"border-bottom:1px solid {T['border']};\">"
                 f"{num((ch['devices'] or {}).get(d) or 0)}</td>" for d in devices)
             rel = ch.get("delta_pct")
             body.append(
-                f"<tr><td style=\"font-size:14px;padding:6px 8px 6px 0;"
-                f"border-bottom:1px solid {T['border']};\">{ch['label']}</td>"
+                f"<tr><td style=\"font-size:14px;padding:6px 4px 6px 0;"
+                f"border-bottom:1px solid {T['border']};\">"
+                f"{audience_mod.CHANNEL_SHORT.get(ch['key'], ch['label'])}</td>"
                 f"<td align=\"right\" style=\"font-size:14px;font-weight:700;"
-                f"padding:6px 0 6px 8px;border-bottom:1px solid {T['border']};\">"
+                f"padding:6px 0 6px 4px;border-bottom:1px solid {T['border']};\">"
                 f"{num(ch['total'])}</td>{cells}"
                 f"<td align=\"right\" style=\"font-size:14px;padding:6px 0 6px 8px;"
                 f"border-bottom:1px solid {T['border']};color:"
                 f"{T['positive'] if (rel or 0) > 0 else T['danger'] if rel else T['text_secondary']};"
-                f"white-space:nowrap;\">{signed_pct(rel) or '—'}</td></tr>")
+                f"white-space:nowrap;\">{signed_pct(rel, 0) or '—'}</td></tr>")
         total_cells = "".join(
             f"<td align=\"right\" style=\"font-size:14px;font-weight:700;"
-            f"padding:6px 0 6px 8px;\">{num((blk['devices'] or {}).get(d) or 0)}</td>"
+            f"padding:6px 0 6px 4px;\">{num((blk['devices'] or {}).get(d) or 0)}</td>"
             for d in devices)
         body.append(
-            f"<tr><td style=\"font-size:14px;font-weight:700;padding:6px 8px 6px 0;\">"
+            f"<tr><td style=\"font-size:14px;font-weight:700;padding:6px 4px 6px 0;\">"
             f"Итого</td><td align=\"right\" style=\"font-size:14px;font-weight:700;"
             f"padding:6px 0 6px 8px;\">{num(blk['total'])}</td>{total_cells}"
             f"<td align=\"right\" style=\"font-size:14px;font-weight:700;"
@@ -1819,13 +1839,13 @@ def _audience_channel_table(block: dict, devices: list[str]) -> str:
             f"{title}</div>"
             f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" "
             f"cellspacing=\"0\" style=\"border-collapse:collapse;\">"
-            f"{head}{''.join(body)}</table>")
+            f"{head}{''.join(body)}</table>{_audience_other_note(blk, devices)}")
     return "".join(parts)
 
 
 def _audience_html(block: dict) -> str:
     """Блок «Аудитория»: четыре плитки, под ними визиты по каналам."""
-    devices = block.get("devices") or ["desktop", "mobile", "tablet"]
+    devices = ["desktop", "mobile", "tablet"]
     cells = []
     for i, tile in enumerate(block.get("tiles") or []):
         mso_open = ("<!--[if mso]><table role=\"presentation\" width=\"100%\"><tr>"
@@ -2454,15 +2474,14 @@ def plain_text(b: dict) -> str:
                          f"{blk.get('reason', '')}")
                 continue
             L.append(f"  {blk['label']} · {blk['source_label']} — визиты по каналам:")
-            for ch in (blk["channels"] if aud.get("split_external")
-                       else audience_mod.email_channels(blk)):
+            for ch in audience_mod.email_rows(blk):
                 split = ", ".join(
                     f"{audience_mod.DEVICE_SHORT[d].lower()} {num((ch['devices'] or {}).get(d) or 0)}"
                     for d in devices)
                 L.append(f"    {ch['label']}: {num(ch['total'])} ({split}) "
                          f"{signed_pct(ch.get('delta_pct'))}".rstrip())
         dom = (aud.get("referrals") or {}).get("rows") or []
-        if dom and not aud.get("split_external"):
+        if dom:
             L.append("  внешние переходы по доменам: "
                      + ", ".join(f"{r['domain']} — {num(r['total'])}" for r in dom[:3]))
     L += ["", "ЧТО ДАЛО ИЗМЕНЕНИЕ", b["driver_summary"]]
