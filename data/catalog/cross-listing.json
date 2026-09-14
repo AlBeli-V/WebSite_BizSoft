@@ -1,0 +1,89 @@
+{
+  "_note": "Вторая привязка товара к разделу каталога: артикул → дополнительные разделы. Домашний раздел (поле category в Directus) не меняется — он задаёт хлебные крошки, канонический адрес и раздел в карточке. Товар из реестра дополнительно показывается в перечисленных разделах и считается в их счётчиках. Правится через PR: решение о том, что продукт закрывает две задачи, — редакторское. Реестр читает src/lib/cross-listing.ts, сторожит tests/cross-listing.test.ts; сверку с боевой базой делает прогон ops-export-catalog-map.",
+
+  "_why": "У товара в Directus одна категория, и вокруг неё собран весь сайт. Перенос товара из раздела в раздел не наполняет каталог: он забирает позицию у соседа. Тонкие разделы (Сайты и хостинг, Маркетинг AI, Доски и совместная работа, Офисная продуктивность AI) пусты не потому, что товары лежат не там, а потому что один и тот же продукт закрывает две задачи, а показан в одной. Механизм тот же, которым с 2026 года живут «Корпоративные AI»: раздел собирается явным списком, схема базы не меняется.",
+
+  "_rules": [
+    "Ключ — артикул (sku), как в recategorize.json. Регистр не важен.",
+    "Значение — разделы, в которых товар показывается дополнительно к своему.",
+    "Домашний раздел в списке указывать нельзя: это ошибка, её ловит тест.",
+    "Раздел должен существовать в data/catalog/categories.json или в базе.",
+    "Вторая привязка — про назначение продукта, а не про похожие слова в описании."
+  ],
+
+  "_reasons": {
+    "collaboration": "рабочее пространство команды: каналы, файлы, общие документы — а не только звонки",
+    "ai-office": "AI внутри рабочих документов, почты и встреч. Microsoft 365 Copilot сюда не вписан: артикул MSFT-LIC-M365COPILOT-TEAM-1Y-USER и так лежит в этом разделе — вторая привязка ему не нужна",
+    "web": "публикация сайта, домен и защита периметра — задача одного заказчика",
+    "ai-marketing": "инструменты маркетинговой команды: креатив, ролики, фирменный стиль",
+    "architecture": "рабочий инструмент архитектурной визуализации",
+    "engineering": "инженерные редакции: гражданское строительство и обмер по облаку точек",
+    "ai-audio": "работа со звуком на моделях: реставрация записи и расшифровка речи",
+    "ai-image": "генерация, апскейл и улучшение изображений на моделях",
+    "ai-video": "генеративное видео и восстановление записи на моделях"
+  },
+
+  "also": {
+    "SLCK-LIC-PRO-TEAM-1Y-USER": ["collaboration"],
+    "SLCK-LIC-BUSINESSPLUS-TEAM-1Y-USER": ["collaboration"],
+    "ZOOM-LIC-WORKPLACEPRO-UNI-1Y-USER": ["collaboration"],
+    "ZOOM-LIC-WORKPLACEBUS-TEAM-1Y-USER": ["collaboration"],
+    "ZOOM-LIC-WORKPLACEBP-TEAM-1Y-USER": ["collaboration"],
+    "ZOOM-LIC-WORKPLACEENT-TEAM-1Y-USER": ["collaboration"],
+    "NOTN-LIC-ENTERPRISE-TEAM-1Y-USER": ["collaboration"],
+    "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-COLLAB": ["collaboration"],
+    "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-COLLAB": ["collaboration"],
+    "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-COLLAB": ["collaboration"],
+
+    "DEPL-LIC-PROSTARTER-UNI-1Y-USER": ["ai-office"],
+    "DEPL-LIC-PROADVANCED-UNI-1Y-USER": ["ai-office"],
+    "DEPL-LIC-PROBUSINESS-TEAM-1Y-USER": ["ai-office"],
+    "ZOOM-ADD-AICOMPANION-UNI-1Y-USER": ["ai-office"],
+    "ADBE-LIC-ACROBATPRO-IND-1Y-USER": ["ai-office"],
+    "ADBE-LIC-ACROBATPRO-TEAM-1Y-USER": ["ai-office"],
+    "ADBE-LIC-ACROBATSTUD-UNI-1Y-USER": ["ai-office"],
+
+    "FRMR-LIC-ENTERPRISE-TEAM-1Y-ORG": ["web"],
+    "CFLR-LIC-PRO-UNI-1Y-ORG": ["web"],
+    "CFLR-LIC-BUSINESS-TEAM-1Y-ORG": ["web"],
+    "LOVB-LIC-PRO-IND-1Y-USER": ["web"],
+    "LOVB-LIC-BUSINESS-TEAM-1Y-USER": ["web"],
+    "FRMR-LIC-BASIC-UNI-1Y-ORG": ["web"],
+    "FRMR-LIC-PRO-UNI-1Y-ORG": ["web"],
+    "FRMR-LIC-SCALE-UNI-1Y-ORG": ["web"],
+    "ADBE-LIC-DREAMWEAVER-UNI-1Y-USER": ["web"],
+
+    "CANV-LIC-ENTERPRISE-TEAM-1Y-USER": ["ai-marketing"],
+    "CAPC-LIC-PRO-UNI-1Y-USER": ["ai-marketing"],
+    "CAPC-LIC-TEAM-TEAM-1Y-USER": ["ai-marketing"],
+    "RCFT-LIC-ENTERPRISE-TEAM-1Y-USER": ["ai-marketing"],
+    "HYGN-LIC-ENTERPRISE-TEAM-1Y-USER": ["ai-marketing"],
+    "ADBE-LIC-EXPRESS-IND-1Y-USER": ["ai-marketing"],
+    "ADBE-LIC-EXPRESS-TEAM-1Y-USER": ["ai-marketing"],
+    "CANV-LIC-PRO-IND-1Y-USER": ["ai-marketing"],
+    "CANV-LIC-BUSINESS-TEAM-1Y-USER": ["ai-marketing"],
+
+    "TPZ-LIC-GIGAPIXEL-UNI-1Y-USER": ["ai-image"],
+    "TPZ-LIC-PHOTO-UNI-1Y-USER": ["ai-image"],
+    "FRPK-LIC-PREMIUM-UNI-1Y-USER": ["ai-image"],
+    "FRPK-LIC-PREMIUMPLUS-UNI-1Y-USER": ["ai-image"],
+    "TPZ-LIC-STUDIO-UNI-1Y-USER": ["ai-image", "ai-video"],
+
+    "TPZ-LIC-VIDEO-UNI-1Y-USER": ["ai-video"],
+
+    "MAXN-LIC-REDSHIFT-IND-1Y-USER": ["architecture"],
+    "MAXN-LIC-REDSHIFT-TEAM-1Y-USER": ["architecture"],
+    "ADSK-LIC-3DSMAX-UNI-1Y-USER": ["architecture"],
+    "ADSK-LIC-AUTOCAD-UNI-1Y-USER": ["architecture"],
+
+    "SKUP-LIC-PROCIVIL-UNI-1Y-USER": ["engineering"],
+    "SKUP-LIC-PROSCAN-UNI-1Y-USER": ["engineering"],
+
+    "IZOT-LIC-RX12STD-UNI-PERP-USER": ["ai-audio"],
+    "DSCR-LIC-ENTERPRISE-TEAM-1Y-USER": ["ai-audio"],
+    "IZOT-LIC-NEUTRON5-UNI-PERP-USER": ["ai-audio"],
+    "IZOT-LIC-OZONE12STD-UNI-PERP-USER": ["ai-audio"],
+    "IZOT-LIC-OZONE12ADV-UNI-PERP-USER": ["ai-audio"],
+    "IZOT-LIC-RX12ADV-UNI-PERP-USER": ["ai-audio"]
+  }
+}

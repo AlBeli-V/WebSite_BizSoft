@@ -62,7 +62,7 @@ const altPages = alternativesForCategory(`ai/${meta.sub}`);
 
 const guide = meta.guide ?? [];
 const faq = meta.faq?.length ? meta.faq : [
-  { q: `Как купить ${meta.name.toLowerCase()} для юрлица?`, a: 'Оставьте заявку или добавьте позиции в спецификацию и нажмите «Получить КП». Заключаем договор, выставляем счёт в рублях, после оплаты предоставляем доступ и передаём закрывающие через ЭДО.' },
+  { q: `Как купить ${meta.name.toLowerCase()} для юрлица?`, a: 'Оставьте заявку или добавьте позиции в расчёт и нажмите «Получить КП». Заключаем договор, выставляем счёт в рублях, после оплаты предоставляем доступ и передаём закрывающие через ЭДО.' },
   { q: 'Цена указана за год?', a: 'Да, для корпоративных AI-подписок мы ориентируемся на годовые тарифы. Рублёвая цена считается от годовой цены вендора по курсу ЦБ РФ на дату счёта; итог фиксируется в счёте.' },
 ];
 ---
@@ -144,13 +144,13 @@ const faq = meta.faq?.length ? meta.faq : [
   h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0.5rem 0 0.8rem; }
   .lead { color: var(--color-text-muted); font-size: 1.05rem; }
   .switch-link { display: inline-block; margin-top: 0.8rem; color: var(--color-accent); font-weight: 600; }
-  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.2rem; }
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: 1.2rem; }
   .prep { padding: 1.6rem; margin-bottom: 1.5rem; }
   .prep .muted { color: var(--color-text-muted); margin-bottom: 1rem; max-width: 60ch; }
   .actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
   .related { margin: 2rem 0 1rem; }
   .related h2 { font-size: 1.4rem; margin-bottom: 1rem; }
-  .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem; }
   .rel { padding: 1.1rem 1.3rem; font-weight: 600; color: var(--color-accent); }
   .guide { margin-top: 2.6rem; max-width: 760px; }
   .guide h2 { margin-top: 0; }

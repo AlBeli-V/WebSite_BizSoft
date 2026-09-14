@@ -1,0 +1,642 @@
+{
+  "family_key": "ATLASSIAN",
+  "vendor": "Atlassian",
+  "vendor_profile": "data/content/vendors/atlassian.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "jira-standard",
+  "classification_notes": [
+    "Jira Standard/Premium, Confluence Standard/Premium (Cloud). Носитель — Jira Standard."
+  ],
+  "products": {
+    "jira-standard": {
+      "sku": "ATLS-LIC-JIRASTD-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Jira Standard — командная подписка на 1 год на облачный трекер задач Atlassian для команд разработки и проектов: доски Scrum и Kanban, бэклоги, спринты, автоматизация, отчёты, роли и права; лицензии на организации, места переназначаются. Standard — базовый платный план: до 35 000 пользователей на сайт, 250 ГБ хранилища, поддержка в рабочие часы.\n\nPremium добавляет расширенную автоматизацию без лимитов, планы Advanced Roadmaps, аудит, SLA поддержки и безлимитное хранилище.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Jira Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Задачи и доски",
+              "d": "Scrum, Kanban, бэклог, спринты, дорожные карты, эпики."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Правила по событиям с лимитом запусков на Standard."
+            },
+            {
+              "t": "Права",
+              "d": "Роли и схемы прав на проект, аудит базовый."
+            },
+            {
+              "t": "Экосистема",
+              "d": "Confluence, Bitbucket, тысячи приложений Marketplace."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Команда с базовой автоматизацией и обычной поддержкой."
+            },
+            {
+              "t": "Premium",
+              "d": "Безлимитная автоматизация, планы на несколько проектов, аудит, SLA.",
+              "link": "jira-premium"
+            },
+            {
+              "t": "Confluence Standard",
+              "d": "Документация к задачам.",
+              "link": "confluence-standard"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимит автоматизации",
+              "d": "На Standard правила считают запуски; активным командам быстро становится мало."
+            },
+            {
+              "t": "Облако",
+              "d": "Данные в Atlassian Cloud; локальный Data Center — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам разработки и проектным офисам, которые перерастают бесплатный Jira."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бесплатный Jira?",
+          "a": "Да, до 10 пользователей; Standard снимает лимит и добавляет права и хранилище."
+        }
+      ],
+      "related_products": [
+        "jira-premium",
+        "confluence-standard"
+      ],
+      "meta_title": "Jira Standard — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Atlassian Jira Standard: трекер задач с досками Scrum/Kanban, автоматизацией и правами; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "jira купить лицензия юрлицо — hero, meta"
+      ],
+      "uncertainties": [
+        "Лимиты хранилища и автоматизации — по прайсу Atlassian."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "jira-premium": {
+      "sku": "ATLS-LIC-JIRAPRM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Jira Premium — командная подписка на 1 год на старший стандартный план Jira Cloud: безлимитная автоматизация, планирование на несколько команд и проектов (Plans), песочница и контроль релизов, расширенный аудит, безлимитное хранилище, SLA поддержки 99,9 % и круглосуточная поддержка. Лицензии на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Jira Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Планирование",
+              "d": "Plans: зависимости и загрузка по нескольким проектам и командам."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Без лимита запусков, глобальные и мультипроектные правила."
+            },
+            {
+              "t": "Управление",
+              "d": "Песочница, аудит, архив проектов, безлимитное хранилище."
+            },
+            {
+              "t": "Поддержка",
+              "d": "24/7, SLA доступности."
+            }
+          ],
+          "links": [
+            "jira-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Несколько команд, портфельное планирование, аудит."
+            },
+            {
+              "t": "Standard",
+              "d": "Одна-несколько команд с базовой автоматизацией.",
+              "link": "jira-standard"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Несколько сайтов, договор — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Примерно вдвое дороже Standard за место."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Централизованное управление несколькими сайтами — только договор."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с несколькими продуктовыми командами и требованиями к аудиту."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Premium ради автоматизации?",
+          "a": "Если правила упираются в лимит Standard ежемесячно — да."
+        }
+      ],
+      "related_products": [
+        "jira-standard"
+      ],
+      "meta_title": "Jira Premium — подписка на год | BIZSoft",
+      "meta_description": "Atlassian Jira Premium: безлимитная автоматизация, планирование на несколько команд, аудит, песочница, SLA. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "jira premium — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "confluence-standard": {
+      "sku": "ATLS-LIC-CONFSTD-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Confluence Standard — командная подписка на 1 год на облачную базу знаний и вики Atlassian: пространства и страницы, шаблоны, совместное редактирование, права на уровне пространств и страниц, интеграция с Jira. Лицензии на организации; 250 ГБ хранилища.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Confluence Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Документы",
+              "d": "Страницы с макросами, таблицами, диаграммами, версии и комментарии."
+            },
+            {
+              "t": "Структура",
+              "d": "Пространства команд и проектов, шаблоны, поиск."
+            },
+            {
+              "t": "Права",
+              "d": "На пространства и страницы; аудит базовый."
+            },
+            {
+              "t": "Jira",
+              "d": "Связь задач и документации."
+            }
+          ],
+          "links": [
+            "jira-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места Confluence принадлежат сайту организации в Atlassian Cloud; администратор сайта добавляет и удаляет пользователей, переназначение — без участия вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "База знаний команды."
+            },
+            {
+              "t": "Premium",
+              "d": "Аналитика, безлимитное хранилище, аудит, SLA.",
+              "link": "confluence-premium"
+            },
+            {
+              "t": "Notion Business",
+              "d": "Альтернатива с базами данных.",
+              "link": "notion-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хранилище",
+              "d": "250 ГБ на сайт."
+            },
+            {
+              "t": "Облако",
+              "d": "Data Center — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, у которых документация живёт рядом с Jira."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бесплатный Confluence?",
+          "a": "Да, до 10 пользователей; Standard — без лимита и с правами."
+        }
+      ],
+      "related_products": [
+        "jira-standard",
+        "confluence-premium",
+        "notion-business"
+      ],
+      "meta_title": "Confluence Standard — подписка на год | BIZSoft",
+      "meta_description": "Atlassian Confluence Standard: база знаний с пространствами, шаблонами, правами и связью с Jira; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "confluence купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "confluence-premium": {
+      "sku": "ATLS-LIC-CONFPRM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Confluence Premium — годовой командный план верхнего уровня для Confluence Cloud: аналитика чтения страниц, администрирование команд и пространств, безлимитное хранилище, расширенный аудит, песочница, поддержка 24/7 с SLA; места закреплены за сайтом организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Confluence Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Аналитика",
+              "d": "Кто читает, что устарело, где пробелы."
+            },
+            {
+              "t": "Администрирование",
+              "d": "Массовые операции с пространствами, архивирование, инспекция прав."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Пространства, шаблоны, Jira."
+            },
+            {
+              "t": "Поддержка",
+              "d": "24/7, SLA."
+            }
+          ],
+          "links": [
+            "jira-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Сотни пространств, аудит, аналитика."
+            },
+            {
+              "t": "Standard",
+              "d": "Небольшая база знаний.",
+              "link": "confluence-standard"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Вдвое дороже Standard."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договорной план для нескольких сайтов."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с большой документацией и требованиями к контролю доступа."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Даёт ли Premium лимиты хранилища?",
+          "a": "Нет, хранилище безлимитно."
+        }
+      ],
+      "related_products": [
+        "jira-standard",
+        "confluence-standard"
+      ],
+      "meta_title": "Confluence Premium — подписка на год | BIZSoft",
+      "meta_description": "Atlassian Confluence Premium: аналитика, администрирование пространств, безлимитное хранилище, аудит, SLA. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "confluence premium — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

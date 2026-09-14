@@ -1,0 +1,677 @@
+{
+  "family_key": "ZOHO-NETFLOW",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users",
+  "classification_notes": [
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы нет — OWNERSHIP = universal.",
+    "Лицензия считается по интерфейсам, экспортирующим потоки; пакет интерфейсов — единица товара, packaging edition_tier (Professional / Enterprise / Standard по артикулу).",
+    "Носитель — Professional, 10 интерфейсов: младшая по закупке из действующих редакций.",
+    "Позиция Standard 500 интерфейсов: h1 «10 интерфейсов», артикул 500IF, закупка в 14 раз выше; редакция Standard в текущей линейке вендора не известна — текст по артикулу, needs_operator.",
+    "Сайт вендора в сессии не открывался; состав редакций — по знанию модели."
+  ],
+  "products": {
+    "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users": {
+      "sku": "ZOHO-LIC-NETFLOWPRO-TEAM-1Y-PACK-10IF2USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "10 интерфейсов, 2 пользователя",
+      "unit_label": "пакет: 10 интерфейсов, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "NetFlow Analyzer Professional — годовая подписка на систему анализа трафика ManageEngine по потокам: какие приложения, хосты и разговоры занимают канал, как загружены интерфейсы маршрутизаторов и коммутаторов, где растёт нагрузка. Пакет на 10 интерфейсов-источников и 2 пользователей консоли; ставится на сервер организации.\n\nЛицензия считается по интерфейсам, с которых устройство экспортирует NetFlow, sFlow, IPFIX или аналог, а не по устройствам. Professional — редакция для одной площадки; Enterprise добавляет коллекторы и центральный сервер для распределённых сетей.\n\nСрок — 1 год, обновления и поддержка включены. Пакеты на 25, 50, 100 и больше интерфейсов — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет NetFlow Analyzer Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приём потоков",
+              "d": "NetFlow v5 и v9, Flexible NetFlow, sFlow, J-Flow, IPFIX, NetStream, AppFlow, cflowd — с маршрутизаторов, коммутаторов и межсетевых экранов Cisco, Juniper, Huawei, HP, Fortinet и других."
+            },
+            {
+              "t": "Кто и чем занимает канал",
+              "d": "Трафик по приложениям, источникам, получателям, разговорам, протоколам и DSCP; сопоставление приложений по портам и по Cisco NBAR."
+            },
+            {
+              "t": "Cisco-специфика",
+              "d": "Отчёты CBQoS по классам обслуживания, Medianet для голоса и видео, WAAS по эффекту оптимизации WAN; IP SLA-тесты доступности и задержек."
+            },
+            {
+              "t": "Группы и биллинг",
+              "d": "IP-группы по подразделениям и сервисам, отчёты по потреблению для внутреннего выставления счетов, пороги для каждой группы."
+            },
+            {
+              "t": "Оповещения и прогноз",
+              "d": "Пороговые и адаптивные оповещения по загрузке, объёму и скорости; прогноз загрузки интерфейсов для планирования ёмкости."
+            },
+            {
+              "t": "Аналитика безопасности",
+              "d": "Модуль ASAM выявляет сканирования, DDoS и аномальные потоки по поведению трафика; подключается как дополнение."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Professional, Enterprise или Standard",
+          "kind": "compare",
+          "body": "Все позиции считают лицензию по интерфейсам и принимают одни и те же протоколы потоков. Разница — в архитектуре и объёме.",
+          "rows": [
+            {
+              "label": "Стартовый пакет",
+              "values": {
+                "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users": "10 интерфейсов",
+                "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users": "10 интерфейсов",
+                "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users": "500 интерфейсов (по артикулу)"
+              }
+            },
+            {
+              "label": "Анализ трафика по приложениям, хостам, разговорам",
+              "values": {
+                "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users": "да",
+                "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users": "да",
+                "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "CBQoS, Medianet, WAAS, IP SLA",
+              "values": {
+                "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users": "да",
+                "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users": "да",
+                "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users": "уточняется"
+              }
+            },
+            {
+              "label": "Центральный сервер и коллекторы",
+              "values": {
+                "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users": "нет",
+                "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users": "да",
+                "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users": "нет"
+              }
+            },
+            {
+              "label": "Площадки",
+              "values": {
+                "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users": "одна",
+                "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users": "несколько",
+                "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users": "одна"
+              }
+            },
+            {
+              "label": "Статус редакции у вендора",
+              "values": {
+                "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users": "действующая",
+                "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users": "действующая",
+                "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users": "уточняется при заказе"
+              }
+            }
+          ],
+          "links": [
+            "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users",
+            "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Сетевому администратору одной площадки, у которого канал в интернет или к филиалам периодически «забивается», а мониторинг по SNMP показывает лишь процент загрузки, но не виновника. Десять интерфейсов — это, как правило, WAN-порты двух-трёх маршрутизаторов и аплинки ядра."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если потоки нужно собирать в нескольких городах, а сводить в центре — это Enterprise. Если уже стоит OpManager, те же отчёты дешевле получить дополнением NetFlow к нему или в составе Nexus. Если интересуют не потоки, а события безопасности и правила межсетевого экрана — Firewall Analyzer."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое интерфейс",
+              "d": "Порт устройства, с которого включён экспорт потоков и по которому система получает данные. Устройство с двумя WAN-портами и включённым экспортом на обоих — два интерфейса; порты без экспорта не считаются."
+            },
+            {
+              "t": "Настройка на стороне устройства",
+              "d": "Экспорт потоков включается в конфигурации маршрутизатора или коммутатора; для sFlow нужен коммутатор с его поддержкой, для NBAR и CBQoS — Cisco с соответствующей IOS."
+            },
+            {
+              "t": "Пользователи консоли",
+              "d": "В пакете две учётные записи; дополнительные — по запросу."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server или Linux на площадке организации, встроенная база данных; объём диска зависит от числа потоков и срока хранения сырых записей. Пробный период — 30 дней."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте порты с экспортом",
+              "d": "Включайте в расчёт только те интерфейсы, откуда пойдут потоки. При 14 интерфейсах нужен следующий пакет (25), а не два по 10; переход между пакетами в течение срока — доплатой разницы."
+            },
+            {
+              "t": "Подписка или бессрочная лицензия",
+              "d": "Подписка на год содержит обновления и поддержку. Бессрочная лицензия с ежегодным AMS 20 % — по запросу."
+            },
+            {
+              "t": "Дополнения",
+              "d": "ASAM (аналитика безопасности), дополнительные пользователи, отказоустойчивость — платные модули; если рядом планируется OpManager, выгоднее считать объединённую лицензию Nexus."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "NetFlow Analyzer Enterprise, 10 интерфейсов",
+              "d": "Та же лицензия по интерфейсам плюс коллекторы для нескольких площадок.",
+              "link": "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users"
+            },
+            {
+              "t": "OpManager Nexus, 10 flow-интерфейсов",
+              "d": "Анализ потоков как часть объединённой лицензии OpManager — если мониторинг устройств и трафика хочется вести в одной консоли.",
+              "link": "me-opmanager-nexus-flow-interfaces-10-flow-interfaces"
+            },
+            {
+              "t": "Firewall Analyzer Standard, 1 устройство",
+              "d": "Полоса и пользователи по журналам межсетевого экрана вместо потоков — когда маршрутизаторы экспорт не поддерживают.",
+              "link": "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли устройства или интерфейсы?",
+          "a": "Интерфейсы. Маршрутизатор с четырьмя портами, на двух из которых включён экспорт потоков, расходует две единицы лицензии."
+        },
+        {
+          "q": "Нужен ли Cisco, чтобы система работала?",
+          "a": "Нет. Достаточно любого устройства, экспортирующего NetFlow, sFlow, IPFIX или совместимый формат. Отчёты NBAR, CBQoS и Medianet — только для Cisco."
+        },
+        {
+          "q": "Как перейти на больший пакет?",
+          "a": "Доплатой разницы между пакетами на оставшийся срок; срок нового пакета выравнивается с действующей подпиской."
+        }
+      ],
+      "related_products": [
+        "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users",
+        "me-opmanager-nexus-flow-interfaces-10-flow-interfaces",
+        "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+      ],
+      "meta_title": "NetFlow Analyzer Professional, 10 интерфейсов | BIZSoft",
+      "meta_description": "ManageEngine NetFlow Analyzer Professional: анализ трафика по NetFlow, sFlow, IPFIX — приложения, хосты, каналы. Пакет на 10 интерфейсов и 2 пользователей.",
+      "seo_intents": [
+        "netflow analyzer купить / manageengine netflow analyzer лицензия — hero, meta",
+        "netflow analyzer professional vs enterprise — PLAN_COMPARE",
+        "netflow analyzer лицензирование интерфейсы — DEPENDENCIES, FAQ",
+        "анализ трафика netflow sflow ipfix — CAPABILITIES",
+        "netflow analyzer бессрочная лицензия ams — BEFORE_ORDER"
+      ],
+      "uncertainties": [
+        "Ряд пакетов интерфейсов (10/25/50/100/250/500/1000) — по общей практике вендора; на витрине не заведён.",
+        "Состав модуля ASAM и порядок его лицензирования (дополнение к любому пакету) — по знанию модели, у вендора не проверено.",
+        "Перечень поддерживаемых форматов потоков и вендоров устройств — по знанию модели на 13.09.2026."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ FIT и PLAN_COMPARE; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что именно делает продукт",
+          "new_information": "шесть групп функций анализа потоков",
+          "sibling_overlap": "носитель; соседи — дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "netflow analyzer возможности",
+          "source": "uncertain (netflow analyzer features, по знанию модели)"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "какая из трёх позиций",
+          "new_information": "шесть строк, включая статус редакции Standard",
+          "sibling_overlap": "соседи ссылаются",
+          "decision": "COMPARE",
+          "seo_intent": "netflow analyzer editions",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль одной площадки, три выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "кто грузит канал",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и что настроить",
+          "new_information": "определение интерфейса, экспорт на устройстве, пользователи, сервер",
+          "sibling_overlap": "соседи ссылаются",
+          "decision": "VALIDATE",
+          "seo_intent": "netflow analyzer что считается интерфейсом",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "арифметика пакетов, perpetual+AMS, дополнения и Nexus",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "netflow analyzer ams / nexus",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "сосед, Nexus flow, Firewall Analyzer",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users": {
+      "sku": "ZOHO-LIC-NETFLOWENT-TEAM-1Y-PACK-10IF2USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "10 интерфейсов, 2 пользователя",
+      "unit_label": "пакет: 10 интерфейсов, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "NetFlow Analyzer Enterprise — годовая подписка на распределённую редакцию ManageEngine: коллекторы принимают потоки в филиалах, центральный сервер сводит отчёты по всей сети. В пакете — 10 интерфейсов-источников и две учётные записи консоли.\n\nОтчёты, протоколы и модель лицензии — те же, что у Professional; доплата идёт за архитектуру. Коллектор ставится там, где стоят маршрутизаторы, поэтому экспорт потоков не нагружает межфилиальный канал, а администратор в центре видит все площадки в одной консоли.\n\nСрок — 1 год с обновлениями и поддержкой. Пакеты от 25 интерфейсов считаем по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Enterprise",
+          "kind": "items",
+          "body": "Анализ по приложениям и хостам, CBQoS, IP SLA, оповещения и прогноз — как в Professional. Ниже — дельта старшей редакции.",
+          "items": [
+            {
+              "t": "Коллекторы на площадках",
+              "d": "Каждый коллектор принимает потоки от местных устройств и хранит сырые записи локально; центральному серверу передаются агрегаты и события."
+            },
+            {
+              "t": "Единая консоль",
+              "d": "Пользователи, отчёты, пороги и IP-группы настраиваются на центральном сервере и действуют для всех коллекторов; оператор филиала видит только свою часть."
+            },
+            {
+              "t": "Масштаб",
+              "d": "Тысячи интерфейсов на одной инсталляции за счёт разнесения приёма по коллекторам; лимит потоков на коллектор — по матрице вендора."
+            },
+            {
+              "t": "Отказоустойчивость",
+              "d": "Резервирование центрального сервера — дополнение; коллектор при потере связи накапливает данные и досылает их."
+            }
+          ],
+          "links": [
+            "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Enterprise, а когда нет",
+          "kind": "items",
+          "body": "Таблицу по всем позициям семейства смотрите на карточке Professional; здесь — признак выбора.",
+          "items": [
+            {
+              "t": "Берите Enterprise",
+              "d": "Устройства с экспортом потоков стоят в нескольких городах или ЦОД, между площадками — WAN, и нужен один отчёт по всем сразу."
+            },
+            {
+              "t": "Хватит Professional",
+              "d": "Все источники потоков в одной локальной сети или в одном ЦОД: один сервер справится, а функции те же."
+            }
+          ],
+          "links": [
+            "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компании с филиальной сетью или несколькими ЦОД, где за WAN отвечает центральная сетевая служба, а маршрутизаторы стоят на местах: розница, банки, производственные холдинги, операторы с корпоративными клиентами.\n\nСтартовый пакет на 10 интерфейсов в такой сети выглядит как пилот на две-три площадки; рабочий объём обычно от 50 интерфейсов и считается по запросу. Для одного офиса Enterprise не нужен — переплата за коллекторы без пользы."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём и модель лицензии",
+              "d": "10 интерфейсов в пакете; следующий — 25. Что считается интерфейсом и как настраивается экспорт — на карточке Professional, правила общие.",
+              "link": "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+            },
+            {
+              "t": "Схема размещения",
+              "d": "Число коллекторов определяется числом площадок; коллекторы входят в лицензию, но каждому нужен отдельный сервер или ВМ."
+            },
+            {
+              "t": "Переход с Professional",
+              "d": "Разница доплачивается за остаток срока; уже работающий сервер назначается центральным либо одним из коллекторов, накопленные потоки остаются."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Доступна по запросу; обновления и поддержка к ней идут через AMS 20 % в год."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "NetFlow Analyzer Professional, 10 интерфейсов",
+              "d": "Для одной площадки — тот же анализ без коллекторов и дешевле.",
+              "link": "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+            },
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Если распределённость нужна для мониторинга устройств вообще, а потоки — один из источников, — базовая система, к которой NetFlow подключается дополнением.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько коллекторов входит в лицензию?",
+          "a": "Коллекторы отдельно не лицензируются; ограничение — общее число интерфейсов в пакете. Число коллекторов определяется схемой сети."
+        },
+        {
+          "q": "Можно ли начать с Professional и потом перейти на Enterprise?",
+          "a": "Да, переход оформляется доплатой разницы; накопленные данные переносятся на центральный сервер."
+        }
+      ],
+      "related_products": [
+        "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users",
+        "me-opmanager-professional-10-devices-pack-with-2-users",
+        "me-opmanager-nexus-flow-interfaces-10-flow-interfaces"
+      ],
+      "meta_title": "NetFlow Analyzer Enterprise, 10 интерфейсов | BIZSoft",
+      "meta_description": "ManageEngine NetFlow Analyzer Enterprise: анализ трафика нескольких площадок, коллекторы и центральный сервер. Пакет на 10 интерфейсов и 2 пользователей, год.",
+      "seo_intents": [
+        "netflow analyzer enterprise купить — hero, meta",
+        "netflow analyzer distributed / коллекторы — CAPABILITIES",
+        "netflow analyzer enterprise vs professional — PLAN_COMPARE"
+      ],
+      "uncertainties": [
+        "Лимит потоков на один коллектор и рабочий объём распределённых внедрений (от 50 интерфейсов) — оценка, у вендора не проверено.",
+        "Резервирование центрального сервера как отдельное дополнение — по общей практике ManageEngine (Failover add-on)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (дельта); опустошить",
+        "description": "→ FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю",
+          "new_information": "коллекторы, единая консоль, масштаб, отказоустойчивость",
+          "sibling_overlap": "база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "netflow analyzer enterprise что входит",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "Enterprise или Professional",
+          "new_information": "два правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "enterprise vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль филиальной сети, рабочий объём",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "анализ трафика филиалов",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "схема коллекторов, переход, perpetual",
+          "sibling_overlap": "интерфейс — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "сосед и OpManager",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-netflow-analyzer-standard-500-interfaces-pack-with-2-users": {
+      "sku": "ZOHO-LIC-NETFLOWSTD-TEAM-1Y-PACK-500IF2USR",
+      "needs_operator": true,
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard (по артикулу)",
+      "volume_label": "500 интерфейсов, 2 пользователя",
+      "unit_label": "пакет: 500 интерфейсов, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "NetFlow Analyzer Standard — годовая подписка на крупный пакет анализа трафика ManageEngine: по артикулу лицензия покрывает 500 интерфейсов, экспортирующих потоки, и 2 пользователей консоли. Назначение то же, что у младших пакетов: видеть, какие приложения и хосты занимают каналы, и ловить рост нагрузки до жалоб.\n\nЭта позиция отличается от соседей объёмом, а не набором функций: 500 интерфейсов — уровень ядра крупной сети или оператора. Редакция «Standard» в действующей линейке вендора не значится, поэтому состав функций и архитектура сверяются с прайсом ManageEngine при подтверждении заказа.\n\nСрок — 1 год, обновления и поддержка включены.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт пакет на 500 интерфейсов",
+          "kind": "items",
+          "body": "Функции анализа потоков описаны на карточке Professional. Здесь — что меняется на таком объёме.",
+          "items": [
+            {
+              "t": "Охват",
+              "d": "Пять сотен интерфейсов — это аплинки и WAN-порты десятков маршрутизаторов и коммутаторов ядра; в одну лицензию помещается вся магистраль среднего оператора или крупного холдинга."
+            },
+            {
+              "t": "Нагрузка на сервер",
+              "d": "На таком числе источников объём потоков измеряется десятками тысяч в секунду; требования к процессору, памяти и дискам сервера рассчитываются по калькулятору вендора до установки."
+            },
+            {
+              "t": "Хранение",
+              "d": "Сырые записи при таком потоке хранятся недолго, агрегированные — по настройке; срок хранения сырых данных выбирается исходя из дискового пространства."
+            },
+            {
+              "t": "Состав редакции",
+              "d": "Наличие CBQoS, IP SLA, ASAM и распределённого сбора в этой редакции подтверждается по прайсу ManageEngine при оформлении."
+            }
+          ],
+          "links": [
+            "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда этот пакет, а когда соседи",
+          "kind": "items",
+          "body": "Сводная таблица — на карточке Professional. Здесь — правило выбора по объёму.",
+          "items": [
+            {
+              "t": "Берите пакет на 500",
+              "d": "Интерфейсов с экспортом действительно сотни на одной площадке или в одном ЦОД, и объём известен заранее."
+            },
+            {
+              "t": "Берите Enterprise",
+              "d": "Сотни интерфейсов разбросаны по городам — без коллекторов такой поток на один сервер не собрать."
+            },
+            {
+              "t": "Начните с Professional",
+              "d": "Если объём ещё не посчитан: стартовать с 10 или 25 интерфейсов и расти доплатой разницы дешевле, чем купить 500 с запасом."
+            }
+          ],
+          "links": [
+            "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users",
+            "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Оператору связи, дата-центру или крупной корпоративной сети с централизованным ядром, где экспорт потоков включён на сотнях портов и задача — биллинг трафика по клиентам и подразделениям, а также планирование ёмкости магистрали.\n\nОрганизации с двумя-тремя маршрутизаторами позиция не подходит ни по объёму, ни по цене: младшие пакеты закрывают такую сеть целиком."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Сверка позиции",
+              "d": "Название на витрине говорит о 10 интерфейсах, артикул — о 500; закупка соответствует крупному пакету. До выставления КП объём и редакция подтверждаются по прайсу вендора."
+            },
+            {
+              "t": "Инвентаризация экспорта",
+              "d": "Посчитайте порты, где экспорт включён или будет включён, а не все порты устройств: разница обычно в разы. Как считается интерфейс — на карточке Professional.",
+              "link": "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Для крупных объёмов бессрочный вариант с AMS 20 % в год часто выгоднее на горизонте трёх лет — считаем по запросу."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "NetFlow Analyzer Enterprise, 10 интерфейсов",
+              "d": "Отправная точка распределённой инсталляции; объём наращивается пакетами.",
+              "link": "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users"
+            },
+            {
+              "t": "NetFlow Analyzer Professional, 10 интерфейсов",
+              "d": "Младший пакет той же системы для одной площадки.",
+              "link": "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Standard отличается от Professional?",
+          "a": "В текущей линейке вендора редакция Standard не заявлена; по артикулу позиция отличается объёмом — 500 интерфейсов. Состав функций подтверждается при подтверждении заказа."
+        }
+      ],
+      "related_products": [
+        "me-netflow-analyzer-enterprise-10-interfaces-pack-with-2-users",
+        "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+      ],
+      "meta_title": "NetFlow Analyzer Standard, 500 интерфейсов | BIZSoft",
+      "meta_description": "ManageEngine NetFlow Analyzer, пакет на 500 интерфейсов и 2 пользователей: анализ трафика ядра крупной сети по потокам, подписка на год. Объём — по артикулу.",
+      "seo_intents": [
+        "netflow analyzer 500 interfaces — hero, meta",
+        "netflow analyzer для оператора / биллинг трафика — FIT"
+      ],
+      "uncertainties": [
+        "Название витрины расходится с артикулом: h1 «10 интерфейсов и 2 пользователя», sku …500IF2USR, закупка в 14 раз выше Professional 10 — текст по артикулу, needs_operator. Решение руководителя 13.09.2026: текст по артикулу, название витрины исправить через ops-rename-product на «ManageEngine NetFlow Analyzer Standard, 500 интерфейсов и 2 пользователя» до применения семейства (needs_operator снят).",
+        "Редакция «Standard» у текущей линейки NetFlow Analyzer не известна (действующие — Professional и Enterprise); возможно, устаревшее или переименованное наименование прайса — уточнить у дистрибьютора.",
+        "Требования к серверу и срок хранения сырых данных на 500 интерфейсах — по общему представлению о продукте, без цифр."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (объём); опустошить",
+        "description": "→ FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что меняет объём 500",
+          "new_information": "охват, нагрузка, хранение, статус состава",
+          "sibling_overlap": "функции — ссылка на носитель",
+          "decision": "UNDERSTAND",
+          "seo_intent": "netflow analyzer 500 интерфейсов",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "этот пакет или соседи",
+          "new_information": "три правила выбора по объёму",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль оператора и ЦОД",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "биллинг трафика по потокам",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "расхождение позиции, инвентаризация, perpetual",
+          "sibling_overlap": "интерфейс — ссылка",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "инвентарь витрины"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "два соседа",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

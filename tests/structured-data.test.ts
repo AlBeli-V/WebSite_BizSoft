@@ -30,7 +30,7 @@ function product(over: Partial<Product> = {}): Product {
   return {
     id: 1,
     name: 'ChatGPT Business',
-    sku: 'INT-AI-CHATGPT',
+    sku: 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD',
     vendor: 'OpenAI',
     slug: 'chatgpt-business',
     category,

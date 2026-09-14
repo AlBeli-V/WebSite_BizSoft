@@ -1,0 +1,146 @@
+---
+/**
+ * «Искали, но не нашли» — заявка на подбор вендора или продукта, которого нет
+ * на витрине.
+ *
+ * Каталог не равен ассортименту: закупаем и то, чего на сайте нет, а
+ * посетитель об этом не знает и уходит. Пустая выдача поиска до сих пор
+ * заканчивалась одной строкой текста — спрос, дошедший до нас, терялся.
+ * Блок называет это прямо: назовите продукт, подберём, посчитаем, пришлём КП
+ * и заведём позицию на сайт.
+ *
+ * Заявка уходит в ту же модальную форму, что и остальные вопросы
+ * (data-open-question), с предзаполненным названием: отдельной формы и
+ * отдельного обработчика для этого не заводим.
+ */
+interface Props {
+  /** Что искали — предзаполняет поле (например, запрос из поиска). */
+  query?: string;
+  /** Где не нашли: слаг раздела или «catalog». Уходит в цель и в заявку. */
+  context?: string;
+  /** Плотный вариант для пустой выдачи поиска — без вводной части. */
+  compact?: boolean;
+}
+const { query = '', context = 'catalog', compact = false } = Astro.props;
+// Компонент может стоять на странице дважды (хаб и низ выдачи) — id должны
+// различаться, иначе label ведёт в чужое поле.
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<section class:list={['cat-request', { compact }]} aria-labelledby={`cr-h-${uid}`}>
+  <div class="cr-inner">
+    <div class="cr-text">
+      <span class="cr-eyebrow">Искали, но не нашли</span>
+      <h2 id={`cr-h-${uid}`}>
+        {compact
+          ? 'Назовите продукт — подберём и пришлём КП'
+          : 'Нет нужного вендора или продукта? Назовите — подберём и пришлём КП'}
+      </h2>
+      <p>
+        Каталог не закрыт этим списком. Напишите название вендора или продукта: проверим наличие
+        у поставщика, посчитаем стоимость, свяжемся с вами и подготовим коммерческое предложение
+        в индивидуальном порядке. Позицию заведём на сайт.
+      </p>
+    </div>
+
+    <form class="cr-form" data-catalog-request data-request-context={context}>
+      <label class="sr-only" for={`cr-q-${uid}`}>Название вендора или продукта</label>
+      <input
+        id={`cr-q-${uid}`}
+        class="ym-disable-keys"
+        type="text"
+        name="wanted"
+        value={query}
+        required
+        autocomplete="off"
+        placeholder="Например, Autodesk Revit, Grafana, Notion…"
+      />
+      <button type="submit" class="btn btn-primary">Прислать заявку</button>
+    </form>
+
+    {!compact && (
+      <ol class="cr-steps">
+        <li>Проверяем наличие у поставщика и условия вендора</li>
+        <li>Считаем стоимость и готовим КП на ваше юрлицо</li>
+        <li>Заводим позицию в каталог — в следующий раз она уже на сайте</li>
+      </ol>
+    )}
+
+    <!-- Открывает общую модальную форму: свой обработчик ей не нужен. -->
+    <button type="button" hidden data-open-question data-request-opener></button>
+  </div>
+</section>
+
+<script>
+  import { trackGoal } from '@/lib/analytics';
+
+  document.querySelectorAll('[data-catalog-request]').forEach((node) => {
+    const form = node as HTMLFormElement;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const field = form.querySelector('input[name="wanted"]') as HTMLInputElement | null;
+      const wanted = (field?.value || '').trim();
+      if (!wanted) { field?.focus(); return; }
+      const context = form.dataset.requestContext || 'catalog';
+
+      // Спрос, которого у нас нет, — самое дорогое, что приходит на каталог:
+      // название названо человеком, а не выведено из частотности.
+      trackGoal('catalog_request_missing', { wanted, context, page_url: location.pathname });
+
+      const opener = form.parentElement?.querySelector('[data-request-opener]') as HTMLElement | null;
+      if (!opener) return;
+      opener.dataset.product = `Нет в каталоге: ${wanted}`;
+      opener.click();
+    });
+  });
+</script>
+
+<style>
+  .cat-request {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-elevated);
+    padding: clamp(1.2rem, 3vw, 2rem);
+  }
+  .cat-request.compact { margin-top: 1.4rem; padding: clamp(1.1rem, 2.4vw, 1.5rem); }
+
+  .cr-inner { display: flex; flex-direction: column; gap: 1rem; max-width: 720px; }
+  .cr-eyebrow {
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--color-accent);
+  }
+  .cr-text { display: flex; flex-direction: column; gap: 0.5rem; }
+  .cr-text h2 { font-size: clamp(1.15rem, 2.4vw, 1.5rem); }
+  .cr-text p { color: var(--color-text-muted); font-size: 0.95rem; margin: 0; }
+  .compact .cr-text p { font-size: 0.9rem; }
+
+  .cr-form { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .cr-form input {
+    flex: 1 1 240px; min-width: 0;
+    border: 1px solid var(--color-border-strong); border-radius: 999px;
+    padding: 0.7rem 1.15rem; font: inherit; font-size: 0.98rem;
+    background: var(--color-bg-card); color: var(--color-text);
+  }
+  .cr-form input::placeholder { color: var(--color-text-dim); }
+  .cr-form input:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .cr-form .btn { padding-inline: 1.4rem; white-space: nowrap; }
+
+  .cr-steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: 0.7rem 1.4rem; margin: 0.3rem 0 0; padding: 0;
+    list-style: none; counter-reset: cr;
+  }
+  .cr-steps li {
+    counter-increment: cr;
+    position: relative; padding-left: 1.9rem;
+    font-size: 0.86rem; color: var(--color-text-muted); line-height: 1.45;
+  }
+  .cr-steps li::before {
+    content: counter(cr);
+    position: absolute; left: 0; top: 0;
+    width: 1.35rem; height: 1.35rem; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--color-accent-soft); color: var(--color-accent);
+    font-size: 0.72rem; font-weight: 800;
+  }
+</style>

@@ -1,0 +1,485 @@
+{
+  "family_key": "CURSOR",
+  "vendor": "Anysphere (Cursor)",
+  "vendor_profile": "data/content/vendors/cursor.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "cursor-business",
+  "classification_notes": [
+    "Business / Business Premium seat / Enterprise. Носитель — Business."
+  ],
+  "products": {
+    "cursor-business": {
+      "sku": "CRSR-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Cursor Business — командная подписка на 1 год на ИИ-редактор кода Cursor для команды: агентный режим, Tab-дополнение, чат с контекстом репозитория, выбор моделей, режим приватности (код не используется для обучения), администрирование мест и SSO. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Cursor Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Редактор",
+              "d": "Форк VS Code с ИИ: Tab, Composer/Agent, чат по коду."
+            },
+            {
+              "t": "Модели",
+              "d": "Ведущие модели по лимиту запросов тарифа."
+            },
+            {
+              "t": "Команда",
+              "d": "Админ-панель, SSO, централизованная оплата, приватность."
+            },
+            {
+              "t": "Правила",
+              "d": "Общие .cursorrules и контекст проекта."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Команда с обычной нагрузкой."
+            },
+            {
+              "t": "Business, место Premium",
+              "d": "Кратно больше лимитов для активных пользователей.",
+              "link": "cursor-business-premium"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор, аудит, приоритет.",
+              "link": "cursor-enterprise"
+            },
+            {
+              "t": "GitHub Copilot Business",
+              "d": "Альтернатива в обычной IDE.",
+              "link": "ghcopilot-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты запросов",
+              "d": "На место; сверх — доплата или Premium."
+            },
+            {
+              "t": "Редактор",
+              "d": "Замена VS Code, не плагин."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, которые перешли на ИИ-редактор как основной инструмент."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Используется ли код для обучения?",
+          "a": "Нет, режим приватности включён для организаций."
+        }
+      ],
+      "related_products": [
+        "cursor-business-premium",
+        "cursor-enterprise",
+        "ghcopilot-business"
+      ],
+      "meta_title": "Cursor Business — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Cursor Business: ИИ-редактор кода с агентом, чатом по репозиторию, SSO и приватностью; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cursor купить юрлицо — hero, meta"
+      ],
+      "uncertainties": [
+        "Лимиты запросов — по прайсу Cursor."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "cursor-business-premium": {
+      "sku": "CRSR-LIC-BUSPRM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Cursor Business, место Premium — командная подписка на 1 год на усиленное место в организации Cursor: те же функции, что у стандартного места Business, но кратно больший лимит запросов к моделям и приоритет для разработчиков, работающих с агентом весь день.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Cursor Business, место Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "Кратно больше быстрых запросов и агентных сессий."
+            },
+            {
+              "t": "Приоритет",
+              "d": "Меньше ожидания при пиковой нагрузке."
+            },
+            {
+              "t": "Всё из Business",
+              "d": "Редактор, модели, SSO, приватность."
+            }
+          ],
+          "links": [
+            "cursor-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Разработчик упирается в лимит ежедневно."
+            },
+            {
+              "t": "Business",
+              "d": "Обычная нагрузка.",
+              "link": "cursor-business"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор.",
+              "link": "cursor-enterprise"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше стандартного места."
+            },
+            {
+              "t": "Смешивание",
+              "d": "Premium и стандартные места в одной организации."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Активным пользователям агентного режима."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько мест Premium нужно?",
+          "a": "Обычно самым активным 10–20 % разработчиков."
+        }
+      ],
+      "related_products": [
+        "cursor-business",
+        "cursor-enterprise"
+      ],
+      "meta_title": "Cursor Business, место Premium — подписка | BIZSoft",
+      "meta_description": "Cursor Business Premium seat: кратно больший лимит запросов и приоритет для активных разработчиков в организации Cursor. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cursor premium seat — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "cursor-enterprise": {
+      "sku": "CRSR-LIC-ENTERPRISE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Cursor Enterprise — командный план Cursor корпоративного уровня на 1 год: всё из Business плюс SCIM, аудит-логи, пул запросов на организацию, приоритетная поддержка и договорные условия по данным. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Cursor Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Управление",
+              "d": "SCIM, аудит, роли, политики моделей."
+            },
+            {
+              "t": "Пул",
+              "d": "Объединённый лимит запросов на организацию."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенный менеджер."
+            },
+            {
+              "t": "Всё из Business",
+              "d": "Редактор, приватность, SSO."
+            }
+          ],
+          "links": [
+            "cursor-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Сотни разработчиков и ИБ-требования."
+            },
+            {
+              "t": "Business",
+              "d": "Десятки без SCIM.",
+              "link": "cursor-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Минимумы и цикл согласования."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным инженерным организациям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли on-premises?",
+          "a": "Нет, только облачный сервис с договорными гарантиями."
+        }
+      ],
+      "related_products": [
+        "cursor-business"
+      ],
+      "meta_title": "Cursor Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Cursor Enterprise: SCIM, аудит, пул запросов на организацию, выделенная поддержка; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cursor enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

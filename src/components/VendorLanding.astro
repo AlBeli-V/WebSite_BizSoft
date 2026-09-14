@@ -11,6 +11,7 @@ import { VENDOR_SOLUTIONS } from '../data/vendor-solutions';
 import { solutions } from '../data/solutions';
 import QuestionForm from './QuestionForm.astro';
 import VendorInterlinks from './VendorInterlinks.astro';
+import VendorQuotePath from './VendorQuotePath.astro';
 import VendorLogo from './VendorLogo.astro';
 import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
@@ -22,6 +23,8 @@ import { productKind, listingProducts, isGiftCard } from '../lib/catalog';
 import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
 import AddToCartButton from './AddToCartButton.astro';
+import VendorTariffCard from './VendorTariffCard.astro';
+import VendorSections from './VendorSections.astro';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
 import { vendorContent } from '../data/vendor-content';
 import type { Product } from '../lib/types';
@@ -42,10 +45,36 @@ try {
 // Вью-модели карточек (операторы сравнения — здесь, не в шаблоне).
 // Варианты (номиналы подарочных карт) в сетке не показываются: их
 // представляет родительская карточка с выбором региона и номинала.
-const cards = listingProducts(products).map((p) => {
+// Минимальный объём заказа и подпись единиц — из vendor-content по slug или
+// sku (правило catalog.md: ключи — slug или sku, не префикс артикула).
+const cardMeta = (p: Product) => content.cards?.[p.slug] ?? content.cards?.[p.sku];
+// Порядок линейки задаётся контентом: планы читаются от младшего к старшему,
+// а база отдаёт их в своём порядке. Не перечисленные уходят в конец.
+const orderKey = (p: Product) => {
+  const list = content.order;
+  if (!list?.length) return 0;
+  const i = list.findIndex((k) => k === p.slug || k === p.sku);
+  return i === -1 ? list.length : i;
+};
+const cards = listingProducts(products)
+  .slice()
+  .sort((a, b) => orderKey(a) - orderKey(b))
+  .map((p) => {
   const eff = effectivePrice(p);
-  const feats = Array.isArray(p.features) ? p.features.slice(0, 5) : [];
+  const meta = cardMeta(p);
+  const feats = meta?.features?.length
+    ? meta.features.slice(0, 5)
+    : (Array.isArray(p.features) ? p.features.slice(0, 5) : []);
   return {
+    // Случай позиции: из её меты либо из состава случая — там, где
+    // редактору удобнее перечислить позиции одним списком.
+    seg: meta?.seg
+      || (content.segments || []).find((sg) => (sg.keys || []).some((k) => k === p.slug || k === p.sku))?.id
+      || '',
+    minQty: Math.max(1, meta?.minQty ?? 1),
+    qtyLabel: meta?.qtyLabel || 'Лицензий',
+    check: meta?.check || '',
+    badge: meta?.badge || '',
     name: p.name,
     slug: p.slug,
     sku: p.sku,
@@ -53,18 +82,53 @@ const cards = listingProducts(products).map((p) => {
     priceText: formatRub(eff.price),
     note: p.price_note || '',
     byRequest: !(eff.price > 0), // NaN и null — тоже «по запросу»
-    short: p.short_description || '',
+    short: meta?.forWhom || p.short_description || '',
     features: feats,
     plan: planType(p.name, p.short_description || ''),
     icon: productIcons(p.slug).length > 0,
-    // Подарочная карта: цена «от» минимального номинала, в спецификацию — со
+    // Подарочная карта: цена «от» минимального номинала, в расчёт — со
     // страницы карты после выбора региона и номинала.
     gift: isGiftCard(p),
     priceFrom: Boolean(p.price_from),
   };
 });
-// Карточки «Цена по запросу» — всегда в конце списка
-cards.sort((a, b) => Number(a.byRequest) - Number(b.byRequest));
+// Карточки «Цена по запросу» — в конце списка, но только там, где свой
+// порядок не задан: заданный порядок и есть решение редактора.
+if (!content.order?.length) {
+  cards.sort((a, b) => Number(a.byRequest) - Number(b.byRequest));
+}
+// Номиналы пополнения (варианты родительской позиции) в сетку не идут:
+// одиннадцать почти одинаковых карточек заменили бы собой страницу. Они
+// показываются полосой плиток под сеткой.
+const denom = content.denominations;
+const denomParent = denom
+  ? products.find((p) => p.slug === denom.parent || p.sku === denom.parent)
+  : undefined;
+const topups = denom && denomParent
+  ? products
+    .filter((p) => p.parent_sku === denomParent.sku)
+    .map((p) => ({
+      name: p.name,
+      slug: p.slug,
+      sku: p.sku,
+      price: effectivePrice(p).price,
+      priceText: formatRub(effectivePrice(p).price),
+      // Номинал — последний сегмент артикула (вариант): <…>-CRD-<продукт>-UNI-BAL-NOM-<номинал>.
+      nominal: Number((p.sku.match(/-(\d+)$/) || [])[1] || 0),
+    }))
+    .filter((p) => p.price > 0)
+    .sort((a, b) => a.nominal - b.nominal)
+  : [];
+
+// Разделы линейки: личные и командные планы, редакции. Карточка без раздела
+// уходит в общий список — правка раздела не должна уносить её со страницы.
+const groupItems = (ids: string[]) => cards.filter((c) => ids.includes(c.slug) || ids.includes(c.sku));
+const groups = (content.groups || [])
+  .map((g) => ({ ...g, cards: groupItems(g.items) }))
+  .filter((g) => g.cards.length > 0);
+const grouped = new Set(groups.flatMap((g) => g.cards));
+const ungrouped = cards.filter((c) => !grouped.has(c));
+
 const priced = cards.filter((c) => !c.byRequest);
 // «Цены от … в год» — по основным продуктам (тарифам): дополнения — пакеты
 // кредитов и плагины — разовые и дешевле любого тарифа, минимум по ним выдал бы
@@ -102,7 +166,8 @@ const hasCompare = !!content.comparison && content.comparison.rows.length > 0;
 const hasDecision = !!content.decision && content.decision.length > 0;
 const hasScenarios = !!content.scenarios && content.scenarios.length > 0;
 
-const description = `${title} для юридических лиц: ${entry.tagline} Покупка по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`;
+const description = entry.metaDescription
+  || `${title} для юридических лиц: ${entry.tagline} Покупка по договору и счёту, оплата в рублях, закрывающие документы через ЭДО.`;
 // FAQPage выводит компонент FAQ, BreadcrumbList — компонент Breadcrumbs.
 const ld = [
   collectionPageSchema({ name: `${title} для бизнеса`, description, url: pageUrl, items: cards.map((c) => ({ name: c.name, slug: c.slug })) }),
@@ -110,12 +175,17 @@ const ld = [
 
 // Раздел назначения ПО: какие решения под задачу отвечают на вопрос
 // «как оформить это на компанию». Вендоров без записи блок не рендерит.
-// Форма в первом экране — эксперимент 07.09.2026 на двух главных рекламных
+// Форма в первом экране — эксперимент 07.09.2026 на главных рекламных
 // посадочных. Замер кампании: 226 визитов, ноль form_start при том, что цена
 // «от» и оба призыва в первом экране уже стоят. Значит проверять надо не
 // «видно ли цену», а «нужно ли ради заявки открывать модальное окно».
 // Список узкий сознательно: это замер, а не редизайн всех лендингов.
-const HERO_FORM_SLUGS = new Set(['anthropic', 'adobe']);
+//
+// anthropic выведен из замера решением руководителя 11.09.2026: страница
+// переведена на единый путь заявки, и держать на ней четвёртую точку сбора
+// контакта незачем. Пары для сравнения у замера больше нет — это принятая
+// цена решения; adobe остаётся с формой до отдельного решения.
+const HERO_FORM_SLUGS = new Set(['adobe']);
 const heroForm = HERO_FORM_SLUGS.has(entry.slug);
 
 const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
@@ -134,7 +204,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
         <span class="vendor-name">{title}</span>
         <span class="vendor-legal">{entry.legalName}</span>
       </div>
-      <h1>{title} для юридических лиц: тарифы и оформление через BIZSoft</h1>
+      <h1>{entry.h1 || `${title} для юридических лиц: тарифы и оформление через BIZSoft`}</h1>
       {heroForm ? (
         <>
           {/* На посадочной с формой цена и действие идут сразу за
@@ -142,7 +212,11 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
               полутора экранов описания. */}
           {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b>{entry.domain === 'gift' ? ' за код' : ' в год'}</p>}
           <div class="hero-actions">
-            <button class="btn btn-primary" data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
+            {/* Ветка идущего замера первого экрана (сейчас это adobe): её
+                призыв намеренно оставлен прежним — страница под замером не
+                правится, иначе вывод о форме будет неотделим от вывода о
+                кнопке. Закроется замер — ветка вернётся на общий путь. */}
+            <button class="btn btn-primary" data-hero-form-cta data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
             {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
           </div>
         </>
@@ -151,8 +225,13 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
           <p class="hero-sub">{entry.tagline} Подбор тарифа под задачи {audience}.</p>
           <ul class="chips"><li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Оплата в рублях</li></ul>
           <div class="hero-actions">
-            <button class="btn btn-primary" data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
+            {/* Призыв ведёт к форме расчёта на этой же странице, а не в
+                модальное окно «Задать вопрос»: прежняя кнопка обещала
+                расчёт, а открывала форму вопроса с полем «Что хотите
+                уточнить?». Модальное окно осталось лёгким каналом. */}
+            <a href="#lead" class="btn btn-primary" data-quote-cta data-context={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</a>
             {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
+            <button class="btn-link" data-open-question data-product={`${title} — вопрос эксперту`} data-ev="click_clarify_price">Задать вопрос эксперту</button>
           </div>
           {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b>{entry.domain === 'gift' ? ' за код' : ' в год'}</p>}
         </>
@@ -179,45 +258,125 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   <!-- Прямой ответ (GEO/AEO) -->
   <div class="summary"><strong>Коротко:</strong> {summaryText}</div>
 
+  {/* Разбор, без которого цены не читаются: типы мест, виды лицензий,
+      редакции. Ставится до сетки карточек. */}
+  {content.explainer && (
+    <section class="block">
+      <h2>{content.explainer.title}</h2>
+      <div class="cells">{content.explainer.items.map((s) => (<div class="card cell"><h3>{s.title}</h3><p>{s.text}</p></div>))}</div>
+    </section>
+  )}
+
+  {/* Чем тарифы отличаются друг от друга — до сетки карточек: иначе
+      покупатель сравнивает цены, не понимая, за что платит. */}
+  {content.intro && (
+    <section class="block intro">
+      <div class="prose-bizsoft"><p>{content.intro}</p></div>
+    </section>
+  )}
+
+  {/* Выбор ситуации: покупатель выбирает не между тарифами, а между
+      случаями. Отмеченный случай сужает сетку; без JavaScript видны все
+      карточки — фильтр только прячет лишнее атрибутом hidden. */}
+  {(content.segments || []).length > 0 && (
+    <section class="block" id="choose">
+      <h2>С чего начать: выберите свой случай</h2>
+      <p class="muted lead-note">Отметьте свою ситуацию — в списке ниже останется только подходящее.</p>
+      <div class="segs" role="group" aria-label="Выбор ситуации">
+        {content.segments!.map((sg) => (
+          <button type="button" class="card card-hover seg" data-seg-btn={sg.id} aria-pressed="false">
+            <b>{sg.title}</b>
+            <span class="muted">{sg.text}</span>
+            {sg.hint && <em>{sg.hint}</em>}
+          </button>
+        ))}
+      </div>
+      {content.segments!.filter((sg) => sg.why).map((sg) => (
+        <p class="seg-why" data-seg-why={sg.id} hidden>{sg.why}</p>
+      ))}
+      <button type="button" class="btn btn-ghost btn-sm seg-reset" data-seg-reset hidden>Показать все варианты</button>
+    </section>
+  )}
+
+  {/* Быстрый подбор: ярлык задачи или стека → продукт. Один клик, а не
+      опросник: подставляет выбор в форму и ведёт к карточке. */}
+  {content.picks && content.picks.items.length > 0 && (
+    <section class="block" id="quick">
+      <h2>{content.picks.title}</h2>
+      {content.picks.note && <p class="muted">{content.picks.note}</p>}
+      <div class="picks">
+        {content.picks.items.map((pk) => (
+          <a
+            href={pk.target ? (pk.target.startsWith('#') ? pk.target : `#${pk.target}`) : '#products'}
+            class="card card-hover pick"
+            data-quote-cta
+            data-context={`${title} — ${pk.query}`}
+            data-ev="click_pick_licenses"
+          >
+            <span class="pick-lang">{pk.label}</span>
+            <span class="pick-prod">{pk.product}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <VendorSections sections={content.sections || []} place="before-products" vendor={title} />
+
   <!-- Карточки продуктов -->
   {hasCards ? (
     <section class="block" id="products">
       <h2>Тарифы и продукты {title}</h2>
-      <div class="vgrid">
-        {cards.map((c) => (
-          <article class="card vcard">
-            <div class="vc-head">
-              {c.icon && <ProductIcon slug={c.slug} name={c.name} size={38} />}
-              <h3>{c.name}</h3>
+      {groups.length > 0 ? (
+        <div class="vgroups">
+          {groups.map((g) => (
+            <div class="vgroup" id={g.id}>
+              <h3 class="vgroup-title">{g.title}</h3>
+              {g.note && <p class="muted small vgroup-note">{g.note}</p>}
+              <div class="vgrid">
+                {g.cards.map((c) => <VendorTariffCard card={c} title={title} vendor={entry.vendor} />)}
+              </div>
             </div>
-            {c.plan && <span class="plan-tag" data-plan={c.plan}>{PLAN_LABEL[c.plan]}</span>}
-            {c.short && <p class="forwhom">{c.short}</p>}
-            <div class="vprice">
-              {c.byRequest
-                ? <span class="req">Цена по запросу</span>
-                : <span class="pv"><b>{c.priceFrom ? `от ${c.priceText}` : c.priceText}</b> <span class="note">{c.note}</span></span>}
+          ))}
+          {ungrouped.length > 0 && (
+            <div class="vgroup">
+              <h3 class="vgroup-title">Остальные позиции</h3>
+              <div class="vgrid">
+                {ungrouped.map((c) => <VendorTariffCard card={c} title={title} vendor={entry.vendor} />)}
+              </div>
             </div>
-            {c.features.length > 0 && <ul class="vfeat">{c.features.map((f) => <li>{f}</li>)}</ul>}
-            <div class="vactions">
-              {c.byRequest ? (
-                <button class="btn btn-primary btn-sm" data-open-question data-product={`${title} — ${c.name}`} data-sku={c.sku} data-ev="click_get_quote">Запросить цену</button>
-              ) : c.gift ? (
-                <a href={`/product/${c.slug}`} class="btn btn-primary btn-sm" data-ev="click_product_card">Выбрать регион и номинал</a>
-              ) : (
-                <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor={entry.vendor} price={c.price} compact />
-              )}
-              <a href={`/product/${c.slug}`} class="btn btn-ghost btn-sm" data-ev="click_product_card">Подробнее</a>
-            </div>
-          </article>
-        ))}
-      </div>
+          )}
+        </div>
+      ) : (
+        <div class="vgrid">
+          {cards.map((c) => <VendorTariffCard card={c} title={title} vendor={entry.vendor} />)}
+        </div>
+      )}
       <p class="muted small">Стоимость в рублях пересчитывается по курсу ЦБ РФ на дату счёта.</p>
+
+      {topups.length > 0 && denom && (
+        <div class="topups" data-seg-card={content.cards?.[denom.parent]?.seg || undefined}>
+          <h3>{denom.title}</h3>
+          {denom.note && <p class="muted small topups-note">{denom.note}</p>}
+          <ul class="topup-list">
+            {topups.map((t) => (
+              <li class="topup" data-qty-scope>
+                <a class="topup-name" href={`/product/${t.slug}`} data-ev="click_product_card">
+                  {t.nominal.toLocaleString('ru-RU')}{denom.unit ? ` ${denom.unit}` : ''}
+                </a>
+                <b class="topup-price">{t.priceText}</b>
+                <AddToCartButton sku={t.sku} slug={t.slug} name={t.name} vendor={entry.vendor} price={t.price} compact />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   ) : (
     <section class="block" id="products">
       <h2>Тарифы и продукты {title}</h2>
       <p class="muted">Подберём и рассчитаем нужные лицензии {title} под вашу задачу. Оставьте заявку — подготовим КП.</p>
-      <button class="btn btn-primary" data-open-question data-product={`${title} — расчёт`} data-ev="click_get_quote">Запросить расчёт</button>
+      <a href="#lead" class="btn btn-primary" data-quote-cta data-context={`${title} — расчёт`} data-ev="click_get_quote">Запросить расчёт</a>
     </section>
   )}
 
@@ -240,7 +399,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
       <div class="table-wrap">
         <table class="cmp decision">
           <thead><tr><th class="sticky">Сценарий</th><th>Рекомендуем</th><th>Почему</th></tr></thead>
-          <tbody>{content.decision!.map((d) => (<tr><th class="sticky">{d.scenario}</th><td>{d.product}</td><td class="muted">{d.note}</td></tr>))}</tbody>
+          <tbody>{content.decision!.map((d) => (<tr><th class="sticky">{d.scenario}</th><td>{d.slug ? <a href={`/product/${d.slug}`}>{d.product}</a> : d.product}</td><td class="muted">{d.note}</td></tr>))}</tbody>
         </table>
       </div>
     </section>
@@ -275,6 +434,20 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
     <div class="prose-bizsoft"><p>{entry.about} Решение востребовано у {audience}. BIZSoft оформит поставку на организацию с полным пакетом документов.</p></div>
   </section>
 
+  <VendorSections sections={content.sections || []} place="after-compare" vendor={title} />
+
+  {/* Безопасность и данные: у корпоративных тарифов покупку согласует не
+      только закупка, но и ИБ, и вопросы у неё свои. */}
+  {content.security && (
+    <section class="block" id="security">
+      <h2>Безопасность и данные</h2>
+      <div class="prose-bizsoft"><p>{content.security.text}</p></div>
+      <button class="btn btn-ghost" data-open-question data-product={`${title} — требования ИБ`} data-ev="click_clarify_price">{content.security.cta || 'Обсудить требования ИБ'}</button>
+    </section>
+  )}
+
+  <VendorSections sections={content.sections || []} place="before-buy" vendor={title} />
+
   <!-- Как купить -->
   <section class="block">
     <h2>Как купить {title} через BIZSoft</h2>
@@ -289,7 +462,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
     <p class="prose-bizsoft">Продление подписки оформляется тем же порядком:
     счёт выставляем до окончания оплаченного периода. Оплата зарубежных
     сервисов идёт из России в рублях с расчётного счёта организации.</p>
-    <button class="btn btn-primary" data-open-question data-product={`${title} — расчёт и КП`} data-ev="click_get_quote">Получить расчёт и КП</button>
+    <a href="#lead" class="btn btn-primary" data-quote-cta data-context={`${title} — расчёт и КП`} data-ev="click_get_quote">Получить расчёт и КП</a>
   </section>
 
   <!-- Документы -->
@@ -299,14 +472,17 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   </section>
 
   <!-- FAQ -->
-  <FAQ items={faq} title={faqTitle} />
+  <FAQ items={faq} groups={content.faqGroups} title={faqTitle} />
 
-  <!-- Финальный CTA -->
-  <section class="block final">
+  {/* Единственная форма страницы: сюда ведут все призывы, и состав
+      расчёта попадает в заявку сам. Модальное окно «Задать вопрос»
+      остаётся вторым, заведомо лёгким каналом. */}
+  <section class="block final" id="lead">
     <div class="final-grid">
       <div>
         <h2>Подобрать {title} для компании</h2>
         <p class="muted">Опишите задачу: какой продукт и сколько лицензий нужно, на какой срок. Подготовим расчёт, КП или счёт с оформлением на юрлицо.</p>
+        <VendorQuotePath />
         <ul class="vfeat">
           <li>Оформление для юрлиц: договор, счёт, закрывающие</li>
           <li>Оплата в рублях по курсу ЦБ РФ</li>
@@ -349,7 +525,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   .hero-split {
     max-width: none;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+    grid-template-columns: minmax(0, 1fr) minmax(min(100%, 340px), 420px);
     grid-template-areas: 'head form' 'rest form';
     gap: 0.4rem 2rem;
     align-items: start;
@@ -380,40 +556,61 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   .summary { background: var(--color-bg-card); border: 1px solid var(--color-border); border-left: 3px solid var(--vc, var(--color-accent)); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1.5rem 0; color: var(--color-text); }
   .summary strong { color: var(--color-text); }
   .block { margin-top: 3rem; }
+  /* Якорные переходы внутри страницы: шапка липкая, и без запаса заголовок
+     секции оказывается под ней — человек видит середину блока и не понимает,
+     куда попал. */
+  #products, #lead, #security { scroll-margin-top: 96px; }
   .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
-  .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
-  .vcard { padding: 1.4rem; display: flex; flex-direction: column; }
-  /* Значок слева перед названием; у составных позиций — несколько значков */
-  .vc-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
-  .vcard h3 { font-size: 1.1rem; margin-bottom: 0; }
-  .forwhom { color: var(--color-text-dim); font-size: 0.85rem; margin-bottom: 0.6rem; }
-  /* Кому адресован тариф */
-  .plan-tag { align-self: flex-start; font-size: 0.72rem; padding: 0.14rem 0.55rem; border-radius: 6px; margin-bottom: 0.5rem; }
-  .plan-tag[data-plan='team'] { color: var(--vc, var(--color-accent)); background: color-mix(in srgb, var(--vc, var(--color-accent)) 12%, transparent); font-weight: 700; }
-  .plan-tag[data-plan='individual'] { color: var(--color-text-muted); border: 1px solid var(--color-border-strong); font-weight: 600; }
-  .vprice { margin: 0.3rem 0 0.7rem; }
-  .vprice b { font-size: 1.2rem; }
-  .vprice .note { color: var(--color-text-dim); font-size: 0.8rem; }
-  .vprice .req { font-weight: 700; }
+  .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 1.2rem; }
+  /* Выбор ситуации */
+  .lead-note { max-width: 70ch; margin-bottom: 1rem; }
+  .segs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 1rem; }
+  .seg { text-align: left; padding: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; cursor: pointer; font: inherit; color: var(--color-text); }
+  .seg b { font-size: 1rem; }
+  .seg .muted { font-size: 0.88rem; line-height: 1.45; }
+  .seg em { font-style: normal; font-size: 0.82rem; color: var(--vc, var(--color-accent)); font-weight: 600; }
+  .seg[aria-pressed='true'] { border-color: var(--vc, var(--color-accent)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--vc, var(--color-accent)) 16%, transparent); }
+  .seg-why { margin-top: 1rem; color: var(--color-text-muted); font-size: 0.92rem; }
+  .seg-reset { margin-top: 1rem; }
+  /* Быстрый подбор */
+  .picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 0.7rem; }
+  .pick { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.8rem 1rem; text-decoration: none; }
+  .pick-lang { font-weight: 700; color: var(--color-text); }
+  .pick-prod { font-size: 0.85rem; color: var(--color-text-muted); }
+  /* Разделы линейки */
+  .vgroups { display: grid; gap: 2.2rem; }
+  .vgroup-title { font-size: 1.15rem; margin-bottom: 0.4rem; }
+  .vgroup-note { margin: 0 0 0.9rem; }
+  /* Полоса номиналов: плитками, а не карточками */
+  .topups { margin-top: 2rem; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.2rem; }
+  .topups h3 { font-size: 1.05rem; margin-bottom: 0.3rem; }
+  .topups-note { margin: 0 0 0.9rem; max-width: 78ch; }
+  .topup-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 0.6rem; }
+  .topup { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; background: var(--color-bg-elevated); border-radius: var(--radius-sm); padding: 0.55rem 0.8rem; }
+  .topup-name { font-weight: 700; color: var(--color-text); text-decoration: none; }
+  .topup-price { font-variant-numeric: tabular-nums; color: var(--color-text-muted); font-weight: 400; font-size: 0.9rem; margin-right: auto; }
   .vfeat { list-style: none; padding: 0; margin: 0 0 0.7rem; display: grid; gap: 0.3rem; }
   .vfeat li { padding-left: 1.3rem; position: relative; color: var(--color-text); font-size: 0.88rem; }
   .vfeat li::before { content: '✓'; position: absolute; left: 0; color: var(--vc, var(--color-accent)); font-weight: 700; }
-  .vactions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; }
+  /* Третий призыв первого экрана — текстовая ссылка, а не кнопка: это
+     запасной лёгкий канал, и спорить с главным призывом он не должен. */
+  .btn-link { background: none; border: none; padding: 0.55rem 0; color: var(--color-accent); font: inherit; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .btn-link:hover { color: var(--color-accent-hover); }
   .muted { color: var(--color-text-muted); }
   .small { font-size: 0.82rem; margin-top: 0.6rem; }
   .steps { padding-left: 1.2rem; color: var(--color-text); display: grid; gap: 0.5rem; margin-bottom: 1.2rem; max-width: 800px; }
   .final-grid { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
-  .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.6rem; }
+  .links .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 0.6rem; }
   .links a { color: var(--color-accent); font-size: 0.92rem; padding: 0.5rem 0; }
   .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table.cmp { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.92rem; }
   table.cmp th, table.cmp td { border: 1px solid var(--color-border); padding: 0.55rem 0.8rem; text-align: left; }
   table.cmp thead th { background: var(--color-bg-elevated); }
   table.cmp .sticky { position: sticky; left: 0; background: var(--color-bg-card); font-weight: 600; }
-  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 1rem; }
   .cell { padding: 1.3rem; } .cell h3 { font-size: 1.05rem; margin-bottom: 0.4rem; } .cell p { color: var(--color-text-muted); font-size: 0.9rem; }
   @media (max-width: 880px) { .final-grid { grid-template-columns: 1fr; } }
-  .sol-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .sol-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem; margin-top: 1rem; }
   .sol-tile { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem; }
   .sol-tile b { font-size: 1rem; }
   .sol-tile .muted { font-size: 0.9rem; line-height: 1.45; }
@@ -421,8 +618,40 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
 
 <script>
   import { trackGoal } from '@/lib/analytics';
+  // Единый путь заявки (счётчик, состав расчёта, перенос выбора в форму)
+  // живёт в VendorQuotePath: тем же кодом пользуются остальные страницы.
+  // Клики по data-ev считает общий обработчик макета: держать его здесь
+  // значило бы задваивать цель на страницах, где он тоже есть.
   trackGoal('view_vendor_landing', { page_url: location.pathname });
-  document.querySelectorAll('[data-ev]').forEach((el) => {
-    el.addEventListener('click', () => trackGoal((el as HTMLElement).dataset.ev!, { page_url: location.pathname }));
-  });
+
+  // ── Выбор ситуации сужает сетку ─────────────────────────────────────
+  // Фильтр только прячет лишнее атрибутом hidden: без JavaScript и для
+  // поискового робота на странице видны все карточки и весь текст.
+  const segBtns = Array.from(document.querySelectorAll('[data-seg-btn]')) as HTMLElement[];
+  if (segBtns.length > 0) {
+    const segCards = Array.from(document.querySelectorAll('[data-seg-card]')) as HTMLElement[];
+    const whys = Array.from(document.querySelectorAll('[data-seg-why]')) as HTMLElement[];
+    const reset = document.querySelector('[data-seg-reset]') as HTMLElement | null;
+
+    function applySegment(id: string) {
+      segBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.segBtn === id)));
+      // Позиция без пометки видна всегда: правка сегмента не должна тихо
+      // уносить карточку со страницы.
+      segCards.forEach((c) => { c.hidden = Boolean(id) && c.dataset.segCard !== id; });
+      whys.forEach((w) => { w.hidden = w.dataset.segWhy !== id; });
+      if (reset) reset.hidden = !id;
+    }
+
+    segBtns.forEach((b) => b.addEventListener('click', () => {
+      const id = b.getAttribute('aria-pressed') === 'true' ? '' : (b.dataset.segBtn || '');
+      applySegment(id);
+      trackGoal('vendor_selector_step', {
+        page_url: location.pathname, segment: id || 'сброшен',
+      });
+    }));
+    reset?.addEventListener('click', () => {
+      applySegment('');
+      trackGoal('vendor_selector_step', { page_url: location.pathname, segment: 'сброшен' });
+    });
+  }
 </script>

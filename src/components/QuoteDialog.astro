@@ -1,18 +1,18 @@
 ---
 /**
  * Диалог «Получить КП»: реквизиты покупателя, подсказки по организациям и
- * отправка спецификации в /api/quote.
+ * отправка подборки в /api/quote.
  *
  * Живёт компонентом, а не в разметке страницы, потому что вход в КП теперь
  * не один. До 11.09.2026 диалог был частью /cart, и единственный способ
- * запросить предложение начинался с перехода в спецификацию; главная при этом
+ * запросить предложение начинался с перехода в подборку; главная при этом
  * вела кнопкой «Получить КП» на пустую страницу. Теперь диалог открывает
  * любой элемент с атрибутом data-open-kp — на главной их несколько, и у
  * каждого свой data-kp-source, чтобы в отчёте было видно, какой блок
  * довёл до формы.
  *
- * Состав спецификации диалог не спрашивает: он читает её из cart-client,
- * как и раньше. Пустая спецификация форму не открывает.
+ * Состав подборки диалог не спрашивает: он читает её из cart-client,
+ * как и раньше. Пустая подборка форму не открывает.
  */
 import FormGuardFields from './FormGuardFields.astro';
 ---
@@ -21,7 +21,7 @@ import FormGuardFields from './FormGuardFields.astro';
   <form class="kp-form" data-kp-form>
     <button type="button" class="kp-close" data-kp-close aria-label="Закрыть">✕</button>
     <h2>Получить КП</h2>
-    <p class="kp-hint">Подготовим коммерческое предложение по вашей спецификации — с составом, ценами и реквизитами — и отправим на указанную почту.</p>
+    <p class="kp-hint">Подготовим коммерческое предложение по вашей подборке — с составом, ценами и реквизитами — и отправим на указанную почту.</p>
     <label class="kp-suggest">
       Организация или ИНН:
       <input class="ym-disable-keys" name="buyer_company" required autocomplete="organization"
@@ -218,14 +218,14 @@ import FormGuardFields from './FormGuardFields.astro';
   let kpSource = 'cart';
 
   // Делегирование, а не обработчик на первой найденной кнопке: на главной
-  // вход в КП не один (полка спецификации, наборы, финальный блок), и прежний
+  // вход в КП не один (полка подборки, наборы, финальный блок), и прежний
   // querySelector оживлял ровно одну из них.
   document.addEventListener('click', (e) => {
     const trigger = (e.target as HTMLElement | null)?.closest?.('[data-open-kp]');
     if (!trigger) return;
     kpSource = (trigger as HTMLElement).dataset.kpSource || 'cart';
-    // Пустая спецификация формы не наполнит: /api/quote отвергнет её как
-    // «спецификация пуста». Раньше кнопка в этом случае молчала, и
+    // Пустая подборка формы не наполнит: /api/quote отвергнет её как
+    // «подборка пуста». Раньше кнопка в этом случае молчала, и
     // человек не понимал, сломалось что-то или он чего-то не сделал.
     if (readCart().length === 0) {
       const hint = document.querySelector('[data-kp-empty]') as HTMLElement | null;
@@ -274,6 +274,13 @@ import FormGuardFields from './FormGuardFields.astro';
         + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
       status.className = 'kp-status ok';
       trackGoal('quote_pdf', { form_source: 'quote', kp_source: kpSource, quote_no: quoteNo });
+      // Тот же шаг в разрезе производителей: воронка лендинга вендора
+      // заканчивается здесь, а не на его странице. Цель приехала из
+      // main вместе с диалогом, когда он переехал из /cart в компонент.
+      trackGoal('vendor_kp_download', {
+        quote_no: quoteNo,
+        vendors: Array.from(new Set(readCart().map((i) => i.vendor).filter(Boolean))).join(','),
+      });
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';

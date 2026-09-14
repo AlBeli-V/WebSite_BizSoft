@@ -21,6 +21,9 @@ const CATEGORIES = [
   { id: 1, name: 'AI-сервисы', slug: 'ai', status: 'published', sort: 1 },
   { id: 2, name: 'Дизайн', slug: 'design', status: 'published', sort: 2 },
   { id: 3, name: 'Подарочные карты и пополнение баланса', slug: 'gift-cards', status: 'published', sort: 19 },
+  // Раздел для проверки второй привязки: своих товаров у него в стенде нет,
+  // и он наполняется только гостем из реестра data/catalog/cross-listing.json.
+  { id: 4, name: 'Сайты и хостинг', slug: 'web', status: 'published', sort: 18 },
   { id: 9, name: 'Черновик', slug: 'draft-cat', status: 'draft', sort: 9 },
 ];
 
@@ -51,13 +54,43 @@ function product(over) {
 }
 
 const PRODUCTS = [
-  product({ id: 101, name: 'ChatGPT Business', sku: 'INT-AI-CHATGPT', vendor: 'OpenAI', slug: 'chatgpt-business', old_slugs: [{ value: 'chatgpt-team' }] }),
-  product({ id: 102, name: 'Figma Organization', sku: 'INT-DESIGN-FIGMA', vendor: 'Figma', slug: 'figma-organization', category: CATEGORIES[1] }),
+  product({ id: 101, name: 'ChatGPT Business', sku: 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD', vendor: 'OpenAI', slug: 'chatgpt-business', old_slugs: [{ value: 'chatgpt-team' }] }),
+  // Пополнение баланса API: родитель «по запросу» и два номинала. Без них смоук
+  // не видел ни блока номиналов на лендинге вендора, ни того, что карточки
+  // -CREDITS-<сумма> не попадают в сетку тарифов и в «Цены от».
+  product({ id: 901, name: 'Пополнение баланса OpenAI API', sku: 'OPAI-CRD-API-UNI-BAL-NOM', vendor: 'OpenAI', slug: 'openai-api-balance', price: 0 }),
+  product({ id: 902, name: 'OpenAI API — пополнение баланса на 50 $', sku: 'OPAI-CRD-API-UNI-BAL-NOM-50', vendor: 'OpenAI', slug: 'openai-credits-50', price: 11504 }),
+  product({ id: 903, name: 'OpenAI API — пополнение баланса на 100 $', sku: 'OPAI-CRD-API-UNI-BAL-NOM-100', vendor: 'OpenAI', slug: 'openai-credits-100', price: 23008 }),
+  // Вопросы и похожие позиции есть только здесь: без них смоук и снимки не
+  // видели ни блока «Частые вопросы» со ссылкой на общий список, ни строк
+  // похожих товаров (добавлено 14.09.2026 вместе с их перестройкой).
+  // Единственная карточка заглушки с модульным контентом: только на ней
+  // рендерится широкий баннер помощи (`hasModules`), и без неё прогоны его
+  // не видели — именно так 14.09.2026 его поломка на телефоне ушла в прод.
+  product({ id: 102, name: 'Figma Organization', sku: 'FIGM-LIC-ORGANIZATION-TEAM-1Y-USER', vendor: 'Figma', slug: 'figma-organization', category: CATEGORIES[1],
+    faq: [{ q: 'Можно ли с Collab seat открыть Dev Mode?', a: 'Нет, Dev Mode входит в Full seat.' }],
+    related_products: ['chatgpt-business', 'anthropic-team'],
+    content_version: 'cm-1',
+    content_modules: [
+      { code: 'includes', kind: 'items', title: 'Что входит в план',
+        body: 'Состав рабочего места в Organization.',
+        items: [
+          { t: 'Full seat', d: 'Дизайн, прототипы и Dev Mode на одном месте.' },
+          { t: 'Collab seat', d: 'Комментарии и просмотр без права редактирования.' },
+        ] },
+      { code: 'about', kind: 'prose', title: 'Подробно о продукте',
+        body: 'Organization — корпоративный план Figma с единым пространством команд.\n\nПодключение идёт через корпоративный домен, места переназначаются администратором.' },
+    ] }),
   // Второй товар из кураторского списка бестселлеров главной: блок hero-карточек
   // рендерится только от двух позиций с ценой, и без него смоук не видел ни
   // структуру заголовков героя, ни сами карточки.
   product({ id: 109, name: 'Claude Team', sku: 'INT-AI-CLAUDE', vendor: 'Anthropic', slug: 'anthropic-team' }),
-  product({ id: 103, name: 'Плагин скрытый', sku: 'JB-PLG-HIDDEN', vendor: 'JetBrains', slug: 'plagin-skrytyj' }),
+  // Вторая привязка: товар лежит в «Дизайне», а показывается ещё и в «Сайтах
+  // и хостинге» (реестр cross-listing.json). Без него раздел web пуст — так
+  // смоук видит и сам механизм, и то, что он не задваивает товар в своём
+  // разделе.
+  product({ id: 110, name: 'Cloudflare Pro', sku: 'CFLR-LIC-PRO-UNI-1Y-ORG', vendor: 'Cloudflare', slug: 'cloudflare-pro', category: CATEGORIES[1] }),
+  product({ id: 103, name: 'Плагин скрытый', sku: 'JB-ADD-HIDDEN-TEAM-1Y-USER', vendor: 'JetBrains', slug: 'plagin-skrytyj' }),
   product({ id: 104, name: 'Товар noindex', sku: 'NOIDX-1', vendor: 'OpenAI', slug: 'tovar-noindex', noindex: true }),
   product({ id: 105, name: 'Черновик', sku: 'DRAFT-1', vendor: 'OpenAI', slug: 'chernovik', status: 'draft' }),
   // Сценарии структурированных данных: «цена по запросу» и активная акция.
@@ -69,22 +102,22 @@ const PRODUCTS = [
   // Подарочная карта: родитель со страницей и три варианта (два региона).
   // Порядок вариантов в базе нарочно «неправильный» — витрина обязана
   // выстроить номиналы по убыванию сама (lib/gift-cards.ts).
-  product({ id: 110, name: 'Apple App Store & iTunes Gift Card', sku: 'APP-STORE-ITUNES-GIFT-CARD', vendor: 'Apple', slug: 'app-store-itunes-gift-card',
+  product({ id: 110, name: 'Apple App Store & iTunes Gift Card', sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM', vendor: 'Apple', slug: 'app-store-itunes-gift-card',
     price: 1895, price_from: true, product_type: 'gift_card', category: CATEGORIES[2], short_description: 'Цифровая карта пополнения баланса Apple Account.' }),
-  product({ id: 111, name: 'Apple Gift Card 500 RUB, Россия', sku: 'APP-STORE-ITUNES-GIFT-CARD-RU-500', vendor: 'Apple', slug: 'app-store-itunes-gift-card-ru-500',
-    price: 1895, product_type: 'gift_card', parent_sku: 'APP-STORE-ITUNES-GIFT-CARD', region_code: 'RU', region_name: 'Россия', denomination: 500, denomination_currency: 'RUB', availability: 'in_stock', category: CATEGORIES[2] }),
-  product({ id: 112, name: 'Apple Gift Card 1000 RUB, Россия', sku: 'APP-STORE-ITUNES-GIFT-CARD-RU-1000', vendor: 'Apple', slug: 'app-store-itunes-gift-card-ru-1000',
-    price: 3734, product_type: 'gift_card', parent_sku: 'APP-STORE-ITUNES-GIFT-CARD', region_code: 'RU', region_name: 'Россия', denomination: 1000, denomination_currency: 'RUB', availability: 'in_stock', category: CATEGORIES[2] }),
-  product({ id: 113, name: 'Apple Gift Card 2000 TRY, Турция', sku: 'APP-STORE-ITUNES-GIFT-CARD-TR-2000', vendor: 'Apple', slug: 'app-store-itunes-gift-card-tr-2000',
-    price: 11275, product_type: 'gift_card', parent_sku: 'APP-STORE-ITUNES-GIFT-CARD', region_code: 'TR', region_name: 'Турция', denomination: 2000, denomination_currency: 'TRY', availability: 'in_stock', category: CATEGORIES[2] }),
+  product({ id: 111, name: 'Apple Gift Card 500 RUB, Россия', sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM-RU500', vendor: 'Apple', slug: 'app-store-itunes-gift-card-ru-500',
+    price: 1895, product_type: 'gift_card', parent_sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM', region_code: 'RU', region_name: 'Россия', denomination: 500, denomination_currency: 'RUB', availability: 'in_stock', category: CATEGORIES[2] }),
+  product({ id: 112, name: 'Apple Gift Card 1000 RUB, Россия', sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM-RU1000', vendor: 'Apple', slug: 'app-store-itunes-gift-card-ru-1000',
+    price: 3734, product_type: 'gift_card', parent_sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM', region_code: 'RU', region_name: 'Россия', denomination: 1000, denomination_currency: 'RUB', availability: 'in_stock', category: CATEGORIES[2] }),
+  product({ id: 113, name: 'Apple Gift Card 2000 TRY, Турция', sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM-TR2000', vendor: 'Apple', slug: 'app-store-itunes-gift-card-tr-2000',
+    price: 11275, product_type: 'gift_card', parent_sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM', region_code: 'TR', region_name: 'Турция', denomination: 2000, denomination_currency: 'TRY', availability: 'in_stock', category: CATEGORIES[2] }),
   // Подписка по подарочной ссылке: один регион Global, варианты с подписью
   // вместо денежного номинала (variant_label), срок в месяцах — для порядка.
-  product({ id: 114, name: 'Discord Nitro (подарочная подписка)', sku: 'DISCORD-NITRO-GIFT-CARD', vendor: 'Discord', slug: 'discord-nitro-gift-card',
+  product({ id: 114, name: 'Discord Nitro (подарочная подписка)', sku: 'DISC-GFT-NITRO-UNI-BAL-NOM', vendor: 'Discord', slug: 'discord-nitro-gift-card',
     price: 1122, price_from: true, product_type: 'gift_card', category: CATEGORIES[2], short_description: 'Подписка Discord Nitro подарочной ссылкой.' }),
-  product({ id: 115, name: 'Discord Nitro Basic, 1 месяц (Global)', sku: 'DISCORD-NITRO-GIFT-CARD-GLOBAL-BASIC-1M', vendor: 'Discord', slug: 'discord-nitro-gift-card-global-basic-1m',
-    price: 1122, product_type: 'gift_card', parent_sku: 'DISCORD-NITRO-GIFT-CARD', region_code: 'GLOBAL', region_name: 'Все страны (Global)', denomination: 1, denomination_currency: 'MONTH', variant_label: 'Discord Nitro Basic, 1 месяц', availability: 'in_stock', category: CATEGORIES[2] }),
-  product({ id: 116, name: 'Discord Nitro, 12 месяцев (Global)', sku: 'DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M', vendor: 'Discord', slug: 'discord-nitro-gift-card-global-nitro-12m',
-    price: 22726, product_type: 'gift_card', parent_sku: 'DISCORD-NITRO-GIFT-CARD', region_code: 'GLOBAL', region_name: 'Все страны (Global)', denomination: 12, denomination_currency: 'MONTH', variant_label: 'Discord Nitro, 12 месяцев', availability: 'limited', category: CATEGORIES[2] }),
+  product({ id: 115, name: 'Discord Nitro Basic, 1 месяц (Global)', sku: 'DISC-GFT-NITROBASIC-UNI-1M-NOM-GL', vendor: 'Discord', slug: 'discord-nitro-gift-card-global-basic-1m',
+    price: 1122, product_type: 'gift_card', parent_sku: 'DISC-GFT-NITRO-UNI-BAL-NOM', region_code: 'GLOBAL', region_name: 'Все страны (Global)', denomination: 1, denomination_currency: 'MONTH', variant_label: 'Discord Nitro Basic, 1 месяц', availability: 'in_stock', category: CATEGORIES[2] }),
+  product({ id: 116, name: 'Discord Nitro, 12 месяцев (Global)', sku: 'DISC-GFT-NITRO-UNI-12M-NOM-GL', vendor: 'Discord', slug: 'discord-nitro-gift-card-global-nitro-12m',
+    price: 22726, product_type: 'gift_card', parent_sku: 'DISC-GFT-NITRO-UNI-BAL-NOM', region_code: 'GLOBAL', region_name: 'Все страны (Global)', denomination: 12, denomination_currency: 'MONTH', variant_label: 'Discord Nitro, 12 месяцев', availability: 'limited', category: CATEGORIES[2] }),
 ];
 
 const CURRENCY = [{ id: 1, usd_rate: 90, eur_rate: 100, mode: 'auto', source: 'cbr.ru', auto_recalc: false, rate_date: '2026-08-01', updated_at: '2026-08-01T00:00:00Z' }];

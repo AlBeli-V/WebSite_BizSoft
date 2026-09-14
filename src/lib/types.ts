@@ -18,6 +18,17 @@ export interface Category {
   related_articles?: (string | { value?: string })[] | null;
 }
 
+/** Модуль нижней части карточки (docs/tasks/product-card-content-system, п. 3). */
+export interface ContentModule {
+  code: string;
+  title: string;
+  kind: 'prose' | 'items' | 'compare';
+  body?: string;
+  items?: { t: string; d: string; link?: string }[];
+  rows?: { label: string; values: Record<string, string> }[];
+  links?: string[];
+}
+
 export interface ProductFaqItem {
   q: string;
   a: string;
@@ -102,6 +113,18 @@ export interface Product {
   related_products?: (string | { value?: string })[] | null;
   related_solutions?: (string | { value?: string })[] | null;
   price_from?: boolean | null;
+  // ── Динамическая нижняя часть карточки (13.09.2026) ──
+  product_nature?: 'mono' | 'suite' | 'addon' | 'credit' | 'service' | null;
+  packaging?: 'single' | 'edition_tier' | 'volume_tier' | 'configuration' | 'composite' | null;
+  family_key?: string | null;
+  unit_label?: string | null;
+  edition_label?: string | null;
+  volume_label?: string | null;
+  base_product_sku?: string | null;
+  addon_source?: 'vendor' | 'marketplace' | null;
+  license_model?: string | null;
+  content_modules?: ContentModule[] | null;
+  content_version?: string | null;
   // ── Тип товара и варианты (подарочные карты) ──
   /** Тип товара: null/undefined — обычная лицензия или подписка; gift_card —
    *  цифровая подарочная карта (см. docs/gift-cards.md). */
@@ -205,7 +228,7 @@ export interface CartItem {
   sku: string;
   slug: string;
   name: string;
-  /** Производитель — колонка КП-таблицы спецификации (у старых записей может отсутствовать). */
+  /** Производитель — колонка КП-таблицы расчёта (у старых записей может отсутствовать). */
   vendor?: string;
   price: number; // эффективная цена на момент добавления
   qty: number;

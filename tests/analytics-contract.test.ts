@@ -67,12 +67,14 @@ describe('счётчики', () => {
 });
 
 describe('события', () => {
-  it('каждый data-ev имеет обработчик в своём файле', () => {
-    const orphans = files.filter((f) => {
-      const text = read(f);
-      return text.includes('data-ev=') && !text.includes("querySelectorAll('[data-ev]')");
-    });
-    expect(orphans).toEqual([]);
+  it('data-ev подключён ровно одним обработчиком', () => {
+    // Раньше обработчик стоял в каждой странице производителя. Стоило
+    // вынести карточку тарифа в общий компонент — и её кнопки оказались
+    // размеченными без слушателя. Правило то же, что у data-goal: один
+    // обработчик на сайт, в макете.
+    const binders = files.filter((f) => read(f).includes("closest?.('[data-ev]')")
+                                     || read(f).includes("querySelectorAll('[data-ev]')"));
+    expect(binders).toEqual(['src/layouts/BaseLayout.astro']);
   });
 
   it('цель уровня lead отправляется только после успешного ответа сервера', () => {

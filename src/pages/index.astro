@@ -27,8 +27,8 @@ import type { Product } from '../lib/types';
 // Что было: двенадцать секций одинакового веса, восемь карточных сеток
 // подряд, сквозная нумерация /01…/06 с дробным /03•1, семь повторов
 // «договор — счёт в рублях — ЭДО» и одно измеримое действие на всю
-// страницу (добавление в спецификацию с восьми карточек). Кнопка «Получить
-// КП» в шапке вела на пустую страницу спецификации.
+// страницу (добавление в подборку с восьми карточек). Кнопка «Получить
+// КП» в шапке вела на пустую страницу подборки.
 //
 // Что стало (выбор руководителя — гибрид концепций B+C+A):
 //   • короткое редакционное открытие вместо рекламного первого экрана;
@@ -39,7 +39,7 @@ import type { Product } from '../lib/types';
 //   • ритм задают сами блоки: реестр, карусель, строки, текст со схемой,
 //     список с образцом КП, раскрывающиеся ответы — а не одна сетка;
 //   • воронка стала измеримой по шагам: маршрут → позиция или набор →
-//     спецификация → КП → контакт, каждый шаг со своей целью.
+//     подборка → КП → контакт, каждый шаг со своей целью.
 //
 // H1, title, description, ItemList вендоров и вся внутренняя перелинковка
 // сохранены дословно: это точка отсчёта SEO-замера (см. раздел E аудита).
@@ -154,7 +154,7 @@ const kbLinks = [
 ];
 
 const routes = [
-  { id: 'known', tab: 'Знаю, что купить', hint: 'Найти сервис и добавить в спецификацию' },
+  { id: 'known', tab: 'Знаю, что купить', hint: 'Найти сервис и добавить в подборку' },
   { id: 'task', tab: 'Нужно решение под задачу', hint: 'Готовые наборы под роль команды' },
   { id: 'legal', tab: 'Закупка на юрлицо', hint: 'Документы, НДС, ЭДО, сроки' },
   { id: 'choosing', tab: 'Ещё выбираю', hint: 'Сравнения и разборы перед покупкой' },
@@ -180,7 +180,7 @@ const routes = [
         <!-- Якорь ведёт на витрину, только если она отрисована: блок
              бестселлеров требует минимум четырёх позиций с ценой, и при
              недоступной базе ссылка вела бы в пустоту. -->
-        <a href={popular.length >= 4 ? '#popular' : '/catalog'} data-goal="home_catalog">Сразу к ценам и спецификации →</a>
+        <a href={popular.length >= 4 ? '#popular' : '/catalog'} data-goal="home_catalog">Сразу к ценам и подборке →</a>
         {productCount > 0 && <span><b>{productCount}</b> {plural(productCount, 'позиция', 'позиции', 'позиций')} в каталоге</span>}
         {vendorCount > 0 && <span><b>{vendorCount}</b> {plural(vendorCount, 'вендор', 'вендора', 'вендоров')}</span>}
         <span>Поставщик — <b>{seller.shortName}</b>, ИНН {seller.inn}</span>
@@ -214,7 +214,7 @@ const routes = [
     <div class="lane" id="lane-known" role="tabpanel" aria-labelledby="door-known" data-lane="known">
       <div class="lane-head">
         <div>
-          <h2>Найдите сервис и добавьте в спецификацию</h2>
+          <h2>Найдите сервис и добавьте в подборку</h2>
           <p>Цена за место в год, в рублях, по курсу ЦБ. Количество мест уточним в коммерческом предложении — сейчас это не нужно.</p>
         </div>
         <a href="/catalog" class="btn btn-ghost btn-sm" data-goal="home_catalog">Весь каталог →</a>
@@ -236,13 +236,13 @@ const routes = [
       <div class="lane-head">
         <div>
           <h2>Готовые наборы под роль команды</h2>
-          <p>Набор кладётся в спецификацию целиком одной кнопкой. Состав можно поменять — это черновик, а не заказ.</p>
+          <p>Набор кладётся в подборку целиком одной кнопкой. Состав можно поменять — это черновик, а не заказ.</p>
         </div>
       </div>
       {presets.length > 0 ? (
         <PresetCards presets={presets} showAudience withQuote />
       ) : (
-        <p class="lane-empty">Наборы сейчас недоступны — <a href="/catalog">соберите спецификацию из каталога</a>, и мы посчитаем её целиком.</p>
+        <p class="lane-empty">Наборы сейчас недоступны — <a href="/catalog">соберите подборку из каталога</a>, и мы посчитаем её целиком.</p>
       )}
     </div>
 
@@ -264,7 +264,7 @@ const routes = [
           <p>Условия поставки, реквизиты и порядок работы — открыто, без заявки.</p>
           <a href="/documents" class="btn btn-ghost btn-sm" data-goal="home_knowledge">Документы и реквизиты</a>
           <a href="/how-we-work" class="btn btn-ghost btn-sm" data-goal="home_knowledge">Как мы работаем</a>
-          <p class="legal-note">Коммерческое предложение с вашими реквизитами формируется по спецификации — соберите позиции и нажмите «Получить КП».</p>
+          <p class="legal-note">Коммерческое предложение с вашими реквизитами формируется по подборке — соберите позиции и нажмите «Получить КП».</p>
         </div>
       </div>
     </div>
@@ -458,8 +458,8 @@ const routes = [
       <table class="paper-t">
         <thead><tr><th>Наименование</th><th>Кол-во</th><th>Сумма</th></tr></thead>
         <tbody>
-          <tr><td>Сервис из вашей спецификации, 12 мес</td><td>—</td><td>—</td></tr>
-          <tr><td>Сервис из вашей спецификации, 12 мес</td><td>—</td><td>—</td></tr>
+          <tr><td>Сервис из вашей подборки, 12 мес</td><td>—</td><td>—</td></tr>
+          <tr><td>Сервис из вашей подборки, 12 мес</td><td>—</td><td>—</td></tr>
         </tbody>
       </table>
       <span class="paper-tot">Итого с НДС · сумма прописью</span>
@@ -509,15 +509,15 @@ const routes = [
     </p>
   </section>
 
-  <!-- ФИНАЛ: две двери. Слева — предложение по собранной спецификации,
+  <!-- ФИНАЛ: две двери. Слева — предложение по собранной подборке,
        справа — заявка для тех, кому проще спросить. -->
   <section class="container-page section fin-sec">
     <div class="card fin-kp">
       <h2>Получить коммерческое предложение</h2>
       <p>Состав, цены в рублях, срок действия и реквизиты поставщика одним документом — на вашу почту. Можно переслать руководителю или отдать в бухгалтерию как есть.</p>
       <p class="fin-ctx" data-fin-ctx hidden></p>
-      <button class="btn btn-primary" data-open-kp data-kp-source="home_final">Получить КП по спецификации</button>
-      <p class="fin-empty" data-kp-empty hidden>Спецификация пока пуста. Добавьте позиции кнопкой «В спецификацию» — или опишите задачу в форме справа.</p>
+      <button class="btn btn-primary" data-open-kp data-kp-source="home_final">Получить КП по подборке</button>
+      <p class="fin-empty" data-kp-empty hidden>В расчёте пока пусто. Добавьте позиции кнопкой «В расчёт» — или опишите задачу в форме справа.</p>
       <p class="fin-note">Понадобятся организация, ИНН и контакты: их требует сам документ.</p>
     </div>
     <div>
@@ -606,7 +606,7 @@ const routes = [
   .legal-side { padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.55rem; align-items: flex-start; }
   .legal-side p { color: var(--color-text-muted); font-size: 0.88rem; margin: 0; }
   .legal-note { font-size: 0.8rem !important; color: var(--color-text-dim) !important; margin-top: 0.3rem !important; }
-  .know-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.6rem; }
+  .know-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1.6rem; }
   .kcap {
     font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.1em;
     color: var(--color-text-dim); font-weight: 700; margin: 0 0 0.2rem;
@@ -645,7 +645,7 @@ const routes = [
     /* auto-fit, а не жёсткие четыре колонки: разделов может оказаться два
        (часть каталога без цен), и фиксированная сетка оставляла бы в рамке
        две пустые клетки с границами. */
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
     border: 1px solid var(--color-border); border-radius: var(--radius-lg);
     overflow: hidden; background: var(--color-bg-card);
   }
@@ -883,8 +883,8 @@ const routes = [
     if (e.key === 'Enter') { e.preventDefault(); missBtn?.click(); }
   });
 
-  // ── Контекст спецификации в финальном блоке ────────────────────────
-  // Человек, собравший спецификацию, не должен гадать, попадёт ли она в КП.
+  // ── Контекст подборки в финальном блоке ────────────────────────────
+  // Человек, собравший подборку, не должен гадать, попадёт ли она в КП.
   const finCtx = document.querySelector<HTMLElement>('[data-fin-ctx]');
   const renderFinCtx = () => {
     if (!finCtx) return;

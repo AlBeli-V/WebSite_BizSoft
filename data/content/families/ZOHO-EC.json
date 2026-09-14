@@ -1,0 +1,1075 @@
+{
+  "family_key": "ZOHO-EC",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-endpoint-central-professional-10-servers-and-single-user-license",
+  "classification_notes": [
+    "Редакции Professional / Enterprise (Distributed) / UEM / Security × объём. На витрине вендора две независимые шкалы: конечные точки (от 50) и серверы (от 10), обе с одним пользователем консоли в пакете; проверено по снимку витрины 14.09.2026. В нашем каталоге заведены серверные пакеты, версия для сервис-провайдеров — по конечным точкам.",
+    "Endpoint Central MSP — отдельная линия (50 конечных точек + техник); Endpoint DLP Plus — отдельный продукт, включён в семейство как ближайший сосед."
+  ],
+  "products": {
+    "me-endpoint-central-professional-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-ECPRO-UNI-1Y-PACK-10SRV1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "10 серверов, 1 техник",
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Endpoint Central Professional — годовая подписка на систему управления конечными точками ManageEngine на собственном сервере: патчи Windows, macOS, Linux и сторонних приложений, развёртывание ПО, инвентаризация, удалённый доступ. Пакет на 10 серверов и одного техника; рабочие станции лицензируются отдельными пакетами.\n\nProfessional — базовая редакция для одной площадки: Enterprise добавляет удалённые офисы, тестирование патчей и согласования, UEM — управление ноутбуками и мобильными как единым парком, Security — модули защиты. Серверы с 2024 года считаются отдельно от рабочих станций и дороже.\n\nСрок — 1 год с обновлениями и поддержкой; полоса конечных точек может быть любой, не только прайсовой.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Endpoint Central Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Патчи",
+              "d": "Автоматическая установка обновлений операционных систем и сторонних приложений по расписанию и политикам; отчёты о соответствии. Перечень поддерживаемых приложений вендор ведёт сам и регулярно расширяет."
+            },
+            {
+              "t": "Развёртывание ПО",
+              "d": "Шаблоны для тысяч приложений, установка и удаление без участия пользователя, самообслуживание из портала."
+            },
+            {
+              "t": "Инвентарь",
+              "d": "Оборудование и ПО на всех конечных точках, учёт лицензий, запрет запуска нежелательных программ."
+            },
+            {
+              "t": "Удалённый доступ",
+              "d": "Подключение к рабочему столу, передача файлов, чат, диспетчер задач без сторонних инструментов."
+            },
+            {
+              "t": "Мобильные",
+              "d": "MDM для смартфонов и планшетов в базовом объёме; ноутбуки как мобильные — только в UEM и Security."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Professional, Enterprise, UEM или Security",
+          "kind": "compare",
+          "body": "Все редакции считают лицензию по конечным точкам (серверы и рабочие станции — раздельно) плюс техники; отличаются глубиной управления.",
+          "rows": [
+            {
+              "label": "Удалённые офисы (distributed)",
+              "values": {
+                "me-endpoint-central-professional-10-servers-and-single-user-license": "нет",
+                "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license": "да",
+                "me-endpoint-central-uem-10-servers-and-single-user-license": "да",
+                "me-endpoint-central-security-10-servers-and-single-user-license": "да"
+              }
+            },
+            {
+              "label": "Тестирование и согласование патчей",
+              "values": {
+                "me-endpoint-central-professional-10-servers-and-single-user-license": "нет",
+                "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license": "да",
+                "me-endpoint-central-uem-10-servers-and-single-user-license": "да",
+                "me-endpoint-central-security-10-servers-and-single-user-license": "да"
+              }
+            },
+            {
+              "label": "Ноутбуки Windows/macOS как мобильные, modern management",
+              "values": {
+                "me-endpoint-central-professional-10-servers-and-single-user-license": "нет",
+                "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license": "нет",
+                "me-endpoint-central-uem-10-servers-and-single-user-license": "да",
+                "me-endpoint-central-security-10-servers-and-single-user-license": "да"
+              }
+            },
+            {
+              "label": "Модули безопасности (уязвимости, контроль приложений, BitLocker, браузер, защита от вымогателей)",
+              "values": {
+                "me-endpoint-central-professional-10-servers-and-single-user-license": "надстройками, это позиции прайса",
+                "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license": "надстройками, это позиции прайса",
+                "me-endpoint-central-uem-10-servers-and-single-user-license": "надстройками, это позиции прайса",
+                "me-endpoint-central-security-10-servers-and-single-user-license": "включены"
+              }
+            },
+            {
+              "label": "Запись сеансов удалённого доступа, 2FA консоли",
+              "values": {
+                "me-endpoint-central-professional-10-servers-and-single-user-license": "нет",
+                "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license": "да",
+                "me-endpoint-central-uem-10-servers-and-single-user-license": "да",
+                "me-endpoint-central-security-10-servers-and-single-user-license": "да"
+              }
+            }
+          ],
+          "links": [
+            "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license",
+            "me-endpoint-central-uem-10-servers-and-single-user-license",
+            "me-endpoint-central-security-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считаются лицензии",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Серверы и рабочие станции — раздельно",
+              "d": "Этот пакет — 10 серверов. Рабочие станции (ПК и ноутбуки) лицензируются своими пакетами и стоят дешевле за штуку; посчитаем под ваш парк."
+            },
+            {
+              "t": "Техники",
+              "d": "Один администратор консоли входит в пакет; дополнительные — платно."
+            },
+            {
+              "t": "Гибкие полосы",
+              "d": "Число конечных точек можно лицензировать точно — 37 серверов, а не 50; переход на большую полосу — доплатой."
+            },
+            {
+              "t": "Сервер и агенты",
+              "d": "Консоль на Windows Server, агенты на Windows, macOS, Linux; для 25 000+ устройств — Summary Server. Есть облачная версия."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "ИТ-отделу одной площадки, который хочет закрыть патчи, установку ПО и удалённую помощь одним агентом вместо трёх утилит."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Филиалы за узкими каналами — Enterprise (Distributed); ноутбуки вне домена и Mac как основной парк — UEM; требования безопасности с контролем приложений и BitLocker — Security."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте два числа",
+              "d": "Серверы и рабочие станции отдельно; к серверному пакету обычно нужен пакет рабочих станций."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Бессрочная лицензия — равноправная вкладка прайса вендора рядом с подпиской, со своими ступенями; годовое сопровождение в ней считается долей от стоимости лицензии. Подписка обновления и поддержку включает."
+            },
+            {
+              "t": "Связка с ServiceDesk Plus",
+              "d": "Инвентарь и удалённый доступ Endpoint Central подключаются к заявкам ServiceDesk Plus из коробки."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central Enterprise (Distributed)",
+              "d": "Для нескольких площадок.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central UEM",
+              "d": "Ноутбуки и мобильные единым парком.",
+              "link": "me-endpoint-central-uem-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "С модулями безопасности.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Пакет на 10 серверов покрывает рабочие станции?",
+          "a": "Нет, рабочие станции лицензируются отдельно; их пакет добавляется к серверному."
+        },
+        {
+          "q": "Что будет при 12 серверах?",
+          "a": "Полосы гибкие: можно лицензировать ровно 12, доплатив разницу к пакету на 10."
+        },
+        {
+          "q": "Есть ли антивирус в Professional?",
+          "a": "Нет; защита от вредоносного ПО и вымогателей — модули редакции Security или надстройки к другим редакциям."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license",
+        "me-endpoint-central-uem-10-servers-and-single-user-license",
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-endpoint-central-msp-50-endpoints-and-1-technician"
+      ],
+      "meta_title": "Endpoint Central Professional, 10 серверов | BIZSoft",
+      "meta_description": "ManageEngine Endpoint Central Professional: патчи, развёртывание ПО, инвентарь, удалённый доступ; пакет на 10 серверов и 1 техника. Договор, ЭДО.",
+      "seo_intents": [
+        "endpoint central купить лицензия — hero, meta",
+        "endpoint central professional vs enterprise uem security — PLAN_COMPARE",
+        "endpoint central лицензирование серверы рабочие станции — DEPENDENCIES, FAQ"
+      ],
+      "uncertainties": [
+        "Пакеты дополнительных пользователей консоли и шкала конечных точек у вендора есть, в нашем каталоге их нет: цену и состав подтверждать прайсом на дату расчёта."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        }
+      ]
+    },
+    "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-ECENT-UNI-1Y-PACK-10SRV1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise (Distributed)",
+      "volume_label": "10 серверов, 1 техник",
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Endpoint Central Enterprise в распределённом исполнении — годовая подписка на управление конечными точками в нескольких офисах: серверы распределения на площадках, патчи через узкие каналы, тестирование и согласование обновлений перед раскаткой, запись сеансов удалённого доступа. Пакет на 10 серверов и одного техника.\n\nБаза Professional — патчи, развёртывание, инвентарь, удалённый доступ — здесь та же и описана на её карточке; Enterprise берут, когда площадок больше одной или обновления нельзя ставить без проверки.\n\nСрок — 1 год; рабочие станции — отдельными пакетами.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Enterprise (Distributed)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Удалённые офисы",
+              "d": "Серверы распределения в филиалах кешируют патчи и ПО, экономя канал; управление — из одной консоли."
+            },
+            {
+              "t": "Контроль патчей",
+              "d": "Тестовая группа, согласование администратором, откат; обновления антивирусных баз."
+            },
+            {
+              "t": "Безопасность консоли",
+              "d": "2FA для входа техников, запись сеансов удалённого доступа для аудита."
+            },
+            {
+              "t": "Масштаб",
+              "d": "Summary Server для 25 000+ устройств."
+            }
+          ],
+          "links": [
+            "me-endpoint-central-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Несколько площадок или регламент тестирования патчей."
+            },
+            {
+              "t": "Professional",
+              "d": "Одна площадка, патчи ставятся сразу.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "UEM",
+              "d": "Плюс ноутбуки и Mac как мобильные.",
+              "link": "me-endpoint-central-uem-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-endpoint-central-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с филиалами и складами за слабыми каналами, банкам и производствам, где обновления проходят согласование перед раскаткой."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central Professional",
+              "d": "Одна площадка.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central UEM",
+              "d": "Единый парк с мобильными.",
+              "link": "me-endpoint-central-uem-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Модули защиты включены.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли отдельный сервер в каждом филиале?",
+          "a": "Сервер распределения ставится на площадках с медленным каналом; небольшие офисы могут работать напрямую с центральным сервером."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-professional-10-servers-and-single-user-license",
+        "me-endpoint-central-uem-10-servers-and-single-user-license",
+        "me-endpoint-central-security-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Endpoint Central Enterprise Distributed, 10 серв. | BIZSoft",
+      "meta_description": "ManageEngine Endpoint Central Enterprise (Distributed): управление филиалами, согласование патчей, запись сеансов; пакет на 10 серверов и техника. Договор, ЭДО.",
+      "seo_intents": [
+        "endpoint central enterprise distributed купить — hero, meta",
+        "endpoint central филиалы distribution server — CAPABILITIES, FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        }
+      ]
+    },
+    "me-endpoint-central-uem-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-ECUEM-UNI-1Y-PACK-10SRV1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "UEM",
+      "volume_label": "10 серверов, 1 техник",
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Endpoint Central UEM — годовая подписка на единое управление всем парком устройств: серверы и ПК, ноутбуки Windows и macOS в режиме современного управления, смартфоны и планшеты — одной консолью с патчами, политиками и удалённым доступом. Пакет на 10 серверов и одного техника.\n\nПоверх Enterprise UEM добавляет то, ради чего его и берут: ноутбуки вне домена и Mac управляются как мобильные устройства — регистрация, политики, приложения, стирание при утере.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция UEM",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Modern management",
+              "d": "Ноутбуки Windows 10/11 и macOS регистрируются как мобильные: политики, магазин приложений, kiosk-режим, удалённое стирание."
+            },
+            {
+              "t": "Мобильные устройства",
+              "d": "Корпоративные и BYOD смартфоны и планшеты: приложения, Wi-Fi, VPN, почта, геолокация."
+            },
+            {
+              "t": "Всё из Enterprise",
+              "d": "Удалённые офисы, согласование патчей, запись сеансов, 2FA."
+            },
+            {
+              "t": "ChromeOS и другие",
+              "d": "Управление ChromeOS, tvOS и прочими платформами по матрице вендора."
+            }
+          ],
+          "links": [
+            "me-endpoint-central-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "UEM",
+              "d": "Ноутбуки вне домена, Mac, планшеты в одном парке с серверами."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Парк — только доменные ПК и серверы.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Security",
+              "d": "К UEM добавить модули защиты.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-endpoint-central-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с удалёнными сотрудниками на ноутбуках и Mac, BYOD и планшетами в поле, где парк уже нельзя описать словами «ПК в домене»."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central Enterprise (Distributed)",
+              "d": "Без модуля мобильных.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "UEM плюс безопасность.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Professional",
+              "d": "Базовая редакция.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли управлять Mac в Professional?",
+          "a": "Патчи и инвентарь — да; управлять Mac как мобильным устройством с политиками и стиранием — только в UEM и Security."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license",
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-endpoint-central-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Endpoint Central UEM, 10 серверов — подписка | BIZSoft",
+      "meta_description": "ManageEngine Endpoint Central UEM: серверы, ПК, ноутбуки Windows/macOS и мобильные одной консолью; пакет на 10 серверов и техника. Договор, ЭДО.",
+      "seo_intents": [
+        "endpoint central uem купить — hero, meta",
+        "управление ноутбуками mac mdm manageengine — CAPABILITIES, FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        }
+      ]
+    },
+    "me-endpoint-central-security-10-servers-and-single-user-license": {
+      "sku": "ZOHO-LIC-ECSEC-UNI-1Y-PACK-10SRV1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Security",
+      "volume_label": "10 серверов, 1 техник",
+      "unit_label": "пакет: 10 серверов, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Endpoint Central Security — годовая подписка на старшую редакцию: всё управление UEM плюс модули безопасности конечных точек — оценка уязвимостей с приоритизацией патчей, контроль приложений и устройств, управление BitLocker, безопасность браузера, защита от программ-вымогателей и вредоносного ПО. Пакет на 10 серверов и одного техника.\n\nЭто ответ на вопрос «управление и защита одним агентом»: в младших редакциях модули безопасности докупаются надстройками по запросу, здесь они в составе.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Security",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Уязвимости и патчи",
+              "d": "Сканирование, приоритизация по эксплуатируемости, закрытие патчем из той же консоли."
+            },
+            {
+              "t": "Контроль приложений и устройств",
+              "d": "Белые списки, блокировка USB и периферии, привилегии по приложениям."
+            },
+            {
+              "t": "Шифрование и браузер",
+              "d": "Политики BitLocker с хранением ключей, изоляция и политики браузеров."
+            },
+            {
+              "t": "Защита от вредоносного ПО",
+              "d": "Анти-вымогатель с откатом, обнаружение вредоносного ПО — состав модулей по матрице вендора на дату заказа."
+            },
+            {
+              "t": "Всё из UEM",
+              "d": "Единый парк, удалённые офисы, согласование патчей."
+            }
+          ],
+          "links": [
+            "me-endpoint-central-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта редакция или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Security",
+              "d": "Требования ИБ: уязвимости, контроль приложений, шифрование — в одной системе с патчами."
+            },
+            {
+              "t": "UEM",
+              "d": "Безопасность обеспечивает другой продукт.",
+              "link": "me-endpoint-central-uem-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Только серверы и ПК без ИБ-модулей.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-endpoint-central-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, где ИБ-служба требует контроль уязвимостей, приложений и шифрования, а ИТ не хочет второго агента на каждой машине."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central UEM",
+              "d": "Без модулей безопасности.",
+              "link": "me-endpoint-central-uem-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint DLP Plus",
+              "d": "Защита от утечек данных как отдельный продукт.",
+              "link": "me-endpoint-dlp-plus-professional-100-workstations"
+            },
+            {
+              "t": "Endpoint Central Enterprise (Distributed)",
+              "d": "Управление без ИБ.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли Security антивирус?",
+          "a": "Модули защиты от вредоносного ПО и вымогателей входят; считать ли это полной заменой корпоративного антивируса — решение ИБ-службы по матрице функций вендора."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-uem-10-servers-and-single-user-license",
+        "me-endpoint-dlp-plus-professional-100-workstations",
+        "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Endpoint Central Security, 10 серверов — подписка | BIZSoft",
+      "meta_description": "ManageEngine Endpoint Central Security: UEM плюс уязвимости, контроль приложений, BitLocker, защита от вымогателей; 10 серверов и техник. Договор, ЭДО.",
+      "seo_intents": [
+        "endpoint central security edition купить — hero, meta",
+        "endpoint central уязвимости контроль приложений bitlocker — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Состав модулей безопасности — неопределённость профиля №1."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        }
+      ]
+    },
+    "me-endpoint-central-msp-50-endpoints-and-1-technician": {
+      "sku": "ZOHO-LIC-ECMSP-UNI-1Y-PACK-50EP1TECH",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "MSP",
+      "volume_label": "50 конечных точек, 1 техник",
+      "unit_label": "пакет: 50 конечных точек, 1 техник",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Endpoint Central MSP — годовая подписка на управление конечными точками для сервис-провайдеров: патчи, развёртывание ПО, инвентарь и удалённый доступ по нескольким клиентам из одной консоли с изоляцией аккаунтов. Пакет на 50 конечных точек и одного техника.\n\nОт обычного Endpoint Central отличается мультиклиентностью и отчётами по заказчикам; редакции — Free, Professional (только облако) и Enterprise; модули безопасности и OS Imaging — в облачном варианте.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт версия MSP",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Клиенты изолированы",
+              "d": "У каждого заказчика свои устройства, политики, отчёты и техники с ограниченным доступом."
+            },
+            {
+              "t": "То же управление",
+              "d": "Патчи, ПО, инвентарь, удалённый доступ, мобильные устройства — как в Endpoint Central Enterprise."
+            },
+            {
+              "t": "Развёртывание",
+              "d": "Собственный сервер или облако ManageEngine; Professional и ИБ-надстройки — только в облаке."
+            }
+          ],
+          "links": [
+            "me-endpoint-central-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "MSP или обычная версия",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MSP",
+              "d": "Обслуживаете устройства нескольких компаний."
+            },
+            {
+              "t": "Endpoint Central Enterprise",
+              "d": "Один заказчик — вы сами; филиалы закрывает Distributed.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            }
+          ],
+          "links": [
+            "me-endpoint-central-professional-10-servers-and-single-user-license"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аутсорсинговым ИТ-компаниям и интеграторам, которые сопровождают парки нескольких клиентов и должны показывать каждому отчёты только по его устройствам."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central Enterprise (Distributed)",
+              "d": "Для одной компании с филиалами.",
+              "link": "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license"
+            },
+            {
+              "t": "ServiceDesk Plus MSP Professional",
+              "d": "Заявки и активы клиентов в связке.",
+              "link": "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считаются ли серверы клиентов отдельно от рабочих станций?",
+          "a": "Пакет MSP задаёт общее число конечных точек; серверные полосы уточняем по прайсу вендора при заказе."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license",
+        "me-servicedesk-plus-msp-professional-2-technicians-and-250-it-assets"
+      ],
+      "meta_title": "Endpoint Central MSP, 50 точек — подписка на год | BIZSoft",
+      "meta_description": "ManageEngine Endpoint Central MSP: управление конечными точками нескольких клиентов из одной консоли, 50 точек и техник. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "endpoint central msp купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Раздельный учёт серверов в MSP-полосах — не подтверждён; в FAQ оговорено."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        }
+      ]
+    },
+    "me-endpoint-dlp-plus-professional-100-workstations": {
+      "sku": "ZOHO-LIC-DLPPRO-UNI-1Y-PACK-100WS",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "single"
+      },
+      "edition_label": "Professional",
+      "volume_label": "100 рабочих станций",
+      "unit_label": "пакет: 100 рабочих станций",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Endpoint DLP Plus Professional — годовая подписка на защиту от утечек данных на рабочих станциях ManageEngine: обнаружение конфиденциальных файлов, контроль копирования на USB, в облако, почту и печать, правила по типам данных и отчёты об инцидентах. Пакет на 100 рабочих станций на собственном сервере.\n\nЭто отдельный продукт, а не редакция Endpoint Central: работает своим агентом, но интегрируется с ним; Professional — базовая редакция, Enterprise добавляет расширенные политики и расследования.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Endpoint DLP Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обнаружение данных",
+              "d": "Шаблоны для персональных данных, платёжной информации и своих словарей; классификация файлов на станциях."
+            },
+            {
+              "t": "Каналы утечки",
+              "d": "USB и съёмные носители, облачные хранилища, почтовые вложения, печать, буфер обмена, скриншоты."
+            },
+            {
+              "t": "Реакция",
+              "d": "Блокировка, предупреждение или разрешение по запросу пользователя; журнал инцидентов и отчёты для ИБ."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "DLP Plus или Security-редакция Endpoint Central",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint DLP Plus",
+              "d": "Задача — контроль движения данных: что и куда копируют сотрудники."
+            },
+            {
+              "t": "Endpoint Central Security",
+              "d": "Уязвимости, контроль приложений и шифрование без глубокого DLP.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Организациям с персональными данными и коммерческой тайной на рабочих станциях: финансы, медицина, госзаказчики, где регулятор требует контроль каналов утечки."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Только рабочие станции",
+              "d": "Лицензируются ПК и ноутбуки; серверы под DLP Plus не считаются."
+            },
+            {
+              "t": "Редакция",
+              "d": "Второй редакции у продукта нет: на витрине вендора он представлен единственной редакцией Professional. Объём меняется шкалой рабочих станций."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Endpoint Central Security",
+              "d": "Управление и защита без DLP.",
+              "link": "me-endpoint-central-security-10-servers-and-single-user-license"
+            },
+            {
+              "t": "Endpoint Central Professional",
+              "d": "Базовое управление парком.",
+              "link": "me-endpoint-central-professional-10-servers-and-single-user-license"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Endpoint Central для DLP Plus?",
+          "a": "Нет, DLP Plus работает самостоятельно; при наличии Endpoint Central агенты и инвентарь объединяются."
+        }
+      ],
+      "related_products": [
+        "me-endpoint-central-security-10-servers-and-single-user-license",
+        "me-endpoint-central-professional-10-servers-and-single-user-license"
+      ],
+      "meta_title": "Endpoint DLP Plus Professional, 100 станций | BIZSoft",
+      "meta_description": "ManageEngine Endpoint DLP Plus: защита от утечек на 100 рабочих станциях — USB, облако, почта, печать; свой сервер. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "endpoint dlp plus купить — hero, meta",
+        "manageengine dlp защита от утечек — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Состав отличий Enterprise-редакции DLP Plus — по документации вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "manageengine.md · Endpoint Central"
+        }
+      ]
+    }
+  }
+}

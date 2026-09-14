@@ -169,6 +169,20 @@ async function buildSchema() {
   await ensureField('products', 'short_description', { type: 'text', meta: { interface: 'input-multiline' } });
   await ensureField('products', 'description', { type: 'text', meta: { interface: 'input-rich-text-md' } });
   await ensureField('products', 'seo_text', { type: 'text', meta: { interface: 'input-rich-text-md' } });
+  // Динамическая нижняя часть карточки (решение руководителя 13.09.2026,
+  // docs/tasks/product-card-content-system/README.md п. 4): классификация
+  // по осям и модули контента. Пустое content_modules — legacy-рендер.
+  await ensureField('products', 'product_nature', { type: 'string', meta: { interface: 'select-dropdown', width: 'half', options: { choices: ['mono', 'suite', 'addon', 'credit', 'service'].map((v) => ({ text: v, value: v })) }, note: 'Природа товара (ось NATURE)' } });
+  await ensureField('products', 'packaging', { type: 'string', meta: { interface: 'select-dropdown', width: 'half', options: { choices: ['single', 'edition_tier', 'volume_tier', 'configuration', 'composite'].map((v) => ({ text: v, value: v })) }, note: 'Как позиция соотносится с соседями (ось PACKAGING)' } });
+  await ensureField('products', 'family_key', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Семейство соседних SKU: <ВЕНДОР>-<ПРОДУКТ>' } });
+  await ensureField('products', 'unit_label', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Единица расчёта словами: рабочее место, сервер, пакет: 10 устройств' } });
+  await ensureField('products', 'edition_label', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Редакция внутри семейства' } });
+  await ensureField('products', 'volume_label', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Объём или тип нагрузки внутри семейства' } });
+  await ensureField('products', 'base_product_sku', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Для дополнений: артикул базового продукта' } });
+  await ensureField('products', 'addon_source', { type: 'string', meta: { interface: 'select-dropdown', width: 'half', options: { choices: [{ text: 'vendor', value: 'vendor' }, { text: 'marketplace', value: 'marketplace' }] }, note: 'Дополнение самого производителя или стороннего разработчика' } });
+  await ensureField('products', 'license_model', { type: 'string', meta: { interface: 'select-dropdown', width: 'half', options: { choices: ['free', 'monthly', 'annual', 'annual_fallback', 'perpetual', 'external'].map((v) => ({ text: v, value: v })) }, note: 'Модель лицензирования дополнения' } });
+  await ensureField('products', 'content_modules', { type: 'json', meta: { interface: 'input-code', options: { language: 'json' }, note: 'Модули нижней части карточки: [{code,title,kind,body,items,rows,links}]. Пусто — legacy-рендер.' } });
+  await ensureField('products', 'content_version', { type: 'string', meta: { interface: 'input', width: 'half', readonly: true, note: 'Версия конвейера контента (cm-1.0)' } });
   await ensureField('products', 'meta_title', { type: 'string', meta: { interface: 'input' } });
   await ensureField('products', 'meta_description', { type: 'text', meta: { interface: 'input-multiline' } });
   await ensureField('products', 'price', { type: 'float', meta: { interface: 'input', note: 'Цена, ₽' }, schema: { default_value: 0 } });
@@ -279,6 +293,10 @@ async function buildSchema() {
   await ensureField('leads', 'ym_client_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'ClientID Яндекс.Метрики.' } });
   await ensureField('leads', 'ga_client_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'client_id GA4.' } });
 
+  // Связь с зеркалом Bitrix24 (docs/rules/crm-mirror.md): без номера лида
+  // портала обратный канал не знает, к какой заявке относится его событие,
+  // и стадия из портала не возвращается.
+  await ensureField('leads', 'b24_lead_id', { type: 'integer', meta: { interface: 'input', width: 'half', readonly: true, note: 'Номер лида в Bitrix24. Проставляется автоматически при зеркалировании заявки.' } });
   await ensureField('leads', 'owner', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Ответственный менеджер.' } });
   await ensureField('leads', 'amount', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Сумма сделки в рублях. Заполняется при выставлении счёта.' } });
   // Экономика сделки из КП (P1, решение руководителя 28.08.2026): воронка

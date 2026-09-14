@@ -1,0 +1,710 @@
+{
+  "family_key": "BITDEFENDER",
+  "vendor": "Bitdefender",
+  "vendor_profile": "data/content/vendors/bitdefender.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "bitdefender-gravityzone-business",
+  "classification_notes": [
+    "GravityZone Small Business / Premium (team); Total/Premium/Ultimate Security Family (individual). Носитель — GravityZone SB."
+  ],
+  "products": {
+    "bitdefender-gravityzone-business": {
+      "sku": "BTDF-LIC-GZSBS-TEAM-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Bitdefender GravityZone Small Business Security — командная подписка на 1 год на защиту рабочих станций и серверов малого бизнеса: антивирус с машинным обучением, защита от вымогателей, веб-фильтр, облачная консоль без своего сервера; лицензируется по устройствам. Лицензия организации; цена по запросу под число устройств.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Bitdefender GravityZone Small Business Security",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Защита",
+              "d": "Антивирус, поведенческий анализ, откат вымогателей, брандмауэр, веб-фильтр."
+            },
+            {
+              "t": "Консоль",
+              "d": "Облачная GravityZone, политики, отчёты."
+            },
+            {
+              "t": "Устройства",
+              "d": "Windows, macOS, Linux, серверы."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Small Business",
+              "d": "До нескольких десятков устройств."
+            },
+            {
+              "t": "Business Security Premium",
+              "d": "Плюс контроль приложений, песочница, анализ рисков.",
+              "link": "bitdefender-gravityzone-premium"
+            },
+            {
+              "t": "ManageEngine Malware Protection Plus",
+              "d": "Альтернатива в экосистеме ManageEngine.",
+              "link": "me-malware-protection-plus-enterprise-10-servers"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "По устройствам",
+              "d": "Считаются станции и серверы."
+            },
+            {
+              "t": "Минимум",
+              "d": "По условиям Bitdefender."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Малому бизнесу без ИБ-специалиста."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли свой сервер?",
+          "a": "Нет, консоль в облаке."
+        }
+      ],
+      "related_products": [
+        "bitdefender-gravityzone-premium",
+        "me-malware-protection-plus-enterprise-10-servers"
+      ],
+      "meta_title": "Bitdefender GravityZone Small Business — подписка | BIZSoft",
+      "meta_description": "Bitdefender GravityZone Small Business Security: защита станций и серверов с облачной консолью; по устройствам, цена по запросу. Договор, ЭДО.",
+      "seo_intents": [
+        "bitdefender gravityzone small business security купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "bitdefender-gravityzone-premium": {
+      "sku": "BTDF-LIC-GZBSP-TEAM-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "устройство",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Bitdefender GravityZone Business Security Premium — командная подписка на 1 год на старший SMB-тариф: всё из Small Business плюс контроль приложений, песочница, анализ рисков конечных точек, защита от эксплойтов, расширенная отчётность. Лицензия организации по устройствам; цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Bitdefender GravityZone Business Security Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Расширенно",
+              "d": "Application Control, Sandbox Analyzer, Risk Analytics, HyperDetect."
+            },
+            {
+              "t": "Всё из SB",
+              "d": "Антивирус, вымогатели, консоль."
+            },
+            {
+              "t": "Устройства",
+              "d": "Станции и серверы."
+            }
+          ],
+          "links": [
+            "bitdefender-gravityzone-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Требования ИБ выше базовых."
+            },
+            {
+              "t": "Small Business",
+              "d": "Базовая защита.",
+              "link": "bitdefender-gravityzone-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше SB."
+            },
+            {
+              "t": "EDR",
+              "d": "Отдельно."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с ИБ-политиками."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли EDR?",
+          "a": "В расширенных планах GravityZone — по запросу."
+        }
+      ],
+      "related_products": [
+        "bitdefender-gravityzone-business"
+      ],
+      "meta_title": "Bitdefender GravityZone Business Security Premium | BIZSoft",
+      "meta_description": "Bitdefender GravityZone Business Security Premium: контроль приложений, песочница, анализ рисков; по устройствам, цена по запросу. Договор, ЭДО.",
+      "seo_intents": [
+        "bitdefender gravityzone business security premium купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "bitdefender-total-security-family": {
+      "sku": "BTDF-LIC-TSFAMILY-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Bitdefender Total Security, план Family — индивидуальная подписка на 1 год на несколько устройств семьи или небольшого коллектива: многоуровневая защита Windows, macOS, Android, iOS, защита от вымогателей, VPN с лимитом, родительский контроль, оптимизация. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Bitdefender Total Security (Family)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Защита",
+              "d": "Антивирус, вымогатели, веб-защита на всех платформах."
+            },
+            {
+              "t": "Устройства",
+              "d": "Несколько по плану Family."
+            },
+            {
+              "t": "Дополнительно",
+              "d": "VPN с лимитом трафика, родительский контроль."
+            }
+          ],
+          "links": [
+            "bitdefender-gravityzone-business"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Total Security",
+              "d": "Базовая семейная защита."
+            },
+            {
+              "t": "Premium Security",
+              "d": "Плюс безлимитный VPN и менеджер паролей.",
+              "link": "bitdefender-premium-security-family"
+            },
+            {
+              "t": "Ultimate Security",
+              "d": "Плюс защита личности.",
+              "link": "bitdefender-ultimate-security-family"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Семьям и ИП с личными устройствами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько устройств?",
+          "a": "По плану Family на дату заказа."
+        }
+      ],
+      "related_products": [
+        "bitdefender-gravityzone-business",
+        "bitdefender-premium-security-family",
+        "bitdefender-ultimate-security-family"
+      ],
+      "meta_title": "Bitdefender Total Security Family — подписка | BIZSoft",
+      "meta_description": "Bitdefender Total Security Family: защита нескольких устройств на всех платформах, VPN с лимитом. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "bitdefender total security (family) купить — hero"
+      ],
+      "uncertainties": [
+        "Число устройств — по плану вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "bitdefender-premium-security-family": {
+      "sku": "BTDF-LIC-PSFAMILY-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Bitdefender Premium Security, план Family — индивидуальная подписка на 1 год: всё из Total Security плюс безлимитный VPN и менеджер паролей на всех устройствах семьи. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Bitdefender Premium Security (Family)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "VPN",
+              "d": "Без лимита трафика."
+            },
+            {
+              "t": "Пароли",
+              "d": "Менеджер паролей."
+            },
+            {
+              "t": "Всё из Total",
+              "d": "Защита, контроль."
+            }
+          ],
+          "links": [
+            "bitdefender-gravityzone-business"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Оформляется на личный аккаунт работника по договору с организацией; переуступка другому сотруднику не поддерживается вендором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "VPN нужен постоянно."
+            },
+            {
+              "t": "Total Security",
+              "d": "Дешевле.",
+              "link": "bitdefender-total-security-family"
+            },
+            {
+              "t": "Ultimate",
+              "d": "Защита личности.",
+              "link": "bitdefender-ultimate-security-family"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Семьям с VPN."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от Total?",
+          "a": "VPN и пароли."
+        }
+      ],
+      "related_products": [
+        "bitdefender-gravityzone-business",
+        "bitdefender-total-security-family",
+        "bitdefender-ultimate-security-family"
+      ],
+      "meta_title": "Bitdefender Premium Security Family — подписка | BIZSoft",
+      "meta_description": "Bitdefender Premium Security Family: защита плюс безлимитный VPN и менеджер паролей. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "bitdefender premium security (family) купить — hero"
+      ],
+      "uncertainties": [
+        "Число устройств — по плану вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "bitdefender-ultimate-security-family": {
+      "sku": "BTDF-LIC-USFAMILY-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Bitdefender Ultimate Security, план Family — индивидуальная подписка на 1 год на старший потребительский план: всё из Premium Security плюс защита от кражи личности и мониторинг утечек данных (доступность услуг по странам). Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Bitdefender Ultimate Security (Family)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Личность",
+              "d": "Мониторинг утечек, оповещения."
+            },
+            {
+              "t": "Всё из Premium",
+              "d": "VPN, пароли, защита."
+            },
+            {
+              "t": "Доступность",
+              "d": "Услуги защиты личности зависят от страны."
+            }
+          ],
+          "links": [
+            "bitdefender-gravityzone-business"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Индивидуальная модель: один человек, один аккаунт, без администратора и переназначения; юрлицо платит, пользователь владеет доступом."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ultimate",
+              "d": "Максимум."
+            },
+            {
+              "t": "Premium",
+              "d": "Без защиты личности.",
+              "link": "bitdefender-premium-security-family"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Семьям с максимальными требованиями."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли защита личности в России?",
+          "a": "Доступность по странам — уточняйте."
+        }
+      ],
+      "related_products": [
+        "bitdefender-gravityzone-business",
+        "bitdefender-premium-security-family"
+      ],
+      "meta_title": "Bitdefender Ultimate Security Family — подписка | BIZSoft",
+      "meta_description": "Bitdefender Ultimate Security Family: Premium плюс защита личности и мониторинг утечек. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "bitdefender ultimate security (family) купить — hero"
+      ],
+      "uncertainties": [
+        "Доступность услуг защиты личности по странам."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

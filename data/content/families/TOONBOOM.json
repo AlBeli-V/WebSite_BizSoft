@@ -1,0 +1,274 @@
+{
+  "family_key": "TOONBOOM",
+  "vendor": "Toon Boom Animation",
+  "vendor_profile": "data/content/vendors/toonboom.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "toonboom-harmony-advanced",
+  "classification_notes": [
+    "Harmony Advanced / Premium. Носитель — Advanced."
+  ],
+  "products": {
+    "toonboom-harmony-advanced": {
+      "sku": "TBAN-LIC-HARMONYADV-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Toon Boom Harmony Advanced — индивидуальная подписка на 1 год на 2D-анимацию для студий и сериалов: покадровая и перекладочная анимация, векторные и растровые кисти, риггинг с деформерами, композитинг эффектов, камера. Личный аккаунт.\n\nPremium добавляет продвинутый риггинг, 3D-интеграцию и узловой композитинг.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Toon Boom Harmony Advanced",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Рисование",
+              "d": "Векторные и растровые кисти, покадровая анимация, онион-скин."
+            },
+            {
+              "t": "Риггинг",
+              "d": "Деформеры, иерархии, перекладка."
+            },
+            {
+              "t": "Композитинг",
+              "d": "Эффекты, камера, экспорт видео."
+            },
+            {
+              "t": "Пайплайн",
+              "d": "Storyboard Pro, Producer."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced",
+              "d": "Аниматоры сериалов и рекламы."
+            },
+            {
+              "t": "Premium",
+              "d": "Продвинутый риг, 3D, узлы.",
+              "link": "toonboom-harmony-premium"
+            },
+            {
+              "t": "Adobe Animate",
+              "d": "Веб-анимация.",
+              "link": "adobe-animate"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Анимационным студиям и фрилансерам 2D."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли с Wacom?",
+          "a": "Да, полная поддержка планшетов."
+        }
+      ],
+      "related_products": [
+        "toonboom-harmony-premium",
+        "adobe-animate"
+      ],
+      "meta_title": "Toon Boom Harmony Advanced — подписка на год | BIZSoft",
+      "meta_description": "Toon Boom Harmony Advanced: 2D-анимация, риггинг с деформерами, композитинг, векторные кисти. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "toon boom harmony купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "toonboom-harmony-premium": {
+      "sku": "TBAN-LIC-HARMONYPRM-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Toon Boom Harmony Premium — индивидуальная подписка на 1 год на старшую редакцию Harmony: всё из Advanced плюс продвинутый риггинг персонажей, 3D-интеграция, узловой композитинг, частицы, расширенные эффекты. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Toon Boom Harmony Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Риггинг",
+              "d": "Продвинутые деформеры, мастер-контроллеры."
+            },
+            {
+              "t": "3D",
+              "d": "Импорт моделей и камер, смешение 2D и 3D."
+            },
+            {
+              "t": "Узлы",
+              "d": "Нодовый композитинг, частицы."
+            },
+            {
+              "t": "Всё из Advanced",
+              "d": "Рисование, анимация."
+            }
+          ],
+          "links": [
+            "toonboom-harmony-advanced"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Индивидуальная модель: один человек, один аккаунт, без администратора и переназначения; юрлицо платит, пользователь владеет доступом."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Полнометражная и сложная анимация."
+            },
+            {
+              "t": "Advanced",
+              "d": "Сериалы и реклама.",
+              "link": "toonboom-harmony-advanced"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям полного метра и сложных персонажей."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Premium сериальной студии?",
+          "a": "Обычно Advanced, Premium — ведущим риггерам."
+        }
+      ],
+      "related_products": [
+        "toonboom-harmony-advanced"
+      ],
+      "meta_title": "Toon Boom Harmony Premium — подписка на год | BIZSoft",
+      "meta_description": "Toon Boom Harmony Premium: продвинутый риггинг, 3D-интеграция, узловой композитинг плюс всё из Advanced. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "harmony premium — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

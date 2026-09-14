@@ -67,7 +67,7 @@ check('sitemap не содержит noindex-товар', async () => {
   const r = await req('/sitemap.xml');
   return { ok: !r.body.includes('/product/tovar-noindex'), got: r.body.includes('/product/tovar-noindex') ? 'ЕСТЬ (не должно)' : 'нет' };
 });
-check('sitemap не содержит плагин JB-PLG', async () => {
+check('sitemap не содержит плагин JetBrains (JB + ADD)', async () => {
   const r = await req('/sitemap.xml');
   return { ok: !r.body.includes('/product/plagin-skrytyj'), got: r.body.includes('/product/plagin-skrytyj') ? 'ЕСТЬ (не должно)' : 'нет' };
 });
@@ -154,15 +154,15 @@ check('подарочная карта: страница родителя отд
   if (!html.includes('data-gift-card')) throw new Error('нет селектора вариантов');
   if (!html.includes('data-region="RU"') || !html.includes('data-region="TR"')) throw new Error('нет кнопок регионов');
   // Номиналы региона по убыванию: 1000 раньше 500, хотя в базе порядок обратный.
-  const i1000 = html.indexOf('data-sku="APP-STORE-ITUNES-GIFT-CARD-RU-1000"');
-  const i500 = html.indexOf('data-sku="APP-STORE-ITUNES-GIFT-CARD-RU-500"');
+  const i1000 = html.indexOf('data-sku="APPL-GFT-APPSTORE-UNI-BAL-NOM-RU1000"');
+  const i500 = html.indexOf('data-sku="APPL-GFT-APPSTORE-UNI-BAL-NOM-RU500"');
   if (i1000 < 0 || i500 < 0 || i1000 > i500) throw new Error('номиналы не по убыванию');
   if (/base_price_usd|markup_coeff/.test(html)) throw new Error('закупка попала в HTML');
   if (!html.includes('rel="canonical" href="https://biz-soft.pro/product/app-store-itunes-gift-card"')) throw new Error('canonical не на родителя');
   return { ok: true, got: '200, селектор, регионы RU/TR, номиналы по убыванию, закупки в HTML нет' };
 });
 check('подарочная карта: ?sku= не меняет canonical и не закрывает страницу от индексации', async () => {
-  const html = (await req('/product/app-store-itunes-gift-card?sku=APP-STORE-ITUNES-GIFT-CARD-TR-2000')).body;
+  const html = (await req('/product/app-store-itunes-gift-card?sku=APPL-GFT-APPSTORE-UNI-BAL-NOM-TR2000')).body;
   if (!html.includes('rel="canonical" href="https://biz-soft.pro/product/app-store-itunes-gift-card"')) throw new Error('canonical с параметром');
   if (html.includes('name="robots" content="noindex')) throw new Error('родитель закрыт noindex');
   return { ok: true, got: 'canonical без параметров, noindex нет' };
@@ -171,7 +171,7 @@ check('подарочная карта: страница варианта отд
   const r = await req('/product/app-store-itunes-gift-card-ru-1000');
   if (r.status !== 301) throw new Error(`HTTP ${r.status}`);
   const loc = r.headers.get('location') || '';
-  if (!loc.startsWith('/product/app-store-itunes-gift-card?sku=APP-STORE-ITUNES-GIFT-CARD-RU-1000')) throw new Error(`location: ${loc}`);
+  if (!loc.startsWith('/product/app-store-itunes-gift-card?sku=APPL-GFT-APPSTORE-UNI-BAL-NOM-RU1000')) throw new Error(`location: ${loc}`);
   return { ok: true, got: `301 → ${loc}` };
 });
 check('подарочная карта: sitemap содержит родителя и не содержит варианты', async () => {
@@ -199,8 +199,8 @@ check('подарочная подписка (Discord): один регион Gl
   if (!html.includes('data-gift-card')) throw new Error('нет селектора');
   if ((html.match(/data-region="GLOBAL"/g) || []).length !== 1) throw new Error('регион Global должен быть один и показан строкой');
   if (!html.includes('Discord Nitro, 12 месяцев') || !html.includes('Discord Nitro Basic, 1 месяц')) throw new Error('нет подписей вариантов');
-  const i12 = html.indexOf('data-sku="DISCORD-NITRO-GIFT-CARD-GLOBAL-NITRO-12M"');
-  const i1 = html.indexOf('data-sku="DISCORD-NITRO-GIFT-CARD-GLOBAL-BASIC-1M"');
+  const i12 = html.indexOf('data-sku="DISC-GFT-NITRO-UNI-12M-NOM-GL"');
+  const i1 = html.indexOf('data-sku="DISC-GFT-NITROBASIC-UNI-1M-NOM-GL"');
   if (i12 < 0 || i1 < 0 || i12 > i1) throw new Error('порядок вариантов не по убыванию срока');
   if (!html.includes('Ограниченное количество')) throw new Error('пометка ограниченного наличия не выведена');
   const nodes = ldNodes(html);
@@ -269,7 +269,7 @@ check('КП: документ собирается в собранном при�
       buyer_company: 'ООО «Смоук»', buyer_inn: '7707083893',
       contact_name: 'Смоуков Иван', email: 'smoke@example.com',
       phone: '+7 900 000-00-00', consent: true,
-      items: [{ sku: 'INT-AI-CHATGPT', qty: 1 }],
+      items: [{ sku: 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD', qty: 1 }],
     }),
   });
   const broken = r.status === 500 && r.body.includes('сформировать документ');
@@ -308,6 +308,34 @@ check('WebMCP: list_categories отдаёт разделы со ссылками
   const items = body?.data?.items || [];
   const ok = items.length > 0 && items.every((i) => i.url?.startsWith('https://biz-soft.pro/catalog/') && i.products_count > 0);
   return { ok, got: `HTTP ${r.status}, ${items.map((i) => i.slug).join(', ') || '—'}` };
+});
+// ── Вторая привязка товара к разделу (data/catalog/cross-listing.json) ──
+// Товар лежит в одном разделе, а показывается ещё и в смежном. Расхождение
+// между тем, что обещает счётчик, и тем, что отдаёт выдача, в рантайме молчит:
+// раздел просто выглядит пустым или наоборот. Поэтому три проверки навстречу.
+check('вторая привязка: гость виден в чужом разделе', async () => {
+  const r = await req('/catalog/web');
+  const ok = r.status === 200 && r.body.includes('Cloudflare Pro')
+    && r.body.includes('из них 1 — из смежных разделов');
+  return { ok, got: `HTTP ${r.status}, гость ${r.body.includes('Cloudflare Pro') ? 'есть' : 'НЕТ'}` };
+});
+check('вторая привязка: в своём разделе товар не задваивается', async () => {
+  // Карточка штатно даёт несколько ссылок на товар (обложка, заголовок,
+  // кнопка), поэтому считаем не вхождения, а совпадение между разделами:
+  // гость обязан выглядеть в чужом разделе ровно так же, как дома.
+  const count = (body) => (body.match(/\/product\/cloudflare-pro/g) || []).length;
+  const home = await req('/catalog/design');
+  const guest = await req('/catalog/web');
+  const a = count(home.body); const b = count(guest.body);
+  return { ok: a > 0 && a === b, got: `дома ${a}, в смежном ${b}` };
+});
+check('вторая привязка: счётчик раздела и выдача агента сходятся', async () => {
+  const cats = await req('/api/agent/list_categories');
+  const web = (JSON.parse(cats.body)?.data?.items || []).find((i) => i.slug === 'web');
+  const found = await req('/api/agent/search_products?category=web&limit=30');
+  const total = JSON.parse(found.body)?.data?.total ?? -1;
+  const ok = Boolean(web) && web.products_count === total && total > 0;
+  return { ok, got: `счётчик ${web?.products_count ?? '—'}, поиск ${total}` };
 });
 check('WebMCP: search_policies отвечает условиями с сайта, не выдумкой', async () => {
   const r = await req('/api/agent/search_policies?query=' + encodeURIComponent('дадите закрывающие документы'));

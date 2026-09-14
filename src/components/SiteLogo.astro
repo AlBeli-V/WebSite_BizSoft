@@ -6,14 +6,18 @@
  * INTEGRATION ZONE», слоган «Единая точка доступа к ПО и AI-сервисам»
  * растянут во всю ширину лок-апа снизу (крупный и читаемый).
  *
- * Четыре файла под плотность и ширину экрана (srcset с w-дескрипторами +
- * sizes): -256.webp (19 КБ), -320.webp (18,9 КБ), -384.webp (24 КБ) и
- * -512.webp (32 КБ, retina, не перекодировался).
- * Шаг 320 добавлен по замечанию PageSpeed «Improve image delivery»: телефону
- * профиля (ширина шапки 180 px, DPR 1,75) нужно 315 px, и без этого шага ему
- * доставался 384-й файл — лишние 5 КБ на каждой странице. Качество 320-го
- * проверено попиксельно против мастер-PNG на белом фоне: среднее отклонение
- * канала 1,67 против 1,55 у нынешнего 384-го, то есть не хуже.
+ * Пять файлов под плотность и ширину экрана (srcset с w-дескрипторами +
+ * sizes): -256.webp (9,2 КБ), -320.webp (11,9 КБ), -384.webp (15,8 КБ),
+ * -448.webp (19 КБ) и -512.webp (23 КБ, retina). Собираются одной командой —
+ * scripts/build-brand-lockup.mjs, там же обоснование способа сжатия.
+ * Оба промежуточных шага пришли из замеров PageSpeed. 320 — для шапки:
+ * телефону профиля (ширина 180 px, DPR 1,75) нужно 315 px, и без этого шага
+ * ему доставался 384-й файл. 448 — для подвала: там логотип шире (236 px),
+ * на той же плотности ему нужно 413 px, и он забирал retina-файл 512,
+ * который аудит доставки изображений считал избыточным.
+ * Качество проверяется попиксельно против мастер-PNG на белом фоне: среднее
+ * отклонение канала 0,87–1,17 по четырём ширинам против 1,55–2,16 у файлов,
+ * лежавших здесь до 13.09.2026, то есть картинка стала и легче, и точнее.
  * Мастер-PNG 1024×339 остаётся рядом для схем/PDF и public/brand/. Все файлы
  * идут через ассет-пайплайн (?url) — хешированные URL в /_astro с годовым
  * immutable-кэшем.
@@ -22,6 +26,7 @@
 import lockup1x from '../assets/brand/bizsoft-logo-lockup-256.webp?url';
 import lockup320 from '../assets/brand/bizsoft-logo-lockup-320.webp?url';
 import lockup384 from '../assets/brand/bizsoft-logo-lockup-384.webp?url';
+import lockup448 from '../assets/brand/bizsoft-logo-lockup-448.webp?url';
 import lockup2x from '../assets/brand/bizsoft-logo-lockup-512.webp?url';
 
 interface Props {
@@ -39,7 +44,7 @@ const sizes = variant === 'header' ? '(max-width: 920px) 42vw, 256px' : '236px';
 <img
   class:list={['bizsoft-logo', variant]}
   src={lockup1x}
-  srcset={`${lockup1x} 256w, ${lockup320} 320w, ${lockup384} 384w, ${lockup2x} 512w`}
+  srcset={`${lockup1x} 256w, ${lockup320} 320w, ${lockup384} 384w, ${lockup448} 448w, ${lockup2x} 512w`}
   sizes={sizes}
   loading={variant === 'footer' ? 'lazy' : undefined}
   width="256"
