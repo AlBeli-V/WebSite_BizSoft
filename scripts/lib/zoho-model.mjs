@@ -20,16 +20,36 @@ const PINNED = {
     'MANAGEENGINE-SERVICEDESK-PROFESSIONAL-5',
 };
 
+/**
+ * Артикулы единой системы (docs/rules/sku-system.md). Прежний артикул
+ * (`legacy`) остаётся адресом страницы: слаг карточки — он в нижнем
+ * регистре, и смена слага дала бы 404 на проиндексированных страницах.
+ * Артикул позиции (`sku`) собирается из тех же частей переводчиком
+ * scripts/catalog/sku-legacy-zoho.mjs; коды продуктов — общие на прогон.
+ */
+/** Автокоды продуктов, выданные за прогон (голова → код): генератор расстановки закрепляет их в реестре. */
+export const skuCodes = new Map();
+const usedSystemSkus = new Set();
+function systemSku(parts) {
+  return zohoSystemSku(parts, skuCodes, usedSystemSkus);
+}
+
 export const token = (text) => (text || '')
   .toUpperCase()
   .replace(/[^A-Z0-9]+/g, '-')
   .replace(/^-+|-+$/g, '');
 
 export const usedSkus = new Set();
+import { zohoSystemSku, ZOHO_RULES } from '../catalog/sku-legacy-zoho.mjs';
 
 export function makeSku(familySlug, offer, variant) {
   const pinned = PINNED[`${familySlug}|${offer.offer_slug}|${variant.variant_name}`];
-  if (pinned) { usedSkus.add(pinned); return pinned; }
+  if (pinned) {
+    usedSkus.add(pinned);
+    const sku = ZOHO_RULES.pinned[pinned];
+    usedSystemSkus.add(sku);
+    return { legacy: pinned, sku, parts: null };
+  }
 
   // Различающая часть предложения: редакция плюс то, что вендор дописал к
   // ней сверх названия семейства. Одной редакции мало: «PAM360 Enterprise
@@ -51,11 +71,20 @@ export function makeSku(familySlug, offer, variant) {
 
   const base = ['ME', token(familySlug), offerPart, variantPart]
     .filter(Boolean).join('-').replace(/-{2,}/g, '-').slice(0, 96) + model;
-  let sku = base;
+  let legacy = base;
   let n = 2;
-  while (usedSkus.has(sku)) { sku = `${base}-${n}`; n += 1; }
-  usedSkus.add(sku);
-  return sku;
+  while (usedSkus.has(legacy)) { legacy = `${base}-${n}`; n += 1; }
+  usedSkus.add(legacy);
+  // Части для артикула единой системы: голова — семейство и предложение
+  // (как в старом артикуле до объёма), хвост — объём, дубль — та же цифра.
+  const parts = {
+    head: [token(familySlug), offerPart].filter(Boolean).join('-').replace(/-{2,}/g, '-'),
+    tail: variantPart,
+    perp: offer.license_model === 'perpetual',
+    addon: offer.kind !== 'base',
+    dedupe: n > 2 ? n - 1 : 0,
+  };
+  return { legacy, sku: systemSku(parts), parts };
 }
 
 /** Сумма сопровождения из столбца AMS: «US$297» → 297, «Included» → null. */
@@ -112,9 +141,10 @@ export function buildPositions(manifest) {
           : null;
 
         for (const variant of priced) {
-          const sku = makeSku(family.family_slug, offer, variant);
+          const { legacy, sku, parts } = makeSku(family.family_slug, offer, variant);
           const base = {
             sku,
+            legacySku: legacy,
             familySlug: family.family_slug,
             familyName: family.family_name,
             offerSlug: offer.offer_slug,
@@ -132,6 +162,8 @@ export function buildPositions(manifest) {
           };
 
           const ams = dp.license_model === 'perpetual' ? amsAmount(variant.maintenance) : null;
+          // Контракт сопровождения — услуга (SVC) к вечной лицензии того же объёма.
+          const amsSku = ams ? (parts ? systemSku({ ...parts, ams: true }) : `${sku}-AMS`) : null;
           positions.push({
             ...base,
             role: isCardVariant(offer, variant, entry) ? 'card' : 'hidden',
@@ -139,13 +171,14 @@ export function buildPositions(manifest) {
               ? licences.filter((v) => v !== entry).map((v) => v.variant_name)
               : [],
             // Артикул парного контракта сопровождения, если он есть.
-            amsSku: ams ? `${sku}-AMS` : null,
+            amsSku,
           });
 
           if (ams) {
             positions.push({
               ...base,
-              sku: `${sku}-AMS`,
+              sku: amsSku,
+              legacySku: `${legacy}-AMS`,
               role: 'hidden',
               isAms: true,
               // Сопровождение всегда идёт к своей лицензии и отдельно не продаётся.

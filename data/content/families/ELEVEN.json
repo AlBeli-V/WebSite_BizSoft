@@ -1,0 +1,590 @@
+{
+  "family_key": "ELEVEN",
+  "vendor": "ElevenLabs",
+  "vendor_profile": "data/content/vendors/eleven.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "eleven-creator",
+  "classification_notes": [
+    "Creator / Pro / Scale / Enterprise. Носитель — Creator."
+  ],
+  "products": {
+    "eleven-creator": {
+      "sku": "ELVN-LIC-CREATOR-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ElevenLabs Creator — индивидуальная подписка на 1 год на синтез и клонирование речи: профессиональное клонирование голоса, 100 000 кредитов в месяц (около 100 минут), 192 кбит/с, коммерческая лицензия. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт ElevenLabs Creator",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Синтез",
+              "d": "Многоязычная речь, включая русский; дубляж, звуковые эффекты."
+            },
+            {
+              "t": "Клонирование",
+              "d": "Профессиональный клон голоса."
+            },
+            {
+              "t": "Кредиты",
+              "d": "100 000 в месяц ≈ 100 минут."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Creator",
+              "d": "Один автор."
+            },
+            {
+              "t": "Pro",
+              "d": "500 000 кредитов, 44,1 кГц.",
+              "link": "eleven-pro"
+            },
+            {
+              "t": "Scale",
+              "d": "2 млн кредитов, места.",
+              "link": "eleven-scale"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор.",
+              "link": "eleven-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Авторам курсов и подкастов."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли использовать коммерчески?",
+          "a": "Да."
+        }
+      ],
+      "related_products": [
+        "eleven-pro",
+        "eleven-scale",
+        "eleven-ent"
+      ],
+      "meta_title": "ElevenLabs Creator — подписка на год | BIZSoft",
+      "meta_description": "ElevenLabs Creator: синтез и клонирование речи, 100 000 кредитов в месяц, коммерческая лицензия. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "elevenlabs creator купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "eleven-pro": {
+      "sku": "ELVN-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ElevenLabs Pro — индивидуальная подписка на 1 год: 500 000 кредитов в месяц (около 500 минут), 44,1 кГц PCM через API, приоритет. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт ElevenLabs Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "500 000 ≈ 500 минут."
+            },
+            {
+              "t": "Качество",
+              "d": "44,1 кГц PCM API."
+            },
+            {
+              "t": "Всё из Creator",
+              "d": "Клонирование, дубляж."
+            }
+          ],
+          "links": [
+            "eleven-creator"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Поток аудио."
+            },
+            {
+              "t": "Creator",
+              "d": "Меньше.",
+              "link": "eleven-creator"
+            },
+            {
+              "t": "Scale",
+              "d": "Команда.",
+              "link": "eleven-scale"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям озвучки."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли API?",
+          "a": "Да."
+        }
+      ],
+      "related_products": [
+        "eleven-creator",
+        "eleven-scale"
+      ],
+      "meta_title": "ElevenLabs Pro — подписка на год | BIZSoft",
+      "meta_description": "ElevenLabs Pro: 500 000 кредитов в месяц, 44,1 кГц, API. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "elevenlabs pro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "eleven-scale": {
+      "sku": "ELVN-LIC-SCALE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ElevenLabs Scale — командная подписка на 1 год: 2 млн кредитов в месяц, три рабочих места, API-приоритет, всё из Pro. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт ElevenLabs Scale",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "2 млн ≈ 2 000 минут."
+            },
+            {
+              "t": "Команда",
+              "d": "3 места в пространстве."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "API, качество."
+            }
+          ],
+          "links": [
+            "eleven-creator"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Scale",
+              "d": "Команда."
+            },
+            {
+              "t": "Pro",
+              "d": "Один.",
+              "link": "eleven-pro"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор.",
+              "link": "eleven-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты не переносятся",
+              "d": "Месячная квота сгорает; Top-up — по условиям вендора."
+            },
+            {
+              "t": "Модели меняются",
+              "d": "Состав доступных моделей и стоимость генерации — по прайсу на дату."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям дубляжа."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли добавить места?",
+          "a": "По запросу."
+        }
+      ],
+      "related_products": [
+        "eleven-creator",
+        "eleven-pro",
+        "eleven-ent"
+      ],
+      "meta_title": "ElevenLabs Scale — подписка на год | BIZSoft",
+      "meta_description": "ElevenLabs Scale: 2 млн кредитов, 3 места, API. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "elevenlabs scale купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "eleven-ent": {
+      "sku": "ELVN-LIC-ENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ElevenLabs Enterprise — командный план корпоративного уровня на 1 год: повышенные лимиты, SSO, договорные гарантии по данным, выделенная поддержка, кастомные голоса. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт ElevenLabs Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "По договору."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SSO, данные."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенная."
+            }
+          ],
+          "links": [
+            "eleven-creator"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Организация."
+            },
+            {
+              "t": "Scale",
+              "d": "Команда.",
+              "link": "eleven-scale"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Квота помесячно",
+              "d": "Неиспользованное не копится."
+            },
+            {
+              "t": "Прайс подвижен",
+              "d": "Стоимость генерации и набор моделей вендор меняет без предупреждения."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным компаниям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли on-premises?",
+          "a": "По запросу."
+        }
+      ],
+      "related_products": [
+        "eleven-creator",
+        "eleven-scale"
+      ],
+      "meta_title": "ElevenLabs Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "ElevenLabs Enterprise: договорные лимиты, SSO, выделенная поддержка; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "elevenlabs enterprise купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

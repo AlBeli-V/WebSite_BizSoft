@@ -10,7 +10,7 @@
 # импортом основного пакета, ничего не теряется.
 #
 # Чего НЕ делает: не трогает две позиции ServiceDesk Plus, опубликованные до
-# этой работы (MANAGEENGINE-SERVICEDESK-STANDARD-10 и -PROFESSIONAL-5). Они
+# этой работы (ZOHO-LIC-SDPSTD-TEAM-1Y-PACK-10TECH и -PROFESSIONAL-5). Они
 # были на витрине раньше и должны остаться после отката.
 name: ops-zoho-rollback
 

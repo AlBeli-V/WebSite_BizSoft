@@ -1,0 +1,477 @@
+{
+  "family_key": "ZOHO-APPMGR",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-applications-manager-professional-10-monitors-with-1-user",
+  "classification_notes": [
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы нет — OWNERSHIP = universal.",
+    "Две редакции одного продукта (Professional / Enterprise) — packaging edition_tier; объём пакета — мониторы и пользователи консоли.",
+    "Enterprise на витрине назван «10 наблюдаемых компонентов», артикул — 100MON, закупка соответствует крупному пакету: текст по артикулу, needs_operator.",
+    "APM Plug-in к OpManager — самостоятельное семейство ZOHO-OPMANAGER; здесь только ссылка в ALTERNATIVES.",
+    "Сайт вендора в сессии не открывался; состав редакций — по знанию модели."
+  ],
+  "products": {
+    "me-applications-manager-professional-10-monitors-with-1-user": {
+      "sku": "ZOHO-LIC-APPMGRPRO-TEAM-1Y-PACK-10MON1USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "10 мониторов, 1 пользователь",
+      "unit_label": "пакет: 10 мониторов, 1 пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Applications Manager Professional — годовая подписка на систему мониторинга приложений и серверов ManageEngine: серверы приложений, базы данных, веб-сервисы, виртуализация, облака и контейнеры с ответом не «сервер жив», а «почему медленно». Пакет на 10 мониторов и 1 пользователя консоли; ставится на сервер организации.\n\nМонитор — один наблюдаемый экземпляр: инстанс СУБД, сервер Tomcat, URL, хост ESXi. Professional — самостоятельная инсталляция для одной площадки; Enterprise добавляет управляемые серверы сбора, отказоустойчивость и объёмы от сотни мониторов.\n\nСрок — 1 год, обновления и поддержка включены. Пакеты на 25, 50 мониторов и дополнительные пользователи — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Applications Manager Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Серверы приложений и веб",
+              "d": "Tomcat, JBoss и WildFly, WebLogic, WebSphere, IIS, Apache и nginx: пулы потоков, память JVM, сессии, ошибки; доступность и время отклика URL с проверкой содержимого."
+            },
+            {
+              "t": "Базы данных",
+              "d": "Oracle, MS SQL, MySQL и MariaDB, PostgreSQL, MongoDB, Redis, Cassandra: соединения, блокировки, медленные запросы, табличные пространства, репликация."
+            },
+            {
+              "t": "Транзакции и код",
+              "d": "APM Insight — агент для Java, .NET, PHP, Node.js, Python и Ruby: трассировка транзакций до вызова SQL и внешнего сервиса; синтетические сценарии для проверки бизнес-операций по шагам."
+            },
+            {
+              "t": "Инфраструктура",
+              "d": "Windows и Linux на уровне ОС, VMware, Hyper-V, Nutanix, Docker и Kubernetes, AWS, Azure и Google Cloud, SAP и Exchange — из полутора сотен типов мониторов."
+            },
+            {
+              "t": "Аналитика и реакция",
+              "d": "Пороги и адаптивные базовые линии, обнаружение аномалий, прогноз роста; действия по событию — письмо, SMS, скрипт, перезапуск службы, заявка в ServiceDesk Plus или внешнюю ITSM."
+            },
+            {
+              "t": "Отчёты и доступ",
+              "d": "Отчёты по SLA, доступности и ёмкости по расписанию, панели для бизнеса и дежурных, REST API, мобильное приложение."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Professional или Enterprise",
+          "kind": "compare",
+          "body": "Обе редакции считают лицензию по мониторам и пользователям и поддерживают одни и те же типы мониторов. Разница — в архитектуре и объёме.",
+          "rows": [
+            {
+              "label": "Стартовый пакет",
+              "values": {
+                "me-applications-manager-professional-10-monitors-with-1-user": "10 мониторов, 1 пользователь",
+                "me-applications-manager-enterprise-100-monitors-with-1-user": "100 мониторов, 1 пользователь (по артикулу)"
+              }
+            },
+            {
+              "label": "Типы мониторов, APM Insight, синтетика",
+              "values": {
+                "me-applications-manager-professional-10-monitors-with-1-user": "да",
+                "me-applications-manager-enterprise-100-monitors-with-1-user": "да"
+              }
+            },
+            {
+              "label": "Архитектура",
+              "values": {
+                "me-applications-manager-professional-10-monitors-with-1-user": "один сервер",
+                "me-applications-manager-enterprise-100-monitors-with-1-user": "сервер администрирования + управляемые серверы"
+              }
+            },
+            {
+              "label": "Отказоустойчивость консоли",
+              "values": {
+                "me-applications-manager-professional-10-monitors-with-1-user": "нет",
+                "me-applications-manager-enterprise-100-monitors-with-1-user": "да"
+              }
+            },
+            {
+              "label": "Масштаб",
+              "values": {
+                "me-applications-manager-professional-10-monitors-with-1-user": "до нескольких сотен мониторов",
+                "me-applications-manager-enterprise-100-monitors-with-1-user": "тысячи мониторов, несколько площадок"
+              }
+            }
+          ],
+          "links": [
+            "me-applications-manager-enterprise-100-monitors-with-1-user"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "ИТ-отделу или команде эксплуатации с десятком критичных сервисов на одной площадке — учётная система, сайт, база, сервер приложений, — где о проблеме сейчас узнают от пользователей, а причину ищут по логам вручную."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если OpManager уже стоит, дешевле взять к нему APM Plug-in: это тот же движок внутри консоли OpManager, и пять мониторов там есть без покупки. Если сервисов сотни и они разнесены по площадкам — Enterprise с управляемыми серверами. Если следить нужно за сетью и железом, а не за приложениями, — OpManager."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое монитор",
+              "d": "Один наблюдаемый экземпляр любого типа: инстанс СУБД, сервер приложений, URL, ОС хоста, ВМ, облачный сервис. Три узла Tomcat и две базы — пять мониторов; метрики внутри монитора не считаются."
+            },
+            {
+              "t": "APM Insight",
+              "d": "Агент внутри приложения считается монитором на каждый экземпляр приложения; агент ставится в JVM, IIS или процесс сервера — доступ на приложение потребуется."
+            },
+            {
+              "t": "Пользователи консоли",
+              "d": "В пакете одна учётная запись; роли администратора, оператора и наблюдателя для дополнительных пользователей — по запросу."
+            },
+            {
+              "t": "Сервер и доступ",
+              "d": "Windows Server или Linux со встроенной PostgreSQL; большинство мониторов работает без агентов — по JDBC, JMX, WMI, SSH, SNMP и API. Пробный период — 30 дней, бесплатная редакция на 5 мониторов."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте экземпляры",
+              "d": "Перечислите всё, за чем нужно следить, включая ОС серверов и URL: обычно выходит больше, чем кажется. При 14 мониторах нужен пакет на 25, а не два по 10; переход между пакетами — доплатой разницы."
+            },
+            {
+              "t": "Подписка или бессрочная лицензия",
+              "d": "В годовую подписку входят обновления и поддержка. Бессрочная лицензия оформляется по запросу, обновления к ней — через AMS 20 % ежегодно."
+            },
+            {
+              "t": "Дополнения",
+              "d": "Real User Monitoring для браузерной стороны, дополнительные пользователи, отказоустойчивость — отдельные модули; при интеграции с ServiceDesk Plus лицензий не требуется."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Applications Manager Enterprise, 100 мониторов",
+              "d": "Та же система с управляемыми серверами и отказоустойчивостью для сотен сервисов.",
+              "link": "me-applications-manager-enterprise-100-monitors-with-1-user"
+            },
+            {
+              "t": "APM Plug-in к OpManager, 10 мониторов",
+              "d": "Тот же мониторинг приложений, встроенный в OpManager, — на пятую часть дешевле, но без OpManager не работает.",
+              "link": "me-opmanager-apm-plugin-10-monitors-apm-plugin"
+            },
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Если приоритет — сеть и серверы на уровне ОС, а приложения можно подключить позже плагином.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "База данных и сервер, на котором она стоит, — это один монитор или два?",
+          "a": "Два: инстанс СУБД — один монитор, операционная система хоста — другой. Если ОС наблюдать не нужно, считается только база."
+        },
+        {
+          "q": "Чем Applications Manager отличается от APM Plug-in к OpManager?",
+          "a": "Движок тот же. Плагин живёт внутри OpManager и стоит дешевле, самостоятельный Applications Manager работает без OpManager и имеет редакцию Enterprise."
+        },
+        {
+          "q": "Считаются ли пользователи, которым приходят отчёты?",
+          "a": "Нет. Лицензируются учётные записи консоли; получатели писем и отчётов не ограничены."
+        }
+      ],
+      "related_products": [
+        "me-applications-manager-enterprise-100-monitors-with-1-user",
+        "me-opmanager-apm-plugin-10-monitors-apm-plugin",
+        "me-opmanager-professional-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "Applications Manager Professional, 10 мониторов | BIZSoft",
+      "meta_description": "ManageEngine Applications Manager Professional: мониторинг приложений, СУБД, серверов и облаков. Пакет на 10 мониторов и 1 пользователя, подписка на год.",
+      "seo_intents": [
+        "applications manager купить / manageengine applications manager лицензия — hero, meta",
+        "applications manager professional vs enterprise — PLAN_COMPARE",
+        "applications manager что такое монитор — DEPENDENCIES, FAQ",
+        "мониторинг приложений и баз данных apm — CAPABILITIES",
+        "applications manager vs apm plugin — FIT, ALTERNATIVES, FAQ"
+      ],
+      "uncertainties": [
+        "Учёт агента APM Insight как одного монитора на экземпляр приложения — по знанию модели; у вендора не проверено.",
+        "Ряд пакетов мониторов (10/25/50/100/250 и далее) и предел Professional «несколько сотен мониторов» — по общей практике вендора, без точных цифр.",
+        "Разница цены с APM Plug-in «на пятую часть» — из профиля вендора (плагин на 20 % дешевле)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ FIT и PLAN_COMPARE; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает продукт",
+          "new_information": "шесть групп функций мониторинга приложений",
+          "sibling_overlap": "носитель; сосед — дельта",
+          "decision": "UNDERSTAND",
+          "seo_intent": "applications manager возможности",
+          "source": "uncertain (applications manager features, по знанию модели)"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли Professional",
+          "new_information": "пять строк различий",
+          "sibling_overlap": "сосед ссылается",
+          "decision": "COMPARE",
+          "seo_intent": "applications manager editions",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль одной площадки, три выхода включая плагин",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "мониторинг приложений для небольшой компании",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и что нужно",
+          "new_information": "монитор, APM Insight, пользователи, сервер и протоколы",
+          "sibling_overlap": "сосед ссылается",
+          "decision": "VALIDATE",
+          "seo_intent": "applications manager что считается монитором",
+          "source": "uncertain"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "арифметика мониторов, perpetual, дополнения",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "applications manager ams",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "сосед, APM Plug-in, OpManager",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "data/content/families/ZOHO-OPMANAGER.json"
+        }
+      ]
+    },
+    "me-applications-manager-enterprise-100-monitors-with-1-user": {
+      "sku": "ZOHO-LIC-APPMGRENT-TEAM-1Y-PACK-100MON1USR",
+      "needs_operator": true,
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "100 мониторов, 1 пользователь",
+      "unit_label": "пакет: 100 мониторов, 1 пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Applications Manager Enterprise — годовая подписка на распределённую редакцию системы мониторинга приложений ManageEngine: управляемые серверы собирают данные на площадках, сервер администрирования сводит их в одну консоль с отказоустойчивостью. По артикулу пакет рассчитан на 100 мониторов и 1 пользователя.\n\nТипы мониторов, APM Insight и синтетические проверки — те же, что в Professional; доплата идёт за архитектуру и объём. Сто мониторов — это десятки сервисов с их базами, серверами приложений и хостами, обычно в нескольких ЦОД или у нескольких подразделений.\n\nСрок — 1 год с обновлениями и поддержкой. Пакеты на 250, 500 и больше мониторов — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Enterprise",
+          "kind": "items",
+          "body": "Мониторы, аналитика и отчёты описаны на карточке Professional. Ниже — дельта старшей редакции.",
+          "items": [
+            {
+              "t": "Управляемые серверы",
+              "d": "Сбор данных выполняют отдельные серверы на площадках или в сегментах; сервер администрирования держит консоль, пользователей, пороги и отчёты по всем."
+            },
+            {
+              "t": "Отказоустойчивость",
+              "d": "Резервный сервер администрирования перехватывает работу при отказе основного; управляемые серверы продолжают опрос и при потере связи с центром."
+            },
+            {
+              "t": "Масштаб",
+              "d": "Тысячи мониторов на одной инсталляции за счёт распределения нагрузки; лимит на управляемый сервер — по матрице вендора."
+            },
+            {
+              "t": "Разделение по командам",
+              "d": "Группы мониторов и права по площадкам и подразделениям: команда видит свои сервисы, руководство — сводку по SLA."
+            }
+          ],
+          "links": [
+            "me-applications-manager-professional-10-monitors-with-1-user"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Enterprise, а когда нет",
+          "kind": "items",
+          "body": "Полная таблица двух редакций собрана на карточке Professional; ниже — по какому признаку выбирать.",
+          "items": [
+            {
+              "t": "Берите Enterprise",
+              "d": "Наблюдаемых экземпляров под сотню и больше, они стоят в разных ЦОД или сегментах, и остановка самой системы мониторинга недопустима."
+            },
+            {
+              "t": "Хватит Professional",
+              "d": "Сервисы на одной площадке и их десятки, а не сотни: один сервер справляется, набор мониторов тот же, доплаты за архитектуру нет."
+            }
+          ],
+          "links": [
+            "me-applications-manager-professional-10-monitors-with-1-user"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службе эксплуатации крупной компании или ИТ-провайдеру: сотни экземпляров баз, серверов приложений и веб-сервисов у нескольких подразделений или клиентов, SLA по каждому сервису и требование, чтобы мониторинг не стал единой точкой отказа.\n\nДля десятка сервисов в одном офисе редакция избыточна: объём в сто мониторов останется незанятым."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём пакета",
+              "d": "Артикул задаёт 100 мониторов, тогда как витрина называет 10; цена закупки отвечает сотне. Объём подтверждается перед КП, определение монитора — на карточке Professional.",
+              "link": "me-applications-manager-professional-10-monitors-with-1-user"
+            },
+            {
+              "t": "Схема серверов",
+              "d": "Число управляемых серверов задаётся числом площадок и сегментов; отдельно они не лицензируются, но каждому нужна своя машина."
+            },
+            {
+              "t": "Переход с Professional",
+              "d": "Оформляется доплатой за остаток срока; текущая инсталляция превращается в сервер администрирования или в один из управляемых, история метрик остаётся."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Бессрочный вариант с AMS 20 % ежегодно считаем по запросу; при сотне мониторов его стоит сравнить с подпиской на трёхлетнем горизонте."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Applications Manager Professional, 10 мониторов",
+              "d": "Для одной площадки — те же мониторы без распределённой архитектуры и с малым пакетом.",
+              "link": "me-applications-manager-professional-10-monitors-with-1-user"
+            },
+            {
+              "t": "APM Plug-in к OpManager, 10 мониторов",
+              "d": "Если в компании стоит OpManager Enterprise с центральным сервером и пробами — мониторинг приложений подключается к нему плагином редакции Enterprise.",
+              "link": "me-opmanager-apm-plugin-10-monitors-apm-plugin"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Управляемые серверы лицензируются отдельно?",
+          "a": "Нет, они входят в лицензию Enterprise; считаются только мониторы и пользователи консоли."
+        },
+        {
+          "q": "Сколько мониторов покрывает эта позиция?",
+          "a": "По артикулу — 100. Название на витрине указывает 10 компонентов; расхождение уточняется при подтверждении заказа."
+        }
+      ],
+      "related_products": [
+        "me-applications-manager-professional-10-monitors-with-1-user",
+        "me-opmanager-apm-plugin-10-monitors-apm-plugin"
+      ],
+      "meta_title": "Applications Manager Enterprise, 100 мониторов | BIZSoft",
+      "meta_description": "ManageEngine Applications Manager Enterprise: мониторинг приложений нескольких площадок, управляемые серверы и отказоустойчивость. Пакет на 100 мониторов, год.",
+      "seo_intents": [
+        "applications manager enterprise купить — hero, meta",
+        "applications manager enterprise vs professional — PLAN_COMPARE",
+        "applications manager distributed / managed server — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Название витрины расходится с артикулом: h1 «10 наблюдаемых компонентов и один пользователь», sku …100MON1USR — текст по артикулу, needs_operator. Решение руководителя 13.09.2026: текст по артикулу, название витрины исправить через ops-rename-product на «ManageEngine Applications Manager Enterprise, 100 наблюдаемых компонентов и один пользователь» до применения семейства (needs_operator снят).",
+        "Стартовый объём Enterprise у вендора (100 мониторов) и лимит на управляемый сервер — по знанию модели, первоисточником не подтверждены.",
+        "Отказоустойчивость сервера администрирования как штатная часть Enterprise (а не отдельное дополнение) — не проверено."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (дельта); опустошить",
+        "description": "→ FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю",
+          "new_information": "управляемые серверы, отказоустойчивость, масштаб, права по командам",
+          "sibling_overlap": "мониторы — ссылка на носитель",
+          "decision": "UNDERSTAND",
+          "seo_intent": "applications manager enterprise что входит",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "Enterprise или Professional",
+          "new_information": "два правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "enterprise vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль крупной эксплуатации и провайдера",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "мониторинг приложений sla несколько цод",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "расхождение объёма, схема серверов, переход, perpetual",
+          "sibling_overlap": "монитор — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "инвентарь витрины"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "сосед и плагин к OpManager Enterprise",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "data/content/families/ZOHO-OPMANAGER.json"
+        }
+      ]
+    }
+  }
+}

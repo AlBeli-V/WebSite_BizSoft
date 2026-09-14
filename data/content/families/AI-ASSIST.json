@@ -1,0 +1,1125 @@
+{
+  "family_key": "AI-ASSIST",
+  "vendor": "OpenAI / Anthropic",
+  "vendor_profile": "data/content/vendors/openai-anthropic.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "chatgpt-business",
+  "classification_notes": [
+    "Два вендора в одном семействе-сравнении: ChatGPT Business (Standard/Premium seat), ChatGPT Enterprise (договорной), OpenAI API balance (credit), Claude Team (Standard/Premium seat), Claude Enterprise (договорной). Носитель — ChatGPT Business Standard seat."
+  ],
+  "products": {
+    "chatgpt-business": {
+      "sku": "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ChatGPT Business, Standard seat — командная подписка на 1 год на рабочее пространство компании в ChatGPT: общие проекты и внутренние GPT, коннекторы к корпоративным данным, админ-панель и единый счёт; данные компании не используются для обучения моделей. Тариф от 2 мест; места принадлежат компании и переназначаются.\n\nStandard seat — обычное место сотрудника с лимитами Business-тарифа; для тех, кто работает в ассистенте весь день, есть Premium seat в том же пространстве.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт ChatGPT Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Модели и инструменты",
+              "d": "Актуальные модели OpenAI, файлы, анализ данных, изображения, голос, Deep Research и агентные функции по лимитам тарифа."
+            },
+            {
+              "t": "Пространство",
+              "d": "Общие проекты, внутренние GPT, коннекторы к Google Drive, SharePoint и другим источникам."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Данные не идут в обучение, SSO, управление доступом, аудит."
+            },
+            {
+              "t": "Администрирование",
+              "d": "Добавление и удаление мест, единый счёт."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командный план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Места за компанией",
+              "d": "Администратор назначает и снимает; ушедшему сотруднику место не принадлежит."
+            },
+            {
+              "t": "Минимум 2",
+              "d": "Тариф активируется от двух мест."
+            },
+            {
+              "t": "Смешивание",
+              "d": "Standard и Premium seat живут в одном пространстве; тип места меняется администратором."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard seat, Premium seat или Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard seat",
+              "d": "Обычная интенсивность: помощь в письмах, анализ документов, черновики."
+            },
+            {
+              "t": "Premium seat",
+              "d": "Кратно больший лимит для тех, кто работает в ChatGPT весь день.",
+              "link": "chatgpt-business-premium"
+            },
+            {
+              "t": "ChatGPT Enterprise",
+              "d": "Без лимитов, договорные условия, расширенный комплаенс.",
+              "link": "openai-enterprise"
+            },
+            {
+              "t": "API-баланс",
+              "d": "Для интеграций в свои продукты, а не для сотрудников.",
+              "link": "openai-api-balance"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "У Standard seat есть лимиты сообщений на продвинутые модели; активным пользователям нужен Premium."
+            },
+            {
+              "t": "Единое пространство",
+              "d": "Доступ к пространству компании — общая точка для всех мест."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделам и компаниям от двух человек, где ассистент нужен большинству сотрудников для писем, аналитики и документов, а ИБ требует, чтобы данные не обучали модели."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Данные компании используются для обучения?",
+          "a": "Нет, в Business-тарифе OpenAI не обучает модели на данных пространства."
+        },
+        {
+          "q": "Можно ли купить одно место?",
+          "a": "Нет, тариф оформляется от двух мест."
+        }
+      ],
+      "related_products": [
+        "chatgpt-business-premium",
+        "openai-enterprise",
+        "openai-api-balance"
+      ],
+      "meta_title": "ChatGPT Business, Standard seat — подписка на год | BIZSoft",
+      "meta_description": "ChatGPT Business для компании: общие проекты и GPT, коннекторы, админ-панель, данные без обучения; от 2 мест. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "chatgpt business купить юрлицо — hero, meta",
+        "chatgpt team business отличия — PLAN_COMPARE"
+      ],
+      "uncertainties": [
+        "Состав функций и лимитов тарифа меняется у OpenAI; конкретные числа не названы."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "chatgpt-business-premium": {
+      "sku": "OPAI-LIC-CHATGPTBUSPRM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ChatGPT Business, Premium seat — командная подписка на 1 год на место повышенной интенсивности в пространстве компании: то же пространство, проекты и коннекторы, что у Standard seat, но кратно больший лимит использования продвинутых моделей, Deep Research и агентных функций. От 2 мест в пространстве; места переназначаются.\n\nPremium seat берут не всей компании, а аналитикам, разработчикам и авторам, для которых ассистент — основной инструмент; остальным хватает Standard.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет Premium seat",
+          "kind": "prose",
+          "body": "Функции пространства — проекты, GPT, коннекторы, SSO — те же, что описаны у Standard seat. Разница в лимитах: Premium даёт кратно больше обращений к продвинутым моделям, Deep Research и агентам, а также приоритет при высокой нагрузке.",
+          "links": [
+            "chatgpt-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командный план",
+          "kind": "prose",
+          "body": "Premium seat назначается администратором внутри того же пространства Business; можно держать несколько Premium и десятки Standard мест, переводя сотрудников между типами."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Кому Premium, а кому Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium seat",
+              "d": "Сотрудник упирается в лимиты Standard ежедневно."
+            },
+            {
+              "t": "Standard seat",
+              "d": "Эпизодическое использование.",
+              "link": "chatgpt-business"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Вся компания без лимитов.",
+              "link": "openai-enterprise"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Premium стоит в несколько раз дороже Standard — оправдан только при реальной нагрузке."
+            },
+            {
+              "t": "Лимиты всё же есть",
+              "d": "Без ограничений — только Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аналитикам данных, разработчикам, копирайтерам и исследователям с постоянной работой в ChatGPT."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько Premium мест нужно на компанию?",
+          "a": "Обычно 10–20 % сотрудников; остальным достаточно Standard — тип места меняется администратором в любой момент."
+        }
+      ],
+      "related_products": [
+        "chatgpt-business",
+        "openai-enterprise"
+      ],
+      "meta_title": "ChatGPT Business, Premium seat — подписка на год | BIZSoft",
+      "meta_description": "ChatGPT Business Premium seat: кратно больший лимит продвинутых моделей и Deep Research для активных пользователей в пространстве компании. Договор, ЭДО.",
+      "seo_intents": [
+        "chatgpt business premium — hero, meta"
+      ],
+      "uncertainties": [
+        "Кратность лимитов Premium — по текущим условиям OpenAI, число не названо."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "openai-enterprise": {
+      "sku": "OPAI-LIC-CHATGPTENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "ChatGPT Enterprise — командный план OpenAI корпоративного уровня на 1 год: без лимитов на использование моделей, расширенное контекстное окно, SSO и SCIM, домен-верификация, аналитика использования, договорные условия по данным и комплаенсу. Цена договорная — по числу мест.\n\nОт Business отличается снятыми лимитами, корпоративным договором и управлением на уровне компании; минимальное число мест и условия — по согласованию с OpenAI.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Без лимитов",
+              "d": "Неограниченный доступ к продвинутым моделям, увеличенный контекст."
+            },
+            {
+              "t": "Управление",
+              "d": "SSO, SCIM, роли, аналитика, домен-верификация."
+            },
+            {
+              "t": "Данные",
+              "d": "Договорные гарантии: данные не обучают модели, шифрование, аудит, поддержка комплаенса."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Корпоративный план",
+          "kind": "prose",
+          "body": "Договорной план с минимальным числом мест и годовым сроком; места назначаются через SCIM или админ-панель, лицензии принадлежат организации."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Enterprise или Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Сотни пользователей, требования ИБ и снятие лимитов."
+            },
+            {
+              "t": "Business",
+              "d": "До нескольких десятков сотрудников с лимитами.",
+              "link": "chatgpt-business"
+            },
+            {
+              "t": "API-баланс",
+              "d": "Интеграции в свои продукты.",
+              "link": "openai-api-balance"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимумы",
+              "d": "OpenAI задаёт минимальное число мест для Enterprise."
+            },
+            {
+              "t": "Цикл согласования",
+              "d": "Договор с OpenAI занимает дольше стандартной поставки."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным компаниям с сотнями пользователей ассистента и формальными требованиями к данным и доступу."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли лимиты в Enterprise?",
+          "a": "Нет, использование моделей не ограничено в рамках честного использования по договору."
+        }
+      ],
+      "related_products": [
+        "chatgpt-business",
+        "openai-api-balance"
+      ],
+      "meta_title": "ChatGPT Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "ChatGPT Enterprise: без лимитов, SSO и SCIM, договорные гарантии по данным; цена по запросу под число мест. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "chatgpt enterprise купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Минимальное число мест и условия — по договору с OpenAI."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "openai-api-balance": {
+      "sku": "OPAI-CRD-APIBAL-UNI-BAL-NOM",
+      "classification": {
+        "nature": "credit",
+        "ownership": "universal",
+        "term": "balance",
+        "metric": "NOM",
+        "packaging": "single"
+      },
+      "unit_label": "сумма пополнения",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Пополнение баланса OpenAI API — предоплаченные средства на аккаунте разработчика вашей организации: оплата по фактическому потреблению моделей в токенах, без подписки за место. Сумма — по запросу под ваш объём обращений; фиксированные номиналы — отдельными позициями.\n\nЭто не ChatGPT: баланс не даёт сотрудникам интерфейс ассистента, а даёт вашим системам доступ к моделям через API. Списание идёт по тарифам моделей за входные и выходные токены, изображения и аудио.\n\nБаланс действует до полного расходования.",
+      "content_modules": [
+        {
+          "code": "CREDIT_USAGE",
+          "title": "Как используется баланс",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что пополняется",
+              "d": "Кредитный баланс организации в платформе OpenAI; ключи API выпускаются вами."
+            },
+            {
+              "t": "На что расходуется",
+              "d": "Запросы к моделям GPT, Realtime, эмбеддингам, генерации изображений и аудио — по прайсу за токены и единицы."
+            },
+            {
+              "t": "Как считается",
+              "d": "Цена зависит от модели и объёма входа и выхода; актуальные тарифы — на странице цен OpenAI."
+            },
+            {
+              "t": "Срок",
+              "d": "До расходования; правила истечения кредитов — по условиям OpenAI."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "API или подписка ChatGPT",
+          "kind": "items",
+          "items": [
+            {
+              "t": "API-баланс",
+              "d": "Встраивание моделей в свой продукт, автоматизация, боты."
+            },
+            {
+              "t": "ChatGPT Business",
+              "d": "Готовый интерфейс для сотрудников с общим пространством.",
+              "link": "chatgpt-business"
+            },
+            {
+              "t": "ChatGPT Enterprise",
+              "d": "Корпоративный интерфейс без лимитов.",
+              "link": "openai-enterprise"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам разработки, которые делают свои сервисы на моделях OpenAI и хотят платить по потреблению, а не за места."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Оцените объём",
+              "d": "Средний расход токенов в месяц определяет сумму пополнения; лимиты уровня аккаунта зависят от истории платежей."
+            },
+            {
+              "t": "Аккаунт",
+              "d": "Пополняется аккаунт организации в платформе OpenAI; способ доступа согласуется до заказа."
+            },
+            {
+              "t": "Не для ChatGPT",
+              "d": "Баланс API не даёт подписку ChatGPT сотрудникам."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли использовать баланс для ChatGPT Plus?",
+          "a": "Нет, баланс API и подписки ChatGPT — разные продукты; для сотрудников нужен ChatGPT Business."
+        },
+        {
+          "q": "Сгорают ли кредиты?",
+          "a": "По условиям OpenAI предоплаченные кредиты имеют срок действия; уточняем актуальные правила при заказе."
+        }
+      ],
+      "related_products": [
+        "chatgpt-business",
+        "openai-enterprise"
+      ],
+      "meta_title": "Пополнение баланса OpenAI API для юрлица | BIZSoft",
+      "meta_description": "Пополнение баланса OpenAI API для организации: оплата токенов по факту, без подписки за место; сумма по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "openai api пополнить баланс юрлицо — hero, meta",
+        "openai api vs chatgpt — PLAN_COMPARE, FAQ"
+      ],
+      "uncertainties": [
+        "Срок действия предоплаченных кредитов — по условиям OpenAI на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CREDIT_USAGE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "anthropic-team": {
+      "sku": "ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Claude Team, Standard seat — годовой командный план на ассистент Anthropic для отдела: общее рабочее пространство, проекты с общим контекстом, интеграции с корпоративными источниками и Claude Code на каждом месте; данные компании не используются для обучения. Оформляется от двух мест; лицензии на организации, переназначение — администратором.\n\nStandard seat — базовая интенсивность; для сотрудников с постоянной нагрузкой в том же пространстве есть Premium seat с кратно большим лимитом и приоритетом в Claude Code.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Claude Team",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Модели",
+              "d": "Актуальные модели Claude с длинным контекстом, работа с файлами, анализ данных, артефакты."
+            },
+            {
+              "t": "Пространство",
+              "d": "Проекты с общими инструкциями и базой знаний, интеграции (Google Workspace, коннекторы MCP)."
+            },
+            {
+              "t": "Claude Code",
+              "d": "Агент для разработки в терминале и IDE на каждом месте по лимитам тарифа."
+            },
+            {
+              "t": "Управление",
+              "d": "Админ-консоль, добавление и снятие мест, единый счёт; данные не идут в обучение."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командный план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "От 2 мест",
+              "d": "Тариф активируется от двух пользователей."
+            },
+            {
+              "t": "Места за компанией",
+              "d": "Администратор переназначает; Standard и Premium — в одном пространстве."
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, SCIM, аудит и договорные условия — в Claude Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard seat, Premium seat или Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard seat",
+              "d": "Помощь с текстами, документами и анализом в обычном объёме."
+            },
+            {
+              "t": "Premium seat",
+              "d": "Кратно больший лимит и приоритет в Claude Code для разработчиков и аналитиков.",
+              "link": "anthropic-team-premium"
+            },
+            {
+              "t": "Claude Enterprise",
+              "d": "Корпоративный контроль и договор.",
+              "link": "anthropic-enterprise"
+            },
+            {
+              "t": "ChatGPT Business",
+              "d": "Аналог от OpenAI.",
+              "link": "chatgpt-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "Standard seat ограничен по объёму сообщений на продвинутых моделях."
+            },
+            {
+              "t": "Общее пространство",
+              "d": "Как у любого командного плана — единая точка доступа."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам от двух человек — от маркетинга до разработки, — которым нужен ассистент с общими проектами и Claude Code без корпоративного договора."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Обучаются ли модели на данных команды?",
+          "a": "Нет, в Team и Enterprise данные не используются для обучения."
+        },
+        {
+          "q": "Входит ли Claude Code?",
+          "a": "Да, на каждом месте Team по лимитам тарифа; Premium seat даёт больший лимит."
+        }
+      ],
+      "related_products": [
+        "anthropic-team-premium",
+        "anthropic-enterprise",
+        "chatgpt-business"
+      ],
+      "meta_title": "Claude Team, Standard seat — подписка на год | BIZSoft",
+      "meta_description": "Claude Team для компании: общее пространство, проекты, Claude Code, данные без обучения; от 2 мест, переназначение. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "claude team купить юрлицо — hero, meta",
+        "claude team vs enterprise — PLAN_COMPARE"
+      ],
+      "uncertainties": [
+        "Состав интеграций и лимитов — по текущим условиям Anthropic, числа не названы."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "anthropic-team-premium": {
+      "sku": "ANTH-LIC-CLAUDETEAMPRM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Claude Team, Premium seat — годовой командный план на усиленное место в пространстве команды: то же пространство и проекты, что у Standard seat, но лимит использования в разы выше и приоритет в Claude Code. От 2 мест в пространстве.\n\nPremium seat берут разработчикам, которые гоняют Claude Code целый день, и аналитикам с тяжёлыми документами; остальной команде хватает Standard.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что меняет Premium seat",
+          "kind": "prose",
+          "body": "Функции — как у Standard seat: проекты, интеграции, Claude Code. Разница — в объёме: кратно больший лимит сообщений на продвинутых моделях и повышенный лимит Claude Code с приоритетом.",
+          "links": [
+            "anthropic-team"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командный план",
+          "kind": "prose",
+          "body": "Premium seat назначается администратором в том же пространстве Team; типы мест меняются по мере нагрузки без пересоздания пространства."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Premium или Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium seat",
+              "d": "Ежедневная работа в Claude Code или с большими документами."
+            },
+            {
+              "t": "Standard seat",
+              "d": "Эпизодическая помощь.",
+              "link": "anthropic-team"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договорные лимиты для всей компании.",
+              "link": "anthropic-enterprise"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Premium в несколько раз дороже Standard."
+            },
+            {
+              "t": "Лимиты остаются",
+              "d": "Расширенные, но не безграничные; без ограничений — по договору Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Разработчикам на Claude Code и аналитикам, для которых ассистент — основной инструмент."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Даёт ли Premium seat больше Claude Code?",
+          "a": "Да, у Premium существенно выше лимит использования Claude Code и приоритет в очереди."
+        }
+      ],
+      "related_products": [
+        "anthropic-team",
+        "anthropic-enterprise"
+      ],
+      "meta_title": "Claude Team, Premium seat — подписка на год | BIZSoft",
+      "meta_description": "Claude Team Premium seat: кратно больший лимит и приоритет в Claude Code для активных пользователей в пространстве команды. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "claude team premium seat — hero, meta"
+      ],
+      "uncertainties": [
+        "Кратность лимита — по условиям Anthropic."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "anthropic-enterprise": {
+      "sku": "ANTH-LIC-CLAUDEENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Claude Enterprise — командный план Anthropic корпоративного уровня на 1 год: всё из Claude Team плюс SSO и SCIM, роли и аудит, расширенное контекстное окно, договорные гарантии по данным и повышенные лимиты. Цена договорная — по числу мест и объёму.\n\nБерут организации, которым нужен контроль доступа на уровне компании и договор, а не оферта; минимальное число мест — по согласованию.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Управление",
+              "d": "SSO, SCIM, роли, аудит-логи, домен-верификация."
+            },
+            {
+              "t": "Масштаб",
+              "d": "Расширенный контекст, повышенные лимиты, Claude Code для всей организации."
+            },
+            {
+              "t": "Данные",
+              "d": "Договорные обязательства по обработке и хранению, соответствие требованиям ИБ."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Корпоративный план",
+          "kind": "prose",
+          "body": "Договорной план с минимумом мест; пользователи заводятся через SCIM, лицензии принадлежат организации."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Enterprise или Team",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "SSO/SCIM, аудит и договор обязательны."
+            },
+            {
+              "t": "Team",
+              "d": "До нескольких десятков сотрудников без корпоративного контроля.",
+              "link": "anthropic-team"
+            },
+            {
+              "t": "ChatGPT Enterprise",
+              "d": "Аналог от OpenAI.",
+              "link": "openai-enterprise"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимумы",
+              "d": "Anthropic задаёт минимальный объём договора."
+            },
+            {
+              "t": "Согласование",
+              "d": "Договорной цикл дольше стандартного."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным компаниям с формальными требованиями к доступу, аудиту и обработке данных."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли начать с Team и перейти на Enterprise?",
+          "a": "Да, пространство и проекты переносятся при апгрейде плана."
+        }
+      ],
+      "related_products": [
+        "anthropic-team",
+        "openai-enterprise"
+      ],
+      "meta_title": "Claude Enterprise — корпоративный план Anthropic | BIZSoft",
+      "meta_description": "Claude Enterprise: SSO и SCIM, аудит, расширенный контекст, договорные гарантии по данным; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "claude enterprise купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Условия Enterprise — по договору с Anthropic."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

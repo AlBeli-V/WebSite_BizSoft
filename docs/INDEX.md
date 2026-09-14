@@ -17,7 +17,7 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | Контур | Код | Данные (ветка) | Workflow | Документ | Тесты |
 |---|---|---|---|---|---|
 | Сайт (Astro/Directus) | `src/` (pages, components, lib, data) | Directus/Postgres на проде, вне git | `deploy.yml`, `ci.yml` | `README.md`, `docs/OPERATIONS.md`, `docs/ADMIN-GUIDE.md` | `pnpm test`, `pnpm typecheck`, `pnpm smoke` |
-| Каталог и импорт | `scripts/catalog/*.json`, `scripts/ai-catalog-cards.json`, `scripts/import-vendors.mjs`, `scripts/import-cards.mjs`, `src/data/vendors.ts` | Directus прод; исходники вендоров — `main` | `ops-import-vendors`, `ops-import-ai-cards`, `ops-export-products`, `ops-merge-product`, `ops-patch-product`, `ops-rename-product`, `ops-recategorize`, `ops-categories` | `docs/vendors-expansion-prompt.md`, `docs/ai-catalog-import.md` | `tests/catalog-uniqueness.test.ts`, `tests/bulk-import.test.ts` |
+| Каталог и импорт | `scripts/catalog/*.json`, `scripts/ai-catalog-cards.json`, `scripts/import-vendors.mjs`, `scripts/import-cards.mjs`, `src/data/vendors.ts` | Directus прод; исходники вендоров — `main` | `ops-import-vendors`, `ops-import-ai-cards`, `ops-export-products`, `ops-merge-product`, `ops-patch-product`, `ops-rename-product`, `ops-archive-products`, `ops-sku-migrate`, `ops-recategorize`, `ops-categories` | `docs/vendors-expansion-prompt.md`, `docs/ai-catalog-import.md` | `tests/catalog-uniqueness.test.ts`, `tests/bulk-import.test.ts` |
 | SEO Growth Intelligence | `scripts/seo/*.py` (collect, snapshot, quality, report_v4, webreport, allocator, loop_health, money_queries) | ветка `seo-data` → `reports/seo/*` | `seo-data-collect`, `seo-daily-report`, `seo-report-email`, `seo-period-report`, `seo-site-check`, `seo-analytics-check`, `seo-goals-sync`, `seo-publish-web` | `reports/seo/README.md`, `docs/seo/reporting-methodology.md` (721 стр. — по разделу), `docs/seo/goals.md`, `docs/seo/pagespeed-monitor.md` | `python3 -m unittest discover -s scripts/seo/tests` (94 проверки) |
 | Wordstat | `scripts/seo/wordstat/*.py` (run, report, audience) | ветка `seo-data` → `reports/seo/wordstat/` | `seo-wordstat` | `reports/seo/README.md` (раздел 11), `reports/seo/wordstat/decisions.json` — реестр решений по кандидатам | `scripts/seo/tests` (общий набор) |
 | SERP (Яндекс + Google xmlriver) | `scripts/seo/serp_watch.py`, `serp_google.py`, `xmlriver.py`, `serp_analysis.py` | ветка `seo-data` → `reports/seo/serp/` | `seo-serp-watch` — единственный сборщик («один сбор — все потребители») | `docs/seo/serp-google-xmlriver.md` | `scripts/seo/tests` |
@@ -27,9 +27,10 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | Логотипы/иконки | `scripts/build-logos.mjs`, `src/components/VendorLogo.astro`, `VendorIcon/ProductIcon/CategoryIcon.astro` | `docs/*icons-manifest.json`, `docs/*icon-map.json` | `ops-fetch-assets` (приём архивов) | skill `add-logo-and-icons` | `pnpm check:artifacts` |
 | Фиды | `src/lib/feeds/*` (yml, registry, select) | — (SSR из Directus на лету) | `ops-yandex-feeds-toggle`, `ops-yandex-feeds` | `docs/yandex-feeds.md` | `pnpm smoke` (закрыты по умолчанию) |
 | Визуальный слой отчётов (KPI-kit) | `scripts/viz/kpi_kit.py` (плитки, светофор, линии, теплокарта, малые кратные, таблицы-дашборды; email-варианты) | — | входит в `seo-daily-report`, `competitive-intelligence-daily` | `docs/rules/kpi-kit.md`, витрина `docs/design/kpi-dashboards/` | `scripts/seo/tests/test_kpi_kit.py` |
+| Аудитория (устройства и каналы) | `scripts/seo/audience_block.py`, разрезы в `scripts/seo/collect_daily.py` | ряды витрины `reports/seo/data/daily/*` (ветка `seo-data`), реестр `data/seo/referral-classes.json` | входит в `seo-data-collect` и `seo-daily-report` | `docs/rules/audience-devices.md` | `scripts/seo/tests/test_audience_block.py` |
 | Письма | `scripts/seo/report_v4.py`, `committee.py`; `competitive-intelligence/mailer/*` | ветки `seo-data` / `competitive-data` | `seo-report-email`, `seo-committee-build`+`seo-committee-email`, `competitive-intelligence-mail`, `ops-send-mail`, `ops-mail` | `reports/seo/README.md` | `uxlint_v4.py`, `contentcheck.py` (в конвейере отчёта) |
 | Сторож каталога | `scripts/ops/catalog_watch.py` | снимки на сервере `/opt/bizsoft/ops/catalog` | `ops-catalog-watch` (ежедневно, письмо через `ops-send-mail`) | `docs/rules/catalog-watch.md` | `python3 -m unittest discover -s scripts/ops/tests -t scripts/ops/tests` |
-| Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup` | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
+| Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup`, сторож `ops-backup-watch` (ежедневно 07:00 МСК, письмо через `ops-send-mail`) | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
 | Операционные прогоны | — (детерминированные workflow, без сессий Claude/Routine) | — | `seo-daily-report`, `competitive-intelligence-daily`, `seo-committee-build`, `seo-tasks-due`; кросс-запуск между workflow — `scripts/ops/gh_dispatch_wait.sh` | заголовки этих workflow объясняют, какую Routine они заменили | — |
 
 ## Где что искать
@@ -38,6 +39,12 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   чеклист и обязательные шаги (sitemap, микроразметка, WebMCP, уникальность
   meta) — `docs/vendors-expansion-prompt.md`, раздел 11/11а, и правила в
   `CLAUDE.md`.
+- **Артикул новой позиции** — правило `docs/rules/sku-system.md`: сегменты
+  и словари в `src/lib/sku.ts`, код вендора — `data/catalog/sku-vendors.json`,
+  код продукта — `data/catalog/sku-products.json`; в пакете вендора вместо
+  `sku` пишутся `sku_product`, `sku_plan`, `sku_term`, `sku_unit`,
+  `sku_variant`, импорт собирает артикул сам. Перевод действующего каталога —
+  `data/catalog/sku-assignment.json` (`scripts/catalog/sku-assign.mjs`).
 - **Карточка AI-каталога и пара «Standard seat + Premium seat»** —
   реестр `scripts/ai-catalog-cards.json`, заливка воркфлоу `ops-import-ai-cards`,
   правила против каннибализации пары тарифов: `docs/ai-catalog-import.md`,
