@@ -1,0 +1,789 @@
+{
+  "family_key": "PHOTON",
+  "vendor": "Exit Games (Photon)",
+  "vendor_profile": "data/content/vendors/photon.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "photon-fusion-500",
+  "classification_notes": [
+    "Fusion 100/500/1000/2000 CCU, Enterprise. Носитель — 500."
+  ],
+  "products": {
+    "photon-fusion-100": {
+      "sku": "PHTN-LIC-FUSION100-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "приложение",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Photon Fusion, план 100 CCU (Plus) — годовой командный план начального уровня для многопользовательских игр на Unity: до ста одновременных игроков в облаке Photon и полный Fusion SDK. Состав движка и облака — на карточке плана 500 CCU.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Photon Fusion 100 CCU (Plus)",
+          "kind": "prose",
+          "links": [
+            "photon-fusion-500"
+          ],
+          "body": "Fusion SDK для Unity с предсказанием и лаг-компенсацией плюс серверы Photon по регионам — как у всей линейки; отличие плана — лимит в 100 CCU и объём включённого трафика."
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "100 CCU",
+              "d": "Старт."
+            },
+            {
+              "t": "500 CCU",
+              "d": "Следующая ступень.",
+              "link": "photon-fusion-500"
+            },
+            {
+              "t": "1000 CCU",
+              "d": "Крупный онлайн.",
+              "link": "photon-fusion-1000"
+            },
+            {
+              "t": "2000 CCU",
+              "d": "Максимальная полоса.",
+              "link": "photon-fusion-2000"
+            },
+            {
+              "t": "Enterprise Cloud",
+              "d": "Договор.",
+              "link": "photon-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плюс-план",
+              "d": "Включённый трафик меньше, чем у старших."
+            },
+            {
+              "t": "Рост",
+              "d": "При превышении CCU — переход на 500."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Прототипам и мобильным играм на старте."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что значит Plus?",
+          "a": "Начальный план с включённым трафиком меньшего объёма."
+        }
+      ],
+      "related_products": [
+        "photon-fusion-500",
+        "photon-fusion-1000",
+        "photon-fusion-2000",
+        "photon-ent"
+      ],
+      "meta_title": "Photon Fusion 100 CCU — подписка на год | BIZSoft",
+      "meta_description": "Photon Fusion 100 CCU: сетевой движок для многопользовательских игр Unity в облаке Photon. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "photon fusion 100 — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "photon-fusion-500": {
+      "sku": "PHTN-LIC-FUSION500-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "приложение",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Photon Fusion, план 500 CCU — командная подписка на 1 год на сетевой движок для многопользовательских игр в облаке Photon: до 500 одновременных игроков (CCU), серверы Photon по регионам, Fusion SDK для Unity с предсказанием и откатом. Лицензия на приложение организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Photon Fusion 500 CCU",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Fusion",
+              "d": "Сетевой SDK для Unity: клиент-хост и выделенный сервер, предсказание, лаг-компенсация."
+            },
+            {
+              "t": "CCU",
+              "d": "До 500 одновременных подключений."
+            },
+            {
+              "t": "Облако",
+              "d": "Серверы Photon в регионах, трафик по тарифу."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "500 CCU",
+              "d": "Рост."
+            },
+            {
+              "t": "100 CCU",
+              "d": "Для старта дешевле.",
+              "link": "photon-fusion-100"
+            },
+            {
+              "t": "1000 CCU",
+              "d": "Вдвое больше игроков.",
+              "link": "photon-fusion-1000"
+            },
+            {
+              "t": "2000 CCU",
+              "d": "Вчетверо больше.",
+              "link": "photon-fusion-2000"
+            },
+            {
+              "t": "Enterprise Cloud",
+              "d": "Договор.",
+              "link": "photon-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Трафик",
+              "d": "Сверх включённого — доплата."
+            },
+            {
+              "t": "App ID",
+              "d": "Лицензия на одно приложение."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Игровым студиям на Unity с растущим онлайном."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что такое CCU?",
+          "a": "Одновременные подключения в пике."
+        }
+      ],
+      "related_products": [
+        "photon-fusion-100",
+        "photon-fusion-1000",
+        "photon-fusion-2000",
+        "photon-ent"
+      ],
+      "meta_title": "Photon Fusion 500 CCU — подписка на год | BIZSoft",
+      "meta_description": "Photon Fusion 500 CCU: сетевой движок для многопользовательских игр Unity в облаке Photon. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "photon fusion 500 — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "photon-fusion-1000": {
+      "sku": "PHTN-LIC-FUSION1000-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "приложение",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Photon Fusion 1000 CCU — командная подписка на год для проектов с онлайном до тысячи игроков одновременно: тот же Fusion SDK и облако Photon, что у младших планов, с большим включённым лимитом подключений. Подробности — у плана 500 CCU.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Photon Fusion 1000 CCU",
+          "kind": "prose",
+          "links": [
+            "photon-fusion-500"
+          ],
+          "body": "Движок и облако идентичны плану 500 CCU; здесь — лимит 1000 одновременных подключений и пропорционально больший трафик."
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "1000 CCU",
+              "d": "Устойчивый онлайн."
+            },
+            {
+              "t": "100 CCU",
+              "d": "Прототип.",
+              "link": "photon-fusion-100"
+            },
+            {
+              "t": "500 CCU",
+              "d": "Половина.",
+              "link": "photon-fusion-500"
+            },
+            {
+              "t": "2000 CCU",
+              "d": "Пик линейки.",
+              "link": "photon-fusion-2000"
+            },
+            {
+              "t": "Enterprise Cloud",
+              "d": "Договор.",
+              "link": "photon-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пик",
+              "d": "CCU считается в пике, не в среднем."
+            },
+            {
+              "t": "Регионы",
+              "d": "Все регионы Photon."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Проектам с устойчивой аудиторией."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Как перейти на большую полосу?",
+          "a": "Доплатой разницы."
+        }
+      ],
+      "related_products": [
+        "photon-fusion-500",
+        "photon-fusion-100",
+        "photon-fusion-2000",
+        "photon-ent"
+      ],
+      "meta_title": "Photon Fusion 1000 CCU — подписка на год | BIZSoft",
+      "meta_description": "Photon Fusion 1000 CCU: сетевой движок для многопользовательских игр Unity в облаке Photon. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "photon fusion 1000 — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "photon-fusion-2000": {
+      "sku": "PHTN-LIC-FUSION2000-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "приложение",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Photon Fusion 2000 CCU — старший стандартный командный план на 12 месяцев: две тысячи одновременных игроков в облаке Photon; выше — только Enterprise Cloud с договором. Описание движка — на карточке 500 CCU.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Photon Fusion 2000 CCU",
+          "kind": "prose",
+          "links": [
+            "photon-fusion-500"
+          ],
+          "body": "Тот же Fusion и облако Photon; план даёт 2000 CCU — максимум без договора."
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "2000 CCU",
+              "d": "Пик линейки."
+            },
+            {
+              "t": "100 CCU",
+              "d": "Минимум.",
+              "link": "photon-fusion-100"
+            },
+            {
+              "t": "500 CCU",
+              "d": "Четверть.",
+              "link": "photon-fusion-500"
+            },
+            {
+              "t": "1000 CCU",
+              "d": "Половина.",
+              "link": "photon-fusion-1000"
+            },
+            {
+              "t": "Enterprise Cloud",
+              "d": "Договор.",
+              "link": "photon-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Потолок",
+              "d": "Дальше — Enterprise."
+            },
+            {
+              "t": "Цена",
+              "d": "Пропорциональна CCU."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Хитам с тысячами игроков в пике."
+        }
+      ],
+      "faq": [
+        {
+          "q": "А если больше 2000?",
+          "a": "Enterprise Cloud."
+        }
+      ],
+      "related_products": [
+        "photon-fusion-500",
+        "photon-fusion-100",
+        "photon-fusion-1000",
+        "photon-ent"
+      ],
+      "meta_title": "Photon Fusion 2000 CCU — подписка на год | BIZSoft",
+      "meta_description": "Photon Fusion 2000 CCU: сетевой движок для многопользовательских игр Unity в облаке Photon. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "photon fusion 2000 — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "photon-ent": {
+      "sku": "PHTN-LIC-ENT-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "организация",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Photon Enterprise Cloud — корпоративный командный план Photon на 1 год: выделенная инфраструктура, SLA, кастомные регионы, приоритетная поддержка, договорные условия по CCU и трафику. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Photon Enterprise Cloud",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Инфраструктура",
+              "d": "Выделенные серверы."
+            },
+            {
+              "t": "SLA",
+              "d": "Гарантии доступности."
+            },
+            {
+              "t": "Условия",
+              "d": "CCU и трафик по договору."
+            }
+          ],
+          "links": [
+            "photon-fusion-500"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Крупные онлайн-проекты."
+            },
+            {
+              "t": "Fusion 2000 CCU",
+              "d": "Стандартный максимум.",
+              "link": "photon-fusion-2000"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Согласование."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Издателям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли on-premises?",
+          "a": "Photon Server — отдельный продукт."
+        }
+      ],
+      "related_products": [
+        "photon-fusion-500",
+        "photon-fusion-2000"
+      ],
+      "meta_title": "Photon Enterprise Cloud — корпоративный план | BIZSoft",
+      "meta_description": "Photon Enterprise Cloud: выделенная инфраструктура, SLA, договорные CCU; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "photon enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

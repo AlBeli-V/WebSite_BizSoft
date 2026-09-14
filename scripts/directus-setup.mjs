@@ -293,6 +293,10 @@ async function buildSchema() {
   await ensureField('leads', 'ym_client_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'ClientID Яндекс.Метрики.' } });
   await ensureField('leads', 'ga_client_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'client_id GA4.' } });
 
+  // Связь с зеркалом Bitrix24 (docs/rules/crm-mirror.md): без номера лида
+  // портала обратный канал не знает, к какой заявке относится его событие,
+  // и стадия из портала не возвращается.
+  await ensureField('leads', 'b24_lead_id', { type: 'integer', meta: { interface: 'input', width: 'half', readonly: true, note: 'Номер лида в Bitrix24. Проставляется автоматически при зеркалировании заявки.' } });
   await ensureField('leads', 'owner', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Ответственный менеджер.' } });
   await ensureField('leads', 'amount', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Сумма сделки в рублях. Заполняется при выставлении счёта.' } });
   // Экономика сделки из КП (P1, решение руководителя 28.08.2026): воронка

@@ -1,0 +1,159 @@
+{
+  "family_key": "THINKCELL",
+  "vendor": "think-cell",
+  "vendor_profile": "data/content/vendors/thinkcell.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "think-cell-suite",
+  "classification_notes": [
+    "Suite."
+  ],
+  "products": {
+    "think-cell-suite": {
+      "sku": "THNK-LIC-SUITE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "think-cell — командная подписка на 1 год на дополнение для PowerPoint и Excel: диаграммы консалтингового уровня (водопады, Gantt, Marimekko), связь с Excel, автоматическая раскладка. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт think-cell",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Диаграммы",
+              "d": "40+ типов с автоматическими подписями."
+            },
+            {
+              "t": "Данные",
+              "d": "Связь с Excel, обновление."
+            },
+            {
+              "t": "Раскладка",
+              "d": "Инструменты выравнивания и шаблоны."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "think-cell",
+              "d": "Презентации с данными."
+            },
+            {
+              "t": "PowerPoint",
+              "d": "Хост.",
+              "link": "ms-office-proplus-2024"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум",
+              "d": "По условиям вендора."
+            },
+            {
+              "t": "Хост",
+              "d": "Требует Office."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Консультантам и финансистам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли с Google Slides?",
+          "a": "Нет."
+        }
+      ],
+      "related_products": [
+        "ms-office-proplus-2024"
+      ],
+      "meta_title": "think-cell — подписка на год | BIZSoft",
+      "meta_description": "think-cell: диаграммы консалтингового уровня в PowerPoint с связью с Excel. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "think-cell купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

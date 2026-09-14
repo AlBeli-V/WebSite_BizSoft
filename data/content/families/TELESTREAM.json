@@ -1,0 +1,573 @@
+{
+  "family_key": "TELESTREAM",
+  "vendor": "Telestream",
+  "vendor_profile": "data/content/vendors/telestream.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "tlstr-wirecast-pro",
+  "classification_notes": [
+    "ScreenFlow, Wirecast Studio/Pro (perpetual), Vantage (договор). Носитель — Wirecast Pro."
+  ],
+  "products": {
+    "tlstr-screenflow": {
+      "sku": "TLST-LIC-SCREENFLOW-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Telestream ScreenFlow — бессрочная лицензия на запись экрана и монтаж для macOS: захват экрана, камеры и микрофона, многодорожечный монтаж, аннотации, титры, экспорт и публикация. Одна покупка; обновления внутри версии.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет ScreenFlow",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Запись",
+              "d": "Экран, камера, iOS-устройства, системный звук."
+            },
+            {
+              "t": "Монтаж",
+              "d": "Дорожки, переходы, аннотации, курсор, титры."
+            },
+            {
+              "t": "Экспорт",
+              "d": "MP4, ProRes, публикация в YouTube, Vimeo."
+            }
+          ],
+          "links": [
+            "tlstr-wirecast-pro"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри версии; крупная — платно."
+            },
+            {
+              "t": "macOS",
+              "d": "Только Mac."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ScreenFlow",
+              "d": "Скринкасты и обучение на Mac."
+            },
+            {
+              "t": "Wirecast Pro",
+              "d": "Живые трансляции.",
+              "link": "tlstr-wirecast-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Авторам обучающих видео на Mac."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Windows-версия?",
+          "a": "Нет."
+        }
+      ],
+      "related_products": [
+        "tlstr-wirecast-pro"
+      ],
+      "meta_title": "Telestream ScreenFlow — бессрочная лицензия | BIZSoft",
+      "meta_description": "Telestream ScreenFlow: запись экрана и монтаж для macOS; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "screenflow купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "tlstr-wirecast-pro": {
+      "sku": "TLST-LIC-WIRECASTPRO-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Telestream Wirecast Pro — бессрочная лицензия на профессиональные живые трансляции: неограниченные источники, многокамерный микс, графика и титры, трансляция в несколько платформ, виртуальные наборы, ISO-запись, NDI. Одна покупка; обновления внутри версии.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Wirecast Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Источники",
+              "d": "Камеры, экраны, NDI, SDI, удалённые гости Rendezvous."
+            },
+            {
+              "t": "Трансляция",
+              "d": "В YouTube, Facebook, RTMP на несколько платформ одновременно."
+            },
+            {
+              "t": "Pro",
+              "d": "ISO-запись, виртуальные наборы, 3D-графика, повторы."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри версии."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "С Studio доплатой."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Многокамерный продакшн."
+            },
+            {
+              "t": "Studio",
+              "d": "Базовые трансляции.",
+              "link": "tlstr-wirecast-studio"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям трансляций и корпоративным ивентам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от Studio?",
+          "a": "ISO-запись, повторы, виртуальные наборы, больше гостей."
+        }
+      ],
+      "related_products": [
+        "tlstr-wirecast-studio"
+      ],
+      "meta_title": "Telestream Wirecast Pro — бессрочная лицензия | BIZSoft",
+      "meta_description": "Telestream Wirecast Pro: многокамерные трансляции, NDI, ISO-запись, повторы; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "wirecast pro купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "tlstr-wirecast-studio": {
+      "sku": "TLST-LIC-WIRECASTSTUDIO-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Telestream Wirecast Studio — бессрочная лицензия на базовую редакцию Wirecast: трансляции с нескольких камер и экранов, графика, титры, трансляция на платформы, до двух удалённых гостей. Одна покупка.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Wirecast Studio",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Источники",
+              "d": "Камеры, экраны, NDI, гости."
+            },
+            {
+              "t": "Трансляция",
+              "d": "Платформы и RTMP."
+            },
+            {
+              "t": "Чего нет",
+              "d": "ISO-записи, повторов, виртуальных наборов — Pro."
+            }
+          ],
+          "links": [
+            "tlstr-wirecast-pro"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри версии."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До Pro."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Studio",
+              "d": "Простые трансляции."
+            },
+            {
+              "t": "Pro",
+              "d": "Продакшн.",
+              "link": "tlstr-wirecast-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с вебинарами и стримами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Хватит ли Studio для вебинаров?",
+          "a": "Да."
+        }
+      ],
+      "related_products": [
+        "tlstr-wirecast-pro"
+      ],
+      "meta_title": "Telestream Wirecast Studio — бессрочная лицензия | BIZSoft",
+      "meta_description": "Telestream Wirecast Studio: трансляции с нескольких камер и графикой; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "wirecast studio — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "tlstr-vantage": {
+      "sku": "TLST-LIC-VANTAGE-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "организация",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Telestream Vantage — командная подписка на 1 год на серверную платформу транскодирования и медиапроцессинга: автоматизированные workflow, транскодирование, QC, доставка для вещателей и медиакомпаний; состав модулей и цена — по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Vantage",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Workflow",
+              "d": "Автоматизация обработки медиа на сервере."
+            },
+            {
+              "t": "Транскодирование",
+              "d": "Форматы вещания и OTT."
+            },
+            {
+              "t": "Модули",
+              "d": "Analysis, Transcode, IPTV и другие — по спецификации."
+            }
+          ],
+          "links": [
+            "tlstr-wirecast-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Vantage",
+              "d": "Медиакомпания с потоком контента."
+            },
+            {
+              "t": "Wirecast Pro",
+              "d": "Живые трансляции, не серверная обработка.",
+              "link": "tlstr-wirecast-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Состав и цена по спецификации."
+            },
+            {
+              "t": "Сервер",
+              "d": "Своя инфраструктура."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Телеканалам и OTT-платформам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли облачная версия?",
+          "a": "Да, Vantage Cloud — по запросу."
+        }
+      ],
+      "related_products": [
+        "tlstr-wirecast-pro"
+      ],
+      "meta_title": "Telestream Vantage — корпоративная платформа | BIZSoft",
+      "meta_description": "Telestream Vantage: серверное транскодирование и медиа-workflow для вещателей; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "telestream vantage — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
