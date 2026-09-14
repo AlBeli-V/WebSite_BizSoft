@@ -1,0 +1,669 @@
+{
+  "family_key": "AVID",
+  "vendor": "Avid",
+  "vendor_profile": "data/content/vendors/avid.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "avid-mc-sub",
+  "classification_notes": [
+    "Media Composer / Ultimate, Pro Tools Artist / Studio (sub), Ultimate (perpetual). Носитель — MC."
+  ],
+  "products": {
+    "avid-mc-sub": {
+      "sku": "AVID-LIC-MCSUB-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Avid Media Composer — индивидуальная подписка на 1 год на профессиональный видеомонтаж, стандарт кино- и телепроизводства: работа с медиа любого разрешения, прокси, инструменты цвета и звука, командная совместимость с Avid NEXIS. Личный аккаунт, 2 устройства.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Avid Media Composer",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Монтаж",
+              "d": "Многодорожечный, прокси, скрипты, мультикамера."
+            },
+            {
+              "t": "Совместимость",
+              "d": "Avid NEXIS, MediaCentral, AAF/OMF."
+            },
+            {
+              "t": "Цвет и звук",
+              "d": "Базовая цветокоррекция, аудио-микшер."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Media Composer",
+              "d": "Монтажёр."
+            },
+            {
+              "t": "Ultimate",
+              "d": "Плюс PhraseFind, ScriptSync, Symphony, NewsCutter.",
+              "link": "avid-mc-ult"
+            },
+            {
+              "t": "DaVinci Resolve Studio",
+              "d": "Альтернатива.",
+              "link": "bmd-resolve-studio"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Монтажёрам кино и ТВ."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли с Pro Tools?",
+          "a": "Да, через AAF."
+        }
+      ],
+      "related_products": [
+        "avid-mc-ult",
+        "bmd-resolve-studio"
+      ],
+      "meta_title": "Avid Media Composer — подписка на год | BIZSoft",
+      "meta_description": "Avid Media Composer: профессиональный монтаж кино и ТВ, прокси, NEXIS. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "avid media composer купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "avid-mc-ult": {
+      "sku": "AVID-LIC-MCULT-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Avid Media Composer Ultimate — индивидуальная подписка на 1 год на расширенную редакцию: всё из Media Composer плюс PhraseFind и ScriptSync (поиск по речи и сценарию), Symphony (цвет), NewsCutter, расширенные рабочие процессы. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Avid Media Composer Ultimate",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Поиск",
+              "d": "PhraseFind AI, ScriptSync AI."
+            },
+            {
+              "t": "Цвет",
+              "d": "Symphony Option."
+            },
+            {
+              "t": "Всё из MC",
+              "d": "Монтаж, NEXIS."
+            }
+          ],
+          "links": [
+            "avid-mc-sub"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ultimate",
+              "d": "Документалисты и новости."
+            },
+            {
+              "t": "Media Composer",
+              "d": "Без опций.",
+              "link": "avid-mc-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Документальным и новостным студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что даёт ScriptSync?",
+          "a": "Синхронизацию дублей со сценарием."
+        }
+      ],
+      "related_products": [
+        "avid-mc-sub"
+      ],
+      "meta_title": "Avid Media Composer Ultimate — подписка на год | BIZSoft",
+      "meta_description": "Avid Media Composer Ultimate: PhraseFind, ScriptSync, Symphony плюс всё из Media Composer. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "avid ultimate — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "avid-pt-artist": {
+      "sku": "AVID-LIC-PTARTIST-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Avid Pro Tools Artist — индивидуальная подписка на 1 год на начальную редакцию Pro Tools: 32 аудиодорожки, запись и редактирование, 100+ плагинов, MIDI. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Avid Pro Tools Artist",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Дорожки",
+              "d": "32 аудио, 32 инструментальные."
+            },
+            {
+              "t": "Плагины",
+              "d": "100+ в составе."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Surround, расширенных функций Studio."
+            }
+          ],
+          "links": [
+            "avid-mc-sub"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Artist",
+              "d": "Авторы музыки."
+            },
+            {
+              "t": "Studio",
+              "d": "512 дорожек, Dolby Atmos.",
+              "link": "avid-pt-studio"
+            },
+            {
+              "t": "Ultimate бессрочная",
+              "d": "Максимум.",
+              "link": "avid-pt-ult-perp"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Музыкантам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли iLok?",
+          "a": "Активация через iLok Cloud или ключ."
+        }
+      ],
+      "related_products": [
+        "avid-mc-sub",
+        "avid-pt-studio",
+        "avid-pt-ult-perp"
+      ],
+      "meta_title": "Avid Pro Tools Artist — подписка на год | BIZSoft",
+      "meta_description": "Avid Pro Tools Artist: 32 дорожки, 100+ плагинов, MIDI. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "pro tools artist — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "avid-pt-studio": {
+      "sku": "AVID-LIC-PTSTUDIO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Avid Pro Tools Studio — индивидуальная подписка на 1 год на профессиональную редакцию Pro Tools: 512 дорожек, Dolby Atmos, surround, полный набор плагинов, совместная работа в облаке. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Avid Pro Tools Studio",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Дорожки",
+              "d": "512 аудио."
+            },
+            {
+              "t": "Иммерсив",
+              "d": "Dolby Atmos, surround."
+            },
+            {
+              "t": "Всё из Artist",
+              "d": "Плагины, MIDI."
+            }
+          ],
+          "links": [
+            "avid-mc-sub"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Оформляется на личный аккаунт работника по договору с организацией; переуступка другому сотруднику не поддерживается вендором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Studio",
+              "d": "Студии."
+            },
+            {
+              "t": "Artist",
+              "d": "Начало.",
+              "link": "avid-pt-artist"
+            },
+            {
+              "t": "Ultimate",
+              "d": "2 048 дорожек, HDX.",
+              "link": "avid-pt-ult-perp"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям записи."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Поддерживает ли Atmos?",
+          "a": "Да."
+        }
+      ],
+      "related_products": [
+        "avid-mc-sub",
+        "avid-pt-artist",
+        "avid-pt-ult-perp"
+      ],
+      "meta_title": "Avid Pro Tools Studio — подписка на год | BIZSoft",
+      "meta_description": "Avid Pro Tools Studio: 512 дорожек, Dolby Atmos, полный набор плагинов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "pro tools studio — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "avid-pt-ult-perp": {
+      "sku": "AVID-LIC-PTULT-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Avid Pro Tools Ultimate — бессрочная лицензия на старшую редакцию Pro Tools: до 2 048 аудиодорожек, Dolby Atmos и surround, поддержка HDX, расширенные функции постпродакшена; год обновлений и поддержки включён, затем продление. Лицензия на пользователя.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Avid Pro Tools Ultimate",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Дорожки",
+              "d": "2 048 аудио, HDX-ускорение."
+            },
+            {
+              "t": "Постпродакшн",
+              "d": "Atmos, ADR, видео."
+            },
+            {
+              "t": "Обновления",
+              "d": "Год включён."
+            }
+          ],
+          "links": [
+            "avid-mc-sub"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия на конец года обновлений."
+            },
+            {
+              "t": "Обновления",
+              "d": "Продление — отдельно."
+            },
+            {
+              "t": "iLok",
+              "d": "Активация ключом или облаком."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ultimate бессрочная",
+              "d": "Постпродакшн."
+            },
+            {
+              "t": "Studio подписка",
+              "d": "512 дорожек.",
+              "link": "avid-pt-studio"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Постпродакшн-студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли HDX?",
+          "a": "Нет, работает и на нативных системах."
+        }
+      ],
+      "related_products": [
+        "avid-mc-sub",
+        "avid-pt-studio"
+      ],
+      "meta_title": "Avid Pro Tools Ultimate — бессрочная лицензия | BIZSoft",
+      "meta_description": "Avid Pro Tools Ultimate: 2 048 дорожек, Atmos, HDX; бессрочно с годом обновлений. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "pro tools ultimate — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

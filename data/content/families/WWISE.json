@@ -1,0 +1,441 @@
+{
+  "family_key": "WWISE",
+  "vendor": "Audiokinetic",
+  "vendor_profile": "data/content/vendors/wwise.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "wwise-pro",
+  "classification_notes": [
+    "Pro / Premium / Platinum — лицензия на проект. Носитель — Pro."
+  ],
+  "products": {
+    "wwise-pro": {
+      "sku": "AUDK-LIC-WWISEPRO-TEAM-1Y-PROJ",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "проект",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Audiokinetic Wwise Pro — лицензия на 1 год на проект для аудиодвижка Wwise: интерактивный звук, музыка и микс для игр и приложений с интеграцией в Unreal, Unity и свои движки. Pro — базовый коммерческий уровень для проектов с бюджетом до порога Audiokinetic; лицензируется на проект, а не на пользователя.\n\nСрок — 1 год на проект.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Wwise Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Движок",
+              "d": "Интерактивная музыка, состояния, RTPC, пространственный звук, профилировщик."
+            },
+            {
+              "t": "Интеграция",
+              "d": "Unreal, Unity, кастомные движки через SDK."
+            },
+            {
+              "t": "Модель",
+              "d": "Лицензия на игровой проект по бюджету; число разработчиков не ограничено."
+            },
+            {
+              "t": "Плагины",
+              "d": "Часть плагинов входит, премиальные — отдельно."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Проект с бюджетом до порога Pro."
+            },
+            {
+              "t": "Premium",
+              "d": "Больший бюджет, дополнительные плагины, поддержка.",
+              "link": "wwise-premium"
+            },
+            {
+              "t": "Platinum",
+              "d": "Крупные проекты, приоритетная поддержка, исходный код.",
+              "link": "wwise-platinum"
+            },
+            {
+              "t": "FMOD Indie",
+              "d": "Альтернативный движок.",
+              "link": "fmod-indie"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям среднего размера с одним-двумя проектами."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бюджет проекта",
+              "d": "Определите бюджет по правилам Audiokinetic — от него зависит уровень."
+            },
+            {
+              "t": "Платформы",
+              "d": "Число платформ выпуска влияет на условия."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Как считается лицензия?",
+          "a": "На проект по его бюджету; сотрудников можно сколько угодно."
+        }
+      ],
+      "related_products": [
+        "wwise-premium",
+        "wwise-platinum",
+        "fmod-indie"
+      ],
+      "meta_title": "Wwise Pro — лицензия на проект | BIZSoft",
+      "meta_description": "Audiokinetic Wwise Pro: аудиодвижок для игр с интерактивной музыкой и пространственным звуком; лицензия на проект. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "wwise pro — hero"
+      ],
+      "uncertainties": [
+        "Бюджетные пороги — по правилам Audiokinetic."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "wwise-premium": {
+      "sku": "AUDK-LIC-WWISEPRM-TEAM-1Y-PROJ",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "проект",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Audiokinetic Wwise Premium — лицензия на 1 год на проект для проектов с бюджетом выше порога Pro: полный движок, расширенный набор плагинов, приоритетная поддержка. На проект.\n\nСрок — 1 год на проект.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Wwise Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Всё из Pro",
+              "d": "Движок, интеграции, профилировщик."
+            },
+            {
+              "t": "Плагины",
+              "d": "Расширенный набор в составе."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            }
+          ],
+          "links": [
+            "wwise-pro"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Бюджет выше порога Pro."
+            },
+            {
+              "t": "Pro",
+              "d": "Меньший бюджет.",
+              "link": "wwise-pro"
+            },
+            {
+              "t": "Platinum",
+              "d": "AAA и исходники.",
+              "link": "wwise-platinum"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям с проектами среднего и крупного бюджета."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плагины",
+              "d": "Уточните, какие премиальные плагины нужны проекту."
+            },
+            {
+              "t": "Срок",
+              "d": "Лицензия продлевается ежегодно до конца поддержки игры."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что определяет порог?",
+          "a": "Бюджет проекта по правилам Audiokinetic на дату заказа."
+        }
+      ],
+      "related_products": [
+        "wwise-pro",
+        "wwise-platinum"
+      ],
+      "meta_title": "Wwise Premium — лицензия на проект | BIZSoft",
+      "meta_description": "Audiokinetic Wwise Premium: аудиодвижок с расширенными плагинами и приоритетной поддержкой; лицензия на проект. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "wwise premium — hero"
+      ],
+      "uncertainties": [
+        "Бюджетные пороги — по правилам Audiokinetic."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "wwise-platinum": {
+      "sku": "AUDK-LIC-WWISEPLT-TEAM-1Y-PROJ",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "проект",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Audiokinetic Wwise Platinum — лицензия на 1 год на проект AAA-уровня: полный движок и плагины, доступ к исходному коду, выделенная поддержка, договорные условия. Цена по запросу.\n\nСрок — 1 год на проект.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Wwise Platinum",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Исходный код",
+              "d": "Доступ к исходникам движка."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенная, SLA."
+            },
+            {
+              "t": "Всё из Premium",
+              "d": "Движок, плагины."
+            }
+          ],
+          "links": [
+            "wwise-pro"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Platinum",
+              "d": "AAA-проект с исходниками."
+            },
+            {
+              "t": "Premium",
+              "d": "Без исходников.",
+              "link": "wwise-premium"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным издателям и AAA-студиям."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Условия исходного кода и SLA фиксируются в спецификации."
+            },
+            {
+              "t": "Сроки",
+              "d": "Согласование дольше стандартной поставки."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Обязателен ли Platinum для больших бюджетов?",
+          "a": "Да, по бюджетным порогам Audiokinetic."
+        }
+      ],
+      "related_products": [
+        "wwise-pro",
+        "wwise-premium"
+      ],
+      "meta_title": "Wwise Platinum — лицензия на проект | BIZSoft",
+      "meta_description": "Audiokinetic Wwise Platinum: AAA-лицензия с исходным кодом и выделенной поддержкой; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "wwise platinum — hero"
+      ],
+      "uncertainties": [
+        "Бюджетные пороги — по правилам Audiokinetic."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,100 @@
+---
+/**
+ * Готовые наборы под роль команды.
+ *
+ * Один компонент на две витрины: подборку `/cart` и главную. Раньше
+ * наборы жили только в подборке — их видел лишь тот, кто уже собрал
+ * позиции сам, хотя набор нужен как раз тому, кто ещё ничего не выбрал.
+ *
+ * Набор кладётся в подборку целиком одной кнопкой: это единственное место
+ * на сайте, где одно нажатие переводит сразу к спецификации на три позиции.
+ * Цель `home_set_add` считает такие добавления отдельно от поштучных —
+ * иначе рост среднего чека от наборов неотличим от роста числа кликов.
+ */
+import { formatRub } from '../lib/pricing';
+import type { ResolvedPreset } from '../lib/presets';
+
+interface Props {
+  presets: ResolvedPreset[];
+  /** Строка над названием: кому набор адресован. На главной нужна, в подборке — нет. */
+  showAudience?: boolean;
+  /** Вторая кнопка: сразу запросить КП по набору. */
+  withQuote?: boolean;
+}
+const { presets, showAudience = false, withQuote = false } = Astro.props;
+---
+{presets.length > 0 && (
+  <div class="presets-grid">
+    {presets.map((pr) => (
+      <div class="card preset-card">
+        {showAudience && <span class="pc-who">{pr.who}</span>}
+        <h3>{pr.name}</h3>
+        <p class="pc-note">{pr.note}</p>
+        <ul>
+          {pr.items.map((it) => <li>{it.name}</li>)}
+        </ul>
+        <div class="pc-bottom">
+          <b>от {formatRub(pr.total)}</b>
+          <span class="pc-acts">
+            <button class="btn btn-primary btn-sm" data-preset={JSON.stringify(pr.items)} data-preset-id={pr.id}>Добавить набор</button>
+            {withQuote && (
+              <button class="btn btn-ghost btn-sm" data-preset={JSON.stringify(pr.items)} data-preset-id={pr.id}
+                      data-preset-quote data-open-kp data-kp-source="home_preset">Получить КП</button>
+            )}
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
+<style>
+  /* minmax(min(100%, …)) — идиома main против горизонтальной прокрутки на
+     телефоне: колонка с пиксельным минимумом не сжимается и распирает
+     документ (tests/mobile-layout-css.test.ts). */
+  .presets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1.2rem; }
+  .preset-card { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .pc-who { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-accent); }
+  .preset-card h3 { font-size: 1.08rem; }
+  .pc-note { color: var(--color-text-dim); font-size: 0.85rem; margin: 0; }
+  .preset-card ul { list-style: none; padding: 0; margin: 0.3rem 0 0; color: var(--color-text-muted); font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  .preset-card ul li::before { content: '+ '; color: var(--color-accent); font-weight: 700; }
+  .pc-bottom { margin-top: auto; padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .pc-bottom b { font-variant-numeric: tabular-nums; }
+  .pc-acts { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+</style>
+
+<script>
+  import { addToCart } from '../lib/cart-client';
+  import { trackGoal } from '@/lib/analytics';
+
+  document.querySelectorAll('[data-preset]').forEach((el) => {
+    const btn = el as HTMLButtonElement;
+    btn.addEventListener('click', () => {
+      let items: { sku: string; slug: string; name: string; vendor?: string; price: number }[];
+      try {
+        items = JSON.parse(btn.dataset.preset || '[]');
+      } catch {
+        return;
+      }
+      for (const it of items) {
+        addToCart({ sku: it.sku, slug: it.slug, name: it.name, vendor: it.vendor || '', price: it.price }, 1);
+      }
+      trackGoal('home_set_add', {
+        preset: btn.dataset.presetId || '',
+        items: items.length,
+        total: items.reduce((s, i) => s + i.price, 0),
+      });
+      // Кнопка КП сама откроет диалог (data-open-kp): подтверждение здесь
+      // было бы вторым ответом на одно нажатие.
+      if (btn.dataset.presetQuote !== undefined) return;
+      btn.textContent = 'Добавлено ✓';
+      // В подборке таблица состава стоит выше наборов — туда и возвращаем.
+      // На главной такой таблицы нет, и прокрутка вверх была бы отменой
+      // того, что человек только что делал.
+      if (document.querySelector('[data-cart-items]')) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  });
+</script>

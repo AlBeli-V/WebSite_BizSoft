@@ -1,0 +1,589 @@
+{
+  "family_key": "RECRAFT",
+  "vendor": "Recraft",
+  "vendor_profile": "data/content/vendors/recraft.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "recraft-pro",
+  "classification_notes": [
+    "Advanced / Pro / Team / Enterprise. Носитель — Pro."
+  ],
+  "products": {
+    "recraft-advanced": {
+      "sku": "RCRF-LIC-ADVANCED-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Recraft Advanced — индивидуальная подписка на 1 год на ИИ-генератор изображений и векторной графики: SVG, стили бренда, редактирование, кредиты в месяц, коммерческое использование. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Recraft Advanced",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Вектор",
+              "d": "Генерация SVG и иконок."
+            },
+            {
+              "t": "Стили",
+              "d": "Свои стили бренда."
+            },
+            {
+              "t": "Кредиты",
+              "d": "Месячная квота."
+            }
+          ],
+          "links": [
+            "recraft-pro"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced",
+              "d": "Регулярно."
+            },
+            {
+              "t": "Pro",
+              "d": "Больше кредитов, приватность.",
+              "link": "recraft-pro"
+            },
+            {
+              "t": "Team",
+              "d": "Места.",
+              "link": "recraft-team"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор.",
+              "link": "recraft-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли использовать в логотипах?",
+          "a": "Коммерческая лицензия позволяет."
+        }
+      ],
+      "related_products": [
+        "recraft-pro",
+        "recraft-team",
+        "recraft-ent"
+      ],
+      "meta_title": "Recraft Advanced — подписка на год | BIZSoft",
+      "meta_description": "Recraft Advanced: генерация изображений и SVG, стили бренда. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "recraft advanced купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "recraft-pro": {
+      "sku": "RCRF-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Recraft Pro — индивидуальная подписка на 1 год на профессиональный план: больше кредитов, приватные генерации, приоритет, API. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Recraft Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "Расширенная квота."
+            },
+            {
+              "t": "Приватность",
+              "d": "Генерации не публикуются."
+            },
+            {
+              "t": "API",
+              "d": "Доступ."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Профессионал."
+            },
+            {
+              "t": "Advanced",
+              "d": "Меньше.",
+              "link": "recraft-advanced"
+            },
+            {
+              "t": "Team",
+              "d": "Команда.",
+              "link": "recraft-team"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли API?",
+          "a": "Да."
+        }
+      ],
+      "related_products": [
+        "recraft-advanced",
+        "recraft-team"
+      ],
+      "meta_title": "Recraft Pro — подписка на год | BIZSoft",
+      "meta_description": "Recraft Pro: расширенные кредиты, приватность, API. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "recraft pro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "recraft-team": {
+      "sku": "RCRF-LIC-TEAM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Recraft Team — командная подписка на 1 год: около 9 000 кредитов на место, общие стили и проекты, администрирование. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Recraft Team",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "≈9 000 на место."
+            },
+            {
+              "t": "Команда",
+              "d": "Общие стили, проекты."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Приватность, API."
+            }
+          ],
+          "links": [
+            "recraft-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Team",
+              "d": "Отдел."
+            },
+            {
+              "t": "Pro",
+              "d": "Один.",
+              "link": "recraft-pro"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор.",
+              "link": "recraft-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты не переносятся",
+              "d": "Месячная квота сгорает; Top-up — по условиям вендора."
+            },
+            {
+              "t": "Модели меняются",
+              "d": "Состав доступных моделей и стоимость генерации — по прайсу на дату."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайн-командам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Делятся ли кредиты?",
+          "a": "Нет, на место."
+        }
+      ],
+      "related_products": [
+        "recraft-pro",
+        "recraft-ent"
+      ],
+      "meta_title": "Recraft Team — подписка на год | BIZSoft",
+      "meta_description": "Recraft Team: около 9 000 кредитов на место, общие стили. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "recraft team купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "recraft-ent": {
+      "sku": "RCRF-LIC-ENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Recraft Enterprise — командный план корпоративного уровня с индивидуальными условиями: лимиты, SSO, договор. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Recraft Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "По договору."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SSO."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенная."
+            }
+          ],
+          "links": [
+            "recraft-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Корпорация."
+            },
+            {
+              "t": "Team",
+              "d": "Команда.",
+              "link": "recraft-team"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Квота помесячно",
+              "d": "Неиспользованное не копится."
+            },
+            {
+              "t": "Прайс подвижен",
+              "d": "Стоимость генерации и набор моделей вендор меняет без предупреждения."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным брендам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум?",
+          "a": "По договору."
+        }
+      ],
+      "related_products": [
+        "recraft-pro",
+        "recraft-team"
+      ],
+      "meta_title": "Recraft Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Recraft Enterprise: договорные лимиты и SSO; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "recraft enterprise купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

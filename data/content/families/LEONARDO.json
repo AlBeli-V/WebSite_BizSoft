@@ -1,0 +1,404 @@
+{
+  "family_key": "LEONARDO",
+  "vendor": "Leonardo.Ai (Canva)",
+  "vendor_profile": "data/content/vendors/leonardo.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "leonardo-apprentice",
+  "classification_notes": [
+    "Apprentice / Artisan / Maestro. Носитель — Apprentice."
+  ],
+  "products": {
+    "leonardo-apprentice": {
+      "sku": "LEON-LIC-APPRENTICE-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Leonardo AI Apprentice — индивидуальная подписка на 1 год на генерацию изображений и видео Leonardo.Ai: токены в месяц, приватные генерации, обучение своих моделей, коммерческая лицензия. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Leonardo AI Apprentice",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Генерация",
+              "d": "Изображения, видео, Canvas, апскейл."
+            },
+            {
+              "t": "Токены",
+              "d": "Месячная квота."
+            },
+            {
+              "t": "Модели",
+              "d": "Обучение своих."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Apprentice",
+              "d": "Начало."
+            },
+            {
+              "t": "Artisan",
+              "d": "Больше токенов.",
+              "link": "leonardo-artisan"
+            },
+            {
+              "t": "Maestro",
+              "d": "Максимум.",
+              "link": "leonardo-maestro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Приватны ли генерации?",
+          "a": "Да, в платных планах."
+        }
+      ],
+      "related_products": [
+        "leonardo-artisan",
+        "leonardo-maestro"
+      ],
+      "meta_title": "Leonardo AI Apprentice — подписка на год | BIZSoft",
+      "meta_description": "Leonardo AI Apprentice: генерация изображений и видео, приватность, свои модели. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "leonardo ai apprentice купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "leonardo-artisan": {
+      "sku": "LEON-LIC-ARTISAN-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Leonardo AI Artisan — индивидуальная подписка на 1 год: больше токенов, приоритет, больше моделей. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Leonardo AI Artisan",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Токены",
+              "d": "Расширенная квота."
+            },
+            {
+              "t": "Приоритет",
+              "d": "Очередь."
+            },
+            {
+              "t": "Всё из Apprentice",
+              "d": "Модели."
+            }
+          ],
+          "links": [
+            "leonardo-apprentice"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Artisan",
+              "d": "Регулярно."
+            },
+            {
+              "t": "Apprentice",
+              "d": "Базово.",
+              "link": "leonardo-apprentice"
+            },
+            {
+              "t": "Maestro",
+              "d": "Максимум.",
+              "link": "leonardo-maestro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сгорают ли токены?",
+          "a": "Ежемесячно."
+        }
+      ],
+      "related_products": [
+        "leonardo-apprentice",
+        "leonardo-maestro"
+      ],
+      "meta_title": "Leonardo AI Artisan — подписка на год | BIZSoft",
+      "meta_description": "Leonardo AI Artisan: расширенные токены и приоритет. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "leonardo ai artisan купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "leonardo-maestro": {
+      "sku": "LEON-LIC-MAESTRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Leonardo AI Maestro — индивидуальная подписка на 1 год на максимальный план: наибольшая квота токенов, высший приоритет. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Leonardo AI Maestro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Токены",
+              "d": "Максимум."
+            },
+            {
+              "t": "Приоритет",
+              "d": "Высший."
+            },
+            {
+              "t": "Всё из Artisan",
+              "d": "Модели."
+            }
+          ],
+          "links": [
+            "leonardo-apprentice"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Maestro",
+              "d": "Студии."
+            },
+            {
+              "t": "Artisan",
+              "d": "Меньше.",
+              "link": "leonardo-artisan"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли командный план?",
+          "a": "По запросу."
+        }
+      ],
+      "related_products": [
+        "leonardo-apprentice",
+        "leonardo-artisan"
+      ],
+      "meta_title": "Leonardo AI Maestro — подписка на год | BIZSoft",
+      "meta_description": "Leonardo AI Maestro: максимальная квота токенов и приоритет. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "leonardo ai maestro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
