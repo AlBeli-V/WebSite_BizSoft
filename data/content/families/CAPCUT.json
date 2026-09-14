@@ -1,0 +1,292 @@
+{
+  "family_key": "CAPCUT",
+  "vendor": "ByteDance (CapCut)",
+  "vendor_profile": "data/content/vendors/capcut.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "capcut-pro",
+  "classification_notes": [
+    "Pro / Team. Носитель — Pro."
+  ],
+  "products": {
+    "capcut-pro": {
+      "sku": "CPCT-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "CapCut Pro — индивидуальная подписка на 1 год на расширенную версию видеоредактора CapCut для телефона, компьютера и браузера: премиум-эффекты и шаблоны, ИИ-инструменты, экспорт 4K без водяного знака, облако. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт CapCut Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Монтаж",
+              "d": "Телефон, десктоп, веб."
+            },
+            {
+              "t": "ИИ",
+              "d": "Субтитры, удаление фона, генерация."
+            },
+            {
+              "t": "Экспорт",
+              "d": "4K без водяного знака."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Один."
+            },
+            {
+              "t": "Team",
+              "d": "Команда с общими проектами.",
+              "link": "capcut-team"
+            },
+            {
+              "t": "Filmora",
+              "d": "Альтернатива.",
+              "link": "wndr-filmora-annual"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "SMM."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Доступен ли в регионе?",
+          "a": "Условия ByteDance — уточняйте."
+        }
+      ],
+      "related_products": [
+        "capcut-team",
+        "wndr-filmora-annual"
+      ],
+      "meta_title": "CapCut Pro — подписка на год | BIZSoft",
+      "meta_description": "CapCut Pro: премиум-эффекты, ИИ-инструменты, 4K без водяного знака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "capcut pro купить — hero"
+      ],
+      "uncertainties": [
+        "Доступность сервиса в регионе — по условиям вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "capcut-team": {
+      "sku": "CPCT-LIC-TEAM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "CapCut Team — командная подписка на 1 год на CapCut для отделов, монтирующих вместе: места, общие проекты и ресурсы, брендинг, всё из Pro. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт CapCut Team",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Места, общие проекты."
+            },
+            {
+              "t": "Бренд",
+              "d": "Общие шаблоны."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "ИИ, 4K."
+            }
+          ],
+          "links": [
+            "capcut-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Team",
+              "d": "Отдел."
+            },
+            {
+              "t": "Pro",
+              "d": "Один.",
+              "link": "capcut-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Доступность",
+              "d": "По региону."
+            },
+            {
+              "t": "Минимум",
+              "d": "По условиям."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделам маркетинга."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум?",
+          "a": "По условиям."
+        }
+      ],
+      "related_products": [
+        "capcut-pro"
+      ],
+      "meta_title": "CapCut Team — подписка на год | BIZSoft",
+      "meta_description": "CapCut Team: места команды, общие проекты, брендинг. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "capcut team купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

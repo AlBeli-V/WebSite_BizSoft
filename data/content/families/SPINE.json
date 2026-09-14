@@ -1,0 +1,292 @@
+{
+  "family_key": "SPINE",
+  "vendor": "Esoteric Software",
+  "vendor_profile": "data/content/vendors/spine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "spine-pro",
+  "classification_notes": [
+    "Essential / Professional (perpetual). Носитель — Professional."
+  ],
+  "products": {
+    "spine-essential": {
+      "sku": "ESOT-LIC-SPINEESS-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Spine Essential — бессрочная лицензия на 2D-скелетную анимацию для игр: скелеты, ключевые кадры, скины, экспорт в рантаймы для Unity, Unreal, Godot, веб и других. Одна покупка на пользователя, обновления включены.\n\nEssential — базовые инструменты; Professional добавляет меш-деформацию, IK, кинематику, клиппинг и другие продвинутые функции.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Spine Essential",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Анимация",
+              "d": "Скелеты, кости, ключи, кривые, скины."
+            },
+            {
+              "t": "Рантаймы",
+              "d": "Официальные рантаймы для движков и языков."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Мешей, IK, path constraints, клиппинга — Professional."
+            }
+          ],
+          "links": [
+            "spine-pro"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Право использования без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Включены для текущей версии."
+            },
+            {
+              "t": "Пользователь",
+              "d": "Лицензия именная."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Essential",
+              "d": "Простая анимация."
+            },
+            {
+              "t": "Professional",
+              "d": "Меши, IK, ограничения.",
+              "link": "spine-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Инди-разработчикам и небольшим студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от Pro?",
+          "a": "Меш-деформация, IK, path/transform constraints, клиппинг — только в Pro."
+        }
+      ],
+      "related_products": [
+        "spine-pro"
+      ],
+      "meta_title": "Spine Essential — бессрочная лицензия | BIZSoft",
+      "meta_description": "Spine Essential: 2D-скелетная анимация для игр с рантаймами для Unity, Unreal, Godot; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "spine essential купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "spine-pro": {
+      "sku": "ESOT-LIC-SPINEPRO-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Spine Professional — бессрочная лицензия на полный Spine: всё из Essential плюс меш-деформация с весами, инверсная кинематика, path и transform constraints, клиппинг, физика, импорт из Photoshop и другие продвинутые функции. Одна покупка на пользователя.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Spine Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Меши",
+              "d": "Деформация с весами, свободная трансформация."
+            },
+            {
+              "t": "Ограничения",
+              "d": "IK, path, transform, физика."
+            },
+            {
+              "t": "Пайплайн",
+              "d": "Импорт PSD, экспорт видео и изображений."
+            },
+            {
+              "t": "Всё из Essential",
+              "d": "Скелеты, ключи, рантаймы."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Включены."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Для компаний выше порога дохода — договор."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Продакшн-анимация."
+            },
+            {
+              "t": "Essential",
+              "d": "Базовая.",
+              "link": "spine-essential"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Игровым студиям с персонажной 2D-анимацией."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Enterprise-лицензия?",
+          "a": "Да, для организаций с доходом выше порога Esoteric — по запросу."
+        }
+      ],
+      "related_products": [
+        "spine-essential"
+      ],
+      "meta_title": "Spine Professional — бессрочная лицензия | BIZSoft",
+      "meta_description": "Spine Professional: меши, IK, ограничения, физика плюс всё из Essential; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "spine pro купить — hero"
+      ],
+      "uncertainties": [
+        "Порог дохода для Enterprise — по условиям Esoteric Software."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,425 @@
+{
+  "family_key": "LUMION",
+  "vendor": "Lumion (Act-3D)",
+  "vendor_profile": "data/content/vendors/lumion.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "lumion-pro",
+  "classification_notes": [
+    "View / Pro / Pro floating. Носитель — Pro."
+  ],
+  "products": {
+    "lumion-view": {
+      "sku": "LMON-LIC-VIEW-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Lumion View — индивидуальная подписка на 1 год на визуализацию в реальном времени внутри CAD: Lumion работает как плагин к Revit, SketchUp, Archicad и Rhino, рендерит сцену синхронно с моделью, без отдельного приложения. Личный аккаунт.\n\nView — для архитектора, которому нужны быстрые картинки по ходу проектирования; полноценные сцены, анимации и библиотека — в Lumion Pro.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Lumion View",
+          "kind": "items",
+          "items": [
+            {
+              "t": "В CAD",
+              "d": "Рендер в реальном времени из Revit, SketchUp, Archicad, Rhino."
+            },
+            {
+              "t": "Материалы и свет",
+              "d": "Автоматические материалы, освещение, окружение."
+            },
+            {
+              "t": "Вывод",
+              "d": "Изображения; анимации и полная библиотека — в Pro."
+            }
+          ],
+          "links": [
+            "lumion-pro"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Личный аккаунт сотрудника, оплата от организации; при увольнении лицензия не возвращается компании."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "View",
+              "d": "Картинки по ходу проектирования."
+            },
+            {
+              "t": "Pro",
+              "d": "Полный Lumion: библиотека, анимации, сцены.",
+              "link": "lumion-pro"
+            },
+            {
+              "t": "Pro плавающая",
+              "d": "Pro на команду посменно.",
+              "link": "lumion-pro-floating"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Архитекторам для промежуточных визуализаций."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Lumion Pro рядом с View?",
+          "a": "Нет, View самостоятелен; Pro — для финальных рендеров."
+        }
+      ],
+      "related_products": [
+        "lumion-pro",
+        "lumion-pro-floating"
+      ],
+      "meta_title": "Lumion View — подписка на год | BIZSoft",
+      "meta_description": "Lumion View: визуализация в реальном времени внутри Revit, SketchUp, Archicad и Rhino без отдельного приложения. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "lumion view — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "lumion-pro": {
+      "sku": "LMON-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Lumion Pro — индивидуальная подписка на 1 год на архитектурную визуализацию: сцены с библиотекой из тысяч объектов, материалов и растений, рендер изображений, панорам и анимаций, LiveSync с Revit, SketchUp, Archicad, Rhino, Vectorworks. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Lumion Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Библиотека",
+              "d": "Тысячи моделей, растений, людей, материалов."
+            },
+            {
+              "t": "Вывод",
+              "d": "Изображения, 360°-панорамы, видео, ray tracing."
+            },
+            {
+              "t": "LiveSync",
+              "d": "Синхронизация с CAD в реальном времени."
+            },
+            {
+              "t": "Один пользователь",
+              "d": "Именная лицензия."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка привязана к аккаунту специалиста и не переносится между людьми; для ротации сотрудников нужен командный план, если он есть у вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Один визуализатор."
+            },
+            {
+              "t": "Pro плавающая",
+              "d": "Несколько сотрудников посменно.",
+              "link": "lumion-pro-floating"
+            },
+            {
+              "t": "View",
+              "d": "Только картинки в CAD.",
+              "link": "lumion-view"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Архитектурным бюро с финальной визуализацией проектов."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Требования к GPU?",
+          "a": "Высокие: современная видеокарта уровня RTX для комфортной работы."
+        }
+      ],
+      "related_products": [
+        "lumion-pro-floating",
+        "lumion-view"
+      ],
+      "meta_title": "Lumion Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Lumion Pro: архитектурная визуализация с библиотекой объектов, анимациями, панорамами и LiveSync с CAD. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "lumion pro купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "lumion-pro-floating": {
+      "sku": "LMON-LIC-PROFLOAT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Lumion Pro, плавающая лицензия — командная подписка на 1 год на Lumion Pro для организации, где лицензию по очереди используют разные сотрудники: одновременно работает один, переключение через аккаунт компании без переустановки. Состав — как у Lumion Pro.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Lumion Pro (плавающая)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плавающая",
+              "d": "Один активный пользователь в момент времени, любой сотрудник."
+            },
+            {
+              "t": "Состав",
+              "d": "Полный Lumion Pro."
+            },
+            {
+              "t": "Управление",
+              "d": "Аккаунт организации, назначение администратором."
+            }
+          ],
+          "links": [
+            "lumion-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плавающая",
+              "d": "Визуализация нужна нескольким людям по очереди."
+            },
+            {
+              "t": "Pro именная",
+              "d": "Один постоянный визуализатор.",
+              "link": "lumion-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Одна сессия",
+              "d": "Двое одновременно не смогут."
+            },
+            {
+              "t": "Цена",
+              "d": "Выше именной."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Бюро, где рендерят несколько архитекторов, но не одновременно."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько станций можно подготовить?",
+          "a": "Любое число; активна одна сессия."
+        }
+      ],
+      "related_products": [
+        "lumion-pro"
+      ],
+      "meta_title": "Lumion Pro плавающая лицензия — подписка | BIZSoft",
+      "meta_description": "Lumion Pro плавающая: полный Lumion Pro для организации с использованием по очереди разными сотрудниками. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "lumion floating — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

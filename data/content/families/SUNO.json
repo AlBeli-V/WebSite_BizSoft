@@ -1,0 +1,264 @@
+{
+  "family_key": "SUNO",
+  "vendor": "Suno",
+  "vendor_profile": "data/content/vendors/suno.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "suno-pro",
+  "classification_notes": [
+    "Pro / Premier. Носитель — Pro."
+  ],
+  "products": {
+    "suno-pro": {
+      "sku": "SUNO-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Suno Pro — индивидуальная подписка на 1 год на генерацию музыки Suno: полноценные треки с вокалом и текстом по описанию, 2 500 кредитов в месяц, коммерческое использование, приоритетная очередь. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Suno Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Генерация",
+              "d": "Песни с вокалом, инструменталы, расширение и ремиксы."
+            },
+            {
+              "t": "Кредиты",
+              "d": "2 500 в месяц ≈ 500 треков."
+            },
+            {
+              "t": "Права",
+              "d": "Коммерческое использование треков."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Регулярно."
+            },
+            {
+              "t": "Premier",
+              "d": "10 000 кредитов.",
+              "link": "suno-premier"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Контент-мейкерам и рекламе."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли монетизировать треки?",
+          "a": "Да, на платных планах."
+        }
+      ],
+      "related_products": [
+        "suno-premier"
+      ],
+      "meta_title": "Suno Pro — подписка на год | BIZSoft",
+      "meta_description": "Suno Pro: генерация песен с вокалом, 2 500 кредитов в месяц, коммерческое использование. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "suno pro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "suno-premier": {
+      "sku": "SUNO-LIC-PREMIER-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Suno Premier — индивидуальная подписка на 1 год на старший план: 10 000 кредитов в месяц, приоритет, все функции. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Suno Premier",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "10 000 в месяц."
+            },
+            {
+              "t": "Приоритет",
+              "d": "Высший."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Права, функции."
+            }
+          ],
+          "links": [
+            "suno-pro"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premier",
+              "d": "Поток."
+            },
+            {
+              "t": "Pro",
+              "d": "Меньше.",
+              "link": "suno-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям контента."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Копятся ли кредиты?",
+          "a": "Нет."
+        }
+      ],
+      "related_products": [
+        "suno-pro"
+      ],
+      "meta_title": "Suno Premier — подписка на год | BIZSoft",
+      "meta_description": "Suno Premier: 10 000 кредитов в месяц на генерацию музыки. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "suno premier купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
