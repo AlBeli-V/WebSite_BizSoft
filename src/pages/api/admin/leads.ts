@@ -6,6 +6,7 @@ import {
   type Lead, type LeadEvent,
 } from '../../../lib/directus';
 import { checkAdmin, unauthorized } from '../../../lib/admin-auth';
+import { stageDatePatch } from '../../../lib/lead-stage';
 import { sendMail, salesFrom, managerEmail } from '../../../lib/mailer';
 
 // Правила воронки живут в модуле CRM: там же они покрыты тестами и оттуда
@@ -123,11 +124,13 @@ export const PATCH: APIRoute = async ({ request }) => {
   }
 
   // Даты стадий проставляет система: если бы их вводили руками, воронка врала бы
-  // при первом пропуске, а по ней считается срок сделки.
-  const now = new Date().toISOString();
-  if (patch.status === 'qualified' && !body.qualified_at) patch.qualified_at = now;
-  if (patch.status === 'won' || patch.status === 'lost') patch.closed_at = now;
-  if (patch.status && patch.status !== 'lost') patch.lost_reason = null;
+  // при первом пропуске, а по ней считается срок сделки. Расчёт общий с
+  // обратным каналом из Bitrix24 — второй копии правил быть не должно.
+  Object.assign(patch, stageDatePatch(
+    typeof patch.status === 'string' ? patch.status : undefined,
+    body as { qualified_at?: unknown },
+    new Date().toISOString(),
+  ));
 
   try {
     await patchLead(id as string | number, patch);

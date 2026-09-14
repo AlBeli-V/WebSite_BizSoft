@@ -1,0 +1,92 @@
+---
+/**
+ * Полка подборки: сколько позиций набрано, на какую сумму и что дальше.
+ *
+ * Аудит 11.09.2026: собранная подборка была видна только счётчиком в шапке.
+ * Человек добавлял две позиции, прокручивал шесть экранов до формы — и на
+ * форме о подборке не было ни слова; контекст до заявки не доезжал.
+ *
+ * Полка появляется только после первого добавления и до него не занимает
+ * ни пикселя: постоянная панель на пустой подборке — это призыв к тому,
+ * чего человек ещё не сделал. По той же причине она не всплывает поверх
+ * содержимого и не перехватывает прокрутку.
+ *
+ * Кнопка КП открывает общий диалог (QuoteDialog) с пометкой источника —
+ * чтобы в отчёте было видно, что до формы довела именно полка.
+ */
+interface Props {
+  /** Источник для аналитики: какой блок довёл до формы КП. */
+  source?: string;
+}
+const { source = 'home_shelf' } = Astro.props;
+---
+<div class="shelf" data-spec-shelf hidden>
+  <div class="container-page shelf-inner">
+    <p class="shelf-n">
+      В подборке <b data-shelf-count>0</b> <span data-shelf-word>позиций</span>
+      на <b data-shelf-total>0 ₽</b>
+    </p>
+    <p class="shelf-note">количество мест уточним в КП</p>
+    <span class="shelf-act">
+      <a href="/cart" class="btn btn-ghost btn-sm" data-goal="home_shelf_cart">Состав</a>
+      <button class="btn btn-primary btn-sm" data-open-kp data-kp-source={source}>Получить КП</button>
+    </span>
+  </div>
+</div>
+
+<style>
+  .shelf {
+    position: fixed; inset-inline: 0; bottom: 0; z-index: 40;
+    background: var(--color-bg-card);
+    border-top: 1px solid var(--color-border-strong);
+    box-shadow: 0 -6px 24px rgb(0 0 0 / 7%);
+  }
+  .shelf-inner {
+    display: flex; align-items: center; gap: 0.7rem 1.2rem;
+    padding-block: 0.6rem; flex-wrap: wrap;
+  }
+  .shelf-n { margin: 0; font-size: 0.92rem; color: var(--color-text-muted); }
+  .shelf-n b { color: var(--color-text); font-variant-numeric: tabular-nums; }
+  .shelf-note { margin: 0; font-size: 0.8rem; color: var(--color-text-dim); }
+  .shelf-act { margin-left: auto; display: flex; gap: 0.5rem; }
+  @media (max-width: 640px) {
+    .shelf-note { display: none; }
+    .shelf-act { margin-left: auto; }
+  }
+</style>
+
+<script>
+  import { readCart, cartCount, cartTotal } from '../lib/cart-client';
+  import { formatRub } from '../lib/pricing';
+
+  const shelf = document.querySelector('[data-spec-shelf]') as HTMLElement | null;
+  if (shelf) {
+    const countEl = shelf.querySelector('[data-shelf-count]') as HTMLElement;
+    const wordEl = shelf.querySelector('[data-shelf-word]') as HTMLElement;
+    const totalEl = shelf.querySelector('[data-shelf-total]') as HTMLElement;
+
+    /** Русское склонение: 1 позиция, 2 позиции, 5 позиций. */
+    const word = (n: number) => {
+      const d = n % 10, h = n % 100;
+      if (d === 1 && h !== 11) return 'позиция';
+      if ([2, 3, 4].includes(d) && ![12, 13, 14].includes(h)) return 'позиции';
+      return 'позиций';
+    };
+
+    const render = () => {
+      const items = readCart();
+      const n = cartCount(items);
+      shelf.hidden = n === 0;
+      // Полка перекрывает низ страницы: без этого отступа последняя строка
+      // подвала оказывается под ней и до неё нельзя домотать.
+      document.body.style.paddingBottom = n === 0 ? '' : `${shelf.offsetHeight}px`;
+      if (n === 0) return;
+      countEl.textContent = String(n);
+      wordEl.textContent = word(n);
+      totalEl.textContent = formatRub(cartTotal(items));
+    };
+
+    render();
+    window.addEventListener('cart:change', render);
+  }
+</script>
