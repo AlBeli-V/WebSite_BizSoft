@@ -8,6 +8,10 @@
 # use_cases, seo_text опустошает — шаблон рендерит их только при пустом
 # content_modules. Откат: ops-backup за день прогона + content_modules=null.
 # Журнал — issue #22. Решение руководителя 13.09.2026 (ROLLOUT.md).
+#
+# Шаг по SSH идёт через ./.github/actions/ssh-run: вывод и код завершения
+# доезжают до журнала и при сбое (issue #542). Напрямую appleboy/ssh-action
+# с capture_stdout терял вывод ровно в упавшем прогоне.
 name: ops-apply-content
 on:
   workflow_dispatch:
@@ -47,7 +51,7 @@ jobs:
 
       - name: Apply content
         id: run
-        uses: appleboy/ssh-action@v1
+        uses: ./.github/actions/ssh-run
         env:
           P_APPLY: ${{ inputs.apply }}
           P_FAMILY: ${{ inputs.family }}
@@ -57,7 +61,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           envs: P_APPLY,P_FAMILY,P_ONLY
-          capture_stdout: true
           script: |
             set -e
             cd /opt/bizsoft
@@ -124,5 +127,5 @@ jobs:
         uses: ./.github/actions/journal-post
         with:
           title: "ops-apply-content (apply=${{ inputs.apply }}, family=${{ inputs.family }})"
-          outcome: ${{ steps.run.outcome }}
-          body: ${{ steps.run.outputs.stdout }}
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}
