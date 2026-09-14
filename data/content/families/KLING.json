@@ -1,0 +1,404 @@
+{
+  "family_key": "KLING",
+  "vendor": "Kuaishou (Kling AI)",
+  "vendor_profile": "data/content/vendors/kling.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "kling-standard",
+  "classification_notes": [
+    "Standard / Pro / Premier. Носитель — Standard."
+  ],
+  "products": {
+    "kling-standard": {
+      "sku": "KLNG-LIC-STANDARD-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Kling AI Standard — индивидуальная подписка на 1 год на генерацию видео и изображений моделями Kling: текст-в-видео, картинка-в-видео, липсинк, месячная квота кредитов, без водяного знака. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Kling AI Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Генерация",
+              "d": "Видео до минуты, изображения, липсинк, эффекты."
+            },
+            {
+              "t": "Кредиты",
+              "d": "Месячная квота по тарифу."
+            },
+            {
+              "t": "Права",
+              "d": "Коммерческое использование."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Начало."
+            },
+            {
+              "t": "Pro",
+              "d": "Больше кредитов, приоритет.",
+              "link": "kling-pro"
+            },
+            {
+              "t": "Premier",
+              "d": "Максимум для студий.",
+              "link": "kling-premier"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Контент-мейкерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сгорают ли кредиты?",
+          "a": "Ежемесячно."
+        }
+      ],
+      "related_products": [
+        "kling-pro",
+        "kling-premier"
+      ],
+      "meta_title": "Kling AI Standard — подписка на год | BIZSoft",
+      "meta_description": "Kling AI Standard: генерация видео и изображений с месячной квотой кредитов, без водяного знака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "kling ai standard купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "kling-pro": {
+      "sku": "KLNG-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Kling AI Pro — индивидуальная подписка на 1 год: больше кредитов, приоритетная очередь, режим Professional для высокого качества. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Kling AI Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "Расширенная квота."
+            },
+            {
+              "t": "Приоритет",
+              "d": "Быстрая очередь."
+            },
+            {
+              "t": "Качество",
+              "d": "Professional-режим."
+            }
+          ],
+          "links": [
+            "kling-standard"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Регулярно."
+            },
+            {
+              "t": "Standard",
+              "d": "Базово.",
+              "link": "kling-standard"
+            },
+            {
+              "t": "Premier",
+              "d": "Максимум.",
+              "link": "kling-premier"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что даёт Professional-режим?",
+          "a": "Выше качество и разрешение за больший расход кредитов."
+        }
+      ],
+      "related_products": [
+        "kling-standard",
+        "kling-premier"
+      ],
+      "meta_title": "Kling AI Pro — подписка на год | BIZSoft",
+      "meta_description": "Kling AI Pro: расширенные кредиты, приоритетная очередь, Professional-режим. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "kling ai pro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "kling-premier": {
+      "sku": "KLNG-LIC-PREMIER-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Kling AI Premier — индивидуальная подписка на 1 год на максимальный план: наибольшая квота, высший приоритет, все модели и режимы. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Kling AI Premier",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "Максимум."
+            },
+            {
+              "t": "Приоритет",
+              "d": "Высший."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Модели, режимы."
+            }
+          ],
+          "links": [
+            "kling-standard"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premier",
+              "d": "Студии."
+            },
+            {
+              "t": "Pro",
+              "d": "Меньше.",
+              "link": "kling-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли командный план?",
+          "a": "По запросу."
+        }
+      ],
+      "related_products": [
+        "kling-standard",
+        "kling-pro"
+      ],
+      "meta_title": "Kling AI Premier — подписка на год | BIZSoft",
+      "meta_description": "Kling AI Premier: максимальная квота кредитов и приоритет. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "kling ai premier купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

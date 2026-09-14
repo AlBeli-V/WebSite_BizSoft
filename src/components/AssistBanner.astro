@@ -1,0 +1,101 @@
+---
+/**
+ * Баннер помощи с выбором — хвост карточки товара.
+ *
+ * Намерение у него другое, чем у запроса КП: человек не знает, что выбрать, а
+ * не готов получить предложение. Поэтому призыв ведёт в письмо с готовой темой,
+ * а не в форму заявки.
+ *
+ * Форму баннер выбирает **по собственной ширине**, а не по ширине окна
+ * (14.09.2026). Ширина окна ничего не говорит о том, сколько места досталось
+ * баннеру: в узкой колонке он ужат при широком экране, а в альбомной
+ * ориентации телефона места вдоволь при «мобильной» ширине. Оба раза оценка
+ * по окну промахивалась. Запрос к контейнеру отвечает на верный вопрос —
+ * «сколько места есть здесь», — и потому не ломается ни в одной ориентации,
+ * ни в одном месте страницы.
+ */
+interface Props {
+  /** Адрес призыва — письмо с готовой темой. */
+  href: string;
+  /** `inline` — баннер в узкой колонке двухколоночной вёрстки. */
+  variant?: 'inline' | 'wide';
+}
+const { href, variant = 'wide' } = Astro.props;
+---
+<div class:list={['assist-wrap', { 'assist-wrap-inline': variant === 'inline' }]}>
+  <div class="assist">
+    <span class="assist-art" aria-hidden="true">
+      <svg viewBox="0 0 96 80" fill="none" focusable="false">
+        <circle cx="44" cy="40" r="36" fill="var(--assist-halo)" />
+        <path d="M62 20H26a8 8 0 0 0-8 8v18a8 8 0 0 0 8 8h4v10l12-10h20a8 8 0 0 0 8-8V28a8 8 0 0 0-8-8Z" fill="var(--color-accent)" />
+        <circle cx="32" cy="37" r="3" fill="#fff" /><circle cx="44" cy="37" r="3" fill="#fff" /><circle cx="56" cy="37" r="3" fill="#fff" />
+        <path d="M76 38H58a6 6 0 0 0-6 6v12a6 6 0 0 0 6 6h10l8 7v-7a6 6 0 0 0 6-6V44a6 6 0 0 0-6-6Z" fill="var(--assist-bubble)" stroke="var(--color-bg-card)" stroke-width="3" />
+      </svg>
+    </span>
+    <div class="assist-body">
+      <h3>Не уверены, что выбран правильный план?</h3>
+      <p>Подскажем, сравним варианты и поможем подобрать оптимальные условия.</p>
+    </div>
+    <a class="btn btn-primary assist-cta" href={href}>
+      <span>Задать вопрос специалисту</span>
+      <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" y1="12" x2="19" y2="12" /><polyline points="13,6 19,12 13,18" /></svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  /* Контейнер запроса: дальше баннер меряет себя, а не окно. */
+  .assist-wrap { container-type: inline-size; }
+  /* В двухколоночной вёрстке колонка 328px; когда она схлопывается в одну
+     (до 1100px), баннер этой ширины и держится — он спутник текста, а не
+     самостоятельный блок. */
+  .assist-wrap-inline { max-width: 328px; }
+
+  .assist {
+    --assist-halo: color-mix(in srgb, var(--color-accent) 14%, transparent);
+    --assist-bubble: color-mix(in srgb, var(--color-text-dim) 24%, var(--color-bg-card));
+    /* Перенос — страховка на случай, когда запрос к контейнеру недоступен
+       (старый браузер): ряд сложится сам, вместо того чтобы сжать текст в
+       нить и вытолкнуть кнопку за экран. */
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
+    border-radius: var(--radius); padding: 1.3rem 1.5rem;
+    background: linear-gradient(100deg,
+      color-mix(in srgb, var(--color-accent) 12%, var(--color-bg-card)),
+      color-mix(in srgb, var(--color-accent) 4%, var(--color-bg-card)));
+  }
+  .assist-art { flex: none; width: 96px; }
+  .assist-art svg { display: block; width: 100%; height: auto; }
+  /* Базис, а не `auto`: текст требует себе ширину, и ряд переносится раньше,
+     чем текстовая колонка сожмётся до нечитаемой. */
+  .assist-body { flex: 1 1 14rem; min-width: 0; }
+  .assist h3 { font-size: 1.25rem; line-height: 1.25; margin: 0 0 0.4rem; }
+  .assist p { color: var(--color-text-muted); font-size: 0.92rem; line-height: 1.45; margin: 0; }
+  /* В ряду призыв не забирает всю фразу в одну линию: подпись ложится в две
+     строки, а освободившаяся ширина уходит заголовку. */
+  .assist-cta { flex: none; gap: 0.7rem; max-width: 13.5rem; text-align: left; }
+  /* Размер стрелки живёт здесь, вместе со стрелкой: SVG с одним `viewBox`
+     и без ширины растягивается во всё доступное место и выдавливает
+     подпись. Стили карточки сюда не достают — они в другой области. */
+  .cta-arrow { flex: none; width: 20px; height: 20px; }
+
+  /* Места на ряд не хватает — баннер идёт столбиком: рисунок сверху, текст по
+     центру, призыв во всю ширину. Порог в `rem`, а не в пикселях: ряду нужно
+     96px рисунка, 14rem текста и 13.5rem кнопки с отступами, и при крупном
+     системном шрифте эта сумма растёт вместе с порогом. 42rem с запасом
+     перекрывают её и ложатся между альбомным телефоном (он складывается) и
+     планшетом в портрете (тот остаётся рядом). */
+  @container (max-width: 42rem) {
+    .assist { flex-direction: column; align-items: stretch; text-align: center; padding: 1.2rem 1.1rem; }
+    .assist-art { width: 88px; margin: 0 auto; }
+    .assist h3 { font-size: 1.12rem; }
+    /* В колонке главная ось вертикальная: базис стал бы высотой текста и
+       открыл бы под абзацем пустой провал. */
+    .assist-body { flex: 0 1 auto; max-width: 34rem; margin-inline: auto; }
+    /* Сложенная форма достаётся и широкому месту — альбомному телефону,
+       узкой колонке рабочего стола. Кнопка во всю ширину там растянулась бы
+       на шестьсот пикселей: ограничиваем и центруем, чтобы столбик читался
+       намеренным, а не аварийным. */
+    .assist-cta { max-width: 22rem; margin-inline: auto; text-align: center; justify-content: center; }
+  }
+</style>

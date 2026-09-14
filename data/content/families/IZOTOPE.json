@@ -1,0 +1,569 @@
+{
+  "family_key": "IZOTOPE",
+  "vendor": "iZotope",
+  "vendor_profile": "data/content/vendors/izotope.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "izotope-ozone-standard",
+  "classification_notes": [
+    "Ozone Standard/Advanced, Neutron, RX Standard (perpetual). Носитель — Ozone Standard."
+  ],
+  "products": {
+    "izotope-ozone-standard": {
+      "sku": "IZTP-LIC-OZONESTD-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "iZotope Ozone 11 Standard — бессрочная лицензия на мастеринг-набор: Master Assistant с ИИ, эквалайзер, максимайзер, динамика, Imager, Exciter, Vintage-модули; standalone и плагин. Одна покупка.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Ozone 11 Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Мастеринг",
+              "d": "Master Assistant, EQ, Maximizer, Dynamics, Imager."
+            },
+            {
+              "t": "Форматы",
+              "d": "Standalone и плагин."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Отдельных компонентных плагинов и части модулей — Advanced."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 11."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До Advanced доплатой."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Мастеринг в одном плагине."
+            },
+            {
+              "t": "Advanced",
+              "d": "Модули отдельными плагинами, Clarity, Stem Focus, Tonal Balance.",
+              "link": "izotope-ozone-advanced"
+            },
+            {
+              "t": "Neutron",
+              "d": "Микс, а не мастеринг.",
+              "link": "izotope-neutron"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продюсерам, мастерящим свои треки."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Standard в виде отдельных модулей?",
+          "a": "Нет, только в Advanced."
+        }
+      ],
+      "related_products": [
+        "izotope-ozone-advanced",
+        "izotope-neutron"
+      ],
+      "meta_title": "iZotope Ozone 11 Standard — бессрочная лицензия | BIZSoft",
+      "meta_description": "iZotope Ozone 11 Standard: мастеринг с Master Assistant, EQ, максимайзером; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "ozone 11 standard купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "izotope-ozone-advanced": {
+      "sku": "IZTP-LIC-OZONEADV-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "iZotope Ozone 11 Advanced — бессрочная лицензия на полный Ozone: все модули отдельными плагинами, Clarity, Stem Focus, Tonal Balance Control, Master Rebalance, расширенные визуализации. Одна покупка.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Ozone 11 Advanced",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Модули",
+              "d": "Все как отдельные плагины плюс Clarity, Stem Focus, Master Rebalance."
+            },
+            {
+              "t": "Анализ",
+              "d": "Tonal Balance Control, Insight-интеграция."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Assistant, EQ, Maximizer."
+            }
+          ],
+          "links": [
+            "izotope-ozone-standard"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 11."
+            },
+            {
+              "t": "Максимум",
+              "d": "Music Production Suite — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced",
+              "d": "Мастеринг-инженеры."
+            },
+            {
+              "t": "Standard",
+              "d": "Основные инструменты.",
+              "link": "izotope-ozone-standard"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Мастеринг-студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Insight?",
+          "a": "Нет, Insight — отдельный продукт или в составе Suite."
+        }
+      ],
+      "related_products": [
+        "izotope-ozone-standard"
+      ],
+      "meta_title": "iZotope Ozone 11 Advanced — бессрочная лицензия | BIZSoft",
+      "meta_description": "iZotope Ozone 11 Advanced: все модули мастеринга отдельными плагинами, Clarity, Stem Focus; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "ozone 11 advanced купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "izotope-neutron": {
+      "sku": "IZTP-LIC-NEUTRON-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "iZotope Neutron 5 — бессрочная лицензия на набор для микса: Mix Assistant, EQ, компрессор, транзиент-шейпер, Unmask, Sculptor, Visual Mixer. Одна покупка.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Neutron 5",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Микс",
+              "d": "Mix Assistant, EQ, Compressor, Exciter, Transient Shaper, Sculptor."
+            },
+            {
+              "t": "Взаимодействие",
+              "d": "Unmask между треками, Visual Mixer."
+            },
+            {
+              "t": "Форматы",
+              "d": "Плагины AU/VST/AAX."
+            }
+          ],
+          "links": [
+            "izotope-ozone-standard"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 5."
+            },
+            {
+              "t": "Suite",
+              "d": "В составе Music Production Suite."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Neutron",
+              "d": "Микс."
+            },
+            {
+              "t": "Ozone Standard",
+              "d": "Мастеринг.",
+              "link": "izotope-ozone-standard"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продюсерам и микс-инженерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от Ozone?",
+          "a": "Neutron — для отдельных треков в миксе, Ozone — для финального мастера."
+        }
+      ],
+      "related_products": [
+        "izotope-ozone-standard"
+      ],
+      "meta_title": "iZotope Neutron 5 — бессрочная лицензия | BIZSoft",
+      "meta_description": "iZotope Neutron 5: инструменты микса с Mix Assistant, Unmask, Sculptor; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "neutron 5 купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "izotope-rx-standard": {
+      "sku": "IZTP-LIC-RXSTD-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "iZotope RX 11 Standard — бессрочная лицензия на реставрацию звука: шум, гул, щелчки, реверберация, спектральный редактор, standalone и плагины. Одна покупка.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет RX 11 Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Модули",
+              "d": "De-noise, De-hum, De-click, De-reverb, Repair Assistant."
+            },
+            {
+              "t": "Редактор",
+              "d": "Спектральный, standalone."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Dialogue Isolate, Ambience Match — Advanced."
+            }
+          ],
+          "links": [
+            "izotope-ozone-standard"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Постоянная лицензия",
+              "d": "Право на версию 11 не истекает."
+            },
+            {
+              "t": "Версии",
+              "d": "Патчи 11.x входят; RX 12 — платный переход со скидкой."
+            },
+            {
+              "t": "Компьютеры",
+              "d": "Активация на двух машинах одного пользователя."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Подкасты и музыка."
+            },
+            {
+              "t": "RX Advanced",
+              "d": "Постпродакшн диалогов.",
+              "link": "ni-rx-adv"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Подкастерам и музыкантам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Хватит ли Standard для подкаста?",
+          "a": "Да, для чистки речи в обычных условиях."
+        }
+      ],
+      "related_products": [
+        "izotope-ozone-standard",
+        "ni-rx-adv"
+      ],
+      "meta_title": "iZotope RX 11 Standard — бессрочная лицензия | BIZSoft",
+      "meta_description": "iZotope RX 11 Standard: реставрация звука — шум, гул, щелчки, реверберация; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "rx 11 standard купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
