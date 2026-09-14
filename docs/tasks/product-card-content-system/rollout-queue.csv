@@ -60,7 +60,7 @@ me-applications,2,done,,me-applications-manager-enterprise-100-monitors-with-1-u
 me-ddi,2,done,,me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers
 me-exchange,2,done,,me-exchange-reporter-plus-professional-100-mailboxes me-exchange-reporter-plus-standard-100-mailboxes
 me-network,2,done,,me-network-configuration-manager-enterprise-250-devices-pack-with-2-users me-network-configuration-manager-professional-10-devices-pack-with-2-users
-me-oputils,2,done,,me-oputils-management-every-additional-250-used-ports-in-switch-po me-oputils-professional-every-additional-250-used-ports-in-switch-po
+me-oputils,12,done,,me-oputils-professional-250-used-switch-ports-in-spm-and-250-used-ip me-oputils-professional-250-used-switch-ports-in-spm-and-250-used-ip-perp me-oputils-management-250-used-switch-ports-in-spm-and-250-used-ip me-oputils-management-250-used-switch-ports-in-spm-and-250-used-ip-perp me-oputils-professional-every-additional-250-used-ports-in-switch-po me-oputils-professional-every-additional-250-used-ports-in-switch-po-perp me-oputils-management-every-additional-250-used-ports-in-switch-po me-oputils-management-every-additional-250-used-ports-in-switch-po-perp me-oputils-professional-every-additional-250-used-ip-addresses-in-ip me-oputils-professional-every-additional-250-used-ip-addresses-in-ip-perp me-oputils-management-every-additional-250-used-ip-addresses-in-ip me-oputils-management-every-additional-250-used-ip-addresses-in-ip-perp
 me-os,2,done,,me-os-deployer-enterprise-10-servers me-os-deployer-professional-10-servers
 me-remote,2,done,,me-remote-access-plus-professional-25-computers-and-5-users me-remote-access-plus-standard-25-computers-and-5-users
 me-sharepoint,2,done,,me-sharepoint-manager-plus-professional-1-farm-m365-tenant me-sharepoint-manager-plus-standard-1-farm-m365-tenant
@@ -307,3 +307,8 @@ wwise-premium,1,queued,,wwise-premium
 wwise-pro,1,queued,,wwise-pro
 zeplin-advanced,1,queued,,zeplin-advanced
 zeplin-ent,1,queued,,zeplin-ent
+me-adselfservice,1,done,,me-adselfservice-plus
+me-recoverymanager,1,done,,me-recoverymanager-plus
+me-ad360,1,done,,me-ad360
+me-log360,1,done,,me-log360
+me-eventlog,1,done,,me-eventlog-analyzer

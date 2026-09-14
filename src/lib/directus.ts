@@ -525,13 +525,34 @@ export interface Lead {
   landing_path?: string;
   ym_client_id?: string;
   ga_client_id?: string;
+  /** Номер лида в Bitrix24: связь с зеркалом, заполняется после создания. */
+  b24_lead_id?: number;
   first_touch_referrer?: string;
   last_touch_referrer?: string;
   visit_path?: string;
 }
 
-export async function createLead(payload: Record<string, unknown>): Promise<void> {
-  await dx('/items/leads', { auth: true, method: 'POST', body: payload });
+/**
+ * Завести заявку и вернуть её номер.
+ *
+ * Номер нужен зеркалу Bitrix24: связь «заявка ↔ лид портала» пишется сразу
+ * после создания, и без номера сопоставить событие обратного канала не с чем.
+ * Directus отдаёт созданную запись в ответе; если ответ пуст — возвращается
+ * null, и вызывающий код обходится без связи, а не падает.
+ */
+export async function createLead(payload: Record<string, unknown>): Promise<string | number | null> {
+  const created = await dx<{ id?: string | number } | undefined>(
+    '/items/leads', { auth: true, method: 'POST', body: payload });
+  return created?.id ?? null;
+}
+
+/** Заявка по номеру лида в Bitrix24 — точка сборки обратного канала. */
+export async function findLeadByB24Id(b24Id: string | number): Promise<Lead | null> {
+  const rows = await dx<Lead[]>('/items/leads', {
+    auth: true,
+    params: { limit: 1, 'filter[b24_lead_id][_eq]': b24Id },
+  });
+  return rows?.[0] || null;
 }
 
 /** Заявки для админ-страницы воронки: свежие сверху. */
