@@ -4,7 +4,7 @@ import type { APIRoute } from 'astro';
 import { getProductsBySkus, getZohoPositionsBySkus, createQuote, getLeads, createLeadEvent } from '../../lib/directus';
 import { leadFromQuote, describeQuote, attributionFields } from '../../lib/quote-lead';
 import { createLeadTolerant } from '../../lib/lead-write';
-import { mirrorLeadAndLog } from '../../lib/bitrix24';
+import { mirrorLeadAndLink } from '../../lib/bitrix24';
 import { effectivePrice } from '../../lib/pricing';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
@@ -65,13 +65,13 @@ async function recordQuoteLead(q: Parameters<typeof leadFromQuote>[0]): Promise<
   }
   // Откат при отставании схемы прода — общий для обеих форм (lead-write.ts).
   const record = leadFromQuote(q);
-  await createLeadTolerant(record);
+  const leadId = await createLeadTolerant(record);
 
   // Зеркало в Bitrix24 — только у новой заявки. Повторное скачивание тем же
   // человеком выше становится событием существующей заявки; заводить на него
   // второй лид в портале значило бы ломать конверсию уже там.
   const attr = q.attribution;
-  mirrorLeadAndLog({
+  mirrorLeadAndLink(leadId, {
     title: `Скачивание КП № ${q.quoteNo} — ${q.buyerCompany}`,
     name: q.contactName,
     company: q.buyerCompany,

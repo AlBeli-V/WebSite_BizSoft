@@ -5,7 +5,7 @@ import { defaultLeadOwner } from '../../config/site';
 import { createLeadTolerant } from '../../lib/lead-write';
 import { sendMail, managerEmail } from '../../lib/mailer';
 import { attributionFields } from '../../lib/quote-lead';
-import { mirrorLeadAndLog } from '../../lib/bitrix24';
+import { mirrorLeadAndLink } from '../../lib/bitrix24';
 import { verifyCompany } from '../../lib/inn';
 import { findParty } from '../../lib/dadata';
 import { buildManagerLeadEmail } from '../../lib/email/lead-manager';
@@ -78,8 +78,9 @@ export const POST: APIRoute = async ({ request }) => {
     owner: defaultLeadOwner,
   };
 
+  let leadId: string | number | null = null;
   try {
-    await createLeadTolerant(payload);
+    leadId = await createLeadTolerant(payload);
   } catch (e) {
     console.error('createLead failed', e);
     return new Response(JSON.stringify({ error: 'не удалось сохранить заявку' }), { status: 502 });
@@ -90,7 +91,7 @@ export const POST: APIRoute = async ({ request }) => {
   // Отдельным фоном от письма: отказ одного канала не должен гасить другой,
   // а ошибка портала — доходить до заказчика, у которого заявка уже принята.
   const attr = attributionFields(body);
-  mirrorLeadAndLog({
+  mirrorLeadAndLink(leadId, {
     title: `Заявка с сайта — ${payload.company}`,
     name: payload.name,
     company: payload.company,

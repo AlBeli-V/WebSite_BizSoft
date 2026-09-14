@@ -50,6 +50,7 @@ jobs:
         id: verify
         env:
           B24_WEBHOOK_URL: ${{ secrets.B24_WEBHOOK_URL }}
+          B24_APP_TOKEN: ${{ secrets.B24_APP_TOKEN }}
         run: |
           set -o pipefail
           if [ -z "$B24_WEBHOOK_URL" ]; then
@@ -69,6 +70,15 @@ jobs:
           CODE=$(curl -sS --max-time 20 -o /tmp/b24-fields.json -w '%{http_code}' \
             "${BASE}crm.lead.fields.json" || echo 000)
           echo "crm.lead.fields: HTTP $CODE" | tee -a /tmp/b24.txt
+          CODE=$(curl -sS --max-time 20 -o /tmp/b24-status.json -w '%{http_code}' \
+            -d 'filter[ENTITY_ID]=STATUS' "${BASE}crm.status.list.json" || echo 000)
+          echo "crm.status.list: HTTP $CODE" | tee -a /tmp/b24.txt
+
+          if [ -n "${B24_APP_TOKEN:-}" ]; then
+            echo "Обратный канал: ключ приложения задан, длина ${#B24_APP_TOKEN} символов." | tee -a /tmp/b24.txt
+          else
+            echo "Обратный канал: секрет B24_APP_TOKEN не задан — стадии из портала приниматься не будут." | tee -a /tmp/b24.txt
+          fi
 
           python3 - <<'PY' | tee -a /tmp/b24.txt
           import json
@@ -101,6 +111,20 @@ jobs:
               print('в лиде портала нет полей, которые мы шлём:', ', '.join(missing))
               raise SystemExit(1)
           print('право crm есть, все поля зеркала приняты порталом')
+
+          # Стадии портала печатаются рядом с нашей картой: пробел в ней виден
+          # сразу, а не в тот день, когда стадия не вернулась в отчёт.
+          known = json.load(open('data/sales/b24-stages.json', encoding='utf-8'))['map']
+          st = load('/tmp/b24-status.json')
+          rows = (st or {}).get('result') or []
+          if not rows:
+              print('стадии лида портал не отдал (право crm.status есть не у всех вебхуков) — карту сверьте руками')
+          else:
+              print('стадии лида в портале:')
+              for row in rows:
+                  code = row.get('STATUS_ID', '')
+                  ours = known.get(code)
+                  print('  {} — «{}» → {}'.format(code, row.get('NAME', ''), ours or 'НЕ ОПИСАНА в data/sales/b24-stages.json'))
           PY
 
       - name: Write webhook to server
@@ -109,19 +133,30 @@ jobs:
         uses: ./.github/actions/ssh-run
         env:
           P_HOOK: ${{ secrets.B24_WEBHOOK_URL }}
+          P_APP: ${{ secrets.B24_APP_TOKEN }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_HOOK
+          envs: P_HOOK,P_APP
           script: |
             set -e
             ENV_FILE=/opt/bizsoft/astro.env
             cp "$ENV_FILE" "$ENV_FILE.bak.$(date +%s)"
-            # Старое значение убираем, чтобы не плодить дубли строк.
+            # Старые значения убираем, чтобы не плодить дубли строк.
             sed -i '/^B24_WEBHOOK_URL=/d' "$ENV_FILE"
             printf 'B24_WEBHOOK_URL=%s\n' "$P_HOOK" >> "$ENV_FILE"
             echo "записано, строк с B24_WEBHOOK_URL: $(grep -c '^B24_WEBHOOK_URL=' "$ENV_FILE")"
+            # Ключ приложения нужен обратному каналу. Пустой секрет не стирает
+            # уже работающий ключ: так повторный apply ради смены вебхука не
+            # выключает приём стадий молча.
+            if [ -n "$P_APP" ]; then
+              sed -i '/^B24_APP_TOKEN=/d' "$ENV_FILE"
+              printf 'B24_APP_TOKEN=%s\n' "$P_APP" >> "$ENV_FILE"
+              echo "записано, строк с B24_APP_TOKEN: $(grep -c '^B24_APP_TOKEN=' "$ENV_FILE")"
+            else
+              echo "B24_APP_TOKEN в секретах пуст — оставлено как было: $(grep -c '^B24_APP_TOKEN=' "$ENV_FILE") строк"
+            fi
             cd /opt/bizsoft && docker compose up -d --force-recreate astro
             sleep 6
             docker compose ps astro
