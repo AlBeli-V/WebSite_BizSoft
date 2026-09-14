@@ -30,8 +30,14 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const MASTER = resolve(ROOT, 'src/assets/brand/bizsoft-logo-lockup.png');
 const OUT_DIR = resolve(ROOT, 'src/assets/brand');
 
-/** Ширины из srcset компонента SiteLogo: 1x, шаг под телефон, 1.5x, 2x. */
-export const WIDTHS = [256, 320, 384, 512];
+/**
+ * Ширины из srcset компонента SiteLogo: 1x, шаг под телефон, 1.5x, шаг под
+ * подвал, 2x. Шаг 448 добавлен 14.09.2026 по замеру PageSpeed: логотипу
+ * подвала (236 CSS px) на телефоне с плотностью 1,75 нужно 413 px, и без
+ * этого шага ему доставался файл 512 — аудит доставки изображений считал его
+ * избыточным и просил снять 20 КБ.
+ */
+export const WIDTHS = [256, 320, 384, 448, 512];
 /** Цветов в палитре: больше не нужно, меньше — хуже нынешнего файла. */
 export const COLOURS = 256;
 
