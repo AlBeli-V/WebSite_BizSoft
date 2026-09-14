@@ -15,6 +15,7 @@ import { describe, expect, it } from 'vitest';
 import { readdirSync, readFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { taxation } from '../src/config/site';
+import { cardParams } from '../src/lib/card-params';
 
 const ROOT = resolve(__dirname, '..');
 
@@ -75,9 +76,23 @@ describe('налоговый режим в текстах сайта', () => {
     expect(silent).toEqual([]);
   });
 
-  it('цена в карточке товара объясняет, что налог включён, а не сверху', () => {
+  it('карточка товара называет налог включённым в цену, а не добавленным сверху', () => {
+    // Постановка руководителя 14.09.2026: отдельного пояснения под строкой
+    // НДС в параметрах нет — таблица параметров говорит значениями. Смысл
+    // «налог уже в цене» при этом обязан звучать, иначе покупатель снова
+    // прочтёт одну цифру и решит, что платит сверху (разбор 12.09.2026).
+    // Развёрнутый ответ про вычет остался там, куда за ним и идут: в статье о
+    // закрывающих документах и в ответах «какие документы для бухгалтерии» —
+    // обе проверки выше в этом же файле.
     const src = readFileSync(resolve(ROOT, 'src/pages/product/[slug].astro'), 'utf8');
-    expect(src).toContain('сверху не добавляется');
-    expect(src).toMatch(/вычету/);
+    const row = cardParams({
+      vendorLegal: 'OpenAI, Inc.', category: 'Текстовые AI', planShort: 'Командный',
+      term: '1 год', sku: 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER', qtyLabel: 'Рабочих мест',
+      minQty: 2, vat: taxation.vatPercent,
+    }).find((r) => r.key === 'НДС');
+    expect(row?.value).toBe(`${taxation.vatPercent}% (включено в стоимость)`);
+    // И в блоке цены: «в том числе», а не «плюс».
+    expect(src).toContain('в том числе НДС {vat}%');
+    expect(src).not.toMatch(/НДС\s*сверху|плюс\s*НДС/i);
   });
 });

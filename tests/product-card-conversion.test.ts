@@ -16,6 +16,7 @@ import { resolve } from 'node:path';
 import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, unitPlural, qtyPresets, UNIT_FORMS } from '../src/lib/product-commerce';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../src/data/policies';
 import { cardComposition, KIND_MARKER } from '../src/lib/product-composition';
+import { PARAM_ORDER, cardParams, unitLabel } from '../src/lib/card-params';
 import { PLAN_MARKER, PLAN_MARKER_UNIVERSAL } from '../src/lib/plan-type';
 import { VENDOR_CONTENT } from '../src/data/vendor-content';
 
@@ -303,8 +304,9 @@ describe('расхождения выката 12.09.2026 закрыты', () => 
     expect(page).not.toContain('cardMeta?.badge');
   });
 
-  it('строка типа использования не выводится без подписи', () => {
-    expect(page).toContain('product.license_type && LICENSE_LABEL[product.license_type]');
+  it('строки типа использования в параметрах больше нет', () => {
+    // Постановка руководителя 14.09.2026: она повторяет «Тип плана».
+    expect(page).not.toContain('LICENSE_LABEL[product.license_type]');
   });
 
   it('хвостовой призыв страницы убран: он дублирует помощь с выбором', () => {
@@ -357,7 +359,10 @@ describe('композиция, одобренная 12.09.2026', () => {
   it('артикул ушёл из первого экрана в параметры', () => {
     const hero = page.slice(page.indexOf('class="col-hero"'), page.indexOf('class="product-aside"'));
     expect(hero).not.toContain('product.sku}');
-    expect(page).toContain('Артикул BIZSoft:');
+    // Подпись — просто «Артикул»: приставка BIZSoft снята 14.09.2026, она не
+    // часть артикула. Строку собирает cardParams.
+    expect(PARAM_ORDER).toContain('Артикул');
+    expect(page).not.toContain('Артикул BIZSoft');
   });
 
   it('интерфейсные решения не выводятся из слага, названия или вендора', () => {
@@ -378,8 +383,12 @@ describe('композиция, одобренная 12.09.2026', () => {
     expect(rg?.faq).toHaveLength(9);
     // Шаблон обязан их показывать, а не молча игнорировать.
     expect(page).toContain('transfer: factTransfer(composition, planKind, cardMeta?.reassign)');
-    expect(page).toContain('Переназначение пользователей:');
-    expect(page).toContain('Управление:');
+    // Отдельной строки «Переназначение пользователей» в параметрах больше нет:
+    // она повторяла колонку ТРАНСФЕР блока фактов (постановка 14.09.2026).
+    expect(page).not.toContain('Переназначение пользователей:');
+    // «Управление» осталось строкой вида позиции: оно идёт после канонических
+    // восьми параметров и больше нигде на карточке не показывается.
+    expect(page).toContain("{ key: 'Управление', value: cardMeta.management }");
     expect(page).toContain('cardMeta.includes.map');
     expect(page).toContain('cardMeta?.faq');
   });
