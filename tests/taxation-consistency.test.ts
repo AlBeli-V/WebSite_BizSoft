@@ -88,7 +88,7 @@ describe('налоговый режим в текстах сайта', () => {
     const row = cardParams({
       vendorLegal: 'OpenAI, Inc.', category: 'Текстовые AI', planShort: 'Командный',
       term: '1 год', sku: 'OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER', qtyLabel: 'Рабочих мест',
-      minQty: 2, vat: taxation.vatPercent,
+      minQty: 2, transfer: 'Да', vat: taxation.vatPercent,
     }).find((r) => r.key === 'НДС');
     expect(row?.value).toBe(`${taxation.vatPercent}% (включено в стоимость)`);
     // И в блоке цены: «в том числе», а не «плюс».

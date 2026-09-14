@@ -392,9 +392,10 @@ describe('композиция, одобренная 12.09.2026', () => {
     // Отдельной строки «Переназначение пользователей» в параметрах больше нет:
     // она повторяла колонку ТРАНСФЕР блока фактов (постановка 14.09.2026).
     expect(page).not.toContain('Переназначение пользователей:');
-    // «Управление» осталось строкой вида позиции: оно идёт после канонических
-    // восьми параметров и больше нигде на карточке не показывается.
-    expect(page).toContain("{ key: 'Управление', value: cardMeta.management }");
+    // «Управление» и «Трансфер» — канонические строки параметров, значения
+    // приходят из контента вендора и из той же функции, что колонка ТРАНСФЕР.
+    expect(page).toContain('management: cardMeta?.management,');
+    expect(page).toContain('transfer: factTransfer(composition, planKind, cardMeta?.reassign),');
     expect(page).toContain('cardMeta.includes.map');
     expect(page).toContain('cardMeta?.faq');
   });
