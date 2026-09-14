@@ -167,8 +167,6 @@ export const GOALS: Record<string, GoalSpec> = {
     meaning: 'Клик по кнопке «Получить КП» в шапке' },
   cta_primary: { ga4: 'click_get_quote', key: false,
     meaning: 'Клик по главному призыву завершающего блока страницы' },
-  catalog_discuss: { ga4: 'click_get_quote', key: false,
-    meaning: 'Клик по призыву обсудить задачу в каталоге' },
   solution_calc: { ga4: 'click_get_quote', key: false,
     meaning: 'Клик по расчёту на странице назначения ПО' },
   compare_calc: { ga4: 'click_get_quote', key: false,
