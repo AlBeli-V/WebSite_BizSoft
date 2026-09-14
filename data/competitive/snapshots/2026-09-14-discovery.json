@@ -1,0 +1,6120 @@
+{
+  "дата": "2026-09-14",
+  "собран": "2026-09-14T09:04:17.148618+03:00",
+  "версия_модели": "1.10.3",
+  "версия_конфига": "1.10.3",
+  "зрелость_скоринга": "базовый",
+  "метаданные": {
+    "версия_методики": "1.10.3",
+    "хеш_конфига": "f0158598bcae",
+    "ядро_версия": "v14",
+    "ядро_хеш": "02e81ecef00b",
+    "запросов_в_ядре": 500,
+    "покрытие_запросов": 1.0,
+    "взвешенное_покрытие": {
+      "webmaster": 1.0,
+      "wordstat": 1.0
+    },
+    "состав_источников_спроса": {
+      "webmaster": 367,
+      "wordstat": 23,
+      "none": 110
+    },
+    "opportunity_режим": "degraded",
+    "opportunity_недоступные_факторы": [
+      "vulnerability"
+    ],
+    "threat_режим": "base_0_70",
+    "_правило_сравнимости": "сравнивать значения между датами допустимо только при совпадении версии методики, хеша конфига и хеша ядра; при различии ядра используется сравнимая доля, считаемая по пересечению составов (блок «по_запросам»)"
+  },
+  "состояние_зрелости": {
+    "opportunity_режим": "degraded",
+    "opportunity_недоступные_факторы": [
+      "vulnerability"
+    ],
+    "threat_режим": "base_0_70",
+    "google_собирается": true,
+    "b2b_confidence_измеряется": false,
+    "_правило_сравнимости": "оценки сравнимы между датами только при одинаковой версии модели и одинаковом режиме доступности факторов; при включении ранее недоступного фактора начинается новая базовая линия, и изменение оценки через границу режима не интерпретируется как изменение самой возможности"
+  },
+  "_зрелость_пояснение": "Vulnerability недоступен до обхода страниц конкурентов, вес распределён пропорционально; Confidence рекомендаций не выше MEDIUM",
+  "ядро_запросов": {
+    "версия": "v14",
+    "хеш": "02e81ecef00b",
+    "запросов": 500,
+    "запросы": [
+      "acronis data protection 15 advanced workstation license",
+      "adobe купить для компании",
+      "anydesk купить лицензию",
+      "artlist подписка",
+      "atlassian jira оплата из россии",
+      "canva business купить",
+      "capture one для россиян оплата",
+      "capture one подписка",
+      "chatgpt business team купить",
+      "chatgpt business с оплатой по счету для юридических лиц",
+      "claude enterprise subscription buy",
+      "claude team plan купить",
+      "claude team купить",
+      "cubase стоимость лицензии",
+      "elevenlabs api цена www.klerk.ru",
+      "elevenlabs тарифы",
+      "elevenlabs цена www.klerk.ru",
+      "envato elements гайд оплата",
+      "envato elements как купить подписку россия",
+      "envato elements как оплатить с рф",
+      "envato elements не проходит оплата",
+      "envato elements оплата без иностранной карты",
+      "envato elements оплата в россии 2026",
+      "envato elements оплата инструкция",
+      "envato elements оплата помощь россия",
+      "envato elements оплата рублями",
+      "envato elements оплата рф",
+      "envato elements оплата санкции",
+      "envato elements оплата через посредника",
+      "envato elements оплата через сервис",
+      "envato elements оплатить из рф",
+      "envato elements оформить подписку россия",
+      "envato elements способы оплаты россия",
+      "envato elements тариф россия",
+      "envato для россиян оплата",
+      "envato оплата из россии 2026",
+      "envato оплата подписка россия",
+      "envato оплатить из россии 2026",
+      "figma enterprise оплата рф",
+      "framer basic оплата россия",
+      "framer mini оплата рф",
+      "framer pro оплата из россии",
+      "framer pro подписка из россии",
+      "framer sites оплата из россии",
+      "framer team оплата россия",
+      "framer без vpn оплата",
+      "framer годовая подписка из россии",
+      "framer домен оплата рф",
+      "framer купить подписку россия",
+      "framer месячная подписка россия",
+      "framer не проходит оплата",
+      "framer обход санкций оплата",
+      "framer оплата 2026",
+      "framer оплата без иностранной карты",
+      "framer оплата инструкция россия",
+      "framer оплата криптой",
+      "framer оплата помощь рф",
+      "framer оплата рублями",
+      "framer оплата рф",
+      "framer оплата с российского счета",
+      "framer оплата санкции",
+      "framer оплата через сервис",
+      "framer оплатить из рф",
+      "framer оплатить подписку россия",
+      "framer оформить подписку россия",
+      "framer план оплата россия",
+      "framer подписка из россии",
+      "framer подписка из рф гайд",
+      "framer подписка оплатить в рф",
+      "framer подписка рф 2026",
+      "framer продлить подписку из рф",
+      "framer работает в россии оплата",
+      "framer способы оплаты в россии",
+      "framer тариф россия",
+      "gamma business оплата из россии",
+      "github business купить",
+      "github copilot business купить",
+      "github copilot business оплата из россии",
+      "github copilot enterprise оплата рф",
+      "github copilot оплата рублями",
+      "github copilot оплата с российского счета",
+      "gitlab bronze оплата россия",
+      "gitlab enterprise оплата из россии",
+      "gitlab gold оплата из россии",
+      "gitlab premium оплата из россии",
+      "gitlab saas оплата из россии",
+      "gitlab silver оплата рф",
+      "gitlab ultimate оплата рф",
+      "gitlab без vpn оплата",
+      "gitlab годовая подписка из россии",
+      "gitlab купить",
+      "gitlab купить аккаунт",
+      "gitlab купить подписку россия",
+      "gitlab месячная подписка россия",
+      "gitlab не проходит оплата",
+      "gitlab оплата 2026",
+      "gitlab оплата без иностранной карты",
+      "gitlab оплата зарубежной картой",
+      "gitlab оплата иностранной картой из россии",
+      "gitlab оплата инструкция россия",
+      "gitlab оплата помощь рф",
+      "gitlab оплата российской картой",
+      "gitlab оплата рублями",
+      "gitlab оплата рф",
+      "gitlab оплата с российского счета",
+      "gitlab оплата через посредника",
+      "gitlab оплата через сервис",
+      "gitlab оплатить из рф",
+      "gitlab оплатить подписку россия",
+      "gitlab оформить подписку россия",
+      "gitlab подписка из россии",
+      "gitlab подписка из рф гайд",
+      "gitlab подписка оплатить в рф",
+      "gitlab подписка рф 2026",
+      "gitlab продлить подписку из рф",
+      "gitlab работает в россии оплата",
+      "gitlab способы оплаты в россии",
+      "gitlab тариф россия",
+      "google workspace enterprise оплата рф",
+      "grok для бизнеса купить",
+      "hailuo подписка юнитул",
+      "heygen тарифы",
+      "jira cloud оплата россия",
+      "jira enterprise оплата россия",
+      "jira premium оплата из россии",
+      "jira premium оплата из россии dzen.ru/a/aozmta5hugl93fcz",
+      "jira standard оплата рф",
+      "jira купить подписку россия",
+      "jira не проходит оплата",
+      "jira оплата 2026",
+      "jira оплата usdt",
+      "jira оплата зарубежной картой",
+      "jira оплата иностранной картой из россии",
+      "jira оплата инструкция россия",
+      "jira оплата помощь россия",
+      "jira оплата российской картой",
+      "jira оплата рублями",
+      "jira оплата рф",
+      "jira оплата с российского счета",
+      "jira оплата через посредника",
+      "jira оплата через сервис",
+      "jira оплатить из рф",
+      "jira оплатить подписку россия",
+      "jira оформить подписку россия",
+      "jira подписка из рф гайд",
+      "jira подписка оплатить в рф",
+      "jira продлить подписку из рф",
+      "jira работает в россии оплата",
+      "jira способы оплаты 2026",
+      "leonardo ai годовая подписка из россии",
+      "leonardo ai оплата рублями",
+      "leonardo ai оплата с российского счета",
+      "leonardo ai оплата через посредника",
+      "leonardo ai оплатить из рф",
+      "leonardo ai работает в россии оплата",
+      "leonardo ai тариф россия",
+      "leonardo ai токены оплата из россии",
+      "leonardo apprentice оплата из россии",
+      "leonardo artisan оплата рф",
+      "leonardo maestro оплата россия",
+      "motion array подписка",
+      "notion business купить",
+      "notion купить",
+      "perplexity enterprise max купить",
+      "perplexity enterprise pro купить",
+      "perplexity enterprise купить",
+      "postman оплата подписки",
+      "postman цена",
+      "procreate dreams оплата из россии",
+      "recraft ai тарифы",
+      "recraft ai тарифы www.klerk.ru",
+      "recraft ai цена www.klerk.ru",
+      "recraft basic подписка",
+      "recraft basic тариф цена",
+      "recraft pro оплата",
+      "recraft pro подписка россия",
+      "recraft pro стоимость",
+      "recraft pro тариф стоимость",
+      "recraft pro цена",
+      "recraft аккаунт pro купить",
+      "recraft годовой тариф цена",
+      "recraft для бизнеса купить",
+      "recraft для команды купить",
+      "recraft для работы купить",
+      "recraft зарубежная карта оплата",
+      "recraft оплата для ип",
+      "recraft оплата по факту использования",
+      "recraft по договору купить",
+      "recraft под ключ купить",
+      "recraft подписка в рублях",
+      "recraft подписка оптом",
+      "recraft счет на оплату",
+      "recraft цена в рублях",
+      "runway ai тарифы",
+      "runway pro оплата из россии",
+      "runway standard оплата из россии",
+      "runway unlimited оплата из россии",
+      "runway оплата ежемесячно из россии",
+      "runway оплатить подписку",
+      "runway тарифы",
+      "runway тарифы companies.rbc.ru",
+      "runway тарифы habr.com",
+      "slack business plus оплата рф",
+      "slack enterprise оплата россия",
+      "slack pro оплата из россии",
+      "slack годовая подписка из россии",
+      "slack для бизнеса оплата рф",
+      "slack купить подписку россия",
+      "slack оплата рублями",
+      "slack оформить подписку россия",
+      "slack тариф россия",
+      "spine 2d купить",
+      "spine animation купить",
+      "spine professional купить",
+      "toon boom harmony купить",
+      "toon boom harmony купить лицензию",
+      "vegas pro купить",
+      "vegas pro стоимость и доступность",
+      "windsurf ai купить",
+      "windsurf pro купить плати по миру",
+      "windsurf купить подписку",
+      "артлист подписка",
+      "варианты оплаты recraft",
+      "вопрос на счет fl studio",
+      "гитлаб оплата из россии",
+      "гитлаб подписка рф",
+      "годовая подписка recraft",
+      "джира оплата из россии",
+      "джира подписка рф",
+      "доступна ли оплата runway в россии",
+      "как возобновить подписку айклауд",
+      "как купить cloudflare из россии",
+      "как купить deepl pro из россии",
+      "как купить framer pro в россии",
+      "как купить framer в россии",
+      "как купить gitlab в россии",
+      "как купить grammarly из россии",
+      "как купить hailuo ai из россии",
+      "как купить recraft pro",
+      "как купить recraft без иностранной карты",
+      "как купить recraft в россии",
+      "как купить recraft в россии 2026",
+      "как купить recraft официально",
+      "как купить runway в россии companies.rbc.ru",
+      "как купить windsurf из россии",
+      "как купить кредиты runway из россии",
+      "как купить рекрафт",
+      "как обновить подписку icloud+ 2026",
+      "как оплатить apple one в россии рбк",
+      "как оплатить box business из россии",
+      "как оплатить capture one",
+      "как оплатить capture one рбк",
+      "как оплатить cloudflare pro для личного сайта из россии dtf",
+      "как оплатить cloudflare pro из россии",
+      "как оплатить cloudflare в россии",
+      "как оплатить cloudflare из россии в 2026 году dtf",
+      "как оплатить envato elements из россии",
+      "как оплатить envato в россии",
+      "как оплатить envato из россии",
+      "как оплатить framer из россии",
+      "как оплатить gitlab из россии",
+      "как оплатить hailuo ai в россии habr.com",
+      "как оплатить heygen из россии",
+      "как оплатить jira из россии",
+      "как оплатить jira из россии dtf",
+      "как оплатить jira из россии в 2026 году dtf",
+      "как оплатить leonardo ai из россии в 2026 году vc",
+      "как оплатить recraft pro",
+      "как оплатить recraft pro в россии",
+      "как оплатить recraft без иностранной карты",
+      "как оплатить recraft без карты",
+      "как оплатить runway pro из россии",
+      "как оплатить runway в россии",
+      "как оплатить runway в россии companies.rbc.ru",
+      "как оплатить runway из россии в 2026 году dtf",
+      "как оплатить гитлаб из россии",
+      "как оплатить клаудфлар из россии",
+      "как оплатить корпоративные подписки из россии klerk",
+      "как оплатить корпоративные подписки из россии sostav",
+      "как оплатить корпоративный ai-доступ из россии klerk",
+      "как оплатить облачные сервисы для бизнеса из россии klerk московская область",
+      "как оплатить продлить подписку на айфоне",
+      "как оплатить ранвей из россии",
+      "как оплатить рекрафт в 2026 году",
+      "как оплатить фреймер из россии",
+      "как оплатить элевен лабс из россии",
+      "как получить счет и закрывающие от atlassian",
+      "как продлить apple music в россии",
+      "как продлить icloud в россии klerk.ru/blogs/era2/699557",
+      "как продлить подписку apple music в 2026",
+      "как продлить подписку apple music в россии",
+      "как продлить эпл мьюзик в россии",
+      "ключ программы spine professional купить",
+      "корпоративная оплата recraft",
+      "корпоративные лицензии atlassian",
+      "корпоративные тарифы slack для бизнеса из рф",
+      "купить after effects юридическим лицом",
+      "купить canva buisness",
+      "купить chatgpt pro юридическим лицом",
+      "купить claude ai юридическим лицом",
+      "купить claude enterprise",
+      "купить claude team в россии",
+      "купить cursor",
+      "купить cursor pro юридическим лицом",
+      "купить deepl pro",
+      "купить dropbox",
+      "купить envato elements юридическим лицом",
+      "купить foundry",
+      "купить gemini юридическим лицом",
+      "купить hailuo ai habr.com",
+      "купить hailuo ai на год",
+      "купить heygen юридическим лицом",
+      "купить kling ai юридичеким лицом",
+      "купить leonardo ai юридическим лицом",
+      "купить lightroom юридическим лицом",
+      "купить notion ai юридическим лицом",
+      "купить openai api юридическим лицом",
+      "купить perplexity max юридическим лицом",
+      "купить perplexity pro юридическим лицом",
+      "купить premiere pro юридическим лицом",
+      "купить recraft 2026",
+      "купить recraft pro 2026",
+      "купить recraft pro за рубли",
+      "купить recraft безопасно",
+      "купить recraft за рубли",
+      "купить recraft онлайн",
+      "купить recraft через посредника",
+      "купить windsurf аккаунт pro",
+      "купить zoom pro юридическим лицом",
+      "купить аккаунт hailuo ai",
+      "купить аккаунт windsurf",
+      "купить доступ к recraft",
+      "купить дропбокс",
+      "купить одноразовую kling ai",
+      "купить платную версию recraft",
+      "купить подарочную ссылку дискорд нитро",
+      "купить подписку artlist",
+      "купить подписку capture one",
+      "купить подписку descript",
+      "купить подписку envato",
+      "купить подписку envato elements",
+      "купить подписку github copilot business",
+      "купить подписку hailuo",
+      "купить подписку hailuo ai",
+      "купить подписку hailuo habr.com",
+      "купить подписку motion array",
+      "купить подписку postman",
+      "купить рекрафт за рубли",
+      "купить рекрафт онлайн",
+      "купить фаундри",
+      "леонардо ai оплата из россии",
+      "лицензия скетч",
+      "лицензия скетч license",
+      "метрика лицензирования что это",
+      "московская область оплатить подписку capture one",
+      "мск корпоративные лицензии atlassian",
+      "недорого оплатить runway из россии",
+      "оплата ai-сервисов из россии dtf",
+      "оплата airalo юридическим лицом",
+      "оплата artlist юридическим лицом",
+      "оплата box",
+      "оплата box для россиян",
+      "оплата box из россии",
+      "оплата capture one",
+      "оплата capture one без vpn",
+      "оплата capture one картой",
+      "оплата capture one российской картой",
+      "оплата capture one юридическим лицом",
+      "оплата cloudflare",
+      "оплата cloudflare из россии",
+      "оплата cloudflare из россии dtf",
+      "оплата confluence",
+      "оплата confluence для россиян",
+      "оплата confluence из россии",
+      "оплата coreldraw",
+      "оплата coreldraw для россиян",
+      "оплата coreldraw из россии",
+      "оплата depositphotos",
+      "оплата depositphotos из россии",
+      "оплата descript без vpn",
+      "оплата descript картой",
+      "оплата descript юридическим лицом",
+      "оплата docker",
+      "оплата envato",
+      "оплата envato elements",
+      "оплата envato elements из россии",
+      "оплата envato юридическим лицом",
+      "оплата framer",
+      "оплата framer для россиян",
+      "оплата framer из россии",
+      "оплата framer из россии 2026",
+      "оплата gemini для бизнеса id2497171 vc",
+      "оплата git lab",
+      "оплата gitlab",
+      "оплата gitlab для россиян",
+      "оплата gitlab из россии",
+      "оплата gitlab из россии 2026",
+      "оплата hailuo ai",
+      "оплата hailuo ai habr.com",
+      "оплата heygen из россии vc",
+      "оплата jira для российского ооо",
+      "оплата jira для россиян",
+      "оплата jira из россии",
+      "оплата jira из россии dtf",
+      "оплата jira из россии плати по миру",
+      "оплата kimi юридическим лицом",
+      "оплата leonardo ai из россии",
+      "оплата magnific ai юридическим лицом",
+      "оплата motion array российской картой",
+      "оплата motion array юридическим лицом",
+      "оплата n8n cloud юридическим лицом",
+      "оплата openrouter юридическим лицом",
+      "оплата postman без vpn",
+      "оплата postman без vpn москве",
+      "оплата postman картой",
+      "оплата postman юридическим лицом",
+      "оплата recraft pro в россии",
+      "оплата recraft рублями",
+      "оплата runway",
+      "оплата runway из россии",
+      "оплата runway из россии dtf",
+      "оплата runway через paypal из россии",
+      "оплата sketch",
+      "оплата windsurf юридическим лицом",
+      "оплата zoho юридическим лицом",
+      "оплата zoho юридическим лицом в москве",
+      "оплата бокс для россиян",
+      "оплата бокс из россии",
+      "оплата гитлаб",
+      "оплата гитлаб для россиян",
+      "оплата докер",
+      "оплата зарубежного по для юр лица документы",
+      "оплата зарубежного по для юрлица",
+      "оплата зарубежного по для юрлица заказать онлайн",
+      "оплата зарубежного по для юрлица стоимость",
+      "оплата зарубежного по для юрлица цена",
+      "оплата зарубежных сервисов для юридических лиц документы",
+      "оплата иностранной подписки для бизнеса документы",
+      "оплата иностранной подписки для бизнеса стоимость",
+      "оплата клаудфлэйр для россиян",
+      "оплата конфлюенс",
+      "оплата конфлюенс для россиян",
+      "оплата конфлюенс из россии",
+      "оплата корел дро",
+      "оплата корел дро для россиян",
+      "оплата корел дро из россии",
+      "оплата корпоративных ai-сервисов vc",
+      "оплата рекрафт 2026",
+      "оплата энвато элементс",
+      "оплата энвато элементс из россии",
+      "оплатить cloudflare",
+      "оплатить dropbox",
+      "оплатить git lab",
+      "оплатить jira",
+      "оплатить jira плати по миру",
+      "оплатить recraft ai pro",
+      "оплатить recraft pro рублями",
+      "оплатить recraft без зарубежной карты",
+      "оплатить recraft по счету",
+      "оплатить recraft рублями",
+      "оплатить runway",
+      "оплатить бокс",
+      "оплатить дропбокс",
+      "оплатить подписку artlist",
+      "оплатить подписку capture one",
+      "оплатить подписку envato",
+      "оплатить подписку envato elements",
+      "оплатить подписку postman",
+      "официальная оплата recraft",
+      "платные тарифы recraft",
+      "платформа с защитой от пиратства для платного клуба тарифы",
+      "подписка hailuo",
+      "подписка на юнити",
+      "покупка лицензий по у западных поставщиков",
+      "покупка тарифа runway из россии",
+      "посредник для оплаты recraft",
+      "продление подписки capture one из россии",
+      "продление подписки postman из россии",
+      "продлить icloud россиянам klerk.ru/blogs/era2/699557",
+      "ранвей оплата подписки",
+      "рекрафт стоимость",
+      "самый простой способ оплатить runway",
+      "способы heygen оплаты vc",
+      "способы оплаты cloudflare dtf",
+      "способы оплаты jira dtf",
+      "способы оплаты recraft pro",
+      "способы оплаты recraft vc",
+      "способы оплаты runway dtf",
+      "стоимость procreate в рублях",
+      "стоимость recraft в россии",
+      "стоимость лицензии unity",
+      "стоимость подписки runway в рублях",
+      "тариф corporat является закрытым",
+      "тариф recraft",
+      "тарифные планы anthropic для бизнеса",
+      "фреймер оплата из россии",
+      "фреймер подписка рф",
+      "цена recraft",
+      "энвато тарифы",
+      "энвато элементс оплата рф"
+    ]
+  },
+  "по_запросам": {
+    "оплатить бокс": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата coreldraw для россиян": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/coreldraw"
+    },
+    "claude team купить": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/product/anthropic-team"
+    },
+    "оплата gitlab для россиян": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата корел дро из россии": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/coreldraw"
+    },
+    "купить аккаунт windsurf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата artlist юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/artlist"
+    },
+    "runway standard оплата из россии": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "runway оплата ежемесячно из россии": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "оплата magnific ai юридическим лицом": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/freepik"
+    },
+    "оплата motion array юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/motion-array"
+    },
+    "оплата postman юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "оплата capture one юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "оплата airalo юридическим лицом": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/airalo"
+    },
+    "продление подписки postman из россии": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "купить heygen юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/heygen"
+    },
+    "оплата docker": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/docker"
+    },
+    "оплата зарубежного по для юр лица документы": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "оплата motion array российской картой": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/motion-array"
+    },
+    "оплата descript юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/oplata-descript-yuridicheskim-licom"
+    },
+    "оплата capture one": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "оплата иностранной подписки для бизнеса документы": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "оплата envato юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-envato-elements-dlya-yurlica"
+    },
+    "adobe купить для компании": {
+      "наша": 0.28,
+      "поле": 0.783,
+      "позиция": 1,
+      "наш_url": "https://biz-soft.pro/vendors/adobe"
+    },
+    "runway тарифы": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/runway"
+    },
+    "купить подписку motion array": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/motion-array"
+    },
+    "корпоративные лицензии atlassian": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/atlassian"
+    },
+    "framer оформить подписку россия": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "покупка тарифа runway из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "тарифные планы anthropic для бизнеса": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/anthropic"
+    },
+    "оплата windsurf юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica"
+    },
+    "framer тариф россия": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "postman оплата подписки": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "как продлить icloud в россии klerk.ru/blogs/era2/699557": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить framer pro в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить фреймер из россии": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "framer basic оплата россия": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "оплатить подписку capture one": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "купить envato elements юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/envato"
+    },
+    "gitlab saas оплата из россии": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "как получить счет и закрывающие от atlassian": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "gitlab годовая подписка из россии": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "самый простой способ оплатить runway": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "perplexity enterprise max купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer pro оплата из россии": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "купить notion ai юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/product/notion-business"
+    },
+    "runway pro оплата из россии": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "купить perplexity max юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-perplexity-dlya-yurlica"
+    },
+    "купить аккаунт hailuo ai": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/hailuo"
+    },
+    "framer оплата рублями": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "framer годовая подписка из россии": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "оплата jira из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "github copilot business купить": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/product/ghcopilot-business"
+    },
+    "gitlab оформить подписку россия": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "github business купить": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/github"
+    },
+    "framer купить подписку россия": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/framer"
+    },
+    "оплатить git lab": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "windsurf ai купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "perplexity enterprise купить": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/perplexity"
+    },
+    "купить perplexity pro юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/perplexity"
+    },
+    "купить lightroom юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/product/adobe-lr"
+    },
+    "gitlab купить": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/gitlab"
+    },
+    "gitlab оплата рублями": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "оплата postman картой": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "framer оплата рф": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "claude team plan купить": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/anthropic"
+    },
+    "оплата jira для российского ооо": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "фреймер оплата из россии": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "купить подписку descript": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/descript"
+    },
+    "оплата бокс из россии": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-box-business-iz-rossii"
+    },
+    "framer pro подписка из россии": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "как продлить подписку apple music в 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer домен оплата рф": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "framer план оплата россия": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "оплатить подписку postman": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "оплатить jira": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить framer из россии": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "gitlab enterprise оплата из россии": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "оплата descript картой": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/oplata-descript-yuridicheskim-licom"
+    },
+    "купить after effects юридическим лицом": {
+      "наша": 0.28,
+      "поле": 0.783,
+      "позиция": 1,
+      "наш_url": "https://biz-soft.pro/product/adobe-ae"
+    },
+    "gitlab premium оплата из россии": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "framer оплата с российского счета": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "framer подписка из рф гайд": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "оплата envato": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer team оплата россия": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "купить leonardo ai юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/leonardo-ai"
+    },
+    "leonardo apprentice оплата из россии": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kupit-leonardo-ai-yuridicheskim-licom"
+    },
+    "framer работает в россии оплата": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "как купить recraft без иностранной карты": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica"
+    },
+    "gitlab оплата с российского счета": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "atlassian jira оплата из россии": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "github copilot business оплата из россии": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-github-copilot-dlya-yurlica"
+    },
+    "leonardo maestro оплата россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer оплата через сервис": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer оплатить из рф": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "gitlab оплатить из рф": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "framer подписка оплатить в рф": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "продление подписки capture one из россии": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "leonardo artisan оплата рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab месячная подписка россия": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "как купить framer в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как продлить apple music в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer месячная подписка россия": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "jira оплата через сервис": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "jira standard оплата рф": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/atlassian"
+    },
+    "купить openai api юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/openai"
+    },
+    "gitlab оплатить подписку россия": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "фреймер подписка рф": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "capture one для россиян оплата": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "как оплатить gitlab из россии": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "как оплатить jira из россии в 2026 году dtf": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "gitlab подписка оплатить в рф": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "framer оплатить подписку россия": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "оплата openrouter юридическим лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/openrouter"
+    },
+    "оплата framer из россии 2026": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "gamma business оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплата рублями": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab подписка из россии": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "gitlab купить подписку россия": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/gitlab"
+    },
+    "jira premium оплата из россии": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/atlassian"
+    },
+    "framer оплата инструкция россия": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "runway ai тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab тариф россия": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "гитлаб оплата из россии": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "оплата framer": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "gitlab оплата через сервис": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "framer mini оплата рф": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "купить подписку capture one": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "гитлаб подписка рф": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "как оплатить гитлаб из россии": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "gitlab ultimate оплата рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab работает в россии оплата": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "купить cursor pro юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/cursor"
+    },
+    "купить подписку github copilot business": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/github"
+    },
+    "gitlab продлить подписку из рф": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "купить подписку artlist": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата zoho юридическим лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить hailuo ai habr.com": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "тариф recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements тариф россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer подписка из россии": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "оплата depositphotos из россии": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/depositphotos"
+    },
+    "оплатить recraft без зарубежной карты": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica"
+    },
+    "gitlab подписка из рф гайд": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer оплата помощь рф": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "как купить gitlab в россии": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/gitlab"
+    },
+    "envato elements способы оплаты россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата coreldraw из россии": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/coreldraw"
+    },
+    "оплата framer из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "windsurf купить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оплата помощь россия": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-envato-elements-dlya-yurlica"
+    },
+    "framer продлить подписку из рф": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "оплата depositphotos": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/depositphotos"
+    },
+    "энвато элементс оплата рф": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-envato-elements-dlya-yurlica"
+    },
+    "gitlab оплата зарубежной картой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оплата рублями": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-envato-elements-dlya-yurlica"
+    },
+    "оплата бокс для россиян": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-box-business-iz-rossii"
+    },
+    "оплата зарубежных сервисов для юридических лиц документы": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "grok для бизнеса купить": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/grok"
+    },
+    "framer способы оплаты в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата box": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-box-business-iz-rossii"
+    },
+    "gitlab способы оплаты в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить подписку postman": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/postman"
+    },
+    "как купить recraft pro": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica"
+    },
+    "jira работает в россии оплата": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "платные тарифы recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оплата рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата capture one без vpn": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплата с российского счета": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "github copilot оплата рублями": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить доступ к recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата postman без vpn": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "gitlab оплата инструкция россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить кредиты runway из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "корпоративные тарифы slack для бизнеса из рф": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/slack"
+    },
+    "gitlab оплата рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft цена в рублях": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/recraft"
+    },
+    "оплата корел дро для россиян": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/coreldraw"
+    },
+    "оплата envato elements из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить windsurf из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оплата инструкция": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить дропбокс": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/dropbox"
+    },
+    "оплата hailuo ai habr.com": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft pro стоимость": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/recraft"
+    },
+    "leonardo ai токены оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата framer для россиян": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить jira из россии": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "оплата gitlab": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата gitlab из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer sites оплата из россии": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "envato elements гайд оплата": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-envato-elements-dlya-yurlica"
+    },
+    "стоимость подписки runway в рублях": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить runway pro из россии": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "jira способы оплаты 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить одноразовую kling ai": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "leonardo ai оплата с российского счета": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kupit-leonardo-ai-yuridicheskim-licom"
+    },
+    "оплата cloudflare": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить recraft без иностранной карты": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica"
+    },
+    "chatgpt business team купить": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/product/chatgpt-business"
+    },
+    "купить premiere pro юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/product/adobe-pr"
+    },
+    "купить рекрафт за рубли": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата зарубежного по для юрлица": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements как оплатить с рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оплата через сервис": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата gitlab из россии 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить подписку hailuo habr.com": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить claude ai юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/anthropic"
+    },
+    "gitlab silver оплата рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить claude team в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить recraft за рубли": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "perplexity enterprise pro купить": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/perplexity"
+    },
+    "gitlab оплата 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплата рф": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "envato elements оплатить из рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "elevenlabs цена www.klerk.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить recraft pro за рубли": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата jira из россии dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата git lab": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата зарубежного по для юрлица стоимость": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "доступна ли оплата runway в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer оплата санкции": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica"
+    },
+    "как оплатить runway из россии в 2026 году dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "windsurf pro купить плати по миру": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплата 2026": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "github copilot enterprise оплата рф": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/github"
+    },
+    "корпоративная оплата recraft": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica"
+    },
+    "framer не проходит оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить recraft через посредника": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата capture one российской картой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить recraft pro": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft оплата для ип": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/recraft"
+    },
+    "оплата confluence из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплата помощь россия": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "jira enterprise оплата россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата runway из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft pro оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как продлить подписку apple music в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить cloudflare pro для личного сайта из россии dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "цена recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата корпоративных ai-сервисов vc": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплата инструкция россия": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "framer оплата 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата runway из россии dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "elevenlabs тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "недорого оплатить runway из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab bronze оплата россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab gold оплата из россии": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "framer подписка рф 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить envato в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft по договору купить": {
+      "наша": 0.28,
+      "поле": 0.783,
+      "позиция": 1,
+      "наш_url": "https://biz-soft.pro/vendors/recraft"
+    },
+    "как оплатить envato elements из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "leonardo ai тариф россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft для команды купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить gemini юридическим лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оплата санкции": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оплата через посредника": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft для бизнеса купить": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/recraft"
+    },
+    "купить подписку hailuo ai": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата descript без vpn": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить рекрафт": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "продлить icloud россиянам klerk.ru/blogs/era2/699557": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить cloudflare pro из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить подписку hailuo": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить capture one": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "как оплатить runway в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплатить из рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить ранвей из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата энвато элементс из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата envato elements": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата coreldraw": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/coreldraw"
+    },
+    "framer оплата без иностранной карты": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить hailuo ai из россии": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/hailuo"
+    },
+    "метрика лицензирования что это": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft годовой тариф цена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "рекрафт стоимость": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплата российской картой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата box для россиян": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-box-business-iz-rossii"
+    },
+    "оплатить runway": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оплата без иностранной карты": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата confluence": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab оплата без иностранной карты": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "github copilot оплата с российского счета": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft basic тариф цена": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/recraft"
+    },
+    "recraft счет на оплату": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica"
+    },
+    "как купить recraft официально": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica"
+    },
+    "как купить deepl pro из россии": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/deepl"
+    },
+    "оплата гитлаб для россиян": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft аккаунт pro купить": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/recraft"
+    },
+    "купить chatgpt pro юридическим лицом": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/openai"
+    },
+    "купить подарочную ссылку дискорд нитро": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/product/discord-nitro-gift-card"
+    },
+    "купить hailuo ai на год": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "способы оплаты jira dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft под ключ купить": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/recraft"
+    },
+    "jira оплата зарубежной картой": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "купить deepl pro": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab оплата российской картой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "способы оплаты runway dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить корпоративный ai-доступ из россии klerk": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "годовая подписка recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить recraft в россии 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата cloudflare из россии dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "toon boom harmony купить": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/toon-boom"
+    },
+    "способы оплаты cloudflare dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оплата в россии 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira не проходит оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "официальная оплата recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить recraft в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить envato из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "artlist подписка": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/artlist"
+    },
+    "recraft подписка оптом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft pro тариф стоимость": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата hailuo ai": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "elevenlabs api цена www.klerk.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить платную версию recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft зарубежная карта оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплата usdt": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "slack business plus оплата рф": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/slack"
+    },
+    "способы оплаты recraft vc": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "подписка hailuo": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab оплата помощь рф": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica"
+    },
+    "jira оформить подписку россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить dropbox": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить recraft по счету": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica"
+    },
+    "как оплатить корпоративные подписки из россии sostav": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить подписку artlist": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить корпоративные подписки из россии klerk": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата зарубежного по для юрлица цена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата энвато элементс": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата конфлюенс для россиян": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата runway": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "стоимость procreate в рублях": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/procreate"
+    },
+    "как оплатить capture one рбк": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "gitlab оплата через посредника": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "slack pro оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата capture one картой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "джира оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato оплата подписка россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата корел дро": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/coreldraw"
+    },
+    "как оплатить recraft pro в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "способы оплаты recraft pro": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab подписка рф 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить recraft без карты": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica"
+    },
+    "купить фаундри": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft ai тарифы www.klerk.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements как купить подписку россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "procreate dreams оплата из россии": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/procreate"
+    },
+    "как обновить подписку icloud+ 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "notion business купить": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/notion"
+    },
+    "оплатить подписку envato elements": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить cloudflare из россии в 2026 году dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "slack для бизнеса оплата рф": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/slack"
+    },
+    "купить kling ai юридичеким лицом": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/kling-ai"
+    },
+    "recraft basic подписка": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab не проходит оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "leonardo ai оплата рублями": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить dropbox": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway unlimited оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить hailuo ai в россии habr.com": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "ранвей оплата подписки": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "slack купить подписку россия": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/slack"
+    },
+    "оплата box из россии": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-box-business-iz-rossii"
+    },
+    "jira подписка из рф гайд": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата ai-сервисов из россии dtf": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira подписка оплатить в рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato elements оформить подписку россия": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/envato"
+    },
+    "купить zoom pro юридическим лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "slack enterprise оплата россия": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/vendors/slack"
+    },
+    "оплата sketch": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как купить cloudflare из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата конфлюенс": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата cloudflare из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "figma enterprise оплата рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить windsurf аккаунт pro": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить cursor": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "slack тариф россия": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/slack"
+    },
+    "jira premium оплата из россии dzen.ru/a/aozmta5hugl93fcz": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft для работы купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway тарифы habr.com": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "envato оплата из россии 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "лицензия скетч": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/sketch"
+    },
+    "recraft оплата по факту использования": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата confluence для россиян": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата kimi юридическим лицом": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft pro подписка россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "slack годовая подписка из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer обход санкций оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить подписку envato": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/envato"
+    },
+    "recraft подписка в рублях": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway оплатить подписку": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer без vpn оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить recraft безопасно": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "лицензия скетч license": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/sketch"
+    },
+    "оплата конфлюенс из россии": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "jira оплата иностранной картой из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата recraft рублями": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата jira из россии плати по миру": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "как купить runway в россии companies.rbc.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить клаудфлар из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "slack оплата рублями": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/slack"
+    },
+    "оплата recraft pro в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab оплата иностранной картой из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "вопрос на счет fl studio": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата зарубежного по для юрлица заказать онлайн": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить runway в россии companies.rbc.ru": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "motion array подписка": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/motion-array"
+    },
+    "оплатить jira плати по миру": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата jira для россиян": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "тариф corporat является закрытым": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "slack оформить подписку россия": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/slack"
+    },
+    "оплатить cloudflare": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "google workspace enterprise оплата рф": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/google"
+    },
+    "recraft pro цена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "notion купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "мск корпоративные лицензии atlassian": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/atlassian"
+    },
+    "купить рекрафт онлайн": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "toon boom harmony купить лицензию": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/toon-boom"
+    },
+    "jira cloud оплата россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить jira из россии dtf": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "как оплатить leonardo ai из россии в 2026 году vc": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как возобновить подписку айклауд": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/apple-prekratila-priem-platezhey-v-rossii-kak-prodlit-podpiski"
+    },
+    "варианты оплаты recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato для россиян оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата клаудфлэйр для россиян": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft ai цена www.klerk.ru": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "chatgpt business с оплатой по счету для юридических лиц": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/openai"
+    },
+    "capture one подписка": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "как оплатить рекрафт в 2026 году": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата n8n cloud юридическим лицом": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/n8n"
+    },
+    "оплатить recraft рублями": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "leonardo ai годовая подписка из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira продлить подписку из рф": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian"
+    },
+    "envato elements не проходит оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "способы heygen оплаты vc": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить продлить подписку на айфоне": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить подписку envato": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "claude enterprise subscription buy": {
+      "наша": 0.025,
+      "поле": 0.783,
+      "позиция": 8,
+      "наш_url": "https://biz-soft.pro/vendors/anthropic"
+    },
+    "vegas pro купить": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата гитлаб": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "посредник для оплаты recraft": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить foundry": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/foundry"
+    },
+    "jira оплатить подписку россия": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "леонардо ai оплата из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "энвато тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "артлист подписка": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/artlist"
+    },
+    "canva business купить": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/canva"
+    },
+    "оплата gemini для бизнеса id2497171 vc": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/vendors/google"
+    },
+    "как оплатить cloudflare в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить apple one в россии рбк": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "framer оплата криптой": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить элевен лабс из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira купить подписку россия": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/atlassian"
+    },
+    "стоимость лицензии unity": {
+      "наша": 0.04,
+      "поле": 0.783,
+      "позиция": 6,
+      "наш_url": "https://biz-soft.pro/vendors/unity"
+    },
+    "покупка лицензий по у западных поставщиков": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "купить recraft онлайн": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "postman цена": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "anydesk купить лицензию": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как продлить эпл мьюзик в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab купить аккаунт": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/vendors/gitlab"
+    },
+    "купить подписку envato elements": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "gitlab без vpn оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить box business из россии": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-box-business-iz-rossii"
+    },
+    "spine professional купить": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/product/spine-pro"
+    },
+    "оплата heygen из россии vc": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "runway тарифы companies.rbc.ru": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica"
+    },
+    "подписка на юнити": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/unity"
+    },
+    "оплатить recraft ai pro": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата runway через paypal из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "recraft ai тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "leonardo ai оплатить из рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "envato оплатить из россии 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "платформа с защитой от пиратства для платного клуба тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить recraft pro 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплатить recraft pro рублями": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "московская область оплатить подписку capture one": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/vendors/capture-one"
+    },
+    "heygen тарифы": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата leonardo ai из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата докер": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/docker"
+    },
+    "leonardo ai работает в россии оплата": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "spine animation купить": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/spine"
+    },
+    "hailuo подписка юнитул": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата иностранной подписки для бизнеса стоимость": {
+      "наша": 0.02,
+      "поле": 0.783,
+      "позиция": 9,
+      "наш_url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+    },
+    "vegas pro стоимость и доступность": {
+      "наша": 0.05,
+      "поле": 0.783,
+      "позиция": 5,
+      "наш_url": "https://biz-soft.pro/vendors/vegas"
+    },
+    "как купить grammarly из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "spine 2d купить": {
+      "наша": 0.018,
+      "поле": 0.783,
+      "позиция": 10,
+      "наш_url": "https://biz-soft.pro/vendors/spine"
+    },
+    "оплата postman без vpn москве": {
+      "наша": 0.03,
+      "поле": 0.783,
+      "позиция": 7,
+      "наш_url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica"
+    },
+    "ключ программы spine professional купить": {
+      "наша": 0.1,
+      "поле": 0.783,
+      "позиция": 3,
+      "наш_url": "https://biz-soft.pro/product/spine-pro"
+    },
+    "купить recraft 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "acronis data protection 15 advanced workstation license": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить canva buisness": {
+      "наша": 0.15,
+      "поле": 0.783,
+      "позиция": 2,
+      "наш_url": "https://biz-soft.pro/vendors/canva"
+    },
+    "оплатить дропбокс": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить облачные сервисы для бизнеса из россии klerk московская область": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "как оплатить heygen из россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "cubase стоимость лицензии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "leonardo ai оплата через посредника": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "купить claude enterprise": {
+      "наша": 0.07,
+      "поле": 0.783,
+      "позиция": 4,
+      "наш_url": "https://biz-soft.pro/product/anthropic-enterprise"
+    },
+    "стоимость recraft в россии": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "jira оплата через посредника": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата рекрафт 2026": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "оплата zoho юридическим лицом в москве": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    },
+    "джира подписка рф": {
+      "наша": 0.0,
+      "поле": 0.783,
+      "позиция": null,
+      "наш_url": null
+    }
+  },
+  "покрытие": {
+    "яндекс_запросов_всего": 650,
+    "яндекс_запросов_с_данными": 650,
+    "яндекс_ошибок": 0,
+    "глубина_яндекс": 10,
+    "взвешенное_покрытие": {
+      "webmaster": 1.0,
+      "wordstat": 1.0
+    },
+    "google": 0.0,
+    "_google_пояснение": "Google RU: срез xmlriver от 2026-09-14, 264 запросов с данными"
+  },
+  "google": {
+    "доступен": true,
+    "провайдер": "xmlriver",
+    "серия": "google_ru",
+    "локация": 2643,
+    "название": "Россия",
+    "регион": "2643",
+    "свежесть_дней": 8,
+    "дата_среза": "2026-09-14",
+    "возраст_дней": 0,
+    "глубина": 20,
+    "покрытие": {
+      "запросов_всего": 500,
+      "запросов_с_данными": 264,
+      "ошибок": 236,
+      "покрытие_запросов": 0.528
+    },
+    "наши_показатели": {
+      "взвешенная_видимость": 0.0,
+      "доля_видимости": 0.0,
+      "топ3": 0,
+      "топ10": 0,
+      "в_выдаче": 0,
+      "лучшая_позиция": null,
+      "запросов_в_поле": 264,
+      "_пояснение": "домен не найден ни в одной выдаче среза: это измеренный ноль, а не отсутствие данных"
+    },
+    "наши_запросы": [],
+    "по_запросам": {
+      "claude team купить": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата gitlab для россиян": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата корел дро из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить аккаунт windsurf": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата artlist юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway standard оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway оплата ежемесячно из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата motion array юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата airalo юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата зарубежного по для юр лица документы": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата motion array российской картой": {
+        "наша": 0.0,
+        "поле": 0.849,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата descript юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата capture one": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата иностранной подписки для бизнеса документы": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата envato юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "adobe купить для компании": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway тарифы": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "корпоративные лицензии atlassian": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оформить подписку россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "покупка тарифа runway из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "тарифные планы anthropic для бизнеса": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer тариф россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как продлить icloud в россии klerk.ru/blogs/era2/699557": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить framer pro в россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить фреймер из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer basic оплата россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить envato elements юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab saas оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как получить счет и закрывающие от atlassian": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab годовая подписка из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить notion ai юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway pro оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплата рублями": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer годовая подписка из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "github copilot business купить": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оформить подписку россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "github business купить": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить git lab": {
+        "наша": 0.0,
+        "поле": 0.849,
+        "позиция": null,
+        "наш_url": null
+      },
+      "windsurf ai купить": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "perplexity enterprise купить": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить perplexity pro юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата postman картой": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплата рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "claude team plan купить": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата jira для российского ооо": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "фреймер оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить claude enterprise": {
+        "наша": 0.0,
+        "поле": 0.849,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата бокс из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer pro подписка из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как продлить подписку apple music в 2026": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer домен оплата рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer план оплата россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить jira": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить framer из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab enterprise оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить after effects юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab premium оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплата с российского счета": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer подписка из рф гайд": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer team оплата россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "leonardo apprentice оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer работает в россии оплата": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить recraft без иностранной карты": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оплата с российского счета": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "atlassian jira оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.863,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплата через сервис": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer подписка оплатить в рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "продление подписки capture one из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab месячная подписка россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить framer в россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата через сервис": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira standard оплата рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "capture one для россиян оплата": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить gitlab из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab подписка оплатить в рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira premium оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплата инструкция россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab тариф россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "гитлаб оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оплата через сервис": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer mini оплата рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку capture one": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "гитлаб подписка рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить гитлаб из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab ultimate оплата рф": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить cursor pro юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку github copilot business": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab продлить подписку из рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку artlist": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "тариф recraft": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements тариф россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer подписка из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab подписка из рф гайд": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплата помощь рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements способы оплаты россия": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата coreldraw из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "windsurf купить подписку": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements оплата помощь россия": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer продлить подписку из рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "энвато элементс оплата рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата зарубежных сервисов для юридических лиц документы": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "grok для бизнеса купить": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer способы оплаты в россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab способы оплаты в россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку postman": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira работает в россии оплата": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements оплата рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата capture one без vpn": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата с российского счета": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "github copilot оплата рублями": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить доступ к recraft": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата postman без vpn": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оплата инструкция россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить кредиты runway из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "корпоративные тарифы slack для бизнеса из рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оплата рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft цена в рублях": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата envato elements из россии": {
+        "наша": 0.0,
+        "поле": 0.849,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить windsurf из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements оплата инструкция": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить дропбокс": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата hailuo ai habr.com": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить jira из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата gitlab": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата gitlab из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "стоимость подписки runway в рублях": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата cloudflare": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить recraft без иностранной карты": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить premiere pro юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить рекрафт за рубли": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата зарубежного по для юрлица": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements как оплатить с рф": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата gitlab из россии 2026": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку hailuo habr.com": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить recraft за рубли": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "perplexity enterprise pro купить": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оплата 2026": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements оплатить из рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "elevenlabs цена www.klerk.ru": {
+        "наша": 0.0,
+        "поле": 0.849,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить recraft pro за рубли": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата jira из россии dtf": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата зарубежного по для юрлица стоимость": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "доступна ли оплата runway в россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer не проходит оплата": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата инструкция россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "elevenlabs тарифы": {
+        "наша": 0.0,
+        "поле": 0.69,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab gold оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft по договору купить": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "leonardo ai тариф россия": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft для команды купить": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements оплата через посредника": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft для бизнеса купить": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата descript без vpn": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить рекрафт": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить runway в россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплатить из рф": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить ранвей из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата энвато элементс из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата envato elements": {
+        "наша": 0.0,
+        "поле": 0.849,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплата без иностранной карты": {
+        "наша": 0.0,
+        "поле": 0.849,
+        "позиция": null,
+        "наш_url": null
+      },
+      "метрика лицензирования что это": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "рекрафт стоимость": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить runway": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата confluence": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "github copilot оплата с российского счета": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft basic тариф цена": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить recraft официально": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft аккаунт pro купить": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подарочную ссылку дискорд нитро": {
+        "наша": 0.0,
+        "поле": 0.849,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft под ключ купить": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить корпоративный ai-доступ из россии klerk": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить recraft в россии 2026": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "toon boom harmony купить": {
+        "наша": 0.0,
+        "поле": 0.849,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить recraft в россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить envato из россии": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft подписка оптом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата hailuo ai": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "elevenlabs api цена www.klerk.ru": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить платную версию recraft": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "подписка hailuo": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оформить подписку россия": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата зарубежного по для юрлица цена": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить cursor": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "тариф corporat является закрытым": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить продлить подписку на айфоне": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "postman оплата подписки": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата magnific ai юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "продление подписки postman из россии": {
+        "наша": 0.0,
+        "поле": 0.783,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата jira из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "perplexity enterprise max купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer купить подписку россия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку descript": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оплата рублями": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплатить из рф": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить openai api юридическим лицом": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "github copilot business оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить jira из россии в 2026 году dtf": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gamma business оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата framer из россии 2026": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab купить подписку россия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата рублями": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway ai тарифы": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить hailuo ai habr.com": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить gitlab в россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата depositphotos": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оплата зарубежной картой": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить recraft pro": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата бокс для россиян": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "leonardo ai токены оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.843,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft pro стоимость": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "chatgpt business team купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer sites оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить одноразовую kling ai": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements оплата через сервис": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab silver оплата рф": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата рф": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "windsurf pro купить плати по миру": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата 2026": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer оплата санкции": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "github copilot enterprise оплата рф": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft оплата для ип": {
+        "наша": 0.0,
+        "поле": 0.854,
+        "позиция": null,
+        "наш_url": null
+      },
+      "корпоративная оплата recraft": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как оплатить recraft pro": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "цена recraft": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab bronze оплата россия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата помощь россия": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "продлить icloud россиянам klerk.ru/blogs/era2/699557": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer подписка рф 2026": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата coreldraw": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft годовой тариф цена": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab оплата без иностранной карты": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата box для россиян": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "как купить deepl pro из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить hailuo ai на год": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft счет на оплату": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата через посредника": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "способы оплаты cloudflare dtf": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата cloudflare из россии dtf": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "годовая подписка recraft": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "официальная оплата recraft": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "artlist подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft зарубежная карта оплата": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft pro тариф стоимость": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата usdt": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "slack pro оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата корел дро": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "procreate dreams оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.745,
+        "позиция": null,
+        "наш_url": null
+      },
+      "recraft оплата по факту использования": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "figma enterprise оплата рф": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "jira оплата иностранной картой из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплатить recraft ai pro": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "motion array подписка": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "gitlab купить аккаунт": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "spine 2d купить": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "framer pro оплата из россии": {
+        "наша": 0.0,
+        "поле": 0.859,
+        "позиция": null,
+        "наш_url": null
+      },
+      "leonardo ai оплата с российского счета": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "недорого оплатить runway из россии": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "купить подписку hailuo": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "envato elements оплата в россии 2026": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "runway тарифы habr.com": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "лицензия скетч license": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      },
+      "оплата postman без vpn москве": {
+        "наша": 0.0,
+        "поле": 0.765,
+        "позиция": null,
+        "наш_url": null
+      }
+    },
+    "доли_по_категориям": {
+      "G": 0.388644,
+      "E": 0.117478,
+      "A": 0.070293,
+      "?": 0.274208,
+      "F": 0.068349,
+      "H": 0.081038
+    },
+    "конкурентов_в_основном_рейтинге": 43,
+    "лидеры": [
+      {
+        "домен": "platipomiru.com",
+        "категория": "A",
+        "доля": 0.043008,
+        "топ3": 36,
+        "топ10": 106
+      },
+      {
+        "домен": "oplata.guru",
+        "категория": "H",
+        "доля": 0.021721,
+        "топ3": 12,
+        "топ10": 70
+      },
+      {
+        "домен": "raketapay.ru",
+        "категория": "H",
+        "доля": 0.018644,
+        "топ3": 16,
+        "топ10": 63
+      },
+      {
+        "домен": "syssoft.ru",
+        "категория": "A",
+        "доля": 0.01042,
+        "топ3": 9,
+        "топ10": 27
+      },
+      {
+        "домен": "migsoft.ru",
+        "категория": "A",
+        "доля": 0.009108,
+        "топ3": 8,
+        "топ10": 27
+      },
+      {
+        "домен": "pay-saas.ru",
+        "категория": "H",
+        "доля": 0.007448,
+        "топ3": 5,
+        "топ10": 28
+      },
+      {
+        "домен": "global-payments.ru",
+        "категория": "H",
+        "доля": 0.006322,
+        "топ3": 6,
+        "топ10": 16
+      },
+      {
+        "домен": "payholder.ru",
+        "категория": "H",
+        "доля": 0.005899,
+        "топ3": 4,
+        "топ10": 19
+      },
+      {
+        "домен": "store.softline.ru",
+        "категория": "A",
+        "доля": 0.005734,
+        "топ3": 4,
+        "топ10": 7
+      },
+      {
+        "домен": "virtualcards.shopping",
+        "категория": "H",
+        "доля": 0.004732,
+        "топ3": 3,
+        "топ10": 15
+      }
+    ],
+    "разрыв_с_яндексом": {
+      "сопоставлено": 264,
+      "в_обеих_топ10": 0,
+      "глубина_google": 20,
+      "глубина_яндекс": 10,
+      "яндекс_топ10_google_нет": [
+        {
+          "запрос": "adobe купить для компании",
+          "позиция_яндекс": 1,
+          "google_топ3": [
+            "adobe.com",
+            "snabsoft.ru",
+            "adobe.datasystem.ru"
+          ]
+        },
+        {
+          "запрос": "recraft по договору купить",
+          "позиция_яндекс": 1,
+          "google_топ3": [
+            "exnode.ru",
+            "dtf.ru",
+            "syssoft.ru"
+          ]
+        },
+        {
+          "запрос": "купить after effects юридическим лицом",
+          "позиция_яндекс": 1,
+          "google_топ3": [
+            "migsoft.ru",
+            "ml-soft.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "framer оплата рублями",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "platipomiru.com",
+            "vc.ru",
+            "dtf.ru"
+          ]
+        },
+        {
+          "запрос": "framer оплата с российского счета",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "platipomiru.com",
+            "vc.ru",
+            "dtf.ru"
+          ]
+        },
+        {
+          "запрос": "framer оформить подписку россия",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "ggsel.net",
+            "mshopy.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "github business купить",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "azure.microsoft.com",
+            "softlist.com.ua",
+            "ggsel.net"
+          ]
+        },
+        {
+          "запрос": "gitlab saas оплата из россии",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "vc.ru",
+            "habr.com",
+            "exnode.ru"
+          ]
+        },
+        {
+          "запрос": "gitlab оплата с российского счета",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "vc.ru",
+            "exnode.ru",
+            "platipomiru.com"
+          ]
+        },
+        {
+          "запрос": "как получить счет и закрывающие от atlassian",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "atlassian.com",
+            "raketapay.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "купить cursor pro юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "klerk.ru",
+            "vc.ru",
+            "ggsel.net"
+          ]
+        },
+        {
+          "запрос": "купить envato elements юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "ggsel.net",
+            "vc.ru",
+            "steam-account.ru"
+          ]
+        },
+        {
+          "запрос": "купить notion ai юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "vc.ru",
+            "migsoft.ru",
+            "wanttopay.net"
+          ]
+        },
+        {
+          "запрос": "купить premiere pro юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "market.yandex.ru",
+            "migsoft.ru",
+            "adobe.com"
+          ]
+        },
+        {
+          "запрос": "оплата artlist юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "dtf.ru",
+            "oplata.guru",
+            "pikabu.ru"
+          ]
+        },
+        {
+          "запрос": "оплата descript юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "kikugawa.ru",
+            "selsup.ru",
+            "mymeet.ai"
+          ]
+        },
+        {
+          "запрос": "оплата envato юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "oplata.guru",
+            "vc.ru",
+            "wanttopay.net"
+          ]
+        },
+        {
+          "запрос": "оплата motion array юридическим лицом",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "remoney.ru",
+            "pay-saas.ru",
+            "oplata.guru"
+          ]
+        },
+        {
+          "запрос": "оплата корел дро",
+          "позиция_яндекс": 2,
+          "google_топ3": [
+            "store.softline.ru",
+            "corel.datasystem.ru",
+            "platipomiru.com"
+          ]
+        },
+        {
+          "запрос": "framer basic оплата россия",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "ya.zerocoder.ru",
+            "mshopy.ru",
+            "platipomiru.com"
+          ]
+        },
+        {
+          "запрос": "framer подписка из рф гайд",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "dtf.ru",
+            "vc.ru",
+            "platipomiru.com"
+          ]
+        },
+        {
+          "запрос": "github copilot business купить",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "docs.github.com",
+            "plati.market",
+            "habr.com"
+          ]
+        },
+        {
+          "запрос": "gitlab годовая подписка из россии",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "exnode.ru",
+            "vc.ru",
+            "dtf.ru"
+          ]
+        },
+        {
+          "запрос": "gitlab купить аккаунт",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "grizzlysms.com",
+            "habr.com",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "jira оплата с российского счета",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "atlassian.com",
+            "vc.ru",
+            "pay-saas.ru"
+          ]
+        },
+        {
+          "запрос": "корпоративная оплата recraft",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "notruble.ru",
+            "phygital.plus",
+            "exnode.ru"
+          ]
+        },
+        {
+          "запрос": "корпоративные лицензии atlassian",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "atlassian.com",
+            "atlassian.com",
+            "atlassian.com"
+          ]
+        },
+        {
+          "запрос": "корпоративные тарифы slack для бизнеса из рф",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "bitrix24.ru",
+            "scrile.ru",
+            "leadertask.ru"
+          ]
+        },
+        {
+          "запрос": "купить openai api юридическим лицом",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "ggsel.net",
+            "proxyapi.ru",
+            "openai.com"
+          ]
+        },
+        {
+          "запрос": "купить perplexity pro юридическим лицом",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "klerk.ru",
+            "companies.rbc.ru",
+            "syssoft.ru"
+          ]
+        },
+        {
+          "запрос": "лицензия скетч license",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "cad.ru",
+            "help.sketchup.com",
+            "iesoft.ru"
+          ]
+        },
+        {
+          "запрос": "оплата coreldraw из россии",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "store.softline.ru",
+            "pay-saas.ru",
+            "vc.ru"
+          ]
+        },
+        {
+          "запрос": "оплата зарубежного по для юр лица документы",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "corp.pay-saas.ru",
+            "global-payments.ru",
+            "companies.rbc.ru"
+          ]
+        },
+        {
+          "запрос": "продление подписки capture one из россии",
+          "позиция_яндекс": 3,
+          "google_топ3": [
+            "oplata.guru",
+            "vc.ru",
+            "dtf.ru"
+          ]
+        },
+        {
+          "запрос": "framer pro подписка из россии",
+          "позиция_яндекс": 4,
+          "google_топ3": [
+            "ggsel.net",
+            "mshopy.ru",
+            "dtf.ru"
+          ]
+        },
+        {
+          "запрос": "framer домен оплата рф",
+          "позиция_яндекс": 4,
+          "google_топ3": [
+            "dtf.ru",
+            "reddit.com",
+            "mshopy.ru"
+          ]
+        },
+        {
+          "запрос": "framer купить подписку россия",
+          "позиция_яндекс": 4,
+          "google_топ3": [
+            "ggsel.net",
+            "mshopy.ru",
+            "plati.market"
+          ]
+        },
+        {
+          "запрос": "framer тариф россия",
+          "позиция_яндекс": 4,
+          "google_топ3": [
+            "ya.zerocoder.ru",
+            "taptop.pro",
+            "reddit.com"
+          ]
+        },
+        {
+          "запрос": "github copilot business оплата из россии",
+          "позиция_яндекс": 4,
+          "google_топ3": [
+            "market.cnews.ru",
+            "vc.ru",
+            "dtf.ru"
+          ]
+        },
+        {
+          "запрос": "gitlab premium оплата из россии",
+          "позиция_яндекс": 4,
+          "google_топ3": [
+            "vc.ru",
+            "iesoft.ru",
+            "exnode.ru"
+          ]
+        }
+      ],
+      "яндекс_топ10_google_нет_всего": 150,
+      "google_топ10_яндекс_нет": [],
+      "google_топ10_яндекс_нет_всего": 0,
+      "_пояснение": "запросы одного ядра, измеренные в обеих системах; сравнивается присутствие в собранной выдаче, не позиции; «нет» — нет в выдаче своей глубины"
+    },
+    "профиль_отсутствия": {
+      "страниц_в_разрыве": 49,
+      "страниц_есть_в_срезе": 0,
+      "страниц_нет_в_срезе": 49,
+      "наших_url_в_срезе_всего": 0,
+      "по_индексу": {
+        "знает, но не индексирует": 28,
+        "в индексе, проигрывает в выдаче": 16,
+        "не знает адреса": 5
+      },
+      "индекс_доступен": true,
+      "индекс_дата": "2026-09-14",
+      "не_скачано": 33,
+      "обход_по_сайту": {
+        "страниц": 701,
+        "скачано": 217,
+        "не скачано": 484,
+        "последний_обход": "2026-09-13"
+      },
+      "первые": [
+        {
+          "url": "https://biz-soft.pro/blog/kak-oplatit-framer-dlya-yurlica",
+          "запросов": 27,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
+          "запросов": 17,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
+          "запросов": 13,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/recraft",
+          "запросов": 8,
+          "лучшая_позиция_яндекс": 1,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/blog/kak-kupit-recraft-dlya-yurlica",
+          "запросов": 6,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/blog/kak-oplatit-postman-dlya-yurlica",
+          "запросов": 5,
+          "лучшая_позиция_яндекс": 4,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/coreldraw",
+          "запросов": 4,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/gitlab",
+          "запросов": 4,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica",
+          "запросов": 4,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/capture-one",
+          "запросов": 4,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/blog/tarify-runway-oplata-dlya-yurlica",
+          "запросов": 4,
+          "лучшая_позиция_яндекс": 4,
+          "есть_в_google_срезе": false,
+          "индекс": "не знает адреса",
+          "индекс_дословно": "URL is unknown to Google",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/blog/kak-oplatit-envato-elements-dlya-yurlica",
+          "запросов": 3,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "не знает адреса",
+          "индекс_дословно": "URL is unknown to Google",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/motion-array",
+          "запросов": 3,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/github",
+          "запросов": 3,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/perplexity",
+          "запросов": 3,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/atlassian",
+          "запросов": 3,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/blog/kak-oplatit-box-business-iz-rossii",
+          "запросов": 3,
+          "лучшая_позиция_яндекс": 7,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/artlist",
+          "запросов": 2,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/anthropic",
+          "запросов": 2,
+          "лучшая_позиция_яндекс": 4,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/blog/kupit-leonardo-ai-yuridicheskim-licom",
+          "запросов": 2,
+          "лучшая_позиция_яндекс": 5,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/depositphotos",
+          "запросов": 2,
+          "лучшая_позиция_яндекс": 7,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/adobe",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 1,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/product/adobe-ae",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 1,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/envato",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/product/notion-business",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/cursor",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/product/adobe-pr",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "не знает адреса",
+          "индекс_дословно": "URL is unknown to Google",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/blog/oplata-descript-yuridicheskim-licom",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 2,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/sketch",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/product/ghcopilot-business",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/openai",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/slack",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 3,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/product/anthropic-enterprise",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 4,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/grok",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 4,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/framer",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 4,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/freepik",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 4,
+          "есть_в_google_срезе": false,
+          "индекс": "в индексе, проигрывает в выдаче",
+          "индекс_дословно": "Submitted and indexed",
+          "скачан_гуглом": true
+        },
+        {
+          "url": "https://biz-soft.pro/blog/kak-kupit-github-copilot-dlya-yurlica",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 4,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/airalo",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 4,
+          "есть_в_google_срезе": false,
+          "индекс": "не знает адреса",
+          "индекс_дословно": "URL is unknown to Google",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/toon-boom",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 5,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        },
+        {
+          "url": "https://biz-soft.pro/vendors/postman",
+          "запросов": 1,
+          "лучшая_позиция_яндекс": 6,
+          "есть_в_google_срезе": false,
+          "индекс": "знает, но не индексирует",
+          "индекс_дословно": "Discovered - currently not indexed",
+          "скачан_гуглом": false
+        }
+      ],
+      "_пояснение": "страница считается присутствующей, если встречена в Google-срезе по любому запросу на любой позиции его глубины; отсутствие в срезе не доказывает отсутствия в индексе — страница может быть проиндексирована и стоять ниже собранной глубины"
+    },
+    "точки_атаки": {
+      "всего": 0,
+      "первые": []
+    },
+    "_правило_сравнимости": "серия google_ru начинается с первого среза; сводной цифры с Яндексом и динамики нет до накопления базовой линии; доли считаются внутри Google-поля глубиной «глубина» позиций и с Яндексом не складываются; позиции двух систем не сравниваются как равноточные"
+  },
+  "наши_показатели": {
+    "взвешенная_видимость": 13.872,
+    "доля_видимости": 0.035433,
+    "топ3": 55,
+    "топ10": 234,
+    "запросов_в_поле": 650
+  },
+  "доли_по_категориям": {
+    "G": 0.354873,
+    "H": 0.223055,
+    "A": 0.098062,
+    "E": 0.078252,
+    "?": 0.177184,
+    "F": 0.033153
+  },
+  "_доли_по_категориям_пояснение": "доли конкурентов без BIZSoft; наша доля — в «наши_показатели», поэтому сумма меньше 100%",
+  "конкурентов_в_основном_рейтинге": 52,
+  "не_классифицировано": 314,
+  "лидеры": [
+    {
+      "домен": "raketapay.ru",
+      "категория": "H",
+      "доля": 0.11399,
+      "топ3": 180,
+      "топ10": 326,
+      "выше_нас": 302
+    },
+    {
+      "домен": "platipomiru.com",
+      "категория": "A",
+      "доля": 0.062838,
+      "топ3": 119,
+      "топ10": 206,
+      "выше_нас": 185
+    },
+    {
+      "домен": "finteka.io",
+      "категория": "H",
+      "доля": 0.017277,
+      "топ3": 29,
+      "топ10": 107,
+      "выше_нас": 89
+    },
+    {
+      "домен": "yello-card.com",
+      "категория": "H",
+      "доля": 0.014564,
+      "топ3": 30,
+      "топ10": 79,
+      "выше_нас": 69
+    },
+    {
+      "домен": "syssoft.ru",
+      "категория": "A",
+      "доля": 0.013428,
+      "топ3": 23,
+      "топ10": 70,
+      "выше_нас": 53
+    },
+    {
+      "домен": "kartli.io",
+      "категория": "H",
+      "доля": 0.009149,
+      "топ3": 4,
+      "топ10": 100,
+      "выше_нас": 71
+    },
+    {
+      "домен": "dolphinpay.ru",
+      "категория": "H",
+      "доля": 0.008748,
+      "топ3": 6,
+      "топ10": 83,
+      "выше_нас": 64
+    },
+    {
+      "домен": "migsoft.ru",
+      "категория": "A",
+      "доля": 0.007553,
+      "топ3": 12,
+      "топ10": 52,
+      "выше_нас": 36
+    },
+    {
+      "домен": "aifory.pro",
+      "категория": "H",
+      "доля": 0.007185,
+      "топ3": 1,
+      "топ10": 83,
+      "выше_нас": 61
+    },
+    {
+      "домен": "card-open.ru",
+      "категория": "H",
+      "доля": 0.007129,
+      "топ3": 6,
+      "топ10": 71,
+      "выше_нас": 50
+    }
+  ],
+  "дата_данных": "2026-09-14",
+  "предупреждение_о_свежести": null
+}
