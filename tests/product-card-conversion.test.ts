@@ -442,3 +442,72 @@ describe('путь до карточки', () => {
     expect(rule).toContain('src/data/vendors.ts');
   });
 });
+
+describe('колонка покупки, решение руководителя 14.09.2026', () => {
+  it('под ценой нет ни приписки, ни рыжей раскладки НДС', () => {
+    // «за пользователя в год» повторяло пункты справа, а «в т.ч. НДС N% ⓘ» —
+    // строку под суммой. Налог называется один раз, у цены, и в ИТОГО.
+    expect(page).not.toContain('class="price-note"');
+    expect(page).not.toContain('vat-hint');
+    expect(page).not.toContain('product.price_note');
+    expect(page).toContain('{vat > 0 && <span>в том числе НДС {vat}%</span>}');
+    expect(page).toContain("ИТОГО{vat > 0 ? ` в т.ч. НДС ${vat}%` : ''}:");
+  });
+
+  it('ступень объёма ведёт счётчик, ИТОГО и подпись призыва', () => {
+    // Покупатель всё время видит цену единицы и сумму за выбранный объём,
+    // а кнопка называет тот же объём со склонением.
+    expect(page).toContain("qtyInput.value = b.dataset.team || String(minQty)");
+    expect(page).toContain('if (totalEl) totalEl.textContent = formatRub(unit * q);');
+    expect(page).toContain('b.textContent = quoteCtaLabel(commerce, q, namedUnit);');
+    expect(page).toContain("qtyInput.value = String(curQty() + 1);");
+    expect(page).toContain("qtyInput.value = String(Math.max(minQty, curQty() - 1));");
+    const s = commerceState({ price: 1000, qtyLabel: 'Рабочих мест' });
+    expect(quoteCtaLabel(s, 1)).toBe('Получить КП на 1 рабочее место');
+    expect(quoteCtaLabel(s, 2)).toBe('Получить КП на 2 рабочих места');
+    expect(quoteCtaLabel(s, 3)).toBe('Получить КП на 3 рабочих места');
+    expect(quoteCtaLabel(s, 5)).toBe('Получить КП на 5 рабочих мест');
+    expect(quoteCtaLabel(s, 20)).toBe('Получить КП на 20 рабочих мест');
+    expect(quoteCtaLabel(s, 21)).toBe('Получить КП на 21 рабочее место');
+  });
+
+  it('подпись про единое КП выровнена по центру', () => {
+    const rule = page.slice(page.indexOf('.coll-strip p {'));
+    expect(rule.slice(0, rule.indexOf('}'))).toContain('text-align: center');
+  });
+
+  it('кнопка подборки повторяет форму призыва и тянется до правого края', () => {
+    const rule = page.slice(page.indexOf('.coll-btn {'));
+    const decl = rule.slice(0, rule.indexOf('}'));
+    // Скругление и высота — как у .btn в global.css: две кнопки читаются парой.
+    expect(decl).toContain('border-radius: 980px');
+    expect(decl).toContain('padding: 0.75rem 1.5rem');
+    // Ширина — вся оставшаяся строка, короче призыва ровно на флажок.
+    expect(decl).toContain('flex: 1 1 auto');
+    // Жёсткая ширина без права сжаться выносила бы кнопку за край колонки.
+    expect(decl).toContain('min-width: 0');
+    expect(decl).not.toMatch(/(^|[^-])width: \d/);
+  });
+
+  it('третьего действия в колонке нет, доверительные строки остались', () => {
+    expect(page).not.toContain('>Задать вопрос</button>');
+    expect(page).not.toContain('btn-link');
+    const buy = page.slice(page.indexOf('class="card buy-card"'), page.indexOf('<div class="col-rest">'));
+    expect(buy).toContain('TRUST_LINES.map');
+  });
+
+  it('правило записано в свод, в файл правил и в скилы заведения позиций', () => {
+    const claude = readFileSync(resolve(ROOT, 'CLAUDE.md'), 'utf8');
+    expect(claude).toContain('docs/rules/card-price-block.md');
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/card-price-block.md'), 'utf8');
+    expect(rule).toContain('14.09.2026');
+    expect(rule).toContain('Задать вопрос');
+    for (const skill of [
+      '.claude/skills/bizsoft-product-conversion-flow/SKILL.md',
+      '.claude/skills/vendor-page-rebuild/SKILL.md',
+    ]) {
+      expect(readFileSync(resolve(ROOT, skill), 'utf8'), skill)
+        .toContain('docs/rules/card-price-block.md');
+    }
+  });
+});
