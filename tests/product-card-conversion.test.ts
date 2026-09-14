@@ -640,40 +640,62 @@ describe('колонка покупки, решение руководителя
 });
 
 describe('баннер помощи с выбором складывается, а не рвётся', () => {
-  // Разбор 14.09.2026: широкий баннер был жёсткой строкой из трёх частей —
-  // рисунок и призыв не сжимались, текстовая колонка схлопывалась до нуля.
-  // На телефоне заголовок вставал столбиком по букве, а кнопка уходила за
-  // край экрана. Проверки сторожат обе половины починки.
-  const styles = page.slice(page.indexOf('  .assist {'));
+  // Разборы 14.09.2026. Сперва широкий баннер был жёсткой строкой из трёх
+  // частей: рисунок и призыв не сжимались, текст схлопывался до нуля, и на
+  // телефоне заголовок вставал столбиком по букве. Затем выяснилось, что и
+  // починка по ширине окна гадает: в узкой колонке окно широкое, а места нет,
+  // в альбомной ориентации телефона окно «мобильное», а места вдоволь.
+  // Форму задаёт запрос к собственной ширине баннера.
+  const banner = readFileSync(resolve(ROOT, 'src/components/AssistBanner.astro'), 'utf8');
   const decl = (sel: string) => {
-    const at = styles.indexOf(sel);
+    const at = banner.indexOf(sel);
     expect(at, sel).toBeGreaterThan(-1);
-    return styles.slice(at, styles.indexOf('}', at));
+    return banner.slice(at, banner.indexOf('}', at));
   };
 
-  it('строка переносится, а текстовая колонка требует себе ширину', () => {
-    // Без переноса призыв с `flex: none` выталкивал строку за экран.
-    expect(decl('.assist {')).toContain('flex-wrap: wrap');
-    // Базис, а не `auto`: текст не сжимается в нить, ряд переносится.
-    expect(decl('.assist-body {')).toContain('flex: 1 1 14rem');
+  it('баннер один на обе площадки — компонент, а не две копии разметки', () => {
+    // Две копии расходятся: одну правят, вторую забывают.
+    expect(page).toContain("import AssistBanner from '../../components/AssistBanner.astro';");
+    expect(page).toContain('<AssistBanner href={askHref} variant="inline" />');
+    expect(page).toContain('<section class="sec"><AssistBanner href={askHref} /></section>');
+    // Разметки и стилей баннера в странице не осталось.
+    expect(page).not.toContain('class="assist');
+    expect(page.slice(page.indexOf('<style>'))).not.toContain('.assist');
   });
 
-  it('на телефоне баннер складывается столбиком, призыв — во всю ширину', () => {
-    const mq = styles.slice(styles.indexOf('@media (max-width: 700px) {'));
+  it('форму задаёт собственная ширина баннера, а не ширина окна', () => {
+    expect(decl('.assist-wrap {')).toContain('container-type: inline-size');
+    expect(banner).toContain('@container (max-width: 42rem)');
+    // Порог в rem: при крупном системном шрифте требования ряда растут вместе
+    // с ним, пиксельный порог отстал бы.
+    expect(banner).not.toMatch(/@container \(max-width: \d+px\)/);
+  });
+
+  it('в сложенной форме столбик читается намеренным', () => {
+    const mq = banner.slice(banner.indexOf('@container (max-width: 42rem) {'));
     const body = mq.slice(0, mq.indexOf('\n  }'));
     expect(body).toContain('.assist { flex-direction: column');
     expect(body).toContain('align-items: stretch');
     // В колонке главная ось вертикальная: базис стал бы высотой текста и
     // открыл бы под абзацем пустой провал.
-    expect(body).toContain('.assist-body { flex: 0 1 auto; }');
-    expect(body).toContain('.assist-cta { justify-content: center; }');
+    expect(body).toContain('.assist-body { flex: 0 1 auto;');
+    // Сложенная форма достаётся и широкому месту (альбомный телефон): кнопка
+    // во всю ширину растянулась бы на шестьсот пикселей.
+    expect(body).toContain('max-width: 22rem');
+    expect(body).toContain('margin-inline: auto');
   });
 
-  it('ширина призыва ограничена только в строке', () => {
-    // В строке подпись ложится в две строки, и место уходит заголовку;
-    // в колонке призыв обязан оставаться во всю ширину.
-    expect(styles).toContain('.assist:not(.assist-inline) .assist-cta { max-width: 13.5rem');
-    expect(decl('.assist-inline .assist-body {')).toContain('flex: 0 1 auto');
+  it('есть страховка на случай, когда запрос к контейнеру не поддержан', () => {
+    // Старый браузер не знает @container — ряд обязан сложиться сам, а не
+    // сжать текст в нить и вытолкнуть кнопку за экран.
+    expect(decl('.assist {')).toContain('flex-wrap: wrap');
+    expect(decl('.assist-body {')).toContain('flex: 1 1 14rem');
+  });
+
+  it('размер стрелки живёт вместе со стрелкой', () => {
+    // SVG с одним viewBox и без ширины растягивается во всё доступное место;
+    // стили карточки в область компонента не достают.
+    expect(decl('.cta-arrow {')).toContain('width: 20px');
   });
 
   it('заглушка рендерит широкий баннер, иначе прогоны его не видят', () => {
@@ -688,5 +710,6 @@ describe('баннер помощи с выбором складывается, 
     const rule = readFileSync(resolve(ROOT, 'docs/rules/card-price-block.md'), 'utf8');
     expect(rule).toContain('Баннер помощи');
     expect(rule).toContain('content_modules');
+    expect(rule).toContain('@container');
   });
 });

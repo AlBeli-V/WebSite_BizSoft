@@ -47,8 +47,16 @@ const args = Object.fromEntries(process.argv.slice(2)
 
 const STUB_PORT = Number(args['stub-port'] || 8096);
 const APP_PORT = Number(args['app-port'] || 4396);
-/** Ширины: iPhone Pro Max, Pro, mini и самый узкий поддерживаемый экран. */
-const WIDTHS = (args.widths || '440,393,375,320').split(',').map(Number);
+/**
+ * Ширины: телефон в портрете (Pro Max, Pro, mini и самый узкий поддерживаемый
+ * экран) и он же в альбоме (852 — Pro, 667 — mini и SE).
+ *
+ * Альбом добавлен 14.09.2026: прогон мерил только портрет, а поворот телефона
+ * даёт «настольную» ширину при телефонной высоте — там блоки берут ряд вместо
+ * столбика, и именно в этой полосе баннер помощи ломался незамеченным. Полоса
+ * 560–900px до этого не измерялась вообще.
+ */
+const WIDTHS = (args.widths || '852,667,440,393,375,320').split(',').map(Number);
 const PER_GROUP = Number(args['per-group'] || 3);
 const MAX_PAGES = Number(args['max-pages'] || 48);
 /** Ширина сплошного прохода по всем адресам карты сайта; 0 — не делать. */
