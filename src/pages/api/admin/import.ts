@@ -26,9 +26,9 @@ export const POST: APIRoute = async ({ request }) => {
       // лист «Товары» если есть, иначе первый
       const sheetName = wb.SheetNames.find((n) => /товар|product/i.test(n)) || wb.SheetNames[0];
       const json = XLSX.utils.sheet_to_json<RawRow>(wb.Sheets[sheetName], { defval: '', raw: false });
-      rows = json.map(canonRow).filter((r) => r.sku);
+      rows = json.map(canonRow).filter((r) => r.sku || r.sku_product);
     } else if (body.csv) {
-      rows = parseCsv(body.csv).map((r) => canonRow(r as RawRow)).filter((r) => r.sku);
+      rows = parseCsv(body.csv).map((r) => canonRow(r as RawRow)).filter((r) => r.sku || r.sku_product);
     } else {
       return new Response(JSON.stringify({ error: 'нет данных (csv или xlsxBase64)' }), { status: 422 });
     }
@@ -36,7 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
     console.error('import parse', e);
     return new Response(JSON.stringify({ error: 'не удалось разобрать файл' }), { status: 422 });
   }
-  if (rows.length === 0) return new Response(JSON.stringify({ error: 'нет строк с заполненным sku' }), { status: 422 });
+  if (rows.length === 0) return new Response(JSON.stringify({ error: 'нет строк с заполненным sku или sku_product' }), { status: 422 });
 
   // 2) контекст: категории, существующие товары, курсы ЦБ
   let categories, products, rate;

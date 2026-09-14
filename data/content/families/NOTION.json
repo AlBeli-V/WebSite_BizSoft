@@ -1,0 +1,322 @@
+{
+  "family_key": "NOTION",
+  "vendor": "Notion Labs",
+  "vendor_profile": "data/content/vendors/notion.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "notion-business",
+  "classification_notes": [
+    "Business / Enterprise. Носитель — Business."
+  ],
+  "products": {
+    "notion-business": {
+      "sku": "NOTN-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Notion Business — командная подписка на 1 год на рабочее пространство компании: страницы и базы данных, вики, проекты, Notion AI в составе, SAML SSO, приватные командные пространства, экспорт PDF пакетом, гости. Лицензии на организации.\n\nBusiness — план для компаний, которым мало Plus: SSO и приватные тимспейсы появляются здесь.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Notion Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Рабочее пространство",
+              "d": "Страницы, базы данных, шаблоны, вики с верификацией."
+            },
+            {
+              "t": "Notion AI",
+              "d": "Ответы по пространству, генерация и правка текста в составе плана."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SAML SSO, приватные пространства команд, аудит базовый."
+            },
+            {
+              "t": "Совместная работа",
+              "d": "Гости, комментарии, публикация страниц."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Компания с SSO и несколькими командами."
+            },
+            {
+              "t": "Enterprise",
+              "d": "SCIM, расширенный аудит, договор.",
+              "link": "notion-enterprise"
+            },
+            {
+              "t": "Confluence Standard",
+              "d": "Вики без баз данных.",
+              "link": "confluence-standard"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимит гостей",
+              "d": "По тарифу."
+            },
+            {
+              "t": "Данные",
+              "d": "Только облако Notion."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, где Notion — единая вики, трекер и база знаний."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Notion AI?",
+          "a": "Да, в Business и Enterprise без доплаты."
+        }
+      ],
+      "related_products": [
+        "notion-enterprise",
+        "confluence-standard"
+      ],
+      "meta_title": "Notion Business — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Notion Business: пространство компании с базами данных, вики, Notion AI, SAML SSO и приватными командами. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "notion купить юрлицо — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "notion-enterprise": {
+      "sku": "NOTN-LIC-ENTERPRISE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Notion Enterprise — командный план Notion корпоративного уровня на 1 год: всё из Business плюс SCIM, расширенный аудит и управление контентом, аналитика пространства, выделенный менеджер, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Notion Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Управление",
+              "d": "SCIM, роли, аудит-лог, экспорт для e-discovery."
+            },
+            {
+              "t": "Аналитика",
+              "d": "Использование пространства и контента."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенный менеджер, приоритет."
+            },
+            {
+              "t": "Всё из Business",
+              "d": "AI, SSO, тимспейсы."
+            }
+          ],
+          "links": [
+            "notion-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Сотни пользователей, ИБ-требования."
+            },
+            {
+              "t": "Business",
+              "d": "Десятки пользователей с SSO.",
+              "link": "notion-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Минимумы и цикл согласования."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным организациям с провижинингом и аудитом."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли SCIM в Business?",
+          "a": "Нет, только в Enterprise."
+        }
+      ],
+      "related_products": [
+        "notion-business"
+      ],
+      "meta_title": "Notion Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Notion Enterprise: SCIM, расширенный аудит, аналитика, выделенный менеджер; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "notion enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

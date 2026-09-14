@@ -8,24 +8,28 @@ import FAQ from '../../components/FAQ.astro';
 import QuestionForm from '../../components/QuestionForm.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import OfferLogisticsMicrodata from '../../components/OfferLogisticsMicrodata.astro';
-import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, getProductsBySkus, getProductVariants, galleryImages , getCurrencyRate } from '../../lib/directus';
+import { getProductBySlug, findCanonicalProductSlug, getProductsBySlugs, getProductsBySkus, getProductVariants, getProducts, galleryImages , getCurrencyRate } from '../../lib/directus';
 import { isSourceUnavailable, serviceUnavailable } from '../../lib/http';
 import { productSchema, giftCardProductSchema, canonicalUrl } from '../../lib/seo';
 import { effectivePrice, formatRub } from '../../lib/pricing';
 import { LICENSE_LABEL, listValues } from '../../lib/types';
 import { vendorLegal, productNoindex, isGiftCard, isVariant } from '../../lib/catalog';
-import { groupGiftCardVariants, giftCardPriceRange, pickInitialVariant, variantLabel, type GiftCardRegion } from '../../lib/gift-cards';
+import { groupGiftCardVariants, giftCardPriceRange, pickInitialVariant, variantLabel, formatDenomination, type GiftCardRegion } from '../../lib/gift-cards';
 import { giftCardContent } from '../../data/gift-cards';
 import GiftCardSelector from '../../components/GiftCardSelector.astro';
 import { getAiInterlinks } from '../../data/ai-interlinks';
 import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
+import VendorLogo from '../../components/VendorLogo.astro';
 import { vendorContent } from '../../data/vendor-content';
 import { vendorSlug } from '../../lib/vendor-links';
 import { vendorBySlug } from '../../data/vendors';
-import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase } from '../../lib/product-commerce';
-import { planType, PLAN_MARKER, PLAN_SHORT } from '../../lib/plan-type';
-import { cardComposition } from '../../lib/product-composition';
+import { commerceState, quoteCtaLabel, quoteProductRef, unitNoun, unitPhrase, qtyPresets, unitPlural } from '../../lib/product-commerce';
+import { planType, PLAN_MARKER, PLAN_MARKER_UNIVERSAL, PLAN_SHORT } from '../../lib/plan-type';
+import { cardComposition, KIND_MARKER } from '../../lib/product-composition';
+import { displayName, termLabel, TERM } from '../../lib/card-display';
+import { parseSku } from '../../lib/sku';
+import { FACT_HEADS, factTerm, factMin, factTransfer, splitLede, creditsLabel } from '../../lib/card-facts';
 import { PROCUREMENT_FLOW, TRUST_LINES } from '../../data/policies';
 import { seller } from '../../config/site';
 
@@ -113,7 +117,10 @@ const commerce = commerceState({
   priceFrom: product.price_from,
   availability: product.availability,
   minQty: cardMeta?.minQty,
-  qtyLabel: cardMeta?.qtyLabel,
+  // Единица без указания вендора: у подписки — рабочее место, у бессрочной
+  // лицензии — лицензия (решение руководителя 13.09.2026: «1 рабочее место,
+  // 1 календарный год» у годовых подписок, «бессрочно» у лицензий).
+  qtyLabel: cardMeta?.qtyLabel || (/\bPERP\b|бессрочн|вечная лицензия/i.test(`${product.sku} ${product.name}`) ? 'Лицензий' : 'Рабочих мест'),
   check: cardMeta?.check,
 });
 // ── Вид позиции ──────────────────────────────────────────────────────
@@ -138,43 +145,95 @@ const ctaRef = quoteProductRef(product.name, product.sku, commerce, commerce.min
 // ответ на вопрос «кому можно пользоваться»: тот даёт license_type и живёт
 // в параметрах. Поля в каталоге нет, эвристика по названию и описанию —
 // это DATA GAP, поэтому маркер не показывается, когда уверенности нет.
-const planKind = planType(product.name, product.short_description || '');
+// Разметка оператора (VendorCardMeta.marker) старше эвристики: тип плана по
+// названию угадывается не всегда, и подставлять догадку нельзя.
+const markerOverride = cardMeta?.marker;
+const planKind = markerOverride === 'team' ? 'team'
+  : markerOverride === 'individual' ? 'individual'
+  : (markerOverride ? null : planType(product.name, product.short_description || '', product.sku));
 const planMarker = planKind ? PLAN_MARKER[planKind] : '';
 const planShort = planKind ? PLAN_SHORT[planKind] : '';
+
+// Первая плашка называет вид позиции (правило docs/rules/product-markers.md):
+// у пополнения — «Универсальный продукт», у дополнения — «Дополнение к
+// продукту», у подписки — тип плана. Тип плана данными не выводится, и там,
+// где он не подтверждён, стоит «Универсальный план»: деления на командный и
+// индивидуальный у таких позиций нет вовсе, а угадывать его по названию
+// нельзя — это уже дало «Командный план · VFX и моушн» на Red Giant.
+const kindMarker = markerOverride === 'universal' ? KIND_MARKER.balance_topup
+  : markerOverride === 'addon' ? KIND_MARKER.addon
+  : KIND_MARKER[composition] ?? '';
+const primaryMarker = kindMarker || planMarker || PLAN_MARKER_UNIVERSAL;
+
+// Вторая плашка — одна основная категория. У пополнения и дополнения это
+// основная категория производителя (реестр vendors.ts): сама позиция —
+// надстройка над его продуктом, и своя категория у неё бывает служебной.
+const vendorCatEntry = product.vendor ? vendorBySlug(vendorSlug(product.vendor)) : undefined;
+const categoryMarker = (kindMarker && vendorCatEntry?.catLabel && vendorCatEntry?.catSeg)
+  ? { name: vendorCatEntry.catLabel, slug: vendorCatEntry.catSeg }
+  : category ? { name: category.name, slug: category.slug } : null;
 const unitName = unitNoun(commerce.qtyLabel);
-// Подзаголовок называет тип плана. Срока подписки в схеме каталога нет
-// (DATA GAP в каталоге), он ведётся в контенте вендора (VendorCardMeta.term).
-// Плашка `badge` его не заменяет: это тематическая подпись линейки («VFX и
-// моушн», «для команд»), от которой получалось «Командный план · VFX и моушн».
-const subtitleParts = [planMarker, cardMeta?.term].filter(Boolean) as string[];
+// Строка под заголовком — тип плана и срок (правило docs/rules/card-title.md).
+// Тип плана: командный, индивидуальный, а без деления — универсальный; у
+// пополнения — тоже «Универсальный план». Срок считает termLabel из данных
+// позиции: явный срок в названии и артикуле, бессрочность, вид позиции;
+// подписка без явного срока — годовая, у пополнения — «до истечения
+// баланса», у договорной позиции срока нет. Плашка `badge` в строку не
+// идёт: это тематическая подпись линейки, от неё получалось
+// «Командный план · VFX и моушн».
+const planLine = planMarker || PLAN_MARKER_UNIVERSAL;
+const term = termLabel(product, composition);
+const subtitleParts = [planLine, term].filter(Boolean) as string[];
 
-// Факты под описанием: срок, минимальный объём, переназначение единиц.
-// Срока и признака переназначения в каталоге нет — они приходят из контента
-// вендора; чего нет и там, то заменяется подтверждённым полем, а не пустой
-// ячейкой.
-const heroFacts: { k: string; v: string }[] = [];
-if (!byRequest && isUnitPlan) {
-  if (cardMeta?.termShort) heroFacts.push({ k: 'Срок', v: cardMeta.termShort });
-  heroFacts.push({ k: 'MIN кол-во', v: String(commerce.minQty) });
-  if (cardMeta?.reassign) heroFacts.push({ k: 'Переназначение', v: cardMeta.reassign });
-  if (heroFacts.length < 3) heroFacts.unshift({ k: 'Расчётная единица', v: unitName });
-  if (heroFacts.length < 3 && vat > 0) heroFacts.push({ k: 'НДС', v: `${vat}% (включено в стоимость)` });
-  else if (heroFacts.length < 3 && category) heroFacts.push({ k: 'Категория', v: category.name });
+// Блок фактов под описанием (правило docs/rules/card-lede-facts.md): три
+// колонки у любой позиции — срок действия плана, минимальное количество,
+// возможность переназначения. Значения — из данных карточки: срок тот же,
+// что в строке под заголовком, минимум — из контента вендора (по умолчанию
+// 1), переназначение — по типу плана и виду позиции; отметка оператора
+// (VendorCardMeta.reassign) старше правила.
+// Минимум у пополнения — наименьший номинал линейки: у подарочной карты — в
+// регионе, выбранном на карточке; у пакета кредитов — среди пакетов той же
+// линейки (артикулы одной линейки: всё до варианта-номинала). Иначе — «50 $/€».
+let balanceMin: string | null = null;
+if (isGift && giftInitial) {
+  const region = giftRegions.find((r) => r.variants.some((v) => v.sku === giftInitial.sku));
+  const least = region?.variants.reduce((a, v) => (v.denomination < a.denomination ? v : a), region.variants[0]);
+  if (least) balanceMin = formatDenomination(least);
+} else if (term === TERM.balance && parseSku(product.sku)?.kind === 'CRD' && parseSku(product.sku)?.variant) {
+  // Линейка номиналов: всё до варианта (<…>-CRD-<продукт>-UNI-BAL-NOM-).
+  const prefix = product.sku.slice(0, product.sku.lastIndexOf('-') + 1);
+  try {
+    const packs = (await getProducts({ vendor: product.vendor || undefined })).filter((p) => p.sku.startsWith(prefix));
+    const least = Math.min(...packs.map((p) => Number(p.sku.slice(prefix.length))).filter(Number.isFinite));
+    if (Number.isFinite(least)) balanceMin = creditsLabel(least, product.name);
+  } catch { /* линейка недоступна — остаётся умолчание */ }
 }
+const factValues: Record<'term' | 'min' | 'transfer', string> = {
+  term: factTerm(term),
+  min: factMin(composition, commerce.minQty, term, balanceMin),
+  transfer: factTransfer(composition, planKind, cardMeta?.reassign),
+};
+const heroFacts = FACT_HEADS.map((h) => ({ ...h, value: factValues[h.key] }));
 
-// Зона «за что» у цены: единица, срок либо минимальный объём, тип плана.
+// Описание: видимая часть — первый абзац или первые предложения, остальное
+// раскрывается по «Подробнее». В разметке текст целиком.
+const lede = splitLede(product.short_description || '');
+
+// Зона «за что» у цены — три пункта справа от суммы (правило
+// docs/rules/card-price-block.md): единица с минимумом в скобках
+// («1 рабочее место (от 2)»), срок («1 календарный год», «бессрочно»,
+// «до истечения»), тип плана. Категория сюда не идёт.
 const priceWhat: string[] = [];
 if (!byRequest) {
-  if (isUnitPlan) priceWhat.push(unitPhrase(1, commerce.qtyLabel));
-  if (commerce.minQty > 1) priceWhat.push(`минимум ${unitPhrase(commerce.minQty, commerce.qtyLabel)}`);
-  else if (cardMeta?.termShort) priceWhat.push(`1 календарный ${cardMeta.termShort.replace(/^1\s*/, '')}`);
-  if (planMarker) priceWhat.push(planMarker);
-  else if (category) priceWhat.push(category.name);
+  if (isUnitPlan) priceWhat.push(unitPhrase(1, commerce.qtyLabel) + (commerce.minQty > 1 ? ` (от ${commerce.minQty})` : ''));
+  if (term === TERM.balance) priceWhat.push('до истечения');
+  else if (term === TERM.year) priceWhat.push('1 календарный год');
+  else if (term) priceWhat.push(term);
+  priceWhat.push(planLine);
 }
 
-// Ступени объёма: ниже минимального заказа не показываются — это цена,
-// которую нельзя купить.
-const qtyPresets = [3, 5, 10, 20].filter((n) => n > commerce.minQty);
+// Ступени объёма: 2, 3, 5, 10, 20 с учётом минимума (product-commerce.ts).
+const qtySteps = qtyPresets(commerce.minQty);
 
 // Письмо специалисту с готовой темой и началом текста: человеку остаётся
 // назвать компанию и дописать вопрос.
@@ -183,11 +242,16 @@ const askBody = `Добрый день,\n\nПросим уточнить `;
 const askHref = `mailto:${seller.salesEmail}?subject=${encodeURIComponent(askSubject)}&body=${encodeURIComponent(askBody)}`;
 
 // ── Путь до карточки ─────────────────────────────────────────────────
-// Решение руководителя 12.09.2026: путь ведёт в каталог по происхождению и
-// дальше на страницу производителя с выбором продукта, а не в раздел
-// каталога. Карточку покупатель выбирает у производителя, туда же он
-// возвращается сравнивать редакции; ссылка на раздел остаётся в значках
-// над заголовком и в характеристиках, поэтому раздел не теряется.
+// Правило docs/rules/breadcrumbs.md: путь карточки всегда из трёх уровней —
+// Главная → Производитель → Продукт. Карточку покупатель выбирает у
+// производителя, туда же возвращается сравнивать редакции; раздел каталога
+// остаётся маркером над заголовком и строкой в параметрах.
+//
+// Раздел «Каталог» в пути появляется единственным случаем: у позиции не
+// заполнен вендор. Это дефект данных, а не композиция — иначе путь оборвётся
+// на главной. Страница производителя при этом всегда существует: лендинг
+// собирается и по живым позициям каталога, а у вендора с карточкой их как
+// минимум одна.
 const vendorPageSlug = product.vendor ? vendorSlug(product.vendor) : '';
 const vendorEntry = vendorPageSlug ? vendorBySlug(vendorPageSlug) : undefined;
 const vendorCrumb = product.vendor
@@ -202,6 +266,23 @@ try {
 // Архитектурные блоки масштабирования
 const useCases = listValues(product.use_cases);
 const relatedSlugs = listValues(product.related_products);
+// Динамическая нижняя часть (13.09.2026): модули из Directus заменяют
+// «Что входит», «Подробно о продукте» и seo_text. Пустое поле — legacy-ветка
+// без изменений: откат = обнулить content_modules.
+const modules = Array.isArray(product.content_modules) ? product.content_modules.filter((m) => m && m.code && m.title) : [];
+const hasModules = modules.length > 0 && !gift;
+const moduleLinkSlugs = [...new Set(modules.flatMap((m) => [...(m.links || []), ...((m.items || []).map((i) => i.link).filter(Boolean) as string[])]))];
+const moduleLinkNames: Record<string, string> = {};
+if (moduleLinkSlugs.length) {
+  for (const lp of await getProductsBySlugs(moduleLinkSlugs)) moduleLinkNames[lp.slug] = lp.name;
+}
+const nameOf = (s: string) => moduleLinkNames[s] || s;
+const proseParas = (m: { body?: string }) => (m.body || '').split(/\n{2,}/).filter(Boolean);
+const compareCols = (m: { rows?: { values: Record<string, string> }[] }) => {
+  const cols = new Set<string>([product.slug]);
+  for (const r of m.rows || []) for (const k of Object.keys(r.values || {})) cols.add(k);
+  return [...cols];
+};
 let relatedProducts: Awaited<ReturnType<typeof getProductsBySlugs>> = [];
 try {
   if (relatedSlugs.length) relatedProducts = await getProductsBySlugs(relatedSlugs);
@@ -240,10 +321,13 @@ const hasMd = isGift ? productLd !== null : !byRequest;
 const mdProduct = hasMd
   ? { itemscope: true, itemtype: 'https://schema.org/Product' }
   : {};
-// Когда H1 показывает короткое имя, itemprop="name" уезжает с заголовка в
-// отдельный meta: иначе microdata назвала бы товар иначе, чем JSON-LD, и
-// слои разошлись бы (смоук-проверка их сверяет).
-const h1Text = cardMeta?.shortName || product.name;
+// Заголовок — имя продукта без маркеров плана и срока (правило
+// docs/rules/card-title.md): «Cinema 4D 1Y (Teams)» → «Cinema 4D», план и
+// срок стоят строкой ниже. Короткое имя из контента вендора старше правила.
+// Когда H1 отличается от названия каталога, itemprop="name" уезжает с
+// заголовка в отдельный meta: иначе microdata назвала бы товар иначе, чем
+// JSON-LD, и слои разошлись бы (смоук-проверка их сверяет).
+const h1Text = cardMeta?.shortName || displayName(product.name);
 const mdName = hasMd && h1Text === product.name ? { itemprop: 'name' } : {};
 const mdDesc = hasMd && product.short_description ? { itemprop: 'description' } : {};
 const mdOffer = hasMd
@@ -273,14 +357,9 @@ try {
 >
   {productLd && <JsonLd schema={productLd} />}
   <div class="container-page section">
-    {/* Путь из трёх уровней: главная → производитель → продукт. Раздел
-        каталога и происхождение из пути убраны — покупатель выбирает
-        карточку у производителя и туда же возвращается сравнивать редакции;
-        ссылка на раздел осталась маркером над заголовком. Позиция без
-        вендора падает на раздел каталога, иначе путь оборвётся на главной. */}
     <Breadcrumbs
       items={[
-        ...(vendorCrumb ? [vendorCrumb] : category ? [{ name: category.name, url: `/catalog/${category.slug}` }] : [{ name: 'Каталог', url: '/catalog' }]),
+        vendorCrumb ?? { name: 'Каталог', url: '/catalog' },
         { name: h1Text, url: `/product/${product.slug}` },
       ]}
     />
@@ -293,7 +372,7 @@ try {
         колонке, покупка — липкой колонкой справа во всю высоту. На телефоне
         порядок в разметке (экран → покупка → остальное) сам даёт нужную
         последовательность: цена сразу после названия, а не в хвосте. */}
-    <div class:list={['product-layout', { gift: isGift }]} data-commerce={JSON.stringify(commerce)} data-composition={composition} {...mdProduct}>
+    <div class:list={['product-layout', { gift: isGift }]} data-commerce={JSON.stringify(commerce)} data-composition={composition} data-nature={product.product_nature || undefined} data-packaging={product.packaging || undefined} data-content={hasModules ? product.content_version || "cm" : "legacy"} {...mdProduct}>
       {hasMd && (
         <>
           <meta itemprop="sku" content={product.sku} />
@@ -316,10 +395,22 @@ try {
             задачи. Происхождение сюда не выносится — это признак каталога,
             а не свойство, влияющее на выбор; артикул ушёл в параметры. */}
         <div class="chips">
-          {planMarker && <span class="chip chip-plan">{planMarker}</span>}
-          {category && <a class="chip chip-link" href={`/catalog/${category.slug}`}>{category.name}</a>}
+          {primaryMarker && <span class="chip chip-plan">{primaryMarker}</span>}
+          {categoryMarker && (
+            <a class="chip chip-link" href={`/catalog/${categoryMarker.slug}`}>{categoryMarker.name}</a>
+          )}
         </div>
-        {product.vendor && <p class="vendorline">Производитель: <b>{vendorLegal(product.vendor)}</b></p>}
+        {/* Строка производителя ведёт на его страницу: знак и название —
+            одна ссылка без подчёркивания и без цвета ссылки. Правило
+            docs/rules/vendor-line.md: у покупателя, узнающего бренд по знаку,
+            путь к лендингу короче на один взгляд, а у остальных строка
+            остаётся строкой, а не рекламой перехода. */}
+        {product.vendor && (
+          <p class="vendorline">Производитель: <a class="vendorline-link" href={`/vendors/${vendorPageSlug}`}>
+            <VendorLogo slug={vendorPageSlug} name={vendorLegal(product.vendor)} size={20} fluid />
+            <b>{vendorLegal(product.vendor)}</b>
+          </a></p>
+        )}
         <div class="title-row">
           {productIcons(product.slug).length > 0 && (
             <ProductIcon slug={product.slug} name={product.name} size={52} variant="color" />
@@ -327,10 +418,33 @@ try {
           <h1 {...mdName}>{h1Text}</h1>
         </div>
         {subtitleParts.length > 0 && <p class="subtitle">{subtitleParts.join(' · ')}</p>}
-        {product.short_description && <p class="lede" lang="ru" {...mdDesc}>{product.short_description}</p>}
-        {heroFacts.length > 1 && !isGift && (
-          <dl class="hero-facts">
-            {heroFacts.map((f) => <div><dt>{f.k}</dt><dd>{f.v}</dd></div>)}
+        {lede.head && (
+          <div class="lede-wrap" lang="ru" {...mdDesc}>
+            <p class="lede">{lede.head}</p>
+            {lede.tail.length > 0 && (
+              <div class="lede-more" id="lede-more" hidden>
+                {lede.tail.map((t) => <p class="lede">{t}</p>)}
+              </div>
+            )}
+          </div>
+        )}
+        {lede.tail.length > 0 && (
+          <button type="button" class="lede-toggle" aria-expanded="false" aria-controls="lede-more" data-lede-toggle>Подробнее</button>
+        )}
+        {(
+          <dl class="facts">
+            {heroFacts.map((f) => (
+              <div class="fact">
+                <dt>
+                  <span class="fact-short">{f.short}</span><span class="fact-long">{f.long}</span>
+                  <span class="hint">
+                    <button type="button" class="hint-btn" aria-label={`Пояснение: ${f.long.toLowerCase()}`} aria-expanded="false" aria-describedby={`hint-${f.key}`} data-hint></button>
+                    <span class="hint-box" role="tooltip" id={`hint-${f.key}`}>{f.hint}</span>
+                  </span>
+                </dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
           </dl>
         )}
         {gift && (
@@ -392,15 +506,15 @@ try {
               <span>Рассчитаем стоимость под вашу конфигурацию и количество.</span>
             </div>
           ) : (
-            /* Две зоны: слева сумма и налог, справа — за что платят. Когда
-               минимум заказа больше единицы, крупным числом идёт сумма
-               минимального заказа: цена одного места обещает заказ, который
-               нельзя оформить. */
+            /* Две ячейки без оформления: слева цена единицы и налог (по
+               центру), справа — за что платят (по левому краю, прижато к
+               концу). Слова «от» и «цена за 1 место» сняты: минимум заказа
+               назван в первом пункте справа и в счётчике, а ИТОГО ниже
+               сразу считается за минимальный заказ. */
             <div class="price-zones">
               <div class="pz-sum">
                 {eff.isPromo && eff.promoLabel && <span class="promo-label">{eff.promoLabel}</span>}
-                <b>{commerce.minQty > 1 ? `от ${formatRub(commerce.purchasePrice)}` : formatRub(eff.price)}</b>
-                {isUnitPlan && <span>цена за {unitPhrase(1, commerce.qtyLabel)}</span>}
+                <b>{formatRub(eff.price)}</b>
                 {vat > 0 && <span>в том числе НДС {vat}%</span>}
               </div>
               <ul class="pz-what">
@@ -428,11 +542,11 @@ try {
 
           {!byRequest && (
             <div class="buy-qty">
-              <span class="qty-label">{isUnitPlan ? `Количество ${commerce.qtyLabel.toLowerCase()}` : 'Количество'}</span>
+              <span class="qty-label">{isUnitPlan ? `Количество ${unitPlural(commerce.qtyLabel)}` : 'Количество'}</span>
               <div class="qty-controls">
-                {qtyPresets.length > 0 && (
+                {qtySteps.length > 0 && (
                   <div class="presets">
-                    {qtyPresets.map((n) => <button type="button" data-team={n}>{n}</button>)}
+                    {qtySteps.map((n) => <button type="button" data-team={n}>{n}</button>)}
                   </div>
                 )}
                 <span class="qty" data-qty-wrap>
@@ -441,7 +555,7 @@ try {
                       иначе покупатель считает бюджет по невозможному заказу. */}
                   <input
                     type="number" min={commerce.minQty} value={commerce.minQty} inputmode="numeric"
-                    data-qty data-min={commerce.minQty} aria-label={isUnitPlan ? `Количество ${commerce.qtyLabel.toLowerCase()}` : 'Количество'}
+                    data-qty data-min={commerce.minQty} aria-label={isUnitPlan ? `Количество ${unitPlural(commerce.qtyLabel)}` : 'Количество'}
                   />
                   <button type="button" data-inc aria-label="Больше">+</button>
                 </span>
@@ -560,7 +674,31 @@ try {
 
         {/* Состав подписки — выше описания: «что я получу за эти деньги»
             читают до маркетингового текста, а не после него. */}
-        {(cardMeta?.includes?.length || features.length > 0) && !gift && (
+        {hasModules && modules.map((m) => (
+          <section class="sec" data-module={m.code}>
+            <h2 class="sec-head"><i aria-hidden="true">/</i>{m.title}</h2>
+            {m.kind !== 'prose' && m.body && <p class="mod-body">{m.body}</p>}
+            {m.kind === 'items' && (
+              <ul class="incl incl-wide">
+                {(m.items || []).map((it) => (
+                  <li><b>{it.t}</b><p>{it.d}{it.link && <> <a class="mod-link" href={`/product/${it.link}`}>{nameOf(it.link)} →</a></>}</p></li>
+                ))}
+              </ul>
+            )}
+            {m.kind === 'prose' && proseParas(m).map((par) => <p class="mod-body">{par}</p>)}
+            {m.kind === 'compare' && (
+              <div class="cmp"><table>
+                <tr><th></th>{compareCols(m).map((c) => <th class={c === product.slug ? 'me' : ''}>{c === product.slug ? 'Эта карточка' : <a class="mod-link" href={`/product/${c}`}>{nameOf(c)}</a>}</th>)}</tr>
+                {(m.rows || []).map((r) => <tr><td>{r.label}</td>{compareCols(m).map((c) => <td class={c === product.slug ? 'me' : ''}>{r.values?.[c] || '—'}</td>)}</tr>)}
+              </table></div>
+            )}
+            {m.kind !== 'items' && m.links && m.links.length > 0 && (
+              <p class="mod-body">{m.links.map((l, i) => <>{i > 0 && ' · '}<a class="mod-link" href={`/product/${l}`}>{nameOf(l)} →</a></>)}</p>
+            )}
+          </section>
+        ))}
+
+        {!hasModules && (cardMeta?.includes?.length || features.length > 0) && !gift && (
           <section class="sec">
             <h2 class="sec-head"><i aria-hidden="true">/</i>{isUnitPlan ? 'Что входит в план' : 'Что входит'}</h2>
             {cardMeta?.includes?.length ? (
@@ -584,8 +722,8 @@ try {
           <div class="params">
             {product.vendor && <div class="prow"><span class="k">Производитель:</span><span class="v">{vendorLegal(product.vendor)}</span></div>}
             {planShort && <div class="prow"><span class="k">Тип плана:</span><span class="v">{planShort}</span></div>}
-            {cardMeta?.term && <div class="prow"><span class="k">Срок:</span><span class="v">{cardMeta.term}</span></div>}
-            {isUnitPlan && <div class="prow"><span class="k">Расчётная единица:</span><span class="v">{unitName}</span></div>}
+            {term && <div class="prow"><span class="k">Срок:</span><span class="v">{term}</span></div>}
+            {(isUnitPlan || product.unit_label) && <div class="prow"><span class="k">Расчётная единица:</span><span class="v">{product.unit_label || unitName}</span></div>}
             {isUnitPlan && <div class="prow"><span class="k">Минимальное количество:</span><span class="v">{commerce.minQty}</span></div>}
             {cardMeta?.reassign && <div class="prow"><span class="k">Переназначение пользователей:</span><span class="v">{cardMeta.reassign}</span></div>}
             {cardMeta?.management && <div class="prow"><span class="k">Управление:</span><span class="v">{cardMeta.management}</span></div>}
@@ -606,7 +744,7 @@ try {
 
         {isGift ? (
           <section class="sec">
-            <h2 class="sec-head"><i aria-hidden="true">/</i>Как купить {gift?.shortName || product.name} для юридического лица</h2>
+            <h2 class="sec-head"><i aria-hidden="true">/</i>Как купить {gift?.shortName || h1Text} для юридического лица</h2>
             <ol class="steps">
               <li>Выбираете {gift?.regionLabel ? gift.regionLabel.toLowerCase() : 'регион аккаунта'} и вариант, добавляете позицию в подборку и формируете заявку или КП.</li>
               <li>Заключаем договор и выставляем счёт на оплату в рублях.</li>
@@ -646,7 +784,7 @@ try {
           </section>
         )}
 
-        {(product.description || product.for_whom || useCases.length > 0) && !gift && (
+        {!hasModules && (product.description || product.for_whom || useCases.length > 0) && !gift && (
           <section class="sec" id="detail">
             <h2 class="sec-head"><i aria-hidden="true">/</i>Подробно о продукте и условиях использования</h2>
             <div class="split">
@@ -682,8 +820,15 @@ try {
           </section>
         )}
 
-        {product.seo_text && (
+        {!hasModules && product.seo_text && (
           <div class="prose-bizsoft block"><p>{product.seo_text}</p></div>
+        )}
+        {hasModules && (
+          <section class="sec"><div class="assist assist-inline">
+            <h3>Не уверены, что выбран правильный план?</h3>
+            <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
+            <a class="btn btn-primary" href={askHref}>Задать вопрос специалисту</a>
+          </div></section>
         )}
 
         <FAQ items={faq} title={gift ? 'Вопросы и ответы' : 'Частые вопросы'} columns={2} mark={true} />
@@ -790,30 +935,62 @@ try {
   .chip-plan { background: color-mix(in srgb, var(--color-accent) 12%, transparent); color: var(--color-accent); }
   .chip-link:hover { color: var(--color-accent); }
   .vendorline { color: var(--color-text-dim); font-size: 0.87rem; margin: 0 0 0.75rem; }
-  .vendorline b { color: var(--color-text-muted); font-weight: 600; }
+  /* Единая высота знака для всех вендоров — 20px. Ширина считается по
+     пропорциям файла, поэтому длинный логотип-надпись сдвигает название
+     вправо и строку не ломает. */
+  .vendorline-link { display: inline-flex; align-items: center; gap: 0.4rem; vertical-align: middle; color: inherit; text-decoration: none; }
+  .vendorline b { color: var(--color-text); font-weight: 700; }
   .title-row { display: flex; align-items: center; gap: 1rem; }
   h1 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin: 0; line-height: 1.08; }
   .subtitle { font-size: 1rem; font-weight: 600; color: var(--color-text-muted); margin: 0.5rem 0 1.1rem; }
   /* Выключка по формату: описание читается как блок текста, а не как рваная
      колонка. Переносы включены, иначе в русском тексте появляются «реки». */
   .lede { color: var(--color-text-muted); font-size: 1.02rem; line-height: 1.6; max-width: 64ch; margin: 0; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
-  .hero-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); margin: 1.8rem 0 0; padding-top: 1.2rem; border-top: 1px solid var(--color-border); }
-  .hero-facts div { padding-inline: 0.8rem; border-right: 1px solid var(--color-border); text-align: center; }
-  .hero-facts div:last-child { border-right: 0; }
-  .hero-facts dt { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-dim); font-weight: 700; margin-bottom: 0.35rem; }
-  .hero-facts dd { margin: 0; font-size: 0.95rem; font-weight: 600; }
+  .lede-more { margin-top: 0.8rem; display: grid; gap: 0.8rem; }
+  .lede-toggle { margin-top: 0.6rem; background: none; border: 0; padding: 0; color: var(--color-accent, #d9480f); font: inherit; font-size: 0.92rem; font-weight: 600; cursor: pointer; }
+  .lede-toggle::after { content: ' ↓'; }
+  .lede-toggle[aria-expanded="true"]::after { content: ' ↑'; }
+  /* Блок фактов — всегда таблица из трёх равных колонок: линия сверху, две
+     вертикали, заголовки и значения в одну строку по центру. На любой ширине
+     она та же и лишь растягивается; колонка не сжимается меньше содержимого,
+     поэтому шрифт подстраивается под ширину. */
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1.8rem 0 0; padding-top: 1.2rem; border-top: 1px solid var(--color-border); }
+  .fact { position: relative; min-width: 0; padding-inline: 0.4rem; border-right: 1px solid var(--color-border); text-align: center; }
+  .fact:last-child { border-right: 0; }
+  .fact dt { display: flex; align-items: center; justify-content: center; gap: 0.3rem; white-space: nowrap; font-size: clamp(0.6rem, 2.4vw, 0.72rem); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-dim); font-weight: 700; margin-bottom: 0.4rem; }
+  .fact dd { margin: 0; font-size: clamp(0.82rem, 3vw, 0.95rem); font-weight: 600; white-space: nowrap; }
+  /* Полные заголовки — только там, где три из них помещаются в строку. */
+  .fact-long { display: none; }
+  @media (min-width: 1101px) {
+    .fact-long { display: inline; }
+    .fact-short { display: none; }
+    .fact dt { font-size: 0.66rem; letter-spacing: 0.05em; }
+  }
+  /* Значок «i» — верхним индексом у заголовка, как сноска: маленький кружок
+     с прямой «i» без курсива (решение руководителя 13.09.2026). */
+  .hint { display: inline-flex; flex-shrink: 0; align-self: flex-start; position: relative; top: -0.35em; margin-left: -0.1rem; }
+  .hint-btn { width: 10px; height: 10px; border-radius: 50%; border: 1px solid currentColor; background: none; color: inherit; padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font: 600 7px/1 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-style: normal; text-transform: none; letter-spacing: 0; }
+  .hint-btn::before { content: 'i'; }
+  /* Подсказка позиционируется от ячейки, а не от значка: у крайних колонок
+     она прижата к краю таблицы и на 320px не выходит за экран. Скрытая
+     подсказка не занимает места — иначе она же и давала прокрутку вбок. */
+  .hint-box { display: none; position: absolute; left: 50%; bottom: calc(100% - 0.2rem); transform: translateX(-50%); width: min(260px, calc(100vw - 2rem)); padding: 0.55rem 0.7rem; background: var(--color-text); color: #fff; border-radius: 8px; font-size: 0.78rem; font-weight: 500; line-height: 1.4; text-transform: none; letter-spacing: 0; white-space: normal; text-align: left; z-index: 5; }
+  .fact:first-child .hint-box { left: 0; transform: none; }
+  .fact:last-child .hint-box { left: auto; right: 0; transform: none; }
+  .hint:hover .hint-box, .hint:focus-within .hint-box, .hint-btn[aria-expanded="true"] + .hint-box { display: block; }
 
   /* ── Колонка покупки ─────────────────────────────────────────────── */
   .buy-card { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.1rem; }
   .price-req b { display: block; font-weight: 800; font-size: 1.5rem; }
   .price-req span { color: var(--color-text-dim); font-size: 0.85rem; }
   /* Две зоны цены: слева сумма и налог, справа — за что платят. */
-  .price-zones { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.2rem; align-items: center; }
-  .pz-sum { display: flex; flex-direction: column; }
+  .price-zones { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; align-items: center; }
+  .pz-sum { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .pz-sum b { font-size: 1.75rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .pz-sum span { color: var(--color-text-dim); font-size: 0.79rem; }
   .pz-sum .promo-label { align-self: flex-start; background: color-mix(in srgb, var(--color-accent) 18%, transparent); color: var(--color-accent); font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 6px; margin-bottom: 0.3rem; }
-  .pz-what { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+  /* Правая ячейка: по левому краю, но сдвинута к концу — заполняет ширину. */
+  .pz-what { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; justify-self: end; text-align: left; }
   .pz-what li { position: relative; padding-left: 0.7rem; font-size: 0.85rem; color: var(--color-text-muted); }
   .pz-what li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 4px; height: 4px; background: var(--color-accent); }
   .price-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
@@ -823,7 +1000,7 @@ try {
   .vat-hint span { display: block; margin-top: 0.4rem; padding: 0.6rem 0.8rem; background: var(--color-bg-elevated); border-radius: 8px; color: var(--color-text-muted); font-size: 0.82rem; }
   .rate-note { color: var(--color-text-dim); font-size: 0.78rem; margin: 0.35rem 0 0; }
   .buy-qty { display: flex; flex-direction: column; gap: 0.5rem; }
-  .qty-label { color: var(--color-text-muted); font-size: 0.85rem; }
+  .qty-label { color: var(--color-text); font-size: 0.9rem; font-weight: 700; }
   /* Ступени и счётчик — одной строкой: это один выбор, а не два блока. */
   .qty-controls { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
   .presets { display: flex; gap: 0.3rem; }
@@ -851,7 +1028,10 @@ try {
   .coll-check:checked + .coll-box { background: var(--color-success); border-color: var(--color-success); }
   .coll-check:checked + .coll-box svg { opacity: 1; }
   .coll-check:focus-visible + .coll-box { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-  .coll-btn { background: none; border: none; padding: 0; font: inherit; font-size: 0.88rem; font-weight: 700; color: var(--color-accent); cursor: pointer; text-align: left; }
+  /* Кнопка подборки — рыжая, короткая (не на всю ширину), флажок слева от
+     неё: клик по любому из двух переключает подборку. */
+  .coll-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0.45rem 1.1rem; border: none; border-radius: 10px; background: var(--color-accent); color: #fff; font: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-align: center; }
+  .coll-btn:hover { filter: brightness(0.94); }
   /* Второстепенное действие — ссылкой, а не третьей кнопкой. */
   .btn-link { background: none; border: none; padding: 0; font: inherit; font-size: 0.9rem; font-weight: 600; color: var(--color-accent); cursor: pointer; align-self: center; }
   .buy-trust { list-style: none; padding: 1rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.35rem; color: var(--color-text-muted); font-size: 0.83rem; }
@@ -885,6 +1065,16 @@ try {
   .deal li { position: relative; padding-left: 0.7rem; font-size: 0.91rem; color: var(--color-text-muted); margin-bottom: 0.7rem; line-height: 1.55; }
   .deal li:last-child { margin-bottom: 0; }
   .deal li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 4px; height: 4px; background: var(--color-accent); }
+  .mod-body { color: var(--color-text-muted); max-width: 72ch; margin: 0 0 1rem; line-height: 1.55; }
+  .mod-link { color: var(--color-accent); font-weight: 600; text-decoration: none; }
+  .mod-link:hover { text-decoration: underline; }
+  .cmp { overflow-x: auto; }
+  .cmp table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+  .cmp th, .cmp td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .cmp th { font-weight: 600; color: var(--color-text-dim); }
+  .cmp td:first-child { color: var(--color-text-dim); }
+  .cmp .me { font-weight: 600; }
+  .assist-inline { max-width: 328px; }
   .split { display: grid; grid-template-columns: minmax(0, 1fr) 328px; gap: 3rem; align-items: start; }
   .longread h3 { font-size: 1rem; margin: 1.6rem 0 0.6rem; }
   .assist { border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.3rem; background: var(--color-bg-card); }
@@ -972,10 +1162,17 @@ try {
     .deal-row ul { grid-column: 2; }
     .prow { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
   }
+  /* На телефоне ячейки цены остаются рядом (решение руководителя
+     13.09.2026): сумма чуть мельче, зазор меньше — колонку не складываем. */
   @media (max-width: 560px) {
-    .price-zones { grid-template-columns: minmax(0, 1fr); gap: 0.7rem; }
-    .hero-facts div { border-right: 0; padding-inline: 0; text-align: left; }
-    .hero-facts { gap: 0.7rem; }
+    .price-zones { gap: 0.8rem; }
+    .pz-sum b { font-size: clamp(1.35rem, 6.2vw, 1.75rem); }
+    .pz-what li { font-size: 0.8rem; }
+  }
+  /* Пункты справа — одной строкой каждый; только на самых узких экранах
+     (до 360px) разрешён перенос, иначе появилась бы прокрутка вбок. */
+  @media (min-width: 361px) {
+    .pz-what li { white-space: nowrap; }
   }
 </style>
 
@@ -984,6 +1181,27 @@ try {
   import { addToCart, readCart, removeFromCart } from '../../lib/cart-client';
   import { formatRub } from '../../lib/pricing';
   import { quoteCtaLabel, quoteProductRef, unitPhrase, type CommerceState } from '@/lib/product-commerce';
+  // «Подробнее» у описания и подсказки блока фактов: по тычку на телефоне
+  // кнопка фокус не получает, поэтому состояние держит aria-expanded.
+  document.querySelector('[data-lede-toggle]')?.addEventListener('click', (e) => {
+    const btn = e.currentTarget as HTMLButtonElement;
+    const more = document.getElementById('lede-more');
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? 'Свернуть' : 'Подробнее';
+    if (more) more.hidden = !open;
+  });
+  document.querySelectorAll<HTMLButtonElement>('[data-hint]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      document.querySelectorAll('[data-hint]').forEach((b) => b.setAttribute('aria-expanded', 'false'));
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('[data-hint]').forEach((b) => b.setAttribute('aria-expanded', 'false'));
+  });
 
   // ── «Развернуть/Свернуть» длинного описания (Cut) ──
   document.querySelectorAll('[data-collapsible]').forEach((el) => {

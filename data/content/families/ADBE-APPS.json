@@ -1,0 +1,1834 @@
+{
+  "family_key": "ADBE-APPS",
+  "vendor": "Adobe Inc.",
+  "vendor_profile": "data/content/vendors/adobe.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "adobe-ps",
+  "classification_notes": [
+    "Одиночные приложения Adobe — индивидуальные планы (реестр ставит UNI). Носитель — Photoshop: механика индивидуального плана раскрыта там, у остальных — одна короткая формулировка, различная по тексту, и ссылка.",
+    "Photography — suite из трёх приложений."
+  ],
+  "products": {
+    "adobe-ps": {
+      "sku": "ADBE-LIC-PHOTOSHOP-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Photoshop — индивидуальная подписка на 1 год на редактор растровой графики для одного пользователя: ретушь, фотомонтаж, работа со слоями и масками, подготовка изображений к печати и вебу, Generative Fill и расширение кадра на Firefly. Настольная версия для Windows и macOS, Photoshop на iPad и в браузере, 100 ГБ облака.\n\nПлан на одно приложение на личном Adobe ID: вход на двух устройствах, работа на одном одновременно; передать другому сотруднику нельзя. Если нужен ещё и Illustrator или Premiere Pro — Creative Cloud Pro дешевле двух одиночных планов.\n\nСрок — 1 год со всеми обновлениями.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Photoshop",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ретушь и монтаж",
+              "d": "Слои, маски, смарт-объекты, Content-Aware Fill, инструменты выделения на ИИ, пакетная обработка через Actions."
+            },
+            {
+              "t": "Firefly в Photoshop",
+              "d": "Generative Fill и Generative Expand по текстовому описанию, удаление объектов с генерацией фона — по месячному лимиту кредитов индивидуального плана."
+            },
+            {
+              "t": "Подготовка к выводу",
+              "d": "Цветовые профили CMYK, экспорт для веба и соцсетей, Camera Raw для RAW-файлов."
+            },
+            {
+              "t": "Везде",
+              "d": "Настольная версия, iPad с Apple Pencil и веб-версия для правок без установки; облачные документы синхронизируются."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка живёт на личном Adobe ID пользователя: приложение установлено на двух устройствах, работает на одном одновременно, переносится с ноутбука на стационарный ПК простым входом. Передать лицензию другому сотруднику нельзя — при смене человека покупают новую. Организация оформляет подписку на сотрудника по договору и счёту; если лицензии должны принадлежать компании и переназначаться, это командный план «одно приложение для команд»."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Photoshop",
+              "d": "Растр: фото, ретушь, коллажи, веб-графика."
+            },
+            {
+              "t": "Illustrator",
+              "d": "Если чаще рисуете логотипы и иконки — вектор, а не пиксели.",
+              "link": "adobe-ai"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Два и более приложений или Firefly без счётчика.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнеру, ретушёру или маркетологу, у которого вся работа с изображениями идёт в одном приложении, а вёрстка, вектор и видео — не нужны или делаются другими людьми."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Illustrator",
+              "d": "Векторная графика — логотипы, иконки, иллюстрации.",
+              "link": "adobe-ai"
+            },
+            {
+              "t": "Lightroom",
+              "d": "Обработка и каталог фотографий без слоёв.",
+              "link": "adobe-lr"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Весь набор с безлимитными стандартными генерациями.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Хватит ли Photoshop для обработки RAW?",
+          "a": "Да, Camera Raw встроен; для каталога из тысяч снимков удобнее Lightroom или план Photography."
+        },
+        {
+          "q": "Есть ли в плане генеративные функции?",
+          "a": "Да, Generative Fill и Expand работают по месячному лимиту кредитов индивидуального плана; без лимита — только в Creative Cloud Pro."
+        }
+      ],
+      "related_products": [
+        "adobe-ai",
+        "adobe-lr",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Adobe Photoshop — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Photoshop на одного пользователя: ретушь, монтаж, Generative Fill, версии для Windows, macOS, iPad и веба, 100 ГБ облака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe photoshop купить подписка юрлицо — hero, meta",
+        "photoshop generative fill лимит — CAPABILITIES, FAQ",
+        "photoshop или illustrator — PLAN_COMPARE"
+      ],
+      "uncertainties": [
+        "Число генеративных кредитов индивидуального плана приложения не названо (меняется у Adobe)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-ai": {
+      "sku": "ADBE-LIC-ILLUSTRATOR-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Illustrator — индивидуальная подписка на 1 год на векторный редактор для одного пользователя: логотипы, иконки, иллюстрации, упаковка и инфографика без потери качества при любом масштабе. Настольная версия для Windows и macOS, Illustrator на iPad и в браузере, 100 ГБ облака.\n\nОдно приложение на личном Adobe ID; два устройства, одно активно. Верстальщику и дизайнеру, который параллельно работает в Photoshop и InDesign, выгоднее Creative Cloud Pro.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Illustrator",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Векторные инструменты",
+              "d": "Перо и кривые, Shape Builder, Pathfinder, градиенты и сетки, символы и кисти."
+            },
+            {
+              "t": "Текст и шрифты",
+              "d": "Профессиональная типографика, Adobe Fonts в подписке, текст по контуру и в области."
+            },
+            {
+              "t": "Firefly для вектора",
+              "d": "Text to Vector Graphic, генеративная перекраска и узоры — по лимиту кредитов плана."
+            },
+            {
+              "t": "Печать и экспорт",
+              "d": "CMYK и Pantone, подготовка к печати, SVG и PDF, экспорт в размерах для экранов."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за личным Adobe ID иллюстратора: два устройства, одно активно, перенос — входом в аккаунт. Уход сотрудника — подписка уходит с ним; для владения лицензией компанией есть план «одно приложение для команд»."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Illustrator",
+              "d": "Вектор для печати и брендинга."
+            },
+            {
+              "t": "Photoshop",
+              "d": "Работа с фотографиями и растровыми макетами.",
+              "link": "adobe-ps"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Illustrator плюс Photoshop и InDesign одной подпиской.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Графическому дизайнеру, иллюстратору или отделу брендинга, где основная работа — логотипы, фирменный стиль, иконки и печатная графика."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Photoshop",
+              "d": "Растровая графика и ретушь.",
+              "link": "adobe-ps"
+            },
+            {
+              "t": "InDesign",
+              "d": "Многостраничная вёрстка с иллюстрациями из Illustrator.",
+              "link": "adobe-id"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Весь набор.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли открыть файлы Illustrator в Figma или CorelDRAW?",
+          "a": "Через экспорт в SVG или PDF; родной формат AI полностью поддерживает только Illustrator."
+        }
+      ],
+      "related_products": [
+        "adobe-ps",
+        "adobe-id",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Adobe Illustrator — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Illustrator на одного пользователя: векторная графика, логотипы, иконки, Text to Vector, версии для Windows, macOS, iPad и веба. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe illustrator купить подписка — hero, meta",
+        "illustrator для юрлица — meta"
+      ],
+      "uncertainties": [
+        "Число генеративных кредитов индивидуального плана приложения не названо (меняется у Adobe)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-id": {
+      "sku": "ADBE-LIC-INDESIGN-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe InDesign — индивидуальная подписка на 1 год на программу вёрстки для одного пользователя: каталоги, журналы, книги, презентации и интерактивные PDF с мастер-страницами, стилями и связями с Photoshop и Illustrator. Работает на Windows и macOS; в подписке 100 ГБ облака.\n\nПлан на одно приложение, аккаунт — личный Adobe ID верстальщика. Редакторам, которые правят текст в макете, покупают InCopy; верстальщику, работающему ещё и с изображениями, — Creative Cloud Pro.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет InDesign",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Многостраничная вёрстка",
+              "d": "Мастер-страницы, стили абзацев и символов, таблицы, сноски, оглавление и указатели, книги из нескольких файлов."
+            },
+            {
+              "t": "Связи с графикой",
+              "d": "Размещение файлов Photoshop и Illustrator по ссылке с обновлением при изменении оригинала."
+            },
+            {
+              "t": "Печать и цифра",
+              "d": "Препресс с треппингом и профилями, PDF/X, интерактивные PDF, экспорт EPUB и Publish Online."
+            },
+            {
+              "t": "Совместная работа",
+              "d": "Назначенные фрагменты для InCopy, комментарии Share for Review, Adobe Fonts."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Верстальщик входит в InDesign под своим Adobe ID на рабочей и домашней машине, активна одна. Подписку нельзя передать коллеге — это свойство индивидуального плана; командный вариант с Admin Console — «одно приложение для команд»."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "InDesign",
+              "d": "Вёрстка многостраничных документов."
+            },
+            {
+              "t": "InCopy",
+              "d": "Для авторов и редакторов, которые правят текст в макете, не трогая вёрстку.",
+              "link": "adobe-incopy"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "InDesign с Photoshop и Illustrator одной подпиской.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Верстальщику издательства, дизайн-бюро или отдела маркетинга, который выпускает каталоги, брошюры и отчёты с регулярной периодичностью."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "InCopy",
+              "d": "Редакторское приложение к InDesign.",
+              "link": "adobe-incopy"
+            },
+            {
+              "t": "Illustrator",
+              "d": "Векторные элементы для макета.",
+              "link": "adobe-ai"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Весь набор.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли редактору свой InDesign, чтобы править текст?",
+          "a": "Нет: редактору достаточно InCopy, он работает с назначенными фрагментами макета без доступа к вёрстке."
+        }
+      ],
+      "related_products": [
+        "adobe-incopy",
+        "adobe-ai",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Adobe InDesign — подписка на год для юрлица | BIZSoft",
+      "meta_description": "InDesign на одного пользователя: вёрстка каталогов, журналов и PDF, связи с Photoshop и Illustrator, InCopy-фрагменты. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe indesign купить подписка — hero, meta",
+        "indesign incopy совместная работа — FAQ"
+      ],
+      "uncertainties": [
+        "Число генеративных кредитов индивидуального плана приложения не названо (меняется у Adobe)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-pr": {
+      "sku": "ADBE-LIC-PREMIEREPRO-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Premiere Pro — индивидуальная подписка на 1 год на видеомонтаж для одного пользователя: таймлайн, цветокоррекция Lumetri, работа со звуком, титры и графика, экспорт для любых платформ. Версии для Windows и macOS, облако 100 ГБ.\n\nЛицензия — на одно приложение и на личный Adobe ID монтажёра. Монтажёру, которому нужны ещё After Effects и Audition, а также генеративное расширение кадра без лимита, — Creative Cloud Pro.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Premiere Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Монтаж",
+              "d": "Многодорожечный таймлайн, прокси для тяжёлого материала, автоматическая нарезка по речи и Text-Based Editing."
+            },
+            {
+              "t": "Цвет и звук",
+              "d": "Lumetri Color, Essential Sound с шумоподавлением и авторегулировкой громкости, интеграция с Audition."
+            },
+            {
+              "t": "Графика и титры",
+              "d": "Essential Graphics, шаблоны Motion Graphics из After Effects, автоматические субтитры."
+            },
+            {
+              "t": "Firefly в видео",
+              "d": "Generative Extend удлиняет план на несколько секунд — по лимиту кредитов плана; в Pro — из 4000 премиальных."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Монтажёр работает под личным Adobe ID: монтажная станция и ноутбук авторизованы, активна одна. Лицензия не переназначается; когда монтажёров несколько и они меняются, берут командный план."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premiere Pro",
+              "d": "Монтаж, цвет, звук, титры."
+            },
+            {
+              "t": "After Effects",
+              "d": "Композитинг и моушн-графика — если нужна анимация, а не монтаж.",
+              "link": "adobe-ae"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Premiere Pro с After Effects, Audition и премиальными генерациями.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Монтажёру или видеоотделу, где основная работа — монтаж, цвет и звук, а сложная анимация делается реже или другими людьми."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "After Effects",
+              "d": "Анимация и VFX.",
+              "link": "adobe-ae"
+            },
+            {
+              "t": "Audition",
+              "d": "Работа со звуком отдельно.",
+              "link": "adobe-audition"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Весь набор.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли After Effects в подписку на Premiere Pro?",
+          "a": "Нет, это отдельное приложение; шаблоны Motion Graphics из него в Premiere Pro применить можно."
+        }
+      ],
+      "related_products": [
+        "adobe-ae",
+        "adobe-audition",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Adobe Premiere Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Premiere Pro на одного пользователя: монтаж, Lumetri, Essential Sound, субтитры, Generative Extend по лимиту. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe premiere pro купить подписка — hero, meta",
+        "premiere pro generative extend — CAPABILITIES"
+      ],
+      "uncertainties": [
+        "Число генеративных кредитов индивидуального плана приложения не названо (меняется у Adobe)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-ae": {
+      "sku": "ADBE-LIC-AFTEREFFECTS-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe After Effects — индивидуальная подписка на 1 год на моушн-графику и композитинг для одного пользователя: анимация, VFX, кеинг, трекинг, 3D-сцены и шаблоны для Premiere Pro. Для Windows и macOS, с облаком 100 ГБ.\n\nПодписка на одно приложение, закреплённая за Adobe ID специалиста. Именно в After Effects работают плагины Red Giant; монтажёру, которому нужны и Premiere Pro, и After Effects, — Creative Cloud Pro.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет After Effects",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Анимация",
+              "d": "Ключевые кадры и выражения, Essential Graphics, шейпы и текст, экспорт шаблонов в Premiere Pro."
+            },
+            {
+              "t": "Композитинг и VFX",
+              "d": "Roto Brush на ИИ, Content-Aware Fill для видео, трекинг камеры и объектов, кеинг."
+            },
+            {
+              "t": "3D",
+              "d": "Расширенный 3D-рендерер, импорт моделей, интеграция с Cinema 4D через Cineware."
+            },
+            {
+              "t": "Расширяемость",
+              "d": "Плагины Red Giant, Boris FX и других вендоров; Multi-Frame Rendering для многоядерных машин."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Личный Adobe ID, два устройства, одно активно. Для студии, где рабочие места переходят от одного аниматора к другому, командный план «одно приложение для команд» рациональнее."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "After Effects",
+              "d": "Анимация и композитинг."
+            },
+            {
+              "t": "Premiere Pro",
+              "d": "Если задача — монтаж, а не анимация.",
+              "link": "adobe-pr"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Оба приложения и Audition одной подпиской.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Моушн-дизайнеру и VFX-специалисту — рекламные ролики, заставки, инфографика в движении, доработка отснятого материала."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premiere Pro",
+              "d": "Монтаж.",
+              "link": "adobe-pr"
+            },
+            {
+              "t": "Red Giant (Individuals)",
+              "d": "Плагины Trapcode, Magic Bullet, VFX для After Effects.",
+              "link": "maxon-redgiant"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Весь набор.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли Red Giant в подписке After Effects?",
+          "a": "Да, плагины Red Giant ставятся в After Effects любой актуальной версии; сами они лицензируются отдельно у Maxon."
+        }
+      ],
+      "related_products": [
+        "adobe-pr",
+        "maxon-redgiant",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Adobe After Effects — подписка на год для юрлица | BIZSoft",
+      "meta_description": "After Effects на одного пользователя: моушн-графика, VFX, композитинг, 3D, плагины Red Giant. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe after effects купить подписка — hero, meta",
+        "after effects red giant — FAQ"
+      ],
+      "uncertainties": [
+        "Число генеративных кредитов индивидуального плана приложения не названо (меняется у Adobe)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-audition": {
+      "sku": "ADBE-LIC-AUDITION-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Audition — индивидуальная подписка на 1 год на аудиоредактор для одного пользователя: запись, чистка и сведение звука, реставрация записей, многодорожечные сессии и подготовка подкастов и звука к видео. Ставится на Windows и macOS, облачное хранилище — 100 ГБ.\n\nЭто план на одно приложение на личном аккаунте звукорежиссёра. Видеомонтажёру Audition обычно берут в составе Creative Cloud Pro вместе с Premiere Pro; отдельно — звукорежиссёру и подкастеру.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Audition",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Реставрация",
+              "d": "Шумоподавление, DeReverb, удаление щелчков и гула, спектральный редактор для точечных правок."
+            },
+            {
+              "t": "Многодорожечный монтаж",
+              "d": "Сессии с автоматической регулировкой громкости под стандарты вещания и стриминга."
+            },
+            {
+              "t": "Связь с видео",
+              "d": "Обмен сессиями с Premiere Pro без пересчёта, Essential Sound с пресетами для голоса, музыки и эффектов."
+            },
+            {
+              "t": "Запись",
+              "d": "Подкасты, дикторский текст, обработка в реальном времени."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Индивидуальная подписка привязана к Adobe ID звукорежиссёра; смена сотрудника означает новую подписку. Организация оформляет её на человека по договору."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Audition",
+              "d": "Звук как самостоятельная задача."
+            },
+            {
+              "t": "Premiere Pro",
+              "d": "Базовой обработки Essential Sound в монтажной программе часто достаточно.",
+              "link": "adobe-pr"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Audition вместе с Premiere Pro и After Effects.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Звукорежиссёру, продюсеру подкастов и видеостудии, где звук доводят отдельно от картинки."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premiere Pro",
+              "d": "Монтаж со встроенной обработкой звука.",
+              "link": "adobe-pr"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Весь набор.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли Audition звуковые инструменты Premiere Pro?",
+          "a": "Дополняет: для чистки и реставрации Audition точнее, а рутинную регулировку громкости Premiere Pro делает сам."
+        }
+      ],
+      "related_products": [
+        "adobe-pr",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Adobe Audition — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Audition на одного пользователя: реставрация звука, многодорожечное сведение, подкасты, связь с Premiere Pro. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe audition купить подписка — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-animate": {
+      "sku": "ADBE-LIC-ANIMATE-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Animate — индивидуальная подписка на 1 год на 2D-анимацию для одного пользователя: покадровая и скелетная анимация персонажей, интерактивные баннеры и анимация для веба, игр и видео с экспортом в HTML5 Canvas, WebGL и видеоформаты. Доступен на Windows и macOS, в комплекте 100 ГБ облака.\n\nПриложение оформляется на личный Adobe ID аниматора; для анимации в связке с After Effects и Illustrator — Creative Cloud Pro.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Animate",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Персонажная анимация",
+              "d": "Скелетная риггинг-система, покадровая работа, кисти и векторные инструменты."
+            },
+            {
+              "t": "Интерактив",
+              "d": "HTML5 Canvas и WebGL с кодом JavaScript, баннеры и обучающие интерактивы."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Видео, GIF, спрайты для игр, SVG; ассеты из Illustrator и Photoshop без потери слоёв."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия на личном Adobe ID аниматора, активное устройство одно. Переназначение недоступно — командный вариант есть в плане «одно приложение для команд»."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Animate",
+              "d": "Векторная 2D-анимация и интерактив."
+            },
+            {
+              "t": "After Effects",
+              "d": "Анимация интерфейсов и графики поверх видео.",
+              "link": "adobe-ae"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Animate с Illustrator и After Effects.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аниматору, разработчику обучающих материалов и студии, которая делает 2D-ролики и интерактив для веба."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "After Effects",
+              "d": "Моушн-графика для видео.",
+              "link": "adobe-ae"
+            },
+            {
+              "t": "Illustrator",
+              "d": "Векторные ассеты для анимации.",
+              "link": "adobe-ai"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Animate отличается от After Effects?",
+          "a": "Animate — покадровая и векторная 2D-анимация с интерактивом для веба; After Effects — композитинг и графика поверх видео."
+        }
+      ],
+      "related_products": [
+        "adobe-ae",
+        "adobe-ai"
+      ],
+      "meta_title": "Adobe Animate — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Animate на одного пользователя: 2D-анимация персонажей, HTML5-интерактив, экспорт в видео и спрайты. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe animate купить подписка — hero, meta",
+        "animate vs after effects — FAQ"
+      ],
+      "uncertainties": [
+        "Число генеративных кредитов индивидуального плана приложения не названо (меняется у Adobe)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-dw": {
+      "sku": "ADBE-LIC-DREAMWEAVER-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Dreamweaver — индивидуальная подписка на 1 год на редактор веб-страниц для одного пользователя: визуальное и кодовое редактирование HTML, CSS и JavaScript, live-предпросмотр, синхронизация с сервером по FTP/SFTP, шаблоны и адаптивная вёрстка. Версии под Windows и macOS плюс 100 ГБ облачного хранилища.\n\nПодписка одиночная, на Adobe ID сотрудника. Для сайтов, которые собирают вместе с макетами из Photoshop и Illustrator, — Creative Cloud Pro.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Dreamweaver",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Код и визуал",
+              "d": "Подсветка, автодополнение и Emmet, Live View с правкой прямо в предпросмотре, Git."
+            },
+            {
+              "t": "Адаптивность",
+              "d": "Bootstrap-шаблоны, медиазапросы, проверка на разных размерах экрана."
+            },
+            {
+              "t": "Публикация",
+              "d": "FTP/SFTP-синхронизация, проверка ссылок и совместимости, шаблоны сайта с обновлением всех страниц."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный Adobe ID; два устройства авторизованы, работает одно. Для сменяемых контент-менеджеров подходит командный план."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Dreamweaver",
+              "d": "Статические страницы и лендинги руками."
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Если сайт собирают вместе с графикой из Photoshop и Illustrator.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Контент-менеджеру и веб-дизайнеру, который поддерживает статические сайты и лендинги без фреймворков и сборщиков."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Весь набор с Dreamweaver.",
+              "link": "adobe-cc-pro"
+            },
+            {
+              "t": "Photoshop",
+              "d": "Макеты и графика для веба.",
+              "link": "adobe-ps"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Подходит ли Dreamweaver для проектов на React или Vue?",
+          "a": "Он редактирует любой код, но сборка и отладка фреймворков — задача сред разработки вроде WebStorm; Dreamweaver силён в статической вёрстке и публикации."
+        }
+      ],
+      "related_products": [
+        "adobe-cc-pro",
+        "adobe-ps"
+      ],
+      "meta_title": "Adobe Dreamweaver — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Dreamweaver на одного пользователя: визуальное и кодовое редактирование HTML/CSS, Live View, FTP-публикация, адаптивные шаблоны. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "adobe dreamweaver купить подписка — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-incopy": {
+      "sku": "ADBE-LIC-INCOPY-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe InCopy — индивидуальная подписка на 1 год на редакторское приложение для одного пользователя: автор или редактор правит текст прямо в макете InDesign, видит, как он ложится в вёрстку, и не может её сломать. Windows и macOS, 100 ГБ облака.\n\nСамая дешёвая подписка линейки: InCopy имеет смысл только в связке с InDesign у верстальщика — одно приложение на личном Adobe ID редактора.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет InCopy",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Правка в макете",
+              "d": "Назначенные фрагменты из InDesign открываются в InCopy; редактор видит переполнение колонок и правит текст по месту."
+            },
+            {
+              "t": "Редакторские инструменты",
+              "d": "Отслеживание изменений, заметки, счётчик знаков и строк, проверка орфографии, стили из макета."
+            },
+            {
+              "t": "Параллельная работа",
+              "d": "Верстальщик и редактор работают с одним документом одновременно без конфликтов версий."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Каждому редактору — своя подписка на его Adobe ID; передать её при смене редактора нельзя. Если редакция меняется часто, лицензии редакторов берут в командном плане."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "InCopy",
+              "d": "Редакторам, у которых нет и не должно быть InDesign."
+            },
+            {
+              "t": "InDesign",
+              "d": "Верстальщику — полная вёрстка.",
+              "link": "adobe-id"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Если редактор ещё и верстает.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Редакции, издательству и корпоративному отделу коммуникаций, где тексты правят несколько человек, а верстает один."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "InDesign",
+              "d": "Приложение верстальщика, к которому подключается InCopy.",
+              "link": "adobe-id"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Полный набор — когда одному человеку достаются и текст, и вёрстка, и графика.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли InCopy без InDesign?",
+          "a": "Открыть и править документы можно, но смысл продукта — совместная работа с верстальщиком в InDesign; у него должна быть своя подписка."
+        }
+      ],
+      "related_products": [
+        "adobe-id",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Adobe InCopy — подписка на год для юрлица | BIZSoft",
+      "meta_description": "InCopy на одного пользователя: правка текста в макете InDesign, отслеживание изменений, заметки, работа параллельно с верстальщиком. Договор, ЭДО.",
+      "seo_intents": [
+        "adobe incopy купить подписка — hero, meta",
+        "incopy без indesign — FAQ"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-lr": {
+      "sku": "ADBE-LIC-LIGHTROOM-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Lightroom — индивидуальная подписка на 1 год на обработку и каталог фотографий для одного пользователя на всех устройствах: компьютер, телефон, планшет и браузер синхронизируются через 1 ТБ облака. Цветокоррекция, маски на ИИ, шумоподавление, пресеты.\n\nЭто облачный Lightroom, а не Lightroom Classic с локальным каталогом: если снимки хранятся на дисках студии и нужен Photoshop, рациональнее план Photography. Одно приложение на личном Adobe ID.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Lightroom",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обработка",
+              "d": "Кривые, HSL, маски по объекту, небу и лицу, Denoise на ИИ, локальные коррекции."
+            },
+            {
+              "t": "Каталог в облаке",
+              "d": "1 ТБ, поиск по содержимому, альбомы и общие галереи для клиентов."
+            },
+            {
+              "t": "Везде одинаково",
+              "d": "Правки на телефоне видны на компьютере; RAW с камеры и смартфона."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "Личный Adobe ID фотографа: облачный каталог с 1 ТБ синхронизируется на все его устройства, но принадлежит ему, а не компании; при уходе сотрудника архив не реклamируется — это довод за командный план для студий."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Lightroom",
+              "d": "Облачный каталог и мобильная обработка."
+            },
+            {
+              "t": "Photography",
+              "d": "Lightroom, Lightroom Classic и Photoshop с меньшим облаком — для студии с локальным архивом.",
+              "link": "adobe-photo"
+            },
+            {
+              "t": "Photoshop",
+              "d": "Слои и ретушь без каталога.",
+              "link": "adobe-ps"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Фотографу и SMM-специалисту, который снимает и обрабатывает в дороге и держит архив в облаке."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Photography",
+              "d": "Связка с Photoshop и Lightroom Classic.",
+              "link": "adobe-photo"
+            },
+            {
+              "t": "Photoshop",
+              "d": "Ретушь и монтаж.",
+              "link": "adobe-ps"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Photoshop в подписку Lightroom?",
+          "a": "Нет; Photoshop с Lightroom и Lightroom Classic вместе — это план Photography."
+        }
+      ],
+      "related_products": [
+        "adobe-photo",
+        "adobe-ps"
+      ],
+      "meta_title": "Adobe Lightroom — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Lightroom на одного пользователя с 1 ТБ облака: обработка и каталог фото на компьютере, телефоне и в браузере, маски и Denoise на ИИ. Договор, ЭДО.",
+      "seo_intents": [
+        "adobe lightroom купить подписка 1 тб — hero, meta",
+        "lightroom или photography план — PLAN_COMPARE, FAQ"
+      ],
+      "uncertainties": [
+        "Число генеративных кредитов индивидуального плана приложения не названо (меняется у Adobe)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    },
+    "adobe-photo": {
+      "sku": "ADBE-LIC-PHOTOGRAPHY-UNI-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Adobe Photography — индивидуальная подписка на 1 год на связку для фотографа: Lightroom, Lightroom Classic и Photoshop с облачным хранилищем — съёмка, обработка, ретушь и архив в одном плане на личном Adobe ID.\n\nОтличие от одиночных Lightroom и Photoshop — в составе: Lightroom Classic ведёт локальный каталог на дисках студии, облачный Lightroom синхронизирует выборку на телефон, Photoshop закрывает ретушь и монтаж. По цене план равен одному Photoshop.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в план Photography",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Lightroom Classic",
+              "d": "Локальный каталог на десятки тысяч снимков, пакетная обработка, печать, привязка к съёмке."
+            },
+            {
+              "t": "Lightroom",
+              "d": "Облачная версия для телефона, планшета и браузера; синхронизация выбранных альбомов."
+            },
+            {
+              "t": "Photoshop",
+              "d": "Слои, маски, ретушь, Camera Raw, Generative Fill по лимиту плана."
+            },
+            {
+              "t": "Облако",
+              "d": "Хранилище для синхронизации; объём — по текущим условиям Adobe."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Как устроен индивидуальный план",
+          "kind": "prose",
+          "body": "План на личный Adobe ID фотографа: приложения на двух устройствах, активно одно; каталог и облако — его. Передача другому сотруднику не предусмотрена."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Это приложение или соседний план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Photography",
+              "d": "Три приложения по цене Photoshop."
+            },
+            {
+              "t": "Lightroom",
+              "d": "Только облачный Lightroom с 1 ТБ — если Photoshop и локальный каталог не нужны.",
+              "link": "adobe-lr"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Если к фото добавляются вёрстка, вектор или видео.",
+              "link": "adobe-cc-pro"
+            }
+          ],
+          "links": [
+            "adobe-cc-pro-team"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Фотографу, фотостудии и отделу, который снимает продукт и людей: локальный архив в Classic, мобильная выборка в Lightroom, ретушь в Photoshop."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Lightroom",
+              "d": "Только облачный Lightroom с 1 ТБ.",
+              "link": "adobe-lr"
+            },
+            {
+              "t": "Photoshop",
+              "d": "Только Photoshop.",
+              "link": "adobe-ps"
+            },
+            {
+              "t": "Creative Cloud Pro",
+              "d": "Весь набор.",
+              "link": "adobe-cc-pro"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько облака в плане Photography?",
+          "a": "Объём зависит от варианта плана у Adobe и ниже, чем 1 ТБ у одиночного Lightroom; уточняем при заказе."
+        },
+        {
+          "q": "Чем Lightroom Classic отличается от Lightroom?",
+          "a": "Classic хранит каталог локально и рассчитан на большие архивы и печать; Lightroom — облачный, для работы с разных устройств."
+        }
+      ],
+      "related_products": [
+        "adobe-lr",
+        "adobe-ps",
+        "adobe-cc-pro"
+      ],
+      "meta_title": "Adobe Photography — подписка на год для юрлица | BIZSoft",
+      "meta_description": "План Photography: Lightroom, Lightroom Classic и Photoshop на одного пользователя с облаком — локальный архив, мобильная обработка, ретушь. Договор, ЭДО.",
+      "seo_intents": [
+        "adobe photography plan купить — hero, meta",
+        "lightroom classic vs lightroom — FAQ"
+      ],
+      "uncertainties": [
+        "Число генеративных кредитов индивидуального плана приложения не названо (меняется у Adobe)."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES/INCLUDED; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль вендора"
+        }
+      ]
+    }
+  }
+}
