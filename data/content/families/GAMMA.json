@@ -1,0 +1,292 @@
+{
+  "family_key": "GAMMA",
+  "vendor": "Gamma",
+  "vendor_profile": "data/content/vendors/gamma.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "gamma-business",
+  "classification_notes": [
+    "Pro (индивидуальный) / Business. Носитель — Business."
+  ],
+  "products": {
+    "gamma-pro": {
+      "sku": "GAMA-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Gamma Pro — индивидуальная подписка на 1 год на ИИ-генератор презентаций, документов и сайтов Gamma для одного пользователя: неограниченные генерации, экспорт в PowerPoint и PDF, свои шрифты и бренд, аналитика просмотров, без водяных знаков. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Gamma Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Генерация",
+              "d": "Презентации, документы, лендинги из текста и файлов; ИИ-изображения."
+            },
+            {
+              "t": "Бренд",
+              "d": "Свои шрифты, цвета, шаблоны."
+            },
+            {
+              "t": "Экспорт",
+              "d": "PPTX, PDF, публикация с аналитикой."
+            },
+            {
+              "t": "Один пользователь",
+              "d": "Личный аккаунт."
+            }
+          ],
+          "links": [
+            "gamma-business"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Один автор презентаций."
+            },
+            {
+              "t": "Business",
+              "d": "Команда: общие шаблоны, папки, SSO.",
+              "link": "gamma-business"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Менеджерам и продавцам, которые делают презентации сами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Редактируется ли экспорт в PowerPoint?",
+          "a": "Да, PPTX открывается и правится."
+        }
+      ],
+      "related_products": [
+        "gamma-business"
+      ],
+      "meta_title": "Gamma Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Gamma Pro: ИИ-генерация презентаций и документов без лимита, бренд, экспорт в PowerPoint и PDF. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "gamma ai купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "gamma-business": {
+      "sku": "GAMA-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Gamma Business — командная подписка на 1 год на Gamma для команды: всё из Pro на каждое место плюс общие папки и шаблоны, бренд-кит компании, роли, SSO, приоритетная поддержка. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Gamma Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Общие папки, шаблоны, бренд-кит, роли."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SSO, управление местами."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Генерации, экспорт, аналитика."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Отдел продаж или маркетинга."
+            },
+            {
+              "t": "Pro",
+              "d": "Один человек.",
+              "link": "gamma-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум",
+              "d": "По условиям Gamma."
+            },
+            {
+              "t": "Данные",
+              "d": "Облако Gamma."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, выпускающим презентации в едином стиле."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли запретить менять бренд-кит?",
+          "a": "Да, администратор фиксирует бренд для команды."
+        }
+      ],
+      "related_products": [
+        "gamma-pro"
+      ],
+      "meta_title": "Gamma Business — подписка на год | BIZSoft",
+      "meta_description": "Gamma Business: командные шаблоны и бренд-кит, папки, роли, SSO; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "gamma business — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

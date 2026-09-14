@@ -1,0 +1,1491 @@
+{
+  "family_key": "FIGMA",
+  "vendor": "Figma, Inc.",
+  "vendor_profile": "data/content/vendors/figma.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "figma-prof-full",
+  "classification_notes": [
+    "3 плана × 3 типа мест (модель с марта 2025). Носители: типы мест — карточки Professional; планы — карточки Full seat; остальные ссылаются."
+  ],
+  "products": {
+    "figma-prof-full": {
+      "sku": "FIGMA-LIC-PROFFULL-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Professional, Full seat — командная подписка на 1 год на полное место дизайнера в команде организации: Figma Design, Dev Mode, FigJam, Slides и Draw. Место принадлежит компании и переназначается администратором.\n\nProfessional — план одной команды: неограниченные файлы, история версий, библиотеки; без SSO и консоли на несколько команд. Full seat — единственный тип места, который редактирует макеты.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Full seat",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Figma Design и Draw",
+              "d": "Редактирование макетов, компоненты, библиотеки, прототипы, векторное рисование."
+            },
+            {
+              "t": "Dev Mode",
+              "d": "Инспекция, код, переменные — как у разработчика, плюс право менять макет."
+            },
+            {
+              "t": "FigJam и Slides",
+              "d": "Доски и презентации в полном доступе."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Что даёт план Professional",
+          "kind": "items",
+          "body": "Администратор команды назначает место сотруднику и снимает его при уходе; апгрейд типа места одобряется администратором и оплачивается с даты одобрения.",
+          "items": [
+            {
+              "t": "Одна команда",
+              "d": "Неограниченные файлы и проекты, история версий без ограничений, командные библиотеки."
+            },
+            {
+              "t": "Доступ",
+              "d": "Ссылки под паролем, аудио-звонки в файле, Dev Mode для Dev и Full мест."
+            },
+            {
+              "t": "Оплата",
+              "d": "У вендора помесячно или за год; через BIZSoft — год."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другой тип места или другой план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Dev seat",
+              "d": "Код и переменные, макеты только на просмотр.",
+              "link": "figma-prof-dev"
+            },
+            {
+              "t": "Collab seat",
+              "d": "Только совместная работа в FigJam.",
+              "link": "figma-prof-collab"
+            },
+            {
+              "t": "Organization",
+              "d": "несколько команд, SSO",
+              "link": "figma-org-full"
+            },
+            {
+              "t": "Enterprise",
+              "d": "пространства и SCIM",
+              "link": "figma-ent-full"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Тип места",
+              "d": "Full менеджеру или разработчику — переплата в разы; им хватит Collab или Dev."
+            },
+            {
+              "t": "Рост",
+              "d": "Вторая команда с общими библиотеками — повод для Organization."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайн-команде до десятка человек в одной компании без корпоративного SSO."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бесплатные места?",
+          "a": "View seat с просмотром и комментариями бесплатен на всех планах."
+        },
+        {
+          "q": "Можно ли смешивать типы мест в одной подписке?",
+          "a": "Да, у каждого пользователя свой тип, администратор меняет его в любой момент."
+        }
+      ],
+      "related_products": [
+        "figma-prof-dev",
+        "figma-prof-collab",
+        "figma-org-full",
+        "figma-ent-full"
+      ],
+      "meta_title": "Figma Professional Full seat — подписка на год | BIZSoft",
+      "meta_description": "Figma Professional, Full seat на организации с переназначением: все продукты Figma; одна команда. Договор, ЭДО.",
+      "seo_intents": [
+        "figma professional full seat купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "Full seat"
+    },
+    "figma-prof-dev": {
+      "sku": "FIGMA-LIC-PROFDEV-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Professional, Dev seat — командная подписка на 1 год на место разработчика в команде: Dev Mode с кодом и переменными, FigJam и Slides целиком, макеты — на просмотр. Место на организации.\n\nВ плане Professional Dev seat появился в марте 2025 отдельно от дизайнерского: разработчику больше не нужно платить за Full.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Dev seat",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Dev Mode",
+              "d": "Инспекция макетов, генерация кода, переменные, сравнение версий, плагины для IDE и Jira."
+            },
+            {
+              "t": "FigJam и Slides",
+              "d": "Полное редактирование досок и презентаций."
+            },
+            {
+              "t": "Figma Design",
+              "d": "Только просмотр и комментарии: менять макет Dev seat не может."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "План Professional: коротко",
+          "kind": "prose",
+          "body": "Professional рассчитан на одну команду: файлы и библиотеки без лимитов, SSO нет. Подробности плана — у Full seat этого плана.",
+          "links": [
+            "figma-prof-full"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другой тип места или другой план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Full seat",
+              "d": "Полные права на дизайн-файлы.",
+              "link": "figma-prof-full"
+            },
+            {
+              "t": "Collab seat",
+              "d": "Доски и презентации.",
+              "link": "figma-prof-collab"
+            },
+            {
+              "t": "Organization",
+              "d": "несколько команд под одной организацией",
+              "link": "figma-org-dev"
+            },
+            {
+              "t": "Enterprise",
+              "d": "корпоративный: пространства, SCIM, API",
+              "link": "figma-ent-dev"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Не редактирует макеты",
+              "d": "Дизайнеру Dev seat не подходит — нужен Full."
+            },
+            {
+              "t": "Помесячно у вендора",
+              "d": "Через BIZSoft — годовой срок."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Фронтенд-разработчикам продуктовой команды, которые берут спецификации из Dev Mode."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Dev seat, если разработчик только смотрит макеты?",
+          "a": "Нет, для просмотра и комментариев достаточно бесплатного View seat; Dev seat нужен ради кода, переменных и сравнения версий."
+        }
+      ],
+      "related_products": [
+        "figma-prof-full",
+        "figma-prof-collab",
+        "figma-org-dev",
+        "figma-ent-dev"
+      ],
+      "meta_title": "Figma Professional Dev seat — подписка на год | BIZSoft",
+      "meta_description": "Figma Professional, Dev seat на организации с переназначением: Dev Mode, FigJam, Slides; одна команда. Договор, ЭДО.",
+      "seo_intents": [
+        "figma professional dev seat купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "Dev seat"
+    },
+    "figma-prof-collab": {
+      "sku": "FIGMA-LIC-PROFCOLLAB-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Professional, Collab seat — командная подписка на 1 год на место участника команды без редактирования макетов: FigJam и Slides полностью, Figma Design — просмотр и комментарии. Самое дешёвое платное место.\n\nCollab берут менеджерам и заказчикам, которые ведут воркшопы и презентации, но не трогают дизайн.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Collab seat",
+          "kind": "items",
+          "items": [
+            {
+              "t": "FigJam",
+              "d": "Воркшопы, диаграммы, стикеры, голосования."
+            },
+            {
+              "t": "Slides",
+              "d": "Презентации с живыми макетами из Figma."
+            },
+            {
+              "t": "Figma Design",
+              "d": "Просмотр и комментарии, без Dev Mode и редактирования."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "План Professional: коротко",
+          "kind": "prose",
+          "body": "Одна команда, безлимитные файлы и библиотеки, без SSO; состав плана — на карточке Professional Full seat.",
+          "links": [
+            "figma-prof-full"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другой тип места или другой план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Full seat",
+              "d": "Право менять макеты и библиотеки.",
+              "link": "figma-prof-full"
+            },
+            {
+              "t": "Dev seat",
+              "d": "Dev Mode без редактирования.",
+              "link": "figma-prof-dev"
+            },
+            {
+              "t": "Organization",
+              "d": "SSO и единая консоль",
+              "link": "figma-org-collab"
+            },
+            {
+              "t": "Enterprise",
+              "d": "рабочие пространства, SCIM",
+              "link": "figma-ent-collab"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Без Dev Mode",
+              "d": "Разработчику нужен Dev seat."
+            },
+            {
+              "t": "Просмотр бесплатен",
+              "d": "Если человеку хватает комментариев — View seat без оплаты."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продакт-менеджерам и заказчикам внутри небольшой команды."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли с Collab seat открыть Dev Mode?",
+          "a": "Нет; для Dev Mode нужен Dev или Full seat."
+        }
+      ],
+      "related_products": [
+        "figma-prof-full",
+        "figma-prof-dev",
+        "figma-org-collab",
+        "figma-ent-collab"
+      ],
+      "meta_title": "Figma Professional Collab seat — подписка на год | BIZSoft",
+      "meta_description": "Figma Professional, Collab seat на организации с переназначением: FigJam и Slides; одна команда. Договор, ЭДО.",
+      "seo_intents": [
+        "figma professional collab seat купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional",
+      "volume_label": "Collab seat"
+    },
+    "figma-org-full": {
+      "sku": "FIGMA-LIC-ORGFULL-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Organization, Full seat — годовой командный план на полное место дизайнера в организации с несколькими командами: все продукты Figma плюс SSO, ветвление файлов и аналитика дизайн-системы. Место переназначается администратором.\n\nOrganization выбирают, когда команд больше одной и нужен единый контроль доступа; за это место стоит втрое дороже Professional.\n\nСрок — 1 год, оплата только годовая.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Full seat: коротко",
+          "kind": "prose",
+          "body": "Все продукты Figma с правом редактирования макетов; состав места — на карточке Professional Full seat.",
+          "links": [
+            "figma-prof-full"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Что даёт план Organization",
+          "kind": "items",
+          "body": "Места распределяют администраторы организации по командам; запрос на повышение типа места ждёт их одобрения до трёх дней с временным доступом, затем доплачивается пропорционально.",
+          "items": [
+            {
+              "t": "Несколько команд",
+              "d": "Неограниченные команды под одной организацией, единая консоль администратора."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SSO, управление доступом к файлам на уровне организации."
+            },
+            {
+              "t": "Дизайн-система",
+              "d": "Ветвление и слияние файлов, аналитика использования компонентов, приватные плагины и виджеты."
+            },
+            {
+              "t": "Оплата",
+              "d": "Только годовая."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другой тип места или другой план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Dev seat",
+              "d": "Для разработчика: инспекция и код.",
+              "link": "figma-org-dev"
+            },
+            {
+              "t": "Collab seat",
+              "d": "Доски и презентации.",
+              "link": "figma-org-collab"
+            },
+            {
+              "t": "Professional",
+              "d": "одна команда, без SSO",
+              "link": "figma-prof-full"
+            },
+            {
+              "t": "Enterprise",
+              "d": "пространства и SCIM",
+              "link": "figma-ent-full"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Втрое дороже Professional",
+              "d": "Оправдано только SSO и несколькими командами."
+            },
+            {
+              "t": "Годовая оплата",
+              "d": "Помесячно у вендора нет."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам компании с несколькими продуктовыми командами и общей дизайн-системой."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что даёт Organization сверх Professional?",
+          "a": "SSO, неограниченные команды, консоль, ветвление и аналитика дизайн-системы."
+        },
+        {
+          "q": "Сколько команд можно завести на Organization?",
+          "a": "Без ограничений; места одного типа распределяются между командами администратором."
+        }
+      ],
+      "related_products": [
+        "figma-prof-full",
+        "figma-org-dev",
+        "figma-org-collab",
+        "figma-ent-full"
+      ],
+      "meta_title": "Figma Organization Full seat — подписка на год | BIZSoft",
+      "meta_description": "Figma Organization, Full seat на организации с переназначением: все продукты Figma; SSO и несколько команд. Договор, ЭДО.",
+      "seo_intents": [
+        "figma organization full seat купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Organization",
+      "volume_label": "Full seat"
+    },
+    "figma-org-dev": {
+      "sku": "FIGMA-LIC-ORGDEV-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Organization, Dev seat — годовой командный план: место разработчика в организации с несколькими командами: Dev Mode, FigJam, Slides, доступ к макетам всех команд на просмотр под SSO.\n\nЧто умеет Dev seat — на карточке Professional Dev; что даёт план Organization — на Organization Full.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Dev seat: коротко",
+          "kind": "prose",
+          "body": "Dev Mode с кодом, переменными и сравнением версий; FigJam и Slides — целиком; Figma Design — просмотр и комментарии. Подробно тип места разобран на карточке Professional Dev seat.",
+          "links": [
+            "figma-prof-dev"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "План Organization: коротко",
+          "kind": "prose",
+          "body": "Organization объединяет команды под SSO и общей консолью; полный состав плана описан на карточке Organization Full seat.",
+          "links": [
+            "figma-org-full"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другой тип места или другой план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Full seat",
+              "d": "Право менять макеты и библиотеки.",
+              "link": "figma-org-full"
+            },
+            {
+              "t": "Collab seat",
+              "d": "FigJam и Slides без макетов.",
+              "link": "figma-org-collab"
+            },
+            {
+              "t": "Professional",
+              "d": "команда без корпоративного SSO",
+              "link": "figma-prof-dev"
+            },
+            {
+              "t": "Enterprise",
+              "d": "корпоративный: пространства, SCIM, API",
+              "link": "figma-ent-dev"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Стоимость Dev выше Professional вдвое",
+              "d": "Платите за SSO и консоль, не за функции Dev Mode."
+            },
+            {
+              "t": "Смена типа",
+              "d": "Повышение до Full — по одобрению администратора с пропорциональной доплатой."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Разработчикам в организации с общими библиотеками компонентов у нескольких команд."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Видит ли Dev seat макеты всех команд организации?",
+          "a": "На просмотр — да, в рамках прав доступа; редактирование недоступно."
+        }
+      ],
+      "related_products": [
+        "figma-prof-dev",
+        "figma-org-full",
+        "figma-org-collab",
+        "figma-ent-dev"
+      ],
+      "meta_title": "Figma Organization Dev seat — подписка на год | BIZSoft",
+      "meta_description": "Figma Organization, Dev seat на организации с переназначением: Dev Mode, FigJam, Slides; SSO и несколько команд. Договор, ЭДО.",
+      "seo_intents": [
+        "figma organization dev seat купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Organization",
+      "volume_label": "Dev seat"
+    },
+    "figma-org-collab": {
+      "sku": "FIGMA-LIC-ORGCOLLAB-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Organization, Collab seat — командная подписка на 1 год на место без редактирования макетов в организации с SSO: FigJam и Slides, просмотр дизайна всех команд.\n\nСамый доступный способ дать доступ к воркшопам сотрудникам корпоративного аккаунта.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Collab seat: коротко",
+          "kind": "prose",
+          "body": "FigJam и Slides в полном доступе, макеты — только просмотр и комментарии, Dev Mode закрыт. Описание типа места — у Professional Collab seat.",
+          "links": [
+            "figma-prof-collab"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "План Organization: коротко",
+          "kind": "prose",
+          "body": "Несколько команд, SSO, консоль администратора, ветвление файлов; подробно — у Organization Full seat.",
+          "links": [
+            "figma-org-full"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другой тип места или другой план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Full seat",
+              "d": "Редактирование макетов.",
+              "link": "figma-org-full"
+            },
+            {
+              "t": "Dev seat",
+              "d": "Код и переменные, макеты только на просмотр.",
+              "link": "figma-org-dev"
+            },
+            {
+              "t": "Professional",
+              "d": "для одной команды",
+              "link": "figma-prof-collab"
+            },
+            {
+              "t": "Enterprise",
+              "d": "рабочие пространства, SCIM",
+              "link": "figma-ent-collab"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Тот же Collab, что на Professional",
+              "d": "Функции места одинаковы; разница в плане."
+            },
+            {
+              "t": "Не для разработчиков",
+              "d": "Dev Mode недоступен."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Менеджерам и аналитикам компании, где FigJam — рабочий инструмент совещаний."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Зачем Collab на Organization, если он тот же, что на Professional?",
+          "a": "Чтобы участник работал в командах организации под SSO и в общих FigJam."
+        }
+      ],
+      "related_products": [
+        "figma-prof-collab",
+        "figma-org-full",
+        "figma-org-dev",
+        "figma-ent-collab"
+      ],
+      "meta_title": "Figma Organization Collab seat — подписка на год | BIZSoft",
+      "meta_description": "Figma Organization, Collab seat на организации с переназначением: FigJam и Slides; SSO и несколько команд. Договор, ЭДО.",
+      "seo_intents": [
+        "figma organization collab seat купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Organization",
+      "volume_label": "Collab seat"
+    },
+    "figma-ent-full": {
+      "sku": "FIGMA-LIC-ENTFULL-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Enterprise, Full seat — командная подписка на год: полное место дизайнера в корпоративном аккаунте: все продукты Figma, отдельные рабочие пространства подразделений, SCIM, 40 режимов переменных, выделенная поддержка.\n\nСамое дорогое место линейки; оправдано, когда пространства и провижининг обязательны по политике ИБ.\n\nСрок — 1 год, только годовой договор.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Full seat: коротко",
+          "kind": "prose",
+          "body": "Полное место со всеми продуктами и правом редактирования; что входит в Full seat, расписано у Professional Full seat.",
+          "links": [
+            "figma-prof-full"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Что даёт план Enterprise",
+          "kind": "items",
+          "body": "Места заводятся администраторами организации или SCIM; администраторы биллинг-групп управляют своими подразделениями, повышение типа — с их одобрения и пропорциональной доплатой.",
+          "items": [
+            {
+              "t": "Рабочие пространства",
+              "d": "Отдельные пространства для подразделений с собственными командами и библиотеками."
+            },
+            {
+              "t": "Провижининг",
+              "d": "SCIM, множественный SSO, расширенный API для автоматизации."
+            },
+            {
+              "t": "Переменные и поддержка",
+              "d": "40 режимов переменных вместо 4, выделенная поддержка, настраиваемые политики безопасности."
+            },
+            {
+              "t": "Оплата",
+              "d": "Только годовой договор."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другой тип места или другой план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Dev seat",
+              "d": "Dev Mode без редактирования.",
+              "link": "figma-ent-dev"
+            },
+            {
+              "t": "Collab seat",
+              "d": "FigJam и Slides без макетов.",
+              "link": "figma-ent-collab"
+            },
+            {
+              "t": "Professional",
+              "d": "одна команда, без SSO",
+              "link": "figma-prof-full"
+            },
+            {
+              "t": "Organization",
+              "d": "несколько команд, SSO",
+              "link": "figma-org-full"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимумы",
+              "d": "Enterprise-договор у вендора с минимальным числом мест — уточняем при заказе."
+            },
+            {
+              "t": "Годовой договор",
+              "d": "Помесячно нет."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам холдинга с раздельными пространствами по бизнес-единицам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Enterprise отличается от Organization?",
+          "a": "Рабочими пространствами, SCIM, расширенным API и 40 режимами переменных."
+        },
+        {
+          "q": "Можно ли дать подразделению своё пространство с отдельным биллингом?",
+          "a": "Да, рабочие пространства и биллинг-группы Enterprise для этого и предназначены."
+        }
+      ],
+      "related_products": [
+        "figma-prof-full",
+        "figma-ent-dev",
+        "figma-ent-collab",
+        "figma-org-full"
+      ],
+      "meta_title": "Figma Enterprise Full seat — подписка на год | BIZSoft",
+      "meta_description": "Figma Enterprise, Full seat на организации с переназначением: все продукты Figma; пространства и SCIM. Договор, ЭДО.",
+      "seo_intents": [
+        "figma enterprise full seat купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "Full seat"
+    },
+    "figma-ent-dev": {
+      "sku": "FIGMA-LIC-ENTDEV-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Enterprise, Dev seat — командная подписка на год на место для разработчика в корпоративном аккаунте: Dev Mode с расширенным API, FigJam и Slides, макеты на просмотр в нужных пространствах.\n\nМесто заводится через SCIM вместе с учётной записью; типы мест — как на Professional.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Dev seat: коротко",
+          "kind": "prose",
+          "body": "Место разработчика: инспекция и код в Dev Mode, работа в FigJam и Slides, макеты — на чтение. Что именно входит в Dev seat, см. у Professional Dev seat.",
+          "links": [
+            "figma-prof-dev"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "План Enterprise: коротко",
+          "kind": "prose",
+          "body": "Enterprise добавляет пространства подразделений, SCIM и выделенную поддержку; состав — на карточке Enterprise Full seat.",
+          "links": [
+            "figma-ent-full"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другой тип места или другой план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Full seat",
+              "d": "Редактирование макетов.",
+              "link": "figma-ent-full"
+            },
+            {
+              "t": "Collab seat",
+              "d": "Только совместная работа в FigJam.",
+              "link": "figma-ent-collab"
+            },
+            {
+              "t": "Professional",
+              "d": "команда без корпоративного SSO",
+              "link": "figma-prof-dev"
+            },
+            {
+              "t": "Organization",
+              "d": "несколько команд под одной организацией",
+              "link": "figma-org-dev"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Дороже Organization Dev",
+              "d": "Разница — SCIM, пространства и API."
+            },
+            {
+              "t": "Не редактирует макеты",
+              "d": "Дизайнеру — Full."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Разработчикам корпорации с SCIM и раздельными пространствами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Создаётся ли место автоматически через SCIM?",
+          "a": "Да, учётная запись и тип места заводятся провижинингом; смена типа — администратором."
+        }
+      ],
+      "related_products": [
+        "figma-prof-dev",
+        "figma-ent-full",
+        "figma-ent-collab",
+        "figma-org-dev"
+      ],
+      "meta_title": "Figma Enterprise Dev seat — подписка на год | BIZSoft",
+      "meta_description": "Figma Enterprise, Dev seat на организации с переназначением: Dev Mode, FigJam, Slides; пространства и SCIM. Договор, ЭДО.",
+      "seo_intents": [
+        "figma enterprise dev seat купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "Dev seat"
+    },
+    "figma-ent-collab": {
+      "sku": "FIGMA-LIC-ENTCOLLAB-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Figma Enterprise, Collab seat — командная подписка на год: место участника корпоративного аккаунта без прав на макеты: FigJam, Slides и просмотр дизайна в своём рабочем пространстве.\n\nСтоит столько же, сколько Collab на Organization, — разница в пространствах и провижининге.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Collab seat: коротко",
+          "kind": "prose",
+          "body": "Доски FigJam и презентации Slides без ограничений; дизайн-файлы открываются на чтение. Состав Collab seat описан на карточке Professional Collab seat.",
+          "links": [
+            "figma-prof-collab"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "План Enterprise: коротко",
+          "kind": "prose",
+          "body": "Рабочие пространства, SCIM, расширенный API, выделенная поддержка; подробно — у Enterprise Full seat.",
+          "links": [
+            "figma-ent-full"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другой тип места или другой план",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Full seat",
+              "d": "Полные права на дизайн-файлы.",
+              "link": "figma-ent-full"
+            },
+            {
+              "t": "Dev seat",
+              "d": "Для разработчика: инспекция и код.",
+              "link": "figma-ent-dev"
+            },
+            {
+              "t": "Professional",
+              "d": "для одной команды",
+              "link": "figma-prof-collab"
+            },
+            {
+              "t": "Organization",
+              "d": "SSO и единая консоль",
+              "link": "figma-org-collab"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена как на Organization",
+              "d": "Платите за план, не за место."
+            },
+            {
+              "t": "Без Dev Mode",
+              "d": "Разработчику — Dev seat."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Сотрудникам корпорации на воркшопах и презентациях без доступа к редактированию."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли лимит Collab-мест на Enterprise?",
+          "a": "Лимитов нет; число мест фиксируется в договоре и увеличивается по запросу."
+        }
+      ],
+      "related_products": [
+        "figma-prof-collab",
+        "figma-ent-full",
+        "figma-ent-dev",
+        "figma-org-collab"
+      ],
+      "meta_title": "Figma Enterprise Collab seat — подписка на год | BIZSoft",
+      "meta_description": "Figma Enterprise, Collab seat на организации с переназначением: FigJam и Slides; пространства и SCIM. Договор, ЭДО.",
+      "seo_intents": [
+        "figma enterprise collab seat купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Enterprise",
+      "volume_label": "Collab seat"
+    }
+  }
+}

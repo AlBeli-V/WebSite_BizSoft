@@ -1,0 +1,290 @@
+{
+  "family_key": "CLOUDFLARE",
+  "vendor": "Cloudflare",
+  "vendor_profile": "data/content/vendors/cloudflare.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "cloudflare-pro",
+  "classification_notes": [
+    "Pro / Business — лицензия на домен."
+  ],
+  "products": {
+    "cloudflare-pro": {
+      "sku": "CLFL-LIC-PRO-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "домен",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Cloudflare Pro — подписка на 1 год на план Pro для одного домена: WAF с управляемыми правилами, оптимизация изображений и кэширования, защита от DDoS, аналитика, мобильная оптимизация. Лицензия на домен, оформляется на организацию.\n\nPro — для сайтов бизнеса; Business добавляет SLA, расширенный WAF, кастомный SSL и поддержку.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Cloudflare Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Безопасность",
+              "d": "WAF с управляемыми наборами, DDoS L3–L7, боты базово."
+            },
+            {
+              "t": "Скорость",
+              "d": "Polish, Mirage, кэширование, Argo — отдельно."
+            },
+            {
+              "t": "Аналитика",
+              "d": "Трафик и угрозы по домену."
+            },
+            {
+              "t": "Домен",
+              "d": "Один домен на план."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Сайт компании."
+            },
+            {
+              "t": "Business",
+              "d": "SLA 100 %, расширенный WAF, кастомные сертификаты, чат-поддержка.",
+              "link": "cloudflare-business"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с публичным сайтом, которым нужны WAF и ускорение."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "DNS на Cloudflare",
+              "d": "Домен должен использовать nameserver'ы Cloudflare или CNAME-настройку (Business и выше)."
+            },
+            {
+              "t": "Один домен",
+              "d": "Второй сайт — второй план."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Считается ли поддомен отдельным планом?",
+          "a": "Нет, поддомены входят в домен."
+        }
+      ],
+      "related_products": [
+        "cloudflare-business"
+      ],
+      "meta_title": "Cloudflare Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Cloudflare Pro на домен: WAF, защита от DDoS, оптимизация изображений и кэша, аналитика. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cloudflare pro купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "cloudflare-business": {
+      "sku": "CLFL-LIC-BUSINESS-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "домен",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Cloudflare Business — подписка на 1 год на план Business для одного домена: всё из Pro плюс SLA 100 % доступности, расширенные правила WAF и защита от ботов, кастомный SSL, PCI-соответствие, поддержка в чате и приоритетная обработка. Лицензия на домен.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Cloudflare Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "SLA",
+              "d": "100 % доступности по договору Cloudflare."
+            },
+            {
+              "t": "Безопасность",
+              "d": "Больше правил WAF, Bot Management базово, кастомные сертификаты."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Чат и приоритет."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "DDoS, оптимизация, аналитика."
+            }
+          ],
+          "links": [
+            "cloudflare-pro"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Сайт с требованиями к доступности и PCI."
+            },
+            {
+              "t": "Pro",
+              "d": "Обычный корпоративный сайт.",
+              "link": "cloudflare-pro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Интернет-магазинам и сервисам с оборотом."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "CNAME-настройка",
+              "d": "Business допускает подключение без смены nameserver'ов."
+            },
+            {
+              "t": "Дополнения",
+              "d": "Argo Smart Routing, Load Balancing, Rate Limiting — отдельно."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Business ради кастомного SSL?",
+          "a": "Да, загрузка своих сертификатов — с Business."
+        }
+      ],
+      "related_products": [
+        "cloudflare-pro"
+      ],
+      "meta_title": "Cloudflare Business — подписка на год | BIZSoft",
+      "meta_description": "Cloudflare Business на домен: SLA 100 %, расширенный WAF и защита от ботов, кастомный SSL, чат-поддержка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "cloudflare business — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

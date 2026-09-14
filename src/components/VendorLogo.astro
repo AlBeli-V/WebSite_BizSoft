@@ -4,6 +4,13 @@
  * пакета (монохром → полноцвет при наведении), затем официальный SVG-глиф
  * (simple-icons), затем буквенный знак-фолбэк.
  * Декоративный (aria-hidden) — название вендора выводится рядом текстом.
+ *
+ * fluid: знак в строку текста — высота единая (`size`), ширина считается по
+ * пропорциям файла. Квадратный знак остаётся квадратным, длинный логотип-
+ * надпись (вроде Zoho) вытягивается вправо и сдвигает название, что правилом
+ * разрешено (`docs/rules/vendor-line.md`). Цвет здесь всегда фирменный:
+ * строка «Производитель» короткая, монохром с подсветкой по наведению в ней
+ * читался бы как дефект, а не как приём.
  */
 import { brandLogo, hasFileLogo, logoFile } from '../data/logos';
 import { vendorIcon } from '../data/vendor-icons';
@@ -13,15 +20,27 @@ interface Props {
   slug: string;
   name: string;
   size?: number;
+  fluid?: boolean;
 }
-const { slug, name, size = 24 } = Astro.props;
+const { slug, name, size = 24, fluid = false } = Astro.props;
 const packIcon = vendorIcon(slug);
 const fileLogo = !packIcon && hasFileLogo(slug);
 const logo = packIcon || fileLogo ? undefined : brandLogo(slug);
 const genFile = !packIcon && !fileLogo && !logo ? logoFile(slug) : undefined;
 const letter = (name || '?').trim().charAt(0).toUpperCase();
+const fluidSrc = fluid
+  ? (packIcon?.color || (fileLogo ? `/brand-logos/${slug}.svg` : genFile))
+  : undefined;
 ---
-{packIcon ? (
+{fluid ? (
+  fluidSrc ? (
+    <img class="vlogo vlogo-fluid" src={fluidSrc} alt="" height={size} style={`height:${size}px`} loading="lazy" decoding="async" aria-hidden="true" />
+  ) : logo ? (
+    <svg class="vlogo vlogo-fluid" viewBox="0 0 24 24" height={size} style={`height:${size}px`} fill={logo.hex} aria-hidden="true" focusable="false" role="presentation"><path d={logo.path} /></svg>
+  ) : (
+    <span class="vlogo-letter" aria-hidden="true" style={`font-size:${Math.round(size * 0.62)}px`}>{letter}</span>
+  )
+) : packIcon ? (
   <VendorIcon slug={slug} size={size} />
 ) : fileLogo ? (
   <img class="vlogo vlogo-img" src={`/brand-logos/${slug}.svg`} alt="" width={size} height={size} loading="lazy" decoding="async" aria-hidden="true" />
@@ -36,5 +55,8 @@ const letter = (name || '?').trim().charAt(0).toUpperCase();
 <style>
   .vlogo { display: block; }
   .vlogo-img { object-fit: contain; }
+  /* Ширина считается по пропорциям знака; потолок держит строку от разъезда,
+     если у вендора окажется очень длинная надпись. */
+  .vlogo-fluid { width: auto; max-width: 7rem; object-fit: contain; flex-shrink: 0; }
   .vlogo-letter { display: flex; align-items: center; justify-content: center; font-weight: 800; line-height: 1; }
 </style>

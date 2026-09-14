@@ -31,13 +31,6 @@ export interface VendorCardMeta {
   forWhom?: string;
   /** Состав позиции — вместо списка возможностей из каталога. */
   features?: string[];
-  /**
-   * Срок действия позиции. В схеме каталога поля срока нет, а первый экран
-   * карточки обязан его назвать: полная форма идёт в подзаголовок и в
-   * параметры, короткая — в факты под описанием.
-   */
-  term?: string;
-  termShort?: string;
   /** Переназначаются ли единицы между сотрудниками: «Да», «Нет». */
   reassign?: string;
   /** Как управляется пул единиц: «Централизованная консоль». */
@@ -50,12 +43,22 @@ export interface VendorCardMeta {
   /** Вопросы карточки, когда их нет в каталоге (поле faq позиции). */
   faq?: { q: string; a: string }[];
   /**
-   * Короткое имя продукта для заголовка страницы. Название каталога несёт
-   * и редакцию («Red Giant (Teams)»), а первый экран не повторяет тип плана
-   * трижды: H1 — имя продукта, тип плана — в маркере и подзаголовке.
-   * В title, разметке и крошках остаётся полное название из каталога.
+   * Имя продукта для заголовка, когда автоматическая очистка названия
+   * (displayName в src/lib/card-display.ts, правило docs/rules/card-title.md)
+   * даёт не то: маркеры плана и срока она снимает сама, а редакцию и тип
+   * места оставляет. В title и разметке остаётся полное название каталога.
+   * Срок карточка считает сама (termLabel); поправка срока — реестр
+   * src/data/card-terms.json, а не поле контента.
    */
   shortName?: string;
+  /**
+   * Первая плашка над заголовком, когда её не выводят данные. Значения:
+   * team, individual — тип плана подписки; universal — пополнение, номинал,
+   * универсальный продукт; addon — дополнение к продукту.
+   * Правило docs/rules/product-markers.md: плашка обязательна, а угадывать
+   * тип плана по названию нельзя — спорную карточку размечает оператор.
+   */
+  marker?: 'team' | 'individual' | 'universal' | 'addon';
 }
 /** Разбор, который нужен до цен: типы мест, виды лицензий, редакции. */
 export interface VendorExplainer { title: string; items: VendorScenario[] }
@@ -516,7 +519,87 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "q": "Предоставляете ли закрывающие документы для бухгалтерии?",
         "a": "Да. При покупке через BizSoft вы получаете договор, счёт и УПД с выделенным НДС 5% (или акт со счётом-фактурой) — всё, что нужно для учёта расходов юрлица. Закрывающие можно передавать через ЭДО."
       }
-    ]
+    ],
+    "cards": {
+      "ADBE-LIC-PHOTOSHOP-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-ILLUSTRATOR-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-INDESIGN-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-INCOPY-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-PREMIEREPRO-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-AFTEREFFECTS-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-ANIMATE-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-AUDITION-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-DREAMWEAVER-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-LIGHTROOM-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-PHOTOGRAPHY-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-EXPRESS-IND-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-ACROBATSTD-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-ACROBATPRO-IND-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-ACROBATSTUD-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-CCSTD-UNI-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-CCPRO-IND-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-SUBSTANCE3D-IND-1Y-USER": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-STOCK-UNI-1Y-PACK-10IMG": {
+        "marker": "individual"
+      },
+      "ADBE-LIC-ACROBATPRO-TEAM-1Y-USER": {
+        "marker": "team"
+      },
+      "ADBE-LIC-CCPRO-TEAM-1Y-USER": {
+        "marker": "team"
+      },
+      "ADBE-LIC-CCSINGLEAPP-TEAM-1Y-USER": {
+        "marker": "team"
+      },
+      "ADBE-LIC-EXPRESS-TEAM-1Y-USER": {
+        "marker": "team"
+      },
+      "ADBE-LIC-SUBSTANCE3D-TEAM-1Y-USER": {
+        "marker": "team"
+      },
+      "ADBE-LIC-FIREFLYTEAMS-TEAM-1Y-USER": {
+        "marker": "team"
+      },
+      "ADBE-LIC-FIREFLYENT-TEAM-1Y-USER": {
+        "marker": "team"
+      }
+    }
   },
   "airalo": {
     "summary": "Ваучер Airalo — цифровой код, который пополняет баланс аккаунта Airalo на номинал в USD; с баланса оплачиваются eSIM-тарифы мобильного интернета для поездок. Регион Global, номиналы от 5 до 50 USD. BIZSoft не является партнёром Airalo: коды поставляем как посредник, оформляем на юрлицо или ИП по договору и счёту.",
@@ -4381,7 +4464,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       ]
     },
     "cards": {
-      "FIGMA-PROF-FULL": {
+      "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-FULL": {
         "badge": "Professional",
         "forWhom": "Дизайнеры небольших команд",
         "features": [
@@ -4390,9 +4473,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Безлимит файлов и проектов",
           "Командные библиотеки"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
-      "FIGMA-PROF-DEV": {
+      "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-DEV": {
         "badge": "Professional",
         "forWhom": "Разработчики, хендофф",
         "features": [
@@ -4401,9 +4485,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Комментарии и задачи",
           "Экспорт кода и ресурсов"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
-      "FIGMA-PROF-COLLAB": {
+      "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-COLLAB": {
         "badge": "Professional",
         "forWhom": "Стейкхолдеры, менеджеры",
         "features": [
@@ -4412,9 +4497,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Участие в воркшопах",
           "Без редактирования дизайна"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
-      "FIGMA-ORG-FULL": {
+      "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-FULL": {
         "badge": "Organization",
         "forWhom": "Дизайн-команды организации",
         "features": [
@@ -4423,9 +4509,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Централизованное администрирование",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
-      "FIGMA-ORG-DEV": {
+      "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-DEV": {
         "badge": "Organization",
         "forWhom": "Разработчики организации",
         "features": [
@@ -4434,9 +4521,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Аналитика использования",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
-      "FIGMA-ORG-COLLAB": {
+      "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-COLLAB": {
         "badge": "Organization",
         "forWhom": "Стейкхолдеры организации",
         "features": [
@@ -4445,7 +4533,8 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Контроль доступа",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
       "int-design-figma": {
         "badge": "Organization",
@@ -4458,7 +4547,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Мест"
       },
-      "FIGMA-ENT-FULL": {
+      "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-FULL": {
         "badge": "Enterprise",
         "forWhom": "Крупные дизайн-организации",
         "features": [
@@ -4467,9 +4556,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "SSO и расширенная безопасность",
           "Максимальные AI-кредиты"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
-      "FIGMA-ENT-DEV": {
+      "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-DEV": {
         "badge": "Enterprise",
         "forWhom": "Разработчики Enterprise",
         "features": [
@@ -4478,9 +4568,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Централизованное администрирование",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
       },
-      "FIGMA-ENT-COLLAB": {
+      "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-COLLAB": {
         "badge": "Enterprise",
         "forWhom": "Стейкхолдеры Enterprise",
         "features": [
@@ -4489,20 +4580,24 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "SSO и контроль доступа",
           "Только годовая оплата"
         ],
-        "qtyLabel": "Мест"
+        "qtyLabel": "Мест",
+        "marker": "team"
+      },
+      "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER": {
+        "marker": "team"
       }
     },
     "order": [
-      "FIGMA-PROF-FULL",
-      "FIGMA-PROF-DEV",
-      "FIGMA-PROF-COLLAB",
-      "FIGMA-ORG-FULL",
-      "FIGMA-ORG-DEV",
-      "FIGMA-ORG-COLLAB",
+      "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-FULL",
+      "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-DEV",
+      "FIGM-LIC-PROFESSIONAL-TEAM-1Y-USER-COLLAB",
+      "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-FULL",
+      "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-DEV",
+      "FIGM-LIC-ORGANIZATION-TEAM-1Y-USER-COLLAB",
       "int-design-figma",
-      "FIGMA-ENT-FULL",
-      "FIGMA-ENT-DEV",
-      "FIGMA-ENT-COLLAB"
+      "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-FULL",
+      "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-DEV",
+      "FIGM-LIC-ENTERPRISE-TEAM-1Y-USER-COLLAB"
     ],
     "comparison": {
       "cols": [
@@ -6515,7 +6610,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       ]
     },
     "cards": {
-      "JB-ALL-PACK-ORG": {
+      "JB-LIC-ALLPACK-TEAM-1Y-USER": {
         "badge": "все продукты",
         "forWhom": "Команды с разнородным стеком и несколькими языками",
         "features": [
@@ -6528,7 +6623,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "check": "Состав пакета уточняется перед КП — может обновляться вендором.",
         "qtyLabel": "Лицензий"
       },
-      "JB-IDEA-ULT-ORG": {
+      "JB-LIC-IDEAULT-TEAM-1Y-USER": {
         "badge": "Java / Kotlin",
         "forWhom": "Backend- и fullstack-команды на JVM-стеке",
         "features": [
@@ -6540,7 +6635,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-DOTULTIMATE-ORG": {
+      "JB-LIC-DOTULTIMATE-TEAM-1Y-USER": {
         "badge": ".NET",
         "forWhom": "Команды .NET: разработка, анализ и профилирование",
         "features": [
@@ -6552,7 +6647,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-RIDER-ORG": {
+      "JB-LIC-RIDER-TEAM-1Y-USER": {
         "badge": ".NET / Unity",
         "forWhom": ".NET- и геймдев-команды, кроссплатформенная разработка",
         "features": [
@@ -6564,7 +6659,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-RESHARPER-ORG": {
+      "JB-LIC-RESHARPER-TEAM-1Y-USER": {
         "badge": "Visual Studio",
         "forWhom": ".NET-команды, работающие в Visual Studio",
         "features": [
@@ -6577,7 +6672,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "check": "Требуется установленная Visual Studio.",
         "qtyLabel": "Лицензий"
       },
-      "JB-PYCHARM-PRO-ORG": {
+      "JB-LIC-PYCHARMPRO-TEAM-1Y-USER": {
         "badge": "Python",
         "forWhom": "Python-разработчики и дата-сайентисты",
         "features": [
@@ -6589,7 +6684,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-GOLAND-ORG": {
+      "JB-LIC-GOLAND-TEAM-1Y-USER": {
         "badge": "Go",
         "forWhom": "Backend- и DevOps-команды на Go",
         "features": [
@@ -6601,7 +6696,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-WEBSTORM-ORG": {
+      "JB-LIC-WEBSTORM-TEAM-1Y-USER": {
         "badge": "JS / TS",
         "forWhom": "Frontend- и fullstack-команды",
         "features": [
@@ -6613,7 +6708,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-PHPSTORM-ORG": {
+      "JB-LIC-PHPSTORM-TEAM-1Y-USER": {
         "badge": "PHP",
         "forWhom": "Веб-команды на PHP",
         "features": [
@@ -6625,7 +6720,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-RUBYMINE-ORG": {
+      "JB-LIC-RUBYMINE-TEAM-1Y-USER": {
         "badge": "Ruby",
         "forWhom": "Команды на Ruby и Ruby on Rails",
         "features": [
@@ -6637,7 +6732,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-RUSTROVER-ORG": {
+      "JB-LIC-RUSTROVER-TEAM-1Y-USER": {
         "badge": "Rust",
         "forWhom": "Команды системного и сетевого ПО на Rust",
         "features": [
@@ -6649,7 +6744,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-CLION-ORG": {
+      "JB-LIC-CLION-TEAM-1Y-USER": {
         "badge": "C / C++",
         "forWhom": "Команды системного, прикладного и embedded ПО",
         "features": [
@@ -6661,7 +6756,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         ],
         "qtyLabel": "Лицензий"
       },
-      "JB-DATAGRIP-ORG": {
+      "JB-LIC-DATAGRIP-TEAM-1Y-USER": {
         "badge": "SQL / БД",
         "forWhom": "Инженеры данных, аналитики и разработчики",
         "features": [
@@ -8134,7 +8229,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
     "summary": "BIZSoft оформляет годовые подписки Maxon (Cinema 4D, ZBrush, Redshift, Red Giant, Universe и пакет Maxon One) для российских юридических лиц: договор, счёт в рублях, закрывающие документы через ЭДО. Планы двух видов: индивидуальные (Individuals) — лицензия на конкретного специалиста, и командные (Teams) — места принадлежат компании, управляются централизованно и переназначаются между сотрудниками. Командные планы дороже, но остаются активом организации при смене состава команды.",
     "intro": "Maxon — экосистема инструментов для 3D-графики, моушн-дизайна, VFX и цифрового скульптинга. В линейке шесть подписок: пакет Maxon One со всем стеком сразу и отдельные продукты — Cinema 4D для 3D-моделирования и анимации, Red Giant для VFX и постпродакшена, GPU-рендер Redshift, скульптинг ZBrush и коллекция эффектов Universe. Каждая подписка продаётся в двух моделях лицензирования: индивидуальный план (Individuals) — лицензия на конкретного специалиста, и командный план (Teams) — места принадлежат компании, управляются из единой консоли и переназначаются между сотрудниками. Исключение — Universe: отдельной командной версии у него нет, для команд он входит в состав Red Giant.",
     "cards": {
-      "MAXON-ONE": {
+      "MAXN-LIC-ONE-IND-1Y-USER": {
         "badge": "весь стек",
         "forWhom": "Специалисту, которому нужно всё: 3D, скульптинг, рендер и VFX",
         "features": [
@@ -8143,7 +8238,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Лицензия на одного специалиста"
         ]
       },
-      "MAXON-C4D": {
+      "MAXN-LIC-C4D-IND-1Y-USER": {
         "badge": "3D и анимация",
         "forWhom": "Моушн-дизайнеру и 3D-художнику",
         "features": [
@@ -8152,7 +8247,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Интеграция с After Effects"
         ]
       },
-      "MAXON-REDGIANT": {
+      "MAXN-LIC-REDGIANT-IND-1Y-USER": {
         "badge": "VFX и моушн",
         "forWhom": "Монтажёру и специалисту по постпродакшену",
         "features": [
@@ -8161,7 +8256,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Цветокоррекция и киношные луки"
         ]
       },
-      "MAXON-REDSHIFT": {
+      "MAXN-LIC-REDSHIFT-IND-1Y-USER": {
         "badge": "GPU-рендер",
         "forWhom": "3D-специалисту с любым основным пакетом",
         "features": [
@@ -8170,7 +8265,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Объёмные эффекты, волосы, SSS"
         ]
       },
-      "MAXON-ZBRUSH": {
+      "MAXN-LIC-ZBRUSH-IND-1Y-USER": {
         "badge": "скульптинг",
         "forWhom": "Художнику по персонажам и hard-surface",
         "features": [
@@ -8179,7 +8274,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Экспорт в игровые пайплайны"
         ]
       },
-      "MAXON-UNIVERSE": {
+      "MAXN-LIC-UNIVERSE-IND-1Y-USER": {
         "badge": "эффекты",
         "forWhom": "Монтажёру — самый доступный вход в экосистему Maxon",
         "features": [
@@ -8188,7 +8283,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Регулярные пополнения коллекции"
         ]
       },
-      "MAXON-ONE-TEAMS": {
+      "MAXN-LIC-ONE-TEAM-1Y-USER": {
         "badge": "весь стек",
         "forWhom": "Студии, где полный стек Maxon нужен на несколько мест",
         "features": [
@@ -8196,9 +8291,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Места принадлежат компании и переназначаются",
           "Управление лицензиями из единой консоли"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       },
-      "MAXON-C4D-TEAMS": {
+      "MAXN-LIC-C4D-TEAM-1Y-USER": {
         "badge": "3D и анимация",
         "forWhom": "Студии моушн-дизайна и 3D-продакшену",
         "features": [
@@ -8206,9 +8302,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Redshift для Cinema 4D включён",
           "Места переназначаются между сотрудниками"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       },
-      "MAXON-REDGIANT-TEAMS": {
+      "MAXN-LIC-REDGIANT-TEAM-1Y-USER": {
         "badge": "VFX и моушн",
         "forWhom": "Постпродакшн-студии и отделу видео",
         "features": [
@@ -8217,8 +8314,6 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "Места переназначаются между сотрудниками"
         ],
         "qtyLabel": "Рабочих мест",
-        "term": "1Y / 1 (один) год",
-        "termShort": "1 год",
         "reassign": "Да",
         "management": "Централизованная консоль",
         "includes": [
@@ -8281,9 +8376,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
             "a": "Юридически доступ оформляется как результат оказания услуги Договором с юридическим лицом Заказчика. Фактически учётная запись регистрируется либо на организацию (при наличии такой возможности), либо на произвольные учётные данные физического лица с биллинг-адресом вне территории РФ, либо иным способом, позволяющим Заказчику получить доступ к функционалу программного продукта или веб-сервиса. Конкретный вариант согласуется Сторонами до момента размещения заказа, на этапе формирования проектной спецификации."
           }
         ],
-        "shortName": "Red Giant"
+        "shortName": "Red Giant",
+        "minQty": 3
       },
-      "MAXON-REDSHIFT-TEAMS": {
+      "MAXN-LIC-REDSHIFT-TEAM-1Y-USER": {
         "badge": "GPU-рендер",
         "forWhom": "Студии с общим парком рабочих станций",
         "features": [
@@ -8291,9 +8387,10 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "C4D, Maya, 3ds Max, Houdini, Blender, Katana",
           "Места переназначаются между сотрудниками"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       },
-      "MAXON-ZBRUSH-TEAMS": {
+      "MAXN-LIC-ZBRUSH-TEAM-1Y-USER": {
         "badge": "скульптинг",
         "forWhom": "Студии персонажки и аутсорс-команде",
         "features": [
@@ -8301,21 +8398,22 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "ZBrush для iPad включён",
           "Места переназначаются между сотрудниками"
         ],
-        "qtyLabel": "Рабочих мест"
+        "qtyLabel": "Рабочих мест",
+        "minQty": 3
       }
     },
     "order": [
-      "MAXON-ONE",
-      "MAXON-C4D",
-      "MAXON-REDGIANT",
-      "MAXON-REDSHIFT",
-      "MAXON-ZBRUSH",
-      "MAXON-UNIVERSE",
-      "MAXON-ONE-TEAMS",
-      "MAXON-C4D-TEAMS",
-      "MAXON-REDGIANT-TEAMS",
-      "MAXON-REDSHIFT-TEAMS",
-      "MAXON-ZBRUSH-TEAMS"
+      "MAXN-LIC-ONE-IND-1Y-USER",
+      "MAXN-LIC-C4D-IND-1Y-USER",
+      "MAXN-LIC-REDGIANT-IND-1Y-USER",
+      "MAXN-LIC-REDSHIFT-IND-1Y-USER",
+      "MAXN-LIC-ZBRUSH-IND-1Y-USER",
+      "MAXN-LIC-UNIVERSE-IND-1Y-USER",
+      "MAXN-LIC-ONE-TEAM-1Y-USER",
+      "MAXN-LIC-C4D-TEAM-1Y-USER",
+      "MAXN-LIC-REDGIANT-TEAM-1Y-USER",
+      "MAXN-LIC-REDSHIFT-TEAM-1Y-USER",
+      "MAXN-LIC-ZBRUSH-TEAM-1Y-USER"
     ],
     "groups": [
       {
@@ -8323,12 +8421,12 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "title": "Индивидуальные планы (Individuals)",
         "note": "Лицензия закреплена за конкретным специалистом.",
         "items": [
-          "MAXON-ONE",
-          "MAXON-C4D",
-          "MAXON-REDGIANT",
-          "MAXON-REDSHIFT",
-          "MAXON-ZBRUSH",
-          "MAXON-UNIVERSE"
+          "MAXN-LIC-ONE-IND-1Y-USER",
+          "MAXN-LIC-C4D-IND-1Y-USER",
+          "MAXN-LIC-REDGIANT-IND-1Y-USER",
+          "MAXN-LIC-REDSHIFT-IND-1Y-USER",
+          "MAXN-LIC-ZBRUSH-IND-1Y-USER",
+          "MAXN-LIC-UNIVERSE-IND-1Y-USER"
         ]
       },
       {
@@ -8336,11 +8434,11 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "title": "Командные планы (Teams)",
         "note": "Места принадлежат компании, управляются из единой консоли и переназначаются между сотрудниками.",
         "items": [
-          "MAXON-ONE-TEAMS",
-          "MAXON-C4D-TEAMS",
-          "MAXON-REDGIANT-TEAMS",
-          "MAXON-REDSHIFT-TEAMS",
-          "MAXON-ZBRUSH-TEAMS"
+          "MAXN-LIC-ONE-TEAM-1Y-USER",
+          "MAXN-LIC-C4D-TEAM-1Y-USER",
+          "MAXN-LIC-REDGIANT-TEAM-1Y-USER",
+          "MAXN-LIC-REDSHIFT-TEAM-1Y-USER",
+          "MAXN-LIC-ZBRUSH-TEAM-1Y-USER"
         ]
       }
     ],
@@ -8694,7 +8792,15 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "q": "Можно ли добавить Copilot к подписке?",
         "a": "Да, Microsoft 365 Copilot оформляется как дополнение к бизнес-планам Microsoft 365 на тех же условиях: только на tenant в поддерживаемой стране после предварительной проверки. Укажите это в заявке — включим в расчёт."
       }
-    ]
+    ],
+    "cards": {
+      "MSFT-LIC-M365COPILOT-TEAM-1Y-USER": {
+        "marker": "team"
+      },
+      "MSFT-LIC-M365BUSSTD-TEAM-1Y-USER": {
+        "marker": "team"
+      }
+    }
   },
   "midjourney": {
     "summary": "Midjourney — генеративная нейросеть для создания изображений по текстовому описанию: концепт-арт, рекламные визуалы, мудборды, иллюстрации и дизайн-референсы фотореалистичного и художественного качества. Для российских юрлиц доступ оформляется через BizSoft по счёту, с закрывающими документами. Тарифы — Basic, Standard, Pro и Mega — оформляются на год за одного пользователя и различаются месячным объёмом быстрых GPU-часов (Fast), наличием безлимитного Relax-режима и приватного Stealth-режима. Начинающим командам подойдёт Basic или Standard, студиям с потоком генераций — Pro, а для закрытых проектов под NDA нужен Stealth из Pro или Mega.",
@@ -9612,9 +9718,9 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "why": "Оба варианта — один тариф ChatGPT Business, различаются только типом места. Места смешиваются в одной команде: тем, кто упирается в лимиты, берут Premium seat, остальным — Standard seat.",
         "keys": [
           "chatgpt-business",
-          "INT-AI-CHATGPT",
+          "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD",
           "chatgpt-business-premium",
-          "CHATGPT-BUSINESS-PREMIUM"
+          "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-PREM"
         ]
       },
       {
@@ -9624,7 +9730,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "why": "SCIM, EKM, RBAC, аналитика и расширенная приватность есть только в Enterprise. Цена договорная: считаем под число мест и требования ИБ.",
         "keys": [
           "openai-enterprise",
-          "OPENAI-ENTERPRISE"
+          "OPAI-LIC-CHATGPTENT-TEAM-1Y-USER"
         ]
       },
       {
@@ -9634,7 +9740,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "why": "Другая модель продажи: платите не за места, а за фактическое использование — за токены на входе и выходе. Выбираете номинал пополнения баланса; счёт и закрывающие оформляем так же, на юрлицо.",
         "keys": [
           "openai-api-balance",
-          "OPENAI-API-BALANCE"
+          "OPAI-CRD-API-UNI-BAL-NOM"
         ]
       }
     ],
@@ -9667,7 +9773,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
         "qtyLabel": "Мест",
         "seg": "team"
       },
-      "OPENAI-ENTERPRISE": {
+      "OPAI-LIC-CHATGPTENT-TEAM-1Y-USER": {
         "badge": "по запросу",
         "forWhom": "Крупные организации с требованиями ИБ",
         "features": [
@@ -9696,13 +9802,13 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
     },
     "order": [
       "chatgpt-business",
-      "INT-AI-CHATGPT",
+      "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-STD",
       "chatgpt-business-premium",
-      "CHATGPT-BUSINESS-PREMIUM",
+      "OPAI-LIC-CHATGPTBUS-TEAM-1Y-USER-PREM",
       "openai-enterprise",
-      "OPENAI-ENTERPRISE",
+      "OPAI-LIC-CHATGPTENT-TEAM-1Y-USER",
       "openai-api-balance",
-      "OPENAI-API-BALANCE"
+      "OPAI-CRD-API-UNI-BAL-NOM"
     ],
     "denominations": {
       "title": "Номиналы пополнения баланса API",
@@ -10483,16 +10589,18 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
     ]
   },
   "postman": {
-    "summary": "Postman Solo и Professional — рабочее место команды для работы с API: коллекции запросов, тесты, моки и общая документация. Оформим на юрлицо: договор, счёт в рублях, закрывающие через ЭДО.",
+    "summary": "Postman Solo, Teams и Enterprise — рабочее место команды для работы с API: коллекции запросов, тесты, моки и общая документация. Оформим на юрлицо: договор, счёт в рублях, закрывающие через ЭДО.",
     "comparison": {
       "cols": [
         "Solo",
-        "Professional"
+        "Teams",
+        "Enterprise"
       ],
       "rows": [
         {
           "label": "Приватные рабочие пространства",
           "values": [
+            "Да",
             "Да",
             "Да"
           ]
@@ -10501,6 +10609,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Совместная работа над коллекциями",
           "values": [
             "Нет",
+            "Да",
             "Да"
           ]
         },
@@ -10508,6 +10617,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Роли и права участников",
           "values": [
             "Нет",
+            "Да",
             "Да"
           ]
         },
@@ -10515,12 +10625,30 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Ревью изменений в коллекциях",
           "values": [
             "Нет",
+            "Да",
             "Да"
           ]
         },
         {
           "label": "Приватная сеть API компании",
           "values": [
+            "Нет",
+            "Да",
+            "Да"
+          ]
+        },
+        {
+          "label": "Единый вход (SSO) и SCIM",
+          "values": [
+            "Нет",
+            "Нет",
+            "Да"
+          ]
+        },
+        {
+          "label": "Расширенный аудит и политики безопасности",
+          "values": [
+            "Нет",
             "Нет",
             "Да"
           ]
@@ -10529,6 +10657,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Мониторинг коллекций по расписанию",
           "values": [
             "Базовый",
+            "Расширенный",
             "Расширенный"
           ]
         },
@@ -10536,6 +10665,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
           "label": "Метрика лицензии",
           "values": [
             "1 пользователь",
+            "За каждого пользователя",
             "За каждого пользователя"
           ]
         }
@@ -10549,8 +10679,13 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       },
       {
         "scenario": "Если над одними API работают разработчики, тестировщик и аналитик",
-        "product": "Postman Professional",
+        "product": "Postman Teams",
         "note": "общие пространства, роли и ревью изменений"
+      },
+      {
+        "scenario": "Если нужны единый вход, аудит и централизованные политики доступа",
+        "product": "Postman Enterprise",
+        "note": "единый вход, SCIM, аудит и политики доступа на уровне организации"
       }
     ],
     "scenarios": [
@@ -10578,7 +10713,7 @@ export const VENDOR_CONTENT: Record<string, VendorContent> = {
       },
       {
         "q": "Тариф считается за пользователя?",
-        "a": "Professional — да, оплата за каждого участника рабочего пространства. Solo рассчитан на одного человека."
+        "a": "Teams и Enterprise — да, оплата за каждого участника рабочего пространства. Solo рассчитан на одного человека."
       },
       {
         "q": "Какие документы получит бухгалтерия?",

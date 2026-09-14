@@ -1,0 +1,2 @@
+# Профиль вендоров · OpenAI и Anthropic (кратко)
+ChatGPT Business: Standard/Premium seat, от 2 мест, данные не обучают модели, SSO, коннекторы, общие GPT и проекты; Enterprise — без лимитов, SCIM, договор. OpenAI API — предоплаченный баланс организации, списание по токенам, кредиты с сроком действия по условиям OpenAI. Claude Team: Standard/Premium seat, от 2 мест, проекты, Claude Code; Enterprise — SSO/SCIM, аудит, договор. Неопределённости: числовые лимиты мест и кратности Premium — по текущим условиям вендоров.

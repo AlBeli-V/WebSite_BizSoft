@@ -31,6 +31,8 @@ export const RULES: Record<string, string> = {
   R5: '`curl` за телом ответа без проверки кода (`-f`/`--fail`/`http_code`); запросы заголовков (-I/-D -) не считаются',
   R6: 'локальный action `journal-post` без `actions/checkout` — раннер его не находит, и шаг журнала падает',
   R7: '`actions/checkout` при явном `permissions:` без `contents: read` — токен не читает репозиторий, checkout падает с «Repository not found»',
+  R8: '`appleboy/ssh-action` с `capture_stdout` напрямую — при ненулевом коде скрипта entrypoint обрывает блок `stdout<<EOF`, и журнал получает «(нет вывода)»; шаг по SSH идёт через `./.github/actions/ssh-run`',
+  R9: 'шаг `ssh-run`, чей `outputs.outcome` нигде не читается — сбой скрипта не красит прогон и не попадает в журнал',
 };
 
 type Counts = Record<string, number>;
@@ -57,7 +59,7 @@ function steps(lines: string[]): string[][] {
 
 export function lint(text: string): Counts {
   const lines = text.split('\n');
-  const counts: Counts = { R1: 0, R2: 0, R3: 0, R4: 0, R5: 0, R6: 0, R7: 0 };
+  const counts: Counts = { R1: 0, R2: 0, R3: 0, R4: 0, R5: 0, R6: 0, R7: 0, R8: 0, R9: 0 };
 
   lines.forEach((line, index) => {
     if (isComment(line)) return;
@@ -85,7 +87,15 @@ export function lint(text: string): Counts {
   if (/uses:\s*actions\/checkout@/.test(code) && /^\s*permissions:/m.test(code) && !/^\s+contents:\s*(read|write)\b/m.test(code)) counts.R7 += 1;
 
   for (const step of steps(lines)) {
-    const body = step.join('\n');
+    const body = step.filter((l) => !isComment(l)).join('\n');
+    // Вывод шага по SSH теряется ровно при сбое (issue #542): entrypoint
+    // ssh-action под `bash -e -o pipefail` не дописывает закрывающий `EOF`.
+    // Обёртка ssh-run завершает сеанс нулём и отдаёт код маркером.
+    if (/uses:\s*appleboy\/ssh-action@/.test(body) && /capture_stdout:\s*true/.test(body)) counts.R8 += 1;
+    if (/uses:\s*\.\/\.github\/actions\/ssh-run/.test(body)) {
+      const id = body.match(/^\s*id:\s*(\S+)/m)?.[1];
+      if (!id || !new RegExp(`steps\\.${id}\\.outputs\\.outcome\\b`).test(code)) counts.R9 += 1;
+    }
     const postsToJournal = /createComment|issues\.create|issue_number:\s*22/.test(body);
     if (!postsToJournal) continue;
     const always = /if:\s*always\(\)/.test(body);

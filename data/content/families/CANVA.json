@@ -1,0 +1,465 @@
+{
+  "family_key": "CANVA",
+  "vendor": "Canva",
+  "vendor_profile": "data/content/vendors/canva.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "canva-business",
+  "classification_notes": [
+    "Pro (индивидуальный) / Business / Enterprise. Носитель — Business."
+  ],
+  "products": {
+    "canva-pro": {
+      "sku": "CNVA-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Canva Pro — индивидуальная подписка на 1 год на дизайн-платформу Canva для одного пользователя: премиум-шаблоны, фото и видео из библиотеки, бренд-кит, удаление фона, Magic Studio с ИИ, планировщик публикаций, 1 ТБ облака. Личный аккаунт.\n\nКомандные функции — общие бренд-киты с контролем, роли, SSO — в Business и Enterprise.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Canva Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Контент",
+              "d": "100+ млн стоковых фото, видео, аудио, графики и шаблонов."
+            },
+            {
+              "t": "ИИ",
+              "d": "Magic Studio: генерация изображений, текста, редактирование, презентации."
+            },
+            {
+              "t": "Бренд",
+              "d": "Один бренд-кит, шрифты, цвета."
+            },
+            {
+              "t": "Публикация",
+              "d": "Планировщик соцсетей, печать, 1 ТБ облака."
+            }
+          ],
+          "links": [
+            "canva-business"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Один пользователь."
+            },
+            {
+              "t": "Business",
+              "d": "Команда: несколько бренд-китов, контроль шаблонов, роли.",
+              "link": "canva-business"
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, SCIM, аналитика, договор.",
+              "link": "canva-ent"
+            },
+            {
+              "t": "Adobe Express Premium",
+              "d": "Альтернатива.",
+              "link": "adobe-express"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Маркетологу или SMM-специалисту с одним брендом."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли использовать контент Canva в рекламе?",
+          "a": "Да, по лицензии Canva на стоковые материалы в платных планах."
+        }
+      ],
+      "related_products": [
+        "canva-business",
+        "canva-ent",
+        "adobe-express"
+      ],
+      "meta_title": "Canva Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Canva Pro на одного пользователя: премиум-шаблоны и стоки, Magic Studio, бренд-кит, планировщик, 1 ТБ. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "canva pro купить юрлицо — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "canva-business": {
+      "sku": "CNVA-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Canva Business (бывший Teams) — командная подписка на 1 год на Canva для команды: всё из Pro на каждое место плюс несколько бренд-китов, блокировка элементов шаблонов, согласования, роли администратора и дизайнера, общие папки, отчёты. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Canva Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бренд",
+              "d": "Несколько бренд-китов, контроль шаблонов, согласование дизайнов."
+            },
+            {
+              "t": "Команда",
+              "d": "Роли, общие папки, комментарии, назначение задач."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Стоки, Magic Studio, планировщик, облако."
+            },
+            {
+              "t": "Администрирование",
+              "d": "Управление местами, отчёты об использовании."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Отдел маркетинга с несколькими авторами."
+            },
+            {
+              "t": "Pro",
+              "d": "Один человек.",
+              "link": "canva-pro"
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, SCIM, аналитика, договор.",
+              "link": "canva-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум",
+              "d": "Business оформляется от нескольких мест — уточняем."
+            },
+            {
+              "t": "Без SSO",
+              "d": "Только Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделам маркетинга и продаж, выпускающим материалы в фирменном стиле."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли запретить менять логотип в шаблоне?",
+          "a": "Да, блокировка элементов — функция Business."
+        }
+      ],
+      "related_products": [
+        "canva-pro",
+        "canva-ent"
+      ],
+      "meta_title": "Canva Business — подписка на год | BIZSoft",
+      "meta_description": "Canva Business для команды: несколько бренд-китов, блокировка шаблонов, согласования, роли; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "canva teams business купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Минимум мест Business — по условиям Canva."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "canva-ent": {
+      "sku": "CNVA-LIC-ENTERPRISE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Canva Enterprise — командный план Canva корпоративного уровня на 1 год: всё из Business плюс SSO и SCIM, несколько команд под одной организацией, контроль публикаций, аналитика дизайнов, выделенная поддержка и договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Canva Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Управление",
+              "d": "SSO, SCIM, роли по командам, политики."
+            },
+            {
+              "t": "Контроль",
+              "d": "Согласование публикаций, аналитика использования."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенный менеджер."
+            },
+            {
+              "t": "Всё из Business",
+              "d": "Бренд-киты, шаблоны, стоки."
+            }
+          ],
+          "links": [
+            "canva-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Сотни пользователей и ИБ-требования."
+            },
+            {
+              "t": "Business",
+              "d": "Десятки пользователей.",
+              "link": "canva-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Минимумы."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным брендам с несколькими подразделениями и агентствами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли SCIM в Business?",
+          "a": "Нет, только в Enterprise."
+        }
+      ],
+      "related_products": [
+        "canva-business"
+      ],
+      "meta_title": "Canva Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Canva Enterprise: SSO, SCIM, несколько команд, контроль публикаций, аналитика; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "canva enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

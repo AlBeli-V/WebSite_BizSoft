@@ -1,0 +1,701 @@
+{
+  "family_key": "ZOHO-FWANALYZ",
+  "vendor": "ManageEngine (Zoho Corporation)",
+  "vendor_profile": "data/content/vendors/manageengine.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "me-firewall-analyzer-standard-1-device-pack-with-2-users",
+  "classification_notes": [
+    "Реестр артикулов ставит план TEAM; индивидуальной альтернативы у Firewall Analyzer нет — OWNERSHIP = universal, TEAM_MODEL не применяется.",
+    "Три редакции одного продукта — packaging edition_tier; объём пакета (устройства-источники журналов) — часть артикула, счётчик количества к пакету не применяется.",
+    "Enterprise на витрине назван «1 устройство», артикул — 20DEV, закупка на порядок выше младших редакций: текст написан по артикулу, позиция помечена needs_operator.",
+    "Сайт вендора в сессии не открывался: состав редакций — по знанию модели, спорные лимиты вынесены в uncertainties."
+  ],
+  "products": {
+    "me-firewall-analyzer-standard-1-device-pack-with-2-users": {
+      "sku": "ZOHO-LIC-FWANALYZSTD-TEAM-1Y-PACK-1DEV2USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Standard",
+      "volume_label": "1 устройство, 2 пользователя",
+      "unit_label": "пакет: 1 устройство, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Firewall Analyzer Standard — годовая подписка на систему анализа журналов межсетевых экранов ManageEngine: кто и чем занимает канал, какие соединения отклонены, что происходит в VPN, что хранится в архиве логов. Пакет на 1 устройство-источник журналов и 2 пользователей консоли; устанавливается на сервер организации.\n\nЛицензия считается по устройствам, с которых принимаются журналы: межсетевой экран, прокси-сервер или VPN-шлюз. Standard ограничен анализом логов; аудит правил, контроль изменений конфигурации и отчёты о соответствии стандартам — это Professional, распределённый сбор с нескольких площадок — Enterprise.\n\nСрок — 1 год, обновления и поддержка производителя включены. Пакеты на несколько устройств — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Firewall Analyzer Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Приём журналов",
+              "d": "Syslog и экспорт в форматах вендоров от Cisco ASA и Firepower, Fortinet FortiGate, Palo Alto, Check Point, SonicWall, Sophos, Juniper, WatchGuard, pfSense и других; прокси Squid и Blue Coat. Устройство добавляется по факту первого пришедшего лога."
+            },
+            {
+              "t": "Трафик и полоса",
+              "d": "Загрузка канала по пользователям, хостам, протоколам, приложениям и URL; живой трафик и исторические тренды; отчёты об интернет-активности сотрудников."
+            },
+            {
+              "t": "События безопасности",
+              "d": "Отчёты по атакам, вирусам, спаму, отклонённым соединениям и срабатываниям IDS/IPS с группировкой по источнику и назначению."
+            },
+            {
+              "t": "VPN и прокси",
+              "d": "Сеансы VPN по пользователям: длительность, объём, неудачные входы; для прокси — посещённые сайты и категории."
+            },
+            {
+              "t": "Оповещения",
+              "d": "Пороги по полосе и по событиям безопасности, уведомления письмом и SMS, запуск скрипта по срабатыванию."
+            },
+            {
+              "t": "Поиск и архив",
+              "d": "Поиск по сырым записям для разбора инцидентов, сжатый архив с настраиваемым сроком хранения, отчёты по расписанию в PDF и CSV."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Standard, Professional или Enterprise",
+          "kind": "compare",
+          "body": "Все редакции принимают одни и те же журналы и лицензируются по устройствам-источникам. Разница — в работе с правилами и конфигурацией и в числе площадок.",
+          "rows": [
+            {
+              "label": "Стартовый пакет",
+              "values": {
+                "me-firewall-analyzer-standard-1-device-pack-with-2-users": "1 устройство",
+                "me-firewall-analyzer-professional-1-device-pack-with-2-users": "1 устройство",
+                "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": "20 устройств (по артикулу)"
+              }
+            },
+            {
+              "label": "Анализ журналов: трафик, безопасность, VPN, прокси",
+              "values": {
+                "me-firewall-analyzer-standard-1-device-pack-with-2-users": "да",
+                "me-firewall-analyzer-professional-1-device-pack-with-2-users": "да",
+                "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Аудит правил: неиспользуемые, дублирующие, перекрытые",
+              "values": {
+                "me-firewall-analyzer-standard-1-device-pack-with-2-users": "нет",
+                "me-firewall-analyzer-professional-1-device-pack-with-2-users": "да",
+                "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Контроль изменений конфигурации, резервные копии",
+              "values": {
+                "me-firewall-analyzer-standard-1-device-pack-with-2-users": "нет",
+                "me-firewall-analyzer-professional-1-device-pack-with-2-users": "да",
+                "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Отчёты о соответствии (PCI DSS, ISO 27001, NIST, SANS)",
+              "values": {
+                "me-firewall-analyzer-standard-1-device-pack-with-2-users": "нет",
+                "me-firewall-analyzer-professional-1-device-pack-with-2-users": "да",
+                "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Распределённый сбор: центральный сервер и коллекторы",
+              "values": {
+                "me-firewall-analyzer-standard-1-device-pack-with-2-users": "нет",
+                "me-firewall-analyzer-professional-1-device-pack-with-2-users": "нет",
+                "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": "да"
+              }
+            },
+            {
+              "label": "Площадки",
+              "values": {
+                "me-firewall-analyzer-standard-1-device-pack-with-2-users": "одна",
+                "me-firewall-analyzer-professional-1-device-pack-with-2-users": "одна",
+                "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": "несколько"
+              }
+            }
+          ],
+          "links": [
+            "me-firewall-analyzer-professional-1-device-pack-with-2-users",
+            "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит — и кому нет",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подходит",
+              "d": "Организации с одним периметровым межсетевым экраном, где нужно понимать, кто грузит канал, какие соединения отбрасываются и что делают пользователи VPN, — без того, чтобы читать сырые логи в консоли самого устройства."
+            },
+            {
+              "t": "Не подходит",
+              "d": "Если задача — навести порядок в правилах, отслеживать, кто и что менял в конфигурации, и сдавать аудит по PCI DSS или ISO 27001, — младшая редакция этого не делает, нужен Professional. Если межсетевых экранов десятки и они стоят в разных филиалах — Enterprise с коллекторами. Если уже есть OpManager, анализ одного межсетевого экрана дешевле получить дополнением к нему."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Как считается лицензия и что нужно для установки",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что такое устройство",
+              "d": "Один источник журналов: межсетевой экран, прокси-сервер, VPN-концентратор или шлюз с IDS/IPS. Число интерфейсов, правил и пользователей за ним на лицензию не влияет."
+            },
+            {
+              "t": "Отказоустойчивая пара",
+              "d": "Два узла кластера шлют журналы каждый со своим адресом и, по общей практике вендора, учитываются как два устройства; уточняется при заказе."
+            },
+            {
+              "t": "Пользователи консоли",
+              "d": "В пакете две учётные записи с ролями администратора и оператора; дополнительные — по запросу."
+            },
+            {
+              "t": "Сервер",
+              "d": "Windows Server или Linux на площадке организации, встроенная база данных; сторонняя СУБД не нужна. Пробный период — 30 дней с полным набором функций."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте источники, а не правила",
+              "d": "Пакет закрывает одно устройство. При втором межсетевом экране или прокси нужен следующий пакет; переход в течение срока оформляется доплатой разницы между пакетами, а не покупкой второго такого же."
+            },
+            {
+              "t": "Подписка или бессрочная лицензия",
+              "d": "Годовая подписка уже содержит обновления и поддержку. Бессрочный вариант с ежегодным AMS 20 % — по запросу."
+            },
+            {
+              "t": "Редакция под задачу",
+              "d": "Если в ближайший год предстоит аудит правил или сертификация по стандарту — берите сразу Professional: переход позже возможен, но доплата за оставшийся срок выйдет дороже, чем разница при заказе."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Firewall Analyzer Professional, 1 устройство",
+              "d": "Те же журналы плюс аудит правил, контроль конфигурации и отчёты о соответствии.",
+              "link": "me-firewall-analyzer-professional-1-device-pack-with-2-users"
+            },
+            {
+              "t": "OpManager Nexus, 50 устройств и 1 межсетевой экран",
+              "d": "Объединённая лицензия: мониторинг сети и анализ одного межсетевого экрана в одной консоли — если система мониторинга ещё не выбрана.",
+              "link": "me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall"
+            },
+            {
+              "t": "NetFlow Analyzer Professional, 10 интерфейсов",
+              "d": "Если интересует только полоса и приложения, а не события безопасности, — анализ по потокам с маршрутизаторов и коммутаторов, без журналов межсетевого экрана.",
+              "link": "me-netflow-analyzer-professional-10-interfaces-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Межсетевой экран и прокси-сервер — это одна лицензия или две?",
+          "a": "Две: каждое устройство, с которого принимаются журналы, считается отдельно. Для пары нужен пакет на два устройства или больше."
+        },
+        {
+          "q": "Какие форматы журналов принимает Standard?",
+          "a": "Те же, что старшие редакции: syslog и фирменные форматы основных производителей межсетевых экранов и прокси. Состав функций от формата не зависит."
+        },
+        {
+          "q": "Можно ли позже перейти на Professional?",
+          "a": "Да, переход между редакциями оформляется доплатой в течение срока, установленная система и накопленные журналы сохраняются."
+        }
+      ],
+      "related_products": [
+        "me-firewall-analyzer-professional-1-device-pack-with-2-users",
+        "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users",
+        "me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall"
+      ],
+      "meta_title": "Firewall Analyzer Standard, 1 устройство | BIZSoft",
+      "meta_description": "ManageEngine Firewall Analyzer Standard: анализ журналов межсетевого экрана, трафик, VPN, безопасность. Пакет на 1 устройство и 2 пользователей. Договор, ЭДО.",
+      "seo_intents": [
+        "firewall analyzer купить / manageengine firewall analyzer лицензия — hero, meta",
+        "firewall analyzer standard vs professional / редакции — PLAN_COMPARE",
+        "firewall analyzer лицензирование по устройствам — DEPENDENCIES, FAQ",
+        "анализ логов межсетевого экрана fortigate cisco asa — CAPABILITIES",
+        "firewall analyzer бессрочная лицензия ams — BEFORE_ORDER"
+      ],
+      "uncertainties": [
+        "Учёт узлов отказоустойчивой пары как двух устройств — общая практика вендора для лицензий по устройствам; для Firewall Analyzer в первоисточнике отдельно не проверено.",
+        "Ряд пакетов устройств (5/10/20/50 и далее) и шаг дополнительных пользователей консоли — по матрице вендора, на витрине не заведены.",
+        "Перечень поддерживаемых производителей приведён по знанию модели на 13.09.2026; полный список — у вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES; опустошить",
+        "description": "→ FIT и PLAN_COMPARE; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал; интенты покрыты модулями"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что делает младшая редакция",
+          "new_information": "шесть групп функций анализа журналов",
+          "sibling_overlap": "носитель; соседи несут только дельту",
+          "decision": "UNDERSTAND",
+          "seo_intent": "firewall analyzer возможности",
+          "source": "uncertain (firewall-analyzer editions, по знанию модели)"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "хватит ли Standard",
+          "new_information": "семь строк различий, единая таблица семейства",
+          "sibling_overlap": "соседи ссылаются на таблицу",
+          "decision": "COMPARE",
+          "seo_intent": "firewall analyzer standard vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль «одно устройство» и три выхода",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "анализ логов межсетевого экрана",
+          "source": "—"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "как посчитать и где ставить",
+          "new_information": "определение устройства, HA-пара, пользователи, сервер",
+          "sibling_overlap": "соседи ссылаются",
+          "decision": "VALIDATE",
+          "seo_intent": "firewall analyzer что считается устройством",
+          "source": "uncertain (licensing page)"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить до КП",
+          "new_information": "пакеты не суммируются, perpetual+AMS, выбор редакции под аудит",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "firewall analyzer ams",
+          "source": "uncertain (store)"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё рассмотреть",
+          "new_information": "сосед, Nexus с межсетевым экраном, NetFlow",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-firewall-analyzer-professional-1-device-pack-with-2-users": {
+      "sku": "ZOHO-LIC-FWANALYZPRO-TEAM-1Y-PACK-1DEV2USR",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Professional",
+      "volume_label": "1 устройство, 2 пользователя",
+      "unit_label": "пакет: 1 устройство, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Firewall Analyzer Professional — годовая подписка на среднюю редакцию ManageEngine для управления межсетевым экраном: к анализу журналов добавляются аудит набора правил, контроль изменений конфигурации с резервными копиями и отчёты о соответствии стандартам. В пакете — одно устройство и две учётные записи консоли.\n\nОтличие от Standard — не в журналах, а в работе с самим устройством: система забирает конфигурацию, показывает неиспользуемые и перекрытые правила, фиксирует каждое изменение и собирает отчёт под PCI DSS или ISO 27001. Для сети из десятков экранов в разных филиалах есть Enterprise.\n\nСрок — 1 год с обновлениями и поддержкой. Пакеты на несколько устройств считаем по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Professional",
+          "kind": "items",
+          "body": "Приём журналов, отчёты по трафику, безопасности и VPN — как в Standard. Ниже только то, чего младшая редакция не умеет.",
+          "items": [
+            {
+              "t": "Аудит правил",
+              "d": "Разбор набора правил: неиспользуемые, дублирующие, перекрытые и слишком широкие правила, рекомендации по порядку, сводка по объектам и сервисам."
+            },
+            {
+              "t": "Контроль конфигурации",
+              "d": "Резервные копии конфигурации по расписанию, сравнение версий построчно, оповещение о том, кто и когда изменил устройство."
+            },
+            {
+              "t": "Соответствие стандартам",
+              "d": "Готовые проверки под PCI DSS, ISO 27001, NIST, SANS и NERC-CIP; отчёт о нарушениях с указанием правила и рекомендацией."
+            },
+            {
+              "t": "Аудит безопасности устройства",
+              "d": "Оценка настроек самого межсетевого экрана: слабые протоколы управления, открытые сервисы, устаревшие прошивки — со сводным баллом."
+            }
+          ],
+          "links": [
+            "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Professional, а когда нет",
+          "kind": "items",
+          "body": "Сводная таблица трёх редакций — на карточке Standard. Здесь — правило выбора.",
+          "items": [
+            {
+              "t": "Берите Professional",
+              "d": "Набор правил давно не пересматривали, изменения на устройстве делают несколько администраторов, впереди аудит по стандарту или требование регулятора хранить историю конфигураций."
+            },
+            {
+              "t": "Хватит Standard",
+              "d": "Правила меняются редко и одним человеком, а от системы нужны отчёты по полосе, VPN и отклонённым соединениям."
+            },
+            {
+              "t": "Нужен Enterprise",
+              "d": "Межсетевых экранов десятки, часть стоит в филиалах с медленным каналом, и журналы должны собираться локальными коллекторами."
+            }
+          ],
+          "links": [
+            "me-firewall-analyzer-standard-1-device-pack-with-2-users",
+            "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службе информационной безопасности или сетевому администратору, который отвечает за периметр и обязан показывать проверяющим, что правила межсетевого экрана обоснованы, а изменения — прослеживаемы.\n\nТиповой размер — одно или несколько устройств на одной площадке. Позиция закрывает одно; при большем числе источников журналов берётся следующий пакет. Для NetFlow с маршрутизаторов и коммутаторов у вендора отдельный продукт — NetFlow Analyzer, Firewall Analyzer потоки не принимает."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём и модель лицензии",
+              "d": "Одно устройство в пакете. Как считаются источники журналов, отказоустойчивые пары и пользователи консоли — на карточке Standard; правила общие для всех редакций.",
+              "link": "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+            },
+            {
+              "t": "Доступ к конфигурации",
+              "d": "Для аудита правил и резервных копий системе нужен доступ к устройству по SSH, Telnet или API вендора с правами на чтение конфигурации — проверьте, что политика безопасности это допускает."
+            },
+            {
+              "t": "Переход с более ранней подписки",
+              "d": "Со Standard — доплатой разницы на оставшийся срок; с пробной версии — с сохранением накопленных данных."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Есть и такой вариант — по запросу, с AMS 20 % в год за обновления и поддержку."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Firewall Analyzer Standard, 1 устройство",
+              "d": "Если аудит правил и контроль конфигурации не нужны — дешевле при той же модели лицензии.",
+              "link": "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+            },
+            {
+              "t": "Firewall Analyzer Enterprise, 20 устройств",
+              "d": "Для нескольких площадок с коллекторами на местах.",
+              "link": "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users"
+            },
+            {
+              "t": "Network Configuration Manager Professional, 10 устройств",
+              "d": "Если контроль конфигурации нужен не только для межсетевого экрана, а для всех коммутаторов и маршрутизаторов, — отдельный продукт вендора именно про это.",
+              "link": "me-network-configuration-manager-professional-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Аудит правил работает для любого производителя межсетевого экрана?",
+          "a": "Для основных: Cisco, Fortinet, Palo Alto, Check Point, SonicWall, Juniper и ряда других. Для менее распространённых моделей состав проверок уточняется по списку вендора."
+        },
+        {
+          "q": "Нужны ли отдельные лицензии на резервные копии конфигурации?",
+          "a": "Нет. Контроль конфигурации входит в Professional для каждого лицензированного устройства; отдельно докупать ничего не нужно."
+        }
+      ],
+      "related_products": [
+        "me-firewall-analyzer-standard-1-device-pack-with-2-users",
+        "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users",
+        "me-network-configuration-manager-professional-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "Firewall Analyzer Professional, 1 устройство | BIZSoft",
+      "meta_description": "ManageEngine Firewall Analyzer Professional: аудит правил, контроль конфигурации, отчёты о соответствии. Пакет на 1 устройство и 2 пользователей, год.",
+      "seo_intents": [
+        "firewall analyzer professional купить — hero, meta",
+        "firewall analyzer аудит правил / rule management — CAPABILITIES",
+        "firewall analyzer pci dss compliance отчёт — CAPABILITIES, PLAN_COMPARE",
+        "firewall analyzer конфигурация изменения — CAPABILITIES, BEFORE_ORDER"
+      ],
+      "uncertainties": [
+        "Состав проверок аудита безопасности устройства (сводный балл, список слабых мест) описан по общему представлению о редакции; точный перечень — у вендора.",
+        "Список стандартов соответствия приведён как «включая», не как исчерпывающий."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (только дельта); опустошить",
+        "description": "→ FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "за что доплачиваю относительно Standard",
+          "new_information": "четыре группы дельты: правила, конфигурация, стандарты, аудит устройства",
+          "sibling_overlap": "база — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "firewall analyzer professional что входит",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "мне Professional или соседи",
+          "new_information": "три правила выбора",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "standard vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль ИБ-службы, граница с NetFlow Analyzer",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "управление правилами межсетевого экрана",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "доступ к конфигурации устройства, переход, perpetual",
+          "sibling_overlap": "модель лицензии — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "firewall analyzer требования",
+          "source": "uncertain"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "два соседа и NCM",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": {
+      "sku": "ZOHO-LIC-FWANALYZENT-TEAM-1Y-PACK-20DEV2USR",
+      "needs_operator": true,
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "PACK",
+        "packaging": "edition_tier"
+      },
+      "edition_label": "Enterprise",
+      "volume_label": "20 устройств, 2 пользователя",
+      "unit_label": "пакет: 20 устройств, 2 пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Firewall Analyzer Enterprise — годовая подписка на старшую редакцию ManageEngine для сетей с несколькими площадками: центральный сервер собирает отчёты, коллекторы на местах принимают журналы межсетевых экранов и передают их наверх. По артикулу пакет рассчитан на 20 устройств и 2 пользователей консоли.\n\nВсё, что умеет Professional — аудит правил, контроль конфигурации, отчёты о соответствии, — здесь есть для каждого устройства. Добавляется архитектура: коллектор ставится рядом с филиальными межсетевыми экранами, чтобы журналы не шли через WAN сырыми, а отчёты по всем площадкам сводились в одной консоли.\n\nСрок — 1 год, обновления и поддержка включены. Большие пакеты — по запросу.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что добавляет редакция Enterprise",
+          "kind": "items",
+          "body": "Анализ журналов, правила, конфигурация и стандарты — как в Professional. Ниже — только архитектурная дельта старшей редакции.",
+          "items": [
+            {
+              "t": "Центральный сервер и коллекторы",
+              "d": "Сервер администрирования держит консоль, пользователей и отчёты; коллекторы устанавливаются в филиалах или ЦОД и принимают журналы локально."
+            },
+            {
+              "t": "Масштаб",
+              "d": "Сотни устройств-источников на одной инсталляции за счёт распараллеливания приёма по коллекторам; лимит одного коллектора — по матрице вендора."
+            },
+            {
+              "t": "Сводная отчётность",
+              "d": "Отчёты и оповещения по всем площадкам из одной точки, при этом администратор филиала может видеть только свои устройства."
+            },
+            {
+              "t": "Устойчивость к разрывам",
+              "d": "При недоступности центрального сервера коллектор продолжает принимать журналы и досылает их после восстановления связи."
+            }
+          ],
+          "links": [
+            "me-firewall-analyzer-professional-1-device-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Когда Enterprise оправдан",
+          "kind": "items",
+          "body": "Полная таблица редакций — на карточке Standard. Здесь — чем Enterprise отличается по применению.",
+          "items": [
+            {
+              "t": "Берите Enterprise",
+              "d": "Межсетевые экраны стоят минимум на двух площадках, между ними — арендованный или VPN-канал, и объём журналов такой, что гнать его на центральный сервер сырым невыгодно."
+            },
+            {
+              "t": "Хватит Professional",
+              "d": "Все устройства на одной площадке или в одном ЦОД и их меньше двух десятков: один сервер справится без коллекторов, а функции по правилам и конфигурации те же."
+            }
+          ],
+          "links": [
+            "me-firewall-analyzer-standard-1-device-pack-with-2-users",
+            "me-firewall-analyzer-professional-1-device-pack-with-2-users"
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Распределённой организации — сеть филиалов, несколько ЦОД, холдинг с самостоятельными ИТ-службами дочерних компаний, — где безопасность периметра контролирует центральная служба, а устройства обслуживают на местах.\n\nДля одного офиса с парой межсетевых экранов старшая редакция избыточна: доплата идёт за коллекторы и объём пакета, а не за новые отчёты."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём пакета",
+              "d": "По артикулу — 20 устройств-источников; название на витрине с этим расходится и уточняется до выставления КП. Как считается устройство — на карточке Standard.",
+              "link": "me-firewall-analyzer-standard-1-device-pack-with-2-users"
+            },
+            {
+              "t": "Схема размещения",
+              "d": "Сколько коллекторов и где — определяется числом площадок и объёмом журналов; коллекторы входят в лицензию, но каждому нужен свой сервер."
+            },
+            {
+              "t": "Переход с младшей редакции",
+              "d": "С Professional на Enterprise — доплатой разницы; при переходе перестраивается схема сбора, данные сохраняются."
+            },
+            {
+              "t": "Бессрочная лицензия",
+              "d": "Оформляется по запросу с ежегодным AMS 20 %."
+            }
+          ]
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Firewall Analyzer Professional, 1 устройство",
+              "d": "Тот же набор функций для одной площадки; объём наращивается пакетами.",
+              "link": "me-firewall-analyzer-professional-1-device-pack-with-2-users"
+            },
+            {
+              "t": "OpManager Professional, 10 устройств",
+              "d": "Если распределённость нужна прежде всего для мониторинга сети, а межсетевые экраны — часть её, то анализ их журналов подключается к OpManager дополнением.",
+              "link": "me-opmanager-professional-10-devices-pack-with-2-users"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Коллекторы лицензируются отдельно?",
+          "a": "Нет, коллекторы входят в лицензию Enterprise; считаются только устройства-источники журналов."
+        },
+        {
+          "q": "Сколько устройств покрывает эта позиция?",
+          "a": "По артикулу — 20. Название на витрине указывает одно устройство; расхождение снимается при подтверждении заказа."
+        }
+      ],
+      "related_products": [
+        "me-firewall-analyzer-professional-1-device-pack-with-2-users",
+        "me-firewall-analyzer-standard-1-device-pack-with-2-users",
+        "me-opmanager-professional-10-devices-pack-with-2-users"
+      ],
+      "meta_title": "Firewall Analyzer Enterprise, 20 устройств | BIZSoft",
+      "meta_description": "ManageEngine Firewall Analyzer Enterprise: журналы и правила межсетевых экранов нескольких площадок, коллекторы и центральный сервер. Пакет на 20 устройств.",
+      "seo_intents": [
+        "firewall analyzer enterprise купить — hero, meta",
+        "firewall analyzer distributed edition / коллекторы — CAPABILITIES",
+        "firewall analyzer enterprise vs professional — PLAN_COMPARE"
+      ],
+      "uncertainties": [
+        "Название витрины расходится с артикулом: h1 «1 устройство и 2 пользователя», sku …20DEV2USR, закупка на порядок выше младших редакций — текст по артикулу, решение за руководителем. Решение руководителя 13.09.2026: текст по артикулу, название витрины исправить через ops-rename-product на «ManageEngine Firewall Analyzer Enterprise, 20 устройств и 2 пользователя» до применения семейства (needs_operator снят).",
+        "Стартовый объём Enterprise у вендора (20 устройств) и лимит одного коллектора — по знанию модели, не подтверждены первоисточником.",
+        "Поведение коллектора при разрыве связи с центральным сервером описано по общей архитектуре распределённых редакций ManageEngine."
+      ],
+      "legacy_disposition": {
+        "features": "→ CAPABILITIES (дельта); опустошить",
+        "description": "→ FIT; опустошить",
+        "faq": "отсутствовал",
+        "seo_text": "отсутствовал"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "что даёт старшая редакция",
+          "new_information": "архитектура коллекторов, масштаб, сводная отчётность",
+          "sibling_overlap": "функции Professional — ссылка",
+          "decision": "UNDERSTAND",
+          "seo_intent": "firewall analyzer enterprise",
+          "source": "uncertain"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "Enterprise или Professional",
+          "new_information": "два правила выбора по площадкам",
+          "sibling_overlap": "таблица — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "enterprise vs professional",
+          "source": "uncertain"
+        },
+        {
+          "module": "FIT",
+          "question": "мой ли случай",
+          "new_information": "профиль распределённой организации",
+          "sibling_overlap": "нет",
+          "decision": "FIT",
+          "seo_intent": "анализ межсетевых экранов филиалов",
+          "source": "—"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "что уточнить",
+          "new_information": "расхождение объёма, схема коллекторов, переход, perpetual",
+          "sibling_overlap": "устройство — ссылка на носитель",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "инвентарь витрины"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "что ещё",
+          "new_information": "сосед и OpManager",
+          "sibling_overlap": "нет",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

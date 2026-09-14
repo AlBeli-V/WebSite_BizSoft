@@ -1,0 +1,625 @@
+{
+  "family_key": "TEAMVIEWER",
+  "vendor": "TeamViewer",
+  "vendor_profile": "data/content/vendors/teamviewer.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "teamviewer-business",
+  "classification_notes": [
+    "Remote Access / Business / Premium / Corporate. Носитель — Business. Лимиты устройств и каналов — по прайсу вендора."
+  ],
+  "products": {
+    "teamviewer-remote-access": {
+      "sku": "TMVW-LIC-REMOTEACCESS-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "TeamViewer Remote Access — подписка на 1 год на доступ к собственным компьютерам: сотрудник подключается к своему офисному ПК из дома с любого устройства; в лицензии — ограниченное число управляемых устройств и один пользователь. Лицензия на организации.\n\nЭто не инструмент поддержки: подключаться можно только к заранее назначенным своим машинам. Для помощи пользователям нужен Business и выше.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт TeamViewer Remote Access",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Доступ к своим ПК",
+              "d": "Подключение к назначенным компьютерам без присутствия человека на той стороне."
+            },
+            {
+              "t": "Устройства",
+              "d": "Несколько управляемых устройств на пользователя — по тарифу."
+            },
+            {
+              "t": "Функции",
+              "d": "Передача файлов, печать удалённо, Wake-on-LAN."
+            }
+          ],
+          "links": [
+            "teamviewer-business"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Remote Access",
+              "d": "Свои компьютеры для удалённой работы."
+            },
+            {
+              "t": "Business",
+              "d": "Поддержка пользователей одним техником.",
+              "link": "teamviewer-business"
+            },
+            {
+              "t": "Premium",
+              "d": "Несколько техников одновременно.",
+              "link": "teamviewer-premium"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Сотрудникам на удалёнке, которым нужен свой рабочий ПК."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Число устройств",
+              "d": "Посчитайте компьютеры, к которым нужен доступ, — лимит тарифа на пользователя."
+            },
+            {
+              "t": "Лицензия на пользователя",
+              "d": "Сотрудник, а не компьютер; коллеги по одной лицензии не работают."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли помогать коллегам с Remote Access?",
+          "a": "Нет, план для доступа к собственным назначенным устройствам; поддержка — Business."
+        }
+      ],
+      "related_products": [
+        "teamviewer-business",
+        "teamviewer-premium"
+      ],
+      "meta_title": "TeamViewer Remote Access — подписка на год | BIZSoft",
+      "meta_description": "TeamViewer Remote Access: доступ к своим рабочим компьютерам с любого устройства, один пользователь, несколько устройств. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "teamviewer remote access купить — hero"
+      ],
+      "uncertainties": [
+        "Число устройств в тарифе — по прайсу TeamViewer."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "teamviewer-business": {
+      "sku": "TMVW-LIC-BUSINESS-UNI-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "TeamViewer Business — подписка на 1 год на удалённую поддержку для одного техника: спонтанные подключения к любым компьютерам и мобильным по коду, управление назначенными устройствами, передача файлов, чат. Одна лицензия — один одновременный сеанс.\n\nBusiness — план для единственного специалиста поддержки; несколько техников и параллельные сеансы — в Premium и Corporate.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт TeamViewer Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Поддержка",
+              "d": "Подключение по ID и коду к Windows, macOS, Linux, iOS, Android."
+            },
+            {
+              "t": "Устройства",
+              "d": "Назначенные устройства для доступа без присутствия — по лимиту тарифа."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Файлы, чат, печать, запись сеанса, черный список."
+            },
+            {
+              "t": "Один канал",
+              "d": "Один одновременный сеанс на лицензию."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Один техник."
+            },
+            {
+              "t": "Premium",
+              "d": "Несколько пользователей, один-несколько одновременных сеансов, консоль.",
+              "link": "teamviewer-premium"
+            },
+            {
+              "t": "Corporate",
+              "d": "Больше каналов и пользователей, массовое развёртывание.",
+              "link": "teamviewer-corporate"
+            },
+            {
+              "t": "Remote Access",
+              "d": "Только свои ПК.",
+              "link": "teamviewer-remote-access"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "ИТ-специалисту или небольшой компании с одним человеком на поддержке."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Один техник",
+              "d": "Второй специалист поддержки — уже Premium."
+            },
+            {
+              "t": "Назначенные устройства",
+              "d": "Ограничены тарифом; спонтанные подключения — без лимита."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько техников могут работать по одной лицензии Business?",
+          "a": "Один; для команды — Premium."
+        }
+      ],
+      "related_products": [
+        "teamviewer-premium",
+        "teamviewer-corporate",
+        "teamviewer-remote-access"
+      ],
+      "meta_title": "TeamViewer Business — подписка на год для юрлица | BIZSoft",
+      "meta_description": "TeamViewer Business: удалённая поддержка одним техником, спонтанные и назначенные подключения, один одновременный сеанс. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "teamviewer business купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Число назначенных устройств — по прайсу TeamViewer."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "teamviewer-premium": {
+      "sku": "TMVW-LIC-PREMIUM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "TeamViewer Premium — командная подписка на 1 год для команды поддержки: несколько пользователей в одной лицензии, одновременные сеансы по числу каналов, консоль управления, отчёты о подключениях, массовое развёртывание на устройства. Лицензии на организации.\n\nPremium отличается от Business количеством людей и каналов, а от Corporate — их верхними пределами и функциями интеграции.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт TeamViewer Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Несколько лицензированных пользователей; каналы — одновременные сеансы."
+            },
+            {
+              "t": "Консоль",
+              "d": "Управление пользователями, группами устройств, политиками."
+            },
+            {
+              "t": "Отчёты",
+              "d": "Журнал подключений для аудита и биллинга."
+            },
+            {
+              "t": "Развёртывание",
+              "d": "Установка Host на устройства массово."
+            }
+          ],
+          "links": [
+            "teamviewer-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Небольшая служба поддержки."
+            },
+            {
+              "t": "Business",
+              "d": "Один техник.",
+              "link": "teamviewer-business"
+            },
+            {
+              "t": "Corporate",
+              "d": "Большая служба, интеграции, больше каналов.",
+              "link": "teamviewer-corporate"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Каналы",
+              "d": "Число одновременных сеансов ограничено каналами; докупаются."
+            },
+            {
+              "t": "Пользователи",
+              "d": "Лимит на пользователей в тарифе."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Службам поддержки из нескольких человек с необходимостью отчётности."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что такое канал?",
+          "a": "Одно одновременное подключение; пользователей может быть больше, чем каналов."
+        }
+      ],
+      "related_products": [
+        "teamviewer-business",
+        "teamviewer-corporate"
+      ],
+      "meta_title": "TeamViewer Premium — подписка на год | BIZSoft",
+      "meta_description": "TeamViewer Premium: команда поддержки, одновременные сеансы по каналам, консоль, отчёты, массовое развёртывание. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "teamviewer premium — hero"
+      ],
+      "uncertainties": [
+        "Число пользователей и каналов — по прайсу TeamViewer."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "teamviewer-corporate": {
+      "sku": "TMVW-LIC-CORPORATE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "TeamViewer Corporate — командная подписка на 1 год для крупной службы поддержки: больше пользователей и каналов, чем в Premium, интеграции с ServiceNow, Jira и Microsoft Teams, SSO, приоритетная поддержка. Лицензии на организации.\n\nCorporate — верхний стандартный план; сверх него — договорные Tensor.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт TeamViewer Corporate",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Масштаб",
+              "d": "Расширенные лимиты пользователей и каналов."
+            },
+            {
+              "t": "Интеграции",
+              "d": "ITSM, Teams, SSO, API."
+            },
+            {
+              "t": "Управление",
+              "d": "Политики, условный доступ, отчёты."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            }
+          ],
+          "links": [
+            "teamviewer-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии Corporate заводятся на организацию в консоли TeamViewer; администратор распределяет пользователей и каналы между линиями поддержки и отзывает доступ при уходе сотрудника."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Corporate",
+              "d": "Большая служба поддержки с интеграциями."
+            },
+            {
+              "t": "Premium",
+              "d": "Небольшая команда.",
+              "link": "teamviewer-premium"
+            },
+            {
+              "t": "Tensor",
+              "d": "Корпоративный договор — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Стоимость",
+              "d": "В разы выше Premium — оправдана каналами и интеграциями."
+            },
+            {
+              "t": "Tensor",
+              "d": "Для SSO с условным доступом на уровне предприятия — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с несколькими линиями поддержки и ITSM-системой."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Corporate отличается от Tensor?",
+          "a": "Tensor — договорной корпоративный план с расширенной безопасностью и SLA; Corporate — стандартная подписка."
+        }
+      ],
+      "related_products": [
+        "teamviewer-business",
+        "teamviewer-premium"
+      ],
+      "meta_title": "TeamViewer Corporate — подписка на год | BIZSoft",
+      "meta_description": "TeamViewer Corporate: крупная служба поддержки, больше каналов, интеграции с ITSM и Teams, SSO, приоритетная поддержка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "teamviewer corporate — hero"
+      ],
+      "uncertainties": [
+        "Лимиты — по прайсу TeamViewer."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,478 @@
+{
+  "family_key": "SKETCH",
+  "vendor": "Sketch B.V.",
+  "vendor_profile": "data/content/vendors/sketch.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "sketch-standard",
+  "classification_notes": [
+    "Mac-only (бессрочная) / Standard / Pro. Носитель — Standard."
+  ],
+  "products": {
+    "sketch-mac": {
+      "sku": "SKTC-LIC-MAC-UNI-PERP-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на дизайнера",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Sketch Mac-only — бессрочная лицензия на настольное приложение Sketch для macOS без облачных функций: дизайн интерфейсов, символы, прототипы, экспорт; один год обновлений включён, дальше — работа на последней полученной версии. Лицензия на одного дизайнера.\n\nSketch — macOS-редактор; Windows-версии нет, совместная работа в браузере — только в подписках Standard и Pro.\n\nОбновления — 12 месяцев с покупки.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Sketch Mac-only",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Редактор",
+              "d": "Векторный дизайн интерфейсов, символы, стили, авто-раскладка, прототипы."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Ассеты для iOS, Android, веб; плагины."
+            },
+            {
+              "t": "Без облака",
+              "d": "Нет общих рабочих пространств и веб-просмотра."
+            },
+            {
+              "t": "Обновления",
+              "d": "Год, затем платное продление."
+            }
+          ],
+          "links": [
+            "sketch-standard"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Право использовать версию, актуальную на конец года обновлений."
+            },
+            {
+              "t": "Обновления",
+              "d": "12 месяцев; продление — отдельной покупкой."
+            },
+            {
+              "t": "macOS",
+              "d": "Новые версии macOS могут потребовать обновлённый Sketch."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mac-only",
+              "d": "Один дизайнер без команды и облака."
+            },
+            {
+              "t": "Standard",
+              "d": "Подписка с рабочим пространством и веб-версией.",
+              "link": "sketch-standard"
+            },
+            {
+              "t": "Pro",
+              "d": "Плюс SSO и расширенное управление.",
+              "link": "sketch-pro"
+            },
+            {
+              "t": "Figma Professional Full seat",
+              "d": "Кроссплатформенная альтернатива.",
+              "link": "figma-prof-full"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнеру на Mac, работающему в одиночку."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что будет через год?",
+          "a": "Приложение продолжит работать; новые версии — после продления обновлений."
+        }
+      ],
+      "related_products": [
+        "sketch-standard",
+        "sketch-pro",
+        "figma-prof-full"
+      ],
+      "meta_title": "Sketch Mac-only — бессрочная лицензия | BIZSoft",
+      "meta_description": "Sketch Mac-only: бессрочный редактор интерфейсов для macOS с годом обновлений, без облака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sketch лицензия купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "sketch-standard": {
+      "sku": "SKTC-LIC-STANDARD-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Sketch Standard — командная подписка на 1 год на Sketch с рабочим пространством: настольное приложение для Mac, веб-версия для просмотра, комментариев и инспекции разработчиками, общие библиотеки, версии документов, неограниченные просмотрщики. Места редакторов на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Sketch Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Рабочее пространство",
+              "d": "Документы в облаке, версии, общие библиотеки."
+            },
+            {
+              "t": "Веб",
+              "d": "Просмотр, комментарии, Inspect для разработчиков без Mac."
+            },
+            {
+              "t": "Редакторы",
+              "d": "Платные места — дизайнеры на Mac; просмотрщики бесплатны."
+            },
+            {
+              "t": "Прототипы",
+              "d": "Интерактивные, с публикацией."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Дизайн-команда на Mac."
+            },
+            {
+              "t": "Pro",
+              "d": "SSO, расширенные роли, приоритетная поддержка.",
+              "link": "sketch-pro"
+            },
+            {
+              "t": "Mac-only",
+              "d": "Один дизайнер без облака.",
+              "link": "sketch-mac"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Только Mac",
+              "d": "Редактировать могут только пользователи macOS."
+            },
+            {
+              "t": "Просмотр бесплатен",
+              "d": "Разработчикам места не нужны."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам дизайнеров на Mac с разработчиками на любых платформах."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Mac разработчику?",
+          "a": "Нет, Inspect работает в браузере."
+        }
+      ],
+      "related_products": [
+        "sketch-pro",
+        "sketch-mac"
+      ],
+      "meta_title": "Sketch Standard — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Sketch Standard: редактор для Mac плюс облачное рабочее пространство с веб-просмотром и Inspect; места редакторов на организации. Договор, ЭДО.",
+      "seo_intents": [
+        "sketch standard — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "sketch-pro": {
+      "sku": "SKTC-LIC-PRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Sketch Pro — командная подписка на 1 год на расширенный план Sketch: всё из Standard плюс SSO, расширенные роли и права, приоритетная поддержка, единый счёт для больших команд. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Sketch Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Безопасность",
+              "d": "SSO, управление доступом к рабочим пространствам."
+            },
+            {
+              "t": "Роли",
+              "d": "Тонкие права на документы и библиотеки."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Облако, веб, библиотеки."
+            }
+          ],
+          "links": [
+            "sketch-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Крупная команда с SSO."
+            },
+            {
+              "t": "Standard",
+              "d": "Небольшая команда.",
+              "link": "sketch-standard"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Standard."
+            },
+            {
+              "t": "Mac",
+              "d": "По-прежнему только для редактирования."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с корпоративным входом и несколькими дизайн-командами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли SCIM?",
+          "a": "Уточняем по текущим условиям Sketch."
+        }
+      ],
+      "related_products": [
+        "sketch-standard"
+      ],
+      "meta_title": "Sketch Pro — подписка на год | BIZSoft",
+      "meta_description": "Sketch Pro: SSO, расширенные роли, приоритетная поддержка для больших дизайн-команд. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sketch pro — hero"
+      ],
+      "uncertainties": [
+        "Наличие SCIM — по условиям Sketch."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

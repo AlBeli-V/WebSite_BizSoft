@@ -1,0 +1,300 @@
+{
+  "family_key": "WINDSURF",
+  "vendor": "Windsurf (Codeium)",
+  "vendor_profile": "data/content/vendors/windsurf.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "windsurf-teams",
+  "classification_notes": [
+    "Pro (индивидуальный) / Teams. Носитель — Teams."
+  ],
+  "products": {
+    "windsurf-pro": {
+      "sku": "WNDS-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "разработчик",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Windsurf Pro — индивидуальная подписка на 1 год на ИИ-редактор Windsurf (бывший Codeium) для одного разработчика: агент Cascade, автодополнение, чат по репозиторию, кредиты на премиальные модели по тарифу. Личный аккаунт.\n\nКомандные функции — администрирование, SSO, приватность на уровне организации — в Teams.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Windsurf Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cascade",
+              "d": "Агент, выполняющий многошаговые задачи по проекту."
+            },
+            {
+              "t": "Дополнение",
+              "d": "Supercomplete и чат с контекстом кода."
+            },
+            {
+              "t": "Модели",
+              "d": "Кредиты на премиальные модели по тарифу."
+            },
+            {
+              "t": "Один пользователь",
+              "d": "Личный аккаунт."
+            }
+          ],
+          "links": [
+            "windsurf-teams"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Один разработчик."
+            },
+            {
+              "t": "Teams",
+              "d": "Команда с консолью и SSO.",
+              "link": "windsurf-teams"
+            },
+            {
+              "t": "Cursor Business",
+              "d": "Альтернатива.",
+              "link": "cursor-business"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Разработчику, который пробует агентную разработку самостоятельно."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что такое кредиты Windsurf?",
+          "a": "Единицы расхода премиальных моделей; базовые модели без кредитов."
+        }
+      ],
+      "related_products": [
+        "windsurf-teams",
+        "cursor-business"
+      ],
+      "meta_title": "Windsurf Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Windsurf Pro: ИИ-редактор с агентом Cascade, автодополнением и кредитами на премиальные модели для одного разработчика. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "windsurf купить — hero"
+      ],
+      "uncertainties": [
+        "Объём кредитов — по прайсу Windsurf."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "windsurf-teams": {
+      "sku": "WNDS-LIC-TEAMS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Windsurf Teams — командная подписка на 1 год на Windsurf для команды: всё из Pro на каждое место плюс админ-консоль, SSO, приватность кода на уровне организации, аналитика использования, общий пул кредитов. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Windsurf Teams",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Консоль, роли, аналитика, пул кредитов."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SSO, код не используется для обучения."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Cascade, дополнение, чат."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Teams",
+              "d": "Команда с администрированием."
+            },
+            {
+              "t": "Pro",
+              "d": "Один человек.",
+              "link": "windsurf-pro"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Self-hosted и договор — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "Пул на команду; сверх — доплата."
+            },
+            {
+              "t": "Self-hosted",
+              "d": "Только Enterprise."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам разработки, выбравшим Windsurf."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли развернуть Windsurf у себя?",
+          "a": "В Enterprise — да, по запросу."
+        }
+      ],
+      "related_products": [
+        "windsurf-pro"
+      ],
+      "meta_title": "Windsurf Teams — подписка на год | BIZSoft",
+      "meta_description": "Windsurf Teams: ИИ-редактор для команды с консолью, SSO, приватностью и общим пулом кредитов; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "windsurf teams — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
