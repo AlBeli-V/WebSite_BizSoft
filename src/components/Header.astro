@@ -354,8 +354,11 @@ const navRest = mainNav.filter((i) => i.href !== '/catalog');
   }
   .cart-badge[hidden] { display: none; }
   /* Дуга живёт внутри той же коробки, что и кружок, а не свисает наружу:
-     свисающий край обрезался соседом и пропадал целиком. */
-  .cart-arc { position: absolute; inset: 0; width: 100%; height: 100%; }
+     свисающий край обрезался соседом и пропадал целиком. Развёрнута на 45°
+     против часовой (решение руководителя 14.09.2026): её середина уходит с
+     трёх часов на полвторого, и счётчик перестаёт читаться как симметричная
+     скобка. */
+  .cart-arc { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-45deg); transform-origin: 50% 50%; }
   .cart-num {
     min-width: 20px;
     height: 20px;

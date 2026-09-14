@@ -512,6 +512,10 @@ describe('колонка покупки, решение руководителя
   it('«Задать вопрос» — кнопка в том же ряду, что подборка; перенос запрещён', () => {
     expect(page).toContain('class="ask-btn"');
     expect(page).toContain('>Задать вопрос</button>');
+    // Заливка акцентом, как у призыва и подборки: в колонке одна семья кнопок,
+    // иерархию держат порядок и ширина, а не вес (решение 14.09.2026).
+    const ask = page.slice(page.indexOf('.ask-btn {'));
+    expect(ask.slice(0, ask.indexOf('}'))).toContain('background: var(--color-accent)');
     // Ссылкой это действие больше не оформляется.
     expect(page).not.toContain('btn-link');
     const row = page.slice(page.indexOf('.coll-toggle {'));
@@ -547,6 +551,9 @@ describe('колонка покупки, решение руководителя
     expect(num.slice(0, num.indexOf('}'))).toContain('background: var(--color-accent)');
     // Цифра пишется в свой узел: textContent на самом счётчике снёс бы дугу.
     expect(header).toContain("const num = node.querySelector('[data-cart-num]');");
+    // Дуга развёрнута на 45°: счётчик не читается симметричной скобкой.
+    const arc = header.slice(header.indexOf('.cart-arc {'));
+    expect(arc.slice(0, arc.indexOf('}'))).toContain('transform: rotate(-45deg)');
   });
 
   it('правило записано в свод, в файлы правил и в скилы заведения позиций', () => {
