@@ -883,7 +883,7 @@ try {
                 </span>
                 <div class="assist-body">
                   <h3>Не уверены, что выбран правильный план?</h3>
-                  <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
+                  <p>Подскажем, сравним варианты и поможем подобрать оптимальные условия.</p>
                 </div>
                 <a class="btn btn-primary assist-cta" href={askHref}>
                   <span>Задать вопрос специалисту</span>
@@ -909,7 +909,7 @@ try {
               </span>
               <div class="assist-body">
                 <h3>Не уверены, что выбран правильный план?</h3>
-                <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
+                <p>Подскажем, сравним варианты и поможем подобрать оптимальные условия.</p>
               </div>
               <a class="btn btn-primary assist-cta" href={askHref}>
                 <span>Задать вопрос специалисту</span>
@@ -1238,7 +1238,10 @@ try {
   .assist {
     --assist-halo: color-mix(in srgb, var(--color-accent) 14%, transparent);
     --assist-bubble: color-mix(in srgb, var(--color-text-dim) 24%, var(--color-bg-card));
-    display: flex; align-items: center; gap: 1.4rem;
+    /* Перенос обязателен: призыв не сжимается, и без него текстовая колонка
+       в узком контейнере схлопывалась до нуля — заголовок вставал столбиком
+       по букве, а кнопка уходила за край экрана (разбор 14.09.2026). */
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem;
     border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
     border-radius: var(--radius); padding: 1.3rem 1.5rem;
     background: linear-gradient(100deg,
@@ -1247,14 +1250,36 @@ try {
   }
   .assist-art { flex: none; width: 96px; }
   .assist-art svg { display: block; width: 100%; height: auto; }
-  .assist-body { flex: 1 1 auto; min-width: 0; }
+  /* Базис, а не `auto`: текст требует себе 14rem, и когда строка перестаёт
+     их вмещать, ряд переносится — вместо того чтобы сжать текст в нить. */
+  .assist-body { flex: 1 1 14rem; min-width: 0; }
   .assist h3 { font-size: 1.25rem; line-height: 1.25; margin: 0 0 0.4rem; }
   .assist p { color: var(--color-text-muted); font-size: 0.92rem; line-height: 1.45; margin: 0; }
   .assist-cta { flex: none; gap: 0.7rem; }
+  /* Только в строке: призыв не забирает всю фразу в одну линию — подпись
+     ложится в две строки, а освободившаяся ширина уходит заголовку, и тот
+     встаёт в две строки, как в референсе, а не в три узкие. В колонке
+     (`.assist-inline` и телефон) призыв, наоборот, во всю ширину. */
+  .assist:not(.assist-inline) .assist-cta { max-width: 13.5rem; text-align: left; }
   /* В узкой колонке (вёрстка в две колонки) баннер складывается столбиком. */
   .assist-inline { flex-direction: column; align-items: stretch; text-align: center; max-width: 328px; }
   .assist-inline .assist-art { width: 88px; margin: 0 auto; }
   .assist-inline .assist-cta { justify-content: center; }
+  /* В колонке главная ось вертикальная, и базис текста стал бы его высотой:
+     под абзацем открывался пустой провал в четырнадцать строк. Здесь текст
+     занимает ровно столько, сколько занимает. */
+  .assist-inline .assist-body { flex: 0 1 auto; }
+  /* На телефоне баннер складывается той же формой, что и в узкой колонке:
+     рисунок сверху, текст по центру, призыв во всю ширину. Переноса строки
+     недостаточно — кнопка встала бы по содержимому и палец мимо неё. */
+  @media (max-width: 700px) {
+    .assist { flex-direction: column; align-items: stretch; text-align: center; padding: 1.2rem 1.1rem; }
+    .assist-art { width: 88px; margin: 0 auto; }
+    .assist-body { flex: 0 1 auto; }
+    .assist h3 { font-size: 1.12rem; }
+    .assist:not(.assist-inline) .assist-cta { max-width: none; text-align: center; }
+    .assist-cta { justify-content: center; }
+  }
 
   /* ── Прочее ──────────────────────────────────────────────────────── */
   .gallery { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.4rem; }

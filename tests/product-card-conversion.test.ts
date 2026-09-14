@@ -638,3 +638,55 @@ describe('колонка покупки, решение руководителя
     }
   });
 });
+
+describe('баннер помощи с выбором складывается, а не рвётся', () => {
+  // Разбор 14.09.2026: широкий баннер был жёсткой строкой из трёх частей —
+  // рисунок и призыв не сжимались, текстовая колонка схлопывалась до нуля.
+  // На телефоне заголовок вставал столбиком по букве, а кнопка уходила за
+  // край экрана. Проверки сторожат обе половины починки.
+  const styles = page.slice(page.indexOf('  .assist {'));
+  const decl = (sel: string) => {
+    const at = styles.indexOf(sel);
+    expect(at, sel).toBeGreaterThan(-1);
+    return styles.slice(at, styles.indexOf('}', at));
+  };
+
+  it('строка переносится, а текстовая колонка требует себе ширину', () => {
+    // Без переноса призыв с `flex: none` выталкивал строку за экран.
+    expect(decl('.assist {')).toContain('flex-wrap: wrap');
+    // Базис, а не `auto`: текст не сжимается в нить, ряд переносится.
+    expect(decl('.assist-body {')).toContain('flex: 1 1 14rem');
+  });
+
+  it('на телефоне баннер складывается столбиком, призыв — во всю ширину', () => {
+    const mq = styles.slice(styles.indexOf('@media (max-width: 700px) {'));
+    const body = mq.slice(0, mq.indexOf('\n  }'));
+    expect(body).toContain('.assist { flex-direction: column');
+    expect(body).toContain('align-items: stretch');
+    // В колонке главная ось вертикальная: базис стал бы высотой текста и
+    // открыл бы под абзацем пустой провал.
+    expect(body).toContain('.assist-body { flex: 0 1 auto; }');
+    expect(body).toContain('.assist-cta { justify-content: center; }');
+  });
+
+  it('ширина призыва ограничена только в строке', () => {
+    // В строке подпись ложится в две строки, и место уходит заголовку;
+    // в колонке призыв обязан оставаться во всю ширину.
+    expect(styles).toContain('.assist:not(.assist-inline) .assist-cta { max-width: 13.5rem');
+    expect(decl('.assist-inline .assist-body {')).toContain('flex: 0 1 auto');
+  });
+
+  it('заглушка рендерит широкий баннер, иначе прогоны его не видят', () => {
+    // Широкий баннер живёт в модульной ветке (`hasModules`), а в заглушке не
+    // было ни одной позиции с `content_modules` — поломка и ушла в прод.
+    const stub = readFileSync(resolve(ROOT, 'scripts/ci/stub-directus.mjs'), 'utf8');
+    expect(stub).toContain('content_modules: [');
+    expect(page).toContain('{hasModules && (');
+  });
+
+  it('правило записано в файл правил', () => {
+    const rule = readFileSync(resolve(ROOT, 'docs/rules/card-price-block.md'), 'utf8');
+    expect(rule).toContain('Баннер помощи');
+    expect(rule).toContain('content_modules');
+  });
+});
