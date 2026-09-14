@@ -64,9 +64,17 @@ TAIL_DAYS = 10
 DEVICES = ('desktop', 'mobile', 'tablet', 'other')
 
 # Каналы визитов. Органика и реклама приходят каналом самого счётчика;
-# три внешних класса разводит реестр доменов, остальное (прямые заходы,
-# внутренние переходы, почта, закладки) — other.
-CHANNELS = ('organic', 'ads', 'links', 'catalogs', 'platforms', 'other')
+# внешние классы разводит реестр доменов, остальное (прямые заходы,
+# внутренние переходы, почта, закладки) — other. Форумы отделены от площадок
+# присутствия: там содержание не наше, и вывод из них другой.
+CHANNELS = ('organic', 'ads', 'links', 'catalogs', 'platforms', 'forums', 'other')
+
+# Домены переходов хранятся рядом с каналами: письмо показывает внешние
+# переходы одной строкой с главными доменами, отчёт — таблицей с классом.
+# Решение руководителя 14.09.2026: на текущих объёмах (5 визитов за две
+# недели, один домен за десять дней) три строки классов — это три нуля,
+# а видимый домен позволяет назначить класс по факту.
+REFERRAL_PREFIX = 'referral_domain'
 
 REFERRAL_CLASSES = pathlib.Path('data/seo/referral-classes.json')
 
@@ -82,20 +90,32 @@ METRIKA_CHANNEL = {
 # Группа каналов GA4 (sessionDefaultChannelGroup) → наш канал. Группы Referral
 # здесь нет намеренно: переходы с сайтов раскрывает отдельный запрос по
 # доменам, и в общем срезе они пропускаются, чтобы не считаться дважды.
+#
+# Unassigned — сессии, которым GA4 не смог назначить канал; они относятся к
+# «прочему» явной записью, а не умолчанием словаря: зонд 14.09.2026 нашёл их
+# в нашем ресурсе, и незнакомое значение в письме — это молчаливая потеря
+# визитов, даже когда итог тот же.
 GA4_CHANNEL = {
     'organic search': 'organic', 'organic shopping': 'organic',
     'paid search': 'ads', 'paid social': 'ads', 'paid shopping': 'ads',
     'paid video': 'ads', 'paid other': 'ads', 'display': 'ads',
     'cross-network': 'ads',
     'organic social': 'platforms', 'organic video': 'platforms',
+    'audio': 'platforms',
     'direct': 'other', 'email': 'other', 'affiliates': 'other',
+    'sms': 'other', 'mobile push notifications': 'other',
+    'push notifications': 'other', 'unassigned': 'other',
 }
 # Тип устройства у источника → наш класс. Ключи — то, что реально приходит в
 # id измерения; незнакомое значение уходит в other, а не отбрасывается.
+# Телевизоры и приставки перечислены явно: Метрика отдаёт их значением tv,
+# GA4 — smart tv (зонд 14.09.2026), и они сознательно относятся к «прочим»,
+# а не попадают туда умолчанием, о котором никто не знает.
 DEVICE_ALIAS = {
     'desktop': 'desktop', 'pc': 'desktop',
     'mobile': 'mobile', 'phone': 'mobile', 'smartphone': 'mobile',
     'tablet': 'tablet',
+    'tv': 'other', 'smart tv': 'other', 'smarttv': 'other',
 }
 # Значение device_type_indicator Вебмастера для каждого класса. Планшеты
 # Вебмастер отдаёт отдельным значением, поэтому MOBILE_AND_TABLET не нужен.
@@ -311,6 +331,42 @@ def parse_metrika_channel_rows(payload: dict, classes: dict,
             value = float(metrics[0] or 0)
         except (TypeError, ValueError):
             continue
+        out[metric][date] = out[metric].get(date, 0) + value
+    return out
+
+
+def parse_referral_domains(payload: dict, *, ga4: bool = False) -> dict:
+    """Визиты по доменам переходов: ряд на домен, без классификации.
+
+    Класс домена решает реестр в момент чтения отчёта, а не сбора: правка
+    реестра тогда меняет и прошлые дни, а не только собранные после неё.
+    """
+    out: dict = {}
+    rows = payload.get('rows', []) if ga4 else payload.get('data', [])
+    for row in rows:
+        if ga4:
+            dims = [str((d or {}).get('value') or '') for d in (row.get('dimensionValues') or [])]
+            if len(dims) < 2:
+                continue
+            date, domain = _ga4_date(dims[0]), dims[1].strip().lower()
+            try:
+                value = float(((row.get('metricValues') or [{}])[0]).get('value') or 0)
+            except (TypeError, ValueError):
+                continue
+        else:
+            dims = row.get('dimensions') or []
+            if len(dims) < 2:
+                continue
+            date = str((dims[0] or {}).get('name') or '')[:10]
+            domain = _dim_key(dims[1]).lower()
+            try:
+                value = float((row.get('metrics') or [0])[0] or 0)
+            except (TypeError, ValueError):
+                continue
+        if not date or not domain:
+            continue
+        metric = f'{REFERRAL_PREFIX}|{domain}'
+        out.setdefault(metric, {})
         out[metric][date] = out[metric].get(date, 0) + value
     return out
 
@@ -570,6 +626,8 @@ def fetch_metrika_channels(stat: str, headers: dict, common: dict):
                                                    referral=True).items():
         for day, value in days.items():
             series[metric][day] = series[metric].get(day, 0) + value
+    # Домены тем же ответом: отдельного запроса они не стоят.
+    series.update(parse_referral_domains(referral))
     return series, None
 
 
@@ -644,6 +702,7 @@ def fetch_ga4_channels(url: str, headers: dict, dates: list):
                                                referral=True).items():
         for day, value in days.items():
             series[metric][day] = series[metric].get(day, 0) + value
+    series.update(parse_referral_domains(referral, ga4=True))
     return series, None
 
 

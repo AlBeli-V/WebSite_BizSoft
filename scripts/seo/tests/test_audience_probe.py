@@ -93,7 +93,7 @@ class ProbeReportCase(unittest.TestCase):
         """Новая группа каналов у источника обязана быть названа поимённо."""
         stat_rows = {"data": [
             {"dimensions": [{"id": "organic"}, {"id": "mobile"}], "metrics": [10]},
-            {"dimensions": [{"id": "wifi"}, {"id": "tv"}], "metrics": [1]},
+            {"dimensions": [{"id": "wifi"}, {"id": "console"}], "metrics": [1]},
         ]}
         referral_rows = {"data": [
             {"dimensions": [{"name": "vc.ru"}], "metrics": [3]},
@@ -110,7 +110,7 @@ class ProbeReportCase(unittest.TestCase):
         self.assertFalse(rows["словарь каналов"]["ok"])
         self.assertIn("wifi", rows["словарь каналов"]["detail"])
         self.assertFalse(rows["словарь устройств"]["ok"])
-        self.assertIn("tv", rows["словарь устройств"]["detail"])
+        self.assertIn("console", rows["словарь устройств"]["detail"])
         # Домен вне реестра назван, чтобы решение о классе принимал человек.
         self.assertIn("nowhere.io", rows["реестр внешних переходов"]["detail"])
 

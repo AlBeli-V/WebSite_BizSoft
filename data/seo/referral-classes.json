@@ -1,7 +1,7 @@
 {
   "purpose": "Классы внешних переходов для блока «Аудитория» отчёта Growth Intelligence: каталог или площадка. Домен, которого здесь нет, попадает в «внешние ссылки» — догадок классификатор не делает.",
   "rule": "docs/rules/audience-devices.md",
-  "match": "по суффиксу домена: запись vc.ru покрывает vc.ru и m.vc.ru, но не myvc.ru",
+  "match": "по суффиксу домена: запись vc.ru покрывает vc.ru и m.vc.ru, но не myvc.ru; порядок классов в файле — порядок проверки",
   "classes": {
     "catalogs": {
       "title": "Внешние каталоги",
@@ -35,7 +35,6 @@
         "spark.ru",
         "tenchat.ru",
         "habr.com",
-        "pikabu.ru",
         "t.me",
         "telegram.org",
         "vk.com",
@@ -48,8 +47,23 @@
         "instagram.com",
         "x.com",
         "twitter.com",
-        "pinterest.com",
-        "reddit.com"
+        "pinterest.com"
+      ]
+    },
+    "forums": {
+      "title": "Форумы и сообщества",
+      "description": "Площадки, где нас обсуждают пользователи, а не мы публикуем: форумы, вопросы-ответы, сообщества. Отличаются от площадок присутствия тем, что содержание там не наше.",
+      "domains": [
+        "searchengines.guru",
+        "4pda.to",
+        "forum.ru-board.com",
+        "otvet.mail.ru",
+        "stackoverflow.com",
+        "qna.habr.com",
+        "reddit.com",
+        "pikabu.ru",
+        "yaplakal.com",
+        "linux.org.ru"
       ]
     }
   }

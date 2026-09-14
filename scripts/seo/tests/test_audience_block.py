@@ -57,9 +57,12 @@ class AudienceCase(unittest.TestCase):
         visits = {}
         for channel, per_day in (("organic", (4, 6, 1, 0)), ("ads", (2, 3, 0, 0)),
                                  ("links", (1, 1, 0, 0)), ("catalogs", (1, 0, 0, 0)),
-                                 ("platforms", (0, 2, 0, 0)), ("other", (1, 1, 0, 0))):
+                                 ("platforms", (0, 2, 0, 0)), ("forums", (1, 0, 0, 0)),
+                                 ("other", (1, 1, 0, 0))):
             for device, value in zip(cd.DEVICES, per_day):
                 visits[f"visits_{channel}_{device}"] = {d: value for d in dates}
+        for domain, value in (("soware.ru", 1), ("vc.ru", 2), ("nowhere.io", 1)):
+            visits[f"{cd.REFERRAL_PREFIX}|{domain}"] = {d: value for d in dates}
         sessions = {m.replace("visits_", "sessions_"): days
                     for m, days in visits.items()}
         (self.dir / "metrika.json").write_text(
@@ -94,8 +97,8 @@ class AudienceCase(unittest.TestCase):
         blk = self.block["visits"]["blocks"][0]
         self.assertEqual(blk["label"], "Яндекс")
         self.assertEqual(blk["source_label"], "Яндекс.Метрика")
-        # 11 визитов в день × 7 дней окна.
-        self.assertEqual(blk["total"], 161)
+        # 12 визитов в день × 7 дней окна.
+        self.assertEqual(blk["total"], 168)
         organic = next(c for c in blk["channels"] if c["key"] == "organic")
         self.assertEqual(organic["total"], 77)
         self.assertEqual(organic["devices"]["mobile"], 42)
@@ -118,6 +121,62 @@ class AudienceCase(unittest.TestCase):
         line = self.block["headline"]
         self.assertIn("с телефонов 60% показов", line)
         self.assertIn("органика", line)
+
+
+class ExternalChannelsCase(AudienceCase):
+    """Внешние переходы: одна строка в письме, домены и классы — в отчёте."""
+
+    def test_email_folds_external_classes_into_one_row(self):
+        blk = self.block["visits"]["blocks"][0]
+        rows = audience.email_channels(blk)
+        labels = [r["label"] for r in rows]
+        self.assertIn(audience.EXTERNAL_LABEL, labels)
+        for key in audience.EXTERNAL_CHANNELS:
+            self.assertNotIn(audience.CHANNEL_LABEL[key], labels)
+        # Сумма свёрнутой строки равна сумме четырёх классов: ничего не теряется.
+        external = next(r for r in rows if r["key"] == "external")
+        by_class = sum(c["total"] for c in blk["channels"]
+                       if c["key"] in audience.EXTERNAL_CHANNELS)
+        self.assertEqual(external["total"], by_class)
+
+    def test_email_row_order_keeps_other_last(self):
+        rows = audience.email_channels(self.block["visits"]["blocks"][0])
+        self.assertEqual(rows[0]["key"], "organic")
+        self.assertEqual(rows[-1]["key"], "other")
+
+    def test_domains_carry_class_from_registry(self):
+        rows = {r["domain"]: r for r in self.block["referrals"]["rows"]}
+        self.assertEqual(rows["soware.ru"]["class"], "catalogs")
+        self.assertEqual(rows["vc.ru"]["class"], "platforms")
+        # Домен вне реестра честно называется неразмеченным.
+        self.assertEqual(rows["nowhere.io"]["class"], "links")
+        self.assertEqual(rows["nowhere.io"]["class_label"], "не размечен")
+
+    def test_domains_sorted_by_volume(self):
+        totals = [r["total"] for r in self.block["referrals"]["rows"]]
+        self.assertEqual(totals, sorted(totals, reverse=True))
+
+    def test_split_threshold_opens_classes_when_volume_grows(self):
+        """42 внешних визита за неделю и три домена — классы уже что-то значат."""
+        self.assertTrue(self.block["split_external"])
+
+    def test_split_threshold_holds_while_volume_is_small(self):
+        """Единичные переходы письмо не разворачивает в четыре строки нулей."""
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        directory = pathlib.Path(tmp.name)
+        dates = _days(REPORT_DATE, 25)
+        visits = {}
+        for channel in audience.CHANNELS:
+            for device in cd.DEVICES:
+                value = 1 if (channel, device) == ("links", "desktop") else 0
+                visits[f"visits_{channel}_{device}"] = {d: value for d in dates}
+        visits[f"{cd.REFERRAL_PREFIX}|nowhere.io"] = {d: 1 for d in dates}
+        (directory / "metrika.json").write_text(json.dumps(_store("metrika", visits)),
+                                                encoding="utf-8")
+        block = audience.build(REPORT_DATE, directory)
+        self.assertEqual(len(block["referrals"]["rows"]), 1)
+        self.assertFalse(block["split_external"])
 
 
 class AudienceGapsCase(unittest.TestCase):
@@ -153,6 +212,25 @@ class AudienceGapsCase(unittest.TestCase):
         self.assertEqual(row["reason_code"], "no_rows")
         self.assertIn("окно неполное", row["reason"])
 
+    def test_absent_channel_series_is_no_data_not_zero_visits(self):
+        """Несобранный разрез — «нет данных», а не «ноль визитов по всем каналам».
+
+        У Метрики и GA4 пропущенная дата внутри ряда считается измеренным
+        нулём: день без визитов stat-API не возвращает. Без проверки самих
+        рядов отсутствующий разрез давал полное окно из нулей, и письмо
+        утверждало бы, что за неделю на сайт не зашёл никто (найдено на
+        боевой витрине 14.09.2026).
+        """
+        dates = _days(REPORT_DATE, 25)
+        base = _flat({"visits_all": 20, "visits_organic": 9,
+                      "users_organic": 7, "goal_reaches_organic": 1}, dates)
+        (self.dir / "metrika.json").write_text(json.dumps(_store("metrika", base)),
+                                               encoding="utf-8")
+        blk = audience.build(REPORT_DATE, self.dir)["visits"]["blocks"][0]
+        self.assertFalse(blk["available"])
+        self.assertIn("рядов разреза в витрине нет", blk["reason"])
+        self.assertNotIn("total", blk)
+
     def test_device_cut_absent_while_base_series_present(self):
         """Разрез по устройствам не собран — строка показов не публикуется."""
         dates = _days(REPORT_DATE, 25)
@@ -161,7 +239,10 @@ class AudienceGapsCase(unittest.TestCase):
             json.dumps(_store("yandex", series)), encoding="utf-8")
         row = audience.build(REPORT_DATE, self.dir)["impressions"]["rows"][0]
         self.assertFalse(row["available"])
-        self.assertEqual(row["reason_code"], "no_rows")
+        # Ряда нет в витрине вовсе — это «нет пригодного файла», а не пустое
+        # окно: разница важна, причины разные и чинятся по-разному.
+        self.assertEqual(row["reason_code"], "no_file")
+        self.assertIn("рядов разреза в витрине нет", row["reason"])
 
 
 class ReferralClassesCase(unittest.TestCase):
@@ -283,9 +364,12 @@ class RenderCase(unittest.TestCase):
         visits = {}
         for channel, per_day in (("organic", (4, 6, 1, 0)), ("ads", (2, 3, 0, 0)),
                                  ("links", (1, 1, 0, 0)), ("catalogs", (1, 0, 0, 0)),
-                                 ("platforms", (0, 2, 0, 0)), ("other", (1, 1, 0, 0))):
+                                 ("platforms", (0, 2, 0, 0)), ("forums", (1, 0, 0, 0)),
+                                 ("other", (1, 1, 0, 0))):
             for device, value in zip(cd.DEVICES, per_day):
                 visits[f"visits_{channel}_{device}"] = {d: value for d in dates}
+        for domain, value in (("soware.ru", 1), ("vc.ru", 2)):
+            visits[f"{cd.REFERRAL_PREFIX}|{domain}"] = {d: value for d in dates}
         (self.dir / "metrika.json").write_text(json.dumps(_store("metrika", visits)),
                                                encoding="utf-8")
         (self.dir / "ga4.json").write_text(
@@ -330,6 +414,26 @@ class RenderCase(unittest.TestCase):
         html = self.web._audience_section(audience.build(REPORT_DATE, pathlib.Path(
             tempfile.mkdtemp())))
         self.assertIn("Нет данных", html)
+
+
+class KnownValuesCase(unittest.TestCase):
+    """Значения, найденные зондом на боевых источниках 14.09.2026.
+
+    Телевизор и сессия без канала должны попадать в «прочее» записью
+    словаря, а не умолчанием: умолчание работает так же, но о нём никто
+    не знает, и следующая находка снова окажется незамеченной.
+    """
+
+    def test_tv_is_known_and_counted_as_other(self):
+        self.assertIn("tv", cd.DEVICE_ALIAS)
+        self.assertEqual(cd.device_class("tv"), "other")
+        self.assertEqual(cd.device_class("smart tv"), "other")
+
+    def test_ga4_unassigned_is_known_and_counted_as_other(self):
+        self.assertEqual(cd.GA4_CHANNEL["unassigned"], "other")
+
+    def test_channel_label_names_sessions_without_channel(self):
+        self.assertIn("без канала", audience.CHANNEL_LABEL["other"])
 
 
 class HistoryWindowCase(unittest.TestCase):

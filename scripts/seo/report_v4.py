@@ -1744,6 +1744,25 @@ def _audience_tile(tile: dict, devices: list[str]) -> str:
              f"{signed(tile.get('delta')) if rel is not None else 'сравнение не публикуется: низкая база'}")
 
 
+def _audience_domains_line(block: dict) -> str:
+    """Строка о внешних переходах: главные домены и ссылка на разбор.
+
+    Различать каталог, площадку и форум умеет только реестр доменов, и на
+    малых объёмах четыре отдельные строки — это четыре нуля. Письмо даёт
+    видимые домены, классы и полный список остаются в отчёте.
+    """
+    rows = (block.get("referrals") or {}).get("rows") or []
+    if not rows or block.get("split_external"):
+        return ""
+    top = ", ".join(f"{r['domain']} — {num(r['total'])}" for r in rows[:3])
+    more = (f" и ещё {counted(len(rows) - 3, 'домен', 'домена', 'доменов')}"
+            if len(rows) > 3 else "")
+    return (f"<div data-meta=\"1\" style=\"font-size:12.5px;color:{T['text_secondary']};"
+            f"padding-top:{SP['s']}px;line-height:1.45;\">"
+            f"Внешние переходы: {top}{more}. Класс каждого домена — каталог, "
+            f"площадка или форум — в подробном отчёте.</div>")
+
+
 def _audience_channel_table(block: dict, devices: list[str]) -> str:
     """Таблица визитов: канал × устройство, блоком на каждую систему учёта."""
     head = ("<tr>"
@@ -1766,7 +1785,9 @@ def _audience_channel_table(block: dict, devices: list[str]) -> str:
                          f"нет данных: {blk.get('reason', '')}</div>")
             continue
         body = []
-        for ch in blk["channels"]:
+        rows_for_email = (blk["channels"] if block.get("split_external")
+                          else audience_mod.email_channels(blk))
+        for ch in rows_for_email:
             cells = "".join(
                 f"<td align=\"right\" style=\"font-size:14px;padding:6px 0 6px 8px;"
                 f"border-bottom:1px solid {T['border']};white-space:nowrap;\">"
@@ -1821,7 +1842,8 @@ def _audience_html(block: dict) -> str:
     return (f"<div style=\"font-size:15px;line-height:1.6;\">{block['headline']}</div>"
             f"<div data-meta=\"1\" style=\"font-size:0;margin:-{SP['s']}px;"
             f"padding-top:{SP['s']}px;\">{''.join(cells)}</div>"
-            f"{_audience_channel_table(block, devices)}")
+            f"{_audience_channel_table(block, devices)}"
+            f"{_audience_domains_line(block)}")
 
 
 def _section(title: str, body: str, note: str = "") -> str:
@@ -2432,12 +2454,17 @@ def plain_text(b: dict) -> str:
                          f"{blk.get('reason', '')}")
                 continue
             L.append(f"  {blk['label']} · {blk['source_label']} — визиты по каналам:")
-            for ch in blk["channels"]:
+            for ch in (blk["channels"] if aud.get("split_external")
+                       else audience_mod.email_channels(blk)):
                 split = ", ".join(
                     f"{audience_mod.DEVICE_SHORT[d].lower()} {num((ch['devices'] or {}).get(d) or 0)}"
                     for d in devices)
                 L.append(f"    {ch['label']}: {num(ch['total'])} ({split}) "
                          f"{signed_pct(ch.get('delta_pct'))}".rstrip())
+        dom = (aud.get("referrals") or {}).get("rows") or []
+        if dom and not aud.get("split_external"):
+            L.append("  внешние переходы по доменам: "
+                     + ", ".join(f"{r['domain']} — {num(r['total'])}" for r in dom[:3]))
     L += ["", "ЧТО ДАЛО ИЗМЕНЕНИЕ", b["driver_summary"]]
     for r in b["driver_rows"]:
         L.append(f"  {r['entity']}: {signed(r['delta'])} "

@@ -1147,6 +1147,39 @@ def _audience_total_row(blk: dict) -> dict:
             "delta_pct": blk.get("delta_pct")}
 
 
+def _audience_domains_table(block: dict) -> str:
+    """Домены внешних переходов с классом из реестра.
+
+    Именно здесь принимается решение о классе: видно, какой домен привёл
+    людей и чем он размечен. «Не размечен» — повод завести домен в
+    data/seo/referral-classes.json, а не догадка отчёта.
+    """
+    ref = block.get("referrals") or {}
+    if not ref.get("available"):
+        return (f"<p class='muted'>Внешних переходов за окно нет: "
+                f"{kit.esc(ref.get('reason', 'данных нет'))}.</p>")
+    systems = [b for b in (block.get("visits") or {}).get("blocks", [])
+               if b.get("available")]
+    columns = [{"key": "domain", "label": "Домен"},
+               {"key": "class", "label": "Класс"}]
+    columns += [{"key": b["key"], "label": f"{b['label']} · {b['source_label']}",
+                 "align": "right"} for b in systems]
+    vmax = max((r["total"] for r in ref["rows"]), default=0)
+    rows = []
+    for r in ref["rows"]:
+        row = {"domain": kit.esc(r["domain"]),
+               "class": kit.chip(r["class_label"],
+                                 "warn" if r["class"] == "links" else "neutral")}
+        for b in systems:
+            value = (r["visits"] or {}).get(b["key"])
+            row[b["key"]] = (kit.bar_cell(value, vmax,
+                                          kit.series_color(AUDIENCE_COLOUR.get(b["key"], "metrika")))
+                             if value else "—")
+        rows.append(row)
+    return kit.dense_table(columns, rows, sortable=False,
+                           empty="Внешних переходов за окно нет.")
+
+
 def _audience_section(block: dict) -> str:
     """Раздел «Аудитория»: плитки источников, показы и визиты таблицами.
 
@@ -1185,6 +1218,8 @@ def _audience_section(block: dict) -> str:
             parts.append(f"<p class='muted'>Нет данных: {kit.esc(blk.get('reason', ''))}.</p>")
             continue
         parts.append(_audience_channels_table(blk, devices))
+    parts.append("<h3>Внешние переходы по доменам</h3>")
+    parts.append(_audience_domains_table(block))
     return "".join(parts)
 
 

@@ -23,6 +23,60 @@ def numbers_in(text: str) -> set[str]:
     return set(re.findall(r"\d[\d  ]*", text.replace(" ", " ")))
 
 
+def audience_checks(blocks: dict) -> list[dict]:
+    """Сверка блока «Аудитория» с остальным письмом.
+
+    Три разных утверждения об одном и том же должны совпадать: итог показов
+    в блоке и в карточке видимости (ряд один), сумма каналов и сумма
+    устройств с итогом системы, разбивка по устройствам с показами.
+    Расхождение здесь — это два числа об одном предмете в одном письме,
+    и читатель вправе не поверить ни одному.
+    """
+    aud = blocks.get("audience") or {}
+    if not aud.get("available"):
+        return []
+    out: list[dict] = []
+
+    def add(name, ok, detail):
+        out.append({"check": name, "ok": bool(ok), "detail": detail})
+
+    kpi_value = {k["key"]: k["value"] for k in blocks.get("kpis", [])}
+    card_of = {"yandex": "yandex", "gsc": "google"}
+    pairs, mismatch = [], []
+    for row in (aud.get("impressions") or {}).get("rows", []):
+        if not row.get("available"):
+            continue
+        card = kpi_value.get(card_of.get(row["key"], ""))
+        if card is None:
+            continue
+        card_num = int(re.sub(r"\D", "", card) or 0)
+        pairs.append(f"{row['label']}: блок {int(row['total'])}, карточка {card_num}")
+        if int(row["total"]) != card_num:
+            mismatch.append(pairs[-1])
+    add("audience_matches_kpi", not mismatch,
+        "; ".join(mismatch or pairs) or "сверять нечего")
+
+    gaps = []
+    for blk in (aud.get("visits") or {}).get("blocks", []):
+        if not blk.get("available"):
+            continue
+        by_channel = sum(c["total"] for c in blk["channels"])
+        by_device = sum((blk.get("devices") or {}).values())
+        if round(by_channel, 2) != round(blk["total"], 2):
+            gaps.append(f"{blk['label']}: сумма каналов {by_channel} ≠ итог {blk['total']}")
+        if round(by_device, 2) != round(blk["total"], 2):
+            gaps.append(f"{blk['label']}: сумма устройств {by_device} ≠ итог {blk['total']}")
+    add("audience_internally_consistent", not gaps,
+        "; ".join(gaps) if gaps else "суммы каналов и устройств сходятся с итогом")
+
+    thin = [f"{r['label']} — покрытие {r['coverage']:.0%}"
+            for r in (aud.get("impressions") or {}).get("rows", [])
+            if r.get("available") and (r.get("coverage") or 0) < 0.9]
+    add("audience_device_coverage", not thin,
+        "; ".join(thin) if thin else "разбивка по устройствам покрывает показы")
+    return out
+
+
 def run(date: str) -> dict:
     blocks = json.loads((BASE / f"{date}-v4-blocks.json").read_text(encoding="utf-8"))
     snap = json.loads((BASE / "snapshots" / f"{date}.json").read_text(encoding="utf-8"))
@@ -130,6 +184,9 @@ def run(date: str) -> dict:
         crm_count = (snap.get("crm") or {}).get("qualified_leads")
         add("leads_count_matches_snapshot", crm_count == lb["count"],
             f"в снимке {crm_count}, в письме {lb['count']}")
+
+    # 12. Блок «Аудитория» не противоречит остальному письму.
+    findings += audience_checks(blocks)
 
     ok = all(f["ok"] for f in findings)
     return {"date": date, "passed": ok, "checks": findings,
