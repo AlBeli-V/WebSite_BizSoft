@@ -1,0 +1,798 @@
+{
+  "family_key": "AUTODESK",
+  "vendor": "Autodesk",
+  "vendor_profile": "data/content/vendors/autodesk.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "adsk-maya",
+  "classification_notes": [
+    "Maya, 3ds Max, MotionBuilder, Mudbox, M&E Collection (suite). Именные лицензии. Носитель — Maya."
+  ],
+  "products": {
+    "adsk-maya": {
+      "sku": "ADSK-LIC-MAYA-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Autodesk Maya — командная подписка на 1 год на пакет 3D-анимации и VFX: моделирование, риггинг, анимация персонажей, симуляции Bifrost, рендер Arnold в составе, USD-пайплайн. Именная лицензия принадлежит организации и назначается администратором.\n\nMaya — стандарт анимационных и VFX-студий; 3ds Max того же вендора ориентирован на архвиз и игровой контент.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Autodesk Maya",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Анимация",
+              "d": "Риггинг, скиннинг, нелинейная анимация, Time Editor, MASH."
+            },
+            {
+              "t": "Симуляции",
+              "d": "Bifrost: жидкости, ткань, волосы, частицы."
+            },
+            {
+              "t": "Рендер",
+              "d": "Arnold с лицензией на интерактивный рендер; пакетный — отдельно."
+            },
+            {
+              "t": "Пайплайн",
+              "d": "USD, Python, интеграции с Unreal и Substance."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Maya",
+              "d": "Анимация и VFX."
+            },
+            {
+              "t": "3ds Max",
+              "d": "Архвиз, моделирование, игровые ассеты.",
+              "link": "adsk-3dsmax"
+            },
+            {
+              "t": "Media & Entertainment Collection",
+              "d": "Maya, 3ds Max, MotionBuilder, Mudbox и Arnold одной подпиской.",
+              "link": "adsk-mecoll"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Именная лицензия",
+              "d": "Один пользователь на трёх устройствах, активна одна сессия; переназначение — администратором в Autodesk Account."
+            },
+            {
+              "t": "Активация",
+              "d": "Вход в Autodesk Account с периодической проверкой; офлайн-режим ограничен."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Анимационным и VFX-студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Arnold?",
+          "a": "Да, для интерактивного рендера; пакетные лицензии Arnold — отдельно."
+        }
+      ],
+      "related_products": [
+        "adsk-3dsmax",
+        "adsk-mecoll"
+      ],
+      "meta_title": "Autodesk Maya — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Autodesk Maya: 3D-анимация, риггинг, симуляции Bifrost, Arnold; именная лицензия организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "autodesk maya купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adsk-3dsmax": {
+      "sku": "ADSK-LIC-3DSMAX-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Autodesk 3ds Max — годовой командный план на пакет 3D-моделирования, визуализации и анимации для Windows: полигональное и процедурное моделирование, материалы, Arnold, анимация, интеграция с Revit и AutoCAD. Именная лицензия организации.\n\n3ds Max — выбор архвиза, дизайна интерьеров и игровых ассетов.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Autodesk 3ds Max",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Моделирование",
+              "d": "Полигоны, сплайны, модификаторы, Chamfer, Retopology."
+            },
+            {
+              "t": "Визуализация",
+              "d": "Arnold в составе, материалы, освещение; V-Ray и Corona — плагины сторонних вендоров."
+            },
+            {
+              "t": "Анимация",
+              "d": "CAT, Biped, частицы, ткань."
+            },
+            {
+              "t": "Интеграция",
+              "d": "Revit, AutoCAD, Inventor, Substance, Unreal."
+            }
+          ],
+          "links": [
+            "adsk-maya"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Именные лицензии Autodesk назначаются в Autodesk Account администратором организации; пользователь входит на трёх устройствах, активна одна сессия."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "3ds Max",
+              "d": "Архвиз и ассеты."
+            },
+            {
+              "t": "Maya",
+              "d": "Анимация персонажей и VFX.",
+              "link": "adsk-maya"
+            },
+            {
+              "t": "Media & Entertainment Collection",
+              "d": "Оба пакета и больше.",
+              "link": "adsk-mecoll"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Только Windows",
+              "d": "Mac-станции не подойдут."
+            },
+            {
+              "t": "Рендеры",
+              "d": "V-Ray и Corona — отдельные лицензии Chaos."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Архитектурным и дизайн-студиям, игровым командам на Windows."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли версия для Mac?",
+          "a": "Нет, 3ds Max — только Windows."
+        }
+      ],
+      "related_products": [
+        "adsk-maya",
+        "adsk-mecoll"
+      ],
+      "meta_title": "Autodesk 3ds Max — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Autodesk 3ds Max: 3D-моделирование, визуализация с Arnold, анимация, интеграция с Revit; именная лицензия. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "3ds max купить лицензия — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adsk-motionbuilder": {
+      "sku": "ADSK-LIC-MOTIONBUILDER-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Autodesk MotionBuilder — командная подписка на 1 год на инструмент захвата и обработки движения в реальном времени: работа с данными mocap, ретаргетинг, редактирование анимации персонажей, интеграция с Maya и игровыми движками. Именная лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Autodesk MotionBuilder",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mocap",
+              "d": "Приём данных с систем захвата в реальном времени, очистка, ретаргетинг."
+            },
+            {
+              "t": "Анимация",
+              "d": "Story tool, слои, редактор кривых."
+            },
+            {
+              "t": "Интеграция",
+              "d": "Maya, Unreal, Unity, FBX."
+            }
+          ],
+          "links": [
+            "adsk-maya"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Администратор организации назначает лицензию в Autodesk Account; смена сотрудника — переназначение без вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "MotionBuilder",
+              "d": "Захват движения — основная задача."
+            },
+            {
+              "t": "Maya",
+              "d": "Анимация без mocap-специфики.",
+              "link": "adsk-maya"
+            },
+            {
+              "t": "Media & Entertainment Collection",
+              "d": "MotionBuilder в составе.",
+              "link": "adsk-mecoll"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Узкий продукт",
+              "d": "Без mocap-задач оправдан редко."
+            },
+            {
+              "t": "Именная",
+              "d": "Один пользователь на трёх устройствах."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям с motion capture и виртуальным продакшеном."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужна ли Maya?",
+          "a": "Нет, но связка типична: MotionBuilder для mocap, Maya для остального."
+        }
+      ],
+      "related_products": [
+        "adsk-maya",
+        "adsk-mecoll"
+      ],
+      "meta_title": "Autodesk MotionBuilder — подписка на год | BIZSoft",
+      "meta_description": "Autodesk MotionBuilder: захват и обработка движения в реальном времени, ретаргетинг, интеграция с Maya и движками. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "motionbuilder купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adsk-mudbox": {
+      "sku": "ADSK-LIC-MUDBOX-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Autodesk Mudbox — командная подписка на 1 год на цифровой скульптинг и текстурирование: лепка высокодетализированных моделей, покраска, запекание карт для Maya и 3ds Max. Именная лицензия организации.\n\nMudbox — самый недорогой продукт линейки; для полноценного скульптинга конкурент — ZBrush.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Autodesk Mudbox",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Скульптинг",
+              "d": "Многоуровневая детализация, кисти, слои."
+            },
+            {
+              "t": "Текстуры",
+              "d": "Покраска, проекции, запекание normal и displacement."
+            },
+            {
+              "t": "Пайплайн",
+              "d": "Прямой обмен с Maya и 3ds Max."
+            }
+          ],
+          "links": [
+            "adsk-maya"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензия выдаётся пользователю через Autodesk Account организации; отзыв и переназначение — администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mudbox",
+              "d": "Дополнение к Maya/3ds Max для деталей."
+            },
+            {
+              "t": "ZBrush Teams",
+              "d": "Скульптинг как основной инструмент.",
+              "link": "maxon-zbrush-teams"
+            },
+            {
+              "t": "Media & Entertainment Collection",
+              "d": "Mudbox в составе.",
+              "link": "adsk-mecoll"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ограничен рядом с ZBrush",
+              "d": "Для персонажной лепки художники выбирают ZBrush."
+            },
+            {
+              "t": "Три устройства",
+              "d": "Одна активная сессия."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Художникам на Maya и 3ds Max, которым нужен скульптинг иногда."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли Mudbox ZBrush?",
+          "a": "Для базового скульптинга — да; для персонажных художников ZBrush мощнее."
+        }
+      ],
+      "related_products": [
+        "adsk-maya",
+        "maxon-zbrush-teams",
+        "adsk-mecoll"
+      ],
+      "meta_title": "Autodesk Mudbox — подписка на год | BIZSoft",
+      "meta_description": "Autodesk Mudbox: цифровой скульптинг и текстурирование с запеканием карт для Maya и 3ds Max. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "mudbox купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "adsk-mecoll": {
+      "sku": "ADSK-LIC-MECOLL-TEAM-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Autodesk Media & Entertainment Collection — командная подписка на 1 год на набор для медиапроизводства одному пользователю: Maya, 3ds Max, MotionBuilder, Mudbox, Arnold, ReCap Pro и облачные сервисы одной лицензией. Именная лицензия организации.\n\nКоллекция дешевле Maya и 3ds Max по отдельности — берут, когда специалист работает в обоих.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в коллекцию",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пакеты",
+              "d": "Maya, 3ds Max, MotionBuilder, Mudbox."
+            },
+            {
+              "t": "Рендер",
+              "d": "Arnold."
+            },
+            {
+              "t": "Сервисы",
+              "d": "ReCap Pro, облачные кредиты, Flow Production Tracking в базовом объёме."
+            },
+            {
+              "t": "Один пользователь",
+              "d": "Все продукты на одну именную лицензию."
+            }
+          ],
+          "links": [
+            "adsk-maya"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Коллекция назначается одному пользователю в Autodesk Account; при уходе — переназначается другому сотруднику."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Коллекция",
+              "d": "Два и больше продуктов Autodesk на человека."
+            },
+            {
+              "t": "Maya",
+              "d": "Только анимация.",
+              "link": "adsk-maya"
+            },
+            {
+              "t": "3ds Max",
+              "d": "Только архвиз.",
+              "link": "adsk-3dsmax"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "На одного",
+              "d": "Продукты коллекции нельзя раздать разным людям."
+            },
+            {
+              "t": "Активная сессия",
+              "d": "Одна на пользователя."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Универсалам и небольшим студиям, где один человек и моделирует, и анимирует."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли дать Maya одному, а 3ds Max другому?",
+          "a": "Нет, коллекция — на одного пользователя целиком."
+        }
+      ],
+      "related_products": [
+        "adsk-maya",
+        "adsk-3dsmax"
+      ],
+      "meta_title": "Autodesk M&E Collection — подписка на год | BIZSoft",
+      "meta_description": "Autodesk Media & Entertainment Collection: Maya, 3ds Max, MotionBuilder, Mudbox, Arnold одной именной лицензией. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "autodesk media entertainment collection — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

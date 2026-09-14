@@ -34,7 +34,7 @@ function webpSize(file: string): { width: number; height: number } {
 
 // Потолок — текущий вес плюс примерно пятая часть запаса: заметное
 // утяжеление роняет проверку, мелкие колебания кодировщика — нет.
-const LIMITS: Record<number, number> = { 256: 11, 320: 14, 384: 19, 512: 27 };
+const LIMITS: Record<number, number> = { 256: 11, 320: 14, 384: 19, 448: 23, 512: 27 };
 
 describe('логотип-локап: вес и размеры', () => {
   for (const [width, limitKb] of Object.entries(LIMITS)) {
