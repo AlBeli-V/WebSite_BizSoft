@@ -1,0 +1,603 @@
+{
+  "family_key": "SPEEDTREE",
+  "vendor": "Unity (SpeedTree)",
+  "vendor_profile": "data/content/vendors/speedtree.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "spdtr-pro-nl",
+  "classification_notes": [
+    "Indie / Pro NL / Pro FL / Enterprise. Носитель — Pro NL."
+  ],
+  "products": {
+    "spdtr-indie": {
+      "sku": "UNTY-LIC-STINDIE-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SpeedTree Indie — индивидуальная подписка на 1 год на моделлер растительности для игр и VFX для авторов с доходом до порога Unity: процедурные деревья, ветер, LOD, экспорт в Unreal, Unity, Houdini. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SpeedTree Indie",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Растительность",
+              "d": "Процедурные деревья, кусты, трава, ветер."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Unreal, Unity, FBX, USD."
+            },
+            {
+              "t": "Право",
+              "d": "Доход ниже порога."
+            }
+          ],
+          "links": [
+            "spdtr-pro-nl"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Indie",
+              "d": "Малая студия."
+            },
+            {
+              "t": "Pro NL",
+              "d": "Без порога, на станцию.",
+              "link": "spdtr-pro-nl"
+            },
+            {
+              "t": "Pro FL",
+              "d": "Плавающая.",
+              "link": "spdtr-pro-fl"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Крупные студии.",
+              "link": "spdtr-ent"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Инди."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Порог?",
+          "a": "По условиям Unity."
+        }
+      ],
+      "related_products": [
+        "spdtr-pro-nl",
+        "spdtr-pro-fl",
+        "spdtr-ent"
+      ],
+      "meta_title": "SpeedTree Indie — подписка на год | BIZSoft",
+      "meta_description": "SpeedTree Indie: моделлер растительности для игр и VFX для малых студий. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "speedtree indie купить — hero"
+      ],
+      "uncertainties": [
+        "Порог дохода — по условиям вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "spdtr-pro-nl": {
+      "sku": "UNTY-LIC-STPRONL-TEAM-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочая станция",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SpeedTree Pro, node-locked — командная подписка на 1 год на профессиональную версию для студий без порога дохода, закреплённую за рабочей станцией. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SpeedTree Pro (Node-locked)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Полный набор без лимитов."
+            },
+            {
+              "t": "Node-locked",
+              "d": "Одна станция."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Все движки и DCC."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro NL",
+              "d": "Одна станция."
+            },
+            {
+              "t": "Pro FL",
+              "d": "Пул на команду.",
+              "link": "spdtr-pro-fl"
+            },
+            {
+              "t": "Enterprise",
+              "d": "Договор.",
+              "link": "spdtr-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Станция",
+              "d": "Лицензия за машиной."
+            },
+            {
+              "t": "Цена",
+              "d": "Дешевле плавающей."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Перенос станции?",
+          "a": "По правилам вендора."
+        }
+      ],
+      "related_products": [
+        "spdtr-pro-fl",
+        "spdtr-ent"
+      ],
+      "meta_title": "SpeedTree Pro node-locked — подписка на год | BIZSoft",
+      "meta_description": "SpeedTree Pro на рабочую станцию для студий без порога дохода. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "speedtree pro (node-locked) купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "spdtr-pro-fl": {
+      "sku": "UNTY-LIC-STPROFL-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SpeedTree Pro, floating — командная подписка на 1 год на плавающую лицензию Pro: любая станция студии, одновременно — по числу лицензий. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SpeedTree Pro (Floating)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плавающая",
+              "d": "Сервер лицензий, любые станции."
+            },
+            {
+              "t": "Pro",
+              "d": "Полный набор."
+            },
+            {
+              "t": "Экспорт",
+              "d": "Все движки."
+            }
+          ],
+          "links": [
+            "spdtr-pro-nl"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro FL",
+              "d": "Несколько художников по очереди."
+            },
+            {
+              "t": "Pro NL",
+              "d": "Одна станция.",
+              "link": "spdtr-pro-nl"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Дороже NL",
+              "d": "Плата за гибкость."
+            },
+            {
+              "t": "Сервер",
+              "d": "Нужен сервер лицензий."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям с ротацией."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько одновременно?",
+          "a": "По числу лицензий."
+        }
+      ],
+      "related_products": [
+        "spdtr-pro-nl"
+      ],
+      "meta_title": "SpeedTree Pro floating — подписка на год | BIZSoft",
+      "meta_description": "SpeedTree Pro плавающая лицензия для студии. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "speedtree pro (floating) купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "spdtr-ent": {
+      "sku": "UNTY-LIC-STENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SpeedTree Enterprise — командный план корпоративного уровня на 1 год для студий с доходом свыше порога Unity: плавающие лицензии, приоритетная поддержка, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SpeedTree Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Обязательность",
+              "d": "Доход выше порога — только Enterprise."
+            },
+            {
+              "t": "Лицензии",
+              "d": "Плавающие."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            }
+          ],
+          "links": [
+            "spdtr-pro-nl"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Крупная студия."
+            },
+            {
+              "t": "Pro FL",
+              "d": "Ниже порога.",
+              "link": "spdtr-pro-fl"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Согласование."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "AAA-студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Порог?",
+          "a": "Свыше 1 млн долларов по условиям Unity."
+        }
+      ],
+      "related_products": [
+        "spdtr-pro-nl",
+        "spdtr-pro-fl"
+      ],
+      "meta_title": "SpeedTree Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "SpeedTree Enterprise для студий выше порога дохода; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "speedtree enterprise купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

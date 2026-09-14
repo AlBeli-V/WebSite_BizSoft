@@ -1,0 +1,575 @@
+{
+  "family_key": "NI",
+  "vendor": "Native Instruments",
+  "vendor_profile": "data/content/vendors/ni.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "ni-komplete-std",
+  "classification_notes": [
+    "Komplete 15 Select / Standard / Ultimate; RX Advanced (iZotope, NI Group). Perpetual. Носитель — Standard."
+  ],
+  "products": {
+    "ni-komplete-sel": {
+      "sku": "NTVI-LIC-KOMPLETESEL-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Native Instruments Komplete 15 Select — бессрочная лицензия на стартовый набор инструментов и эффектов NI: Kontakt, Massive X, Reaktor-плееры, библиотеки и экспансии в базовом объёме. Одна покупка; активация через Native Access.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Komplete 15 Select",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Инструменты",
+              "d": "Kontakt 8, Massive X, Reaktor Player, Guitar Rig Player и другие."
+            },
+            {
+              "t": "Библиотеки",
+              "d": "Стартовый набор звуков и экспансий."
+            },
+            {
+              "t": "Активация",
+              "d": "Native Access, до 3 компьютеров."
+            }
+          ],
+          "links": [
+            "ni-komplete-std"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри Komplete 15; следующая коллекция — платный апгрейд."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До Standard и Ultimate доплатой."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Select",
+              "d": "Начало с NI."
+            },
+            {
+              "t": "Standard",
+              "d": "Полный набор инструментов.",
+              "link": "ni-komplete-std"
+            },
+            {
+              "t": "Ultimate",
+              "d": "Всё, включая премиальные библиотеки.",
+              "link": "ni-komplete-ult"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Начинающим продюсерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли полный Kontakt?",
+          "a": "Да, в Select 15 — полная версия Kontakt 8."
+        }
+      ],
+      "related_products": [
+        "ni-komplete-std",
+        "ni-komplete-ult"
+      ],
+      "meta_title": "Komplete 15 Select — бессрочная лицензия | BIZSoft",
+      "meta_description": "Native Instruments Komplete 15 Select: Kontakt 8, Massive X, стартовые библиотеки; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "select купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "ni-komplete-std": {
+      "sku": "NTVI-LIC-KOMPLETESTD-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Native Instruments Komplete 15 Standard — бессрочная лицензия на основной набор NI: десятки инструментов и эффектов (Kontakt, Reaktor, Massive X, Guitar Rig, Battery, Absynth и др.), сотни гигабайт библиотек. Покупается один раз, ставится через Native Access на три компьютера.\n\nЛицензия без срока действия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Komplete 15 Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Инструменты",
+              "d": "Kontakt, Reaktor, Massive X, FM8, Guitar Rig, Battery и десятки других."
+            },
+            {
+              "t": "Библиотеки",
+              "d": "Сотни ГБ звуков, экспансии."
+            },
+            {
+              "t": "Активация",
+              "d": "До 3 компьютеров."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 15."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До Ultimate доплатой."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Основной набор."
+            },
+            {
+              "t": "Ultimate",
+              "d": "Плюс оркестровые и премиальные библиотеки.",
+              "link": "ni-komplete-ult"
+            },
+            {
+              "t": "Select",
+              "d": "Стартовый.",
+              "link": "ni-komplete-sel"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продюсерам и композиторам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько места нужно?",
+          "a": "Сотни гигабайт; проверьте диск."
+        }
+      ],
+      "related_products": [
+        "ni-komplete-ult",
+        "ni-komplete-sel"
+      ],
+      "meta_title": "Komplete 15 Standard — бессрочная лицензия | BIZSoft",
+      "meta_description": "Native Instruments Komplete 15 Standard: десятки инструментов и эффектов NI с библиотеками; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "standard купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "ni-komplete-ult": {
+      "sku": "NTVI-LIC-KOMPLETEULT-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Native Instruments Komplete 15 Ultimate — бессрочная лицензия на максимальный набор NI: всё из Standard плюс оркестровые библиотеки Symphony Series, премиальные инструменты и экспансии, терабайт контента. Одна покупка; Native Access.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Komplete 15 Ultimate",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Инструменты",
+              "d": "Полный каталог NI на дату выпуска."
+            },
+            {
+              "t": "Оркестр",
+              "d": "Symphony Series, Session-библиотеки."
+            },
+            {
+              "t": "Объём",
+              "d": "Около терабайта."
+            }
+          ],
+          "links": [
+            "ni-komplete-std"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 15."
+            },
+            {
+              "t": "Максимум",
+              "d": "Collector's Edition — ещё выше, по запросу."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ultimate",
+              "d": "Композиторам кино и игр."
+            },
+            {
+              "t": "Standard",
+              "d": "Без оркестра.",
+              "link": "ni-komplete-std"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Композиторам и студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Collector's Edition?",
+          "a": "Да, по запросу."
+        }
+      ],
+      "related_products": [
+        "ni-komplete-std"
+      ],
+      "meta_title": "Komplete 15 Ultimate — бессрочная лицензия | BIZSoft",
+      "meta_description": "Native Instruments Komplete 15 Ultimate: полный каталог NI с оркестровыми библиотеками; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "ultimate купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "ni-rx-adv": {
+      "sku": "IZTP-LIC-RXADV-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "iZotope RX 11 Advanced — бессрочная лицензия на старшую редакцию реставрации звука: удаление шума, гула, щелчков, реверберации, Dialogue Isolate, Music Rebalance, спектральный редактор, standalone и плагины. Одна покупка; активация iZotope Product Portal.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет RX 11 Advanced",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Реставрация",
+              "d": "Spectral De-noise, De-reverb, De-click, Dialogue Isolate, Ambience Match."
+            },
+            {
+              "t": "Музыка",
+              "d": "Music Rebalance, Spectral Recovery."
+            },
+            {
+              "t": "Форматы",
+              "d": "Standalone, AU/VST/AAX, интеграция с Pro Tools."
+            }
+          ],
+          "links": [
+            "ni-komplete-std"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 11; 12 — платный апгрейд."
+            },
+            {
+              "t": "Активация",
+              "d": "До 2 компьютеров."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Advanced",
+              "d": "Постпродакшн и диалоги."
+            },
+            {
+              "t": "RX Standard",
+              "d": "Базовая реставрация.",
+              "link": "izotope-rx-standard"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Звукорежиссёрам кино и подкастов."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Advanced отличается от Standard?",
+          "a": "Dialogue Isolate, Ambience Match, Dialogue Contour и другие продвинутые модули."
+        }
+      ],
+      "related_products": [
+        "ni-komplete-std",
+        "izotope-rx-standard"
+      ],
+      "meta_title": "iZotope RX 11 Advanced — бессрочная лицензия | BIZSoft",
+      "meta_description": "iZotope RX 11 Advanced: реставрация звука с Dialogue Isolate, De-reverb, спектральным редактором; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "rx 11 advanced купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
