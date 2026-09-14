@@ -1,0 +1,224 @@
+# Сторож резервных копий: свежесть копии дня и доступность облачного хранилища.
+#
+# Зачем. 14.09.2026 при подготовке волны 3 выяснилось, что у rclone истёк
+# OAuth-токен Google Drive (invalid_grant), и ночные копии перестали доходить
+# до облака. Сбой был тихим по последствиям: ночной cron падал, письмо об
+# ошибке уходило на avbelyaev@biz-soft.pro, но в ленте почты терялось, и
+# пропуск заметили только через несколько суток — по дыре в списке снятых
+# копий между 08.09 и 13.09. Резервная копия — последняя линия обороны, и
+# узнавать о её отсутствии в момент, когда она понадобилась, нельзя.
+#
+# Что проверяется (только чтение, ничего не снимает и не удаляет):
+#   1. свежесть последней копии на сервере — не старше MAX_AGE_H часов;
+#   2. осмотр backup.sh check — считаются строки с отметкой «✗»
+#      (доступ к контейнерам, место на диске, секреты, хранилище rclone);
+#   3. свежесть последней копии в облаке — не старше MAX_AGE_H часов.
+#
+# Тишина по умолчанию (docs/rules/operational-runs.md): при отсутствии
+# находок ни письма, ни записи в журнал. При находке или падении прогона —
+# письмо штатным ops-send-mail (docs/rules/mail-recipient.md) и запись в
+# issue #22.
+#
+# Один слот расписания: планировщик GitHub задерживает утренние слоты на
+# 4–5 часов, но для сторожа это несущественно — окно проверки суточное.
+name: ops-backup-watch
+on:
+  schedule:
+    - cron: '0 4 * * *'  # 07:00 МСК (UTC+3), после ночного cron в 03:30 МСК
+  workflow_dispatch:
+    inputs:
+      max_age_hours:
+        description: 'Предельный возраст последней копии в часах'
+        required: false
+        default: '30'
+
+permissions:
+  # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
+  # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
+  contents: read
+  issues: write
+  # actions: write — для явного вызова ops-send-mail через gh workflow run.
+  actions: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      # Локальные action ssh-run и journal-post — файлы репозитория; без
+      # checkout выше по job раннер их не находит
+      # (scripts/ci/check-workflow-journal.py).
+      - name: Checkout for local actions
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Inspect backups on the server
+        id: check
+        uses: ./.github/actions/ssh-run
+        env:
+          P_MAX_AGE_H: ${{ inputs.max_age_hours || '30' }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_MAX_AGE_H
+          script: |
+            set -e
+            BASE=/opt/bizsoft
+            DIR="$BASE/backups"
+            MAX_AGE_H="${P_MAX_AGE_H:-30}"
+            problems=0
+
+            echo "════ ПОСЛЕДНЯЯ КОПИЯ НА СЕРВЕРЕ ════"
+            if [ ! -d "$DIR" ]; then
+              echo "✗ каталог копий $DIR не найден"
+              problems=$((problems + 1))
+            else
+              LAST=$(ls -1t "$DIR"/bizsoft-*.tar.gz 2>/dev/null | head -1 || true)
+              if [ -z "$LAST" ]; then
+                echo "✗ в $DIR нет ни одной копии"
+                problems=$((problems + 1))
+              else
+                AGE_S=$(( $(date +%s) - $(stat -c %Y "$LAST") ))
+                AGE_H=$(( AGE_S / 3600 ))
+                echo "файл:    $(basename "$LAST")"
+                echo "размер:  $(du -h "$LAST" | cut -f1)"
+                echo "возраст: ${AGE_H} ч (предел ${MAX_AGE_H} ч)"
+                if [ "$AGE_H" -gt "$MAX_AGE_H" ]; then
+                  echo "✗ копия старше предела — ночной прогон не отработал"
+                  problems=$((problems + 1))
+                fi
+              fi
+              echo "копий всего: $(ls -1 "$DIR"/bizsoft-*.tar.gz 2>/dev/null | wc -l), занято: $(du -sh "$DIR" | cut -f1)"
+            fi
+
+            echo
+            echo "════ ОСМОТР backup.sh check ════"
+            if [ ! -x "$BASE/backup.sh" ]; then
+              echo "✗ $BASE/backup.sh не найден или не исполняем — контур копий не установлен"
+              problems=$((problems + 1))
+            else
+              OUT=$(mktemp)
+              # Осмотр без записи: копию не снимает, восстановление не гоняет,
+              # писем не шлёт. Ненулевой код осмотра — сам по себе находка.
+              MODE=check VERIFY=false OFFSITE=true MAIL_ON=never \
+                "$BASE/backup.sh" check >"$OUT" 2>&1 || echo "✗ backup.sh check завершился ненулевым кодом" >>"$OUT"
+              # Печатаем только строки с отметкой сбоя и шапку окружения:
+              # полный осмотр длинный, а в письме нужна причина.
+              sed -n '/════ ОКРУЖЕНИЕ ════/,/════ ПРАВА/p' "$OUT" | sed 's/^/  /'
+              BAD=$(grep -c '✗' "$OUT" || true)
+              if [ "$BAD" != "0" ]; then
+                echo "строки с отметкой ✗:"
+                grep '✗' "$OUT" | sed 's/^/  /'
+                problems=$((problems + BAD))
+              else
+                echo "осмотр без замечаний"
+              fi
+              rm -f "$OUT"
+            fi
+
+            echo
+            echo "════ ПОСЛЕДНЯЯ КОПИЯ В ОБЛАКЕ ════"
+            RCLONE=$(command -v rclone || echo /home/deploy/bin/rclone)
+            if [ ! -x "$RCLONE" ]; then
+              echo "✗ rclone не найден — выгрузки вне сервера нет"
+              problems=$((problems + 1))
+            else
+              REMOTE=$(sed -n 's/^\[\(.*\)\]$/\1/p' "$BASE/rclone.conf" 2>/dev/null | head -1)
+              REMOTE="${REMOTE:-gdrive}"
+              LS=$(mktemp)
+              if "$RCLONE" --config "$BASE/rclone.conf" lsl "$REMOTE:BizSoft-Backups" >"$LS" 2>&1; then
+                NEWEST=$(sort -k2,3 "$LS" | tail -1)
+                if [ -z "$NEWEST" ]; then
+                  echo "✗ в $REMOTE:BizSoft-Backups нет файлов"
+                  problems=$((problems + 1))
+                else
+                  echo "последний файл: $NEWEST"
+                  TS=$(echo "$NEWEST" | awk '{print $2" "$3}' | cut -d. -f1)
+                  AGE_H=$(( ( $(date +%s) - $(date -u -d "$TS" +%s) ) / 3600 ))
+                  echo "возраст: ${AGE_H} ч (предел ${MAX_AGE_H} ч)"
+                  if [ "$AGE_H" -gt "$MAX_AGE_H" ]; then
+                    echo "✗ копия в облаке старше предела — выгрузка не доходит"
+                    problems=$((problems + 1))
+                  fi
+                fi
+              else
+                echo "✗ хранилище не ответило:"
+                sed 's/^/  /' "$LS"
+                problems=$((problems + 1))
+              fi
+              rm -f "$LS"
+            fi
+
+            echo
+            echo "PROBLEMS=$problems"
+
+      - name: Save report to file
+        if: always()
+        run: |
+          cp "${{ steps.check.outputs.body-file }}" /tmp/backup-watch.txt 2>/dev/null || echo "(нет вывода)" > /tmp/backup-watch.txt
+          cat /tmp/backup-watch.txt
+
+      # Решение о письме принимается по строке PROBLEMS=N, а не по коду
+      # возврата: прогон без находок и прогон с находками одинаково успешны,
+      # красный статус остаётся признаком поломки самого сторожа.
+      - name: Decide on mail
+        id: decide
+        if: steps.check.outputs.outcome == 'success'
+        run: |
+          n=$(sed -n 's/^PROBLEMS=\([0-9][0-9]*\)$/\1/p' /tmp/backup-watch.txt | tail -1)
+          if [ -z "$n" ]; then
+            echo "::error::в отчёте нет строки PROBLEMS=N — сторож отработал не до конца"
+            exit 1
+          fi
+          echo "count=$n" >> "$GITHUB_OUTPUT"
+          echo "mail=$([ "$n" != "0" ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+          echo "находок: $n"
+
+      - name: Mail the owner
+        if: steps.decide.outputs.mail == 'yes'
+        env:
+          P_COUNT: ${{ steps.decide.outputs.count }}
+        run: |
+          body=$(python3 - <<'PYEOF'
+          # Вход body у ops-send-mail — одна строка, переносы литералом \n.
+          LIMIT = 30000
+          text = open('/tmp/backup-watch.txt', encoding='utf-8').read().rstrip()
+          if len(text) > LIMIT:
+              text = text[:LIMIT] + '\n\n(отчёт обрезан, полностью — в журнале issue #22)'
+          text += ('\n\nЧто делать. Истёкший токен Google Drive лечится командой '
+                   '`rclone config reconnect gdrive:` на сервере — это вход в учётную '
+                   'запись, из сессии он недоступен. Отсутствие свежей копии на самом '
+                   'сервере разбирается прогоном ops-backup в режиме check. '
+                   'Правила контура — docs/rules/report-integrity.md, DR-RUNBOOK.md.')
+          print(text.replace('\\', '\\\\').replace('\n', '\\n'))
+          PYEOF
+          )
+          bash scripts/ops/gh_dispatch_wait.sh ops-send-mail.yml --timeout 600 \
+            -f to=avbelyaev@biz-soft.pro \
+            -f "subject=Резервные копии: находок — $P_COUNT" \
+            -f "body=$body"
+
+      # Журнал только по делу: ежедневная запись «копии в порядке» за год
+      # превратила бы issue #22 в ленту, которую перестают читать.
+      - name: Post to issue
+        if: always() && (steps.check.outputs.outcome != 'success' || steps.decide.outputs.mail == 'yes')
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-backup-watch (ежедневно, 07:00 МСК)"
+          outcome: ${{ steps.check.outputs.outcome }}
+          body-file: /tmp/backup-watch.txt
+
+      - name: Fail on problems
+        if: steps.check.outputs.outcome != 'success' || steps.decide.outputs.mail == 'yes'
+        run: |
+          echo "сторож нашёл расхождения — подробности в issue #22 и в письме"
+          exit 1

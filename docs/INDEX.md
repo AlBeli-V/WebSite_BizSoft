@@ -29,7 +29,7 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | Визуальный слой отчётов (KPI-kit) | `scripts/viz/kpi_kit.py` (плитки, светофор, линии, теплокарта, малые кратные, таблицы-дашборды; email-варианты) | — | входит в `seo-daily-report`, `competitive-intelligence-daily` | `docs/rules/kpi-kit.md`, витрина `docs/design/kpi-dashboards/` | `scripts/seo/tests/test_kpi_kit.py` |
 | Письма | `scripts/seo/report_v4.py`, `committee.py`; `competitive-intelligence/mailer/*` | ветки `seo-data` / `competitive-data` | `seo-report-email`, `seo-committee-build`+`seo-committee-email`, `competitive-intelligence-mail`, `ops-send-mail`, `ops-mail` | `reports/seo/README.md` | `uxlint_v4.py`, `contentcheck.py` (в конвейере отчёта) |
 | Сторож каталога | `scripts/ops/catalog_watch.py` | снимки на сервере `/opt/bizsoft/ops/catalog` | `ops-catalog-watch` (ежедневно, письмо через `ops-send-mail`) | `docs/rules/catalog-watch.md` | `python3 -m unittest discover -s scripts/ops/tests -t scripts/ops/tests` |
-| Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup` | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
+| Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup`, сторож `ops-backup-watch` (ежедневно 07:00 МСК, письмо через `ops-send-mail`) | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
 | Операционные прогоны | — (детерминированные workflow, без сессий Claude/Routine) | — | `seo-daily-report`, `competitive-intelligence-daily`, `seo-committee-build`, `seo-tasks-due`; кросс-запуск между workflow — `scripts/ops/gh_dispatch_wait.sh` | заголовки этих workflow объясняют, какую Routine они заменили | — |
 
 ## Где что искать
