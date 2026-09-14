@@ -1,0 +1,294 @@
+{
+  "family_key": "MOTIONARRAY",
+  "vendor": "Motion Array (Artlist)",
+  "vendor_profile": "data/content/vendors/motionarray.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "moarr-everything",
+  "classification_notes": [
+    "Everything / Everything Team. Носитель — Everything."
+  ],
+  "products": {
+    "moarr-everything": {
+      "sku": "MOAR-LIC-EVERYTHING-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Motion Array Everything — индивидуальная подписка на 1 год на библиотеку Motion Array: шаблоны для After Effects, Premiere Pro, DaVinci Resolve и Final Cut, стоковое видео, музыка, SFX, LUT, плагины; безлимитные загрузки, коммерческая лицензия. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Motion Array Everything",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Шаблоны",
+              "d": "AE, Premiere, Resolve, FCP."
+            },
+            {
+              "t": "Стоки",
+              "d": "Видео, музыка, SFX, LUT."
+            },
+            {
+              "t": "Плагины",
+              "d": "Расширения для Premiere и AE."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Everything",
+              "d": "Один монтажёр."
+            },
+            {
+              "t": "Everything Team",
+              "d": "2–7 человек.",
+              "link": "moarr-team"
+            },
+            {
+              "t": "Envato Core",
+              "d": "Шире по графике.",
+              "link": "envato-core"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Монтажёрам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Остаётся ли лицензия?",
+          "a": "Да, на использованное в срок."
+        }
+      ],
+      "related_products": [
+        "moarr-team",
+        "envato-core"
+      ],
+      "meta_title": "Motion Array Everything — подписка на год | BIZSoft",
+      "meta_description": "Motion Array Everything: шаблоны AE/Premiere/Resolve, стоки, музыка, плагины без лимита. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "motion array everything купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "moarr-team": {
+      "sku": "MOAR-LIC-TEAM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Motion Array Everything Team — командная подписка на 1 год на библиотеку Motion Array для команд от 2 до 7 человек: места, общие проекты, лицензия на организацию. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Motion Array Everything Team",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "2–7 мест."
+            },
+            {
+              "t": "Лицензия",
+              "d": "На организацию."
+            },
+            {
+              "t": "Всё из Everything",
+              "d": "Шаблоны, стоки, плагины."
+            }
+          ],
+          "links": [
+            "moarr-everything"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Team",
+              "d": "2–7 монтажёров."
+            },
+            {
+              "t": "Everything",
+              "d": "Один.",
+              "link": "moarr-everything"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "До 7 мест",
+              "d": "Больше — по запросу."
+            },
+            {
+              "t": "Лицензия",
+              "d": "За организацией."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Больше 7?",
+          "a": "По запросу."
+        }
+      ],
+      "related_products": [
+        "moarr-everything"
+      ],
+      "meta_title": "Motion Array Everything Team — подписка на год | BIZSoft",
+      "meta_description": "Motion Array Team: библиотека на 2–7 мест с лицензией на организацию. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "motion array everything team купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

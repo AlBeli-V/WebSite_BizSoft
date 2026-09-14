@@ -1,0 +1,269 @@
+{
+  "family_key": "MARMOSET",
+  "vendor": "Marmoset",
+  "vendor_profile": "data/content/vendors/marmoset.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "mrmst-tb5-studio",
+  "classification_notes": [
+    "Toolbag 5 perpetual / subscription. Носитель — perpetual."
+  ],
+  "products": {
+    "mrmst-tb5-studio": {
+      "sku": "MRMS-LIC-TB5STUDIO-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Marmoset Toolbag 5, студийная бессрочная лицензия — инструмент рендера, запекания и презентации игровых ассетов в реальном времени: PBR-просмотр, запекание карт, ray tracing, анимация, публикация в Marmoset Viewer. Одна покупка на пользователя в организации; обновления внутри версии 5.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Marmoset Toolbag 5 (Studio)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Рендер",
+              "d": "Реальное время, ray tracing, PBR, свет и камеры."
+            },
+            {
+              "t": "Запекание",
+              "d": "Normal, AO, curvature и другие карты."
+            },
+            {
+              "t": "Презентация",
+              "d": "Viewer для веба, портфолио, турнтейблы."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия 5 без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 5; версия 6 — платно."
+            },
+            {
+              "t": "Studio",
+              "d": "Коммерческая лицензия организации."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Toolbag 5 бессрочная",
+              "d": "Постоянная работа."
+            },
+            {
+              "t": "Toolbag подписка",
+              "d": "Помесячно/год со всеми версиями.",
+              "link": "mrmst-tb-sub-studio"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Художникам игровых ассетов."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли использовать на двух машинах?",
+          "a": "Да, одним пользователем."
+        }
+      ],
+      "related_products": [
+        "mrmst-tb-sub-studio"
+      ],
+      "meta_title": "Marmoset Toolbag 5 Studio — бессрочная лицензия | BIZSoft",
+      "meta_description": "Marmoset Toolbag 5: рендер и запекание игровых ассетов в реальном времени; студийная бессрочная лицензия. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "marmoset toolbag купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "mrmst-tb-sub-studio": {
+      "sku": "MRMS-LIC-TBSUBSTUDIO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Marmoset Toolbag, студийная подписка — индивидуальная подписка на 1 год на Toolbag с доступом ко всем версиям за срок: тот же рендер, запекание и Viewer, но без разовой покупки. Личный аккаунт организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Marmoset Toolbag (подписка Studio)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Toolbag",
+              "d": "Все функции текущей версии и следующих за срок."
+            },
+            {
+              "t": "Модель",
+              "d": "Оплата за год вместо разовой покупки."
+            }
+          ],
+          "links": [
+            "mrmst-tb5-studio"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Индивидуальная модель: один человек, один аккаунт, без администратора и переназначения; юрлицо платит, пользователь владеет доступом."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Подписка",
+              "d": "Проектная работа или всегда новые версии."
+            },
+            {
+              "t": "Toolbag 5 бессрочная",
+              "d": "Долгая работа без продлений.",
+              "link": "mrmst-tb5-studio"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям с проектной загрузкой."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что выгоднее?",
+          "a": "При работе дольше двух лет — бессрочная."
+        }
+      ],
+      "related_products": [
+        "mrmst-tb5-studio"
+      ],
+      "meta_title": "Marmoset Toolbag — подписка на год | BIZSoft",
+      "meta_description": "Marmoset Toolbag студийная подписка: рендер и запекание ассетов со всеми версиями за год. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "marmoset toolbag subscription — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

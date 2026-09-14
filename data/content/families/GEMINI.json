@@ -1,0 +1,314 @@
+{
+  "family_key": "GEMINI",
+  "vendor": "Google",
+  "vendor_profile": "data/content/vendors/gemini.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "gemini-workspace-standard",
+  "classification_notes": [
+    "Workspace Business Standard с Gemini / Enterprise. Носитель — Standard."
+  ],
+  "products": {
+    "gemini-workspace-standard": {
+      "sku": "GOOG-LIC-WSBUSSTD-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Google Workspace Business Standard с Gemini — командная подписка на 1 год на облачный офис Google с ИИ: Gmail, Docs, Sheets, Meet, Drive 2 ТБ на пользователя, Gemini в приложениях и NotebookLM, админ-консоль. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Google Workspace Business Standard с Gemini",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Офис",
+              "d": "Gmail на домене, Docs, Sheets, Slides, Meet до 150 участников, 2 ТБ."
+            },
+            {
+              "t": "Gemini",
+              "d": "В Gmail, Docs, Sheets, Meet; NotebookLM."
+            },
+            {
+              "t": "Управление",
+              "d": "Админ-консоль, защита данных."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business Standard",
+              "d": "Компания до 300 пользователей."
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, DLP, Vault, без лимита пользователей.",
+              "link": "gemini-workspace-enterprise"
+            },
+            {
+              "t": "Microsoft 365 Business Standard",
+              "d": "Аналог.",
+              "link": "int-office-m365"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "До 300",
+              "d": "Пользователей на Business-планах."
+            },
+            {
+              "t": "Доступность",
+              "d": "Условия работы Google в регионе — уточняйте."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям на Google."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Gemini в Business Starter?",
+          "a": "В ограниченном объёме; полный набор ИИ-функций — со Standard."
+        }
+      ],
+      "related_products": [
+        "gemini-workspace-enterprise",
+        "int-office-m365"
+      ],
+      "meta_title": "Google Workspace Business Standard с Gemini | BIZSoft",
+      "meta_description": "Google Workspace Business Standard: Gmail, Docs, Meet, 2 ТБ, Gemini в приложениях; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "google workspace business standard с gemini купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "gemini-workspace-enterprise": {
+      "sku": "GOOG-LIC-WSENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Google Workspace Enterprise с Gemini — командный план корпоративного уровня на 1 год: всё из Business плюс SSO, DLP, Vault, расширенная безопасность и соответствие, без лимита пользователей, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Google Workspace Enterprise с Gemini",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Безопасность",
+              "d": "DLP, Vault, контекстный доступ, аудит."
+            },
+            {
+              "t": "Масштаб",
+              "d": "Без лимита пользователей, 5 ТБ+."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Офис, Gemini."
+            }
+          ],
+          "links": [
+            "gemini-workspace-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Крупная организация."
+            },
+            {
+              "t": "Business Standard",
+              "d": "До 300.",
+              "link": "gemini-workspace-standard"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Цикл согласования."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Корпорациям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум?",
+          "a": "По договору."
+        }
+      ],
+      "related_products": [
+        "gemini-workspace-standard"
+      ],
+      "meta_title": "Google Workspace Enterprise с Gemini | BIZSoft",
+      "meta_description": "Google Workspace Enterprise: SSO, DLP, Vault, без лимита пользователей, Gemini; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "google workspace enterprise с gemini купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
