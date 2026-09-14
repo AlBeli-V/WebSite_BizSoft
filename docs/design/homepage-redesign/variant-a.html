@@ -1,0 +1,495 @@
+<title>Терминал закупки</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prosto+One&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;--elev:#f5f5f7;--card:#ffffff;--bd:#e8e8ed;--bds:#d2d2d7;
+  --tx:#1d1d1f;--mut:#3f3f46;--dim:#52525b;--acc:#f2591d;--acch:#d64a12;--accs:#fff2ec;
+  --ok:#1a8f4c;--r:14px;--rl:20px;--rs:10px;--w:1180px;
+  --sh-s:0 1px 2px rgba(0,0,0,.04),0 1px 3px rgba(0,0,0,.05);
+  --sh:0 4px 18px rgba(0,0,0,.06),0 1px 4px rgba(0,0,0,.04);
+  --sh-l:0 18px 48px rgba(0,0,0,.10),0 4px 12px rgba(0,0,0,.05);
+  --fs:'Raleway',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --fd:'Prosto One',-apple-system,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--fs);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:400;line-height:1.15;margin:0;text-wrap:balance}
+a{color:inherit;text-decoration:none}
+p{margin:0}
+.wrap{width:100%;max-width:var(--w);margin-inline:auto;padding-inline:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:980px;font-weight:500;font-size:.95rem;font-family:var(--fs);cursor:pointer;border:1px solid transparent;transition:.2s;white-space:nowrap}
+.btn-p{background:var(--acc);color:#fff}.btn-p:hover{background:var(--acch)}
+.btn-g{background:transparent;border-color:var(--bds);color:var(--tx)}.btn-g:hover{border-color:var(--acc);color:var(--acc)}
+.btn-s{padding:.45rem .95rem;font-size:.84rem}
+.mock{position:fixed;left:12px;bottom:12px;z-index:90;background:#1d1d1f;color:#fff;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .7rem;border-radius:999px;opacity:.82}
+
+/* ── ШАПКА (копия текущей) ───────────────────────────── */
+.hdr{border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);z-index:50}
+.hgrid{display:grid;grid-template-columns:auto 1fr;gap:0 2rem;padding:.7rem 0 0}
+.mark{display:flex;align-items:center;gap:.55rem;grid-row:span 2;align-self:center}
+.mark-i{width:38px;height:38px;border-radius:11px;background:var(--acc);color:#fff;font-family:var(--fd);font-size:1.25rem;display:grid;place-items:center}
+.mark-t{font-family:var(--fd);font-size:1.3rem;letter-spacing:-.01em}
+.mark-t small{display:block;font-family:var(--fs);font-size:.62rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.hrow{display:flex;align-items:center;gap:1rem}
+.hsearch{flex:1;display:flex;align-items:center;gap:.5rem;background:var(--elev);border:1px solid var(--bd);border-radius:999px;padding:.45rem .9rem;max-width:320px;color:var(--dim);font-size:.85rem}
+.hphone{font-weight:700;font-size:.95rem}
+.hmsg{display:flex;gap:.4rem;color:var(--dim)}
+.hact{display:flex;align-items:center;gap:.7rem;margin-left:auto}
+.spec-link{display:flex;align-items:center;gap:.45rem;position:relative;font-size:.85rem;font-weight:600;color:var(--mut)}
+.spec-link:hover{color:var(--acc)}
+.badge{min-width:19px;height:19px;border-radius:999px;background:var(--acc);color:#fff;font-size:.68rem;font-weight:800;display:grid;place-items:center;padding:0 5px}
+.nav{display:flex;gap:1.6rem;padding:.55rem 0 .8rem;font-size:.88rem;font-weight:600;color:var(--mut)}
+.nav a:hover{color:var(--acc)}
+
+/* ── A1. ПЕРВЫЙ ЭКРАН: ПОИСК ─────────────────────────── */
+.term{background:linear-gradient(180deg,#fff7f3 0%,var(--bg) 82%);padding:2.6rem 0 1.6rem;border-bottom:1px solid var(--bd)}
+.term h1{font-size:clamp(2rem,3.4vw,2.65rem);max-width:16ch}
+.term .lead{color:var(--mut);margin-top:.7rem;max-width:54ch;font-size:1.02rem}
+.searchbox{margin-top:1.6rem;position:relative;max-width:720px}
+.sfield{display:flex;align-items:center;gap:.8rem;background:#fff;border:2px solid var(--tx);border-radius:16px;padding:.9rem 1rem;box-shadow:var(--sh)}
+.sfield input{flex:1;border:0;outline:0;font-family:var(--fs);font-size:1.05rem;color:var(--tx);background:transparent}
+.sfield input::placeholder{color:#8a8a92}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.8rem;align-items:center}
+.chips span.cl{font-size:.82rem;color:var(--dim);margin-right:.2rem}
+.chip{border:1px solid var(--bds);background:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.83rem;font-weight:600;cursor:pointer;font-family:var(--fs);color:var(--mut);display:inline-flex;align-items:center;gap:.35rem}
+.chip:hover{border-color:var(--acc);color:var(--acc)}
+.chip svg{width:14px;height:14px}
+/* живые результаты */
+.results{margin-top:1.4rem;max-width:720px;border:1px solid var(--bd);border-radius:var(--rl);background:#fff;box-shadow:var(--sh);overflow:hidden}
+.rhead{display:flex;justify-content:space-between;align-items:center;padding:.6rem 1.1rem;background:var(--elev);border-bottom:1px solid var(--bd);font-size:.78rem;color:var(--dim);font-weight:600;letter-spacing:.02em}
+.row{display:grid;grid-template-columns:34px 1fr auto auto;gap:.9rem;align-items:center;padding:.75rem 1.1rem;border-bottom:1px solid var(--bd)}
+.row:last-child{border-bottom:0}
+.row:hover{background:#fcfcfd}
+.row .ico{width:34px;height:34px;border-radius:9px;border:1px solid var(--bd);display:grid;place-items:center;background:#fff}
+.row .ico svg{width:20px;height:20px}
+.rname{font-weight:600;font-size:.95rem;line-height:1.3}
+.rmeta{color:var(--dim);font-size:.78rem}
+.rprice{font-weight:800;font-size:.98rem;text-align:right;white-space:nowrap}
+.rprice small{display:block;font-weight:400;color:var(--dim);font-size:.7rem}
+.plus{width:34px;height:34px;border-radius:999px;border:1px solid var(--bds);background:#fff;color:var(--mut);font-size:1.2rem;cursor:pointer;display:grid;place-items:center;transition:.15s;font-family:var(--fs)}
+.plus:hover{border-color:var(--acc);color:var(--acc);background:var(--accs)}
+.plus.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.rfoot{padding:.7rem 1.1rem;font-size:.83rem;color:var(--dim);display:flex;justify-content:space-between;align-items:center;background:#fcfcfd}
+.rfoot a{color:var(--acc);font-weight:600}
+.underline{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.3rem;font-size:.85rem;color:var(--dim)}
+.underline b{color:var(--tx);font-weight:700}
+
+/* ── ЛИПКАЯ СПЕЦИФИКАЦИЯ ─────────────────────────────── */
+.layout{display:grid;grid-template-columns:1fr 320px;gap:2.4rem;align-items:start}
+.spec{position:sticky;top:118px;border:1px solid var(--bds);border-radius:var(--rl);background:#fff;box-shadow:var(--sh);overflow:hidden}
+.spec-h{padding:.85rem 1.1rem;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.spec-h b{font-size:.92rem}
+.spec-h span{font-size:.75rem;color:var(--dim)}
+.spec-body{padding:.4rem 0;max-height:250px;overflow:auto}
+.spec-empty{padding:1.5rem 1.1rem;color:var(--dim);font-size:.85rem;line-height:1.5}
+.si{display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:center;padding:.55rem 1.1rem;font-size:.85rem;border-bottom:1px solid #f2f2f5}
+.si:last-child{border-bottom:0}
+.si b{font-weight:600;line-height:1.25}
+.si i{font-style:normal;color:var(--dim);font-size:.73rem;display:block}
+.si .p{font-weight:700;white-space:nowrap}
+.si .x{color:#b9b9c0;cursor:pointer;font-size:1rem;line-height:1}
+.si .x:hover{color:var(--acc)}
+.spec-f{padding:.9rem 1.1rem;border-top:1px solid var(--bd);background:#fcfcfd}
+.stot{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:.15rem}
+.stot b{font-size:1.15rem;font-family:var(--fd)}
+.svat{font-size:.73rem;color:var(--dim);margin-bottom:.8rem}
+.spec-f .btn{width:100%;margin-bottom:.5rem}
+.spec-note{font-size:.72rem;color:var(--dim);line-height:1.45;margin-top:.3rem}
+
+/* ── СЕКЦИИ ──────────────────────────────────────────── */
+.sec{padding:3.4rem 0}
+.sec.band{background:var(--elev);border-block:1px solid var(--bd)}
+.h2{font-size:clamp(1.5rem,2.4vw,2rem);margin-bottom:.5rem}
+.sub{color:var(--mut);max-width:62ch;margin-bottom:1.6rem}
+/* направления — плотная строка-реестр, не сетка карточек */
+.dirs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;background:#fff}
+.dir{padding:1.1rem 1.2rem;border-right:1px solid var(--bd);display:block}
+.dir:last-child{border-right:0}
+.dir:hover{background:var(--accs)}
+.dir b{display:block;font-size:1rem;margin-bottom:.15rem}
+.dir span{font-size:.8rem;color:var(--dim);display:block}
+.dir em{font-style:normal;color:var(--acc);font-weight:800;font-size:1.35rem;font-family:var(--fd)}
+/* таблица бестселлеров */
+.tbl{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden}
+.tbl th{text-align:left;font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);font-weight:700;padding:.7rem 1rem;background:var(--elev);border-bottom:1px solid var(--bd)}
+.tbl td{padding:.8rem 1rem;border-bottom:1px solid var(--bd);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr:hover td{background:#fcfcfd}
+.tname{display:flex;align-items:center;gap:.7rem}
+.tname .ico{width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);display:grid;place-items:center;flex-shrink:0}
+.tname .ico svg{width:18px;height:18px}
+.tname b{font-weight:600;font-size:.93rem}
+.tname i{font-style:normal;display:block;color:var(--dim);font-size:.75rem}
+.tag{display:inline-block;font-size:.7rem;font-weight:700;padding:.1rem .45rem;border-radius:5px;background:var(--accs);color:var(--acc)}
+.tprice{font-weight:800;white-space:nowrap}
+.tprice small{display:block;font-weight:400;font-size:.71rem;color:var(--dim)}
+.tacts{display:flex;gap:.45rem;justify-content:flex-end}
+/* калькулятор-ориентир */
+.calc{display:grid;grid-template-columns:1fr 300px;gap:2rem;align-items:center;background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:1.6rem 1.8rem}
+.crow{display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap}
+.cf{display:flex;flex-direction:column;gap:.3rem;font-size:.8rem;color:var(--dim);font-weight:600}
+.cf select,.cf input{font-family:var(--fs);font-size:.95rem;padding:.55rem .8rem;border:1px solid var(--bds);border-radius:var(--rs);background:#fff;color:var(--tx);min-width:150px}
+.cout{text-align:right;border-left:1px solid var(--bd);padding-left:2rem}
+.cout b{font-family:var(--fd);font-size:2rem;display:block;line-height:1.1}
+.cout span{font-size:.78rem;color:var(--dim)}
+/* схема закупки */
+.flow{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.flowtxt p{color:var(--mut);margin-bottom:.9rem}
+.diagram{background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:1.4rem}
+/* документы */
+.docs{display:grid;grid-template-columns:1.15fr .85fr;gap:2.4rem;align-items:center}
+.doclist{list-style:none;padding:0;margin:1rem 0 0}
+.doclist li{padding:.7rem 0 .7rem 1.9rem;border-top:1px solid var(--bd);position:relative;color:var(--mut)}
+.doclist li b{color:var(--tx)}
+.doclist li::before{content:'';position:absolute;left:0;top:1.05rem;width:13px;height:9px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg)}
+.paper{background:#fff;border:1px solid var(--bds);border-radius:var(--rs);box-shadow:var(--sh-l);padding:1.2rem 1.3rem;font-size:.72rem;color:var(--mut);transform:rotate(-1.2deg)}
+.paper h4{font-family:var(--fs);font-weight:800;font-size:.85rem;color:var(--tx);margin-bottom:.1rem}
+.paper table{width:100%;border-collapse:collapse;margin:.7rem 0}
+.paper td,.paper th{border:1px solid var(--bd);padding:.25rem .35rem;text-align:left;font-size:.68rem}
+.paper th{background:var(--elev);font-weight:700}
+.paper .tot{text-align:right;font-weight:800;color:var(--tx);font-size:.78rem}
+/* знания */
+.know{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.klist a{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;border-top:1px solid var(--bd);font-weight:600;font-size:.9rem}
+.klist a:hover{color:var(--acc)}
+.klist a span{color:#b9b9c0;font-weight:400}
+.kcap{font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);font-weight:700;margin-bottom:.3rem}
+/* финал */
+.fin{display:grid;grid-template-columns:1fr 380px;gap:2.5rem;align-items:start}
+.fform{background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:1.5rem;box-shadow:var(--sh)}
+.fform label{display:block;font-size:.8rem;color:var(--dim);font-weight:600;margin-bottom:.7rem}
+.fform input{width:100%;font-family:var(--fs);font-size:.95rem;padding:.6rem .8rem;border:1px solid var(--bds);border-radius:var(--rs);margin-top:.25rem}
+.fform .btn{width:100%;margin-top:.4rem}
+.step2{font-size:.76rem;color:var(--dim);text-align:center;margin-top:.6rem}
+.ftr{background:#1d1d1f;color:#a1a1aa;padding:2.2rem 0;font-size:.82rem;margin-top:0}
+.ftr b{color:#fff}
+/* тост */
+.toast{position:fixed;right:18px;bottom:18px;background:#1d1d1f;color:#fff;padding:.75rem 1.1rem;border-radius:12px;font-size:.85rem;box-shadow:var(--sh-l);opacity:0;transform:translateY(8px);transition:.25s;z-index:80;pointer-events:none}
+.toast.on{opacity:1;transform:none}
+@media(max-width:980px){
+  .layout,.flow,.docs,.know,.fin,.calc{grid-template-columns:1fr}
+  .dirs{grid-template-columns:1fr 1fr}
+  .dir{border-bottom:1px solid var(--bd)}
+  .spec{position:static}
+  .cout{border-left:0;border-top:1px solid var(--bd);padding:1rem 0 0;text-align:left}
+  .hsearch,.hphone,.hmsg,.nav{display:none}
+}
+</style>
+
+<span class="mock">Макет A · данные условные</span>
+
+<header class="hdr">
+  <div class="wrap hgrid">
+    <a href="#" class="mark"><span class="mark-i">B</span><span class="mark-t">BIZSoft<small>ПО для бизнеса</small></span></a>
+    <div>
+      <div class="hrow">
+        <div class="hsearch"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Поиск: ChatGPT, Figma…</div>
+        <span class="hphone">+7 (495) 000-00-00</span>
+        <span class="hmsg">Telegram · WhatsApp</span>
+        <div class="hact">
+          <a href="#spec" class="spec-link">Спецификация <span class="badge" id="hbadge">0</span></a>
+          <a href="#fin" class="btn btn-p btn-s">Получить КП</a>
+        </div>
+      </div>
+      <nav class="nav"><a>Производители</a><a>Назначение ПО</a><a>Решения</a><a>Сравнения</a><a>Кейсы</a><a>Документы</a><a>Блог</a></nav>
+    </div>
+  </div>
+</header>
+
+<!-- ЭКРАН 1: поиск как ось внимания -->
+<section class="term">
+  <div class="wrap">
+    <h1>Что нужно закупить?</h1>
+    <p class="lead">Полторы тысячи зарубежных сервисов с ценой в рублях. Найдите нужное, соберите спецификацию и заберите КП — реквизиты понадобятся только на последнем шаге.</p>
+    <div class="searchbox">
+      <div class="sfield">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8a8a92" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="q" value="ai для команды" aria-label="Поиск по каталогу">
+        <button class="btn btn-p btn-s" onclick="toast('Поиск по каталогу — макет')">Найти</button>
+      </div>
+      <div class="chips">
+        <span class="cl">Часто ищут:</span>
+        <button class="chip" onclick="setq('ChatGPT')">ChatGPT</button>
+        <button class="chip" onclick="setq('Claude')">Claude</button>
+        <button class="chip" onclick="setq('Figma')">Figma</button>
+        <button class="chip" onclick="setq('Adobe')">Adobe</button>
+        <button class="chip" onclick="setq('JetBrains')">JetBrains</button>
+        <button class="chip" onclick="setq('Autodesk')">Autodesk</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap" style="padding-top:1.8rem;padding-bottom:1rem">
+<div class="layout">
+  <div>
+    <!-- живая выдача -->
+    <div class="results" id="res">
+      <div class="rhead"><span>Найдено 47 позиций · показаны 5</span><span>Цены в ₽ с НДС 5%</span></div>
+      <div class="rfoot"><span>Не нашли сервис? Подключаем почти любого вендора — <a href="#fin">опишите задачу</a></span><a href="#">Все 47 →</a></div>
+    </div>
+    <div class="underline">
+      <span><b>1 512</b> позиций в каталоге</span>
+      <span><b>112</b> вендоров</span>
+      <span>Цена пересчитывается <b>по курсу ЦБ</b> на дату счёта</span>
+    </div>
+  </div>
+
+  <!-- липкая спецификация -->
+  <aside class="spec" id="spec">
+    <div class="spec-h"><b>Спецификация</b><span id="scnt">пусто</span></div>
+    <div class="spec-body" id="sbody">
+      <p class="spec-empty">Добавьте позиции кнопкой «+» — соберём спецификацию и посчитаем итог. Реквизиты нужны только чтобы выпустить КП.</p>
+    </div>
+    <div class="spec-f">
+      <div class="stot"><span>Итого</span><b id="stot">0 ₽</b></div>
+      <p class="svat">в т.ч. НДС 5% · <span id="svat">0 ₽</span></p>
+      <button class="btn btn-p" onclick="kp()">Скачать КП (PDF)</button>
+      <button class="btn btn-g" onclick="toast('Переход к расчёту менеджером — макет')">Получить расчёт</button>
+      <p class="spec-note">КП формируется сразу: состав, цены, реквизиты и срок действия. Ссылкой можно поделиться с руководителем.</p>
+    </div>
+  </aside>
+</div>
+</div>
+
+<!-- направления: плотный реестр вместо четырёх одинаковых карточек -->
+<section class="sec band">
+  <div class="wrap">
+    <h2 class="h2">Каталог по направлениям</h2>
+    <p class="sub">Счётчик — живой: столько позиций с ценой в разделе прямо сейчас.</p>
+    <div class="dirs">
+      <a class="dir"><em>412</em><b>AI-сервисы</b><span>ChatGPT, Claude, Copilot, Midjourney</span></a>
+      <a class="dir"><em>287</em><b>Дизайн и графика</b><span>Figma, Adobe, Canva, CorelDRAW</span></a>
+      <a class="dir"><em>521</em><b>Разработка</b><span>JetBrains, GitHub, Unity, Docker</span></a>
+      <a class="dir"><em>96</em><b>Видео и медиа</b><span>DaVinci, Avid, Runway, Artlist</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- бестселлеры таблицей, не карточками -->
+<section class="sec">
+  <div class="wrap">
+    <h2 class="h2">Чаще всего оформляют</h2>
+    <p class="sub">Цена за год на одно место. Добавьте нужное в спецификацию — количество мест уточним в КП.</p>
+    <table class="tbl" id="best"></table>
+    <p style="margin-top:1rem"><a href="#" style="color:var(--acc);font-weight:600">Весь каталог: 1 512 позиций →</a></p>
+  </div>
+</section>
+
+<!-- ориентир стоимости: закрывает возражение «сколько это будет стоить мне» -->
+<section class="sec band">
+  <div class="wrap">
+    <h2 class="h2">Сколько это выйдет на команду</h2>
+    <p class="sub">Грубый ориентир до разговора с менеджером. Точная сумма — в КП, по курсу ЦБ на дату счёта.</p>
+    <div class="calc">
+      <div class="crow">
+        <label class="cf">Сервис
+          <select id="cs" onchange="calc()">
+            <option value="78000">ChatGPT Business</option>
+            <option value="86000">Claude Team</option>
+            <option value="52000">Figma Organization</option>
+            <option value="64000">GitHub Copilot Business</option>
+          </select>
+        </label>
+        <label class="cf">Мест
+          <input id="cn" type="number" value="10" min="1" max="500" oninput="calc()">
+        </label>
+        <label class="cf">Срок
+          <select id="cp" onchange="calc()"><option value="1">12 месяцев</option><option value="2">24 месяца</option></select>
+        </label>
+      </div>
+      <div class="cout"><b id="cres">780 000 ₽</b><span>ориентир с НДС 5%, цена условная</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- как устроена закупка: узкая колонка + функциональная схема -->
+<section class="sec">
+  <div class="wrap flow">
+    <div class="flowtxt">
+      <h2 class="h2">Почему у вас не возникает валютной операции</h2>
+      <p>Вы заключаете договор поставки с российским поставщиком и платите в рублях по безналу. Дальше вопрос только в том, как конкретный вендор принимает деньги.</p>
+      <p><b>Вендор принимает карту.</b> Оформляем подписку, оплачиваем и передаём активированные доступы.</p>
+      <p><b>Картой не оплатить.</b> Закупаем через счёт нашей компании за рубежом. Сервис тот же, документы — российские.</p>
+      <p style="margin-top:1.2rem"><a href="#" style="color:var(--acc);font-weight:600">Как мы работаем, подробно →</a></p>
+    </div>
+    <div class="diagram">
+      <svg viewBox="0 0 420 250" width="100%" role="img" aria-label="Схема закупки: клиент платит в рублях российскому поставщику, поставщик рассчитывается с вендором">
+        <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#f2591d"/></marker></defs>
+        <rect x="8" y="95" width="110" height="58" rx="12" fill="#fff" stroke="#d2d2d7"/>
+        <text x="63" y="119" text-anchor="middle" font-family="Raleway" font-size="13" font-weight="700" fill="#1d1d1f">Ваше ООО</text>
+        <text x="63" y="136" text-anchor="middle" font-family="Raleway" font-size="10" fill="#52525b">резидент РФ</text>
+        <rect x="155" y="88" width="112" height="72" rx="12" fill="#fff2ec" stroke="#f2591d"/>
+        <text x="211" y="112" text-anchor="middle" font-family="Raleway" font-size="13" font-weight="700" fill="#1d1d1f">BIZSoft</text>
+        <text x="211" y="128" text-anchor="middle" font-family="Raleway" font-size="10" fill="#52525b">поставщик,</text>
+        <text x="211" y="141" text-anchor="middle" font-family="Raleway" font-size="10" fill="#52525b">резидент РФ</text>
+        <rect x="304" y="42" width="108" height="52" rx="12" fill="#fff" stroke="#d2d2d7"/>
+        <text x="358" y="63" text-anchor="middle" font-family="Raleway" font-size="12" font-weight="700" fill="#1d1d1f">Вендор</text>
+        <text x="358" y="79" text-anchor="middle" font-family="Raleway" font-size="10" fill="#52525b">оплата картой</text>
+        <rect x="304" y="152" width="108" height="52" rx="12" fill="#fff" stroke="#d2d2d7"/>
+        <text x="358" y="173" text-anchor="middle" font-family="Raleway" font-size="12" font-weight="700" fill="#1d1d1f">Вендор</text>
+        <text x="358" y="189" text-anchor="middle" font-family="Raleway" font-size="10" fill="#52525b">только счёт</text>
+        <line x1="120" y1="124" x2="150" y2="124" stroke="#f2591d" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="135" y="114" text-anchor="middle" font-family="Raleway" font-size="9.5" font-weight="700" fill="#f2591d">₽</text>
+        <path d="M269 108 Q290 90 300 72" stroke="#d2d2d7" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+        <path d="M269 142 Q290 160 300 176" stroke="#d2d2d7" stroke-width="2" fill="none" marker-end="url(#ar)"/>
+        <text x="211" y="192" text-anchor="middle" font-family="Raleway" font-size="10" fill="#52525b">валютная операция — на нашей стороне</text>
+        <line x1="150" y1="220" x2="120" y2="220" stroke="#1a8f4c" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="240" y="224" text-anchor="middle" font-family="Raleway" font-size="10.5" font-weight="600" fill="#1a8f4c">доступы + договор, счёт, УПД по ЭДО</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- документы: показываем сам предмет, а не четыре плитки-обещания -->
+<section class="sec band">
+  <div class="wrap docs">
+    <div>
+      <h2 class="h2">Что именно получит бухгалтерия</h2>
+      <p class="sub">Слева — комплект, справа — как выглядит КП, которое выдаёт кнопка «Скачать КП».</p>
+      <ul class="doclist">
+        <li><b>Договор поставки</b> на ООО или ИП, с вашими реквизитами</li>
+        <li><b>Счёт в рублях</b> по курсу ЦБ на дату выставления</li>
+        <li><b>Акт и УПД через ЭДО</b> — Диадок, СБИС, Контур</li>
+        <li><b>Коммерческое предложение</b> со сроком действия и составом</li>
+      </ul>
+    </div>
+    <div class="paper">
+      <h4>Коммерческое предложение № КП-2026-0417</h4>
+      <div>от 11.09.2026 · действует до 25.09.2026</div>
+      <table>
+        <tr><th>Наименование</th><th>Кол-во</th><th>Сумма</th></tr>
+        <tr><td>ChatGPT Business, 12 мес</td><td>10</td><td>780 000</td></tr>
+        <tr><td>Figma Organization, 12 мес</td><td>6</td><td>312 000</td></tr>
+      </table>
+      <div class="tot">Итого: 1 092 000 ₽, в т.ч. НДС 5%</div>
+      <div style="margin-top:.5rem">Поставщик: ИП Беляев А. В. · ИНН 000000000000</div>
+    </div>
+  </div>
+</section>
+
+<!-- знания и сравнения: плотные списки, входы в SEO-кластеры -->
+<section class="sec">
+  <div class="wrap know">
+    <div>
+      <p class="kcap">Сравнения</p>
+      <div class="klist">
+        <a>ChatGPT или Claude: что выбрать бизнесу <span>→</span></a>
+        <a>Cursor или GitHub Copilot <span>→</span></a>
+        <a>Midjourney или Adobe Firefly <span>→</span></a>
+      </div>
+    </div>
+    <div>
+      <p class="kcap">База знаний</p>
+      <div class="klist">
+        <a>Как оформить AI-подписку на юрлицо <span>→</span></a>
+        <a>Enterprise или Team: чем отличаются тарифы <span>→</span></a>
+        <a>Безопасность данных в корпоративных AI <span>→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- финал: форма знает, откуда пришли -->
+<section class="sec band" id="fin">
+  <div class="wrap fin">
+    <div>
+      <h2 class="h2">Если проще спросить</h2>
+      <p class="sub">Опишите задачу — подберём сервисы, посчитаем и пришлём КП. Первый шаг: почта и компания, остальное уточним потом.</p>
+      <p style="color:var(--mut);font-size:.9rem">Прямой контакт: <b>+7 (495) 000-00-00</b> · sales@biz-soft.pro · Telegram</p>
+    </div>
+    <form class="fform" onsubmit="event.preventDefault();toast('Заявка отправлена — макет')">
+      <p id="ctx" style="font-size:.8rem;color:var(--acc);font-weight:700;margin-bottom:.8rem;display:none"></p>
+      <label>Компания или ИНН<input placeholder="Начните вводить название"></label>
+      <label>Рабочая почта<input type="email" placeholder="you@company.ru"></label>
+      <button class="btn btn-p" type="submit">Отправить</button>
+      <p class="step2">Телефон, ФИО и количество мест — вторым шагом, после отправки</p>
+    </form>
+  </div>
+</section>
+
+<footer class="ftr"><div class="wrap"><b>BIZSoft</b> · ИП Беляев А. В. · зарубежное ПО и AI-сервисы для российских юрлиц · макет, данные условные</div></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const ICONS={
+ openai:'<svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5.5" fill="#10A37F"/><text x="12" y="12.5" text-anchor="middle" dominant-baseline="central" font-size="12.5" font-weight="800" fill="#fff">O</text></svg>',
+ anthropic:'<svg viewBox="0 0 24 24"><path fill="#191919" d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg>',
+ figma:'<svg viewBox="0 0 24 24"><path fill="#F24E1E" d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>',
+ github:'<svg viewBox="0 0 24 24"><path fill="#181717" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>',
+ jetbrains:'<svg viewBox="0 0 24 24"><path fill="#000" d="M2.345 23.997A2.347 2.347 0 0 1 0 21.652V10.988C0 9.665.535 8.37 1.473 7.433l5.965-5.961A5.01 5.01 0 0 1 10.989 0h10.666A2.347 2.347 0 0 1 24 2.345v10.664a5.056 5.056 0 0 1-1.473 3.554l-5.965 5.965A5.017 5.017 0 0 1 13.007 24v-.003H2.345Zm8.969-6.854H5.486v1.371h5.828v-1.371ZM3.963 6.514h13.523v13.519l4.257-4.257a3.936 3.936 0 0 0 1.146-2.767V2.345c0-.678-.552-1.234-1.234-1.234H10.989a3.897 3.897 0 0 0-2.767 1.145L3.963 6.514Zm-.192.192L2.256 8.22a3.944 3.944 0 0 0-1.145 2.768v10.664c0 .678.552 1.234 1.234 1.234h10.666a3.9 3.9 0 0 0 2.767-1.146l1.512-1.511H3.771V6.706Z"/></svg>',
+ adobe:'<svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5.5" fill="#FA0F00"/><text x="12" y="12.5" text-anchor="middle" dominant-baseline="central" font-size="12.5" font-weight="800" fill="#fff">A</text></svg>',
+ microsoft:'<svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5.5" fill="#0078D4"/><text x="12" y="12.5" text-anchor="middle" dominant-baseline="central" font-size="12.5" font-weight="800" fill="#fff">M</text></svg>',
+ cursor:'<svg viewBox="0 0 24 24"><path fill="#000" d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></svg>',
+ autodesk:'<svg viewBox="0 0 24 24"><path fill="#000" d="m.129 20.202 14.7-9.136h7.625c.235 0 .445.188.445.445 0 .21-.092.305-.21.375l-7.222 4.323c-.47.283-.633.845-.633 1.265l-.008 2.725H24V4.362a.561.561 0 0 0-.585-.562h-8.752L0 12.893V20.2h.129z"/></svg>'
+};
+const HITS=[
+ {id:'gpt',ico:'openai',n:'ChatGPT Business',v:'OpenAI · 12 мес, 1 место',p:78000,tag:'Хит'},
+ {id:'cl',ico:'anthropic',n:'Claude Team',v:'Anthropic · 12 мес, 1 место',p:86000},
+ {id:'cop',ico:'github',n:'GitHub Copilot Business',v:'GitHub · 12 мес, 1 место',p:64000},
+ {id:'cur',ico:'cursor',n:'Cursor Business',v:'Cursor · 12 мес, 1 место',p:59000},
+ {id:'fig',ico:'figma',n:'Figma Organization',v:'Figma · 12 мес, 1 место',p:52000}
+];
+const BEST=[...HITS,
+ {id:'ai365',ico:'microsoft',n:'Microsoft 365 Copilot',v:'Microsoft',p:71000},
+ {id:'cc',ico:'adobe',n:'Adobe Creative Cloud для команд',v:'Adobe',p:94000},
+ {id:'idea',ico:'jetbrains',n:'IntelliJ IDEA Ultimate',v:'JetBrains',p:38000},
+ {id:'acad',ico:'autodesk',n:'AutoCAD',v:'Autodesk',p:186000}
+];
+const rub=n=>n.toLocaleString('ru-RU')+' ₽';
+let cart=[];
+
+// выдача поиска
+document.getElementById('res').insertAdjacentHTML('afterbegin',HITS.map(h=>`
+ <div class="row">
+  <span class="ico">${ICONS[h.ico]}</span>
+  <span><span class="rname">${h.n}</span><span class="rmeta">${h.v}</span></span>
+  <span class="rprice">${rub(h.p)}<small>в год за место</small></span>
+  <button class="plus" data-id="${h.id}" onclick="add('${h.id}')" aria-label="Добавить в спецификацию">+</button>
+ </div>`).join(''));
+
+// таблица бестселлеров
+document.getElementById('best').innerHTML=`<thead><tr><th>Сервис</th><th>Тариф</th><th>Цена за место</th><th></th></tr></thead><tbody>`+
+ BEST.map(b=>`<tr>
+  <td><span class="tname"><span class="ico">${ICONS[b.ico]}</span><span><b>${b.n}</b><i>${b.v}</i></span></span></td>
+  <td><span class="tag">${b.tag?'Хит':'Командный'}</span></td>
+  <td class="tprice">${rub(b.p)}<small>12 месяцев</small></td>
+  <td><span class="tacts"><button class="btn btn-p btn-s" onclick="add('${b.id}')">+ В спецификацию</button><a class="btn btn-g btn-s">Подробнее</a></span></td>
+ </tr>`).join('')+`</tbody>`;
+
+function find(id){return BEST.find(x=>x.id===id)}
+function add(id){
+  const it=find(id); if(!it) return;
+  const ex=cart.find(c=>c.id===id);
+  if(ex){ex.q++}else{cart.push({...it,q:1})}
+  render(); toast(`«${it.n}» в спецификации`);
+  const btn=document.querySelector(`.plus[data-id="${id}"]`);
+  if(btn){btn.classList.add('on');btn.textContent='✓';setTimeout(()=>{btn.classList.remove('on');btn.textContent='+'},1400)}
+}
+function del(id){cart=cart.filter(c=>c.id!==id);render()}
+function render(){
+  const n=cart.reduce((s,c)=>s+c.q,0), t=cart.reduce((s,c)=>s+c.p*c.q,0);
+  document.getElementById('hbadge').textContent=n;
+  document.getElementById('scnt').textContent=n?`${n} поз.`:'пусто';
+  document.getElementById('stot').textContent=rub(t);
+  document.getElementById('svat').textContent=rub(Math.round(t*0.05/1.05));
+  const b=document.getElementById('sbody');
+  b.innerHTML=cart.length?cart.map(c=>`<div class="si"><span><b>${c.n}</b><i>${c.q} × ${rub(c.p)}</i></span><span class="p">${rub(c.p*c.q)}</span><span class="x" onclick="del('${c.id}')">✕</span></div>`).join('')
+   :'<p class="spec-empty">Добавьте позиции кнопкой «+» — соберём спецификацию и посчитаем итог. Реквизиты нужны только чтобы выпустить КП.</p>';
+  const ctx=document.getElementById('ctx');
+  if(n){ctx.style.display='block';ctx.textContent=`Контекст сохранён: в спецификации ${n} поз. на ${rub(t)}`}else{ctx.style.display='none'}
+}
+function kp(){
+  if(!cart.length){toast('Сначала добавьте позиции в спецификацию');document.getElementById('q').focus();return}
+  toast('Открывается мини-форма: компания и почта → КП в PDF');
+}
+function setq(v){document.getElementById('q').value=v;toast('Поиск: '+v)}
+function calc(){
+  const p=+document.getElementById('cs').value*+document.getElementById('cn').value*+document.getElementById('cp').value;
+  document.getElementById('cres').textContent=rub(p||0);
+}
+let tt;
+function toast(m){const e=document.getElementById('toast');e.textContent=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),2200)}
+render();calc();
+</script>

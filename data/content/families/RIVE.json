@@ -1,0 +1,469 @@
+{
+  "family_key": "RIVE",
+  "vendor": "Rive",
+  "vendor_profile": "data/content/vendors/rive.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "rive-voyager",
+  "classification_notes": [
+    "Cadet / Voyager / Enterprise. Носитель — Voyager."
+  ],
+  "products": {
+    "rive-cadet": {
+      "sku": "RIVE-LIC-CADET-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Rive Cadet — командная подписка на 1 год на редактор интерактивной анимации Rive для небольших команд до 3 мест: анимации и state machines для приложений, игр и веба, рантаймы для всех платформ. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Rive Cadet",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Редактор",
+              "d": "Векторная анимация, State Machine, Data Binding."
+            },
+            {
+              "t": "Рантаймы",
+              "d": "Web, iOS, Android, Flutter, Unity, Unreal."
+            },
+            {
+              "t": "Команда",
+              "d": "До 3 мест."
+            }
+          ],
+          "links": [
+            "rive-voyager"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места принадлежат организации и назначаются администратором; переназначение — без обращения к вендору."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cadet",
+              "d": "До 3 человек."
+            },
+            {
+              "t": "Voyager",
+              "d": "До 25 мест, общие папки.",
+              "link": "rive-voyager"
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, договор.",
+              "link": "rive-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "До 3 мест",
+              "d": "Больше — Voyager."
+            },
+            {
+              "t": "Файлы",
+              "d": "В облаке Rive."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Небольшим продуктовым командам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бесплатный?",
+          "a": "Да, для одного пользователя с ограничениями."
+        }
+      ],
+      "related_products": [
+        "rive-voyager",
+        "rive-ent"
+      ],
+      "meta_title": "Rive Cadet — подписка на год | BIZSoft",
+      "meta_description": "Rive Cadet: интерактивная анимация с State Machine и рантаймами, до 3 мест. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "rive cadet купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "rive-voyager": {
+      "sku": "RIVE-LIC-VOYAGER-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Rive Voyager — командная подписка на 1 год на Rive для команд до 25 мест: общие папки и ассеты, роли, всё из Cadet. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Rive Voyager",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "До 25 мест, роли, общие ассеты."
+            },
+            {
+              "t": "Всё из Cadet",
+              "d": "Редактор, рантаймы."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Voyager",
+              "d": "Средняя команда."
+            },
+            {
+              "t": "Cadet",
+              "d": "До 3.",
+              "link": "rive-cadet"
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO.",
+              "link": "rive-ent"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "До 25",
+              "d": "Больше — Enterprise."
+            },
+            {
+              "t": "Облако",
+              "d": "Файлы в Rive."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продуктовым компаниям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Больше 25?",
+          "a": "Enterprise."
+        }
+      ],
+      "related_products": [
+        "rive-cadet",
+        "rive-ent"
+      ],
+      "meta_title": "Rive Voyager — подписка на год | BIZSoft",
+      "meta_description": "Rive Voyager: до 25 мест, общие ассеты, роли. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "rive voyager купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "rive-ent": {
+      "sku": "RIVE-LIC-ENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Rive Enterprise — командный план корпоративного уровня на 1 год: без лимита мест, SSO, выделенная поддержка, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Rive Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Масштаб",
+              "d": "Без лимита мест."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SSO."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Выделенная."
+            }
+          ],
+          "links": [
+            "rive-voyager"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Крупная компания."
+            },
+            {
+              "t": "Voyager",
+              "d": "До 25.",
+              "link": "rive-voyager"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Согласование."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Корпорациям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум?",
+          "a": "По договору."
+        }
+      ],
+      "related_products": [
+        "rive-voyager"
+      ],
+      "meta_title": "Rive Enterprise — корпоративный план | BIZSoft",
+      "meta_description": "Rive Enterprise: без лимита мест, SSO; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "rive enterprise купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,444 @@
+{
+  "family_key": "MARVELOUS",
+  "vendor": "CLO Virtual Fashion (Marvelous Designer)",
+  "vendor_profile": "data/content/vendors/marvelous.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "mvls-personal-y",
+  "classification_notes": [
+    "Personal / Enterprise / Enterprise+Linux. Носитель — Personal."
+  ],
+  "products": {
+    "mvls-personal-y": {
+      "sku": "CLOV-LIC-MDPERSONAL-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Marvelous Designer Personal — индивидуальная подписка на 1 год на моделирование одежды для 3D-персонажей: выкройки, симуляция ткани, драпировка, экспорт в Maya, Blender, Unreal, ZBrush; Windows и macOS. Личный аккаунт; для студий с доходом выше порога — Enterprise.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Marvelous Designer Personal",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Одежда",
+              "d": "Выкройки, швы, симуляция ткани, слои."
+            },
+            {
+              "t": "Экспорт",
+              "d": "OBJ, FBX, USD, Alembic."
+            },
+            {
+              "t": "Право",
+              "d": "Personal — фрилансеры и малые студии ниже порога."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Personal",
+              "d": "Индивидуально."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Студии, плавающая лицензия.",
+              "link": "mvls-ent-y"
+            },
+            {
+              "t": "Enterprise + Linux",
+              "d": "С Linux.",
+              "link": "mvls-ent-linux"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Художникам персонажей."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Порог?",
+          "a": "По условиям CLO."
+        }
+      ],
+      "related_products": [
+        "mvls-ent-y",
+        "mvls-ent-linux"
+      ],
+      "meta_title": "Marvelous Designer Personal — подписка на год | BIZSoft",
+      "meta_description": "Marvelous Designer Personal: моделирование одежды для 3D-персонажей с симуляцией ткани. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "marvelous designer personal купить — hero"
+      ],
+      "uncertainties": [
+        "Порог дохода Personal — по условиям вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "mvls-ent-y": {
+      "sku": "CLOV-LIC-MDENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Marvelous Designer Enterprise — командная подписка на 1 год для студий: плавающая лицензия, приоритетная поддержка, коммерческое использование без порога дохода; Windows и macOS. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Marvelous Designer Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плавающая",
+              "d": "Пул на студию."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Приоритетная."
+            },
+            {
+              "t": "Всё из Personal",
+              "d": "Функции."
+            }
+          ],
+          "links": [
+            "mvls-personal-y"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Студия."
+            },
+            {
+              "t": "Personal",
+              "d": "Один.",
+              "link": "mvls-personal-y"
+            },
+            {
+              "t": "Enterprise + Linux",
+              "d": "Linux.",
+              "link": "mvls-ent-linux"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плавающая",
+              "d": "Одновременно — по числу лицензий."
+            },
+            {
+              "t": "Цена",
+              "d": "Выше Personal."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Игровым и VFX-студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько одновременно?",
+          "a": "По числу лицензий."
+        }
+      ],
+      "related_products": [
+        "mvls-personal-y",
+        "mvls-ent-linux"
+      ],
+      "meta_title": "Marvelous Designer Enterprise — подписка на год | BIZSoft",
+      "meta_description": "Marvelous Designer Enterprise: плавающая студийная лицензия с приоритетной поддержкой. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "marvelous designer enterprise купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "mvls-ent-linux": {
+      "sku": "CLOV-LIC-MDENTLINUX-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Marvelous Designer Enterprise + Linux — командная подписка на 1 год на Enterprise с поддержкой Linux-станций для пайплайнов VFX. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Marvelous Designer Enterprise + Linux",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Linux",
+              "d": "Сборка для Linux-ферм и станций."
+            },
+            {
+              "t": "Всё из Enterprise",
+              "d": "Плавающая, поддержка."
+            }
+          ],
+          "links": [
+            "mvls-personal-y"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise + Linux",
+              "d": "Linux в пайплайне."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Windows/macOS.",
+              "link": "mvls-ent-y"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Enterprise."
+            },
+            {
+              "t": "Linux",
+              "d": "Проверьте дистрибутив."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "VFX-студиям на Linux."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужна ли отдельно Windows?",
+          "a": "Нет, лицензия покрывает все платформы."
+        }
+      ],
+      "related_products": [
+        "mvls-personal-y",
+        "mvls-ent-y"
+      ],
+      "meta_title": "Marvelous Designer Enterprise + Linux — подписка | BIZSoft",
+      "meta_description": "Marvelous Designer Enterprise с Linux: плавающая студийная лицензия для всех платформ. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "marvelous designer enterprise + linux купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
