@@ -1,0 +1,823 @@
+{
+  "family_key": "GIFTCARDS",
+  "vendor": "Разные эмитенты",
+  "vendor_profile": "data/content/vendors/giftcards.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "app-store-itunes-gift-card",
+  "classification_notes": [
+    "Подарочные карты и ваучеры (credit/balance): Airalo, App Store, Discord Nitro, Binance BTC/USDC/USDT."
+  ],
+  "products": {
+    "airalo-gift-card": {
+      "sku": "AIRL-CRD-VOUCHER-UNI-BAL-NOM",
+      "classification": {
+        "nature": "credit",
+        "ownership": "universal",
+        "term": "balance",
+        "metric": "NOM",
+        "packaging": "single"
+      },
+      "unit_label": "код на номинал",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Ваучер Airalo — цифровой код, который пополняет кошелёк Airmoney в приложении Airalo на выбранный номинал в долларах: eSIM для интернета в 200+ странах покупается из этого баланса. Оформляется на организацию для командировочных сотрудников.\n\nСрок — по условиям Airalo.",
+      "content_modules": [
+        {
+          "code": "CREDIT_USAGE",
+          "title": "Как используется код",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Активация",
+              "d": "Код вводится в приложении Airalo, номинал зачисляется в Airmoney."
+            },
+            {
+              "t": "На что",
+              "d": "Покупка eSIM-пакетов по странам и регионам."
+            },
+            {
+              "t": "Срок",
+              "d": "Баланс действует по условиям эмитента."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Устройство",
+              "d": "Телефон должен поддерживать eSIM."
+            },
+            {
+              "t": "Номинал",
+              "d": "Выбирается при заказе."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с командировками за рубеж."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другие карты и ваучеры",
+          "kind": "items",
+          "items": [
+            {
+              "t": "App Store & iTunes",
+              "d": "Пополнение Apple.",
+              "link": "app-store-itunes-gift-card"
+            },
+            {
+              "t": "Discord Nitro",
+              "d": "Подписка в подарок.",
+              "link": "discord-nitro-gift-card"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли передать код сотруднику?",
+          "a": "Да, код активирует любой пользователь."
+        }
+      ],
+      "related_products": [
+        "app-store-itunes-gift-card",
+        "discord-nitro-gift-card"
+      ],
+      "meta_title": "Ваучер Airalo — пополнение Airmoney | BIZSoft",
+      "meta_description": "Ваучер Airalo: код пополнения Airmoney для покупки eSIM в 200+ странах; для командировок. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "airalo voucher купить — hero"
+      ],
+      "uncertainties": [
+        "Номиналы и регионы — по условиям эмитента на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CREDIT_USAGE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "app-store-itunes-gift-card": {
+      "sku": "APPL-CRD-GIFT-UNI-BAL-NOM",
+      "classification": {
+        "nature": "credit",
+        "ownership": "universal",
+        "term": "balance",
+        "metric": "NOM",
+        "packaging": "single"
+      },
+      "unit_label": "код на номинал",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Apple App Store & iTunes Gift Card — цифровая подарочная карта для пополнения баланса Apple Account (Apple ID): выбирается регион аккаунта и номинал, код зачисляется на счёт и тратится на приложения, подписки, iCloud и покупки в App Store. Оформляется на организацию.\n\nСрок — по условиям Apple.",
+      "content_modules": [
+        {
+          "code": "CREDIT_USAGE",
+          "title": "Как используется код",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Активация",
+              "d": "Код вводится в App Store под аккаунтом нужного региона."
+            },
+            {
+              "t": "На что",
+              "d": "Приложения, подписки, iCloud, медиа."
+            },
+            {
+              "t": "Регион",
+              "d": "Карта работает только в регионе выпуска."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Регион аккаунта",
+              "d": "Должен совпадать с картой."
+            },
+            {
+              "t": "Номинал",
+              "d": "По списку эмитента."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям, оплачивающим сотрудникам приложения и iCloud."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другие карты и ваучеры",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Airalo",
+              "d": "eSIM для поездок.",
+              "link": "airalo-gift-card"
+            },
+            {
+              "t": "Discord Nitro",
+              "d": "Подписка.",
+              "link": "discord-nitro-gift-card"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Подойдёт ли для российского Apple ID?",
+          "a": "Только карта соответствующего региона; уточняйте доступность."
+        }
+      ],
+      "related_products": [
+        "airalo-gift-card",
+        "discord-nitro-gift-card"
+      ],
+      "meta_title": "App Store & iTunes Gift Card — пополнение Apple | BIZSoft",
+      "meta_description": "Apple App Store & iTunes Gift Card: код пополнения Apple Account по региону и номиналу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "apple app store & itunes gift card купить — hero"
+      ],
+      "uncertainties": [
+        "Номиналы и регионы — по условиям эмитента на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CREDIT_USAGE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "discord-nitro-gift-card": {
+      "sku": "DSCD-CRD-NITRO-UNI-BAL-NOM",
+      "classification": {
+        "nature": "credit",
+        "ownership": "universal",
+        "term": "balance",
+        "metric": "NOM",
+        "packaging": "single"
+      },
+      "unit_label": "код на номинал",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Discord Nitro в подарок — цифровой код, активирующий подписку Nitro или Nitro Basic на аккаунте получателя на выбранный срок: улучшенное качество стримов, большие файлы, буст серверов, кастомные эмодзи. Оформляется на организацию.\n\nСрок — по выбранному периоду.",
+      "content_modules": [
+        {
+          "code": "CREDIT_USAGE",
+          "title": "Как используется код",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Активация",
+              "d": "Код вводится в Discord получателем."
+            },
+            {
+              "t": "Что даёт",
+              "d": "Nitro на срок кода."
+            },
+            {
+              "t": "Срок",
+              "d": "Месяц или год по коду."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Nitro или Basic",
+              "d": "Выбирается при заказе."
+            },
+            {
+              "t": "Регион",
+              "d": "Доступность по региону аккаунта."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Игровым сообществам и командам на Discord."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другие карты и ваучеры",
+          "kind": "items",
+          "items": [
+            {
+              "t": "App Store",
+              "d": "Пополнение Apple.",
+              "link": "app-store-itunes-gift-card"
+            },
+            {
+              "t": "Binance USDT",
+              "d": "Криптокарта.",
+              "link": "binance-usdt-gift-card"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли подарить нескольким?",
+          "a": "Каждый код — один аккаунт."
+        }
+      ],
+      "related_products": [
+        "app-store-itunes-gift-card",
+        "binance-usdt-gift-card"
+      ],
+      "meta_title": "Discord Nitro подарочная подписка | BIZSoft",
+      "meta_description": "Discord Nitro в подарок: код активации подписки Nitro на выбранный срок. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "discord nitro (подарочная подписка) купить — hero"
+      ],
+      "uncertainties": [
+        "Номиналы и регионы — по условиям эмитента на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CREDIT_USAGE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "binance-btc-gift-card": {
+      "sku": "BNCE-CRD-GIFTBTC-UNI-BAL-NOM",
+      "classification": {
+        "nature": "credit",
+        "ownership": "universal",
+        "term": "balance",
+        "metric": "NOM",
+        "packaging": "single"
+      },
+      "unit_label": "код на номинал",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Binance Gift Card (BTC) — подарочная карта в виде 16-значного кода, при активации зачисляющая биткоин на спотовый кошелёк получателя в Binance на номинал карты. Оформляется на организацию; номинал — при заказе.\n\nСрок активации — по условиям Binance.",
+      "content_modules": [
+        {
+          "code": "CREDIT_USAGE",
+          "title": "Как используется код",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Активация",
+              "d": "Код вводится в разделе Gift Card аккаунта Binance."
+            },
+            {
+              "t": "Зачисление",
+              "d": "Биткоин на спотовый кошелёк."
+            },
+            {
+              "t": "Срок",
+              "d": "По условиям эмитента."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Аккаунт",
+              "d": "У получателя должен быть верифицированный аккаунт Binance."
+            },
+            {
+              "t": "Регулирование",
+              "d": "Учитывайте требования законодательства к цифровым активам."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Тем, кто дарит или переводит биткоин кодом."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другие карты и ваучеры",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Binance USDC",
+              "d": "Стейблкоин USDC.",
+              "link": "binance-usdc-gift-card"
+            },
+            {
+              "t": "Binance USDT",
+              "d": "Стейблкоин USDT.",
+              "link": "binance-usdt-gift-card"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли обналичить?",
+          "a": "Через продажу актива на Binance по правилам биржи."
+        }
+      ],
+      "related_products": [
+        "binance-usdc-gift-card",
+        "binance-usdt-gift-card"
+      ],
+      "meta_title": "Binance Gift Card BTC — подарочная карта | BIZSoft",
+      "meta_description": "Binance Gift Card (BTC): код зачисления биткоин на кошелёк Binance. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "binance gift card (btc) купить — hero"
+      ],
+      "uncertainties": [
+        "Номиналы и регионы — по условиям эмитента на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CREDIT_USAGE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "binance-usdc-gift-card": {
+      "sku": "BNCE-CRD-GIFTUSDC-UNI-BAL-NOM",
+      "classification": {
+        "nature": "credit",
+        "ownership": "universal",
+        "term": "balance",
+        "metric": "NOM",
+        "packaging": "single"
+      },
+      "unit_label": "код на номинал",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Binance Gift Card (USDC) — код из шестнадцати символов, который зачисляет стейблкоин USDC на спотовый кошелёк Binance получателя; номинал в USDC выбирается при заказе, оформление — на организацию.\n\nСрок активации — по правилам Binance.",
+      "content_modules": [
+        {
+          "code": "CREDIT_USAGE",
+          "title": "Как используется код",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ввод кода",
+              "d": "В личном кабинете Binance, раздел Gift Card."
+            },
+            {
+              "t": "Результат",
+              "d": "USDC на споте, курс 1:1 к доллару."
+            },
+            {
+              "t": "Действие",
+              "d": "Срок — по правилам эмитента."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Верификация",
+              "d": "Получателю нужен KYC-аккаунт."
+            },
+            {
+              "t": "Право",
+              "d": "Соблюдайте требования к цифровым активам."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Расчётам в стейблкоине с привязкой к доллару."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другие карты и ваучеры",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Binance BTC",
+              "d": "Биткоин.",
+              "link": "binance-btc-gift-card"
+            },
+            {
+              "t": "Binance USDT",
+              "d": "Стейблкоин USDT.",
+              "link": "binance-usdt-gift-card"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем USDC отличается от USDT?",
+          "a": "Эмитентом стейблкоина; оба привязаны к доллару."
+        }
+      ],
+      "related_products": [
+        "binance-btc-gift-card",
+        "binance-usdt-gift-card"
+      ],
+      "meta_title": "Binance Gift Card USDC — подарочная карта | BIZSoft",
+      "meta_description": "Binance Gift Card (USDC): код зачисления стейблкоин USDC на кошелёк Binance. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "binance gift card (usdc) купить — hero"
+      ],
+      "uncertainties": [
+        "Номиналы и регионы — по условиям эмитента на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CREDIT_USAGE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "binance-usdt-gift-card": {
+      "sku": "BNCE-CRD-GIFTUSDT-UNI-BAL-NOM",
+      "classification": {
+        "nature": "credit",
+        "ownership": "universal",
+        "term": "balance",
+        "metric": "NOM",
+        "packaging": "single"
+      },
+      "unit_label": "код на номинал",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Binance Gift Card (USDT) — цифровой подарочный сертификат Binance на сумму в USDT: после ввода кода стейблкоин появляется на спотовом балансе получателя. Самый ходовой из криптоваучеров; номинал — при заказе.\n\nАктивировать нужно в срок, установленный Binance.",
+      "content_modules": [
+        {
+          "code": "CREDIT_USAGE",
+          "title": "Как используется код",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Где активировать",
+              "d": "Аккаунт Binance → Gift Card → погасить."
+            },
+            {
+              "t": "Что приходит",
+              "d": "USDT на спотовый кошелёк."
+            },
+            {
+              "t": "Когда",
+              "d": "До истечения срока кода."
+            }
+          ]
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "KYC",
+              "d": "Аккаунт получателя должен быть верифицирован."
+            },
+            {
+              "t": "Законодательство",
+              "d": "Учитывайте регулирование цифровых активов."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Переводам в самом распространённом стейблкоине."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Другие карты и ваучеры",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Binance BTC",
+              "d": "Биткоин.",
+              "link": "binance-btc-gift-card"
+            },
+            {
+              "t": "Binance USDC",
+              "d": "Стейблкоин USDC.",
+              "link": "binance-usdc-gift-card"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли вывести в рубли?",
+          "a": "Через P2P или продажу на бирже по её правилам."
+        }
+      ],
+      "related_products": [
+        "binance-btc-gift-card",
+        "binance-usdc-gift-card"
+      ],
+      "meta_title": "Binance Gift Card USDT — подарочная карта | BIZSoft",
+      "meta_description": "Binance Gift Card (USDT): код зачисления стейблкоин USDT на кошелёк Binance. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "binance gift card (usdt) купить — hero"
+      ],
+      "uncertainties": [
+        "Номиналы и регионы — по условиям эмитента на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CREDIT_USAGE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

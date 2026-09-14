@@ -1,0 +1,135 @@
+{
+  "family_key": "ASTUTE",
+  "vendor": "Astute Graphics",
+  "vendor_profile": "data/content/vendors/astute.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "astute-bundle",
+  "classification_notes": [
+    "Bundle."
+  ],
+  "products": {
+    "astute-bundle": {
+      "sku": "ASTG-LIC-BUNDLE-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Astute Graphics — индивидуальная подписка на 1 год на набор плагинов для Adobe Illustrator: VectorScribe, InkScribe, Phantasm, Stylism, ColliderScribe, Randomino и другие — ускоряют векторную работу. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Astute Graphics Bundle",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плагины",
+              "d": "20+ инструментов для Illustrator."
+            },
+            {
+              "t": "Работа",
+              "d": "Редактирование путей, эффекты, случайность, коллизии."
+            },
+            {
+              "t": "Требование",
+              "d": "Adobe Illustrator."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Bundle",
+              "d": "Все плагины."
+            },
+            {
+              "t": "Illustrator",
+              "d": "Хост.",
+              "link": "adobe-ai"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Векторным дизайнерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли без Illustrator?",
+          "a": "Нет."
+        }
+      ],
+      "related_products": [
+        "adobe-ai"
+      ],
+      "meta_title": "Astute Graphics — подписка на год | BIZSoft",
+      "meta_description": "Astute Graphics: набор плагинов для Adobe Illustrator; подписка на год. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "astute graphics — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

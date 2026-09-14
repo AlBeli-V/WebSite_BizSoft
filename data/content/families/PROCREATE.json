@@ -1,0 +1,286 @@
+{
+  "family_key": "PROCREATE",
+  "vendor": "Procreate (Savage)",
+  "vendor_profile": "data/content/vendors/procreate.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "procr-ipad",
+  "classification_notes": [
+    "Procreate / Dreams (perpetual). Носитель — Procreate."
+  ],
+  "products": {
+    "procr-ipad": {
+      "sku": "PROC-LIC-PROCREATE-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Procreate — бессрочная лицензия на приложение для рисования на iPad: кисти, слои, анимация, 3D-покраска, Apple Pencil; одна покупка через App Store, обновления бесплатно. Оформляется как код на приложение.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Procreate",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Рисование",
+              "d": "Сотни кистей, слои, маски, текст."
+            },
+            {
+              "t": "Анимация",
+              "d": "Покадровая."
+            },
+            {
+              "t": "iPad",
+              "d": "Только Apple."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Бесплатно."
+            },
+            {
+              "t": "Аккаунт",
+              "d": "Apple ID пользователя."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Procreate",
+              "d": "Иллюстрация."
+            },
+            {
+              "t": "Procreate Dreams",
+              "d": "Анимация.",
+              "link": "procr-dreams"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Иллюстраторам на iPad."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли на Windows?",
+          "a": "Нет."
+        }
+      ],
+      "related_products": [
+        "procr-dreams"
+      ],
+      "meta_title": "Procreate — бессрочная лицензия | BIZSoft",
+      "meta_description": "Procreate для iPad: рисование и анимация с Apple Pencil; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "procreate купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "procr-dreams": {
+      "sku": "PROC-LIC-DREAMS-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Procreate Dreams — бессрочная лицензия на 2D-анимацию на iPad: таймлайн, покадровая анимация, кейфреймы, звук; одна покупка через App Store.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Procreate Dreams",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Анимация",
+              "d": "Таймлайн, кейфреймы, покадрово."
+            },
+            {
+              "t": "Звук",
+              "d": "Дорожки и озвучка."
+            },
+            {
+              "t": "iPad",
+              "d": "Только Apple."
+            }
+          ],
+          "links": [
+            "procr-ipad"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Навсегда",
+              "d": "Приложение остаётся в покупках Apple ID без срока."
+            },
+            {
+              "t": "Новые версии",
+              "d": "Приходят бесплатно через App Store."
+            },
+            {
+              "t": "Устройства",
+              "d": "Все iPad под тем же Apple ID."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Dreams",
+              "d": "Анимация."
+            },
+            {
+              "t": "Procreate",
+              "d": "Иллюстрация.",
+              "link": "procr-ipad"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аниматорам на iPad."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Procreate?",
+          "a": "Нет, самостоятельное приложение."
+        }
+      ],
+      "related_products": [
+        "procr-ipad"
+      ],
+      "meta_title": "Procreate Dreams — бессрочная лицензия | BIZSoft",
+      "meta_description": "Procreate Dreams: 2D-анимация на iPad; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "procreate dreams — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

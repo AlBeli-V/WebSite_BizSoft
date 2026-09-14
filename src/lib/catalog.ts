@@ -4,6 +4,8 @@
  * артикула единой системы (docs/rules/sku-system.md, `parseSku`).
  */
 import { productCategories } from './cross-listing';
+import { vendorBySlug } from '../data/vendors';
+import { vendorSlug } from './vendor-links';
 import { parseSku } from './sku';
 import type { Product } from './types';
 
@@ -124,7 +126,13 @@ export const VENDOR_LEGAL: Record<string, string> = {
 
 export function vendorLegal(vendor?: string | null): string {
   if (!vendor) return '';
-  return VENDOR_LEGAL[vendor] || vendor;
+  // Первый источник — профиль производителя: поле legalName заполнено у всех
+  // записей реестра, тогда как словарь ниже покрывал сорок с небольшим имён,
+  // и карточки OpenAI, Anthropic, Figma показывали марку вместо юрлица
+  // (постановка руководителя 14.09.2026). Словарь остаётся для имён, которых
+  // в реестре лендингов нет: он ведётся по написанию поля `vendor` каталога.
+  const entry = vendorBySlug(vendorSlug(vendor));
+  return entry?.legalName || VENDOR_LEGAL[vendor] || vendor;
 }
 
 /**

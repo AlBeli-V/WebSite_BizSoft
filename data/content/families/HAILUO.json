@@ -1,0 +1,544 @@
+{
+  "family_key": "HAILUO",
+  "vendor": "MiniMax (Hailuo AI)",
+  "vendor_profile": "data/content/vendors/hailuo.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "hailuo-standard",
+  "classification_notes": [
+    "Standard / Pro / Master / Max. Носитель — Standard."
+  ],
+  "products": {
+    "hailuo-standard": {
+      "sku": "MNMX-LIC-STANDARD-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Hailuo AI Standard — индивидуальная подписка на 1 год на генерацию видео моделями MiniMax Hailuo: текст-в-видео, картинка-в-видео, референс персонажа, месячная квота кредитов, без водяного знака. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Hailuo AI Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Генерация",
+              "d": "Видео по тексту и изображению, Subject Reference."
+            },
+            {
+              "t": "Кредиты",
+              "d": "Месячная квота."
+            },
+            {
+              "t": "Права",
+              "d": "Коммерческое использование."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Начало."
+            },
+            {
+              "t": "Pro",
+              "d": "Около 4 500 кредитов.",
+              "link": "hailuo-pro"
+            },
+            {
+              "t": "Master",
+              "d": "Студийный объём.",
+              "link": "hailuo-master"
+            },
+            {
+              "t": "Max",
+              "d": "Около 20 000 кредитов.",
+              "link": "hailuo-max"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Контент-мейкерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сгорают ли кредиты?",
+          "a": "Ежемесячно."
+        }
+      ],
+      "related_products": [
+        "hailuo-pro",
+        "hailuo-master",
+        "hailuo-max"
+      ],
+      "meta_title": "Hailuo AI Standard — подписка на год | BIZSoft",
+      "meta_description": "Hailuo AI Standard: генерация видео MiniMax с месячной квотой, без водяного знака. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "hailuo ai standard купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "hailuo-pro": {
+      "sku": "MNMX-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Hailuo AI Pro — индивидуальная подписка на 1 год: около 4 500 кредитов в месяц, приоритетная очередь, параллельные генерации. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Hailuo AI Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "≈4 500 в месяц."
+            },
+            {
+              "t": "Очередь",
+              "d": "Приоритет, параллельность."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Модели."
+            }
+          ],
+          "links": [
+            "hailuo-standard"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Регулярно."
+            },
+            {
+              "t": "Standard",
+              "d": "Базово.",
+              "link": "hailuo-standard"
+            },
+            {
+              "t": "Master",
+              "d": "Больше.",
+              "link": "hailuo-master"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Хватит ли на ежедневные ролики?",
+          "a": "Обычно да."
+        }
+      ],
+      "related_products": [
+        "hailuo-standard",
+        "hailuo-master"
+      ],
+      "meta_title": "Hailuo AI Pro — подписка на год | BIZSoft",
+      "meta_description": "Hailuo AI Pro: около 4 500 кредитов в месяц, приоритет, параллельные генерации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "hailuo ai pro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "hailuo-master": {
+      "sku": "MNMX-LIC-MASTER-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Hailuo AI Master — индивидуальная подписка на 1 год для студий с большим объёмом: увеличенная квота кредитов, высший приоритет, больше параллельных задач. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Hailuo AI Master",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "Между Pro и Max."
+            },
+            {
+              "t": "Приоритет",
+              "d": "Высший."
+            },
+            {
+              "t": "Параллельность",
+              "d": "Больше задач."
+            }
+          ],
+          "links": [
+            "hailuo-standard"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Master",
+              "d": "Студия."
+            },
+            {
+              "t": "Pro",
+              "d": "Меньше.",
+              "link": "hailuo-pro"
+            },
+            {
+              "t": "Max",
+              "d": "Максимум.",
+              "link": "hailuo-max"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от Max?",
+          "a": "Квота."
+        }
+      ],
+      "related_products": [
+        "hailuo-standard",
+        "hailuo-pro",
+        "hailuo-max"
+      ],
+      "meta_title": "Hailuo AI Master — подписка на год | BIZSoft",
+      "meta_description": "Hailuo AI Master: студийная квота кредитов, высший приоритет. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "hailuo ai master купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "hailuo-max": {
+      "sku": "MNMX-LIC-MAX-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Hailuo AI Max — индивидуальная подписка на 1 год на старший план: около 20 000 кредитов в месяц, максимум параллельных генераций. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Hailuo AI Max",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "≈20 000 в месяц."
+            },
+            {
+              "t": "Параллельность",
+              "d": "Максимум."
+            },
+            {
+              "t": "Всё из Master",
+              "d": "Приоритет."
+            }
+          ],
+          "links": [
+            "hailuo-standard"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Оформляется на личный аккаунт работника по договору с организацией; переуступка другому сотруднику не поддерживается вендором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Max",
+              "d": "Поток."
+            },
+            {
+              "t": "Master",
+              "d": "Меньше.",
+              "link": "hailuo-master"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным продакшенам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли API?",
+          "a": "Отдельно у MiniMax."
+        }
+      ],
+      "related_products": [
+        "hailuo-standard",
+        "hailuo-master"
+      ],
+      "meta_title": "Hailuo AI Max — подписка на год | BIZSoft",
+      "meta_description": "Hailuo AI Max: около 20 000 кредитов в месяц, максимум параллельных генераций. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "hailuo ai max купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты и кратности — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,584 @@
+{
+  "family_key": "BORISFX",
+  "vendor": "Boris FX",
+  "vendor_profile": "data/content/vendors/borisfx.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "boris-continuum-sub",
+  "classification_notes": [
+    "Continuum / Sapphire / Mocha Pro / Suite (suite). Носитель — Continuum."
+  ],
+  "products": {
+    "boris-continuum-sub": {
+      "sku": "BRFX-LIC-CONTINUUM-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Boris FX Continuum — подписка на 1 год на набор из 350+ плагинов эффектов для After Effects, Premiere Pro, DaVinci Resolve, Avid и других хостов: частицы, титры, переходы, стилизации, ключ, восстановление изображения, Mocha-трекинг внутри. Лицензия организации на одного пользователя.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Boris FX Continuum",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Эффекты",
+              "d": "Particle Illusion, Title Studio, переходы, свет, стилизация, Image Restoration."
+            },
+            {
+              "t": "Хосты",
+              "d": "Adobe, Avid, Resolve, Nuke, Vegas, OFX — одна лицензия на все."
+            },
+            {
+              "t": "Трекинг",
+              "d": "Mocha внутри плагинов."
+            },
+            {
+              "t": "Обновления",
+              "d": "Все версии за срок."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Continuum",
+              "d": "Широкий набор для монтажа и моушна."
+            },
+            {
+              "t": "Sapphire",
+              "d": "Премиальные свечения, линзы, стилизации.",
+              "link": "boris-sapphire-sub"
+            },
+            {
+              "t": "Mocha Pro",
+              "d": "Планарный трекинг и удаление объектов.",
+              "link": "boris-mocha-sub"
+            },
+            {
+              "t": "Suite",
+              "d": "Все три одной подпиской.",
+              "link": "boris-suite-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Монтажёрам и моушн-дизайнерам с широким спектром задач."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хост",
+              "d": "Проверьте версию After Effects, Premiere или Resolve по таблице совместимости Boris FX."
+            },
+            {
+              "t": "Пользователь",
+              "d": "Лицензия именная; на две машины одного человека — одна лицензия."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Работает ли в Resolve?",
+          "a": "Да, через OFX."
+        }
+      ],
+      "related_products": [
+        "boris-sapphire-sub",
+        "boris-mocha-sub",
+        "boris-suite-sub"
+      ],
+      "meta_title": "Boris FX Continuum — подписка на год | BIZSoft",
+      "meta_description": "Boris FX Continuum: 350+ плагинов эффектов для After Effects, Premiere, Resolve, Avid с Mocha-трекингом. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "boris continuum купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "boris-sapphire-sub": {
+      "sku": "BRFX-LIC-SAPPHIRE-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Boris FX Sapphire — подписка на 1 год на премиальный набор из 270+ эффектов для кино и рекламы: свечения, блики, линзы, стилизации, переходы, ретро-эффекты с GPU-ускорением; Adobe, Avid, Resolve, Nuke, Flame. Лицензия на одного пользователя.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Boris FX Sapphire",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Эффекты",
+              "d": "Glow, Lens Flare, Film Effect, S_Stylize, переходы — стандарт рекламы и кино."
+            },
+            {
+              "t": "Хосты",
+              "d": "Adobe, Avid, OFX, Nuke, Flame, Autograph."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Effect Builder для своих пресетов, Mocha-трекинг."
+            }
+          ],
+          "links": [
+            "boris-continuum-sub"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Sapphire",
+              "d": "Качество свечений и линз важнее ширины набора."
+            },
+            {
+              "t": "Continuum",
+              "d": "Больше категорий.",
+              "link": "boris-continuum-sub"
+            },
+            {
+              "t": "Suite",
+              "d": "Всё вместе.",
+              "link": "boris-suite-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Колористам, VFX и рекламным студиям."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "GPU",
+              "d": "Эффекты ускоряются видеокартой; на слабой станции рендер медленный."
+            },
+            {
+              "t": "Хосты",
+              "d": "Одна лицензия покрывает все поддерживаемые хосты."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Sapphire отличается от Continuum?",
+          "a": "Sapphire — кино-качество оптики и стилизаций; Continuum — широкий набор инструментов."
+        }
+      ],
+      "related_products": [
+        "boris-continuum-sub",
+        "boris-suite-sub"
+      ],
+      "meta_title": "Boris FX Sapphire — подписка на год | BIZSoft",
+      "meta_description": "Boris FX Sapphire: 270+ премиальных эффектов — свечения, линзы, стилизации — для Adobe, Avid, Resolve, Nuke, Flame. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sapphire boris — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "boris-mocha-sub": {
+      "sku": "BRFX-LIC-MOCHA-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Boris FX Mocha Pro — подписка на 1 год на планарный трекер и инструменты ротоскопинга: трекинг, стабилизация, удаление объектов, вставка экранов, 3D-камера, работа с 360°; автономно и как плагин в Adobe, Avid, OFX, Nuke. Лицензия на одного пользователя.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Boris FX Mocha Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Трекинг",
+              "d": "Планарный, PowerMesh для органики, стабилизация."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Remove, Insert, Lens, 3D Camera Solve, 360/VR."
+            },
+            {
+              "t": "Форматы",
+              "d": "Standalone и плагин."
+            }
+          ],
+          "links": [
+            "boris-continuum-sub"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mocha Pro",
+              "d": "Трекинг и рото — ежедневно."
+            },
+            {
+              "t": "Continuum",
+              "d": "Mocha внутри эффектов в базовом объёме.",
+              "link": "boris-continuum-sub"
+            },
+            {
+              "t": "Suite",
+              "d": "С Sapphire и Continuum.",
+              "link": "boris-suite-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "VFX-художникам и композерам."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standalone или плагин",
+              "d": "Оба режима в одной лицензии — выбирайте по пайплайну."
+            },
+            {
+              "t": "Обучение",
+              "d": "Mocha требует освоения; у вендора есть бесплатные курсы."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличается ли Mocha Pro от Mocha AE в After Effects?",
+          "a": "Да, Pro добавляет удаление объектов, вставку, 3D-камеру и standalone."
+        }
+      ],
+      "related_products": [
+        "boris-continuum-sub",
+        "boris-suite-sub"
+      ],
+      "meta_title": "Boris FX Mocha Pro — подписка на год | BIZSoft",
+      "meta_description": "Boris FX Mocha Pro: планарный трекинг, ротоскопинг, удаление объектов, 3D-камера; standalone и плагин. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "mocha pro — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    },
+    "boris-suite-sub": {
+      "sku": "BRFX-LIC-SUITE-IND-1Y-USER",
+      "classification": {
+        "nature": "suite",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Boris FX Suite — подписка на 1 год на Continuum, Sapphire и Mocha Pro одной лицензией для одного пользователя: все хосты и все инструменты вендора. Дешевле трёх подписок по отдельности.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "INCLUDED",
+          "title": "Что входит в Suite",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Continuum",
+              "d": "350+ эффектов."
+            },
+            {
+              "t": "Sapphire",
+              "d": "270+ премиальных эффектов."
+            },
+            {
+              "t": "Mocha Pro",
+              "d": "Трекинг и рото."
+            },
+            {
+              "t": "Один пользователь",
+              "d": "Все продукты на одну лицензию."
+            }
+          ],
+          "links": [
+            "boris-continuum-sub"
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Suite",
+              "d": "Два и больше продуктов Boris FX на человека."
+            },
+            {
+              "t": "Continuum",
+              "d": "Один продукт.",
+              "link": "boris-continuum-sub"
+            },
+            {
+              "t": "Sapphire",
+              "d": "Один продукт.",
+              "link": "boris-sapphire-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям, где один художник использует и эффекты, и трекинг."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Посчитайте",
+              "d": "Suite окупается при двух продуктах на человека."
+            },
+            {
+              "t": "Silhouette",
+              "d": "Ротоскопинг Silhouette — отдельная подписка."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Silhouette?",
+          "a": "Нет, Suite — Continuum, Sapphire, Mocha Pro."
+        }
+      ],
+      "related_products": [
+        "boris-continuum-sub",
+        "boris-sapphire-sub"
+      ],
+      "meta_title": "Boris FX Suite — подписка на год | BIZSoft",
+      "meta_description": "Boris FX Suite: Continuum, Sapphire и Mocha Pro одной подпиской для одного пользователя. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "boris fx suite — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "INCLUDED",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "—",
+          "sibling_overlap": "нет",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "—"
+        }
+      ]
+    }
+  }
+}

@@ -23,6 +23,14 @@ on:
       packages:
         description: "Пакеты через пробел: postman docker (пусто — все scripts/catalog/*.json)"
         required: false
+      # Даже один пакет переписывает short_description у всех своих карточек.
+      # У zoho.json это 183 карточки витрины при 4700 строках пакета, и правки
+      # ops-apply-descriptions затёрлись бы разом. Отбор по артикулам берёт из
+      # пакета только названные позиции — этим на витрину выводится одна новая
+      # карточка, не трогая соседей (14.09.2026, базовая лицензия OpUtils).
+      skus:
+        description: "Артикулы через запятую — взять из пакета только их (пусто — весь пакет)"
+        required: false
         default: ""
 
 permissions:
@@ -46,9 +54,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build xlsx from catalog packages
+        env:
+          P_SKUS: ${{ inputs.skus }}
         run: |
           npm install --no-save xlsx@0.18.5
-          node scripts/import-vendors.mjs --emit /tmp/cards.xlsx ${{ inputs.packages }}
+          ONLY=""
+          if [ -n "$P_SKUS" ]; then ONLY="--only $P_SKUS"; fi
+          node scripts/import-vendors.mjs --emit /tmp/cards.xlsx $ONLY ${{ inputs.packages }}
           ls -la /tmp/cards.xlsx
 
       - name: Copy xlsx to server
