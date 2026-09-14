@@ -116,7 +116,7 @@ class AudienceCase(unittest.TestCase):
 
     def test_headline_speaks_only_of_measured_numbers(self):
         line = self.block["headline"]
-        self.assertIn("с телефонов 60 % показов", line)
+        self.assertIn("с телефонов 60% показов", line)
         self.assertIn("органика", line)
 
 

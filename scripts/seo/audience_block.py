@@ -34,6 +34,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import collect_daily as cd   # noqa: E402 — словари устройств и каналов
 import daily_windows as dw   # noqa: E402
 import passport              # noqa: E402
+from textfmt import num, pct  # noqa: E402 — числа и доли как во всём отчёте
 
 # Три знакомых класса устройств печатаются всегда, четвёртый (телевизоры,
 # приставки, неопознанное) — только когда в нём что-то есть: пустая колонка
@@ -264,13 +265,13 @@ def headline(block: dict) -> str:
     for row in imp:
         share = (row.get("shares") or {}).get("mobile")
         if share is not None:
-            parts.append(f"{row['label']}: с телефонов {round(share * 100)} % показов")
+            parts.append(f"{row['label']}: с телефонов {pct(share, 0)} показов")
     for blk in vis:
         top = max((c for c in blk.get("channels") or [] if c["total"]),
                   key=lambda c: c["total"], default=None)
         if top:
             parts.append(f"{blk['source_label']}: больше всего визитов даёт "
-                         f"{top['label'].lower()} ({round(top['total'])})")
+                         f"{top['label'].lower()} ({num(top['total'])})")
     return "; ".join(parts) + "." if parts else (
         "Данные за неделю собраны, но ни показов, ни визитов в окне нет.")
 
