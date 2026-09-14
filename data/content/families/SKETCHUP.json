@@ -1,0 +1,550 @@
+{
+  "family_key": "SKETCHUP",
+  "vendor": "Trimble (SketchUp)",
+  "vendor_profile": "data/content/vendors/sketchup.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "sketchup-pro",
+  "classification_notes": [
+    "Go / Pro / Pro+Scan / Pro+Civil. Носитель — Pro."
+  ],
+  "products": {
+    "sketchup-go": {
+      "sku": "TRMB-LIC-SKUGO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SketchUp Go — индивидуальная подписка на 1 год на SketchUp в браузере и на iPad: 3D-моделирование без установки, доступ к 3D Warehouse, облачное хранилище Trimble Connect, просмотр в AR. Личный аккаунт.\n\nGo — без настольного приложения, LayOut и расширений; для чертежей и плагинов нужен Pro.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SketchUp Go",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Веб и iPad",
+              "d": "Моделирование в браузере и на планшете с Apple Pencil."
+            },
+            {
+              "t": "Библиотеки",
+              "d": "3D Warehouse, материалы, облако Trimble Connect."
+            },
+            {
+              "t": "Просмотр",
+              "d": "Мобильный просмотр и AR."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Настольного SketchUp, LayOut, расширений, импорта CAD."
+            }
+          ],
+          "links": [
+            "sketchup-pro"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "План на одного: вход под личным аккаунтом на своих устройствах, передача коллеге исключена условиями вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Go",
+              "d": "Эскизы и просмотр без десктопа."
+            },
+            {
+              "t": "Pro",
+              "d": "Настольный SketchUp, LayOut, расширения, CAD-импорт.",
+              "link": "sketchup-pro"
+            },
+            {
+              "t": "Pro + Scan Essentials",
+              "d": "Pro с обработкой облаков точек.",
+              "link": "sketchup-pro-scan"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам интерьеров и прорабам для быстрых эскизов и показа заказчику."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли открыть файлы Go в Pro?",
+          "a": "Да, формат общий."
+        }
+      ],
+      "related_products": [
+        "sketchup-pro",
+        "sketchup-pro-scan"
+      ],
+      "meta_title": "SketchUp Go — подписка на год для юрлица | BIZSoft",
+      "meta_description": "SketchUp Go: 3D-моделирование в браузере и на iPad, 3D Warehouse, Trimble Connect, AR-просмотр. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sketchup go — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "sketchup-pro": {
+      "sku": "TRMB-LIC-SKUPRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SketchUp Pro — индивидуальная подписка на 1 год на полный SketchUp: настольное приложение для Windows и macOS, LayOut для чертежей и документации, Style Builder, расширения Extension Warehouse, импорт и экспорт DWG/DXF/IFC, плюс веб и iPad из Go. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SketchUp Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Настольный SketchUp",
+              "d": "Моделирование с плагинами, динамические компоненты, V-Ray и Enscape через расширения."
+            },
+            {
+              "t": "LayOut",
+              "d": "Чертежи, планы, спецификации из модели."
+            },
+            {
+              "t": "Форматы",
+              "d": "DWG, DXF, IFC, OBJ, FBX и другие."
+            },
+            {
+              "t": "Всё из Go",
+              "d": "Веб, iPad, Warehouse, Connect."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка привязана к аккаунту специалиста и не переносится между людьми; для ротации сотрудников нужен командный план, если он есть у вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Архитектор или дизайнер с чертежами."
+            },
+            {
+              "t": "Go",
+              "d": "Только веб и iPad.",
+              "link": "sketchup-go"
+            },
+            {
+              "t": "Pro + Scan Essentials",
+              "d": "Облака точек с лазерного сканера.",
+              "link": "sketchup-pro-scan"
+            },
+            {
+              "t": "Pro + Civil",
+              "d": "Инструменты для инфраструктуры.",
+              "link": "sketchup-pro-civil"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Архитекторам, дизайнерам интерьеров, мебельщикам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли рендер?",
+          "a": "Базовые стили — да; фотореалистичный рендер — через расширения (V-Ray, Enscape) отдельно."
+        }
+      ],
+      "related_products": [
+        "sketchup-go",
+        "sketchup-pro-scan",
+        "sketchup-pro-civil"
+      ],
+      "meta_title": "SketchUp Pro — подписка на год для юрлица | BIZSoft",
+      "meta_description": "SketchUp Pro: настольное моделирование, LayOut для чертежей, расширения, DWG/IFC, веб и iPad. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sketchup pro купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "sketchup-pro-scan": {
+      "sku": "TRMB-LIC-SKUPROSCAN-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SketchUp Pro с Scan Essentials — индивидуальная подписка на 1 год на SketchUp Pro плюс модуль работы с облаками точек: импорт данных лазерного сканирования, моделирование по ним, привязка и сечения. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SketchUp Pro + Scan Essentials",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Облака точек",
+              "d": "Импорт E57, LAS, RCP; отображение миллионов точек."
+            },
+            {
+              "t": "Моделирование по скану",
+              "d": "Привязка, сечения, извлечение геометрии."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Настольный SketchUp, LayOut, расширения."
+            }
+          ],
+          "links": [
+            "sketchup-pro"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Личный аккаунт сотрудника, оплата от организации; при увольнении лицензия не возвращается компании."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro + Scan",
+              "d": "Реконструкция и обмеры сканером."
+            },
+            {
+              "t": "Pro",
+              "d": "Без облаков точек.",
+              "link": "sketchup-pro"
+            },
+            {
+              "t": "Pro + Civil",
+              "d": "Инфраструктура.",
+              "link": "sketchup-pro-civil"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Обмерщикам, реставраторам, проектировщикам по существующим зданиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли свой сканер?",
+          "a": "Нет, модуль работает с любыми облаками точек в поддерживаемых форматах."
+        }
+      ],
+      "related_products": [
+        "sketchup-pro",
+        "sketchup-pro-civil"
+      ],
+      "meta_title": "SketchUp Pro + Scan Essentials — подписка | BIZSoft",
+      "meta_description": "SketchUp Pro с Scan Essentials: SketchUp Pro плюс импорт и моделирование по облакам точек. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sketchup scan essentials — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "sketchup-pro-civil": {
+      "sku": "TRMB-LIC-SKUPROCIVIL-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SketchUp Pro с инструментами Civil — годовой индивидуальный план: полный SketchUp Pro и модули для инфраструктурных проектов: рельеф и отметки, дороги и площадки, работа с геоданными и Trimble-съёмкой. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SketchUp Pro + Civil",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Рельеф",
+              "d": "Поверхности из съёмки, отметки, вертикальная планировка."
+            },
+            {
+              "t": "Инфраструктура",
+              "d": "Дороги, площадки, объёмы земляных работ в базовом объёме."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Моделирование, LayOut, расширения."
+            }
+          ],
+          "links": [
+            "sketchup-pro"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro + Civil",
+              "d": "Генплан и благоустройство."
+            },
+            {
+              "t": "Pro",
+              "d": "Без инфраструктурных инструментов.",
+              "link": "sketchup-pro"
+            },
+            {
+              "t": "Pro + Scan",
+              "d": "Облака точек.",
+              "link": "sketchup-pro-scan"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Ландшафтным и инфраструктурным проектировщикам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли это Civil 3D?",
+          "a": "Нет, это лёгкие инструменты для концепций и благоустройства."
+        }
+      ],
+      "related_products": [
+        "sketchup-pro",
+        "sketchup-pro-scan"
+      ],
+      "meta_title": "SketchUp Pro + Civil — подписка на год | BIZSoft",
+      "meta_description": "SketchUp Pro с инструментами Civil: рельеф, дороги, площадки, геоданные плюс полный SketchUp Pro. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "sketchup civil — hero"
+      ],
+      "uncertainties": [
+        "Состав модуля Civil — по описанию Trimble на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

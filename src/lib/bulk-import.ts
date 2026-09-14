@@ -10,7 +10,7 @@ import SKU_VENDORS from '../../data/catalog/sku-vendors.json';
 export interface RawRow { [key: string]: string | number | null | undefined }
 
 export const IMPORT_COLUMNS = [
-  'sku', 'name', 'vendor', 'origin', 'category', 'license_type',
+  'sku', 'slug', 'name', 'vendor', 'origin', 'category', 'license_type',
   'short_description', 'description', 'keywords',
   'base_price_usd', 'base_price_eur', 'peg_currency', 'markup_coeff', 'price_locked',
   'price', 'price_note', 'vat_percent', 'currency',
@@ -232,6 +232,18 @@ export function buildPlan(
       const productType = (payload.product_type as Product['product_type'] | undefined) ?? cur?.product_type ?? null;
       const rub = computePegRub(eff, opts.rates, opts.defaultCoeff ?? defaultMarkupCoeff({ product_type: productType }));
       if (rub != null) setField('price', rub);
+    }
+
+    // Слаг — только при заведении. Без него новая карточка получала адрес
+    // из артикула (zoho-lic-ad360-team-1y-org), и дальше расходилось всё,
+    // что адресует позицию слагом: семейства content_modules, очередь
+    // выкладки, переобход (14.09.2026, пять карточек ManageEngine).
+    // У существующей позиции строка со слагом игнорируется: смена адреса —
+    // это 301 через old_slugs, её делает ops-rename-product, а не upsert.
+    if (mode === 'create' && row.slug) {
+      const slug = row.slug.trim();
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) errs.push(`slug: допустимы строчные латинские буквы, цифры и дефис — «${row.slug}»`);
+      else setField('slug', slug);
     }
 
     // обязательное для создания

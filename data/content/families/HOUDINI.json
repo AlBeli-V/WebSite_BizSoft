@@ -1,0 +1,622 @@
+{
+  "family_key": "HOUDINI",
+  "vendor": "SideFX",
+  "vendor_profile": "data/content/vendors/houdini.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "hou-core",
+  "classification_notes": [
+    "Core / FX / Indie / Engine. Носитель — Core."
+  ],
+  "products": {
+    "hou-core": {
+      "sku": "SESI-LIC-HOUCORE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SideFX Houdini Core — командная подписка на 1 год на процедурный 3D-пакет без модулей симуляции: моделирование, анимация, лукдев, Karma и Mantra, Solaris/USD, инструменты для игр. Лицензия организации — именная или плавающая.\n\nCore — для моделлеров, аниматоров и лайтеров; динамика (Pyro, FLIP, Vellum, RBD) — в Houdini FX.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Houdini Core",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Процедурность",
+              "d": "Сети SOP, HDA-инструменты, PDG для батчей."
+            },
+            {
+              "t": "Рендер",
+              "d": "Karma CPU/XPU, Mantra, Solaris для USD."
+            },
+            {
+              "t": "Игры",
+              "d": "Game Tools, экспорт в Unreal и Unity."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Симуляций DOP — Pyro, FLIP, Vellum, RBD."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Core",
+              "d": "Моделирование, анимация, свет."
+            },
+            {
+              "t": "FX",
+              "d": "Плюс все симуляции.",
+              "link": "hou-fx"
+            },
+            {
+              "t": "Indie",
+              "d": "Полный Houdini для малых студий с лимитами.",
+              "link": "hou-indie"
+            },
+            {
+              "t": "Engine",
+              "d": "Только выполнение HDA в других приложениях.",
+              "link": "hou-engine-ws"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Без DOP",
+              "d": "Эффекты потребуют FX."
+            },
+            {
+              "t": "Плавающая дороже",
+              "d": "Именная — за станцией."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям с процедурным моделированием без эффектов."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли открыть сцену FX в Core?",
+          "a": "Да, но узлы симуляции не пересчитаются."
+        }
+      ],
+      "related_products": [
+        "hou-fx",
+        "hou-indie",
+        "hou-engine-ws"
+      ],
+      "meta_title": "SideFX Houdini Core — подписка на год | BIZSoft",
+      "meta_description": "SideFX Houdini Core: процедурное моделирование, анимация, Karma и Solaris без модулей симуляции; лицензия организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "houdini core купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "hou-fx": {
+      "sku": "SESI-LIC-HOUFX-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SideFX Houdini FX — командная подписка на 1 год на полный Houdini: всё из Core плюс симуляции — Pyro (огонь, дым), FLIP (жидкости), Vellum (ткань, волосы), RBD (разрушения), частицы, океаны, толпы. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Houdini FX",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Симуляции",
+              "d": "Pyro, FLIP, Vellum, RBD, POP, Ocean, Crowds."
+            },
+            {
+              "t": "Всё из Core",
+              "d": "Моделирование, рендер, USD, PDG."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Именная или плавающая."
+            }
+          ],
+          "links": [
+            "hou-core"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "FX",
+              "d": "Эффекты — основная работа."
+            },
+            {
+              "t": "Core",
+              "d": "Без симуляций.",
+              "link": "hou-core"
+            },
+            {
+              "t": "Indie",
+              "d": "FX-функции с лимитами для малых студий.",
+              "link": "hou-indie"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "В разы выше Core."
+            },
+            {
+              "t": "Ферма",
+              "d": "Рендер и симуляции на ферме — Houdini Engine лицензии."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "FX-художникам и студиям с эффектами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли FX всем?",
+          "a": "Нет: FX — художникам эффектов, остальным Core."
+        }
+      ],
+      "related_products": [
+        "hou-core",
+        "hou-indie"
+      ],
+      "meta_title": "SideFX Houdini FX — подписка на год | BIZSoft",
+      "meta_description": "SideFX Houdini FX: полный Houdini с Pyro, FLIP, Vellum, RBD и толпами; лицензия организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "houdini fx купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "hou-indie": {
+      "sku": "SESI-LIC-HOUINDIE-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SideFX Houdini Indie — индивидуальная подписка на 1 год на полный Houdini FX для студий с доходом до порога SideFX: все симуляции и рендер, но с лимитом разрешения рендера, закрытым форматом сцен и ограничениями на сторонние рендеры. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Houdini Indie",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Функции",
+              "d": "FX целиком: симуляции, Karma, Solaris."
+            },
+            {
+              "t": "Лимиты",
+              "d": "Рендер до 4K, закрытый формат .hiplc, ограниченные плагины рендеров."
+            },
+            {
+              "t": "Право",
+              "d": "Доход организации ниже порога SideFX."
+            }
+          ],
+          "links": [
+            "hou-core"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Indie",
+              "d": "Малая студия под порогом."
+            },
+            {
+              "t": "FX",
+              "d": "Без ограничений.",
+              "link": "hou-fx"
+            },
+            {
+              "t": "Core",
+              "d": "Без симуляций.",
+              "link": "hou-core"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Фрилансерам и микростудиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Откроются ли Indie-сцены в FX?",
+          "a": "Да, коммерческая лицензия читает .hiplc."
+        }
+      ],
+      "related_products": [
+        "hou-core",
+        "hou-fx"
+      ],
+      "meta_title": "SideFX Houdini Indie — подписка на год | BIZSoft",
+      "meta_description": "SideFX Houdini Indie: полный FX для малых студий с лимитами по доходу, разрешению и формату. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "houdini indie — hero"
+      ],
+      "uncertainties": [
+        "Порог дохода Indie — по условиям SideFX."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "hou-engine-ws": {
+      "sku": "SESI-LIC-HOUENGINE-TEAM-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочая станция",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SideFX Houdini Engine, лицензия на рабочую станцию — командная подписка на 1 год на выполнение процедурных инструментов Houdini (HDA) внутри Unreal, Unity, Maya и 3ds Max без интерфейса Houdini: художники используют готовые ассеты, а лицензия Houdini нужна только их авторам. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Houdini Engine (рабочая станция)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хосты",
+              "d": "Unreal Engine, Unity, Maya, 3ds Max, Autodesk и другие через плагины."
+            },
+            {
+              "t": "Что делает",
+              "d": "Загружает и пересчитывает HDA с параметрами прямо в хосте."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Интерфейса и редактирования Houdini."
+            },
+            {
+              "t": "Ферма",
+              "d": "Для батчей — Engine на ферме, отдельные лицензии."
+            }
+          ],
+          "links": [
+            "hou-core"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Engine",
+              "d": "Потребителям HDA."
+            },
+            {
+              "t": "Core",
+              "d": "Авторам инструментов без FX.",
+              "link": "hou-core"
+            },
+            {
+              "t": "FX",
+              "d": "Авторам эффектов.",
+              "link": "hou-fx"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Нужны авторы",
+              "d": "Без Core/FX инструменты не создать."
+            },
+            {
+              "t": "На станцию",
+              "d": "Лицензия за машиной."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Игровым и анимационным командам, где Houdini делают немногие, а пользуются все."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Бесплатен ли Engine для Unreal и Unity?",
+          "a": "Для некоммерческого использования — Indie-версия; коммерческая — эта лицензия."
+        }
+      ],
+      "related_products": [
+        "hou-core",
+        "hou-fx"
+      ],
+      "meta_title": "SideFX Houdini Engine — подписка на год | BIZSoft",
+      "meta_description": "SideFX Houdini Engine на рабочую станцию: выполнение HDA в Unreal, Unity, Maya, 3ds Max без интерфейса Houdini. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "houdini engine — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

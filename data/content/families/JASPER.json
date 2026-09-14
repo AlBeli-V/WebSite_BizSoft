@@ -1,0 +1,308 @@
+{
+  "family_key": "JASPER",
+  "vendor": "Jasper",
+  "vendor_profile": "data/content/vendors/jasper.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "jasper-pro",
+  "classification_notes": [
+    "Pro / Business. Носитель — Pro."
+  ],
+  "products": {
+    "jasper-pro": {
+      "sku": "JSPR-LIC-PRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Jasper Pro — командная подписка на 1 год на ИИ-платформу маркетингового контента: генерация текстов в голосе бренда, кампании, шаблоны, рабочие процессы, интеграции с CMS и соцсетями. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Jasper Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Контент",
+              "d": "Тексты в стиле бренда, кампании, переводы."
+            },
+            {
+              "t": "Бренд",
+              "d": "Голос и правила бренда."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Chrome, Google Docs, CMS."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Маркетинг-команда."
+            },
+            {
+              "t": "Business",
+              "d": "SSO, API, агенты, style guide.",
+              "link": "jasper-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "По тарифу."
+            },
+            {
+              "t": "Бренд",
+              "d": "Настройка голоса требует времени."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Отделам маркетинга."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Поддерживает ли русский?",
+          "a": "Да, многоязычная генерация."
+        }
+      ],
+      "related_products": [
+        "jasper-business"
+      ],
+      "meta_title": "Jasper Pro — подписка на год | BIZSoft",
+      "meta_description": "Jasper Pro: маркетинговый контент в голосе бренда, кампании, интеграции; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "jasper pro купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "jasper-business": {
+      "sku": "JSPR-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Jasper Business — командный план корпоративного уровня на 1 год: SSO, API, конструктор ИИ-агентов, style guide бренда, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Jasper Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Управление",
+              "d": "SSO, роли."
+            },
+            {
+              "t": "API и агенты",
+              "d": "Интеграция и автоматизация."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Контент, бренд."
+            }
+          ],
+          "links": [
+            "jasper-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Корпоративный аккаунт Jasper с провижинингом через SSO: администратор управляет рабочими пространствами и местами, переназначение — внутри организации."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Корпорация."
+            },
+            {
+              "t": "Pro",
+              "d": "Команда.",
+              "link": "jasper-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Согласование."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным брендам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум?",
+          "a": "По договору."
+        }
+      ],
+      "related_products": [
+        "jasper-pro"
+      ],
+      "meta_title": "Jasper Business — корпоративный план | BIZSoft",
+      "meta_description": "Jasper Business: SSO, API, ИИ-агенты, style guide; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "jasper business купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

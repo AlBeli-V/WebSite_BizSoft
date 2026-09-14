@@ -1,0 +1,294 @@
+{
+  "family_key": "LOVABLE",
+  "vendor": "Lovable",
+  "vendor_profile": "data/content/vendors/lovable.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "lovable-pro",
+  "classification_notes": [
+    "Pro / Business. Носитель — Pro."
+  ],
+  "products": {
+    "lovable-pro": {
+      "sku": "LVBL-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Lovable Pro — индивидуальная подписка на 1 год на ИИ-платформу создания веб-приложений по описанию: генерация фронтенда и бэкенда, интеграция с Supabase, GitHub, публикация, кредиты в месяц. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Lovable Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Генерация",
+              "d": "Приложения по описанию, правки в диалоге."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Supabase, GitHub, домены."
+            },
+            {
+              "t": "Кредиты",
+              "d": "Месячная квота."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Один разработчик."
+            },
+            {
+              "t": "Business",
+              "d": "Команда, SSO, приватность.",
+              "link": "lovable-business"
+            },
+            {
+              "t": "Cursor Business",
+              "d": "Для разработчиков в IDE.",
+              "link": "cursor-business"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продакт-менеджерам и стартапам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли забрать код?",
+          "a": "Да, через GitHub."
+        }
+      ],
+      "related_products": [
+        "lovable-business",
+        "cursor-business"
+      ],
+      "meta_title": "Lovable Pro — подписка на год | BIZSoft",
+      "meta_description": "Lovable Pro: создание веб-приложений по описанию, Supabase, GitHub, публикация. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "lovable pro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "lovable-business": {
+      "sku": "LVBL-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Lovable Business — командная подписка на 1 год: места, общие проекты, SSO, приватность, больше кредитов. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Lovable Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Места, проекты."
+            },
+            {
+              "t": "Безопасность",
+              "d": "SSO, приватность."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Генерация, интеграции."
+            }
+          ],
+          "links": [
+            "lovable-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Команда."
+            },
+            {
+              "t": "Pro",
+              "d": "Один.",
+              "link": "lovable-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты не переносятся",
+              "d": "Месячная квота сгорает; Top-up — по условиям вендора."
+            },
+            {
+              "t": "Модели меняются",
+              "d": "Состав доступных моделей и стоимость генерации — по прайсу на дату."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продуктовым командам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Делятся ли кредиты?",
+          "a": "По тарифу."
+        }
+      ],
+      "related_products": [
+        "lovable-pro"
+      ],
+      "meta_title": "Lovable Business — подписка на год | BIZSoft",
+      "meta_description": "Lovable Business: команда, SSO, общие проекты. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "lovable business купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

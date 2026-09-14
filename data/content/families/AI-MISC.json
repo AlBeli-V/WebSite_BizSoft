@@ -1,0 +1,312 @@
+{
+  "family_key": "AI-MISC",
+  "vendor": "OpenRouter / Microsoft",
+  "vendor_profile": "data/content/vendors/ai-misc.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "mscopilot-m365",
+  "classification_notes": [
+    "OpenRouter balance (credit), Microsoft 365 Copilot (addon)."
+  ],
+  "products": {
+    "openrouter-balance": {
+      "sku": "OPRT-CRD-BALANCE-UNI-BAL-NOM",
+      "classification": {
+        "nature": "credit",
+        "ownership": "universal",
+        "term": "balance",
+        "metric": "NOM",
+        "packaging": "single"
+      },
+      "unit_label": "сумма пополнения",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Пополнение баланса OpenRouter — предоплаченные кредиты для доступа по единому API к сотням языковых моделей (OpenAI, Anthropic, Google, Meta, Mistral и другие) с оплатой по фактическому потреблению; сумма — по запросу.\n\nOpenRouter — прослойка: один ключ и один счёт вместо аккаунтов у каждого вендора; списание по прайсу моделей плюс комиссия сервиса.\n\nБаланс действует до расходования.",
+      "content_modules": [
+        {
+          "code": "CREDIT_USAGE",
+          "title": "Как используется баланс",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Что пополняется",
+              "d": "Кредиты аккаунта организации в OpenRouter."
+            },
+            {
+              "t": "На что расходуется",
+              "d": "Запросы к любым моделям каталога по их прайсу за токены плюс комиссия."
+            },
+            {
+              "t": "Как считается",
+              "d": "Единый API, совместимый с форматом OpenAI; лимиты по ключам."
+            },
+            {
+              "t": "Срок",
+              "d": "До расходования; правила истечения — по условиям OpenRouter."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "OpenRouter или прямые API",
+          "kind": "items",
+          "items": [
+            {
+              "t": "OpenRouter",
+              "d": "Много моделей, один счёт."
+            },
+            {
+              "t": "OpenAI API",
+              "d": "Только модели OpenAI без комиссии.",
+              "link": "openai-api-balance"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам разработки, которые сравнивают и переключают модели без множества договоров."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Объём",
+              "d": "Оцените расход токенов."
+            },
+            {
+              "t": "Аккаунт",
+              "d": "Пополняется аккаунт организации."
+            },
+            {
+              "t": "Комиссия",
+              "d": "Учитывайте наценку сервиса."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сгорают ли кредиты?",
+          "a": "По условиям OpenRouter; уточняем при заказе."
+        }
+      ],
+      "related_products": [
+        "openai-api-balance"
+      ],
+      "meta_title": "Пополнение баланса OpenRouter для юрлица | BIZSoft",
+      "meta_description": "Пополнение баланса OpenRouter: единый API к сотням моделей с оплатой по потреблению; сумма по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "openrouter пополнить — hero"
+      ],
+      "uncertainties": [
+        "Срок действия кредитов — по условиям OpenRouter."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CREDIT_USAGE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "mscopilot-m365": {
+      "sku": "MSFT-LIC-M365COPILOT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "addon",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": "EXTERNAL:MICROSOFT-365",
+      "short_description": "Microsoft 365 Copilot — командная подписка на 1 год на ИИ-ассистент внутри Word, Excel, PowerPoint, Outlook, Teams и Copilot Chat с доступом к данным организации через Microsoft Graph; требует базовой подписки Microsoft 365. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что даёт Microsoft 365 Copilot",
+          "kind": "items",
+          "items": [
+            {
+              "t": "В приложениях",
+              "d": "Черновики в Word, анализ в Excel, презентации, сводки встреч Teams."
+            },
+            {
+              "t": "Данные",
+              "d": "Ответы по документам и почте организации с соблюдением прав."
+            },
+            {
+              "t": "Требование",
+              "d": "Microsoft 365 Business или Enterprise на тех же пользователях."
+            },
+            {
+              "t": "Управление",
+              "d": "Политики в Admin Center."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что требуется",
+          "kind": "prose",
+          "body": "Copilot подключается только к пользователям, у которых уже есть лицензия Microsoft 365 (Business или Enterprise); назначение — в Admin Center организации."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Copilot",
+              "d": "Дополнение к Microsoft 365."
+            },
+            {
+              "t": "Microsoft 365 Business Standard",
+              "d": "Базовая подписка.",
+              "link": "int-office-m365"
+            },
+            {
+              "t": "ChatGPT Business",
+              "d": "Внешний ассистент.",
+              "link": "chatgpt-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Требует базовой подписки",
+              "d": "Без M365 не работает."
+            },
+            {
+              "t": "Данные",
+              "d": "Ответы ограничены правами пользователя."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям на Microsoft 365."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли Microsoft 365?",
+          "a": "Да, Copilot — дополнение к нему."
+        }
+      ],
+      "related_products": [
+        "int-office-m365",
+        "chatgpt-business"
+      ],
+      "meta_title": "Microsoft 365 Copilot — подписка на год | BIZSoft",
+      "meta_description": "Microsoft 365 Copilot: ИИ в Word, Excel, PowerPoint, Outlook, Teams с данными организации; требует Microsoft 365. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "microsoft 365 copilot купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "addon_source": "vendor",
+      "license_model": "annual"
+    }
+  }
+}
