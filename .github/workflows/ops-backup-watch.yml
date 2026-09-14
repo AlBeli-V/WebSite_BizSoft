@@ -209,16 +209,24 @@ jobs:
 
       # Журнал только по делу: ежедневная запись «копии в порядке» за год
       # превратила бы issue #22 в ленту, которую перестают читать.
+      #
+      # Отметка записи ставится по находкам, а не по исходу шага осмотра.
+      # Первый прогон 14.09.2026 показал, почему: осмотр отработал штатно и
+      # вернул ноль, поэтому запись о пяти находках вышла с ✓ — в ленте, где
+      # отметку читают раньше текста, это ровно обратный сигнал. Падение
+      # прогона остаётся за отдельным шагом ниже, чтобы причина была названа
+      # словами, поэтому fail-on-error у записи снят.
       - name: Post to issue
         if: always() && (steps.check.outputs.outcome != 'success' || steps.decide.outputs.mail == 'yes')
         uses: ./.github/actions/journal-post
         with:
           title: "ops-backup-watch (ежедневно, 07:00 МСК)"
-          outcome: ${{ steps.check.outputs.outcome }}
+          outcome: ${{ (steps.check.outputs.outcome == 'success' && steps.decide.outputs.mail != 'yes') && 'success' || 'failure' }}
           body-file: /tmp/backup-watch.txt
+          fail-on-error: "false"
 
       - name: Fail on problems
-        if: steps.check.outputs.outcome != 'success' || steps.decide.outputs.mail == 'yes'
+        if: always() && (steps.check.outputs.outcome != 'success' || steps.decide.outputs.mail == 'yes')
         run: |
           echo "сторож нашёл расхождения — подробности в issue #22 и в письме"
           exit 1
