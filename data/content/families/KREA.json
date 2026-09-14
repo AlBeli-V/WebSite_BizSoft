@@ -1,0 +1,288 @@
+{
+  "family_key": "KREA",
+  "vendor": "Krea AI",
+  "vendor_profile": "data/content/vendors/krea.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "krea-pro",
+  "classification_notes": [
+    "Pro / Business. Носитель — Pro."
+  ],
+  "products": {
+    "krea-pro": {
+      "sku": "KREA-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Krea Pro — индивидуальная подписка на 1 год на платформу генерации изображений и видео Krea с доступом к десяткам моделей (Flux, Kling, Runway, Hailuo и др.) в одном интерфейсе: кредиты в месяц, реалтайм-генерация, апскейл, обучение стилей. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Krea Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Модели",
+              "d": "Агрегатор ведущих моделей изображений и видео."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Realtime, апскейл, редактирование, стили."
+            },
+            {
+              "t": "Кредиты",
+              "d": "Месячная квота."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Один пользователь."
+            },
+            {
+              "t": "Business",
+              "d": "80 000 кредитов, места, приватность.",
+              "link": "krea-business"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам, пробующим разные модели."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужны ли отдельные подписки на модели?",
+          "a": "Нет, доступ через кредиты Krea."
+        }
+      ],
+      "related_products": [
+        "krea-business"
+      ],
+      "meta_title": "Krea Pro — подписка на год | BIZSoft",
+      "meta_description": "Krea Pro: десятки моделей изображений и видео в одном интерфейсе, кредиты, реалтайм. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "krea pro купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "krea-business": {
+      "sku": "KREA-LIC-BUSINESS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Krea Business — командная подписка на 1 год: 80 000 кредитов в месяц на организацию, места, приватные проекты, приоритет. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Krea Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты",
+              "d": "80 000 в месяц на команду."
+            },
+            {
+              "t": "Команда",
+              "d": "Места, общие проекты."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Модели, инструменты."
+            }
+          ],
+          "links": [
+            "krea-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Команда."
+            },
+            {
+              "t": "Pro",
+              "d": "Один.",
+              "link": "krea-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кредиты не переносятся",
+              "d": "Месячная квота сгорает; Top-up — по условиям вендора."
+            },
+            {
+              "t": "Модели меняются",
+              "d": "Состав доступных моделей и стоимость генерации — по прайсу на дату."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Делятся ли кредиты?",
+          "a": "Да, общий пул."
+        }
+      ],
+      "related_products": [
+        "krea-pro"
+      ],
+      "meta_title": "Krea Business — подписка на год | BIZSoft",
+      "meta_description": "Krea Business: 80 000 кредитов в месяц на команду, места, приватность. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "krea business купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

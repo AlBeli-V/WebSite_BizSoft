@@ -1,0 +1,285 @@
+{
+  "family_key": "PRINCIPLE",
+  "vendor": "Principle",
+  "vendor_profile": "data/content/vendors/principle.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "principle-license",
+  "classification_notes": [
+    "Лицензия (perpetual) + продление (addon)."
+  ],
+  "products": {
+    "principle-license": {
+      "sku": "PRNC-LIC-PRINCIPLE-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Principle — бессрочная лицензия на приложение для macOS для прототипирования анимаций и интерфейсов: переходы, микровзаимодействия, импорт из Figma и Sketch, просмотр на iPhone; год обновлений включён, затем продление отдельно. Лицензия на пользователя.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Principle",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Прототипы",
+              "d": "Анимации переходов, драйверы, жесты."
+            },
+            {
+              "t": "Импорт",
+              "d": "Figma, Sketch."
+            },
+            {
+              "t": "Просмотр",
+              "d": "Mac и iOS."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия на конец года обновлений."
+            },
+            {
+              "t": "Обновления",
+              "d": "Год включён; продление — отдельная позиция."
+            },
+            {
+              "t": "macOS",
+              "d": "Только Mac."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Principle",
+              "d": "Анимация интерфейсов."
+            },
+            {
+              "t": "Продление обновлений",
+              "d": "Ещё год версий.",
+              "link": "principle-updates"
+            },
+            {
+              "t": "Figma Professional Full seat",
+              "d": "Прототипы внутри Figma.",
+              "link": "figma-prof-full"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "UI-дизайнерам на Mac."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что после года?",
+          "a": "Работает; новые версии — после продления."
+        }
+      ],
+      "related_products": [
+        "principle-updates",
+        "figma-prof-full"
+      ],
+      "meta_title": "Principle — бессрочная лицензия | BIZSoft",
+      "meta_description": "Principle: прототипирование анимаций интерфейсов на macOS; бессрочно с годом обновлений. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "principle купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "principle-updates": {
+      "sku": "PRNC-ADD-UPDATES-UNI-1Y-USER",
+      "classification": {
+        "nature": "addon",
+        "ownership": "universal",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "single"
+      },
+      "unit_label": "продление на пользователя",
+      "min_qty": 1,
+      "base_product_sku": "PRNC-LIC-PRINCIPLE-UNI-PERP-USER",
+      "short_description": "Principle, продление обновлений на год — дополнение к действующей бессрочной лицензии Principle: ещё 12 месяцев новых версий и функций. Без базовой лицензии не оформляется.\n\nСрок — 1 год обновлений.",
+      "content_modules": [
+        {
+          "code": "ADDON_SCOPE",
+          "title": "Что добавляет продление",
+          "kind": "items",
+          "items": [
+            {
+              "t": "12 месяцев версий",
+              "d": "Все обновления за срок."
+            },
+            {
+              "t": "Лицензия остаётся",
+              "d": "Право использования не зависит от продления."
+            }
+          ]
+        },
+        {
+          "code": "DEPENDENCIES",
+          "title": "Что требуется",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Базовая лицензия",
+              "d": "Бессрочная Principle на того же пользователя."
+            },
+            {
+              "t": "Тот же пользователь",
+              "d": "Продление привязывается к лицензионному ключу владельца."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам, которым нужны новые функции ежегодно."
+        },
+        {
+          "code": "ALTERNATIVES",
+          "title": "Альтернативы",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Principle лицензия",
+              "d": "Базовая.",
+              "link": "principle-license"
+            },
+            {
+              "t": "Figma",
+              "d": "Прототипы в Figma.",
+              "link": "figma-prof-full"
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли продлить с перерывом?",
+          "a": "Да, продление добавляет год с даты покупки."
+        }
+      ],
+      "related_products": [
+        "principle-license",
+        "figma-prof-full"
+      ],
+      "meta_title": "Principle — продление обновлений на год | BIZSoft",
+      "meta_description": "Продление обновлений Principle на 12 месяцев для действующей бессрочной лицензии. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "principle обновления — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "ADDON_SCOPE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "DEPENDENCIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "ALTERNATIVES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "addon_source": "vendor",
+      "license_model": "annual"
+    }
+  }
+}

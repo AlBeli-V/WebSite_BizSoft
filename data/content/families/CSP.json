@@ -1,0 +1,262 @@
+{
+  "family_key": "CSP",
+  "vendor": "Celsys",
+  "vendor_profile": "data/content/vendors/csp.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "csp-pro-sub",
+  "classification_notes": [
+    "Pro / EX. Носитель — Pro."
+  ],
+  "products": {
+    "csp-pro-sub": {
+      "sku": "CLST-LIC-CSPPRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Clip Studio Paint Pro — индивидуальная подписка на 1 год на иллюстрацию и комиксы: кисти, векторные слои, 3D-модели-референсы, экспорт; Windows, macOS, iPad, Android по тарифу. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Clip Studio Paint Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Рисование",
+              "d": "Кисти, векторы, заливки, перспектива."
+            },
+            {
+              "t": "Референсы",
+              "d": "3D-манекены и объекты."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Многостраничных проектов и анимации без лимита — EX."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Иллюстрация."
+            },
+            {
+              "t": "EX",
+              "d": "Комиксы и анимация.",
+              "link": "csp-ex-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Иллюстраторам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько устройств?",
+          "a": "По тарифу Celsys."
+        }
+      ],
+      "related_products": [
+        "csp-ex-sub"
+      ],
+      "meta_title": "Clip Studio Paint Pro — подписка на год | BIZSoft",
+      "meta_description": "Clip Studio Paint Pro: иллюстрация с кистями, векторами и 3D-референсами; подписка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "clip studio paint купить — hero"
+      ],
+      "uncertainties": [
+        "Число устройств — по тарифу."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "csp-ex-sub": {
+      "sku": "CLST-LIC-CSPEX-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Clip Studio Paint EX — индивидуальная подписка на 1 год на старшую редакцию: многостраничные комиксы, анимация без лимита кадров, пакетная обработка, всё из Pro. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Clip Studio Paint EX",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Комиксы",
+              "d": "Многостраничные проекты, раскадровка."
+            },
+            {
+              "t": "Анимация",
+              "d": "Без лимита кадров."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Рисование, референсы."
+            }
+          ],
+          "links": [
+            "csp-pro-sub"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Оформляется на личный аккаунт работника по договору с организацией; переуступка другому сотруднику не поддерживается вендором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "EX",
+              "d": "Комиксы и анимация."
+            },
+            {
+              "t": "Pro",
+              "d": "Иллюстрация.",
+              "link": "csp-pro-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Авторам комиксов и аниматорам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от Pro?",
+          "a": "Многостраничность и анимация."
+        }
+      ],
+      "related_products": [
+        "csp-pro-sub"
+      ],
+      "meta_title": "Clip Studio Paint EX — подписка на год | BIZSoft",
+      "meta_description": "Clip Studio Paint EX: многостраничные комиксы и анимация плюс всё из Pro; подписка. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "clip studio ex — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
