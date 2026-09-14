@@ -1,0 +1,324 @@
+{
+  "family_key": "GHCOPILOT",
+  "vendor": "GitHub (Microsoft)",
+  "vendor_profile": "data/content/vendors/ghcopilot.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "ghcopilot-business",
+  "classification_notes": [
+    "Copilot Business / Enterprise. Носитель — Business."
+  ],
+  "products": {
+    "ghcopilot-business": {
+      "sku": "GTHB-LIC-COPILOTBUS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "GitHub Copilot Business — командная подписка на 1 год на ИИ-ассистент разработчика в IDE и на GitHub для организации: автодополнение и чат в VS Code, JetBrains, Visual Studio и Neovim, агентный режим, управление политиками и исключение кода из обучения, аудит. Места на организации GitHub.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт GitHub Copilot Business",
+          "kind": "items",
+          "items": [
+            {
+              "t": "В IDE",
+              "d": "Автодополнение, чат, объяснение и рефакторинг кода, агентный режим с задачами."
+            },
+            {
+              "t": "Политики",
+              "d": "Фильтр публичного кода, запрет обучения на вашем коде, аудит использования."
+            },
+            {
+              "t": "Модели",
+              "d": "Выбор моделей по политике организации; премиальные запросы по лимиту."
+            },
+            {
+              "t": "GitHub",
+              "d": "Copilot в pull request и на сайте."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Business",
+              "d": "Организация без Enterprise Cloud."
+            },
+            {
+              "t": "Enterprise",
+              "d": "Индексация кодовой базы, Copilot в PR-ревью, больше премиальных запросов; требует GitHub Enterprise Cloud.",
+              "link": "ghcopilot-enterprise"
+            },
+            {
+              "t": "JetBrains AI Pro",
+              "d": "Альтернатива в IDE JetBrains.",
+              "link": "jb-ai-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Премиальные запросы",
+              "d": "Лимит на место; сверх — доплата."
+            },
+            {
+              "t": "Аккаунт GitHub",
+              "d": "Организация в GitHub обязательна."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам разработки на GitHub любого размера."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Обучается ли Copilot на нашем коде?",
+          "a": "Нет, в Business и Enterprise данные не используются для обучения."
+        }
+      ],
+      "related_products": [
+        "ghcopilot-enterprise",
+        "jb-ai-pro"
+      ],
+      "meta_title": "GitHub Copilot Business — подписка на год | BIZSoft",
+      "meta_description": "GitHub Copilot Business: ИИ-ассистент в IDE и на GitHub с политиками организации и аудитом; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "github copilot business купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Лимиты премиальных запросов — по прайсу GitHub."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "ghcopilot-enterprise": {
+      "sku": "GTHB-LIC-COPILOTENT-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "GitHub Copilot Enterprise — командная подписка на 1 год на старший план Copilot для организаций на GitHub Enterprise Cloud: всё из Business плюс индексация репозиториев для ответов по вашей кодовой базе, Copilot в ревью pull request, кастомные инструкции и базы знаний, увеличенный лимит премиальных запросов.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт GitHub Copilot Enterprise",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Кодовая база",
+              "d": "Индексация репозиториев: чат отвечает с учётом вашего кода и документации."
+            },
+            {
+              "t": "Pull request",
+              "d": "Автосводки и ревью с Copilot."
+            },
+            {
+              "t": "Настройка",
+              "d": "Базы знаний, кастомные инструкции, модели."
+            },
+            {
+              "t": "Требование",
+              "d": "GitHub Enterprise Cloud."
+            }
+          ],
+          "links": [
+            "ghcopilot-business"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места Copilot Enterprise выдаются в организации GitHub Enterprise Cloud владельцами; политики и модели задаются на уровне предприятия, переназначение — в настройках Copilot."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise",
+              "d": "Большая кодовая база и Enterprise Cloud."
+            },
+            {
+              "t": "Business",
+              "d": "Без индексации и PR-ревью.",
+              "link": "ghcopilot-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Требует Enterprise Cloud",
+              "d": "Лицензируется отдельно."
+            },
+            {
+              "t": "Цена",
+              "d": "Выше Business."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным инженерным организациям на GitHub Enterprise."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли купить Enterprise без GitHub Enterprise Cloud?",
+          "a": "Нет."
+        }
+      ],
+      "related_products": [
+        "ghcopilot-business"
+      ],
+      "meta_title": "GitHub Copilot Enterprise — подписка на год | BIZSoft",
+      "meta_description": "GitHub Copilot Enterprise: индексация кодовой базы, Copilot в ревью PR, базы знаний; требует GitHub Enterprise Cloud. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "github copilot enterprise — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

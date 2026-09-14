@@ -1,0 +1,318 @@
+{
+  "family_key": "N8N",
+  "vendor": "n8n GmbH",
+  "vendor_profile": "data/content/vendors/n8n.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "n8n-starter",
+  "classification_notes": [
+    "Cloud Starter / Pro; лицензия на организацию."
+  ],
+  "products": {
+    "n8n-starter": {
+      "sku": "N8N-LIC-STARTER-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "организация",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "n8n Cloud Starter — командная подписка на 1 год на облачную платформу автоматизации n8n: визуальные рабочие процессы с сотнями интеграций и кодом, ИИ-агенты на LangChain, квота выполнений и активных процессов по тарифу. Лицензия на организацию.\n\nStarter — для небольшого числа процессов; Pro поднимает лимиты и добавляет админ-роли и историю.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт n8n Cloud Starter",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Процессы",
+              "d": "Визуальный конструктор, 400+ интеграций, JavaScript/Python внутри."
+            },
+            {
+              "t": "ИИ",
+              "d": "Агенты и цепочки на моделях по вашему ключу."
+            },
+            {
+              "t": "Лимиты",
+              "d": "Выполнения и активные процессы по тарифу."
+            },
+            {
+              "t": "Хостинг",
+              "d": "Облако n8n; self-hosted — отдельная модель."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Starter",
+              "d": "Несколько процессов."
+            },
+            {
+              "t": "Pro",
+              "d": "Больше выполнений, роли, история, окружения.",
+              "link": "n8n-pro"
+            },
+            {
+              "t": "Self-hosted Enterprise",
+              "d": "На своём сервере — по запросу."
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Квота выполнений",
+              "d": "Сверх — доплата."
+            },
+            {
+              "t": "Данные",
+              "d": "В облаке n8n."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Командам, автоматизирующим рутину без разработчиков."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бесплатный self-hosted n8n?",
+          "a": "Да, Community-версия; облако и Enterprise — платные."
+        }
+      ],
+      "related_products": [
+        "n8n-pro"
+      ],
+      "meta_title": "n8n Cloud Starter — подписка на год для юрлица | BIZSoft",
+      "meta_description": "n8n Cloud Starter: облачная автоматизация с 400+ интеграциями и ИИ-агентами, квота выполнений по тарифу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "n8n купить — hero, meta"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу n8n."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "n8n-pro": {
+      "sku": "N8N-LIC-PRO-TEAM-1Y-ORG",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "организация",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "n8n Cloud Pro — командная подписка на 1 год на расширенный облачный план n8n: кратно больше выполнений и активных процессов, роли администратора и участника, история выполнений, глобальные переменные, окружения. Лицензия на организацию.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт n8n Cloud Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "Больше выполнений и процессов, одновременных запусков."
+            },
+            {
+              "t": "Управление",
+              "d": "Роли, история, переменные, окружения."
+            },
+            {
+              "t": "Всё из Starter",
+              "d": "Интеграции, ИИ-агенты, код."
+            }
+          ],
+          "links": [
+            "n8n-starter"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Десятки процессов и команда."
+            },
+            {
+              "t": "Starter",
+              "d": "Несколько процессов.",
+              "link": "n8n-starter"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Starter."
+            },
+            {
+              "t": "Enterprise",
+              "d": "SSO, аудит — договор."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с автоматизацией как частью операций."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли перейти со Starter на Pro?",
+          "a": "Да, доплатой."
+        }
+      ],
+      "related_products": [
+        "n8n-starter"
+      ],
+      "meta_title": "n8n Cloud Pro — подписка на год | BIZSoft",
+      "meta_description": "n8n Cloud Pro: больше выполнений, роли, история, окружения, глобальные переменные. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "n8n pro — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
