@@ -19,9 +19,11 @@
  *
  * Вёрстка табличная и только с инлайновыми стилями: `<form>`, `<input>`,
  * скрипты, iframe, флексы, гриды и внешние шрифты почтовые клиенты вырезают
- * или рисуют по-своему. Настоящий выбор действий живёт на странице
- * предложения, а в письме — пять строк, каждая открывает либо страницу,
- * либо готовое письмо с набранными темой и текстом.
+ * или рисуют по-своему. Поэтому действие — это четыре строки, каждая
+ * открывает готовое письмо с набранными темой и текстом либо отдаёт файл.
+ * Страницы предложения с чекбоксами больше нет (решение руководителя
+ * 15.09.2026): один путь ответа вместо двух, и клиенту не нужно уходить с
+ * почты, чтобы сказать, чего он хочет.
  */
 import { edo, offerDocs, offerManager, seller, site } from '../../config/site';
 import { salutation } from '../salutation';
@@ -42,8 +44,6 @@ export interface OfferEmailInput {
   /** Имя вложенного PDF: получатель ищет файл по имени, а не по счёту. */
   pdfName: string;
   pdfSize: number;
-  /** Страница предложения с токеном; пусто — строка «Открыть КП» не выводится. */
-  offerUrl?: string;
   /** Состав по производителям: марка, её раздел, её позиции. */
   vendors?: OfferVendorGroup[];
 }
@@ -143,7 +143,7 @@ function section(inner: string, topPad = 42): string {
 }
 
 export function buildCustomerQuoteEmail(input: OfferEmailInput): RenderedEmail {
-  const { data, pdfName, offerUrl } = input;
+  const { data, pdfName } = input;
   const vendors = input.vendors ?? [];
   const subject = `Коммерческое предложение № ${data.quoteNo} — BIZSoft`;
   const company = data.buyerCompany || 'вашей организации';
@@ -167,15 +167,12 @@ export function buildCustomerQuoteEmail(input: OfferEmailInput): RenderedEmail {
   });
   const docsHref = withEmailUtm(`${site.url}${offerDocs.contract.path}`, 'documents');
 
-  // Нумерация сквозная: страница предложения занимает /01, когда токен есть,
-  // и тогда остальные сдвигаются. Пропуск в нумерации читатель заметит.
   const steps: string[] = [];
   const next = () => String(steps.length + 1).padStart(2, '0');
-  if (offerUrl) steps.push(stepRow(next(), 'Открыть КП в браузере', offerUrl));
   steps.push(stepRow(next(), 'Запросить счёт', invoiceMailto(mailCtx)));
   steps.push(stepRow(next(), 'Запросить договор', contractMailto(mailCtx)));
   steps.push(stepRow(next(), 'Скачать образец договора', docsHref, '&#8595;'));
-  steps.push(stepRow(next(), 'Подключиться к ЭДО', edoHref));
+  steps.push(stepRow(next(), 'Коннект в ЭДО', edoHref));
 
   const composition = vendors.map((v) =>
     `<tr><td style="border-top:1px solid ${RULE};padding:18px 0;font-family:${FONT}">`
@@ -291,10 +288,9 @@ export function buildCustomerQuoteEmail(input: OfferEmailInput): RenderedEmail {
       + `№ ${data.quoteNo} в интересах ${company} — документ во вложении (${pdfName}).`,
     '',
     'СЛЕДУЮЩИЙ ШАГ',
-    offerUrl ? `— Открыть КП в браузере: ${offerUrl}` : '',
     '— Запросить счёт или договор: ответным письмом',
     `— Образец договора: ${site.url}${offerDocs.contract.path}`,
-    `— ЭДО (${edo.provider}): ${seller.legalName}, ИНН ${seller.inn},`,
+    `— Коннект в ЭДО (${edo.provider}): ${seller.legalName}, ИНН ${seller.inn},`,
     `  идентификатор участника ЭДО ${edo.participantId}`,
     ...(vendors.length ? ['', 'СОСТАВ ПРЕДЛОЖЕНИЯ'] : []),
     ...vendors.flatMap((v) => [

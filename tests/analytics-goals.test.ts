@@ -107,9 +107,6 @@ describe('реестр целей', () => {
   it('конверсиями считаются только обращения, а не просмотры', () => {
     expect(KEY_GOALS.sort()).toEqual([
       'click_email', 'click_messenger', 'click_phone', 'lead_sent', 'quote_pdf',
-      // Вторая половина сделки: запрос финального КП, счёта и действий по
-      // предложению — такие же обращения, как форма на сайте.
-      'offer_action_submit', 'offer_final_request_click', 'offer_invoice_request_click',
     ].sort());
   });
 

@@ -82,45 +82,11 @@ export const GOALS: Record<string, GoalSpec> = {
   company_autofill: { ga4: 'form_autofill', key: false,
     meaning: 'Организация выбрана из справочника, реквизиты подставлены' },
 
-  // ── Предложение после отправки: письмо и страница КП ────────────────
-  // До 15.09.2026 воронка обрывалась на скачивании КП: что происходило с
-  // предложением дальше — открыл ли клиент документ, попросил ли счёт,
-  // дошёл ли до договора — не было видно ни в одном отчёте. Эти цели
-  // размечают вторую половину сделки, ту, где деньги.
-  //
-  // Персональных данных в параметрах нет: ни имени, ни телефона, ни почты,
-  // ни ИНН, ни суммы — только внутренние идентификаторы и вид действия.
-  offer_webview_open: { ga4: 'offer_webview_open', key: false,
-    meaning: 'Открыта страница предложения по ссылке из письма' },
-  offer_pdf_open: { ga4: 'offer_pdf_open', key: false,
-    meaning: 'Открыт PDF предложения со страницы' },
-  offer_final_request_click: { ga4: 'generate_lead', key: true,
-    meaning: 'Запрошено финальное КП без водяных знаков — клиент готов к переговорам' },
-  offer_invoice_request_click: { ga4: 'generate_lead', key: true,
-    meaning: 'Запрошен счёт по предложению' },
-  offer_actions_open: { ga4: 'offer_actions_open', key: false,
-    meaning: 'Открыт выбор действий по предложению' },
-  offer_action_select: { ga4: 'offer_action_select', key: false,
-    meaning: 'Отмечено действие в списке — какое, в параметре action_type' },
-  offer_action_submit: { ga4: 'generate_lead', key: true,
-    meaning: 'Отправлен запрос действий по предложению' },
-  offer_action_success: { ga4: 'offer_action_success', key: false,
-    meaning: 'Запрос действий принят сервером' },
-  offer_contract_download: { ga4: 'file_download', key: false,
-    meaning: 'Скачан типовой договор с дополнительным соглашением' },
-  offer_edo_open: { ga4: 'offer_edo_open', key: false,
-    meaning: 'Раскрыты данные для подключения ЭДО' },
-  offer_edo_copy: { ga4: 'offer_edo_copy', key: false,
-    meaning: 'Скопирован идентификатор участника ЭДО или ИНН' },
-  offer_edo_accounting_mail_click: { ga4: 'offer_edo_accounting_mail', key: false,
-    meaning: 'Открыто письмо бухгалтерии с данными для ЭДО' },
-  offer_product_click: { ga4: 'select_item', key: false,
-    meaning: 'Переход к товару из предложения' },
-  offer_category_click: { ga4: 'select_item', key: false,
-    meaning: 'Переход в раздел каталога из предложения' },
-  // Контакт со страницы предложения шлёт общие цели click_phone/click_email/
-  // click_messenger с параметром placement: своя цель на каждый экран
-  // означала бы две конверсии за один звонок и завышенный отчёт.
+  // Целей вида offer_* здесь нет. Они появились 15.09.2026 вместе со
+  // страницей предложения и ушли вместе с ней в тот же день: разметить
+  // вторую половину сделки можно было только на странице, а в письме
+  // событий не бывает — почтовый клиент не выполняет скриптов. Что
+  // происходит после отправки КП, видно по ответным письмам менеджеру.
 
   // ── Интерес: что смотрят ────────────────────────────────────────────
   view_product: { ga4: 'view_item', key: false,
