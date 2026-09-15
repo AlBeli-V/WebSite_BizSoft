@@ -1,0 +1,303 @@
+---
+/**
+ * Диалог «Получить КП»: реквизиты покупателя, подсказки по организациям и
+ * отправка подборки в /api/quote.
+ *
+ * Живёт компонентом, а не в разметке страницы, потому что вход в КП теперь
+ * не один. До 11.09.2026 диалог был частью /cart, и единственный способ
+ * запросить предложение начинался с перехода в подборку; главная при этом
+ * вела кнопкой «Получить КП» на пустую страницу. Теперь диалог открывает
+ * любой элемент с атрибутом data-open-kp — на главной их несколько, и у
+ * каждого свой data-kp-source, чтобы в отчёте было видно, какой блок
+ * довёл до формы.
+ *
+ * Состав подборки диалог не спрашивает: он читает её из cart-client,
+ * как и раньше. Пустая подборка форму не открывает.
+ */
+import FormGuardFields from './FormGuardFields.astro';
+---
+<!-- Диалог «Получить КП» -->
+<dialog class="kp-dialog" data-kp-dialog aria-label="Получить коммерческое предложение">
+  <form class="kp-form" data-kp-form>
+    <button type="button" class="kp-close" data-kp-close aria-label="Закрыть">✕</button>
+    <h2>Получить КП</h2>
+    <p class="kp-hint">Подготовим коммерческое предложение по вашей подборке — с составом, ценами и реквизитами — и отправим на указанную почту.</p>
+    <label class="kp-suggest">
+      Организация или ИНН:
+      <input class="ym-disable-keys" name="buyer_company" required autocomplete="organization"
+             placeholder="Начните вводить название или ИНН"
+             role="combobox" aria-expanded="false" aria-autocomplete="list"
+             aria-controls="kp-suggest-list" data-company />
+      <ul class="kp-list" id="kp-suggest-list" role="listbox" hidden data-suggest></ul>
+    </label>
+    <p class="kp-found" data-found hidden></p>
+    <div class="kp-row">
+      <label>ИНН:<input class="ym-disable-keys" name="buyer_inn" required inputmode="numeric" data-inn /></label>
+      <label>ФИО:<input class="ym-disable-keys" name="contact_name" required autocomplete="name" /></label>
+    </div>
+    <div class="kp-row">
+      <label>E-mail:<input class="ym-disable-keys" name="email" type="email" required autocomplete="email" /></label>
+      <label>Телефон:<input class="ym-disable-keys" name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
+    </div>
+    <FormGuardFields />
+    <label class="kp-consent">
+      <input type="checkbox" name="consent" required />
+      <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
+    </label>
+    <button type="submit" class="btn btn-primary kp-submit">Отправить КП на почту</button>
+    <p class="kp-status" data-kp-status role="status" aria-live="polite"></p>
+  </form>
+</dialog>
+
+<style>
+  .kp-dialog { border: 1px solid var(--color-border-strong); border-radius: var(--radius-lg); background: var(--color-bg-card); color: var(--color-text); padding: 0; max-width: 540px; width: calc(100% - 2rem); }
+  .kp-dialog::backdrop { background: rgba(0,0,0,0.6); }
+  .kp-form { padding: 2rem; display: flex; flex-direction: column; gap: 0.9rem; position: relative; }
+  .kp-form h2 { font-size: 1.5rem; }
+  .kp-hint { color: var(--color-text-muted); font-size: 0.9rem; margin-top: -0.4rem; }
+
+  /* Подсказки по организациям. Список лежит поверх формы, поэтому у поля
+     собственный контекст позиционирования. */
+  .kp-suggest { position: relative; }
+  .kp-list {
+    position: absolute; z-index: 5; left: 0; right: 0; top: 100%;
+    margin: 0.2rem 0 0; padding: 0.25rem; list-style: none;
+    background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong);
+    border-radius: 10px; box-shadow: 0 10px 28px rgb(0 0 0 / 18%);
+    max-height: 17rem; overflow-y: auto;
+  }
+  .kp-list li {
+    padding: 0.5rem 0.6rem; border-radius: 7px; cursor: pointer; line-height: 1.35;
+  }
+  .kp-list li:hover, .kp-list li[aria-selected='true'] { background: var(--color-bg-subtle); }
+  .kp-list b { display: block; font-size: 0.95rem; }
+  .kp-list span { display: block; font-size: 0.82rem; color: var(--color-text-muted); }
+  /* Подставленные реквизиты видны и остаются доступными для правки: человек
+     должен узнать свою организацию, а не поверить на слово. */
+  .kp-found {
+    margin: -0.2rem 0 0; padding: 0.5rem 0.65rem; font-size: 0.85rem; line-height: 1.45;
+    background: var(--color-bg-subtle); border-left: 3px solid var(--color-accent);
+    border-radius: 0 8px 8px 0; color: var(--color-text-muted);
+  }
+  .kp-found b { color: var(--color-text); }
+  .kp-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--color-text-muted); font-size: 1.1rem; cursor: pointer; }
+  .kp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .kp-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.86rem; color: var(--color-text-muted); }
+  .kp-form input { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; }
+  .kp-form input:focus { border-color: var(--color-accent); outline: none; }
+  .kp-consent { flex-direction: row; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; }
+  .kp-consent input { width: auto; margin-top: 0.2rem; }
+  .kp-consent a { color: var(--color-accent); }
+  .kp-status { font-size: 0.9rem; margin: 0; }
+  .kp-status.ok { color: var(--color-success); }
+  .kp-status.err { color: var(--color-danger); }
+
+  @media (max-width: 520px) {
+    .kp-row { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  import { trackGoal } from '@/lib/analytics';
+  import { attributionPayload } from '@/lib/attribution';
+  import { readCart, cartTotal, readEmailRent } from '../lib/cart-client';
+  import { maskAllPhones } from '../lib/phone-mask';
+  maskAllPhones();
+
+  const dialog = document.querySelector('[data-kp-dialog]') as HTMLDialogElement;
+  const form = document.querySelector('[data-kp-form]') as HTMLFormElement;
+  // ── Подсказки по организациям ────────────────────────────────────────
+  // Заказчик вводит название или ИНН и выбирает свою организацию: остальные
+  // реквизиты подставляются. Ошибиться в десятизначном номере проще, чем не
+  // ошибиться, а исправлять пришлось бы уже в счёте.
+  //
+  // Подставленное показываем отдельной строкой и оставляем поля открытыми
+  // для правки: человек должен узнать свою организацию, а не поверить на
+  // слово. Филиал, недавнее переименование, работа под другим названием —
+  // всё это справочник знает хуже, чем сам заказчик.
+  const companyInput = form.querySelector('[data-company]') as HTMLInputElement;
+  const innInput = form.querySelector('[data-inn]') as HTMLInputElement;
+  const listEl = form.querySelector('[data-suggest]') as HTMLElement;
+  const foundEl = form.querySelector('[data-found]') as HTMLElement;
+
+  type Item = { name: string; fullName: string; inn: string; kpp: string;
+                address: string; manager: string };
+  let items: Item[] = [];
+  let active = -1;
+  let seq = 0;
+
+  const closeList = () => {
+    listEl.hidden = true;
+    listEl.innerHTML = '';
+    companyInput.setAttribute('aria-expanded', 'false');
+    items = []; active = -1;
+  };
+
+  const showFound = (it: Item) => {
+    const parts = [`<b>${it.fullName || it.name}</b>`];
+    if (it.inn) parts.push(`ИНН ${it.inn}${it.kpp ? ` · КПП ${it.kpp}` : ''}`);
+    if (it.address) parts.push(it.address);
+    if (it.manager) parts.push(it.manager);
+    parts.push('Проверьте и при необходимости поправьте поля.');
+    foundEl.innerHTML = parts.join('<br>');
+    foundEl.hidden = false;
+  };
+
+  const choose = (i: number) => {
+    const it = items[i];
+    if (!it) return;
+    companyInput.value = it.name || it.fullName;
+    if (it.inn) innInput.value = it.inn;
+    showFound(it);
+    closeList();
+    // Факт автозаполнения, а не сам ИНН: идентификатор юрлица в параметрах
+    // события — это передача реквизита клиента во внешнюю аналитику.
+    trackGoal('company_autofill', { filled: true });
+  };
+
+  const renderSuggest = () => {
+    if (!items.length) { closeList(); return; }
+    listEl.innerHTML = items.map((it, i) => {
+      const sub = [it.inn && `ИНН ${it.inn}`, it.address].filter(Boolean).join(' · ');
+      return `<li role="option" data-i="${i}" aria-selected="${i === active}">`
+        + `<b>${it.name}</b><span>${sub}</span></li>`;
+    }).join('');
+    listEl.hidden = false;
+    companyInput.setAttribute('aria-expanded', 'true');
+  };
+
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  companyInput?.addEventListener('input', () => {
+    foundEl.hidden = true;
+    const q = companyInput.value.trim();
+    clearTimeout(timer);
+    if (q.length < 3) { closeList(); return; }
+    // Пауза после ввода: запрос на каждую букву съедает суточный лимит,
+    // общий у всех видов подсказок.
+    timer = setTimeout(async () => {
+      const mine = ++seq;
+      try {
+        const r = await fetch(`/api/suggest/party?q=${encodeURIComponent(q)}`);
+        const d = await r.json();
+        // Ответ на устаревший запрос игнорируем: иначе медленный ответ на
+        // «ром» перезатрёт быстрый на «ромашка».
+        if (mine !== seq) return;
+        items = d.items || [];
+        active = -1;
+        renderSuggest();
+      } catch { closeList(); }
+    }, 250);
+  });
+
+  companyInput?.addEventListener('keydown', (e) => {
+    if (listEl.hidden || !items.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      active = (active + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length;
+      renderSuggest();
+    } else if (e.key === 'Enter' && active >= 0) {
+      e.preventDefault();
+      choose(active);
+    } else if (e.key === 'Escape') {
+      closeList();
+    }
+  });
+
+  listEl?.addEventListener('mousedown', (e) => {
+    // mousedown, а не click: blur успевает закрыть список до клика.
+    const li = (e.target as HTMLElement).closest('li');
+    if (li) { e.preventDefault(); choose(Number(li.dataset.i)); }
+  });
+  companyInput?.addEventListener('blur', () => setTimeout(closeList, 120));
+
+  const status = document.querySelector('[data-kp-status]') as HTMLElement;
+
+  // Откуда пришли к форме: полка на главной, набор, шапка, страница
+  // /cart. Контекст не должен теряться между блоком и заявкой — без него
+  // в отчёте все входы в КП сливаются в одно число.
+  let kpSource = 'cart';
+
+  // Делегирование, а не обработчик на первой найденной кнопке: на главной
+  // вход в КП не один (полка подборки, наборы, финальный блок), и прежний
+  // querySelector оживлял ровно одну из них.
+  document.addEventListener('click', (e) => {
+    const trigger = (e.target as HTMLElement | null)?.closest?.('[data-open-kp]');
+    if (!trigger) return;
+    kpSource = (trigger as HTMLElement).dataset.kpSource || 'cart';
+    // Пустая подборка формы не наполнит: /api/quote отвергнет её как
+    // «подборка пуста». Раньше кнопка в этом случае молчала, и
+    // человек не понимал, сломалось что-то или он чего-то не сделал.
+    if (readCart().length === 0) {
+      const hint = document.querySelector('[data-kp-empty]') as HTMLElement | null;
+      if (hint) { hint.hidden = false; setTimeout(() => { hint.hidden = true; }, 6000); }
+      trackGoal('quote_empty', { kp_source: kpSource });
+      return;
+    }
+    status.textContent = ''; status.className = 'kp-status';
+    // Форма открыта, но ещё не отправлена. Разрыв между этой целью и
+    // quote_pdf показывает, сколько людей упирается в саму форму.
+    trackGoal('begin_checkout', { items: readCart().length, total: cartTotal(), kp_source: kpSource, email_rent: readEmailRent() ? 1 : 0 });
+    dialog.showModal();
+  });
+  document.querySelector('[data-kp-close]')?.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submit = form.querySelector('.kp-submit') as HTMLButtonElement;
+    submit.disabled = true;
+    let httpStatus = 0;
+    status.textContent = 'Формируем и отправляем…'; status.className = 'kp-status';
+    try {
+      const fd = Object.fromEntries(new FormData(form).entries());
+      const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
+      // Выбор аренды адресов почты — часть расчёта, а не оформления: без него
+      // сервер пересчитает КП по одним лишь ценам каталога, и покупатель
+      // получит письмом сумму меньше той, что видел в спецификации.
+      const emailRent = readEmailRent();
+      const attribution = await attributionPayload();
+      const res = await fetch('/api/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...fd, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items, email_rent: emailRent }),
+      });
+      if (!res.ok) {
+        let msg = 'Не удалось сформировать КП. Проверьте поля и попробуйте снова.';
+        try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
+        httpStatus = res.status;
+        throw new Error(msg);
+      }
+      // Документ не скачивается и не открывается в браузере: он уходит письмом.
+      // Раньше ответ отдавался файлом, и просмотрщик показывал его страницей
+      // «сохранить и напечатать» — человек видел документ вместо
+      // подтверждения и не понимал, отправили ему что-нибудь или нет.
+      const out = await res.json();
+      const quoteNo = out?.quote_no || res.headers.get('X-Quote-No') || 'KP';
+      const to = out?.sent_to ? ` на ${out.sent_to}` : '';
+      status.innerHTML = `<b>Готово.</b> Коммерческое предложение № ${quoteNo} `
+        + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
+      status.className = 'kp-status ok';
+      trackGoal('quote_pdf', { form_source: 'quote', kp_source: kpSource, quote_no: quoteNo, email_rent: emailRent ? 1 : 0 });
+      // Тот же шаг в разрезе производителей: воронка лендинга вендора
+      // заканчивается здесь, а не на его странице. Цель приехала из
+      // main вместе с диалогом, когда он переехал из /cart в компонент.
+      trackGoal('vendor_kp_download', {
+        quote_no: quoteNo,
+        vendors: Array.from(new Set(readCart().map((i) => i.vendor).filter(Boolean))).join(','),
+      });
+    } catch (err) {
+      status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
+      status.className = 'kp-status err';
+      // Без этой цели сбой неотличим от того, что клиент передумал: в отчёте
+      // и то и другое выглядит как незавершённое оформление.
+      trackGoal('quote_error', {
+        form_source: 'quote',
+        kp_source: kpSource,
+        http_status: httpStatus,
+        reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown',
+      });
+    } finally {
+      submit.disabled = false;
+    }
+  });
+</script>

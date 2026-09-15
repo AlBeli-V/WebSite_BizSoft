@@ -4,6 +4,8 @@
  * артикула единой системы (docs/rules/sku-system.md, `parseSku`).
  */
 import { productCategories } from './cross-listing';
+import { vendorBySlug } from '../data/vendors';
+import { vendorSlug } from './vendor-links';
 import { parseSku } from './sku';
 import type { Product } from './types';
 
@@ -124,7 +126,13 @@ export const VENDOR_LEGAL: Record<string, string> = {
 
 export function vendorLegal(vendor?: string | null): string {
   if (!vendor) return '';
-  return VENDOR_LEGAL[vendor] || vendor;
+  // Первый источник — профиль производителя: поле legalName заполнено у всех
+  // записей реестра, тогда как словарь ниже покрывал сорок с небольшим имён,
+  // и карточки OpenAI, Anthropic, Figma показывали марку вместо юрлица
+  // (постановка руководителя 14.09.2026). Словарь остаётся для имён, которых
+  // в реестре лендингов нет: он ведётся по написанию поля `vendor` каталога.
+  const entry = vendorBySlug(vendorSlug(vendor));
+  return entry?.legalName || VENDOR_LEGAL[vendor] || vendor;
 }
 
 /**
@@ -135,7 +143,9 @@ export function vendorLegal(vendor?: string | null): string {
  *   одним словом;
  * - личные планы (план `IND`) любого вендора: сайт продаёт юрлицам, а срез
  *   покрытия 03.09.2026 показал, что Яндекс исключал такие карточки как
- *   малоценные (Bitdefender, Monotype, Marmoset);
+ *   малоценные (Bitdefender, Monotype, Marmoset). Исключение —
+ *   `IND_INDEXABLE_VENDORS` ниже: вендор, у которого личный план и есть
+ *   основной товар, а не хвост командной линейки;
  * - бессрочные дубли ManageEngine (`ZOHO` + `PERP`): у каждой есть парная
  *   годовая подписка с тем же текстом (разбор 03.09.2026) — в поиск идёт
  *   подписка, бессрочная остаётся на витрине и в КП;
@@ -148,11 +158,26 @@ export function vendorLegal(vendor?: string | null): string {
  * Основные продукты для организаций, AI и командные инструменты индексируются.
  * Позиция без системного артикула страницы не имеет и в матрицу не попадает.
  */
+/**
+ * Вендоры, у которых личный план индексируется вопреки общему правилу.
+ *
+ * Правило `IND` → noindex заведено против хвостов командных линеек: у
+ * Bitdefender или Monotype личная лицензия — младший вариант того же
+ * продукта, и её карточка дублирует командную. У TryHackMe наоборот: личные
+ * Premium и MAX — основной товар вендора, командный тариф всего один, и
+ * дублировать личным карточкам нечего (решение руководителя 15.09.2026).
+ *
+ * Код вендора — из `data/catalog/sku-vendors.json`. Список пополняется
+ * только решением руководителя: каждая запись — страницы, которые сайт
+ * предъявляет поиску.
+ */
+const IND_INDEXABLE_VENDORS = new Set(['THM']);
+
 export function productNoindex(sku?: string | null): boolean {
   const p = parseSku(sku);
   if (!p) return false;
   if (p.vendor === 'JB' && p.kind === 'ADD') return true;
-  if (p.plan === 'IND') return true;
+  if (p.plan === 'IND' && !IND_INDEXABLE_VENDORS.has(p.vendor)) return true;
   if (p.vendor === 'ZOHO' && p.term === 'PERP') return true;
   if (p.variant === 'RENEWAL') return true;
   if ((p.kind === 'CRD' || p.kind === 'GFT') && p.variant) return true;

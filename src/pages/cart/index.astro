@@ -3,73 +3,175 @@ export const prerender = false;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import FormGuardFields from '../../components/FormGuardFields.astro';
-import { seller } from '../../config/site';
-import { getProductsBySlugs } from '../../lib/directus';
-import { effectivePrice, formatRub } from '../../lib/pricing';
-import type { Product } from '../../lib/types';
+import QuoteDialog from '../../components/QuoteDialog.astro';
+import PresetCards from '../../components/PresetCards.astro';
+import { formatRub } from '../../lib/pricing';
+import { getPresets, type ResolvedPreset } from '../../lib/presets';
+import { EMAIL_RENT_PRICE } from '../../lib/email-rent';
+import { VENDOR_ICON_SLUGS, vendorIcon } from '../../data/vendor-icons';
 
-// Б10 аудита: готовые наборы-пресеты — продолжение типовых сценариев.
-const PRESETS: { name: string; note: string; slugs: string[] }[] = [
-  { name: 'AI-ассистенты для команды', note: 'Тексты, знания, ассистенты', slugs: ['chatgpt-business', 'anthropic-team', 'gemini-workspace-standard'] },
-  { name: 'Отдел разработки', note: 'AI-ассистенты для кода', slugs: ['ghcopilot-business', 'cursor-business'] },
-  { name: 'Дизайн и маркетинг с AI', note: 'Генерация изображений', slugs: ['mj-standard', 'recraft-advanced'] },
-];
-let presets: { name: string; note: string; items: { sku: string; slug: string; name: string; vendor?: string; price: number }[]; total: number }[] = [];
+let presets: ResolvedPreset[] = [];
 try {
-  const all = await getProductsBySlugs(PRESETS.flatMap((p) => p.slugs));
-  presets = PRESETS.map((pr) => {
-    const items = pr.slugs
-      .map((sl) => all.find((x) => x.slug === sl))
-      .filter((x): x is Product => Boolean(x))
-      .map((x) => ({ sku: x.sku, slug: x.slug, name: x.name, vendor: x.vendor || '', price: effectivePrice(x).price }))
-      .filter((x) => Number.isFinite(x.price) && x.price > 0);
-    return { name: pr.name, note: pr.note, items, total: items.reduce((a, x) => a + x.price, 0) };
-  }).filter((pr) => pr.items.length >= 2);
+  presets = await getPresets();
 } catch { /* без пресетов страница работает как раньше */ }
+
+/**
+ * Знаки производителей для строк спецификации.
+ *
+ * Строки рисует скрипт из подборки в браузере, а адреса файлов знаков
+ * хешированы ассет-пайплайном и известны только на сборке. Поэтому карта
+ * «слаг → адрес» собирается здесь и уезжает в скрипт целиком: шестьдесят с
+ * небольшим брендов — это пара килобайт, а запрос к серверу за каждой
+ * строкой стоил бы дороже и ломался бы без сети.
+ */
+const vendorMarks: Record<string, string> = {};
+for (const slug of VENDOR_ICON_SLUGS) {
+  const icon = vendorIcon(slug);
+  if (icon) vendorMarks[slug] = icon.color;
+}
 ---
 <BaseLayout title="Подборка для КП" description="Подборка для КП BIZSoft: соберите подписки и получите коммерческое предложение с реквизитами." noindex={true}>
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Подборка для КП', url: '/cart' }]} />
-    <h1 class="h1-spec">Подборка для КП: спецификация для подготовки предложения</h1>
+    {/* Заголовок — только предмет страницы, прописными (постановка
+        руководителя 15.09.2026): слова «Подборка для КП» уже сказаны кнопкой
+        меню, крошками и вкладкой, и повторять их в H1 незачем. Прописные
+        задаёт CSS, а не текст: снимок экрана читалки и копия в буфер
+        остаются обычным предложением. */}
+    <h1 class="h1-spec">Спецификация для подготовки предложения</h1>
+    <p class="spec-lead">Проверьте состав, количество и условия — по этой спецификации подготовим
+      коммерческое предложение с ценами и реквизитами.</p>
 
-    <div class="cart-layout">
+    {/* Вопрос об адресах почты задаётся один раз на всю спецификацию, а не в
+        каждой карточке: адреса нужны покупателю, а не товару. Блок
+        показывается, только когда в подборке есть годовые подписки — тем,
+        у кого в расчёте одни ключи и пополнения, выбирать нечего. */}
+    <section class="mail-choice" data-mail-choice hidden>
+      <div class="mc-head">
+        <span class="mc-ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2.5" y="5" width="19" height="14" rx="2.5" /><path d="m3.5 7 8.5 6 8.5-6" /></svg>
+        </span>
+        <h2 class="mc-title">Адреса электронной почты для регистрации личных кабинетов</h2>
+      </div>
+      <div class="mc-body">
+        <div class="mc-opts" role="radiogroup" aria-label="Адреса электронной почты для регистрации личных кабинетов">
+          <button type="button" class="mc-opt is-on" role="radio" aria-checked="true" data-rent="off">
+            <span class="mc-box" aria-hidden="true"></span>
+            <span class="mc-txt"><b>У меня есть подходящая электронная почта</b><span>Свои адреса вне зоны .ru — регистрируем на них</span></span>
+          </button>
+          <button type="button" class="mc-opt" role="radio" aria-checked="false" data-rent="on">
+            <span class="mc-box" aria-hidden="true"></span>
+            <span class="mc-txt"><b>Добавить аренду адресов электронной почты</b><span>Аренда на 12 месяцев — {formatRub(EMAIL_RENT_PRICE)} за адрес</span></span>
+          </button>
+        </div>
+        {/* Границу услуги называет сама страница, а не менеджер в переписке:
+            покупатель должен видеть, почему аренда легла не на все строки. */}
+        <p class="mc-hint">
+          <span class="mc-hint-ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="9" /><path d="M12 11v5" /><path d="M12 7.6h.01" /></svg>
+          </span>
+          <span>Применяется только к позициям, для которых нужна отдельная учётная запись, —
+            годовым подпискам и дополнениям. Бессрочные ключи активации, пополнения баланса
+            и подарочные карты аренды не требуют.</span>
+        </p>
+      </div>
+      <p class="mc-note" data-rent-note hidden></p>
+    </section>
+
+    {/* Карта знаков производителей уезжает в скрипт строкой JSON: строки
+        таблицы рисует браузер, а хешированные адреса файлов известны только
+        сборке. */}
+    <div class="cart-layout" data-vendor-marks={JSON.stringify(vendorMarks)}>
       <div class="cart-items" data-cart-items>
         <p class="empty" data-empty>В расчёте пока пусто. <a href="/catalog">Перейти в каталог →</a></p>
         <!-- КП-таблица: состав, количество (ввод/кнопки), цены и суммы с НДС -->
         <div class="table-wrap" data-cart-table hidden>
           <table class="kp-table">
             <thead>
+              {/* Колонок пять: производитель переехал первой строкой в
+                  описание — там он стоит рядом с юридическим названием, как
+                  в предмете договора, — а нумерация строк спецификации не
+                  несёт смысла до самого предложения. Заголовок колонки
+                  удаления — знак корзины: слово «Удалить» дублировало
+                  крестик в каждой строке. */}
               <tr>
-                <th class="c-num">№</th>
-                <th class="c-vendor">Производитель</th>
-                <th class="c-name">Состав и описание</th>
+                <th class="c-name">Описание</th>
                 <th class="c-qty">Кол-во</th>
                 <th class="c-money">Цена руб</th>
                 <th class="c-money">Сумма руб</th>
-                <th class="c-del">Удалить</th>
+                {/* Имя колонки живёт в aria-label самой ячейки, а не в
+                    спрятанном span: абсолютно позиционированный span внутри
+                    прокручиваемой таблицы расширял прокрутку страницы вбок
+                    на телефоне. */}
+                <th class="c-del" aria-label="Удалить" title="Удалить">
+                  <svg class="th-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16" /><path d="M10 4h4a1 1 0 0 1 1 1v2H9V5a1 1 0 0 1 1-1Z" /><path d="M6 7v12.5A1.5 1.5 0 0 0 7.5 21h9a1.5 1.5 0 0 0 1.5-1.5V7" /><path d="M10 11v6M14 11v6" /></svg>
+                </th>
               </tr>
             </thead>
             <tbody data-cart-body></tbody>
             <tfoot>
-              <tr class="t-total"><td colspan="5" class="t-label">ИТОГО, в т.ч. НДС 5%:</td><td class="c-money" data-t-total></td><td></td></tr>
-              <tr class="t-vat"><td colspan="5" class="t-label">НДС 5%:</td><td class="c-money" data-t-vat></td><td></td></tr>
+              <tr class="t-total"><td colspan="3" class="t-label">ИТОГО, в т.ч. НДС 5%:</td><td class="c-money" data-t-total></td><td></td></tr>
+              <tr class="t-vat"><td colspan="3" class="t-label">НДС 5%:</td><td class="c-money" data-t-vat></td><td></td></tr>
             </tfoot>
           </table>
         </div>
-        <p class="amount-words" data-amount-words hidden></p>
+        {/* Предварительный расчёт — отдельной плашкой под таблицей: это та
+            строка, которую переносят в бюджет, и она не должна теряться
+            следом за итогами таблицы. */}
+        <div class="calc-card" data-amount-words hidden>
+          <span class="calc-ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M14 3H7.5A1.5 1.5 0 0 0 6 4.5v15A1.5 1.5 0 0 0 7.5 21h9a1.5 1.5 0 0 0 1.5-1.5V7l-4-4Z" /><path d="M14 3v4h4" /><path d="M9 12h6M9 16h6" /></svg>
+          </span>
+          <div class="calc-txt">
+            <b class="calc-label">ИТОГО (предварительный расчет для целей бюджетирования):</b>
+            <b class="calc-sum" data-calc-sum></b>
+            <span class="calc-words" data-calc-words></span>
+          </div>
+        </div>
       </div>
 
-      <aside class="cart-summary card" data-summary hidden>
-        <div class="sum-row total"><span>ИТОГО:</span><span data-total>0 ₽</span></div>
-        <button class="btn btn-primary" data-open-kp>Получить КП</button>
-        <button class="btn btn-ghost" data-share>Поделиться списком</button>
-        <p class="share-note" data-share-note hidden>Ссылка скопирована — перешлите её коллеге или руководителю: подборка откроется у него без регистрации.</p>
-        <ol class="cart-steps">
-          <li>100% аванс</li>
-          <li>Поставка 1–5 дней</li>
-          <li>Договор, счёт и закрывающие через ЭДО</li>
-        </ol>
+      <aside class="cart-side" data-summary hidden>
+        <div class="card cart-summary">
+          <div class="sum-head">ИТОГО</div>
+          <div class="sum-value" data-total>0 ₽</div>
+          <div class="sum-vat" data-total-vat></div>
+          <button class="btn btn-primary sum-cta" data-open-kp>
+            <svg class="sum-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7.5A1.5 1.5 0 0 0 6 4.5v15A1.5 1.5 0 0 0 7.5 21h9a1.5 1.5 0 0 0 1.5-1.5V7l-4-4Z" /><path d="M14 3v4h4" /><path d="M9 13h6M9 17h4" /></svg>
+            <span>Получить КП</span>
+          </button>
+          <button class="btn btn-ghost sum-share" data-share>
+            <svg class="sum-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="18" cy="5.5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="18.5" r="2.5" /><path d="m8.2 10.8 7.6-4.1M8.2 13.2l7.6 4.1" /></svg>
+            <span>Поделиться списком</span>
+          </button>
+          <p class="share-note" data-share-note hidden>Ссылка скопирована — перешлите её коллеге или руководителю: подборка откроется у него без регистрации.</p>
+          {/* Условия поставки — строками со знаками: заголовок отвечает на
+              вопрос «что», подпись под ним — «как». */}
+          <ul class="cart-steps">
+            <li>
+              <span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2.5" y="6" width="19" height="12" rx="2" /><circle cx="12" cy="12" r="2.6" /></svg></span>
+              <span><b>100% аванс</b><span>По договору или счёту</span></span>
+            </li>
+            <li>
+              <span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="9" /><path d="M12 7v5.2l3.2 2" /></svg></span>
+              <span><b>Поставка 1–5 дней</b><span>В зависимости от продукта</span></span>
+            </li>
+            <li>
+              <span class="cs-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M14 3H7.5A1.5 1.5 0 0 0 6 4.5v15A1.5 1.5 0 0 0 7.5 21h9a1.5 1.5 0 0 0 1.5-1.5V7l-4-4Z" /><path d="M14 3v4h4" /><path d="m9 15 2 2 4-4" /></svg></span>
+              <span><b>Документы через ЭДО</b><span>Договор, счёт и закрывающие</span></span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card help-card">
+          <span class="help-ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 13v-1a8 8 0 0 1 16 0v1" /><rect x="2.5" y="13" width="4.5" height="6" rx="2" /><rect x="17" y="13" width="4.5" height="6" rx="2" /><path d="M19 19v.5a2.5 2.5 0 0 1-2.5 2.5H13" /></svg>
+          </span>
+          <div class="help-txt">
+            <b>Нужна помощь?</b>
+            <span>Подберём состав и подготовим предложение под вашу задачу.</span>
+          </div>
+          <a class="btn btn-ghost help-btn" href="/contacts">Связаться с менеджером</a>
+        </div>
       </aside>
     </div>
 
@@ -77,134 +179,101 @@ try {
       <section class="presets">
         <h2>Готовые наборы</h2>
         <p class="presets-lead">Добавьте набор в расчёт в один клик — количество мест уточним в КП.</p>
-        <div class="presets-grid">
-          {presets.map((pr) => (
-            <div class="card preset-card">
-              <h3>{pr.name}</h3>
-              <p class="pc-note">{pr.note}</p>
-              <ul>
-                {pr.items.map((it) => <li>{it.name}</li>)}
-              </ul>
-              <div class="pc-bottom">
-                <b>от {formatRub(pr.total)}</b>
-                <button class="btn btn-primary btn-sm" data-preset={JSON.stringify(pr.items)}>Добавить набор</button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <PresetCards presets={presets} />
       </section>
     )}
   </div>
 
-  <!-- Диалог «Получить КП» -->
-  <dialog class="kp-dialog" data-kp-dialog aria-label="Получить коммерческое предложение">
-    <form class="kp-form" data-kp-form>
-      <button type="button" class="kp-close" data-kp-close aria-label="Закрыть">✕</button>
-      <h2>Получить КП</h2>
-      <p class="kp-hint">Подготовим коммерческое предложение с составом заказа и реквизитами и отправим на указанную почту.</p>
-      <label class="kp-suggest">
-        Организация или ИНН:
-        <input class="ym-disable-keys" name="buyer_company" required autocomplete="organization"
-               placeholder="Начните вводить название или ИНН"
-               role="combobox" aria-expanded="false" aria-autocomplete="list"
-               aria-controls="kp-suggest-list" data-company />
-        <ul class="kp-list" id="kp-suggest-list" role="listbox" hidden data-suggest></ul>
-      </label>
-      <p class="kp-found" data-found hidden></p>
-      <div class="kp-row">
-        <label>ИНН:<input class="ym-disable-keys" name="buyer_inn" required inputmode="numeric" data-inn /></label>
-        <label>ФИО:<input class="ym-disable-keys" name="contact_name" required autocomplete="name" /></label>
-      </div>
-      <div class="kp-row">
-        <label>E-mail:<input class="ym-disable-keys" name="email" type="email" required autocomplete="email" /></label>
-        <label>Телефон:<input class="ym-disable-keys" name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
-      </div>
-      <FormGuardFields />
-      <label class="kp-consent">
-        <input type="checkbox" name="consent" required />
-        <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
-      </label>
-      <button type="submit" class="btn btn-primary kp-submit">Отправить КП на почту</button>
-      <p class="kp-status" data-kp-status role="status" aria-live="polite"></p>
-    </form>
-  </dialog>
+  <QuoteDialog />
 </BaseLayout>
 
 <style>
   .section { padding-top: 2rem; }
+  .spec-lead { color: var(--color-text-muted); margin: -0.6rem 0 1.4rem; max-width: 70ch; }
   .share-note { color: var(--color-text-muted); font-size: 0.82rem; margin: 0; }
   .presets { margin-top: 3rem; }
   .presets h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); margin-bottom: 0.4rem; }
   .presets-lead { color: var(--color-text-muted); margin-bottom: 1.2rem; }
-  .presets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1.2rem; }
-  .preset-card { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
-  .preset-card h3 { font-size: 1.08rem; }
-  .pc-note { color: var(--color-text-dim); font-size: 0.85rem; margin: 0; }
-  .preset-card ul { list-style: none; padding: 0; margin: 0.3rem 0 0; color: var(--color-text-muted); font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.25rem; }
-  .preset-card ul li::before { content: '+ '; color: var(--color-accent); font-weight: 700; }
-  .pc-bottom { margin-top: auto; padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
-  .pc-bottom b { font-variant-numeric: tabular-nums; }
   h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 2rem; }
-  .h1-spec { font-size: clamp(1.4rem, 2.8vw, 2.1rem); max-width: 26ch; }
+  .h1-spec { font-size: clamp(1.25rem, 2.4vw, 1.8rem); max-width: 24ch; text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 1.2rem; }
+
+  /* Выбор адресов почты. Два взаимоисключающих варианта — это переключатель,
+     поэтому роль radiogroup, а не два независимых флажка: выбрать оба
+     нельзя. Выбранный вариант несёт акцент — обводку, светлую заливку и
+     закрашенную клетку с галочкой; заливки во всю кнопку нет, она в макете
+     закреплена за главным призывом. */
+  .mail-choice { margin: 0 0 1.6rem; padding: 1.1rem 1.2rem; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-bg-card); }
+  .mc-head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.9rem; }
+  .mc-ic { flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px; background: color-mix(in srgb, var(--color-accent) 10%, transparent); color: var(--color-accent); display: inline-flex; align-items: center; justify-content: center; }
+  .mc-ic svg { width: 20px; height: 20px; }
+  .mc-title { font-size: 0.98rem; font-weight: 700; margin: 0; }
+  .mc-body { display: grid; grid-template-columns: minmax(0, 2fr) minmax(min(100%, 240px), 1fr); gap: 1rem; align-items: start; }
+  .mc-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 0.6rem; }
+  .mc-opt { display: flex; align-items: flex-start; gap: 0.6rem; text-align: left; padding: 0.7rem 0.85rem; border: 1px solid var(--color-border-strong); border-radius: 12px; background: var(--color-bg-elevated); color: var(--color-text); cursor: pointer; font: inherit; }
+  .mc-opt:hover { border-color: var(--color-accent); }
+  .mc-opt.is-on { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 8%, transparent); }
+  /* Круглая метка, а не квадрат: варианты взаимоисключающие, и форма
+     органа управления обязана это называть до того, как человек нажмёт. */
+  .mc-box { flex-shrink: 0; width: 18px; height: 18px; margin-top: 0.15rem; border: 1.5px solid var(--color-border-strong); border-radius: 50%; background: var(--color-bg-card); position: relative; }
+  .mc-opt.is-on .mc-box { border-color: var(--color-accent); }
+  .mc-opt.is-on .mc-box::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--color-accent); }
+  .mc-txt { display: grid; gap: 0.15rem; min-width: 0; }
+  .mc-txt b { font-size: 0.9rem; }
+  .mc-txt span { color: var(--color-text-muted); font-size: 0.82rem; }
+  .mc-hint { display: flex; gap: 0.5rem; margin: 0; color: var(--color-text-muted); font-size: 0.8rem; line-height: 1.45; }
+  .mc-hint-ic { flex-shrink: 0; color: var(--color-text-dim); }
+  .mc-hint-ic svg { width: 16px; height: 16px; display: block; margin-top: 0.1rem; }
+  .mc-note { margin: 0.7rem 0 0; color: var(--color-text-muted); font-size: 0.82rem; }
   .cart-layout { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start; }
+  /* min-width: 0 обязателен обеим колонкам: у элемента сетки минимальная
+     ширина по умолчанию равна min-content, и колонка раздувалась до
+     min-width КП-таблицы (680px). Прокрутка внутри .table-wrap тогда не
+     включалась — вбок ехала вся страница: на 375px документ выходил 702px
+     (правило docs/rules/kpi-kit.md: пиксельная ширина — только вместе с
+     правом сжаться). */
+  .cart-items, .cart-summary { min-width: 0; }
   .cart-items { display: flex; flex-direction: column; gap: 0.8rem; }
   .empty { color: var(--color-text-muted); }
   .empty a { color: var(--color-accent); }
-  .cart-summary { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; position: sticky; top: 84px; }
-  .sum-row { display: flex; justify-content: space-between; gap: 0.6rem; }
-  .sum-row.total { font-size: 1.15rem; font-weight: 700; }
-  .sum-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
-  /* Условия поставки: аккуратный нумерованный список с акцентными маркерами */
-  .cart-steps { list-style: none; counter-reset: step; padding: 0.9rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.55rem; color: var(--color-text); font-size: 0.88rem; }
-  .cart-steps li { counter-increment: step; display: flex; align-items: center; gap: 0.6rem; }
-  .cart-steps li::before { content: counter(step); flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: color-mix(in srgb, var(--color-accent) 14%, transparent); color: var(--color-accent); font-weight: 700; font-size: 0.78rem; display: inline-flex; align-items: center; justify-content: center; }
-  .kp-dialog { border: 1px solid var(--color-border-strong); border-radius: var(--radius-lg); background: var(--color-bg-card); color: var(--color-text); padding: 0; max-width: 540px; width: calc(100% - 2rem); }
-  .kp-dialog::backdrop { background: rgba(0,0,0,0.6); }
-  .kp-form { padding: 2rem; display: flex; flex-direction: column; gap: 0.9rem; position: relative; }
-  .kp-form h2 { font-size: 1.5rem; }
-  .kp-hint { color: var(--color-text-muted); font-size: 0.9rem; margin-top: -0.4rem; }
+  .cart-side { display: grid; gap: 1rem; align-content: start; position: sticky; top: 84px; }
+  .cart-summary { padding: 1.4rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .sum-head { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.02em; }
+  .sum-value { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; line-height: 1.1; }
+  .sum-vat { color: var(--color-text-muted); font-size: 0.85rem; margin-bottom: 0.4rem; }
+  .sum-cta, .sum-share { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+  .sum-ic { width: 18px; height: 18px; flex-shrink: 0; }
+  /* Условия поставки — строками со знаками: у каждой заголовок и подпись,
+     нумерация ушла (порядок здесь ничего не значит). */
+  .cart-steps { list-style: none; padding: 0.9rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.75rem; }
+  .cart-steps li { display: flex; align-items: flex-start; gap: 0.65rem; }
+  .cart-steps li > span:last-child { display: grid; gap: 0.1rem; min-width: 0; }
+  .cart-steps b { font-size: 0.88rem; }
+  .cart-steps li span span { color: var(--color-text-muted); font-size: 0.8rem; }
+  .cs-ic { flex-shrink: 0; width: 30px; height: 30px; border-radius: 9px; background: color-mix(in srgb, var(--color-accent) 10%, transparent); color: var(--color-accent); display: inline-flex; align-items: center; justify-content: center; }
+  .cs-ic svg { width: 17px; height: 17px; }
 
-  /* Подсказки по организациям. Список лежит поверх формы, поэтому у поля
-     собственный контекст позиционирования. */
-  .kp-suggest { position: relative; }
-  .kp-list {
-    position: absolute; z-index: 5; left: 0; right: 0; top: 100%;
-    margin: 0.2rem 0 0; padding: 0.25rem; list-style: none;
-    background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong);
-    border-radius: 10px; box-shadow: 0 10px 28px rgb(0 0 0 / 18%);
-    max-height: 17rem; overflow-y: auto;
-  }
-  .kp-list li {
-    padding: 0.5rem 0.6rem; border-radius: 7px; cursor: pointer; line-height: 1.35;
-  }
-  .kp-list li:hover, .kp-list li[aria-selected='true'] { background: var(--color-bg-subtle); }
-  .kp-list b { display: block; font-size: 0.95rem; }
-  .kp-list span { display: block; font-size: 0.82rem; color: var(--color-text-muted); }
-  /* Подставленные реквизиты видны и остаются доступными для правки: человек
-     должен узнать свою организацию, а не поверить на слово. */
-  .kp-found {
-    margin: -0.2rem 0 0; padding: 0.5rem 0.65rem; font-size: 0.85rem; line-height: 1.45;
-    background: var(--color-bg-subtle); border-left: 3px solid var(--color-accent);
-    border-radius: 0 8px 8px 0; color: var(--color-text-muted);
-  }
-  .kp-found b { color: var(--color-text); }
-  .kp-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--color-text-muted); font-size: 1.1rem; cursor: pointer; }
-  .kp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
-  .kp-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.86rem; color: var(--color-text-muted); }
-  .kp-form input { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; }
-  .kp-form input:focus { border-color: var(--color-accent); outline: none; }
-  .kp-consent { flex-direction: row; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; }
-  .kp-consent input { width: auto; margin-top: 0.2rem; }
-  .kp-consent a { color: var(--color-accent); }
-  .kp-status { font-size: 0.9rem; margin: 0; }
-  .kp-status.ok { color: var(--color-success); }
-  .kp-status.err { color: var(--color-danger); }
-  @media (max-width: 860px) { .cart-layout { grid-template-columns: 1fr; } .cart-summary { position: static; } }
+  .help-card { padding: 1.1rem 1.2rem; display: grid; gap: 0.6rem; }
+  .help-ic { width: 34px; height: 34px; border-radius: 10px; background: color-mix(in srgb, var(--color-accent) 10%, transparent); color: var(--color-accent); display: inline-flex; align-items: center; justify-content: center; }
+  .help-ic svg { width: 19px; height: 19px; }
+  .help-txt { display: grid; gap: 0.2rem; }
+  .help-txt b { font-size: 0.92rem; }
+  .help-txt span { color: var(--color-text-muted); font-size: 0.82rem; line-height: 1.45; }
+  .help-btn { justify-self: stretch; text-align: center; }
+
+  /* Плашка предварительного расчёта под таблицей. */
+  .calc-card { display: flex; gap: 0.8rem; align-items: flex-start; margin-top: 0.4rem; padding: 1rem 1.1rem; border: 1px solid color-mix(in srgb, var(--color-accent) 35%, var(--color-border)); border-radius: 14px; background: color-mix(in srgb, var(--color-accent) 6%, transparent); }
+  .calc-ic { flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; background: color-mix(in srgb, var(--color-accent) 14%, transparent); color: var(--color-accent); display: inline-flex; align-items: center; justify-content: center; }
+  .calc-ic svg { width: 18px; height: 18px; }
+  .calc-txt { display: grid; gap: 0.2rem; min-width: 0; }
+  .calc-label { font-size: 0.88rem; }
+  .calc-sum { font-size: clamp(1.15rem, 2.4vw, 1.5rem); line-height: 1.15; }
+  .calc-words { color: var(--color-text); font-size: 0.85rem; line-height: 1.5; }
+  @media (max-width: 860px) { .cart-layout { grid-template-columns: 1fr; } .cart-side { position: static; } .mc-body { grid-template-columns: 1fr; } }
   @media (max-width: 520px) {
-    .kp-row { grid-template-columns: 1fr; }
-    /* Более удобные зоны нажатия на мобильном */
-    .qty button { width: 34px; height: 34px; }
-    .qty input { height: 34px; }
+    /* Более удобные зоны нажатия на мобильном: ярусы растут в высоту, а не
+       в ширину — колонка остаётся узкой. */
+    .qty button { height: 32px; }
+    .qty input { height: 32px; }
     .ci-remove { min-width: 34px; min-height: 34px; }
   }
 </style>
@@ -213,41 +282,84 @@ try {
   /* КП-таблица: строки создаются скриптом (innerHTML) и не получают
      Astro-scoped атрибут — поэтому эти правила глобальные. */
   .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  /* Колонок стало пять вместо семи, и минимум вернулся к 680px: описание —
+     текст, который переносится, а не растягивает таблицу. Внутри
+     .table-wrap таблица прокручивается, страница вбок не едет. */
   .kp-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 680px; background: var(--color-bg-card); }
   .kp-table th, .kp-table td { border: 1px solid var(--color-border-strong); padding: 0.45rem 0.6rem; text-align: left; vertical-align: middle; }
   .kp-table thead th { background: var(--color-bg-elevated); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted); }
-  .kp-table .c-num { width: 3rem; text-align: center; }
-  .kp-table .c-vendor { width: 9rem; }
-  .kp-table .c-name { width: 40%; min-width: 220px; }
-  .kp-table td.c-num { color: var(--color-text-muted); }
-  .kp-table .c-qty { width: 7.6rem; white-space: nowrap; }
+  .kp-table .c-name { width: 60%; min-width: 280px; }
+  /* Счётчик в два яруса: поле сверху, кнопки под ним. Ряд «− 2 +» требовал
+     почти восьми рем и на телефоне раздвигал таблицу; в два яруса колонка
+     сужается до ширины слова «Кол-во» в шапке (постановка руководителя
+     15.09.2026). */
+  .kp-table .c-qty { width: 1%; min-width: 4.6rem; white-space: nowrap; }
   .kp-table .c-money { width: 1%; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .kp-table .c-del { width: 1%; text-align: center; white-space: nowrap; }
-  .kp-table .ci-sku { color: var(--color-text-dim); font-size: 0.75rem; }
-  .kp-table tfoot td { font-weight: 700; }
-  .kp-table tfoot .t-label { text-align: right; }
+  /* Описание позиции: три обязательные части — производитель и название,
+     артикул, договорная фраза. Порядок и вид одинаковы у всех позиций:
+     менеджер переносит ячейку в спецификацию договора целиком. */
+  /* Строка описания: знак производителя слева, текст справа. Знак берётся
+     из пакета производителей (src/assets/vendor-icons) — тот же, что в
+     шапке и в каталоге; позиция без знака получает нейтральную клетку с
+     буквой, а не чужой логотип. */
+  .kp-table .ci-row { display: flex; gap: 0.7rem; align-items: flex-start; }
+  .kp-table .ci-mark { flex-shrink: 0; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--color-border); background: var(--color-bg-elevated); display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
+  .kp-table .ci-mark img { width: 26px; height: 26px; object-fit: contain; display: block; }
+  .kp-table .ci-mark span { font-weight: 700; color: var(--color-text-muted); font-size: 0.95rem; }
+  .kp-table .ci-body { min-width: 0; }
+  .kp-table .ci-title { line-height: 1.35; }
+  .kp-table .ci-legal { color: var(--color-text-muted); }
+  .kp-table .ci-item { font-weight: 700; }
+  .kp-table .ci-sku { color: var(--color-text-dim); font-size: 0.75rem; margin-top: 0.15rem; }
+  .kp-table .ci-spec { margin-top: 0.3rem; font-size: 0.8rem; line-height: 1.45; color: var(--color-text); }
+  /* Аренда почты — сноска: курсив, мельче основного текста, со звёздочкой.
+     В бланк КП она не уходит (docs/rules/email-rent.md) — это пояснение
+     покупателю на странице, а не строка документа. */
+  .kp-table .ci-rent { margin-top: 0.25rem; font-size: 0.72rem; font-style: italic; color: var(--color-text-muted); }
+  .kp-table .th-trash { width: 16px; height: 16px; display: inline-block; vertical-align: middle; }
+
+  /* Итоговые строки — жирные и подпись, и сумма: это строки, которые
+     переносят в счёт, и глаз обязан находить их, не читая таблицу. */
+  .kp-table tfoot td { font-weight: 700; color: var(--color-text); }
+  .kp-table tfoot .t-label { text-align: right; font-weight: 700; }
+  .kp-table tfoot .c-money { font-weight: 700; }
   
   .amount-words { margin: 0.2rem 0 0; color: var(--color-text); font-size: 0.88rem; }
-  .qty { display: flex; align-items: center; gap: 0.25rem; flex-wrap: nowrap; }
-  .qty button { width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); cursor: pointer; font-size: 0.95rem; line-height: 1; }
-  .qty input { width: 44px; text-align: center; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 6px; color: var(--color-text); padding: 0.25rem; font: inherit; font-size: 0.85rem; }
+  .qty { display: grid; justify-items: stretch; gap: 0.25rem; }
+  .qty-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem; }
+  .qty button { height: 26px; border-radius: 6px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); color: var(--color-text); cursor: pointer; font-size: 0.95rem; line-height: 1; }
+  .qty input { width: 100%; min-width: 3.4rem; text-align: center; background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: 6px; color: var(--color-text); padding: 0.3rem 0.2rem; font: inherit; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
   .qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  .ci-remove { background: none; border: none; color: var(--color-text); cursor: pointer; font-size: 1.05rem; font-weight: 800; padding: 0.2rem 0.45rem; }
-  .ci-remove:hover { color: var(--color-danger); }
+  /* Крестик строки — сразу красный, а не по наведению: это единственное
+     необратимое действие в таблице, и оно обязано называть себя цветом. */
+  .ci-remove { background: none; border: none; color: var(--color-danger); cursor: pointer; font-size: 0.95rem; font-weight: 800; line-height: 1; padding: 0.25rem 0.4rem; border-radius: 6px; }
+  .ci-remove:hover { background: color-mix(in srgb, var(--color-danger) 12%, transparent); }
 </style>
 
 <script>
   import { trackGoal } from '@/lib/analytics';
-  import { attributionPayload } from '@/lib/attribution';
-  import { readCart, setQty, removeFromCart, cartTotal, clearCart, addToCart } from '../../lib/cart-client';
+  import { readCart, setQty, removeFromCart, cartTotal, addToCart,
+           readEmailRent, setEmailRent, hasRentable, lineUnitPrice, lineSum } from '../../lib/cart-client';
 
   // Открыли подборку. Знаменатель для формы КП: видно, сколько дошло до
-  // корзины и сколько из них вообще начало заполнять форму.
+  // неё и сколько из них вообще начало заполнять форму.
   trackGoal('view_cart', { items: readCart().length, total: cartTotal() });
   import { formatRub } from '../../lib/pricing';
   import { moneyFmt, vatIncluded, totalWithVatWords } from '../../lib/rub-words';
-  import { maskAllPhones } from '../../lib/phone-mask';
-  maskAllPhones();
+  import { specLine } from '../../lib/spec-line';
+  import { emailRentApplies, EMAIL_RENT_PRICE } from '../../lib/email-rent';
+  import { vendorSlug } from '../../lib/vendor-links';
+  import { vatIncluded as vatOf } from '../../lib/rub-words';
+
+  /** Слаг производителя → адрес знака; собрана на сервере (см. фронтматтер). */
+  const MARKS: Record<string, string> = (() => {
+    try {
+      return JSON.parse(document.querySelector<HTMLElement>('[data-vendor-marks]')?.dataset.vendorMarks || '{}');
+    } catch {
+      return {};
+    }
+  })();
 
   const summaryEl = document.querySelector('[data-summary]') as HTMLElement;
   const totalEl = document.querySelector('[data-total]') as HTMLElement;
@@ -257,13 +369,67 @@ try {
   const tTotalEl = document.querySelector('[data-t-total]') as HTMLElement;
   const tVatEl = document.querySelector('[data-t-vat]') as HTMLElement;
   const wordsEl = document.querySelector('[data-amount-words]') as HTMLElement;
+  const calcSumEl = document.querySelector<HTMLElement>('[data-calc-sum]');
+  const calcWordsEl = document.querySelector<HTMLElement>('[data-calc-words]');
+  const totalVatEl = document.querySelector<HTMLElement>('[data-total-vat]');
 
-  // Производитель для старых записей без поля vendor — первое слово названия.
+  // Производитель для старых записей без поля vendor — первое слово названия:
+  // юридическое название берётся по нему же (`vendorLegal` внутри specLine).
   const vendorOf = (it: { vendor?: string; name: string }) => it.vendor || it.name.split(' ')[0];
+
+  const rentBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-rent]'));
+  const rentBox = document.querySelector<HTMLElement>('[data-mail-choice]');
+  const rentNote = document.querySelector<HTMLElement>('[data-rent-note]');
+
+  /** Отрисовать выбор аренды: состояние кнопок и пояснение под ними. */
+  function paintRent(items = readCart()) {
+    const on = readEmailRent();
+    const fits = items.filter((i) => emailRentApplies(i.sku)).length;
+    // Блок нужен только там, где есть чему добавляться: у подборки из ключей
+    // активации и пополнений выбора нет, и вопрос был бы ложным.
+    if (rentBox) rentBox.hidden = items.length === 0 || !hasRentable(items);
+    for (const b of rentBtns) {
+      const isOn = (b.dataset.rent === 'on') === on;
+      b.classList.toggle('is-on', isOn);
+      b.setAttribute('aria-checked', isOn ? 'true' : 'false');
+    }
+    if (rentNote) {
+      const skipped = items.length - fits;
+      // Строка нужна только тогда, когда аренда взята: до выбора её место
+      // занимает постоянное пояснение о границах услуги.
+      rentNote.hidden = !on;
+      rentNote.textContent = on
+        ? `Аренда добавлена к ${fits} ${plural(fits, ['позиции', 'позициям', 'позициям'])} — годовым подпискам, по ${formatRub(EMAIL_RENT_PRICE)} за адрес на 1 год.`
+          + (skipped > 0 ? ` Остальные ${skipped} ${plural(skipped, ['позиция', 'позиции', 'позиций'])} учётной записи не требуют: бессрочные ключи, пополнения баланса и подарочные карты.` : '')
+        : '';
+    }
+  }
+
+  /** Форма слова по числу — без неё «добавлена к 1 позициям». */
+  function plural(n: number, forms: [string, string, string]): string {
+    const a = Math.abs(n) % 100;
+    const b = a % 10;
+    if (a > 10 && a < 20) return forms[2];
+    if (b > 1 && b < 5) return forms[1];
+    if (b === 1) return forms[0];
+    return forms[2];
+  }
+
+  for (const b of rentBtns) {
+    b.addEventListener('click', () => {
+      const on = b.dataset.rent === 'on';
+      if (on === readEmailRent()) return;
+      // Отдельной цели у переключателя нет: выбор уезжает параметром
+      // `email_rent` в begin_checkout и quote_pdf — там он и нужен, рядом с
+      // суммой заявки, а не отдельной строкой в кабинете.
+      setEmailRent(on); // событие cart:change перерисует таблицу и итог
+    });
+  }
 
   function render() {
     const items = readCart();
     bodyEl.innerHTML = '';
+    paintRent(items);
     if (items.length === 0) {
       emptyEl.hidden = false;
       summaryEl.hidden = true;
@@ -276,21 +442,40 @@ try {
     tableWrap.hidden = false;
     wordsEl.hidden = false;
 
-    items.forEach((it, i) => {
+    const rent = readEmailRent();
+    items.forEach((it) => {
       const tr = document.createElement('tr');
+      // Описание строится генератором (lib/spec-line): производитель и
+      // название, артикул, договорная фраза по виду позиции и её сроку.
+      // Одна и та же функция работает и здесь, и на сервере КП — расхождения
+      // между тем, что видит покупатель, и тем, что уходит письмом, нет.
+      const spec = specLine({ sku: it.sku, name: it.name, vendor: vendorOf(it), emailRent: rent });
+      const mark = MARKS[vendorSlug(vendorOf(it))];
       tr.innerHTML = `
-        <td class="c-num">${i + 1}</td>
-        <td>${escapeHtml(vendorOf(it))}</td>
-        <td class="c-name">${escapeHtml(it.name)}<div class="ci-sku">Артикул: ${escapeHtml(it.sku)}</div></td>
-        <td class="c-qty">
-          <div class="qty">
-            <button type="button" data-dec aria-label="Меньше">−</button>
-            <input type="number" min="1" value="${it.qty}" data-qty aria-label="Количество" />
-            <button type="button" data-inc aria-label="Больше">+</button>
+        <td class="c-name">
+          <div class="ci-row">
+            <span class="ci-mark">${mark
+              ? `<img src="${mark}" alt="" aria-hidden="true" width="26" height="26" loading="lazy" decoding="async" />`
+              : `<span aria-hidden="true">${escapeHtml((vendorOf(it) || '?').trim().charAt(0).toUpperCase())}</span>`}</span>
+            <div class="ci-body">
+              <div class="ci-title"><span class="ci-legal">${escapeHtml(spec.legal || vendorOf(it))}</span> / <span class="ci-item">${escapeHtml(it.name)}</span></div>
+              <div class="ci-sku">Артикул: ${escapeHtml(it.sku)}</div>
+              <div class="ci-spec">${escapeHtml(spec.text)}</div>
+              ${spec.emailRent ? `<div class="ci-rent">* В цене учтена аренда адреса электронной почты — ${formatRub(EMAIL_RENT_PRICE)} за 1 календарный год.</div>` : ''}
+            </div>
           </div>
         </td>
-        <td class="c-money">${moneyFmt(it.price)}</td>
-        <td class="c-money">${moneyFmt(it.price * it.qty)}</td>
+        <td class="c-qty">
+          <div class="qty">
+            <input type="number" min="1" value="${it.qty}" data-qty aria-label="Количество" />
+            <div class="qty-row">
+              <button type="button" data-dec aria-label="Меньше">−</button>
+              <button type="button" data-inc aria-label="Больше">+</button>
+            </div>
+          </div>
+        </td>
+        <td class="c-money">${moneyFmt(lineUnitPrice(it, rent))}</td>
+        <td class="c-money">${moneyFmt(lineSum(it, rent))}</td>
         <td class="c-del"><button class="ci-remove" data-remove aria-label="Удалить позицию" title="Удалить">✕</button></td>`;
       tr.querySelector('[data-inc]')!.addEventListener('click', () => { setQty(it.sku, it.qty + 1); render(); });
       tr.querySelector('[data-dec]')!.addEventListener('click', () => { setQty(it.sku, it.qty - 1); render(); });
@@ -308,10 +493,16 @@ try {
     const total = cartTotal(items);
     tTotalEl.textContent = moneyFmt(total);
     tVatEl.textContent = moneyFmt(vatIncluded(total));
+    // Плашка расчёта: жирные зачин и сумма цифрами, прописью — обычным
+    // начертанием (это расшифровка, а не второй итог).
     const words = totalWithVatWords(total);
-    // Первая сумма — жирным; префикс «ИТОГО (предварительный расчет…)»
-    wordsEl.innerHTML = 'ИТОГО (предварительный расчет для целей бюджетирования): ' + words.replace(/^([\d\s\u202f\u00a0]+,\d\d)/, '<b>$1</b>');
+    const sum = words.match(/^[\d\s\u202f\u00a0]+,\d\d/)?.[0] || moneyFmt(total);
+    if (calcSumEl) calcSumEl.textContent = `${sum} ₽`;
+    if (calcWordsEl) calcWordsEl.textContent = words.slice(sum.length).replace(/^\s*/, '');
     totalEl.textContent = formatRub(total);
+    // НДС — с копейками: formatRub округляет до рубля, а это строка налога,
+    // которую сверяют со счётом.
+    if (totalVatEl) totalVatEl.textContent = `в т.ч. НДС 5% — ${moneyFmt(vatOf(total))} ₽`;
   }
 
   function escapeHtml(s: string) {
@@ -346,189 +537,7 @@ try {
     if (note) note.hidden = false;
   });
 
-  document.querySelectorAll('[data-preset]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      try {
-        const items = JSON.parse(btn.getAttribute('data-preset') || '[]');
-        for (const it of items) addToCart({ sku: it.sku, slug: it.slug, name: it.name, vendor: it.vendor || '', price: it.price }, 1);
-        btn.textContent = 'Добавлено ✓';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } catch { /* noop */ }
-    });
-  });
-
   render();
   window.addEventListener('cart:change', render);
 
-  // Диалог КП
-  const dialog = document.querySelector('[data-kp-dialog]') as HTMLDialogElement;
-  const form = document.querySelector('[data-kp-form]') as HTMLFormElement;
-  // ── Подсказки по организациям ────────────────────────────────────────
-  // Заказчик вводит название или ИНН и выбирает свою организацию: остальные
-  // реквизиты подставляются. Ошибиться в десятизначном номере проще, чем не
-  // ошибиться, а исправлять пришлось бы уже в счёте.
-  //
-  // Подставленное показываем отдельной строкой и оставляем поля открытыми
-  // для правки: человек должен узнать свою организацию, а не поверить на
-  // слово. Филиал, недавнее переименование, работа под другим названием —
-  // всё это справочник знает хуже, чем сам заказчик.
-  const companyInput = form.querySelector('[data-company]') as HTMLInputElement;
-  const innInput = form.querySelector('[data-inn]') as HTMLInputElement;
-  const listEl = form.querySelector('[data-suggest]') as HTMLElement;
-  const foundEl = form.querySelector('[data-found]') as HTMLElement;
-
-  type Item = { name: string; fullName: string; inn: string; kpp: string;
-                address: string; manager: string };
-  let items: Item[] = [];
-  let active = -1;
-  let seq = 0;
-
-  const closeList = () => {
-    listEl.hidden = true;
-    listEl.innerHTML = '';
-    companyInput.setAttribute('aria-expanded', 'false');
-    items = []; active = -1;
-  };
-
-  const showFound = (it: Item) => {
-    const parts = [`<b>${it.fullName || it.name}</b>`];
-    if (it.inn) parts.push(`ИНН ${it.inn}${it.kpp ? ` · КПП ${it.kpp}` : ''}`);
-    if (it.address) parts.push(it.address);
-    if (it.manager) parts.push(it.manager);
-    parts.push('Проверьте и при необходимости поправьте поля.');
-    foundEl.innerHTML = parts.join('<br>');
-    foundEl.hidden = false;
-  };
-
-  const choose = (i: number) => {
-    const it = items[i];
-    if (!it) return;
-    companyInput.value = it.name || it.fullName;
-    if (it.inn) innInput.value = it.inn;
-    showFound(it);
-    closeList();
-    // Факт автозаполнения, а не сам ИНН: идентификатор юрлица в параметрах
-    // события — это передача реквизита клиента во внешнюю аналитику.
-    trackGoal('company_autofill', { filled: true });
-  };
-
-  const renderSuggest = () => {
-    if (!items.length) { closeList(); return; }
-    listEl.innerHTML = items.map((it, i) => {
-      const sub = [it.inn && `ИНН ${it.inn}`, it.address].filter(Boolean).join(' · ');
-      return `<li role="option" data-i="${i}" aria-selected="${i === active}">`
-        + `<b>${it.name}</b><span>${sub}</span></li>`;
-    }).join('');
-    listEl.hidden = false;
-    companyInput.setAttribute('aria-expanded', 'true');
-  };
-
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  companyInput?.addEventListener('input', () => {
-    foundEl.hidden = true;
-    const q = companyInput.value.trim();
-    clearTimeout(timer);
-    if (q.length < 3) { closeList(); return; }
-    // Пауза после ввода: запрос на каждую букву съедает суточный лимит,
-    // общий у всех видов подсказок.
-    timer = setTimeout(async () => {
-      const mine = ++seq;
-      try {
-        const r = await fetch(`/api/suggest/party?q=${encodeURIComponent(q)}`);
-        const d = await r.json();
-        // Ответ на устаревший запрос игнорируем: иначе медленный ответ на
-        // «ром» перезатрёт быстрый на «ромашка».
-        if (mine !== seq) return;
-        items = d.items || [];
-        active = -1;
-        renderSuggest();
-      } catch { closeList(); }
-    }, 250);
-  });
-
-  companyInput?.addEventListener('keydown', (e) => {
-    if (listEl.hidden || !items.length) return;
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      active = (active + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length;
-      renderSuggest();
-    } else if (e.key === 'Enter' && active >= 0) {
-      e.preventDefault();
-      choose(active);
-    } else if (e.key === 'Escape') {
-      closeList();
-    }
-  });
-
-  listEl?.addEventListener('mousedown', (e) => {
-    // mousedown, а не click: blur успевает закрыть список до клика.
-    const li = (e.target as HTMLElement).closest('li');
-    if (li) { e.preventDefault(); choose(Number(li.dataset.i)); }
-  });
-  companyInput?.addEventListener('blur', () => setTimeout(closeList, 120));
-
-  const status = document.querySelector('[data-kp-status]') as HTMLElement;
-  document.querySelector('[data-open-kp]')?.addEventListener('click', () => {
-    if (readCart().length === 0) return;
-    status.textContent = ''; status.className = 'kp-status';
-    // Форма открыта, но ещё не отправлена. Разрыв между этой целью и
-    // quote_pdf показывает, сколько людей упирается в саму форму.
-    trackGoal('begin_checkout', { items: readCart().length, total: cartTotal() });
-    dialog.showModal();
-  });
-  document.querySelector('[data-kp-close]')?.addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const submit = form.querySelector('.kp-submit') as HTMLButtonElement;
-    submit.disabled = true;
-    let httpStatus = 0;
-    status.textContent = 'Формируем и отправляем…'; status.className = 'kp-status';
-    try {
-      const fd = Object.fromEntries(new FormData(form).entries());
-      const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
-      const attribution = await attributionPayload();
-      const res = await fetch('/api/quote', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...fd, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items }),
-      });
-      if (!res.ok) {
-        let msg = 'Не удалось сформировать КП. Проверьте поля и попробуйте снова.';
-        try { const j = await res.json(); if (j?.error) msg = j.error; } catch { /* not json */ }
-        httpStatus = res.status;
-        throw new Error(msg);
-      }
-      // Документ не скачивается и не открывается в браузере: он уходит письмом.
-      // Раньше ответ отдавался файлом, и просмотрщик показывал его страницей
-      // «сохранить и напечатать» — человек видел документ вместо
-      // подтверждения и не понимал, отправили ему что-нибудь или нет.
-      const out = await res.json();
-      const quoteNo = out?.quote_no || res.headers.get('X-Quote-No') || 'KP';
-      const to = out?.sent_to ? ` на ${out.sent_to}` : '';
-      status.innerHTML = `<b>Готово.</b> Коммерческое предложение № ${quoteNo} `
-        + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
-      status.className = 'kp-status ok';
-      trackGoal('quote_pdf', { form_source: 'quote', quote_no: quoteNo });
-      // Тот же шаг в разрезе производителей: воронка лендинга вендора
-      // заканчивается здесь, а не на его странице.
-      trackGoal('vendor_kp_download', {
-        quote_no: quoteNo,
-        vendors: Array.from(new Set(readCart().map((i) => i.vendor).filter(Boolean))).join(','),
-      });
-    } catch (err) {
-      status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
-      status.className = 'kp-status err';
-      // Без этой цели сбой неотличим от того, что клиент передумал: в отчёте
-      // и то и другое выглядит как незавершённое оформление.
-      trackGoal('quote_error', {
-        form_source: 'quote',
-        http_status: httpStatus,
-        reason: err instanceof Error ? err.message.slice(0, 100) : 'unknown',
-      });
-    } finally {
-      submit.disabled = false;
-    }
-  });
 </script>

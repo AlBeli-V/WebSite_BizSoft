@@ -6,9 +6,10 @@ import { leadFromQuote, describeQuote, attributionFields } from '../../lib/quote
 import { createLeadTolerant } from '../../lib/lead-write';
 import { mirrorLeadAndLink } from '../../lib/bitrix24';
 import { effectivePrice } from '../../lib/pricing';
+import { EMAIL_RENT_PRICE, emailRentApplies } from '../../lib/email-rent';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
-import { generateQuoteJpg } from '../../lib/jpg-quote';
+import { generateQuoteJpgPages, jpgFileNames } from '../../lib/jpg-quote';
 import { generateQuoteDocx } from '../../lib/docx-quote';
 import { site } from '../../config/site';
 import { verifyCompany } from '../../lib/inn';
@@ -148,13 +149,30 @@ export const POST: APIRoute = async ({ request }) => {
   }
   const bySku = new Map(products.map((p) => [p.sku, p]));
 
+  // Аренда адресов электронной почты: выбор покупателя в шапке спецификации
+  // (docs/rules/email-rent.md). Применимость считается здесь заново, по
+  // артикулу из базы, а не принимается с формы: клиент присылает только сам
+  // выбор, всё остальное — данные каталога.
+  const emailRent = body.email_rent === true;
+  /** Артикул → рубли нашей услуги в цене единицы (для экономики сделки). */
+  const rentPerUnit = new Map<string, number>();
   const items: QuoteItem[] = [];
   for (const line of lines) {
     const p = bySku.get(line.sku);
     if (!p) continue;
-    const price = effectivePrice(p).price;
+    const rent = emailRent && emailRentApplies(p.sku);
+    if (rent) rentPerUnit.set(p.sku, EMAIL_RENT_PRICE);
+    // Аренда входит в цену позиции, но отдельной строкой в бланке КП не
+    // называется (решение руководителя 15.09.2026): документу клиента и
+    // руководителя — состав и цены, пояснение об аренде живёт сноской на
+    // странице спецификации.
+    const price = effectivePrice(p).price + (rent ? EMAIL_RENT_PRICE : 0);
     items.push({ sku: p.sku, name: p.name, qty: line.qty, price,
-                 sum: price * line.qty, vat_percent: p.vat_percent });
+                 sum: price * line.qty, vat_percent: p.vat_percent,
+                 // Производитель и признак аренды нужны документу: по ним
+                 // собирается то же описание позиции, что на странице
+                 // спецификации (docs/rules/spec-line.md).
+                 vendor: p.vendor || '', email_rent: rent });
   }
   if (items.length === 0) return new Response(JSON.stringify({ error: 'позиции не найдены' }), { status: 422 });
 
@@ -184,10 +202,12 @@ export const POST: APIRoute = async ({ request }) => {
   // Редактируемый PDF с реквизитами, гуляющий по почте клиента, — риск:
   // сумму в нём меняют в любом просмотрщике и предъявляют как наш документ.
   let pdf: Buffer;
-  let jpg: Buffer;
+  let jpgPages: Buffer[];
   try {
     pdf = await generateQuotePdf(data);
-    jpg = generateQuoteJpg(data);
+    // Картинка — по файлу на лист: одну вертикальную ленту нельзя
+    // распечатать, а документ подшивают к договору.
+    jpgPages = generateQuoteJpgPages(data);
   } catch (e) {
     console.error('quote: gen failed', e);
     return new Response(JSON.stringify({ error: 'не удалось сформировать документ' }), { status: 500 });
@@ -221,7 +241,7 @@ export const POST: APIRoute = async ({ request }) => {
   // письмо руководителю. Обещание, а не ожидание: курс ЦБ — внешний сервис,
   // его сбой или медленный ответ не должны задерживать письмо клиенту.
   const ecoPromise: Promise<QuoteEconomics | null> = fetchCbrRates()
-    .then((rates) => buildQuoteEconomics(items, products, rates))
+    .then((rates) => buildQuoteEconomics(items, products, rates, rentPerUnit))
     .catch((e) => { console.error('quote economics failed', e); return null; });
 
   // Заявка в воронку. Скачивание КП — самый тёплый контакт на сайте: назвали
@@ -249,14 +269,18 @@ export const POST: APIRoute = async ({ request }) => {
   })).catch((e) => console.error('quote lead failed', e));
 
   // ── Письма ──
-  const clientFile = `KP_${quoteNo}.jpg`;
-  const clientAttachment = { filename: clientFile, content: jpg, contentType: 'image/jpeg' };
+  // Имена вложений называют лист: у многостраничного КП это «…_лист1»,
+  // «…_лист2» по числу реальных листов (решение руководителя 15.09.2026).
+  const clientFiles = jpgFileNames(quoteNo, jpgPages.length);
+  const clientAttachments = clientFiles.map((filename, i) => ({
+    filename, content: jpgPages[i], contentType: 'image/jpeg',
+  }));
 
   // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro.
   // HTML с text-fallback собирает шаблон (src/lib/email): фирменная шапка,
   // карточка предложения, оговорка о предварительном характере, приглашение
   // ответить на письмо — Reply-To ведёт к менеджеру.
-  const clientMail = buildCustomerQuoteEmail(data);
+  const clientMail = buildCustomerQuoteEmail(data, jpgPages.length);
 
   // Письмо клиенту отправляем до ответа и ждём результата: экран говорит
   // «отправлено», и это должно быть правдой. Сбой SMTP при отправке в фоне
@@ -269,7 +293,7 @@ export const POST: APIRoute = async ({ request }) => {
       subject: clientMail.subject,
       text: clientMail.text,
       html: clientMail.html,
-      attachments: [clientAttachment],
+      attachments: clientAttachments,
     });
   } catch (e) {
     console.error('quote client mail failed', e);
