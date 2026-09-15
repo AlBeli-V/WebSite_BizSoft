@@ -4,19 +4,20 @@
 
 ## Что уже известно
 
-- фраз в базе семантики: 24 913
-- из них коммерческих: 2 794
-- кластеров: 159, без страницы на сайте: 7
+- фраз в базе семантики: 24 956
+- из них коммерческих: 2 800
+- кластеров: 160, без страницы на сайте: 7
 - спрос непокрытых кластеров: 33 873 показов в месяц
-- уровни мониторинга: A — 51, B — 33, C — 75
+- уровни мониторинга: A — 51, B — 34, C — 75
 
 ## Что планируется
 
 | Метод | Вызовов | Стоимость |
 |---|---|---|
-| getTop | 115 | 2.30 ₽ |
+| getTop | 108 | 2.16 ₽ |
+| getDynamics | 1 | 0.02 ₽ |
 | getRegionsDistribution | 28 | 1.40 ₽ |
-| **Итого** | **143** | **3.70 ₽** |
+| **Итого** | **137** | **3.58 ₽** |
 
 ## Бюджет и квота
 
@@ -33,33 +34,33 @@
 
 | № | Метод | Фраза | Причина | Ожидаемый прирост | Ранг |
 |---|---|---|---|---|---|
-| 1 | getTop | tryhackme | discovery | 1.0 | 24.0 |
-| 2 | getTop | monday.com купить | vendor_expansion | 0.6 | 16.8 |
-| 3 | getTop | clickup купить | vendor_expansion | 0.6 | 16.8 |
-| 4 | getTop | trello купить | vendor_expansion | 0.6 | 16.8 |
-| 5 | getTop | airtable купить | vendor_expansion | 0.6 | 16.8 |
-| 6 | getTop | smartsheet купить | vendor_expansion | 0.6 | 16.8 |
-| 7 | getTop | basecamp купить | vendor_expansion | 0.6 | 16.8 |
-| 8 | getTop | hubspot купить | vendor_expansion | 0.6 | 16.8 |
-| 9 | getTop | salesforce купить | vendor_expansion | 0.6 | 16.8 |
-| 10 | getTop | pipedrive купить | vendor_expansion | 0.6 | 16.8 |
-| 11 | getTop | freshdesk купить | vendor_expansion | 0.6 | 16.8 |
-| 12 | getTop | zendesk купить | vendor_expansion | 0.6 | 16.8 |
-| 13 | getTop | mailchimp купить | vendor_expansion | 0.6 | 16.8 |
-| 14 | getTop | sendgrid купить | vendor_expansion | 0.6 | 16.8 |
-| 15 | getTop | twilio купить | vendor_expansion | 0.6 | 16.8 |
-| 16 | getTop | brevo купить | vendor_expansion | 0.6 | 16.8 |
-| 17 | getTop | klaviyo купить | vendor_expansion | 0.6 | 16.8 |
-| 18 | getTop | camtasia купить | vendor_expansion | 0.6 | 16.8 |
-| 19 | getTop | semrush купить | vendor_expansion | 0.6 | 16.8 |
-| 20 | getTop | serpstat купить | vendor_expansion | 0.6 | 16.8 |
-| 21 | getTop | moz купить | vendor_expansion | 0.6 | 16.8 |
-| 22 | getTop | pika labs купить | vendor_expansion | 0.6 | 16.8 |
-| 23 | getTop | webflow купить | vendor_expansion | 0.6 | 16.8 |
-| 24 | getTop | squarespace купить | vendor_expansion | 0.6 | 16.8 |
-| 25 | getTop | softr купить | vendor_expansion | 0.6 | 16.8 |
-| 26 | getTop | retool купить | vendor_expansion | 0.6 | 16.8 |
-| 27 | getTop | datadog купить | vendor_expansion | 0.6 | 16.8 |
-| 28 | getTop | new relic купить | vendor_expansion | 0.6 | 16.8 |
-| 29 | getTop | grafana купить | vendor_expansion | 0.6 | 16.8 |
-| 30 | getTop | netlify купить | vendor_expansion | 0.6 | 16.8 |
+| 1 | getTop | monday.com купить | vendor_expansion | 0.6 | 16.8 |
+| 2 | getTop | clickup купить | vendor_expansion | 0.6 | 16.8 |
+| 3 | getTop | trello купить | vendor_expansion | 0.6 | 16.8 |
+| 4 | getTop | airtable купить | vendor_expansion | 0.6 | 16.8 |
+| 5 | getTop | smartsheet купить | vendor_expansion | 0.6 | 16.8 |
+| 6 | getTop | basecamp купить | vendor_expansion | 0.6 | 16.8 |
+| 7 | getTop | hubspot купить | vendor_expansion | 0.6 | 16.8 |
+| 8 | getTop | salesforce купить | vendor_expansion | 0.6 | 16.8 |
+| 9 | getTop | pipedrive купить | vendor_expansion | 0.6 | 16.8 |
+| 10 | getTop | freshdesk купить | vendor_expansion | 0.6 | 16.8 |
+| 11 | getTop | zendesk купить | vendor_expansion | 0.6 | 16.8 |
+| 12 | getTop | mailchimp купить | vendor_expansion | 0.6 | 16.8 |
+| 13 | getTop | sendgrid купить | vendor_expansion | 0.6 | 16.8 |
+| 14 | getTop | twilio купить | vendor_expansion | 0.6 | 16.8 |
+| 15 | getTop | brevo купить | vendor_expansion | 0.6 | 16.8 |
+| 16 | getTop | klaviyo купить | vendor_expansion | 0.6 | 16.8 |
+| 17 | getTop | camtasia купить | vendor_expansion | 0.6 | 16.8 |
+| 18 | getTop | semrush купить | vendor_expansion | 0.6 | 16.8 |
+| 19 | getTop | serpstat купить | vendor_expansion | 0.6 | 16.8 |
+| 20 | getTop | moz купить | vendor_expansion | 0.6 | 16.8 |
+| 21 | getTop | pika labs купить | vendor_expansion | 0.6 | 16.8 |
+| 22 | getTop | webflow купить | vendor_expansion | 0.6 | 16.8 |
+| 23 | getTop | squarespace купить | vendor_expansion | 0.6 | 16.8 |
+| 24 | getTop | softr купить | vendor_expansion | 0.6 | 16.8 |
+| 25 | getTop | retool купить | vendor_expansion | 0.6 | 16.8 |
+| 26 | getTop | datadog купить | vendor_expansion | 0.6 | 16.8 |
+| 27 | getTop | new relic купить | vendor_expansion | 0.6 | 16.8 |
+| 28 | getTop | grafana купить | vendor_expansion | 0.6 | 16.8 |
+| 29 | getTop | netlify купить | vendor_expansion | 0.6 | 16.8 |
+| 30 | getTop | heroku купить | vendor_expansion | 0.6 | 16.8 |

@@ -3,23 +3,23 @@
  "date": "2026-09-15",
  "run": {
   "calls": 70,
-  "ok": 37,
-  "empty": 33,
-  "raw": 48,
-  "new_phrases": 43,
-  "new_clusters": 1,
-  "new_commercial": 6,
+  "ok": 36,
+  "empty": 34,
+  "raw": 5,
+  "new_phrases": 0,
+  "new_clusters": 0,
+  "new_commercial": 0,
   "stopped": "достигнут потолок прогона"
  },
  "efficiency": {
-  "calls_total": 8906,
+  "calls_total": 8976,
   "calls_paid": 269,
   "cost_month_rub": 5.47,
   "cost_today_rub": 0.02,
   "remaining_budget_rub": 5494.53,
   "forecast_month_end_rub": 10.94,
   "state": "open",
-  "cache_hit_rate": 0.9698,
+  "cache_hit_rate": 0.97,
   "duplicate_rate": 0.7185,
   "unique_phrases": 1909,
   "new_commercial_phrases": 655,
@@ -27,7 +27,7 @@
   "cost_per_1000_unique_phrases_rub": 2.865,
   "cost_per_1000_commercial_phrases_rub": 8.351,
   "cost_per_new_cluster_rub": 1.094,
-  "empty_response_rate": 0.3641
+  "empty_response_rate": 0.3651
  },
  "universe": {
   "phrases": 24956,
@@ -35,7 +35,7 @@
   "clusters": 178,
   "total_commercial_demand": 971574,
   "total_demand": 51609209,
-  "with_page": 24216,
+  "with_page": 24259,
   "cost_rub": 6.1656
  }
 }
