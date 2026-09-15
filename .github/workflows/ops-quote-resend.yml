@@ -32,6 +32,12 @@ on:
         description: "Куда отправить письмо; пусто — менеджеру"
         required: false
         default: ""
+      mode:
+        description: "manager — служебное письмо со всеми форматами; client — точная копия письма заказчика"
+        required: true
+        default: "manager"
+        type: choice
+        options: ["manager", "client"]
       dry_run:
         description: "true — показать состав и ничего не отправлять"
         required: true
@@ -72,12 +78,13 @@ jobs:
           IN_EMAIL: ${{ inputs.email }}
           IN_QUOTE_NO: ${{ inputs.quote_no }}
           IN_TO: ${{ inputs.to }}
+          IN_MODE: ${{ inputs.mode }}
           IN_DRY: ${{ inputs.dry_run }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: IN_EMAIL,IN_QUOTE_NO,IN_TO,IN_DRY
+          envs: IN_EMAIL,IN_QUOTE_NO,IN_TO,IN_MODE,IN_DRY
           script: |
             set -e
             T=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
@@ -88,13 +95,15 @@ jobs:
 
             # Тело собирает python: адрес и номер приходят от человека, а
             # ручная склейка JSON ломается на кавычках.
-            IN_EMAIL="$IN_EMAIL" IN_QUOTE_NO="$IN_QUOTE_NO" IN_TO="$IN_TO" IN_DRY="$IN_DRY" \
+            IN_EMAIL="$IN_EMAIL" IN_QUOTE_NO="$IN_QUOTE_NO" IN_TO="$IN_TO" \
+            IN_MODE="$IN_MODE" IN_DRY="$IN_DRY" \
             python3 - > /tmp/quote-resend-body.json <<'PY'
             import json, os
             print(json.dumps({
                 'email': os.environ.get('IN_EMAIL', '').strip(),
                 'quote_no': os.environ.get('IN_QUOTE_NO', '').strip(),
                 'to': os.environ.get('IN_TO', '').strip(),
+                'mode': os.environ.get('IN_MODE', 'manager').strip() or 'manager',
                 'dry_run': os.environ.get('IN_DRY', 'true') == 'true',
             }, ensure_ascii=False))
             PY
@@ -119,6 +128,7 @@ jobs:
             print(f"КП № {d['quote_no']} от {d['issued']}")
             print(f"заказчик: {d['buyer']} · адрес клиента: {d['client_email']}")
             print(f"позиций: {d['positions']} · сумма: {d['total']} ₽ · листов: {d['sheets']}")
+            print('режим письма: ' + ('копия письма заказчика' if d.get('mode') == 'client' else 'служебное, все форматы'))
             print('файлы: ' + ', '.join(d['files']))
             print(('отправлено на ' + d['to']) if d.get('sent') else 'сухой прогон: письмо не отправлялось')
             PY

@@ -57,20 +57,34 @@ function svgOf(p: Primitive): string {
     return `<line x1="${p.x1}" y1="${p.y1}" x2="${p.x2}" y2="${p.y2}" `
       + `stroke="${p.color}" stroke-width="${p.lineWidth}"/>`;
   }
-  if (p.kind === 'watermark') {
-    // Смещения повторяют PDF-драйвер (верх строки → базовая линия SVG),
-    // иначе оттиск в картинке съезжает относительно PDF.
-    const stampLine = (t: string, top: number, size: number, bold: boolean) =>
-      `<text x="${p.x}" y="${top + size * ASCENT}" font-family="${FONTS.family}" `
-      + `${bold ? 'font-weight="bold" ' : ''}font-size="${size}" fill="${p.color}" `
-      + `text-anchor="middle">${esc(t)}</text>`;
-    return `<g transform="rotate(${p.angle} ${p.x} ${p.y})" opacity="${p.opacity}">`
-      + `<rect x="${p.x - p.w / 2}" y="${p.y - p.h / 2}" width="${p.w}" height="${p.h}" `
-      + `rx="${p.radius}" ry="${p.radius}" fill="none" stroke="${p.color}" `
-      + `stroke-width="${p.stroke}" stroke-dasharray="${p.dash.join(' ')}"/>`
-      + stampLine(p.text, p.y - p.size * 1.9, p.size, true)
-      + (p.text2 ? stampLine(p.text2, p.y - p.size * 0.55, p.size, true) : '')
-      + (p.sub ? stampLine(p.sub, p.y + p.size * 0.95, p.subSize, false) : '')
+  if (p.kind === 'band') {
+    const cx = p.x + p.w / 2;
+    const cy = p.y + p.h / 2;
+    const inner = p.x < PAGE.width / 2 ? p.x + p.w : p.x;
+    // Замок: дужка линией и корпус скруглённым прямоугольником — те же
+    // пропорции, что в PDF-драйвере, иначе картинка разойдётся с PDF.
+    const lock = (top: number) => {
+      const size = p.lock;
+      const bodyY = top + size * 0.34;
+      return `<g fill="${p.textColor}" stroke="${p.textColor}" opacity="${p.textOpacity}">`
+        + `<path d="M ${cx - size * 0.26} ${bodyY} L ${cx - size * 0.26} ${bodyY - size * 0.16} `
+        + `C ${cx - size * 0.26} ${top} ${cx + size * 0.26} ${top} ${cx + size * 0.26} ${bodyY - size * 0.16} `
+        + `L ${cx + size * 0.26} ${bodyY}" fill="none" stroke-width="${size * 0.15}"/>`
+        + `<rect x="${cx - size * 0.43}" y="${bodyY}" width="${size * 0.86}" height="${size * 0.66}" `
+        + `rx="${size * 0.16}" ry="${size * 0.16}" stroke="none"/>`
+        + `</g>`;
+    };
+    return `<g>`
+      + `<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" fill="${p.fill}" `
+      + `opacity="${p.fillOpacity}"/>`
+      + `<line x1="${inner}" y1="${p.y}" x2="${inner}" y2="${p.y + p.h}" stroke="${p.edge}" `
+      + `stroke-width="0.8" opacity="${p.fillOpacity * 3}"/>`
+      + `<text x="${cx}" y="${cy}" font-family="${FONTS.family}" font-weight="bold" `
+      + `font-size="${p.size}" letter-spacing="${p.spacing}" fill="${p.textColor}" `
+      + `opacity="${p.textOpacity}" text-anchor="middle" dominant-baseline="central" `
+      + `transform="rotate(-90 ${cx} ${cy})">${esc(p.text)}</text>`
+      + lock(p.y + p.lock * 2.6)
+      + lock(p.y + p.h - p.lock * 3.6)
       + `</g>`;
   }
   const y = p.y + p.size * ASCENT;

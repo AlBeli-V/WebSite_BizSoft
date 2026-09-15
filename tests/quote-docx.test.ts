@@ -12,7 +12,7 @@
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 import { generateQuoteDocx } from '../src/lib/docx-quote';
-import { buildQuoteLayout, STAMP_LINE_1 } from '../src/lib/quote-layout';
+import { BAND_LEFT_TEXT, BAND_RIGHT_TEXT, buildQuoteLayout } from '../src/lib/quote-layout';
 import { pdfMeasure } from '../src/lib/pdf-quote';
 
 const require = createRequire(import.meta.url);
@@ -93,7 +93,8 @@ describe('Word повторяет клиентский документ', () => 
 
   it('водяных знаков в Word нет — внутренний документ', async () => {
     const doc = await docxText();
-    expect(doc).not.toContain(STAMP_LINE_1);
+    expect(doc).not.toContain(BAND_LEFT_TEXT);
+    expect(doc).not.toContain(BAND_RIGHT_TEXT);
     // Прежние полосы «BIZSoft · BZ-…» из версии до 28.08.2026.
     expect(doc).not.toMatch(/BIZSoft\s+·\s+BZ-/);
   });
