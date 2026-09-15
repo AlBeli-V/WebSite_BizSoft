@@ -31,8 +31,10 @@ const data = {
   email: 'k@encoreresort.ru',
   phone: '+79167898651',
   items: [
-    { sku: 'ADOBE-CC-TEAMS', name: 'Adobe Creative Cloud для команд', qty: 5, price: 100000, sum: 500000 },
-    { sku: 'FIGMA-PRO', name: 'Figma Professional', qty: 3, price: 30000, sum: 90000 },
+    // vendor приходит от API вместе с позицией: из него документ берёт
+    // юридическое название производителя и форму поставки для фразы.
+    { sku: 'ADOBE-CC-TEAMS', name: 'Adobe Creative Cloud для команд', vendor: 'Adobe', qty: 5, price: 100000, sum: 500000 },
+    { sku: 'FIGMA-PRO', name: 'Figma Professional', vendor: 'Figma', qty: 3, price: 30000, sum: 90000 },
   ],
   total: 590000,
 };
@@ -96,10 +98,24 @@ describe('Word повторяет клиентский документ', () => 
     expect(doc).not.toMatch(/BIZSoft\s+·\s+BZ-/);
   });
 
-  it('исходящий номер и порядок колонок — как в макете', async () => {
+  it('исходящий номер и колонки — как в спецификации на сайте', async () => {
     const doc = await docxText();
     expect(doc).toContain(`Исх. № ${data.quoteNo}`);
-    expect(doc.indexOf('Артикул')).toBeGreaterThan(-1);
-    expect(doc.indexOf('Артикул')).toBeLessThan(doc.indexOf('Наименование'));
+    expect(doc).toContain('Описание');
+    expect(doc).toContain('Кол-во');
+    // Отдельной колонки артикула нет — он внутри описания позиции.
+    expect(doc).not.toContain('Наименование');
+    expect(doc).toContain(`Артикул: ${data.items[0].sku}`);
+  });
+
+  it('описание позиции совпадает со страницей спецификации', async () => {
+    const doc = await docxText();
+    expect(doc).toContain('Adobe Inc. / Adobe Creative Cloud для команд');
+    expect(doc).toContain('Оказание услуг по предоставлению доступа');
+  });
+
+  it('листы пронумерованы — документ печатают и подшивают', async () => {
+    const doc = await docxText();
+    expect(doc).toContain('Лист');
   });
 });

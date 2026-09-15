@@ -14,7 +14,10 @@
 import jpeg from 'jpeg-js';
 import { Resvg } from '@resvg/resvg-js';
 import { buildQuoteLayout, PAGE, type QuoteData, type Primitive } from './quote-layout';
-import { pdfMeasure, fontPath, logoBuffer } from './pdf-quote';
+import { pdfMeasure, docFonts, logoBuffer } from './pdf-quote';
+
+/** Начертания документа — те же файлы, что у PDF (шрифт сайта Raleway). */
+const FONTS = docFonts();
 
 /** Плотность растра: 2× к типографским точкам — читается на экране и в печати. */
 export const SCALE = 2;
@@ -58,7 +61,7 @@ function svgOf(p: Primitive): string {
     // Смещения повторяют PDF-драйвер (верх строки → базовая линия SVG),
     // иначе оттиск в картинке съезжает относительно PDF.
     const stampLine = (t: string, top: number, size: number, bold: boolean) =>
-      `<text x="${p.x}" y="${top + size * ASCENT}" font-family="DejaVu Sans" `
+      `<text x="${p.x}" y="${top + size * ASCENT}" font-family="${FONTS.family}" `
       + `${bold ? 'font-weight="bold" ' : ''}font-size="${size}" fill="${p.color}" `
       + `text-anchor="middle">${esc(t)}</text>`;
     return `<g transform="rotate(${p.angle} ${p.x} ${p.y})" opacity="${p.opacity}">`
@@ -75,7 +78,7 @@ function svgOf(p: Primitive): string {
   let anchor: string = ANCHOR.left;
   if (p.width && p.align === 'right') { x = p.x + p.width; anchor = ANCHOR.right; }
   if (p.width && p.align === 'center') { x = p.x + p.width / 2; anchor = ANCHOR.center; }
-  return `<text x="${x}" y="${y}" font-family="DejaVu Sans" `
+  return `<text x="${x}" y="${y}" font-family="${FONTS.family}" `
     + `font-weight="${p.bold ? 'bold' : 'normal'}" font-size="${p.size}" `
     + `fill="${p.color}" text-anchor="${anchor}">${esc(p.text)}</text>`;
 }
@@ -94,9 +97,9 @@ function raster(svg: string): Raster {
   const r = new Resvg(svg, {
     fitTo: { mode: 'width', value: Math.round(PAGE.width * SCALE) },
     font: {
-      fontFiles: [fontPath('DejaVuSans.ttf'), fontPath('DejaVuSans-Bold.ttf')],
+      fontFiles: FONTS.files,
       loadSystemFonts: false,
-      defaultFontFamily: 'DejaVu Sans',
+      defaultFontFamily: FONTS.family,
     },
   });
   const img = r.render();
@@ -104,29 +107,28 @@ function raster(svg: string): Raster {
 }
 
 /**
- * Склейка страниц в одно изображение.
+ * КП в JPEG — по файлу на лист.
  *
- * Многостраничное КП отдаётся одной вертикальной лентой, а не архивом:
- * клиенту нужно посмотреть документ, а не разбирать вложенные файлы.
- * Между страницами тонкая линия — видно, где кончается одна.
+ * Раньше страницы склеивались в одну вертикальную ленту: на экране это
+ * читалось, но распечатать такой файл нельзя — лента ложится на один лист
+ * нечитаемой полосой. Документ подшивают к договору, поэтому каждый лист
+ * отдаётся отдельным файлом формата A4 (решение руководителя 15.09.2026);
+ * имена файлов проставляет отправитель: один лист — без номера, несколько —
+ * «…_лист1», «…_лист2» по числу реальных листов.
  */
-function stack(pages: Raster[]): Raster {
-  if (pages.length === 1) return pages[0];
-  const width = pages[0].width;
-  const gap = 8;
-  const height = pages.reduce((s, p) => s + p.height, 0) + gap * (pages.length - 1);
-  const out = Buffer.alloc(width * height * 4, 0xEE);
-  let y = 0;
-  for (const p of pages) {
-    p.data.copy(out, y * width * 4);
-    y += p.height + gap;
-  }
-  return { width, height, data: out };
+export function generateQuoteJpgPages(data: QuoteData): Buffer[] {
+  const pages = buildQuoteLayout(data, pdfMeasure());
+  return pages.map((p) => {
+    const img = raster(quotePageSvg(p.items));
+    return jpeg.encode({ width: img.width, height: img.height, data: img.data }, QUALITY).data;
+  });
 }
 
-/** КП в JPEG. Один файл независимо от числа страниц. */
-export function generateQuoteJpg(data: QuoteData): Buffer {
-  const pages = buildQuoteLayout(data, pdfMeasure());
-  const img = stack(pages.map((p) => raster(quotePageSvg(p.items))));
-  return jpeg.encode({ width: img.width, height: img.height, data: img.data }, QUALITY).data;
+/**
+ * Имена файлов листов: `KP_<номер>.jpg` у одностраничного КП и
+ * `KP_<номер>_лист1.jpg`, `…_лист2.jpg` — у многостраничного.
+ */
+export function jpgFileNames(quoteNo: string, pages: number): string[] {
+  if (pages <= 1) return [`KP_${quoteNo}.jpg`];
+  return Array.from({ length: pages }, (_, i) => `KP_${quoteNo}_лист${i + 1}.jpg`);
 }

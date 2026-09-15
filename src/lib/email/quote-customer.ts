@@ -11,6 +11,7 @@
  */
 import { seller, site, taxation } from '../../config/site';
 import { salutation } from '../salutation';
+import { pluralForm } from '../rub-words';
 import { PRELIMINARY_NOTE, type QuoteData } from '../quote-layout';
 import { card, emailShell, escapeHtml, heading, kvRow, note, paragraph } from './layout';
 
@@ -20,16 +21,26 @@ export interface RenderedEmail {
   text: string;
 }
 
-export function buildCustomerQuoteEmail(data: QuoteData): RenderedEmail {
+/**
+ * @param sheets Сколько листов у документа. Многостраничное КП уходит
+ *   отдельным файлом на лист (`docs/rules/quote-document.md`), и письмо
+ *   обязано это назвать: иначе получатель трёх файлов ищет, какой из них
+ *   «тот самый документ».
+ */
+export function buildCustomerQuoteEmail(data: QuoteData, sheets = 1): RenderedEmail {
   const total = data.total.toLocaleString('ru-RU');
   const subject = `Коммерческое предложение № ${data.quoteNo} — BIZSoft`;
+  const sheetsNote = sheets > 1
+    ? ` Документ на ${sheets} ${pluralForm(sheets, ['листе', 'листах', 'листах'])} — по файлу на лист.`
+    : '';
 
   const html = emailShell(
     heading('Коммерческое предложение готово')
     + paragraph(escapeHtml(salutation(data.contactName)))
     + paragraph('Благодарим за интерес к программным продуктам BIZSoft. '
       + `Для ${escapeHtml(data.buyerCompany || 'вашей организации')} подготовлено `
-      + 'предварительное коммерческое предложение — документ во вложении.')
+      + 'предварительное коммерческое предложение — документ во вложении.'
+      + escapeHtml(sheetsNote))
     + card(
       `<table role="presentation" cellpadding="0" cellspacing="0">`
       + kvRow('КП №', escapeHtml(data.quoteNo), true)
@@ -50,7 +61,7 @@ export function buildCustomerQuoteEmail(data: QuoteData): RenderedEmail {
   const text = [
     salutation(data.contactName),
     '',
-    `Коммерческое предложение № ${data.quoteNo} во вложении.`,
+    `Коммерческое предложение № ${data.quoteNo} во вложении.${sheetsNote}`,
     `Сумма: ${total} ₽, в т.ч. НДС ${taxation.vatPercent}%. `
       + `Действует до ${data.validUntil}.`,
     '',
