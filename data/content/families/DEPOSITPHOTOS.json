@@ -1,0 +1,276 @@
+{
+  "family_key": "DEPOSITPHOTOS",
+  "vendor": "Depositphotos",
+  "vendor_profile": "data/content/vendors/depositphotos.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "deposit-unl-year",
+  "classification_notes": [
+    "Unlimited (подписка) / пакет 100 (credit)."
+  ],
+  "products": {
+    "deposit-unl-year": {
+      "sku": "DPST-LIC-UNLIMITED-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Depositphotos Unlimited — индивидуальная подписка на 1 год на фотобанк Depositphotos с неограниченными скачиваниями фото, векторов и иллюстраций по стандартной лицензии; видео и расширенные лицензии — отдельно. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Depositphotos Unlimited",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Загрузки",
+              "d": "Без лимита в рамках честного использования."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Стандартная royalty-free."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Видео и расширенной лицензии."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Unlimited",
+              "d": "Много изображений ежедневно."
+            },
+            {
+              "t": "Пакет 100",
+              "d": "Разовая покупка кредитов.",
+              "link": "deposit-pack-100"
+            },
+            {
+              "t": "Shutterstock 50",
+              "d": "Альтернатива.",
+              "link": "shutter-img-50"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайн-командам с большим расходом."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли лимит в сутки?",
+          "a": "Правила честного использования — по условиям вендора."
+        }
+      ],
+      "related_products": [
+        "deposit-pack-100",
+        "shutter-img-50"
+      ],
+      "meta_title": "Depositphotos Unlimited — подписка на год | BIZSoft",
+      "meta_description": "Depositphotos Unlimited: неограниченные скачивания фото и векторов по стандартной лицензии. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "depositphotos unlimited — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "deposit-pack-100": {
+      "sku": "DPST-CRD-PACK100-UNI-BAL-PACK",
+      "classification": {
+        "nature": "credit",
+        "ownership": "universal",
+        "term": "balance",
+        "metric": "PACK",
+        "packaging": "single"
+      },
+      "unit_label": "пакет: 100 изображений",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Depositphotos, пакет 100 изображений — единовременная покупка кредитов на скачивание 100 фотографий, векторов и иллюстраций по стандартной лицензии без подписки; кредиты действуют год с момента покупки.\n\nПакет подходит, когда изображения нужны нерегулярно; при ежедневной работе выгоднее Unlimited.\n\nСрок действия кредитов — 1 год.",
+      "content_modules": [
+        {
+          "code": "CREDIT_USAGE",
+          "title": "Как используются кредиты",
+          "kind": "items",
+          "items": [
+            {
+              "t": "100 загрузок",
+              "d": "Каждый файл стандартного размера — одна загрузка."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Стандартная royalty-free, навсегда на скачанное."
+            },
+            {
+              "t": "Срок",
+              "d": "Кредиты действуют год."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Пакет или подписка",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Пакет 100",
+              "d": "Эпизодически."
+            },
+            {
+              "t": "Unlimited",
+              "d": "Ежедневно.",
+              "link": "deposit-unl-year"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Компаниям с редкой потребностью в стоковых изображениях."
+        },
+        {
+          "code": "BEFORE_ORDER",
+          "title": "Перед заказом",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Аккаунт",
+              "d": "Кредиты зачисляются на аккаунт организации."
+            },
+            {
+              "t": "Видео",
+              "d": "Не входит."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сгорают ли кредиты?",
+          "a": "Через год после покупки."
+        }
+      ],
+      "related_products": [
+        "deposit-unl-year"
+      ],
+      "meta_title": "Depositphotos, пакет 100 изображений | BIZSoft",
+      "meta_description": "Depositphotos пакет 100 изображений: кредиты на скачивание без подписки, действуют год. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "depositphotos пакет — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CREDIT_USAGE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "BEFORE_ORDER",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "VALIDATE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

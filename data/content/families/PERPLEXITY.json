@@ -1,0 +1,314 @@
+{
+  "family_key": "PERPLEXITY",
+  "vendor": "Perplexity",
+  "vendor_profile": "data/content/vendors/perplexity.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "perplexity-enterprise-pro",
+  "classification_notes": [
+    "Enterprise Pro / Max. Носитель — Pro."
+  ],
+  "products": {
+    "perplexity-enterprise-pro": {
+      "sku": "PPLX-LIC-ENTPRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Perplexity Enterprise Pro — командная подписка на 1 год на поисковый ИИ Perplexity для команды: ответы со ссылками на источники, поиск по внутренним файлам, выбор моделей, SSO, данные не используются для обучения. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Perplexity Enterprise Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Поиск",
+              "d": "Ответы с источниками, Deep Research."
+            },
+            {
+              "t": "Файлы",
+              "d": "Поиск по документам организации."
+            },
+            {
+              "t": "Управление",
+              "d": "SSO, роли, приватность."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Enterprise Pro",
+              "d": "Команда."
+            },
+            {
+              "t": "Enterprise Max",
+              "d": "Расширенные лимиты, договор.",
+              "link": "perplexity-enterprise-max"
+            },
+            {
+              "t": "ChatGPT Business",
+              "d": "Аналог.",
+              "link": "chatgpt-business"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "Запросы Deep Research по тарифу."
+            },
+            {
+              "t": "Данные",
+              "d": "Файлы индексируются в облаке Perplexity."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аналитикам и исследователям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Обучается ли на данных?",
+          "a": "Нет."
+        }
+      ],
+      "related_products": [
+        "perplexity-enterprise-max",
+        "chatgpt-business"
+      ],
+      "meta_title": "Perplexity Enterprise Pro — подписка на год | BIZSoft",
+      "meta_description": "Perplexity Enterprise Pro: поисковый ИИ с источниками, поиск по файлам, SSO; места на организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "perplexity enterprise pro купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "perplexity-enterprise-max": {
+      "sku": "PPLX-LIC-ENTMAX-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Perplexity Enterprise Max — командный план старшего уровня на 1 год: расширенные лимиты, приоритетный доступ к моделям, договорные условия. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Perplexity Enterprise Max",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лимиты",
+              "d": "Расширенные."
+            },
+            {
+              "t": "Модели",
+              "d": "Приоритет."
+            },
+            {
+              "t": "Всё из Pro",
+              "d": "Поиск, файлы, SSO."
+            }
+          ],
+          "links": [
+            "perplexity-enterprise-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Max",
+              "d": "Крупная организация."
+            },
+            {
+              "t": "Pro",
+              "d": "Команда.",
+              "link": "perplexity-enterprise-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Согласование."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Корпорациям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум?",
+          "a": "По договору."
+        }
+      ],
+      "related_products": [
+        "perplexity-enterprise-pro"
+      ],
+      "meta_title": "Perplexity Enterprise Max — корпоративный план | BIZSoft",
+      "meta_description": "Perplexity Enterprise Max: расширенные лимиты и приоритет; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "perplexity enterprise max купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

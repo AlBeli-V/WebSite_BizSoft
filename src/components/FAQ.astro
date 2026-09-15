@@ -19,8 +19,15 @@ interface Props {
   columns?: 1 | 2;
   /** Косая черта перед заголовком — подача разделов карточки товара. */
   mark?: boolean;
+  /**
+   * Ссылка «Все вопросы» справа от заголовка (решение руководителя
+   * 14.09.2026): на карточке показаны вопросы этой позиции, а общий список
+   * живёт на /faq — без ссылки покупатель считает, что вопросов больше нет.
+   */
+  allHref?: string;
+  allLabel?: string;
 }
-const { items, title = 'Частые вопросы', schema = true, groups, columns = 1, mark = false } = Astro.props;
+const { items, title = 'Частые вопросы', schema = true, groups, columns = 1, mark = false, allHref, allLabel = 'Все вопросы' } = Astro.props;
 
 const grouped = (groups || []).map((g) => ({ ...g, items: items.filter((i) => i.group === g.id) })).filter((g) => g.items.length > 0);
 const shown = new Set(grouped.flatMap((g) => g.items));
@@ -31,7 +38,16 @@ const blocks = grouped.length > 0
 ---
 {items.length > 0 && (
   <section class="faq reveal">
-    {title && <h2 class:list={{ marked: mark }}>{mark && <i aria-hidden="true">/</i>}{title}</h2>}
+    {title && (
+      allHref ? (
+        <div class="faq-head">
+          <h2 class:list={{ marked: mark }}>{mark && <i aria-hidden="true">/</i>}{title}</h2>
+          <a class="faq-all" href={allHref}>{allLabel} <span aria-hidden="true">›</span></a>
+        </div>
+      ) : (
+        <h2 class:list={{ marked: mark }}>{mark && <i aria-hidden="true">/</i>}{title}</h2>
+      )
+    )}
     {blocks.map((b) => (
       <div class="faq-group">
         {b.title && <h3 class="faq-group-title">{b.title}</h3>}
@@ -60,6 +76,11 @@ const blocks = grouped.length > 0
     font-size: clamp(1.5rem, 2.5vw, 2rem);
     margin-bottom: 1.5rem;
   }
+  /* Заголовок и ссылка «все …» — одной строкой, по краям блока. */
+  .faq-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+  .faq-head h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); margin: 0; }
+  .faq-all { flex: none; color: var(--color-accent); font-size: 0.88rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .faq-all:hover { text-decoration: underline; }
   .faq-list {
     display: flex;
     flex-direction: column;

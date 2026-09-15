@@ -1,0 +1,433 @@
+{
+  "family_key": "ARTLIST",
+  "vendor": "Artlist",
+  "vendor_profile": "data/content/vendors/artlist.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "artlst-pro",
+  "classification_notes": [
+    "Social / Pro / Teams. Носитель — Pro."
+  ],
+  "products": {
+    "artlst-social": {
+      "sku": "ARTL-LIC-SOCIAL-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Artlist Music & SFX Social — индивидуальная подписка на 1 год на библиотеку лицензионной музыки и звуковых эффектов для социальных сетей и личных каналов: неограниченные загрузки, лицензия на публикации в соцсетях, YouTube и подкастах; коммерческие клиентские проекты и реклама — в Pro. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Artlist Music & SFX Social",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Библиотека",
+              "d": "Музыка и SFX без лимита загрузок."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Соцсети, YouTube, подкасты личного бренда."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Клиентских проектов, ТВ и рекламы — Pro."
+            }
+          ],
+          "links": [
+            "artlst-pro"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Social",
+              "d": "Свои каналы."
+            },
+            {
+              "t": "Pro",
+              "d": "Клиентские и коммерческие проекты.",
+              "link": "artlst-pro"
+            },
+            {
+              "t": "Teams",
+              "d": "Места для команды.",
+              "link": "artlst-teams"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Блогерам и SMM."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Остаётся ли лицензия после окончания?",
+          "a": "Да, на контент, использованный в срок подписки."
+        }
+      ],
+      "related_products": [
+        "artlst-pro",
+        "artlst-teams"
+      ],
+      "meta_title": "Artlist Music & SFX Social — подписка на год | BIZSoft",
+      "meta_description": "Artlist Music & SFX Social: музыка и эффекты для соцсетей и личных каналов, безлимитные загрузки. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "artlist music & sfx social купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "artlst-pro": {
+      "sku": "ARTL-LIC-PRO-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Artlist Music & SFX Pro — индивидуальная подписка на 1 год на библиотеку музыки и звуковых эффектов с универсальной лицензией: клиентские проекты, реклама, ТВ, кино, игры, без ограничений по каналам; лицензия на использованные треки остаётся навсегда. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Artlist Music & SFX Pro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Лицензия",
+              "d": "Универсальная: клиенты, реклама, вещание, игры."
+            },
+            {
+              "t": "Библиотека",
+              "d": "Музыка, SFX, безлимит."
+            },
+            {
+              "t": "Навсегда",
+              "d": "Права на скачанное в срок подписки не истекают."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Pro",
+              "d": "Коммерческие проекты."
+            },
+            {
+              "t": "Social",
+              "d": "Только свои каналы.",
+              "link": "artlst-social"
+            },
+            {
+              "t": "Teams",
+              "d": "Несколько сотрудников.",
+              "link": "artlst-teams"
+            },
+            {
+              "t": "Epidemic Sound Commercial",
+              "d": "Альтернатива.",
+              "link": "epsnd-commercial"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продакшенам и агентствам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Покрывает ли реклама на ТВ?",
+          "a": "Да."
+        }
+      ],
+      "related_products": [
+        "artlst-social",
+        "artlst-teams",
+        "epsnd-commercial"
+      ],
+      "meta_title": "Artlist Music & SFX Pro — подписка на год | BIZSoft",
+      "meta_description": "Artlist Music & SFX Pro: универсальная лицензия на музыку и эффекты для клиентских и рекламных проектов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "artlist music & sfx pro купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "artlst-teams": {
+      "sku": "ARTL-LIC-TEAMS-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Artlist Music & SFX Teams — командная подписка на 1 год на библиотеку Artlist с местами для сотрудников организации: универсальная лицензия Pro, общие коллекции, администрирование. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Artlist Music & SFX Teams",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Места, общие папки, единый счёт."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Как у Pro — универсальная."
+            },
+            {
+              "t": "Библиотека",
+              "d": "Музыка и SFX."
+            }
+          ],
+          "links": [
+            "artlst-pro"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Teams",
+              "d": "Два и больше монтажёров."
+            },
+            {
+              "t": "Pro",
+              "d": "Один.",
+              "link": "artlst-pro"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум",
+              "d": "По условиям вендора."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Права на треки — за организацией."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум мест?",
+          "a": "По условиям Artlist."
+        }
+      ],
+      "related_products": [
+        "artlst-pro"
+      ],
+      "meta_title": "Artlist Music & SFX Teams — подписка на год | BIZSoft",
+      "meta_description": "Artlist Teams: универсальная лицензия на музыку и эффекты на места команды. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "artlist music & sfx teams купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
