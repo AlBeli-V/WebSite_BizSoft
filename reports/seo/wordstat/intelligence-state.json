@@ -1,6 +1,6 @@
 {
  "date": "2026-09-15",
- "generated_at": "2026-09-15T06:11:22+00:00",
+ "generated_at": "2026-09-15T07:58:43+00:00",
  "measured_at": "2026-09-06",
  "universe": {
   "phrases": 24913,
@@ -17,7 +17,7 @@
   "levels": {
    "page": 0.964,
    "indexed": 0.8783,
-   "top10": 0.7748,
+   "top10": 0.7662,
    "clicks": 0.001,
    "conversion_measured": null,
    "qualified_leads": null
@@ -102,10 +102,10 @@
   "Средства разработки": {
    "demand": 10957,
    "covered": 10957,
-   "top10": 10814,
+   "top10": 2440,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.987,
+   "top10_coverage": 0.223,
    "click_coverage": 0.0
   },
   "Системное ПО": {
@@ -179,8 +179,9 @@
  },
  "gaps_by_class": {
   "GAP-C": 8,
-  "GAP-D": 20,
+  "GAP-D": 19,
   "GAP-E": 1,
+  "GAP-F": 1,
   "GAP-G": 1,
   "GAP-H": 24,
   "GAP-N": 25
@@ -515,14 +516,14 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 8766,
+  "calls_total": 8836,
   "calls_paid": 268,
   "cost_month_rub": 5.45,
   "cost_today_rub": 0.0,
   "remaining_budget_rub": 5494.55,
   "forecast_month_end_rub": 10.9,
   "state": "open",
-  "cache_hit_rate": 0.9694,
+  "cache_hit_rate": 0.9697,
   "duplicate_rate": 0.7231,
   "unique_phrases": 1866,
   "new_commercial_phrases": 649,
@@ -530,7 +531,7 @@
   "cost_per_1000_unique_phrases_rub": 2.921,
   "cost_per_1000_commercial_phrases_rub": 8.398,
   "cost_per_new_cluster_rub": 1.3625,
-  "empty_response_rate": 0.3623
+  "empty_response_rate": 0.3633
  },
  "quota": {
   "requests_per_hour": 500,
@@ -546,7 +547,7 @@
   "coverage": {
    "page": 0.964,
    "indexed": 0.8783,
-   "top10": 0.7748
+   "top10": 0.7662
   },
   "lead_opportunity": {
    "cluster": "apple",
