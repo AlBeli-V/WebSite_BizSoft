@@ -1,0 +1,436 @@
+{
+  "family_key": "ABLETON",
+  "vendor": "Ableton",
+  "vendor_profile": "data/content/vendors/ableton.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "ableton-live-standard",
+  "classification_notes": [
+    "Live 12 Intro / Standard / Suite (perpetual). Носитель — Standard."
+  ],
+  "products": {
+    "ableton-live-intro": {
+      "sku": "ABLT-LIC-LIVEINTRO-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Ableton Live 12 Intro — бессрочная лицензия на младшую редакцию Live: 16 треков, базовый набор инструментов и эффектов, сессионный и аранжировочный вид, Push-совместимость. Одна покупка на пользователя; обновления внутри версии 12.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Ableton Live 12 Intro",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Live",
+              "d": "Session и Arrangement, MIDI, аудио, варпинг."
+            },
+            {
+              "t": "Лимиты",
+              "d": "16 аудио/MIDI-треков, ограниченный набор устройств."
+            },
+            {
+              "t": "Push",
+              "d": "Работает с контроллерами Ableton."
+            }
+          ],
+          "links": [
+            "ableton-live-standard"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Версия 12 без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 12; Live 13 — платный апгрейд."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До Standard и Suite доплатой."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Intro",
+              "d": "Начало и простые проекты."
+            },
+            {
+              "t": "Standard",
+              "d": "Без лимита треков, полный набор.",
+              "link": "ableton-live-standard"
+            },
+            {
+              "t": "Suite",
+              "d": "Все инструменты и Max for Live.",
+              "link": "ableton-live-suite"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Начинающим продюсерам и обучению."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли апгрейдить до Suite?",
+          "a": "Да, доплатой разницы."
+        }
+      ],
+      "related_products": [
+        "ableton-live-standard",
+        "ableton-live-suite"
+      ],
+      "meta_title": "Ableton Live 12 Intro — бессрочная лицензия | BIZSoft",
+      "meta_description": "Ableton Live 12 Intro: 16 треков, базовые инструменты; бессрочная лицензия. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "ableton live intro купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "ableton-live-standard": {
+      "sku": "ABLT-LIC-LIVESTD-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Ableton Live 12 Standard — бессрочная лицензия на полный Live без лимита треков: все базовые инструменты и эффекты, аудио-в-MIDI, Link, экспорт видео. Одна покупка; обновления внутри версии 12.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Ableton Live 12 Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Без лимитов",
+              "d": "Треки, сцены, возвраты без ограничений."
+            },
+            {
+              "t": "Инструменты",
+              "d": "Базовый набор устройств и эффектов Live."
+            },
+            {
+              "t": "Чего нет",
+              "d": "Max for Live и премиальных инструментов — Suite."
+            }
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 12."
+            },
+            {
+              "t": "Апгрейд",
+              "d": "До Suite доплатой."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard",
+              "d": "Полный Live без Max."
+            },
+            {
+              "t": "Suite",
+              "d": "Плюс Max for Live, Operator, Wavetable, библиотека.",
+              "link": "ableton-live-suite"
+            },
+            {
+              "t": "Intro",
+              "d": "Бюджетный вход.",
+              "link": "ableton-live-intro"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Продюсерам и звукорежиссёрам live-выступлений."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Входит ли Max for Live?",
+          "a": "Нет, только в Suite."
+        }
+      ],
+      "related_products": [
+        "ableton-live-suite",
+        "ableton-live-intro"
+      ],
+      "meta_title": "Ableton Live 12 Standard — бессрочная лицензия | BIZSoft",
+      "meta_description": "Ableton Live 12 Standard: полный Live без лимита треков с базовыми инструментами; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "ableton live standard купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "ableton-live-suite": {
+      "sku": "ABLT-LIC-LIVESUITE-UNI-PERP-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "universal",
+        "term": "perpetual",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "лицензия на пользователя",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Ableton Live 12 Suite — бессрочная лицензия на старшую редакцию: все инструменты и эффекты Ableton, Max for Live, 70+ ГБ звуков, Operator, Wavetable, Meld. Одна покупка; обновления внутри версии 12.\n\nБессрочная лицензия.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что умеет Ableton Live 12 Suite",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Инструменты",
+              "d": "Operator, Wavetable, Meld, Drift, Sampler и все эффекты."
+            },
+            {
+              "t": "Max for Live",
+              "d": "Свои устройства и библиотека сообщества."
+            },
+            {
+              "t": "Библиотека",
+              "d": "70+ ГБ пакетов."
+            }
+          ],
+          "links": [
+            "ableton-live-standard"
+          ]
+        },
+        {
+          "code": "PERPETUAL_RULES",
+          "title": "Что остаётся навсегда и что имеет срок",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Бессрочно",
+              "d": "Без срока."
+            },
+            {
+              "t": "Обновления",
+              "d": "Внутри 12; 13 — платно со скидкой."
+            },
+            {
+              "t": "Всё включено",
+              "d": "Дополнительные паки — отдельно."
+            }
+          ]
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Эта лицензия или соседняя",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Suite",
+              "d": "Полный арсенал."
+            },
+            {
+              "t": "Standard",
+              "d": "Без Max и части инструментов.",
+              "link": "ableton-live-standard"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Профессиональным продюсерам и саунд-дизайнерам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли отдельный Max?",
+          "a": "Нет, Max for Live входит."
+        }
+      ],
+      "related_products": [
+        "ableton-live-standard"
+      ],
+      "meta_title": "Ableton Live 12 Suite — бессрочная лицензия | BIZSoft",
+      "meta_description": "Ableton Live 12 Suite: все инструменты, Max for Live, 70+ ГБ звуков; бессрочно. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "ableton live suite купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PERPETUAL_RULES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,421 @@
+{
+  "family_key": "ENVATO",
+  "vendor": "Envato",
+  "vendor_profile": "data/content/vendors/envato.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "envato-core",
+  "classification_notes": [
+    "Core / Plus / Team Core. Носитель — Core."
+  ],
+  "products": {
+    "envato-core": {
+      "sku": "ENVT-LIC-CORE-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Envato Elements Core — индивидуальная подписка на 1 год на библиотеку Envato Elements: безлимитные загрузки из 28 млн ресурсов — шаблоны видео и презентаций, графика, фото, шрифты, музыка, плагины WordPress; лицензия на использованное остаётся навсегда, 10 ИИ-генераций в месяц. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Envato Elements Core",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Библиотека",
+              "d": "Шаблоны, графика, фото, видео, музыка, шрифты, WordPress."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Коммерческая на каждый зарегистрированный проект, навсегда."
+            },
+            {
+              "t": "ИИ",
+              "d": "10 генераций в месяц."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Core",
+              "d": "Один дизайнер."
+            },
+            {
+              "t": "Plus",
+              "d": "Больше ИИ-генераций.",
+              "link": "envato-plus"
+            },
+            {
+              "t": "Team Core",
+              "d": "Места для команды.",
+              "link": "envato-team-core"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Дизайнерам и маркетологам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Что будет с лицензией после окончания подписки?",
+          "a": "Права на ресурсы, использованные в зарегистрированных проектах, остаются навсегда."
+        }
+      ],
+      "related_products": [
+        "envato-plus",
+        "envato-team-core"
+      ],
+      "meta_title": "Envato Elements Core — подписка на год | BIZSoft",
+      "meta_description": "Envato Elements Core: безлимитные загрузки шаблонов, графики, фото, музыки с постоянной лицензией. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "envato elements core купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "envato-plus": {
+      "sku": "ENVT-LIC-PLUS-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Envato Elements Plus — индивидуальная подписка на 1 год: то же безлимитное скачивание, что в Core, плюс большой месячный объём ИИ-генераций изображений и видео. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Envato Elements Plus",
+          "kind": "items",
+          "items": [
+            {
+              "t": "ИИ",
+              "d": "Расширенная квота генераций."
+            },
+            {
+              "t": "Всё из Core",
+              "d": "Библиотека, лицензия."
+            },
+            {
+              "t": "Один пользователь",
+              "d": "Личный аккаунт."
+            }
+          ],
+          "links": [
+            "envato-core"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Plus",
+              "d": "Активно генерируете."
+            },
+            {
+              "t": "Core",
+              "d": "Только библиотека.",
+              "link": "envato-core"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Контент-мейкерам с ИИ."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие от Core?",
+          "a": "Только объём ИИ."
+        }
+      ],
+      "related_products": [
+        "envato-core"
+      ],
+      "meta_title": "Envato Elements Plus — подписка на год | BIZSoft",
+      "meta_description": "Envato Elements Plus: безлимитная библиотека плюс расширенные ИИ-генерации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "envato elements plus купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "envato-team-core": {
+      "sku": "ENVT-LIC-TEAMCORE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Envato Elements Team Core — командная подписка на 1 год за рабочее место: библиотека Elements на сотрудников организации с единым администрированием и лицензиями на компании. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Envato Elements Team Core",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Команда",
+              "d": "Места, единый счёт."
+            },
+            {
+              "t": "Лицензия",
+              "d": "На организацию, проекты команды."
+            },
+            {
+              "t": "Всё из Core",
+              "d": "Библиотека, ИИ базово."
+            }
+          ],
+          "links": [
+            "envato-core"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Team Core",
+              "d": "Несколько сотрудников."
+            },
+            {
+              "t": "Core",
+              "d": "Один.",
+              "link": "envato-core"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Минимум",
+              "d": "По условиям вендора."
+            },
+            {
+              "t": "Регистрация проектов",
+              "d": "На организацию."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Агентствам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум мест?",
+          "a": "По условиям Envato."
+        }
+      ],
+      "related_products": [
+        "envato-core"
+      ],
+      "meta_title": "Envato Elements Team Core — подписка за место | BIZSoft",
+      "meta_description": "Envato Elements Team Core: библиотека на места команды с лицензиями на организацию. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "envato elements team core купить — hero"
+      ],
+      "uncertainties": [
+        "Условия лицензии на контент — по лицензионному соглашению вендора."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

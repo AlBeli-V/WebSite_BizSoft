@@ -1,0 +1,270 @@
+{
+  "family_key": "XAI",
+  "vendor": "xAI",
+  "vendor_profile": "data/content/vendors/xai.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "xai-supergrok",
+  "classification_notes": [
+    "SuperGrok / Heavy. Носитель — SuperGrok."
+  ],
+  "products": {
+    "xai-supergrok": {
+      "sku": "XAI-LIC-SUPERGROK-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SuperGrok — индивидуальная подписка на 1 год на ИИ-ассистент Grok от xAI с повышенными лимитами: актуальные модели Grok, генерация изображений, голосовой режим, ранний доступ к функциям. Личный аккаунт; цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SuperGrok",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Модели",
+              "d": "Актуальные Grok с расширенным контекстом."
+            },
+            {
+              "t": "Функции",
+              "d": "Изображения, голос, DeepSearch."
+            },
+            {
+              "t": "Лимиты",
+              "d": "Повышенные относительно бесплатного."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "SuperGrok",
+              "d": "Один пользователь."
+            },
+            {
+              "t": "Heavy",
+              "d": "Многоагентная модель, максимум.",
+              "link": "xai-supergrok-heavy"
+            },
+            {
+              "t": "ChatGPT Business",
+              "d": "Аналог для команды.",
+              "link": "chatgpt-business"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Аналитикам."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли командный план?",
+          "a": "По запросу."
+        }
+      ],
+      "related_products": [
+        "xai-supergrok-heavy",
+        "chatgpt-business"
+      ],
+      "meta_title": "SuperGrok — подписка на год | BIZSoft",
+      "meta_description": "SuperGrok: ИИ-ассистент Grok с повышенными лимитами, изображения, голос; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "supergrok купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "xai-supergrok-heavy": {
+      "sku": "XAI-LIC-SUPERGROKHEAVY-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "SuperGrok Heavy — индивидуальная подписка на 1 год на старший план: многоагентная модель Grok Heavy, максимальные лимиты, ранний доступ. Личный аккаунт; цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SuperGrok Heavy",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Heavy",
+              "d": "Многоагентный режим для сложных задач."
+            },
+            {
+              "t": "Лимиты",
+              "d": "Максимальные."
+            },
+            {
+              "t": "Всё из SuperGrok",
+              "d": "Функции."
+            }
+          ],
+          "links": [
+            "xai-supergrok"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Лицензия закреплена за аккаунтом конкретного сотрудника: сменить пользователя нельзя, компания покупает её на имя человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Heavy",
+              "d": "Исследования."
+            },
+            {
+              "t": "SuperGrok",
+              "d": "Обычно.",
+              "link": "xai-supergrok"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Исследователям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Отличие?",
+          "a": "Модель Heavy и лимиты."
+        }
+      ],
+      "related_products": [
+        "xai-supergrok"
+      ],
+      "meta_title": "SuperGrok Heavy — подписка на год | BIZSoft",
+      "meta_description": "SuperGrok Heavy: многоагентная модель Grok Heavy, максимальные лимиты; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "supergrok heavy купить — hero"
+      ],
+      "uncertainties": [
+        "Квоты — по прайсу вендора на дату заказа."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

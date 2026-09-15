@@ -1,0 +1,476 @@
+{
+  "family_key": "PERFORCE",
+  "vendor": "Perforce",
+  "vendor_profile": "data/content/vendors/perforce.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "prfrc-p4-cloud",
+  "classification_notes": [
+    "P4 Cloud / Scale / Platform. Носитель — Cloud."
+  ],
+  "products": {
+    "prfrc-p4-cloud": {
+      "sku": "PRFC-LIC-P4CLOUD-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Perforce P4 Cloud — командная подписка на 1 год на управляемый сервер контроля версий P4 (Helix Core) в облаке: хранение больших бинарных файлов и репозиториев игр, потоки, интеграции с Unreal и Unity, администрирование Perforce. Места на организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Perforce P4 Cloud",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Контроль версий",
+              "d": "P4 с потоками, большие бинарники, блокировки."
+            },
+            {
+              "t": "Облако",
+              "d": "Управляемый сервер, резервирование."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Unreal, Unity, P4V, IDE."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Cloud",
+              "d": "Без своего сервера."
+            },
+            {
+              "t": "Scale",
+              "d": "Свой сервер, больше пользователей.",
+              "link": "prfrc-p4-scale"
+            },
+            {
+              "t": "Platform",
+              "d": "Полная платформа с ревью и DAM.",
+              "link": "prfrc-p4-platform"
+            },
+            {
+              "t": "GitLab Premium",
+              "d": "Альтернатива для кода без бинарников.",
+              "link": "gitlab-premium-saas"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Хранилище",
+              "d": "По тарифу."
+            },
+            {
+              "t": "Минимум",
+              "d": "По условиям Perforce."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Игровым студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бесплатный?",
+          "a": "До 5 пользователей у вендора."
+        }
+      ],
+      "related_products": [
+        "prfrc-p4-scale",
+        "prfrc-p4-platform",
+        "gitlab-premium-saas"
+      ],
+      "meta_title": "Perforce P4 Cloud — подписка на год | BIZSoft",
+      "meta_description": "Perforce P4 Cloud: управляемый Helix Core в облаке для игровых репозиториев. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "perforce p4 cloud купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "prfrc-p4-scale": {
+      "sku": "PRFC-LIC-P4SCALE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Perforce P4 Scale — командная подписка на 1 год на самостоятельно размещаемый сервер P4 (Helix Core) для больших команд: свой сервер, реплики, федерация, поддержка. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Perforce P4 Scale",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Свой сервер",
+              "d": "Полный контроль данных."
+            },
+            {
+              "t": "Масштаб",
+              "d": "Реплики, прокси, федерация."
+            },
+            {
+              "t": "Поддержка",
+              "d": "Perforce."
+            }
+          ],
+          "links": [
+            "prfrc-p4-cloud"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Scale",
+              "d": "Свой сервер."
+            },
+            {
+              "t": "Cloud",
+              "d": "Управляемый.",
+              "link": "prfrc-p4-cloud"
+            },
+            {
+              "t": "Platform",
+              "d": "Плюс ревью и DAM.",
+              "link": "prfrc-p4-platform"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Эксплуатация",
+              "d": "На вас."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум?",
+          "a": "По договору."
+        }
+      ],
+      "related_products": [
+        "prfrc-p4-cloud",
+        "prfrc-p4-platform"
+      ],
+      "meta_title": "Perforce P4 Scale — подписка на год | BIZSoft",
+      "meta_description": "Perforce P4 Scale: Helix Core на своём сервере с репликами; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "perforce p4 scale купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "prfrc-p4-platform": {
+      "sku": "PRFC-LIC-P4PLATFORM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Perforce P4 Platform — командная подписка на 1 год на полную платформу Perforce: P4 плюс ревью кода (Swarm), управление цифровыми активами (DAM), интеграции, поддержка. Цена по запросу.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Perforce P4 Platform",
+          "kind": "items",
+          "items": [
+            {
+              "t": "P4",
+              "d": "Контроль версий."
+            },
+            {
+              "t": "Swarm и DAM",
+              "d": "Ревью, активы."
+            },
+            {
+              "t": "Интеграции",
+              "d": "Пайплайн студии."
+            }
+          ],
+          "links": [
+            "prfrc-p4-cloud"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Платформенная лицензия оформляется договором на организацию; пользователи P4, Swarm и DAM заводятся администраторами Perforce компании."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Platform",
+              "d": "Всё."
+            },
+            {
+              "t": "Scale",
+              "d": "Только P4.",
+              "link": "prfrc-p4-scale"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Договор",
+              "d": "Согласование."
+            },
+            {
+              "t": "Цена",
+              "d": "По запросу."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "AAA-студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Минимум?",
+          "a": "По договору."
+        }
+      ],
+      "related_products": [
+        "prfrc-p4-cloud",
+        "prfrc-p4-scale"
+      ],
+      "meta_title": "Perforce P4 Platform — подписка на год | BIZSoft",
+      "meta_description": "Perforce P4 Platform: Helix Core, Swarm, DAM; цена по запросу. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "perforce p4 platform купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
