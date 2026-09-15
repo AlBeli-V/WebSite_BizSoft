@@ -6,7 +6,7 @@
  * двух форматов.
  */
 import { describe, expect, it } from 'vitest';
-import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
+import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, CM, MARK_FILE, PAGE, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
 import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
 import { generateQuoteJpgPages, jpgFileNames, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
@@ -257,10 +257,56 @@ describe('раскладка КП', () => {
     // артикул, и он наезжал на название (находка руководителя 15.09.2026).
     expect(texts).toContain('Описание');
     expect(texts).toContain('Кол-во');
-    expect(texts).toContain('Цена, ₽');
-    expect(texts).toContain('Сумма, ₽');
+    // Денежные колонки названы в две строки со ставкой налога: цена в
+    // таблице указана с НДС, и это должно быть видно в самой шапке.
+    expect(texts).toContain('Цена Руб.');
+    expect(texts).toContain('Сумма Руб.');
+    expect(texts.filter((t) => t === 'в т.ч. НДС 5%')).toHaveLength(2);
     expect(texts).not.toContain('Артикул');
     expect(texts).not.toContain('Наименование');
+  });
+
+  it('подписи шапки стоят по центру своих колонок', () => {
+    const heads = (buildQuoteLayout(data, pdfMeasure())[0].items as any[])
+      .filter((i) => i.kind === 'text' && ['№', 'Описание', 'Кол-во', 'Цена Руб.', 'Сумма Руб.'].includes(i.text));
+    expect(heads.length).toBe(5);
+    for (const h of heads) expect(h.align, h.text).toBe('center');
+  });
+
+  it('поля страницы: слева 3 см, справа, сверху и снизу по 1 см', () => {
+    // Решение руководителя 15.09.2026. Проверяется не число в константе, а
+    // то, что содержимое действительно живёт внутри поля.
+    expect(PAGE.margin.left).toBeCloseTo(3 * CM, 1);
+    expect(PAGE.margin.right).toBeCloseTo(CM, 1);
+    const texted = pages.flatMap((p) => p.items.filter((i) => i.kind === 'text') as any[]);
+    for (const t of texted) {
+      expect(t.x, t.text).toBeGreaterThanOrEqual(PAGE.margin.left - 0.5);
+      const rightEdge = t.width ? t.x + t.width : t.x;
+      expect(rightEdge, t.text).toBeLessThanOrEqual(PAGE.width - PAGE.margin.right + 0.5);
+      expect(t.y, t.text).toBeGreaterThanOrEqual(PAGE.margin.top - 0.5);
+      expect(t.y, t.text).toBeLessThanOrEqual(PAGE.height - PAGE.margin.bottom);
+    }
+  });
+
+  it('колонтитул: знак слева, реквизиты влево, номер листа вправо', () => {
+    const many = buildQuoteLayout({
+      ...data,
+      items: Array.from({ length: 12 }, (_, i) => ({
+        sku: `ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-${i}`, name: 'Claude Team, Standard seat',
+        vendor: 'Anthropic', qty: 1, price: 46421, sum: 46421,
+      })),
+      total: 46421 * 12,
+    }, pdfMeasure());
+    for (const page of many) {
+      const marks = page.items.filter((i) => i.kind === 'image' && (i as any).file === MARK_FILE);
+      expect(marks.length).toBe(1);
+      const foot = page.items.find((i) => i.kind === 'text' && /ИНН 507202054051/.test((i as any).text)) as any;
+      // Реквизиты выключены влево (без align) и сдвинуты правее знака.
+      expect(foot.align).toBeUndefined();
+      expect(foot.x).toBeGreaterThan(PAGE.margin.left);
+      const sheet = page.items.find((i) => i.kind === 'text' && /^Лист /.test((i as any).text)) as any;
+      expect(sheet.align).toBe('right');
+    }
   });
 
   it('описание позиции — то же, что в спецификации на сайте', () => {

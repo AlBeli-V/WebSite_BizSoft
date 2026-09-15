@@ -103,9 +103,27 @@ describe('Word повторяет клиентский документ', () => 
     expect(doc).toContain(`Исх. № ${data.quoteNo}`);
     expect(doc).toContain('Описание');
     expect(doc).toContain('Кол-во');
+    // Денежные колонки — в две строки со ставкой налога, как в макете.
+    expect(doc).toContain('Цена Руб.');
+    expect(doc).toContain('Сумма Руб.');
+    expect(doc).toContain('в т.ч. НДС 5%');
     // Отдельной колонки артикула нет — он внутри описания позиции.
     expect(doc).not.toContain('Наименование');
     expect(doc).toContain(`Артикул: ${data.items[0].sku}`);
+  });
+
+  it('поля страницы и знак в колонтитуле — как в макете', async () => {
+    const buf = await generateQuoteDocx(data);
+    const zip = await JSZip.loadAsync(buf);
+    const doc = await zip.files['word/document.xml'].async('string');
+    // 3 см слева и по 1 см с остальных сторон (1 см = 567 твипов).
+    expect(doc).toMatch(/w:left="1701"/);
+    expect(doc).toMatch(/w:right="567"/);
+    expect(doc).toMatch(/w:top="567"/);
+    expect(doc).toMatch(/w:bottom="567"/);
+    // Знак марки уехал в колонтитул картинкой.
+    const media = Object.keys(zip.files).filter((n) => n.startsWith('word/media/'));
+    expect(media.length).toBeGreaterThan(0);
   });
 
   it('описание позиции совпадает со страницей спецификации', async () => {
