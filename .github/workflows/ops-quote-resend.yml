@@ -1,0 +1,132 @@
+# Повторная отправка уже выпущенного КП — тем же номером и теми же ценами.
+#
+# Зачем. Документ КП переделан (docs/rules/quote-document.md), и увидеть,
+# как теперь выглядит конкретное отправленное предложение, можно только на
+# живых данных. Прогон берёт сохранённое КП из Directus, пересобирает
+# документ текущим кодом прода и шлёт письмо с пометкой «(ТЕСТ ПОВТОР)».
+#
+# Что НЕ делает: не заводит заявку, не пишет в quotes, не зеркалит в
+# Bitrix24 и ничего не отправляет клиенту — письмо уходит только на адрес,
+# указанный во входных данных (по умолчанию менеджеру).
+#
+# Как работает: эндпоинт /api/admin/quote-resend закрыт токеном
+# ADMIN_TOOLS_TOKEN, который лежит в /opt/bizsoft/astro.env на сервере и
+# наружу не ходит. Поэтому вызов делается изнутри сервера по SSH.
+#
+# Секреты: SSH_HOST / SSH_USER / SSH_KEY (ops/secrets/registry.json).
+
+name: ops-quote-resend
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: "Почта клиента, чьё последнее КП переотправить"
+        required: false
+        default: ""
+      quote_no:
+        description: "Точный номер КП (BZ-…); задан — ищем по нему, а не по почте"
+        required: false
+        default: ""
+      to:
+        description: "Куда отправить письмо; пусто — менеджеру"
+        required: false
+        default: ""
+      dry_run:
+        description: "true — показать состав и ничего не отправлять"
+        required: true
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ops-quote-resend
+  cancel-in-progress: false
+
+jobs:
+  resend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      # always(): локальные action'ы — файлы репозитория, без checkout запись
+      # в журнал в упавшем прогоне их не найдёт.
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Resend quote from server
+        id: run
+        uses: ./.github/actions/ssh-run
+        env:
+          IN_EMAIL: ${{ inputs.email }}
+          IN_QUOTE_NO: ${{ inputs.quote_no }}
+          IN_TO: ${{ inputs.to }}
+          IN_DRY: ${{ inputs.dry_run }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: IN_EMAIL,IN_QUOTE_NO,IN_TO,IN_DRY
+          script: |
+            set -e
+            T=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$T" ]; then
+              echo "ADMIN_TOOLS_TOKEN не задан на сервере — повтор невозможен"
+              exit 1
+            fi
+
+            # Тело собирает python: адрес и номер приходят от человека, а
+            # ручная склейка JSON ломается на кавычках.
+            IN_EMAIL="$IN_EMAIL" IN_QUOTE_NO="$IN_QUOTE_NO" IN_TO="$IN_TO" IN_DRY="$IN_DRY" \
+            python3 - > /tmp/quote-resend-body.json <<'PY'
+            import json, os
+            print(json.dumps({
+                'email': os.environ.get('IN_EMAIL', '').strip(),
+                'quote_no': os.environ.get('IN_QUOTE_NO', '').strip(),
+                'to': os.environ.get('IN_TO', '').strip(),
+                'dry_run': os.environ.get('IN_DRY', 'true') == 'true',
+            }, ensure_ascii=False))
+            PY
+
+            CODE=$(curl -sS --max-time 120 -o /tmp/quote-resend.json -w '%{http_code}' \
+              -X POST http://127.0.0.1:3000/api/admin/quote-resend \
+              -H "x-admin-token: $T" -H 'Content-Type: application/json' \
+              --data-binary @/tmp/quote-resend-body.json)
+            echo "POST /api/admin/quote-resend → HTTP $CODE"
+
+            python3 - "$CODE" <<'PY'
+            import json, sys
+            code = sys.argv[1]
+            try:
+                d = json.load(open('/tmp/quote-resend.json'))
+            except Exception as e:
+                print(f'ответ не разобран: {e}')
+                sys.exit(1)
+            if code != '200' or not d.get('ok'):
+                print('ошибка:', d.get('error') or d)
+                sys.exit(1)
+            print(f"КП № {d['quote_no']} от {d['issued']}")
+            print(f"заказчик: {d['buyer']} · адрес клиента: {d['client_email']}")
+            print(f"позиций: {d['positions']} · сумма: {d['total']} ₽ · листов: {d['sheets']}")
+            print('файлы: ' + ', '.join(d['files']))
+            print(('отправлено на ' + d['to']) if d.get('sent') else 'сухой прогон: письмо не отправлялось')
+            PY
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-quote-resend"
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}
