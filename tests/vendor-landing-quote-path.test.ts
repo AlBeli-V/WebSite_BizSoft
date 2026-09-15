@@ -28,11 +28,9 @@ const card = readFileSync('src/components/VendorTariffCard.astro', 'utf8');
 
 describe('лендинг производителя: один путь заявки', () => {
   it('призыв «Получить расчёт и КП» ведёт к форме, а не в окно вопроса', () => {
-    // Ветка под идущим замером первого экрана исключена сознательно:
-    // страница под замером не правится. Маркер data-hero-form-cta и есть
-    // отметка «сюда не ходить, пока считаем».
+    // Исключений больше нет: замер первого экрана закрыт 15.09.2026, и
+    // ветка с формой в первом экране снята вместе с ним.
     const calls = (landing.match(/[^\n]*Получить расчёт и КП[^\n]*/g) ?? [])
-      .filter((l) => !l.includes('data-hero-form-cta'))
       // Подпись кнопки самой формы — это уже точка назначения, а не призыв.
       .filter((l) => !l.includes('<LeadForm'));
     expect(calls.length).toBeGreaterThan(0);
@@ -46,17 +44,19 @@ describe('лендинг производителя: один путь заяв�
 
   it('модальное окно осталось только лёгким каналом', () => {
     // Вопрос эксперту и требования ИБ — да; расчёт и КП — нет.
-    const modal = (landing.match(/[^\n]*data-open-question[^\n]*/g) ?? [])
-      .filter((l) => !l.includes('data-hero-form-cta'));
+    const modal = landing.match(/[^\n]*data-open-question[^\n]*/g) ?? [];
     for (const line of modal) {
       expect(line, line).not.toContain('Получить расчёт и КП');
     }
   });
 
-  it('форма на странице одна: вторая осталась только под замер первого экрана', () => {
-    expect(landing.match(/<LeadForm/g)?.length).toBe(2);
-    expect(landing).toContain('HERO_FORM_SLUGS');
-    expect(landing).toContain('heroForm && (');
+  it('форма на странице одна', () => {
+    // Замер первого экрана закрыт решением руководителя 15.09.2026: вторая
+    // форма снята, точек сбора контакта снова две — форма расчёта и окно
+    // вопроса. Третья точка на странице — дефект (§2 навыка).
+    expect(landing.match(/<LeadForm/g)?.length).toBe(1);
+    expect(landing).not.toContain('HERO_FORM_SLUGS');
+    expect(landing).not.toContain('data-hero-form-cta');
   });
 });
 

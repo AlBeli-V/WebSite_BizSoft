@@ -216,19 +216,14 @@ const ld = [
 
 // Раздел назначения ПО: какие решения под задачу отвечают на вопрос
 // «как оформить это на компанию». Вендоров без записи блок не рендерит.
-// Форма в первом экране — эксперимент 07.09.2026 на главных рекламных
-// посадочных. Замер кампании: 226 визитов, ноль form_start при том, что цена
-// «от» и оба призыва в первом экране уже стоят. Значит проверять надо не
-// «видно ли цену», а «нужно ли ради заявки открывать модальное окно».
-// Список узкий сознательно: это замер, а не редизайн всех лендингов.
-//
-// anthropic выведен из замера решением руководителя 11.09.2026: страница
-// переведена на единый путь заявки, и держать на ней четвёртую точку сбора
-// контакта незачем. Пары для сравнения у замера больше нет — это принятая
-// цена решения; adobe остаётся с формой до отдельного решения.
-const HERO_FORM_SLUGS = new Set(['adobe']);
-const heroForm = HERO_FORM_SLUGS.has(entry.slug);
-
+// Замер формы первого экрана (07.09.2026) закрыт решением руководителя
+// 15.09.2026. Anthropic вывели из него 11.09.2026, и Adobe осталась
+// единственной страницей с формой: пары для сравнения у замера не было, а
+// значит вывод «форма против кнопки» из него уже не следовал. Первый экран
+// вернулся к общей композиции утверждённого макета — два входа: призыв к
+// форме расчёта на этой же странице и текстовая ссылка на окно вопроса.
+// Накопленные данные по form_open и form_start остаются в отчётах; цена
+// решения — что они не пополнятся.
 const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   .map((s) => solutions.find((x) => x.slug === s))
   .filter((x): x is (typeof solutions)[number] => Boolean(x));
@@ -238,8 +233,7 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   <Breadcrumbs items={crumbs} />
 
   <!-- HERO -->
-  <header class:list={['hero', heroForm && 'hero-split']}>
-    <div class="hero-head">
+  <header class="hero">
       <div class="vendor-row">
         <VendorLogo slug={entry.slug} name={title} size={44} />
         <span class="vendor-name">{title}</span>
@@ -250,54 +244,19 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
           компании. Стоит до цены и до описания продукта — на вопрос «зачем
           это нам» покупатель отвечает раньше, чем на «сколько это стоит». */}
       {value && <p class="value-headline">{value.headline}</p>}
-      {heroForm ? (
-        <>
-          {/* На посадочной с формой цена и действие идут сразу за
-              заголовком: на телефоне между ними и формой не должно быть
-              полутора экранов описания. */}
-          {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b>{entry.domain === 'gift' ? ' за код' : ' в год'}</p>}
-          <div class="hero-actions">
-            {/* Ветка идущего замера первого экрана (сейчас это adobe): её
-                призыв намеренно оставлен прежним — страница под замером не
-                правится, иначе вывод о форме будет неотделим от вывода о
-                кнопке. Закроется замер — ветка вернётся на общий путь. */}
-            <button class="btn btn-primary" data-hero-form-cta data-open-question data-product={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</button>
-            {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
-          </div>
-        </>
-      ) : (
-        <>
-          <p class="hero-sub">{entry.tagline} Подбор тарифа под задачи {audience}.</p>
-          <ul class="chips"><li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Оплата в рублях</li></ul>
-          <div class="hero-actions">
-            {/* Призыв ведёт к форме расчёта на этой же странице, а не в
-                модальное окно «Задать вопрос»: прежняя кнопка обещала
-                расчёт, а открывала форму вопроса с полем «Что хотите
-                уточнить?». Модальное окно осталось лёгким каналом. */}
-            <a href="#lead" class="btn btn-primary" data-quote-cta data-context={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</a>
-            {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
-            <button class="btn-link" data-open-question data-product={`${title} — вопрос эксперту`} data-ev="click_clarify_price">Задать вопрос эксперту</button>
-          </div>
-          {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b>{entry.domain === 'gift' ? ' за код' : ' в год'}</p>}
-        </>
-      )}
-    </div>
-    {heroForm && (
-      <div class="hero-form">
-        <LeadForm
-          compact
-          source={`vendor-hero-${entry.slug}`}
-          title="Счёт или КП на компанию"
-          submitLabel="Отправить заявку"
-        />
+      <p class="hero-sub">{entry.tagline} Подбор тарифа под задачи {audience}.</p>
+      <ul class="chips"><li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Оплата в рублях</li></ul>
+      <div class="hero-actions">
+        {/* Два входа, а не четыре: призыв ведёт к форме расчёта на этой же
+            странице, текстовая ссылка открывает окно вопроса — лёгкий канал
+            для тех, кто ещё не считает бюджет. Ссылка, а не вторая кнопка:
+            спорить с главным призывом она не должна. Прежняя кнопка обещала
+            расчёт, а открывала форму вопроса с полем «Что хотите уточнить?». */}
+        <a href="#lead" class="btn btn-primary" data-quote-cta data-context={`${title} — подбор тарифа`} data-ev="click_get_quote">Получить расчёт и КП</a>
+        {hasCards && <a href="#products" class="btn btn-ghost" data-ev="click_choose_plan">Смотреть тарифы</a>}
+        <button class="btn-link" data-open-question data-product={`${title} — вопрос эксперту`} data-ev="click_clarify_price">Задать вопрос эксперту</button>
       </div>
-    )}
-    {heroForm && (
-      <div class="hero-rest">
-        <p class="hero-sub">{entry.tagline} Подбор тарифа под задачи {audience}.</p>
-        <ul class="chips"><li>Для юрлиц</li><li>КП и счёт</li><li>Договор и закрывающие</li><li>Оплата в рублях</li></ul>
-      </div>
-    )}
+      {hasMin && <p class="from">Цены от <b>{formatRub(minPrice)}</b>{entry.domain === 'gift' ? ' за код' : ' в год'}</p>}
   </header>
 
   <!-- Прямой ответ (GEO/AEO) -->
@@ -617,34 +576,6 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
 <style>
   .section { padding-top: 2rem; }
   .hero { padding: 1rem 0 1.5rem; max-width: 820px; }
-  /* С формой первый экран становится двухколоночным и снимает ограничение
-     ширины: колонка текста и колонка заявки. На узких экранах порядок
-     остаётся тем же, что в разметке, — сначала оффер, потом форма. */
-  /* Первый экран с формой: слева оффер и описание, справа заявка. На
-     телефоне колонка одна и форма идёт сразу за ценой и кнопками — при
-     прежнем порядке она начиналась ровно на границе экрана (замер
-     Playwright: y=837 при высоте 839), то есть её никто не видел. */
-  .hero-split {
-    max-width: none;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(min(100%, 340px), 420px);
-    grid-template-areas: 'head form' 'rest form';
-    gap: 0.4rem 2rem;
-    align-items: start;
-  }
-  .hero-split .hero-head { grid-area: head; max-width: 820px; }
-  .hero-split .hero-rest { grid-area: rest; max-width: 820px; }
-  .hero-split .hero-form { grid-area: form; }
-  .hero-split .hero-actions { margin-top: 0.9rem; }
-  @media (max-width: 900px) {
-    .hero-split {
-      grid-template-columns: 1fr;
-      grid-template-areas: 'head' 'form' 'rest';
-      gap: 1rem;
-    }
-    .hero-split h1 { font-size: clamp(1.6rem, 6vw, 2.1rem); }
-    .hero-split .chips { margin: 0.8rem 0 0; }
-  }
   .vendor-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; flex-wrap: wrap; }
   .vendor-name { font-weight: 700; font-size: 1.05rem; }
   .vendor-legal { color: var(--color-text-dim); font-size: 0.85rem; }
