@@ -53,6 +53,23 @@ describe('buildPlan', () => {
     expect(item.payload.category).toBe(5);
     expect(item.payload.price).toBe(500);
   });
+  it('new product takes slug from the row', () => {
+    const rows = [canonRow({ sku: 'ZOHO-LIC-AD360-TEAM-1Y-ORG', slug: 'me-ad360', name: 'AD360', origin: 'Иностранное', category: 'office', price: '0' })];
+    const plan = buildPlan(rows, [], resolver);
+    expect(plan.items[0].payload.slug).toBe('me-ad360');
+  });
+  it('rejects a malformed slug', () => {
+    const rows = [canonRow({ sku: 'NEW-3', slug: 'Me AD360', name: 'AD360', origin: 'Иностранное', category: 'office', price: '0' })];
+    const plan = buildPlan(rows, [], resolver);
+    expect(plan.summary.errors).toBe(1);
+    expect(plan.items[0].errors.join()).toMatch(/slug/);
+  });
+  it('keeps the address of an existing product', () => {
+    const rows = [canonRow({ sku: 'A', slug: 'other-address', price: '150' })];
+    const plan = buildPlan(rows, [prod({ sku: 'A', slug: 'a', price: 100 })], resolver);
+    expect(plan.items[0].mode).toBe('update');
+    expect(plan.items[0].payload.slug).toBeUndefined();
+  });
   it('updates existing with changed field only', () => {
     const rows = [canonRow({ sku: 'A', price: '150' })];
     const plan = buildPlan(rows, [prod({ sku: 'A', price: 100 })], resolver);

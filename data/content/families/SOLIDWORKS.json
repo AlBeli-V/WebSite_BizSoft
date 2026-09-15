@@ -1,0 +1,1232 @@
+{
+  "family_key": "SOLIDWORKS",
+  "vendor": "Dassault Systèmes",
+  "vendor_profile": "data/content/vendors/solidworks.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "solidworks-design-standard",
+  "classification_notes": [
+    "3DEXPERIENCE SOLIDWORKS Design Standard/Professional/Premium × именная/на устройство; xDesign год/квартал. Носитель — Standard именная."
+  ],
+  "products": {
+    "solidworks-design-standard": {
+      "sku": "DSSY-LIC-SWSTD-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "3DEXPERIENCE SOLIDWORKS Design Standard — командная подписка на 1 год на настольный SOLIDWORKS для 3D-проектирования деталей, сборок и чертежей плюс роли облачной платформы 3DEXPERIENCE для хранения данных и совместной работы. Именная лицензия закреплена за инженером и принадлежит организации.\n\nStandard — базовая редакция: моделирование, сборки, чертежи, листовой металл, сварные конструкции, базовая симуляция; Professional добавляет библиотеки, фотореалистичный рендер, автоматизацию и управление данными, Premium — расширенную симуляцию и трубопроводы.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SOLIDWORKS Design Standard",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Моделирование",
+              "d": "Детали, сборки, чертежи по ГОСТ/ISO, листовой металл, сварные конструкции, поверхности."
+            },
+            {
+              "t": "Платформа",
+              "d": "Роли 3DEXPERIENCE: облачное хранение, версии, совместный доступ, просмотр в браузере."
+            },
+            {
+              "t": "Симуляция",
+              "d": "Базовый статический анализ и проверка движения."
+            },
+            {
+              "t": "Обновления",
+              "d": "Все версии за срок; лицензия управляется в 3DEXPERIENCE."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Места командные: заведены на аккаунт компании, раздаются и отзываются администратором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard, именная",
+              "d": "Один инженер на своих рабочих местах."
+            },
+            {
+              "t": "Professional",
+              "d": "Библиотеки Toolbox, PhotoView, автоматизация, PDM.",
+              "link": "solidworks-design-professional"
+            },
+            {
+              "t": "Premium",
+              "d": "Расширенная симуляция, трубопроводы, электрика.",
+              "link": "solidworks-design-premium"
+            },
+            {
+              "t": "Standard на устройство",
+              "d": "Одна станция для сменных пользователей.",
+              "link": "solidworks-design-standard-device"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Роль 3DEXPERIENCE",
+              "d": "Подписка включает роли платформы 3DEXPERIENCE; данные проектов хранятся в облаке Dassault."
+            },
+            {
+              "t": "Тип лицензии",
+              "d": "Именная — за человеком; на устройство — за рабочей станцией, на которой могут работать разные люди посменно."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Конструкторским бюро и производствам с проектированием деталей и сборок."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужна ли постоянная связь с интернетом?",
+          "a": "Периодическая — для проверки лицензии и синхронизации с платформой; работа офлайн допускается."
+        }
+      ],
+      "related_products": [
+        "solidworks-design-professional",
+        "solidworks-design-premium",
+        "solidworks-design-standard-device"
+      ],
+      "meta_title": "SOLIDWORKS Design Standard — подписка на год | BIZSoft",
+      "meta_description": "3DEXPERIENCE SOLIDWORKS Design Standard: детали, сборки, чертежи, листовой металл плюс роли 3DEXPERIENCE; именная лицензия. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "solidworks купить лицензия — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard"
+    },
+    "solidworks-design-professional": {
+      "sku": "DSSY-LIC-SWPRO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "3DEXPERIENCE SOLIDWORKS Design Professional — командная подписка на 1 год на среднюю редакцию SOLIDWORKS: всё из Standard плюс библиотека стандартных изделий Toolbox, фотореалистичная визуализация, автоматизация задач и проверка проектов, интеграция с управлением данными, роли 3DEXPERIENCE. Именная лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SOLIDWORKS Design Professional",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Библиотеки",
+              "d": "Toolbox: крепёж и стандартные детали по ГОСТ, ISO, DIN."
+            },
+            {
+              "t": "Визуализация",
+              "d": "Фотореалистичный рендер, анимации сборок."
+            },
+            {
+              "t": "Автоматизация",
+              "d": "Design Checker, Task Scheduler, eDrawings Professional, обратное проектирование."
+            },
+            {
+              "t": "Всё из Standard",
+              "d": "Моделирование, чертежи, платформа."
+            }
+          ],
+          "links": [
+            "solidworks-design-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional",
+              "d": "Серийное проектирование с библиотеками и рендером."
+            },
+            {
+              "t": "Standard",
+              "d": "Базовое моделирование.",
+              "link": "solidworks-design-standard"
+            },
+            {
+              "t": "Premium",
+              "d": "Симуляция и трубопроводы.",
+              "link": "solidworks-design-premium"
+            },
+            {
+              "t": "Professional на устройство",
+              "d": "Сменные пользователи.",
+              "link": "solidworks-design-professional-device"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Toolbox по ГОСТ",
+              "d": "Библиотека стандартных изделий содержит ГОСТ-крепёж; проверьте нужные стандарты в текущей версии."
+            },
+            {
+              "t": "Рендер",
+              "d": "PhotoView заменён визуализацией платформы — уточняйте состав на дату заказа."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Бюро, где важны стандартные библиотеки и презентация изделий заказчику."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем Toolbox экономит время?",
+          "a": "Крепёж и стандартные детали вставляются с параметрами, а не моделируются вручную."
+        }
+      ],
+      "related_products": [
+        "solidworks-design-standard",
+        "solidworks-design-premium",
+        "solidworks-design-professional-device"
+      ],
+      "meta_title": "SOLIDWORKS Design Professional — подписка на год | BIZSoft",
+      "meta_description": "3DEXPERIENCE SOLIDWORKS Design Professional: Standard плюс Toolbox, фотореалистичный рендер, автоматизация, роли платформы; именная лицензия. Договор, ЭДО.",
+      "seo_intents": [
+        "solidworks professional — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional"
+    },
+    "solidworks-design-premium": {
+      "sku": "DSSY-LIC-SWPRM-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "3DEXPERIENCE SOLIDWORKS Design Premium — командная подписка на 1 год на старшую редакцию: всё из Professional плюс расширенная симуляция (нелинейная, динамика, потоки в базовом объёме), трубопроводы и трассировка, электрические жгуты, анализ допусков, роли 3DEXPERIENCE. Именная лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SOLIDWORKS Design Premium",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Симуляция",
+              "d": "Simulation Premium: нелинейность, динамика, композиты; Motion, Flow в базовом объёме."
+            },
+            {
+              "t": "Трассировка",
+              "d": "Трубопроводы, кабели и жгуты в сборке."
+            },
+            {
+              "t": "Анализ",
+              "d": "TolAnalyst, ScanTo3D, расширенные проверки."
+            },
+            {
+              "t": "Всё из Professional",
+              "d": "Библиотеки, рендер, автоматизация."
+            }
+          ],
+          "links": [
+            "solidworks-design-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium",
+              "d": "Изделия с расчётами и трассировкой."
+            },
+            {
+              "t": "Professional",
+              "d": "Без расширенной симуляции.",
+              "link": "solidworks-design-professional"
+            },
+            {
+              "t": "Premium на устройство",
+              "d": "Сменные пользователи.",
+              "link": "solidworks-design-premium-device"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Симуляция не бесконечна",
+              "d": "Потоки и композиты в базовом объёме; полный CFD — SOLIDWORKS Flow Simulation отдельно."
+            },
+            {
+              "t": "Ресурсы",
+              "d": "Расчёты требуют мощной станции."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Машиностроительным КБ с прочностными расчётами и трубопроводами."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли Premium отдельный Simulation?",
+          "a": "Для большинства задач — да; Simulation Professional/Premium как отдельные продукты дают ещё больше."
+        }
+      ],
+      "related_products": [
+        "solidworks-design-standard",
+        "solidworks-design-professional",
+        "solidworks-design-premium-device"
+      ],
+      "meta_title": "SOLIDWORKS Design Premium — подписка на год | BIZSoft",
+      "meta_description": "3DEXPERIENCE SOLIDWORKS Design Premium: расширенная симуляция, трубопроводы, жгуты, анализ допусков плюс всё из Professional; именная лицензия. Договор, ЭДО.",
+      "seo_intents": [
+        "solidworks premium — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Premium"
+    },
+    "solidworks-design-standard-device": {
+      "sku": "DSSY-LIC-SWSTA-TEAM-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочая станция",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "3DEXPERIENCE SOLIDWORKS Design Standard, лицензия на устройство — годовой командный план на базовую редакцию, закреплённую за рабочей станцией: посменно работают разные инженеры, лицензия принадлежит организации. Состав Standard — на карточке именной версии.\n\nБерут, когда станций меньше, чем конструкторов; за это вендор берёт больше, чем за именную.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SOLIDWORKS Design Standard, на устройство",
+          "kind": "prose",
+          "links": [
+            "solidworks-design-standard"
+          ],
+          "body": "Лицензия на рабочую станцию: за ней в разные смены работают разные сотрудники организации, состав функций — как у именной Standard (детали, сборки, чертежи, листовой металл)."
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Standard на устройство",
+              "d": "Общая станция на нескольких инженеров."
+            },
+            {
+              "t": "Standard, именная",
+              "d": "Один инженер, любые его станции.",
+              "link": "solidworks-design-standard"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Одна станция",
+              "d": "Лицензия не идёт за инженером домой."
+            },
+            {
+              "t": "Дороже именной",
+              "d": "Оправдана только сменным режимом."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Производствам, где конструкторы работают посменно на общих станциях."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Сколько людей могут пользоваться станцией?",
+          "a": "Любое число, но не одновременно — лицензия одна на машину."
+        }
+      ],
+      "related_products": [
+        "solidworks-design-standard",
+        "solidworks-design-standard"
+      ],
+      "meta_title": "SOLIDWORKS Design Standard на устройство — подписка | BIZSof",
+      "meta_description": "3DEXPERIENCE SOLIDWORKS Design Standard с лицензией на рабочую станцию для сменных пользователей; состав — как у именной. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "solidworks standard device license — hero"
+      ],
+      "uncertainties": [
+        "Правила переноса лицензии на устройство — по условиям Dassault Systèmes."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Standard"
+    },
+    "solidworks-design-professional-device": {
+      "sku": "DSSY-LIC-SWPRO-TEAM-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочая станция",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "3DEXPERIENCE SOLIDWORKS Design Professional, лицензия на устройство — командная подписка на год на редакцию Professional, привязанную к станции вместо человека: библиотеки Toolbox, рендер и автоматизация доступны всем, кто садится за эту машину. Функции — как у именной Professional.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SOLIDWORKS Design Professional, на устройство",
+          "kind": "prose",
+          "links": [
+            "solidworks-design-professional"
+          ],
+          "body": "Устройственная Professional: Toolbox, рендер и автоматизация доступны любому инженеру за этой станцией; переназначать людей не нужно."
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Организационная подписка — места закреплены за компанией, а не за людьми, и переходят между сотрудниками по решению администратора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Professional на устройство",
+              "d": "Станция в сменном режиме."
+            },
+            {
+              "t": "Professional, именная",
+              "d": "Персональная лицензия.",
+              "link": "solidworks-design-professional"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Смена станции",
+              "d": "Перенос ограничен правилами Dassault."
+            },
+            {
+              "t": "Цена",
+              "d": "Выше именной Professional."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Бюро с общей мощной станцией под серийное проектирование в две смены."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли переносить лицензию между станциями?",
+          "a": "Да, через администратора платформы, с ограничением частоты по правилам Dassault."
+        }
+      ],
+      "related_products": [
+        "solidworks-design-standard",
+        "solidworks-design-professional"
+      ],
+      "meta_title": "SOLIDWORKS Design Professional на устройство — подписка | BI",
+      "meta_description": "3DEXPERIENCE SOLIDWORKS Design Professional с лицензией на рабочую станцию для сменных пользователей; состав — как у именной. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "solidworks professional device license — hero"
+      ],
+      "uncertainties": [
+        "Правила переноса лицензии на устройство — по условиям Dassault Systèmes."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Professional"
+    },
+    "solidworks-design-premium-device": {
+      "sku": "DSSY-LIC-SWPRE-TEAM-1Y-DEV",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "DEV",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "рабочая станция",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "3DEXPERIENCE SOLIDWORKS Design Premium на устройство — командный план на 12 месяцев: старшая редакция с симуляцией и трассировкой на одной рабочей станции для сменных инженеров; лицензия организации. Полный состав Premium описан у именной версии.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SOLIDWORKS Design Premium, на устройство",
+          "kind": "prose",
+          "links": [
+            "solidworks-design-premium"
+          ],
+          "body": "Premium на станции: симуляция, трассировка и весь набор Professional — всем, кто садится за эту машину по графику."
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Командный формат: компания владеет местами, администратор ими распоряжается, вендор не участвует в переназначении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Premium на устройство",
+              "d": "Расчётная станция для смен."
+            },
+            {
+              "t": "Premium, именная",
+              "d": "Лицензия за инженером.",
+              "link": "solidworks-design-premium"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Расчётная станция",
+              "d": "Общая станция должна тянуть симуляцию для всех смен."
+            },
+            {
+              "t": "Перенос",
+              "d": "По правилам Dassault, не чаще установленного."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Расчётным группам с одной выделенной станцией под симуляцию."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Подходит ли для удалённого доступа к станции?",
+          "a": "Да, если удалённая сессия ведётся на той же машине."
+        }
+      ],
+      "related_products": [
+        "solidworks-design-standard",
+        "solidworks-design-premium"
+      ],
+      "meta_title": "SOLIDWORKS Design Premium на устройство — подписка | BIZSoft",
+      "meta_description": "3DEXPERIENCE SOLIDWORKS Design Premium с лицензией на рабочую станцию для сменных пользователей; состав — как у именной. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "solidworks premium device license — hero"
+      ],
+      "uncertainties": [
+        "Правила переноса лицензии на устройство — по условиям Dassault Systèmes."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ],
+      "edition_label": "Premium"
+    },
+    "solidworks-xdesign-yearly": {
+      "sku": "DSSY-LIC-XDESIGN-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "3DEXPERIENCE SOLIDWORKS xDesign — командная подписка на 1 год на облачный CAD в браузере: параметрическое и прямое моделирование деталей и сборок без установки на рабочую станцию, данные на платформе 3DEXPERIENCE, совместная работа и просмотр с любого устройства. Именная лицензия организации.\n\nxDesign — не замена настольного SOLIDWORKS, а его облачный младший брат: подходит для концептов, работы в дороге и заказчиков, которым нужен доступ к моделям.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SOLIDWORKS xDesign (годовая)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "В браузере",
+              "d": "Моделирование без установки; Windows, macOS, планшеты."
+            },
+            {
+              "t": "Данные",
+              "d": "На платформе 3DEXPERIENCE с версиями и общим доступом."
+            },
+            {
+              "t": "Совместимость",
+              "d": "Открывает и передаёт файлы SOLIDWORKS."
+            },
+            {
+              "t": "Ограничения",
+              "d": "Функционально уже настольного SOLIDWORKS: нет чертежей по ГОСТ в полном объёме, листового металла и симуляции."
+            }
+          ],
+          "links": [
+            "solidworks-design-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Именная лицензия xDesign выдаётся пользователю на платформе 3DEXPERIENCE администратором организации; при смене сотрудника роль переназначается."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "xDesign, год",
+              "d": "Облачный CAD на год."
+            },
+            {
+              "t": "xDesign, квартал",
+              "d": "Тот же продукт на 3 месяца — под проект.",
+              "link": "solidworks-xdesign-quarterly"
+            },
+            {
+              "t": "SOLIDWORKS Design Standard",
+              "d": "Настольный CAD.",
+              "link": "solidworks-design-standard"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Интернет",
+              "d": "Без связи работа невозможна."
+            },
+            {
+              "t": "Чертежи",
+              "d": "Ограниченный набор по сравнению с настольным SOLIDWORKS."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Инженерам в командировках, стартапам и заказчикам, которым нужен доступ к моделям без рабочей станции."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменит ли xDesign SOLIDWORKS?",
+          "a": "Для концептов — да, для производственных чертежей — нет."
+        }
+      ],
+      "related_products": [
+        "solidworks-design-standard",
+        "solidworks-xdesign-quarterly"
+      ],
+      "meta_title": "SOLIDWORKS xDesign — подписка на год | BIZSoft",
+      "meta_description": "3DEXPERIENCE SOLIDWORKS xDesign: облачный CAD в браузере с данными на платформе 3DEXPERIENCE; именная лицензия на год. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "solidworks xdesign — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "solidworks-xdesign-quarterly": {
+      "sku": "DSSY-LIC-XDESIGN-TEAM-3M-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:3M",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "3DEXPERIENCE SOLIDWORKS xDesign, подписка на 3 месяца — командная подписка на квартал на облачный CAD xDesign: тот же продукт, что в годовой позиции, для короткого проекта или пробы платформы. Именная лицензия организации.\n\nКвартал дороже в пересчёте на месяц; при работе дольше полугода выгоднее годовая.\n\nСрок — 3 месяца.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт SOLIDWORKS xDesign (квартальная)",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Тот же xDesign",
+              "d": "Облачное моделирование, платформа, совместная работа."
+            },
+            {
+              "t": "Срок",
+              "d": "Три месяца с продлением."
+            },
+            {
+              "t": "Цена",
+              "d": "Выше годовой в пересчёте на месяц."
+            }
+          ],
+          "links": [
+            "solidworks-design-standard"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Квартал",
+              "d": "Проект на 3 месяца или тест."
+            },
+            {
+              "t": "Год",
+              "d": "Постоянная работа.",
+              "link": "solidworks-xdesign-yearly"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Продление",
+              "d": "Каждый квартал — новая поставка."
+            },
+            {
+              "t": "Экономика",
+              "d": "От двух кварталов считайте год."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Проектным командам с коротким циклом."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Можно ли перейти с квартала на год?",
+          "a": "Да, при следующей поставке."
+        }
+      ],
+      "related_products": [
+        "solidworks-design-standard",
+        "solidworks-xdesign-yearly"
+      ],
+      "meta_title": "SOLIDWORKS xDesign — подписка на 3 месяца | BIZSoft",
+      "meta_description": "3DEXPERIENCE SOLIDWORKS xDesign на квартал: облачный CAD для короткого проекта; именная лицензия. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "xdesign quarterly — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

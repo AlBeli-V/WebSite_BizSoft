@@ -1,0 +1,260 @@
+{
+  "family_key": "RIZOM",
+  "vendor": "Rizom-Lab",
+  "vendor_profile": "data/content/vendors/rizom.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "rizom-vs-sub",
+  "classification_notes": [
+    "Real Space / Virtual Space. Носитель — VS."
+  ],
+  "products": {
+    "rizom-rs-sub": {
+      "sku": "RZOM-LIC-RSSUB-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "RizomUV Real Space — годовой индивидуальный план на UV-развёртку в реальном масштабе: автоматическая разрезка, развёртка без искажений, упаковка UDIM, интеграция с Maya, 3ds Max, Blender, Houdini. Личный аккаунт.\n\nReal Space — версия для реального масштаба (CAD, архвиз); Virtual Space — для игровой геометрии.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт RizomUV Real Space",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Развёртка",
+              "d": "Минимальные искажения, швы автоматически и вручную."
+            },
+            {
+              "t": "Упаковка",
+              "d": "UDIM, плотность текселей, группы."
+            },
+            {
+              "t": "Мосты",
+              "d": "Скрипты для DCC."
+            }
+          ],
+          "links": [
+            "rizom-vs-sub"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Именной план: аккаунт принадлежит пользователю, при его уходе подписка уходит вместе с ним — командной консоли и переназначения здесь нет."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Real Space",
+              "d": "Масштаб важен: CAD, архвиз."
+            },
+            {
+              "t": "Virtual Space",
+              "d": "Игровые ассеты.",
+              "link": "rizom-vs-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "3D-художникам с большим объёмом развёрток."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем RS отличается от VS?",
+          "a": "RS сохраняет реальные размеры и подходит для CAD-геометрии; VS — для игровых моделей."
+        }
+      ],
+      "related_products": [
+        "rizom-vs-sub"
+      ],
+      "meta_title": "RizomUV Real Space — подписка на год | BIZSoft",
+      "meta_description": "RizomUV Real Space: UV-развёртка и упаковка для CAD и архвиза с интеграцией в DCC. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "rizomuv купить — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "rizom-vs-sub": {
+      "sku": "RZOM-LIC-VSSUB-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "RizomUV Virtual Space — индивидуальная подписка на 1 год на UV-развёртку для игровой и VFX-геометрии: быстрые швы, развёртка, упаковка UDIM с контролем плотности, мосты к Maya, 3ds Max, Blender, ZBrush. Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт RizomUV Virtual Space",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Развёртка",
+              "d": "Автошвы, релакс, симметрия."
+            },
+            {
+              "t": "Упаковка",
+              "d": "UDIM, плотность, группы островов."
+            },
+            {
+              "t": "Мосты",
+              "d": "Maya, Max, Blender, Houdini, ZBrush."
+            }
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Подписка на личный аккаунт пользователя; передача другому сотруднику не предусмотрена. Организация оформляет её на конкретного человека."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Virtual Space",
+              "d": "Игры и VFX."
+            },
+            {
+              "t": "Real Space",
+              "d": "CAD и масштаб.",
+              "link": "rizom-rs-sub"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Художникам игровых персонажей и пропсов."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли бессрочная?",
+          "a": "Да, у вендора; на витрине — подписка."
+        }
+      ],
+      "related_products": [
+        "rizom-rs-sub"
+      ],
+      "meta_title": "RizomUV Virtual Space — подписка на год | BIZSoft",
+      "meta_description": "RizomUV Virtual Space: UV-развёртка и упаковка игровой геометрии с мостами к Maya, Blender, ZBrush. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "rizomuv virtual space — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}

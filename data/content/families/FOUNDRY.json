@@ -1,0 +1,937 @@
+{
+  "family_key": "FOUNDRY",
+  "vendor": "Foundry",
+  "vendor_profile": "data/content/vendors/foundry.md",
+  "content_version": "cm-1.0",
+  "generated_at": "2026-09-13",
+  "carrier_slug": "fndry-nuke",
+  "classification_notes": [
+    "Nuke / NukeX / Nuke Studio / Nuke Indie / Katana / Mari. Носитель — Nuke."
+  ],
+  "products": {
+    "fndry-nuke": {
+      "sku": "FNDR-LIC-NUKE-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Foundry Nuke — командная подписка на 1 год на нодовый композитинг для кино и рекламы: 2D/3D-композ, кеинг, трекинг, deep-композитинг, Python-скриптинг, рендер-лицензии для фермы отдельно. Лицензия организации — именная или плавающая по выбору при заказе.\n\nNuke — базовая редакция; NukeX добавляет продвинутые инструменты (камера-трекер 3D, CopyCat, Particles), Nuke Studio — таймлайн и конформ.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Nuke",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Композитинг",
+              "d": "Нодовый граф, кеинг Primatte/Keylight, ротоскоп, deep-данные, 3D-сцена."
+            },
+            {
+              "t": "Пайплайн",
+              "d": "OpenColorIO, USD, Python и BlinkScript, интеграция с Hiero."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Именная (node-locked) или плавающая через сервер лицензий."
+            },
+            {
+              "t": "Рендер",
+              "d": "Nuke Render — отдельные лицензии для фермы."
+            }
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Владелец мест — компания; администратор консоли назначает их сотрудникам и отзывает при увольнении."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Nuke",
+              "d": "Композер в студии."
+            },
+            {
+              "t": "NukeX",
+              "d": "Плюс CamTracker 3D, CopyCat (ML), Particles, LensDistortion.",
+              "link": "fndry-nukex"
+            },
+            {
+              "t": "Nuke Studio",
+              "d": "NukeX плюс монтаж, конформ, обзор.",
+              "link": "fndry-nuke-studio"
+            },
+            {
+              "t": "Nuke Indie",
+              "d": "Ограниченная версия для малых студий с лимитом дохода.",
+              "link": "fndry-nuke-indie"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Плавающая дороже",
+              "d": "Именная закрепляется за станцией."
+            },
+            {
+              "t": "Рендер отдельно",
+              "d": "Ферма требует Nuke Render."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "VFX-студиям и постпродакшенам с композитингом в Nuke."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Чем именная отличается от плавающей?",
+          "a": "Именная привязана к машине; плавающая берётся с сервера любым сотрудником по очереди."
+        }
+      ],
+      "related_products": [
+        "fndry-nukex",
+        "fndry-nuke-studio",
+        "fndry-nuke-indie"
+      ],
+      "meta_title": "Foundry Nuke — подписка на год для юрлица | BIZSoft",
+      "meta_description": "Foundry Nuke: нодовый композитинг, кеинг, трекинг, deep, Python; именная или плавающая лицензия организации. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "nuke foundry купить — hero, meta"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "fndry-nukex": {
+      "sku": "FNDR-LIC-NUKEX-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Foundry NukeX — командная подписка на 1 год на расширенный Nuke: всё из Nuke плюс 3D-камера-трекер, CopyCat и ML-инструменты, система частиц, коррекция дисторсии, PlanarTracker, ModelBuilder. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт NukeX",
+          "kind": "items",
+          "items": [
+            {
+              "t": "3D и трекинг",
+              "d": "CameraTracker, PointCloud, ModelBuilder, PlanarTracker."
+            },
+            {
+              "t": "ML",
+              "d": "CopyCat, Inference — обучение эффектов на примерах."
+            },
+            {
+              "t": "Эффекты",
+              "d": "Particles, LensDistortion, Denoise."
+            },
+            {
+              "t": "Всё из Nuke",
+              "d": "Композитинг и пайплайн."
+            }
+          ],
+          "links": [
+            "fndry-nuke"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Подписка оформлена на организацию; распределением мест управляет администратор, смена сотрудника — переназначением."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "NukeX",
+              "d": "Матчмув и ML внутри композа."
+            },
+            {
+              "t": "Nuke",
+              "d": "Без 3D-трекинга.",
+              "link": "fndry-nuke"
+            },
+            {
+              "t": "Nuke Studio",
+              "d": "Плюс таймлайн.",
+              "link": "fndry-nuke-studio"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Выше Nuke в разы."
+            },
+            {
+              "t": "Ферма",
+              "d": "Nuke Render отдельно."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Студиям, где композеры сами делают матчмув."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Нужен ли NukeX всем композерам?",
+          "a": "Обычно нескольким ведущим; остальным хватает Nuke."
+        }
+      ],
+      "related_products": [
+        "fndry-nuke",
+        "fndry-nuke-studio"
+      ],
+      "meta_title": "Foundry NukeX — подписка на год | BIZSoft",
+      "meta_description": "Foundry NukeX: Nuke плюс 3D-камера-трекер, CopyCat ML, частицы, дисторсия. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "nukex — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "fndry-nuke-studio": {
+      "sku": "FNDR-LIC-NUKESTUDIO-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Foundry Nuke Studio — командная подписка на 1 год на старший продукт линейки: NukeX плюс таймлайн Hiero для монтажа, конформа, обзора и раздачи шотов, экспорт через Python. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Nuke Studio",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Таймлайн",
+              "d": "Конформ EDL/AAF/XML, монтаж, обзор, версии шотов."
+            },
+            {
+              "t": "Пайплайн",
+              "d": "Раздача и сборка шотов в Nuke, экспорт презетами."
+            },
+            {
+              "t": "Всё из NukeX",
+              "d": "3D-трекинг, ML, частицы, композитинг."
+            }
+          ],
+          "links": [
+            "fndry-nuke"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Все места живут в аккаунте организации под управлением администратора; переназначение свободно."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Nuke Studio",
+              "d": "Супервайзеры и пайплайн."
+            },
+            {
+              "t": "NukeX",
+              "d": "Без таймлайна.",
+              "link": "fndry-nukex"
+            },
+            {
+              "t": "Nuke",
+              "d": "Базовый.",
+              "link": "fndry-nuke"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Цена",
+              "d": "Самая высокая в линейке."
+            },
+            {
+              "t": "Не всем",
+              "d": "Обычно 1–2 лицензии на студию."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Постпродакшенам с конформом и обзором в одной среде."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Заменяет ли Nuke Studio монтажную программу?",
+          "a": "Для конформа и обзора — да; для чистого монтажа — нет."
+        }
+      ],
+      "related_products": [
+        "fndry-nuke",
+        "fndry-nukex"
+      ],
+      "meta_title": "Foundry Nuke Studio — подписка на год | BIZSoft",
+      "meta_description": "Foundry Nuke Studio: NukeX плюс таймлайн Hiero — конформ, обзор, раздача шотов. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "nuke studio — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "fndry-nuke-indie": {
+      "sku": "FNDR-LIC-NUKEINDIE-IND-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "individual",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "пользователь",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Foundry Nuke Indie — индивидуальная подписка на 1 год на ограниченную версию NukeX для небольших студий и фрилансеров с годовым доходом до порога Foundry: почти все функции NukeX, но с лимитами (разрешение 4K, ограничения на скрипты и сторонние плагины, закрытый формат проектов). Личный аккаунт.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Nuke Indie",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Функции",
+              "d": "NukeX почти целиком: композитинг, 3D-трекинг, ML."
+            },
+            {
+              "t": "Лимиты",
+              "d": "4K, без коммерческих плагинов, проекты в закрытом формате, ограничения Python."
+            },
+            {
+              "t": "Право",
+              "d": "Только организациям с доходом ниже порога Foundry."
+            }
+          ],
+          "links": [
+            "fndry-nuke"
+          ]
+        },
+        {
+          "code": "INDIVIDUAL_MODEL",
+          "title": "Индивидуальный план",
+          "kind": "prose",
+          "body": "Оформляется на личный аккаунт работника по договору с организацией; переуступка другому сотруднику не поддерживается вендором."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Indie",
+              "d": "Малая студия под лимитом дохода."
+            },
+            {
+              "t": "NukeX",
+              "d": "Без ограничений.",
+              "link": "fndry-nukex"
+            },
+            {
+              "t": "Nuke",
+              "d": "Базовый без 3D.",
+              "link": "fndry-nuke"
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Фрилансерам и микростудиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Откроется ли проект Indie в обычном Nuke?",
+          "a": "Нет, формат закрытый; переход — пересборкой."
+        }
+      ],
+      "related_products": [
+        "fndry-nuke",
+        "fndry-nukex"
+      ],
+      "meta_title": "Foundry Nuke Indie — подписка на год | BIZSoft",
+      "meta_description": "Foundry Nuke Indie: NukeX для малых студий с лимитами по доходу, разрешению и плагинам. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "nuke indie — hero"
+      ],
+      "uncertainties": [
+        "Порог дохода Indie — по условиям Foundry."
+      ],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "INDIVIDUAL_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "fndry-katana-team": {
+      "sku": "FNDR-LIC-KATANA-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Foundry Katana — командная подписка на 1 год на инструмент лукдева и освещения для крупных сцен: нодовая сборка сцен, USD, рендер через Arnold, RenderMan, 3Delight, Redshift, деферред-загрузка тяжёлых ассетов. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Katana",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Сцены",
+              "d": "Нодовая сборка тысяч ассетов без загрузки в память."
+            },
+            {
+              "t": "Рендеры",
+              "d": "Arnold, RenderMan, 3Delight, Redshift, V-Ray через плагины."
+            },
+            {
+              "t": "USD",
+              "d": "Нативный пайплайн Hydra."
+            },
+            {
+              "t": "Лицензия",
+              "d": "Именная или плавающая."
+            }
+          ],
+          "links": [
+            "fndry-nuke"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии — на компании: администратор выдаёт и снимает места в консоли, вендор в этом не участвует."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Katana",
+              "d": "Лукдев и свет в большой студии."
+            },
+            {
+              "t": "Maya",
+              "d": "Универсальный пакет для меньших сцен.",
+              "link": "adsk-maya"
+            },
+            {
+              "t": "Nuke",
+              "d": "Композитинг после рендера.",
+              "link": "fndry-nuke"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Рендер отдельно",
+              "d": "Лицензии рендера — у их вендоров."
+            },
+            {
+              "t": "Узкая ниша",
+              "d": "Малым студиям избыточен."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Крупным анимационным и VFX-студиям."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Katana Indie?",
+          "a": "Нет, только коммерческая лицензия."
+        }
+      ],
+      "related_products": [
+        "fndry-nuke",
+        "adsk-maya"
+      ],
+      "meta_title": "Foundry Katana — подписка на год | BIZSoft",
+      "meta_description": "Foundry Katana: лукдев и освещение больших сцен, USD, Arnold, RenderMan, Redshift. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "katana foundry — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    },
+    "fndry-mari": {
+      "sku": "FNDR-LIC-MARI-TEAM-1Y-USER",
+      "classification": {
+        "nature": "mono",
+        "ownership": "team",
+        "term": "subscription:1Y",
+        "metric": "USER",
+        "packaging": "edition_tier"
+      },
+      "unit_label": "место",
+      "min_qty": 1,
+      "base_product_sku": null,
+      "short_description": "Foundry Mari — командная подписка на 1 год на 3D-покраску и текстурирование ассетов кино-качества: слои и процедурные узлы, UDIM, PBR-материалы, экспорт в Katana, Maya, Unreal. Лицензия организации.\n\nСрок — 1 год.",
+      "content_modules": [
+        {
+          "code": "CAPABILITIES",
+          "title": "Что даёт Mari",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Покраска",
+              "d": "Слои, маски, процедурный граф, кисти, проекции."
+            },
+            {
+              "t": "Масштаб",
+              "d": "Тысячи UDIM и текстур 32K на один ассет."
+            },
+            {
+              "t": "Пайплайн",
+              "d": "OpenColorIO, USD, экспорт во все рендеры."
+            }
+          ],
+          "links": [
+            "fndry-nuke"
+          ]
+        },
+        {
+          "code": "TEAM_MODEL",
+          "title": "Командная модель",
+          "kind": "prose",
+          "body": "Лицензии Mari выдаются организацией через портал Foundry: именная закрепляется за станцией, плавающая — за сервером лицензий; переназначение без вендора."
+        },
+        {
+          "code": "PLAN_COMPARE",
+          "title": "Этот план или соседний",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Mari",
+              "d": "Текстуры кино-класса."
+            },
+            {
+              "t": "Substance 3D Collection",
+              "d": "Игровое и продуктовое текстурирование.",
+              "link": "adobe-substance"
+            },
+            {
+              "t": "Katana",
+              "d": "Лукдев после Mari.",
+              "link": "fndry-katana-team"
+            }
+          ]
+        },
+        {
+          "code": "TRADEOFFS",
+          "title": "Что учитывать",
+          "kind": "items",
+          "items": [
+            {
+              "t": "Ресурсы",
+              "d": "Требует мощной GPU."
+            },
+            {
+              "t": "Ниша",
+              "d": "Для игр чаще берут Substance."
+            }
+          ]
+        },
+        {
+          "code": "FIT",
+          "title": "Кому подходит",
+          "kind": "prose",
+          "body": "Текстурным художникам крупных студий."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Есть ли Mari Indie?",
+          "a": "Да, у вендора есть Indie-версия; на витрине — коммерческая."
+        }
+      ],
+      "related_products": [
+        "fndry-nuke",
+        "adobe-substance",
+        "fndry-katana-team"
+      ],
+      "meta_title": "Foundry Mari — подписка на год | BIZSoft",
+      "meta_description": "Foundry Mari: 3D-текстурирование кино-класса, UDIM, процедурные узлы, USD. Договор, счёт в рублях, ЭДО.",
+      "seo_intents": [
+        "mari foundry — hero"
+      ],
+      "uncertainties": [],
+      "legacy_disposition": {
+        "features": "→ модули; опустошить",
+        "description": "→ модули; опустошить",
+        "faq": "проверить vendor-content.ts",
+        "seo_text": "проверить"
+      },
+      "module_log": [
+        {
+          "module": "CAPABILITIES",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TEAM_MODEL",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "UNDERSTAND",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "PLAN_COMPARE",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "COMPARE",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "TRADEOFFS",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "LIMITATIONS",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        },
+        {
+          "module": "FIT",
+          "question": "—",
+          "new_information": "см. текст",
+          "sibling_overlap": "общее — на носителе",
+          "decision": "FIT",
+          "seo_intent": "—",
+          "source": "профиль/официальный сайт вендора"
+        }
+      ]
+    }
+  }
+}
