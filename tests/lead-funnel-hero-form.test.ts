@@ -69,6 +69,14 @@ describe('компактная форма первого экрана', () => {
     expect(leadForm).toContain('name="message"');
   });
 
+  it('первый шаг спрашивает только адрес и задачу', () => {
+    // Решение руководителя 14.09.2026 по итогу первой недели: за 24 показа
+    // формы никто не начал её заполнять, поэтому с первого контакта снято
+    // всё, кроме способа ответить. Компания ушла на второй шаг.
+    expect(leadForm).toContain("const STEP1 = compact ? ['email']");
+    expect(leadForm).toMatch(/const STEP2 = compact \? \['company', 'name', 'phone', 'inn', 'seats'\]/);
+  });
+
   it('поля с персональными данными несут класс маскировки Вебвизора', () => {
     expect(leadForm).toContain("f.pii ? 'ym-disable-keys' : undefined");
     for (const pii of ['name', 'email', 'phone', 'company', 'inn']) {

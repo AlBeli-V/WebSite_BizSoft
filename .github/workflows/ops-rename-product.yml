@@ -1,5 +1,7 @@
-# Переименование одной товарной позиции в прод-Directus по слагу.
+# Переименование одной товарной позиции в прод-Directus: название и/или адрес.
 # Пример: slug=adobe-photo, name="Adobe Photography".
+# Смена адреса (new_slug) кладёт прежний слаг в old_slugs — страница по нему
+# начинает отдавать 301 на новый (src/pages/product/[slug].astro).
 # Результат — комментарий в журнал-issue #22.
 name: ops-rename-product
 on:
@@ -12,8 +14,11 @@ on:
         description: 'Артикул товара — замена слагу'
         required: false
       name:
-        description: 'Новое название'
-        required: true
+        description: 'Новое название (пусто — не менять)'
+        required: false
+      new_slug:
+        description: 'Новый слаг (пусто — не менять)'
+        required: false
 permissions:
   # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
   # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
@@ -41,11 +46,12 @@ jobs:
           P_SLUG: ${{ inputs.slug }}
           P_SKU: ${{ inputs.sku }}
           P_NAME: ${{ inputs.name }}
+          P_NEW_SLUG: ${{ inputs.new_slug }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_SLUG,P_SKU,P_NAME
+          envs: P_SLUG,P_SKU,P_NAME,P_NEW_SLUG
           capture_stdout: true
           script: |
             set -e
@@ -54,7 +60,7 @@ jobs:
             ADMIN_PASSWORD=$(docker compose exec -T directus printenv ADMIN_PASSWORD | tr -d '\r')
             export ADMIN_EMAIL ADMIN_PASSWORD
             python3 - <<'PYEOF'
-            import json, os, urllib.request
+            import json, os, re, urllib.request
             base = 'http://127.0.0.1:8055'
             def req(method, path, data=None, token=None):
                 r = urllib.request.Request(base + path, method=method,
@@ -69,22 +75,47 @@ jobs:
             # «deploy» звёздочками (docs/rules/prod-access.md), и слаги вроде
             # me-os-deployer-* из выгрузки приходят покалеченными. Артикул
             # в верхнем регистре под маскировку не попадает.
-            slug, sku, name = os.environ.get('P_SLUG', ''), os.environ.get('P_SKU', ''), os.environ['P_NAME']
-            slug, sku = slug.strip(), sku.strip()
+            slug = os.environ.get('P_SLUG', '').strip()
+            sku = os.environ.get('P_SKU', '').strip()
+            name = os.environ.get('P_NAME', '').strip()
+            new_slug = os.environ.get('P_NEW_SLUG', '').strip()
             if not slug and not sku:
                 print('не задан ни слаг, ни артикул'); raise SystemExit(1)
             if slug and sku:
                 print('заданы и слаг, и артикул — оставьте что-то одно'); raise SystemExit(1)
+            if not name and not new_slug:
+                print('не задано ни название, ни новый слаг — менять нечего'); raise SystemExit(1)
+            if new_slug and not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', new_slug):
+                print(f'новый слаг: допустимы строчные латинские буквы, цифры и дефис — «{new_slug}»'); raise SystemExit(1)
             key, val = ('slug', slug) if slug else ('sku', sku)
-            items = req('GET', f'/items/products?filter[{key}][_eq]={val}&fields=id,name,slug,sku', token=tok)['data']
+            items = req('GET', f'/items/products?filter[{key}][_eq]={val}&fields=id,name,slug,sku,old_slugs', token=tok)['data']
             if not items:
                 print(f'товар не найден по полю {key}: {val}'); raise SystemExit(1)
             if len(items) > 1:
                 print(f'по полю {key} найдено {len(items)} позиций — уточните адресацию'); raise SystemExit(1)
             it = items[0]
             print(f"было: '{it['name']}' [slug: {it['slug']}] [sku: {it.get('sku') or '—'}]")
-            req('PATCH', f"/items/products/{it['id']}", {'name': name}, token=tok)
-            print(f"стало: '{name}'")
+            patch = {}
+            if name:
+                patch['name'] = name
+            if new_slug and new_slug != it['slug']:
+                # Слаг уникален по всему каталогу: занятый адрес — это не
+                # переименование, а склейка задвоенной позиции (ops-merge-product).
+                busy = req('GET', f'/items/products?filter[slug][_eq]={new_slug}&fields=id,sku,status', token=tok)['data']
+                if busy:
+                    print(f"слаг {new_slug} занят позицией {busy[0].get('sku') or busy[0]['id']}"); raise SystemExit(1)
+                prev = [v for v in (it.get('old_slugs') or [])]
+                have = [v.get('value') if isinstance(v, dict) else v for v in prev]
+                if it['slug'] not in have:
+                    prev = prev + [{'value': it['slug']}]
+                patch['slug'] = new_slug
+                patch['old_slugs'] = prev
+            if not patch:
+                print('менять нечего: значения совпадают с текущими'); raise SystemExit(0)
+            req('PATCH', f"/items/products/{it['id']}", patch, token=tok)
+            print(f"стало: '{patch.get('name', it['name'])}' [slug: {patch.get('slug', it['slug'])}]")
+            if 'slug' in patch:
+                print(f"301: /product/{it['slug']} -> /product/{patch['slug']}")
             PYEOF
       # Локальному action нужен репозиторий в рабочей копии. if: always() —
       # потому что шаг журнала тоже always(): без этого при падении основного
