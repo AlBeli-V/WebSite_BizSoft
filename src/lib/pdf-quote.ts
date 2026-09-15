@@ -20,11 +20,50 @@ export type { QuoteData };
 export { buildQuoteNo, formatDateRu, addDays } from './quote-layout';
 
 const require = createRequire(import.meta.url);
+
+/**
+ * Шрифт документов — тот же Raleway, что на сайте (решение руководителя
+ * 15.09.2026). Вариативный woff2 витрины ни pdfkit, ни resvg не читают,
+ * поэтому в `public/brand/fonts` лежат статические начертания, полученные
+ * из него же (`scripts/brand/build-doc-fonts.mjs`); они попадают в образ
+ * вместе с dist/client.
+ *
+ * Если файлов на месте не оказалось — документ всё равно собирается на
+ * DejaVu Sans из node_modules: расхождение в шрифте хуже, чем ненабранное
+ * КП, но неотправленное предложение хуже и того.
+ */
+const DOC_FONT_FAMILY = 'Raleway';
+const DEJAVU_FAMILY = 'DejaVu Sans';
+
+function loadFont(brand: string, fallback: string): { buffer: Buffer; brand: boolean } {
+  try {
+    return { buffer: readFileSync(resolveAsset(`public/brand/fonts/${brand}`)), brand: true };
+  } catch (e) {
+    console.error(`шрифт документа ${brand} не найден, берём DejaVu`, e);
+    return { buffer: readFileSync(require.resolve(`dejavu-fonts-ttf/ttf/${fallback}`)), brand: false };
+  }
+}
+
+/** Путь к запасному шрифту DejaVu (используется драйвером картинки). */
 export function fontPath(file: string): string {
   return require.resolve(`dejavu-fonts-ttf/ttf/${file}`);
 }
-const FONT_REGULAR = readFileSync(fontPath('DejaVuSans.ttf'));
-const FONT_BOLD = readFileSync(fontPath('DejaVuSans-Bold.ttf'));
+
+const REGULAR = loadFont('Raleway-Regular.ttf', 'DejaVuSans.ttf');
+const BOLD = loadFont('Raleway-Bold.ttf', 'DejaVuSans-Bold.ttf');
+const FONT_REGULAR = REGULAR.buffer;
+const FONT_BOLD = BOLD.buffer;
+
+/** Начертания документа для драйвера картинки: те же файлы и то же имя. */
+export function docFonts(): { family: string; files: string[] } {
+  const brand = REGULAR.brand && BOLD.brand;
+  return brand
+    ? { family: DOC_FONT_FAMILY,
+        files: [resolveAsset('public/brand/fonts/Raleway-Regular.ttf'),
+                resolveAsset('public/brand/fonts/Raleway-Bold.ttf')] }
+    : { family: DEJAVU_FAMILY,
+        files: [fontPath('DejaVuSans.ttf'), fontPath('DejaVuSans-Bold.ttf')] };
+}
 
 /**
  * Путь к файлу из public/ — и в исходниках, и в собранном приложении.

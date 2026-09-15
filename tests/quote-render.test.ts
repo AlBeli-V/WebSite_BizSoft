@@ -8,7 +8,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildQuoteLayout, watermarks, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
 import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
-import { generateQuoteJpg, quotePageSvg } from '../src/lib/jpg-quote';
+import { generateQuoteJpgPages, jpgFileNames, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
 import { defaultLeadOwner } from '../src/config/site';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -25,8 +25,10 @@ const data = {
   email: 'k@encoreresort.ru',
   phone: '+79167898651',
   items: [
-    { sku: 'ADOBE-CC-TEAMS', name: 'Adobe Creative Cloud для команд', qty: 5, price: 100000, sum: 500000 },
-    { sku: 'FIGMA-PRO', name: 'Figma Professional', qty: 3, price: 30000, sum: 90000 },
+    // vendor приходит от API вместе с позицией: из него документ берёт
+    // юридическое название производителя и форму поставки для фразы.
+    { sku: 'ADOBE-CC-TEAMS', name: 'Adobe Creative Cloud для команд', vendor: 'Adobe', qty: 5, price: 100000, sum: 500000 },
+    { sku: 'FIGMA-PRO', name: 'Figma Professional', vendor: 'Figma', qty: 3, price: 30000, sum: 90000 },
   ],
   total: 590000,
 };
@@ -211,11 +213,74 @@ describe('раскладка КП', () => {
     expect(all).not.toMatch(/Р\/с|К\/с|БИК|Реквизиты для оплаты/);
   });
 
-  it('артикул стоит перед наименованием', () => {
-    const head = texts.indexOf('Артикул');
-    const nameIdx = texts.indexOf('Наименование');
-    expect(head).toBeGreaterThan(-1);
-    expect(head).toBeLessThan(nameIdx);
+  it('колонки — как в спецификации на сайте: описание, кол-во, цена, сумма', () => {
+    // Отдельной колонки артикула нет: он стоит внутри описания, как в
+    // предмете договора. Прежняя колонка в 96 pt не вмещала системный
+    // артикул, и он наезжал на название (находка руководителя 15.09.2026).
+    expect(texts).toContain('Описание');
+    expect(texts).toContain('Кол-во');
+    expect(texts).toContain('Цена, ₽');
+    expect(texts).toContain('Сумма, ₽');
+    expect(texts).not.toContain('Артикул');
+    expect(texts).not.toContain('Наименование');
+  });
+
+  it('описание позиции — то же, что в спецификации на сайте', () => {
+    const all = texts.join(' ');
+    // Юрлицо и название первой строкой, артикул второй, договорная фраза
+    // третьей: документ и страница обязаны совпадать слово в слово.
+    expect(all).toContain('Adobe Inc. / Adobe Creative Cloud для команд');
+    expect(all).toContain('Артикул: ADOBE-CC-TEAMS');
+    expect(all).toContain('Оказание услуг по предоставлению доступа');
+  });
+
+  it('аренда почты названа в фразе, но сноски «в цене учтена» в бланке нет', () => {
+    const rent = buildQuoteLayout({
+      ...data,
+      items: [{ sku: 'ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-STD', name: 'Claude Team, Standard seat',
+                vendor: 'Anthropic', qty: 1, price: 46421, sum: 46421, email_rent: true }],
+      total: 46421,
+    }, pdfMeasure());
+    const all = rent.flatMap((p) => p.items.filter((i) => i.kind === 'text').map((i: any) => i.text)).join(' ');
+    expect(all).toContain('учетной записи электронной почты');
+    expect(all).not.toMatch(/В цене учтена аренда/);
+  });
+
+  it('каждый лист подписан номером и реквизитами продавца', () => {
+    // Распечатанный лист многостраничного КП обязан называть себя сам:
+    // раньше колонтитул стоял только на последнем.
+    const many = buildQuoteLayout({
+      ...data,
+      items: Array.from({ length: 12 }, (_, i) => ({
+        sku: `ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-${i}`, name: 'Claude Team, Standard seat',
+        vendor: 'Anthropic', qty: 1, price: 46421, sum: 46421,
+      })),
+      total: 46421 * 12,
+    }, pdfMeasure());
+    expect(many.length).toBeGreaterThan(1);
+    many.forEach((page, i) => {
+      const tt = page.items.filter((x) => x.kind === 'text').map((x: any) => x.text);
+      expect(tt, `лист ${i + 1}`).toContain(`Лист ${i + 1} из ${many.length}`);
+      expect(tt.some((t: string) => t.includes('ИНН 507202054051')), `лист ${i + 1}`).toBe(true);
+      // На листах продолжения — шапка с номером КП, чтобы лист не потерялся.
+      if (i > 0) expect(tt.some((t: string) => t.includes('продолжение')), `лист ${i + 1}`).toBe(true);
+    });
+  });
+
+  it('шапка таблицы повторяется на каждом листе с позициями', () => {
+    const many = buildQuoteLayout({
+      ...data,
+      items: Array.from({ length: 12 }, (_, i) => ({
+        sku: `ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-${i}`, name: 'Claude Team, Standard seat',
+        vendor: 'Anthropic', qty: 1, price: 46421, sum: 46421,
+      })),
+      total: 46421 * 12,
+    }, pdfMeasure());
+    const withRows = many.filter((p) => p.items.some((x) => x.kind === 'text' && /^Артикул: /.test((x as any).text)));
+    expect(withRows.length).toBeGreaterThan(1);
+    for (const p of withRows) {
+      expect(p.items.some((x) => x.kind === 'text' && (x as any).text === 'Описание')).toBe(true);
+    }
   });
 });
 
@@ -226,11 +291,23 @@ describe('форматы КП', () => {
     expect(pdf.length).toBeGreaterThan(2000);
   });
 
-  it('JPG собирается и это действительно JPEG', () => {
-    const jpg = generateQuoteJpg(data);
-    expect(jpg[0]).toBe(0xFF);
-    expect(jpg[1]).toBe(0xD8);
-    expect(jpg.length).toBeGreaterThan(10000);
+  it('JPG собирается по файлу на лист, и это действительно JPEG', () => {
+    const pages = generateQuoteJpgPages(data);
+    expect(pages.length).toBeGreaterThan(0);
+    for (const jpg of pages) {
+      expect(jpg[0]).toBe(0xFF);
+      expect(jpg[1]).toBe(0xD8);
+      expect(jpg.length).toBeGreaterThan(10000);
+    }
+  });
+
+  it('имена файлов называют лист только у многостраничного КП', () => {
+    // Лента из склеенных страниц не печаталась: лист документа — лист файла
+    // (решение руководителя 15.09.2026).
+    expect(jpgFileNames('BZ-1', 1)).toEqual(['KP_BZ-1.jpg']);
+    expect(jpgFileNames('BZ-1', 3)).toEqual([
+      'KP_BZ-1_лист1.jpg', 'KP_BZ-1_лист2.jpg', 'KP_BZ-1_лист3.jpg',
+    ]);
   });
 
   it('SVG страницы содержит те же тексты, что и раскладка', () => {
