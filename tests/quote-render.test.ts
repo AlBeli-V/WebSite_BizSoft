@@ -6,7 +6,7 @@
  * двух форматов.
  */
 import { describe, expect, it } from 'vitest';
-import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, CM, MARK_FILE, PAGE, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
+import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, BAND, CM, MARK_FILE, PAGE, LOGO_FILE } from '../src/lib/quote-layout';
 import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
 import { generateQuoteJpgPages, jpgFileNames, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
@@ -36,58 +36,61 @@ const data = {
 describe('раскладка КП', () => {
   const pages = buildQuoteLayout(data, pdfMeasure());
 
-  it('штампов шесть на каждой странице — сетка 2×3, решение 28.08.2026', () => {
+  it('знаков два на каждом листе — боковые полосы, референс 15.09.2026', () => {
+    // Шесть штампов сеткой 2×3 сняты: они ложились поверх таблицы и мешали
+    // читать спецификацию. Полосы решают ту же задачу, не заходя в текст.
     for (const p of pages) {
-      const marks = p.items.filter((i) => i.kind === 'watermark');
-      expect(marks.length).toBe(WATERMARK.cols * WATERMARK.rows);
-      expect(marks.length).toBe(6);
+      const bands = p.items.filter((i) => i.kind === 'band');
+      expect(bands.length).toBe(2);
     }
   });
 
-  it('знаки полупрозрачные и распределены по всей странице, а не в одном углу', () => {
-    const marks = watermarks('проба');
-    expect(WATERMARK.opacity).toBeGreaterThan(0);
-    expect(WATERMARK.opacity).toBeLessThan(0.5);
-    expect(new Set(marks.map((m) => m.kind === 'watermark' && m.x)).size).toBe(WATERMARK.cols);
-    expect(new Set(marks.map((m) => m.kind === 'watermark' && m.y)).size).toBe(WATERMARK.rows);
+  it('полосы стоят у краёв листа во всю его высоту', () => {
+    // Знак нельзя отрезать при печати: полоса упирается в край листа, и
+    // страница без неё видна сразу.
+    const [l, r] = watermarks() as any[];
+    expect(l.x).toBeLessThan(BAND.w);
+    expect(r.x + r.w).toBeGreaterThan(PAGE.width - BAND.w);
+    for (const b of [l, r]) {
+      expect(b.y).toBe(0);
+      expect(b.h).toBe(PAGE.height);
+    }
   });
 
-  it('это штамп с рамкой, а не просто надпись', () => {
-    const [m] = watermarks('BZ-1') as any[];
-    expect(m.w).toBeGreaterThan(0);
-    expect(m.h).toBeGreaterThan(0);
-    expect(m.radius).toBeGreaterThan(0);
-    expect(m.stroke).toBeGreaterThan(0);
-    expect(m.dash.length).toBeGreaterThan(2);
-    expect(m.angle).not.toBe(0);
+  it('правая полоса заходит на границу полосы набора, но не накрывает цифры', () => {
+    const [, r] = watermarks() as any[];
+    const textRight = PAGE.width - PAGE.margin.right;
+    expect(r.x).toBeLessThan(textRight);          // заходит на границу
+    expect(textRight - r.x).toBeLessThan(4);      // не больше, чем на пару пунктов
   });
 
-  it('в оттиске статус, марка и номер, а не пометка «черновик»', () => {
-    // Документ действующий: «черновик» на живом предложении обесценил бы
-    // его в глазах получателя, а знак должен мешать присвоить, а не отменять.
-    const [m] = watermarks('BZ-20260821-0042') as any[];
-    expect(m.text).toBe('ПРЕДВАРИТЕЛЬНОЕ КП');
-    expect(m.text2).toBe('BIZSoft');
-    expect(m.sub).toBe('BZ-20260821-0042');
-    expect(/draft|черновик|копия/i.test(`${m.text} ${m.text2} ${m.sub}`)).toBe(false);
+  it('надписи — «КОНФИДЕНЦИАЛЬНО» и статус предложения, без слова «черновик»', () => {
+    const [l, r] = watermarks() as any[];
+    expect(l.text).toBe('КОНФИДЕНЦИАЛЬНО');
+    expect(r.text).toBe('ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ');
+    expect(/draft|черновик|копия/i.test(`${l.text} ${r.text}`)).toBe(false);
   });
 
-  it('штамп красный, тонкая рамка — решение 28.08.2026', () => {
-    const [m] = watermarks('BZ-1') as any[];
-    expect(m.color).toBe('#C81E1E');
-    expect(m.stroke).toBeLessThan(2);
+  it('знак бледный: подложка почти прозрачна, надпись читается', () => {
+    const [l] = watermarks() as any[];
+    expect(l.fillOpacity).toBeGreaterThan(0);
+    expect(l.fillOpacity).toBeLessThan(0.2);
+    expect(l.textOpacity).toBeGreaterThan(l.fillOpacity);
+    expect(l.textOpacity).toBeLessThan(0.8);
   });
 
-  it('рамка попадает в оба формата одинаково', () => {
+  it('полосы попадают в оба формата одинаково', () => {
     const page = buildQuoteLayout(data, pdfMeasure())[0];
     const svg = quotePageSvg(page.items);
-    expect(svg).toContain('stroke-dasharray');
-    expect(svg).toMatch(/<rect[^>]+fill="none"/);
+    expect(svg).toContain('КОНФИДЕНЦИАЛЬНО');
+    expect(svg).toContain('ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ');
+    // Надпись повёрнута вдоль полосы, а не лежит поперёк листа.
+    expect(svg).toMatch(/transform="rotate\(-90/);
   });
 
   it('знак идёт под содержимым: рисуется раньше текста', () => {
-    const first = pages[0].items.findIndex((i) => i.kind !== 'watermark');
-    const lastMark = pages[0].items.map((i) => i.kind).lastIndexOf('watermark');
+    const first = pages[0].items.findIndex((i) => i.kind !== 'band');
+    const lastMark = pages[0].items.map((i) => i.kind).lastIndexOf('band');
     expect(lastMark).toBeLessThan(first);
   });
 

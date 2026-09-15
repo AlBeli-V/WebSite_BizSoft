@@ -130,6 +130,26 @@ export function pdfMeasure(): Measure {
   };
 }
 
+/** Значок замка: скруглённый корпус и дужка над ним. */
+function lock(doc: PDFKit.PDFDocument, cx: number, top: number, size: number,
+              color: string, opacity: number): void {
+  const bodyW = size * 0.86;
+  const bodyH = size * 0.66;
+  const bodyY = top + size * 0.34;
+  const r = size * 0.16;
+  doc.save();
+  doc.fillOpacity(opacity).strokeOpacity(opacity).strokeColor(color).lineWidth(size * 0.15);
+  // Дужка — полукруг над корпусом.
+  doc.moveTo(cx - size * 0.26, bodyY)
+    .lineTo(cx - size * 0.26, bodyY - size * 0.16)
+    .bezierCurveTo(cx - size * 0.26, top, cx + size * 0.26, top, cx + size * 0.26, bodyY - size * 0.16)
+    .lineTo(cx + size * 0.26, bodyY)
+    .stroke();
+  doc.roundedRect(cx - bodyW / 2, bodyY, bodyW, bodyH, r).fill(color);
+  doc.restore();
+  doc.fillOpacity(1).strokeOpacity(1);
+}
+
 function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
   if (p.kind === 'image') {
     // Логотип читается с диска один раз и кэшируется: страниц может быть
@@ -152,34 +172,38 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
       .strokeColor(p.color).lineWidth(p.lineWidth).stroke();
     return;
   }
-  if (p.kind === 'watermark') {
+  if (p.kind === 'band') {
+    // Подложка полосы: бледная заливка и тонкая линия по внутреннему краю —
+    // край листа виден даже на чёрно-белой печати.
     doc.save();
-    doc.rotate(p.angle, { origin: [p.x, p.y] });
-    doc.fillOpacity(p.opacity).strokeOpacity(p.opacity);
+    doc.fillOpacity(p.fillOpacity);
+    doc.rect(p.x, p.y, p.w, p.h).fill(p.fill);
+    doc.fillOpacity(1);
+    doc.strokeOpacity(p.fillOpacity * 3);
+    const inner = p.x < PAGE.width / 2 ? p.x + p.w : p.x;
+    doc.moveTo(inner, p.y).lineTo(inner, p.y + p.h)
+      .lineWidth(0.8).strokeColor(p.edge).stroke();
+    doc.strokeOpacity(1);
 
-    // Рамка оттиска. Пунктир имитирует потёртость краски — сплошная линия
-    // выглядит печатью на бланке, а не штампом.
-    doc.roundedRect(p.x - p.w / 2, p.y - p.h / 2, p.w, p.h, p.radius)
-      .lineWidth(p.stroke).strokeColor(p.color).dash(p.dash[0], { space: p.dash[1] }).stroke();
-    doc.undash();
-
-    // Три строки оттиска: статус, марка, мелко номер. Каждая центрируется
-    // отдельно — строки разной длины, общий сдвиг перекосил бы штамп.
-    doc.font('b').fontSize(p.size).fillColor(p.color);
-    const l1w = doc.widthOfString(p.text);
-    doc.text(p.text, p.x - l1w / 2, p.y - p.size * 1.9, { lineBreak: false });
-    if (p.text2) {
-      const l2w = doc.widthOfString(p.text2);
-      doc.text(p.text2, p.x - l2w / 2, p.y - p.size * 0.55, { lineBreak: false });
-    }
-    if (p.sub) {
-      doc.font('r').fontSize(p.subSize);
-      const sw = doc.widthOfString(p.sub);
-      doc.text(p.sub, p.x - sw / 2, p.y + p.size * 0.95, { lineBreak: false });
-    }
-
+    // Надпись снизу вверх по середине полосы. Разрядка задаётся
+    // characterSpacing: она делает длинную строку ритмичной, не увеличивая
+    // кегль, и одинаково считается в обоих форматах.
+    doc.font('b').fontSize(p.size).fillColor(p.textColor).fillOpacity(p.textOpacity);
+    const cx = p.x + p.w / 2;
+    const cy = p.y + p.h / 2;
+    doc.save();
+    doc.rotate(-90, { origin: [cx, cy] });
+    const tw = doc.widthOfString(p.text, { characterSpacing: p.spacing });
+    doc.text(p.text, cx - tw / 2, cy - p.size * 0.62,
+             { lineBreak: false, characterSpacing: p.spacing });
     doc.restore();
-    doc.fillOpacity(1).strokeOpacity(1);
+
+    // Замки на концах полосы: дужка и корпус, как на образце.
+    for (const ly of [p.y + p.lock * 2.6, p.y + p.h - p.lock * 3.6]) {
+      lock(doc, cx, ly, p.lock, p.textColor, p.textOpacity);
+    }
+    doc.fillOpacity(1);
+    doc.restore();
     return;
   }
   doc.font(p.bold ? 'b' : 'r').fontSize(p.size).fillColor(p.color);

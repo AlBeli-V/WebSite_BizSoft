@@ -23,6 +23,7 @@ import { checkAdmin, isAdminConfigured, unauthorized } from '../../../lib/admin-
 import { getProductsBySkus, getQuotes } from '../../../lib/directus';
 import { generateQuoteDocx } from '../../../lib/docx-quote';
 import { generateQuoteJpgPages, jpgFileNames } from '../../../lib/jpg-quote';
+import { buildCustomerQuoteEmail } from '../../../lib/email/quote-customer';
 import { managerEmail, salesFrom, sendMail } from '../../../lib/mailer';
 import { generateQuotePdf } from '../../../lib/pdf-quote';
 import { addDays, formatDateRu, type QuoteData } from '../../../lib/quote-layout';
@@ -39,6 +40,13 @@ interface Body {
   quote_no?: string;
   /** Куда отправить. По умолчанию — менеджеру, а не клиенту. */
   to?: string;
+  /**
+   * `manager` (по умолчанию) — служебное письмо со всеми форматами сразу.
+   * `client` — ровно то письмо, которое получает заказчик: та же вёрстка,
+   *   те же вложения (листы картинками), тот же отправитель. Нужен, чтобы
+   *   смотреть и править клиентское письмо на живых данных.
+   */
+  mode?: 'manager' | 'client';
   /** true — показать состав и ничего не отправлять. */
   dry_run?: boolean;
 }
@@ -131,6 +139,7 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ error: 'не удалось собрать документ' }, 500);
   }
 
+  const asClient = body.mode === 'client';
   const files = jpgFileNames(data.quoteNo, jpgPages.length);
   const summary = {
     ok: true,
@@ -139,15 +148,41 @@ export const POST: APIRoute = async ({ request }) => {
     buyer: data.buyerCompany,
     client_email: data.email,
     to,
+    mode: asClient ? 'client' : 'manager',
     positions: items.length,
     total: data.total,
     sheets: jpgPages.length,
-    files: [...files, `KP_${data.quoteNo}.pdf`, `KP_${data.quoteNo}.docx`],
+    files: asClient ? files : [...files, `KP_${data.quoteNo}.pdf`, `KP_${data.quoteNo}.docx`],
   };
   if (body.dry_run) return json({ ...summary, ok: true, sent: false, dry_run: true });
 
-  // Одно письмо со всеми форматами: получатель смотрит и то, что видит
-  // клиент (картинка по листам), и рабочие PDF с Word.
+  // Режим `client` — точная копия письма заказчика: та же вёрстка, те же
+  // вложения, тот же отправитель и Reply-To. Пометка о повторе остаётся в
+  // теме: письмо уходит на внутренний адрес, и спутать его с настоящим
+  // предложением нельзя.
+  if (asClient) {
+    const mail = buildCustomerQuoteEmail(data, jpgPages.length);
+    try {
+      await sendMail({
+        from: salesFrom,
+        to,
+        replyTo: managerEmail,
+        subject: `${TEST_PREFIX} ${mail.subject}`,
+        text: mail.text,
+        html: mail.html,
+        attachments: files.map((filename, i) => ({
+          filename, content: jpgPages[i], contentType: 'image/jpeg',
+        })),
+      });
+    } catch (e) {
+      console.error('quote-resend: client mail failed', e);
+      return json({ error: 'документ собран, но письмо не ушло', ...summary, sent: false }, 502);
+    }
+    return json({ ...summary, sent: true });
+  }
+
+  // Служебное письмо: все форматы сразу — получатель смотрит и то, что
+  // видит клиент (картинка по листам), и рабочие PDF с Word.
   try {
     await sendMail({
       from: salesFrom,

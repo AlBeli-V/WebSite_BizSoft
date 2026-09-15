@@ -96,10 +96,14 @@ export type Primitive =
       color: string; lineWidth: number }
   | { kind: 'image'; x: number; y: number; w: number; h: number; file: string }
   | { kind: 'bullet'; x: number; y: number; size: number; color: string }
-  | { kind: 'watermark'; x: number; y: number; text: string; text2?: string;
-      sub?: string; size: number; subSize: number; w: number; h: number;
-      radius: number; stroke: number; dash: number[]; color: string;
-      opacity: number; angle: number };
+  /**
+   * Боковая полоса-знак: подложка во всю высоту листа, вдоль неё снизу
+   * вверх — надпись прописными, на концах — замок. Рисуется под текстом.
+   */
+  | { kind: 'band'; x: number; y: number; w: number; h: number;
+      fill: string; fillOpacity: number; edge: string;
+      text: string; textColor: string; textOpacity: number;
+      size: number; spacing: number; lock: number };
 
 export interface Page { items: Primitive[] }
 
@@ -148,76 +152,67 @@ export const COLOR = {
   body: '#374151', rule: '#E5E7EB', head: '#F3F4F6',
   /** Подложка оговорки о статусе документа. */
   noteBg: '#FFF4EF',
-  /** Штамп: красный — решение руководителя 28.08.2026 (было: фирменный оранжевый). */
+  /** Знак статуса: красный — решение руководителя 28.08.2026. */
   stamp: '#C81E1E',
+  /** Полоса «КОНФИДЕНЦИАЛЬНО»: деловой синий, не спорит с фирменным оранжевым. */
+  confidential: '#1D4ED8',
 };
 
 /**
- * Водяные знаки: сетка 2×3 = 6 штампов на каждой странице.
+ * Водяные знаки — две боковые полосы (референс руководителя 15.09.2026,
+ * заменяет шесть штампов сеткой 2×3 от 28.08.2026).
  *
- * Решение руководителя 28.08.2026 (заменяет прежние 12 в сетке 3×4):
- * двенадцать создавали визуальный шум, шесть достаточно, чтобы страницу
- * нельзя было присвоить, и документ остаётся деловым на вид.
- * Знак идёт под содержимым и с низкой непрозрачностью — он должен мешать
- * присвоить документ, а не читать его.
+ * Слева «КОНФИДЕНЦИАЛЬНО», справа «ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ
+ * ПРЕДЛОЖЕНИЕ». Полосы идут во всю высоту листа и упираются в его края:
+ * распечатать документ и выдать за официальную переписку, отрезав знак,
+ * нельзя — край без полосы виден сразу. При этом они бледные и стоят в
+ * полях: правая заходит на границу полосы набора всего на несколько
+ * пунктов, и текст под ней читается.
+ *
+ * Прежние штампы сняты целиком: шесть оттисков поверх таблицы мешали
+ * читать спецификацию, а полоса решает ту же задачу, не заходя в текст.
  */
-export const WATERMARK = {
-  cols: 2, rows: 3,
-  /** Заметен, но не спорит с текстом: читаемость документа важнее приметности знака. */
-  opacity: 0.15,
-  size: 12.5, subSize: 7,
-  w: 180, h: 66, radius: 8, stroke: 1.6,
-  angle: -18,
-  /**
-   * Рваная обводка вместо сплошной.
-   *
-   * На образце руководителя штамп потёртый — краска легла неровно. Растровую
-   * текстуру пришлось бы тащить картинкой в оба формата; неравномерный пунктир
-   * даёт тот же эффект оттиска вектором и одинаково выглядит в PDF и в JPG.
-   */
-  dash: [9, 2, 4, 2, 14, 3, 6, 2],
+export const BAND = {
+  /** Ширина полосы и отступ от края листа, пт. Правая полоса заходит на
+   *  границу полосы набора примерно на полтора пункта: знак пересекает
+   *  край документа, но не накрывает цифры итога. */
+  w: 26,
+  inset: 4,
+  /** Подложка едва заметна, надпись читается — знак не спорит с текстом. */
+  fillOpacity: 0.12,
+  textOpacity: 0.55,
+  size: 10.5,
+  /** Разрядка: надпись во всю высоту листа держится ритмом, а не кеглем. */
+  spacing: 2.2,
+  /** Сторона значка замка на концах полосы. */
+  lock: 13,
 };
 
-/**
- * Строки штампа — решение руководителя 28.08.2026.
- *
- * Статус документа читается прямо из знака: «ПРЕДВАРИТЕЛЬНОЕ КП» / «BIZSoft»,
- * мелкой строкой номер. Номер в штампе оставлен сознательно: он мешает
- * переиспользовать страницы одного предложения в другом. Пометки «черновик»
- * по-прежнему нет — документ действующий, знак сообщает статус, а не
- * отменяет предложение.
- */
-export const STAMP_LINE_1 = 'ПРЕДВАРИТЕЛЬНОЕ КП';
-export const STAMP_LINE_2 = 'BIZSoft';
+export const BAND_LEFT_TEXT = 'КОНФИДЕНЦИАЛЬНО';
+export const BAND_RIGHT_TEXT = 'ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ';
 
-/** Штамп: красная рамка со скруглёнными углами и три строки внутри. */
-export function watermarks(quoteNo?: string): Primitive[] {
-  const out: Primitive[] = [];
-  const stepX = PAGE.width / WATERMARK.cols;
-  const stepY = PAGE.height / WATERMARK.rows;
-  for (let r = 0; r < WATERMARK.rows; r += 1) {
-    for (let c = 0; c < WATERMARK.cols; c += 1) {
-      out.push({
-        kind: 'watermark',
-        x: stepX * (c + 0.5),
-        y: stepY * (r + 0.5),
-        text: STAMP_LINE_1,
-        text2: STAMP_LINE_2,
-        sub: quoteNo,
-        size: WATERMARK.size,
-        subSize: WATERMARK.subSize,
-        w: WATERMARK.w,
-        h: WATERMARK.h,
-        radius: WATERMARK.radius,
-        stroke: WATERMARK.stroke,
-        dash: WATERMARK.dash,
-        color: COLOR.stamp,
-        opacity: WATERMARK.opacity,
-        angle: WATERMARK.angle,
-      });
-    }
-  }
-  return out;
+/** Две полосы листа: левая — синяя, правая — красная, обе под содержимым. */
+export function watermarks(): Primitive[] {
+  const band = (x: number, color: string, text: string): Primitive => ({
+    kind: 'band',
+    x,
+    y: 0,
+    w: BAND.w,
+    h: PAGE.height,
+    fill: color,
+    fillOpacity: BAND.fillOpacity,
+    edge: color,
+    text,
+    textColor: color,
+    textOpacity: BAND.textOpacity,
+    size: BAND.size,
+    spacing: BAND.spacing,
+    lock: BAND.lock,
+  });
+  return [
+    band(BAND.inset, COLOR.confidential, BAND_LEFT_TEXT),
+    band(PAGE.width - BAND.inset - BAND.w, COLOR.stamp, BAND_RIGHT_TEXT),
+  ];
 }
 
 /**
@@ -398,8 +393,8 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   const LINE = 12;
 
   const pages: Page[] = [];
-  let items: Primitive[] = [...watermarks(data.quoteNo)];
-  const newPage = () => { pages.push({ items }); items = [...watermarks(data.quoteNo)]; };
+  let items: Primitive[] = [...watermarks()];
+  const newPage = () => { pages.push({ items }); items = [...watermarks()]; };
 
   const put = (p: Primitive) => { items.push(p); };
   const text = (t: string, x: number, y: number, o: Partial<Extract<Primitive, { kind: 'text' }>> = {}) =>
