@@ -58,33 +58,54 @@ function svgOf(p: Primitive): string {
       + `stroke="${p.color}" stroke-width="${p.lineWidth}"/>`;
   }
   if (p.kind === 'band') {
-    const cx = p.x + p.w / 2;
+    const cx = p.cx;
     const cy = p.y + p.h / 2;
-    const inner = p.x < PAGE.width / 2 ? p.x + p.w : p.x;
-    // Замок: дужка линией и корпус скруглённым прямоугольником — те же
-    // пропорции, что в PDF-драйвере, иначе картинка разойдётся с PDF.
-    const lock = (top: number) => {
+    // Идентификатор градиента привязан к координате полосы: на листе их
+    // две, и общий id склеил бы синее ядро с красным.
+    const gid = `band-core-${Math.round(p.x)}`;
+    // Замок на плашке — те же пропорции, что в PDF-драйвере, иначе
+    // картинка разойдётся с PDF.
+    const lock = (lcy: number) => {
       const size = p.lock;
-      const bodyY = top + size * 0.34;
-      return `<g fill="${p.textColor}" stroke="${p.textColor}" opacity="${p.textOpacity}">`
-        + `<path d="M ${cx - size * 0.26} ${bodyY} L ${cx - size * 0.26} ${bodyY - size * 0.16} `
-        + `C ${cx - size * 0.26} ${top} ${cx + size * 0.26} ${top} ${cx + size * 0.26} ${bodyY - size * 0.16} `
-        + `L ${cx + size * 0.26} ${bodyY}" fill="none" stroke-width="${size * 0.15}"/>`
-        + `<rect x="${cx - size * 0.43}" y="${bodyY}" width="${size * 0.86}" height="${size * 0.66}" `
-        + `rx="${size * 0.16}" ry="${size * 0.16}" stroke="none"/>`
+      const bodyW = size / 2;
+      const bodyH = size * 0.39;
+      const bodyY = lcy - size * 0.05;
+      const arm = size * 0.164;
+      return `<g opacity="${p.textOpacity}">`
+        + `<rect x="${cx - size / 2}" y="${lcy - size / 2}" width="${size}" height="${size}" `
+        + `rx="${size * 0.25}" ry="${size * 0.25}" fill="${p.color}" opacity="0.28"/>`
+        + `<path d="M ${cx - arm} ${bodyY} L ${cx - arm} ${bodyY - size * 0.19} `
+        + `C ${cx - arm} ${lcy - size * 0.42} ${cx + arm} ${lcy - size * 0.42} ${cx + arm} ${bodyY - size * 0.19} `
+        + `L ${cx + arm} ${bodyY}" fill="none" stroke="${p.color}" stroke-width="${size * 0.073}"/>`
+        + `<rect x="${cx - bodyW / 2}" y="${bodyY}" width="${bodyW}" height="${bodyH}" `
+        + `rx="${size * 0.09}" ry="${size * 0.09}" fill="${p.color}"/>`
         + `</g>`;
     };
     return `<g>`
-      + `<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" fill="${p.fill}" `
+      // Слой 1 — подложка.
+      + `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">`
+      + `<stop offset="0" stop-color="${p.color}" stop-opacity="0"/>`
+      + `<stop offset="0.16" stop-color="${p.color}" stop-opacity="${p.coreOpacity}"/>`
+      + `<stop offset="0.84" stop-color="${p.color}" stop-opacity="${p.coreOpacity}"/>`
+      + `<stop offset="1" stop-color="${p.color}" stop-opacity="0"/>`
+      + `</linearGradient></defs>`
+      + `<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" fill="${p.color}" `
       + `opacity="${p.fillOpacity}"/>`
-      + `<line x1="${inner}" y1="${p.y}" x2="${inner}" y2="${p.y + p.h}" stroke="${p.edge}" `
-      + `stroke-width="0.8" opacity="${p.fillOpacity * 3}"/>`
+      // Слой 2 — градиентное ядро.
+      + `<rect x="${p.x + p.coreInset}" y="${p.y}" width="${p.w - p.coreInset * 2}" `
+      + `height="${p.h}" fill="url(#${gid})"/>`
+      + `<line x1="${p.x}" y1="${p.y}" x2="${p.x}" y2="${p.y + p.h}" stroke="${p.color}" `
+      + `stroke-width="0.8" opacity="${p.edgeOpacity}"/>`
+      + `<line x1="${p.x + p.w}" y1="${p.y}" x2="${p.x + p.w}" y2="${p.y + p.h}" `
+      + `stroke="${p.color}" stroke-width="0.8" opacity="${p.edgeOpacity}"/>`
+      // Слой 3 — замки.
+      + lock(p.y + p.lockInset)
+      + lock(p.y + p.h - p.lockInset)
+      // Слой 4 — надпись снизу вверх.
       + `<text x="${cx}" y="${cy}" font-family="${FONTS.family}" font-weight="bold" `
-      + `font-size="${p.size}" letter-spacing="${p.spacing}" fill="${p.textColor}" `
+      + `font-size="${p.size}" letter-spacing="${p.spacing}" fill="${p.color}" `
       + `opacity="${p.textOpacity}" text-anchor="middle" dominant-baseline="central" `
       + `transform="rotate(-90 ${cx} ${cy})">${esc(p.text)}</text>`
-      + lock(p.y + p.lock * 2.6)
-      + lock(p.y + p.h - p.lock * 3.6)
       + `</g>`;
   }
   const y = p.y + p.size * ASCENT;

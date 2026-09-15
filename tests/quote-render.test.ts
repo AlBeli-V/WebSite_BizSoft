@@ -45,23 +45,41 @@ describe('раскладка КП', () => {
     }
   });
 
-  it('полосы стоят у краёв листа во всю его высоту', () => {
-    // Знак нельзя отрезать при печати: полоса упирается в край листа, и
-    // страница без неё видна сразу.
+  it('полоса шириной 2,5 см идёт во всю высоту листа', () => {
+    // Ширина задана референсом руководителя 15.09.2026 и меряется в
+    // сантиметрах: в пунктах число некруглое, и глазами его не поймать.
     const [l, r] = watermarks() as any[];
-    expect(l.x).toBeLessThan(BAND.w);
-    expect(r.x + r.w).toBeGreaterThan(PAGE.width - BAND.w);
     for (const b of [l, r]) {
+      expect(b.w / CM).toBeCloseTo(2.5, 2);
       expect(b.y).toBe(0);
       expect(b.h).toBe(PAGE.height);
     }
   });
 
-  it('правая полоса заходит на границу полосы набора, но не накрывает цифры', () => {
-    const [, r] = watermarks() as any[];
+  it('обе полосы заходят на полосу набора на полсантиметра', () => {
+    // Требование руководителя: знак перекрывает текст и слева, и справа —
+    // отрезать его при печати, не срезав таблицу, нельзя.
+    const [l, r] = watermarks() as any[];
+    const textLeft = PAGE.margin.left;
     const textRight = PAGE.width - PAGE.margin.right;
-    expect(r.x).toBeLessThan(textRight);          // заходит на границу
-    expect(textRight - r.x).toBeLessThan(4);      // не больше, чем на пару пунктов
+    expect((l.x + l.w - textLeft) / CM).toBeCloseTo(0.5, 2);
+    expect((textRight - r.x) / CM).toBeCloseTo(0.5, 2);
+  });
+
+  it('правая полоса срезается краем листа, а её знаки остаются на бумаге', () => {
+    // При правом поле в 1 см полоса уходит за край: ось надписи и замков
+    // считается по видимой части, иначе значки оказались бы за бумагой.
+    const [, r] = watermarks() as any[];
+    expect(r.x + r.w).toBeGreaterThan(PAGE.width);
+    expect(r.cx).toBeLessThan(PAGE.width - 4);
+    expect(r.cx).toBeGreaterThan(r.x);
+  });
+
+  it('у полосы есть градиентное ядро внутри подложки', () => {
+    const [l] = watermarks() as any[];
+    expect(l.coreInset).toBeGreaterThan(0);
+    expect(l.coreInset * 2).toBeLessThan(l.w);
+    expect(l.coreOpacity).toBeGreaterThan(l.fillOpacity);
   });
 
   it('надписи — «КОНФИДЕНЦИАЛЬНО» и статус предложения, без слова «черновик»', () => {
@@ -71,12 +89,13 @@ describe('раскладка КП', () => {
     expect(/draft|черновик|копия/i.test(`${l.text} ${r.text}`)).toBe(false);
   });
 
-  it('знак бледный: подложка почти прозрачна, надпись читается', () => {
-    const [l] = watermarks() as any[];
-    expect(l.fillOpacity).toBeGreaterThan(0);
-    expect(l.fillOpacity).toBeLessThan(0.2);
-    expect(l.textOpacity).toBeGreaterThan(l.fillOpacity);
-    expect(l.textOpacity).toBeLessThan(0.8);
+  it('подложка прозрачна на 85%, надпись — на 50%', () => {
+    // Числа названы руководителем: подложка не мешает читать, надпись не
+    // бьёт по глазам.
+    for (const b of watermarks() as any[]) {
+      expect(b.fillOpacity).toBeCloseTo(0.15, 2);
+      expect(b.textOpacity).toBeCloseTo(0.5, 2);
+    }
   });
 
   it('полосы попадают в оба формата одинаково', () => {
@@ -86,6 +105,9 @@ describe('раскладка КП', () => {
     expect(svg).toContain('ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ');
     // Надпись повёрнута вдоль полосы, а не лежит поперёк листа.
     expect(svg).toMatch(/transform="rotate\(-90/);
+    // Градиентное ядро и замки — в обоих форматах: у каждой полосы свой
+    // градиент, иначе синее ядро склеилось бы с красным.
+    expect(svg.match(/<linearGradient id="band-core-/g)?.length).toBe(2);
   });
 
   it('знак идёт под содержимым: рисуется раньше текста', () => {

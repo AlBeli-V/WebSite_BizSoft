@@ -130,22 +130,30 @@ export function pdfMeasure(): Measure {
   };
 }
 
-/** Значок замка: скруглённый корпус и дужка над ним. */
-function lock(doc: PDFKit.PDFDocument, cx: number, top: number, size: number,
-              color: string, opacity: number): void {
-  const bodyW = size * 0.86;
-  const bodyH = size * 0.66;
-  const bodyY = top + size * 0.34;
-  const r = size * 0.16;
+/**
+ * Замок на скруглённой плашке — как на референсе: плашка подложкой, над
+ * ней дужка линией и корпус заливкой.
+ */
+function lock(doc: PDFKit.PDFDocument, cx: number, cy: number,
+              size: number, color: string, opacity: number): void {
+  const bodyW = size / 2;
+  const bodyH = size * 0.39;
+  const bodyY = cy - size * 0.05;
   doc.save();
-  doc.fillOpacity(opacity).strokeOpacity(opacity).strokeColor(color).lineWidth(size * 0.15);
-  // Дужка — полукруг над корпусом.
-  doc.moveTo(cx - size * 0.26, bodyY)
-    .lineTo(cx - size * 0.26, bodyY - size * 0.16)
-    .bezierCurveTo(cx - size * 0.26, top, cx + size * 0.26, top, cx + size * 0.26, bodyY - size * 0.16)
-    .lineTo(cx + size * 0.26, bodyY)
+  // Плашка: та же заливка, что у полосы, только плотнее — замок читается
+  // как значок, а не как пятно.
+  doc.fillOpacity(opacity * 0.28);
+  doc.roundedRect(cx - size / 2, cy - size / 2, size, size, size * 0.25).fill(color);
+  doc.fillOpacity(opacity);
+  doc.strokeOpacity(opacity);
+  doc.strokeColor(color).lineWidth(size * 0.073);
+  const arm = size * 0.164;
+  doc.moveTo(cx - arm, bodyY)
+    .lineTo(cx - arm, bodyY - size * 0.19)
+    .bezierCurveTo(cx - arm, cy - size * 0.42, cx + arm, cy - size * 0.42, cx + arm, bodyY - size * 0.19)
+    .lineTo(cx + arm, bodyY)
     .stroke();
-  doc.roundedRect(cx - bodyW / 2, bodyY, bodyW, bodyH, r).fill(color);
+  doc.roundedRect(cx - bodyW / 2, bodyY, bodyW, bodyH, size * 0.09).fill(color);
   doc.restore();
   doc.fillOpacity(1).strokeOpacity(1);
 }
@@ -173,36 +181,47 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
     return;
   }
   if (p.kind === 'band') {
-    // Подложка полосы: бледная заливка и тонкая линия по внутреннему краю —
-    // край листа виден даже на чёрно-белой печати.
     doc.save();
+
+    // Слой 1 — подложка во всю высоту листа.
     doc.fillOpacity(p.fillOpacity);
-    doc.rect(p.x, p.y, p.w, p.h).fill(p.fill);
+    doc.rect(p.x, p.y, p.w, p.h).fill(p.color);
     doc.fillOpacity(1);
-    doc.strokeOpacity(p.fillOpacity * 3);
-    const inner = p.x < PAGE.width / 2 ? p.x + p.w : p.x;
-    doc.moveTo(inner, p.y).lineTo(inner, p.y + p.h)
-      .lineWidth(0.8).strokeColor(p.edge).stroke();
+
+    // Слой 2 — градиентное ядро: свечение вдоль середины полосы, гаснет к
+    // верхнему и нижнему краю листа.
+    const core = doc.linearGradient(p.x, p.y, p.x, p.y + p.h);
+    core.stop(0, p.color, 0)
+      .stop(0.16, p.color, p.coreOpacity)
+      .stop(0.84, p.color, p.coreOpacity)
+      .stop(1, p.color, 0);
+    doc.rect(p.x + p.coreInset, p.y, p.w - p.coreInset * 2, p.h).fill(core);
+
+    // Тонкие линии по краям: край полосы виден и на чёрно-белой печати.
+    doc.strokeOpacity(p.edgeOpacity).strokeColor(p.color).lineWidth(0.8);
+    for (const x of [p.x, p.x + p.w]) {
+      doc.moveTo(x, p.y).lineTo(x, p.y + p.h).stroke();
+    }
     doc.strokeOpacity(1);
 
-    // Надпись снизу вверх по середине полосы. Разрядка задаётся
+    // Слой 3 — замки на концах полосы.
+    const cx = p.cx;
+    lock(doc, cx, p.y + p.lockInset, p.lock, p.color, p.textOpacity);
+    lock(doc, cx, p.y + p.h - p.lockInset, p.lock, p.color, p.textOpacity);
+
+    // Слой 4 — надпись снизу вверх по середине полосы. Разрядка задаётся
     // characterSpacing: она делает длинную строку ритмичной, не увеличивая
     // кегль, и одинаково считается в обоих форматах.
-    doc.font('b').fontSize(p.size).fillColor(p.textColor).fillOpacity(p.textOpacity);
-    const cx = p.x + p.w / 2;
     const cy = p.y + p.h / 2;
+    doc.font('b').fontSize(p.size).fillColor(p.color).fillOpacity(p.textOpacity);
     doc.save();
     doc.rotate(-90, { origin: [cx, cy] });
     const tw = doc.widthOfString(p.text, { characterSpacing: p.spacing });
     doc.text(p.text, cx - tw / 2, cy - p.size * 0.62,
              { lineBreak: false, characterSpacing: p.spacing });
     doc.restore();
-
-    // Замки на концах полосы: дужка и корпус, как на образце.
-    for (const ly of [p.y + p.lock * 2.6, p.y + p.h - p.lock * 3.6]) {
-      lock(doc, cx, ly, p.lock, p.textColor, p.textOpacity);
-    }
     doc.fillOpacity(1);
+
     doc.restore();
     return;
   }
