@@ -118,7 +118,9 @@ export function logoBuffer(file: string): Buffer {
 
 /** Измеритель на pdfkit: оба формата считают раскладку им, поэтому не расходятся. */
 export function pdfMeasure(): Measure {
-  const probe = new PDFDocument({ size: 'A4', margin: PAGE.margin });
+  // Поле у пробного документа роли не играет: раскладка рисует по
+  // абсолютным координатам, пробник нужен только для метрик шрифта.
+  const probe = new PDFDocument({ size: 'A4', margin: PAGE.margin.left });
   probe.registerFont('r', FONT_REGULAR);
   probe.registerFont('b', FONT_BOLD);
   const pick = (size: number, bold?: boolean) => probe.font(bold ? 'b' : 'r').fontSize(size);

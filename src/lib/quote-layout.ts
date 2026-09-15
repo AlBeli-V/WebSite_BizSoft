@@ -11,13 +11,36 @@
  */
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
-import { amountPhrase, moneyFmt, singleVatRate, vatOfItems } from './rub-words';
+import { amountPhrase, moneyFmt, numberWords, pluralForm, singleVatRate, vatOfItems } from './rub-words';
 import { salutation } from './salutation';
 import { specLine } from './spec-line';
 import type { QuoteItem } from './types';
 
 /** Логотип в шапке. Путь от корня проекта — файл читает драйвер формата. */
 export const LOGO_FILE = 'public/brand/bizsoft-logo-lockup.png';
+
+/**
+ * Знак в колонтитуле — марка без надписи (решение руководителя 15.09.2026).
+ * Высота равна двум строкам реквизитов, ширина — по пропорции файла
+ * (290×350): знак не растягивается.
+ */
+export const MARK_FILE = 'public/brand/bizsoft-mark-transparent.png';
+export const FOOT = {
+  /** Высота знака и всего блока реквизитов, пт. */
+  h: 20,
+  /** Ширина знака по пропорции 290×350. */
+  w: 20 * (290 / 350),
+  /** Просвет между знаком и текстом. */
+  gap: 8,
+  /** Кегль строк реквизитов и интерлиньяж. */
+  size: 7,
+  line: 10,
+};
+
+/** Y линии над колонтитулом: сам колонтитул стоит на нижнем поле. */
+export function footRuleY(): number {
+  return PAGE.height - PAGE.margin.bottom - FOOT.h - 8;
+}
 
 /** Подписант коммерческого предложения. */
 export const signer = { name: 'Беляев Алексей', role: 'директор по развитию бизнеса' };
@@ -107,7 +130,19 @@ export function wrap(text: string, size: number, max: number, m: Measure, bold?:
   return lines;
 }
 
-export const PAGE = { width: 595.28, height: 841.89, margin: 48 };
+/** Пункт на сантиметр: поля документа руководитель задаёт в сантиметрах. */
+export const CM = 28.3465;
+
+/**
+ * Поля страницы — решение руководителя 15.09.2026: слева 3 см под подшивку,
+ * справа, сверху и снизу по 1 см. Всё содержимое, включая таблицу и
+ * колонтитул, живёт внутри этого поля.
+ */
+export const PAGE = {
+  width: 595.28,
+  height: 841.89,
+  margin: { left: 3 * CM, right: CM, top: CM, bottom: CM },
+};
 export const COLOR = {
   accent: '#FF763C', dark: '#14161A', muted: '#6B7280',
   body: '#374151', rule: '#E5E7EB', head: '#F3F4F6',
@@ -232,11 +267,21 @@ export function buyerLines(data: QuoteData): string[] {
   ].filter(Boolean);
 }
 
-/** Вводная фраза под обращением. */
+/**
+ * Вводная фраза под обращением (формулировка руководителя 15.09.2026).
+ *
+ * «Поставка лицензий» ушла: мы не поставляем лицензии, а оказываем услуги по
+ * обеспечению доступа — к ПО, к web-сервисам и к балансам API. Предмет
+ * предложения обязан совпадать с предметом договора и с описанием позиций
+ * в таблице (`docs/rules/spec-line.md`), иначе шапка обещает одно, а
+ * спецификация называет другое.
+ */
 export function quoteIntro(buyerCompany: string): string {
   const company = buyerCompany ? `в интересах ${buyerCompany}` : 'в интересах вашей организации';
-  return `Направляем вам предварительное коммерческое предложение ${company} `
-    + 'на поставку лицензий на программное обеспечение:';
+  return `Направляем Вам предварительное коммерческое предложение ${company} `
+    + 'на оказание комплексных услуг по обеспечению доступа к программному обеспечению (ПО), '
+    + 'web-сервисам и/или пополнению балансов API токенов. Детальная спецификация состава '
+    + 'услуг отражена в таблице настоящего предложения:';
 }
 
 /**
@@ -263,13 +308,68 @@ export function itemSpec(it: QuoteItem): ItemSpec {
 }
 
 /** Условия поставки — список под таблицей. */
-export function quoteConditions(validUntil: string): string[] {
+export function quoteConditions(validUntil: string, issued: string): string[] {
   return [
-    `Срок действия предложения: до ${validUntil}.`,
+    validityLine(issued, validUntil),
     'Форма поставки: в электронном виде.',
     'Условия оплаты: 100% аванс, безналичный расчёт в рублях по счёту.',
     'Срок поставки: по согласованию сторон в зависимости от типа ПО, от 1 дня.',
+    // Цены каталога привязаны к курсу ЦБ (docs/rules/catalog.md): между
+    // выпуском предложения и оплатой счёта курс двигается, и оговорка о
+    // пересчёте должна стоять в самом предложении, а не всплывать при счёте.
+    `Стоимость: рублёвый эквивалент стоимости рассчитан по курсу ЦБ РФ на дату ${issued} `
+    + '(дата формирования КП). В случае изменения курса валют более чем на 5% на дату '
+    + 'заключения Договора и оплаты Счёта стоимость корректируется на дельту курсовой '
+    + 'разницы — как в большую, так и в меньшую сторону.',
   ];
+}
+
+/** Дата вида dd.mm.yyyy → UTC-полночь; null — строка не распознана. */
+function parseRuDate(s: string): Date | null {
+  const m = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(s.trim());
+  if (!m) return null;
+  const d = new Date(Date.UTC(Number(m[3]), Number(m[2]) - 1, Number(m[1])));
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+/**
+ * Рабочих дней от выпуска предложения до последнего дня действия.
+ *
+ * Считаются дни после даты выпуска по дату окончания включительно, суббота
+ * и воскресенье не в счёт. Праздники не учитываются: производственный
+ * календарь в проекте не ведётся, и подставлять его «примерно» значило бы
+ * назвать клиенту срок, которого нет.
+ */
+export function workdaysBetween(issued: string, validUntil: string): number | null {
+  const from = parseRuDate(issued);
+  const to = parseRuDate(validUntil);
+  if (!from || !to || to <= from) return null;
+  let count = 0;
+  const cur = new Date(from);
+  while (cur < to) {
+    cur.setUTCDate(cur.getUTCDate() + 1);
+    const day = cur.getUTCDay();
+    if (day !== 0 && day !== 6) count += 1;
+  }
+  return count;
+}
+
+/** «Срок действия предложения: 5 (пять) рабочих дней до 22.09.2026.» */
+export function validityLine(issued: string, validUntil: string): string {
+  const days = workdaysBetween(issued, validUntil);
+  // Без распознанных дат срок называется одной датой: соврать о числе
+  // рабочих дней хуже, чем не назвать его.
+  if (days === null || days === 0) return `Срок действия предложения: до ${validUntil}.`;
+  const word = pluralForm(days, ['рабочий день', 'рабочих дня', 'рабочих дней']);
+  return `Срок действия предложения: ${days} (${numberWords(days)}) ${word} до ${validUntil}.`;
+}
+
+/**
+ * Шапка листов продолжения: распечатанный второй лист обязан называть
+ * документ, к которому относится. Текст один на все форматы.
+ */
+export function continuationLine(data: QuoteData): string {
+  return `Коммерческое предложение № ${data.outgoingNo || data.quoteNo} от ${data.date} — продолжение`;
 }
 
 /** Две строки колонтитула с реквизитами продавца. */
@@ -291,8 +391,9 @@ export function footerLines(): [string, string] {
  * примитивы по порядку, поэтому знак оказывается под текстом, а не поверх.
  */
 export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
-  const left = PAGE.margin;
-  const right = PAGE.width - PAGE.margin;
+  const left = PAGE.margin.left;
+  const right = PAGE.width - PAGE.margin.right;
+  const top = PAGE.margin.top;
   const width = right - left;
   const LINE = 12;
 
@@ -304,34 +405,57 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   const text = (t: string, x: number, y: number, o: Partial<Extract<Primitive, { kind: 'text' }>> = {}) =>
     put({ kind: 'text', x, y, text: t, size: 9, color: COLOR.body, ...o } as Primitive);
 
-  /** Абзац с переносом. Возвращает Y под последней строкой. */
+  /**
+   * Абзац с переносом. Возвращает Y под последней строкой.
+   *
+   * `justify` — выключка по ширине: строка растягивается до правого поля
+   * пробелами между словами (последняя строка абзаца остаётся как есть).
+   * Делается здесь, а не драйвером: SVG выключки не умеет вовсе, а мы и так
+   * переносим текст сами — иначе картинка разошлась бы с PDF.
+   */
   const para = (t: string, x: number, y: number, w: number,
-                o: { size?: number; bold?: boolean; color?: string; align?: Align } = {}) => {
+                o: { size?: number; bold?: boolean; color?: string; align?: Align;
+                     justify?: boolean } = {}) => {
     const size = o.size ?? 9.5;
+    const color = o.color || COLOR.body;
+    const lines = wrap(t, size, w, measure, o.bold);
     let cur = y;
-    for (const part of wrap(t, size, w, measure, o.bold)) {
-      text(part, x, cur, { size, bold: o.bold, color: o.color || COLOR.body,
-                           width: o.align ? w : undefined, align: o.align });
+    lines.forEach((part, i) => {
+      const last = i === lines.length - 1;
+      const words = part.split(' ').filter(Boolean);
+      if (o.justify && !last && words.length > 1) {
+        const wordsW = words.reduce((acc, word) => acc + measure.width(word, size, o.bold), 0);
+        const gap = (w - wordsW) / (words.length - 1);
+        let wx = x;
+        for (const word of words) {
+          text(word, wx, cur, { size, bold: o.bold, color });
+          wx += measure.width(word, size, o.bold) + gap;
+        }
+      } else {
+        text(part, x, cur, { size, bold: o.bold, color,
+                             width: o.align ? w : undefined, align: o.align });
+      }
       cur += size * 1.45;
-    }
+    });
     return cur;
   };
 
   // ── Шапка: логотип слева, заголовок справа ─────────────────────────────
-  put({ kind: 'image', x: left, y: 40, w: 132, h: 44, file: LOGO_FILE });
-  text('КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ', left, 52,
+  // Всё считается от верхнего поля: сдвинулось поле — сдвинулась шапка.
+  put({ kind: 'image', x: left, y: top, w: 132, h: 44, file: LOGO_FILE });
+  text('КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ', left, top + 12,
        { bold: true, size: 14, color: COLOR.dark, width, align: 'right' });
-  text(HEAD_SUBTITLE, left, 70,
+  text(HEAD_SUBTITLE, left, top + 30,
        { size: 8, color: COLOR.muted, width, align: 'right' });
 
   // ── Контакты продавца слева, номера и даты справа ──────────────────────
-  let yL = 92;
+  let yL = top + 52;
   for (const l of sellerContactLines()) {
     text(l, left, yL, { size: 8.5, color: COLOR.muted });
     yL += 11;
   }
 
-  let yR = 92;
+  let yR = top + 52;
   for (const l of headMetaLines(data)) {
     text(l, left, yR, { size: 8.5, color: COLOR.muted, width, align: 'right' });
     yR += 11;
@@ -357,8 +481,16 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
        { bold: true, size: 11, color: COLOR.dark, width, align: 'center' });
   y += 18;
 
-  y = para(quoteIntro(data.buyerCompany), left, y, width);
+  y = para(quoteIntro(data.buyerCompany), left, y, width, { justify: true });
   y += 8;
+
+  // Ставка налога считается до таблицы: она стоит и в её шапке, и в итогах.
+  // Ставки разные — числа в заголовке нет: там стояла бы ставка, по которой
+  // посчитана только часть суммы.
+  const vat = vatOfItems(data.items, VAT_PERCENT);
+  const rate = singleVatRate(data.items, VAT_PERCENT);
+  const rateLabel = rate === null ? '' : ` ${rate}%`;
+  const headRate = rateLabel;
 
   // ── Таблица позиций ────────────────────────────────────────────────────
   // Структура повторяет спецификацию на сайте (docs/rules/spec-line.md):
@@ -375,10 +507,10 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // заходила под соседнюю границу, а «Цена, ₽» упиралась в линию.
   const B = {
     n0: left,
-    n1: left + 22,
-    desc1: right - 198,
-    qty1: right - 158,
-    price1: right - 82,
+    n1: left + 20,
+    desc1: right - 200,
+    qty1: right - 162,
+    price1: right - 84,
     sum1: right,
   };
   const CELL = 5;
@@ -390,25 +522,43 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
     sum: B.price1 + CELL, sumW: B.sum1 - B.price1 - CELL * 2,
   };
   const PAD = 5;
-  const BOTTOM = PAGE.height - 78; // ниже — колонтитул и номер листа
+  // Нижняя граница содержимого: под ней живёт колонтитул со знаком, а под
+  // ним — нижнее поле страницы.
+  const BOTTOM = footRuleY() - 10;
 
   /** Границы строки таблицы: вертикали по колонкам и линия снизу. */
-  const gridRow = (top: number, h: number) => {
+  const gridRow = (rowTop: number, h: number) => {
     for (const x of [B.n0, B.n1, B.desc1, B.qty1, B.price1, B.sum1]) {
-      put({ kind: 'line', x1: x, y1: top, x2: x, y2: top + h, color: COLOR.rule, lineWidth: 0.5 });
+      put({ kind: 'line', x1: x, y1: rowTop, x2: x, y2: rowTop + h, color: COLOR.rule, lineWidth: 0.5 });
     }
-    put({ kind: 'line', x1: left, y1: top + h, x2: right, y2: top + h, color: COLOR.rule, lineWidth: 0.5 });
+    put({ kind: 'line', x1: left, y1: rowTop + h, x2: right, y2: rowTop + h, color: COLOR.rule, lineWidth: 0.5 });
   };
 
+  // Шапка таблицы: все подписи по центру ячейки и по её середине, денежные
+  // колонки — в две строки (решение руководителя 15.09.2026). Ставка налога
+  // названа прямо в заголовке: цена в таблице указана с НДС, и читатель не
+  // должен искать это в примечании под итогом.
+  const HEAD_SIZE = 8;
+  const HEAD_LINE = 9.5;
+  const HEAD_H = 26;
+  const headCells: [string[], number, number][] = [
+    [['№'], cols.n, cols.nW],
+    [['Описание'], cols.desc, cols.descW],
+    [['Кол-во'], cols.qty, cols.qtyW],
+    [[`Цена Руб.`, `в т.ч. НДС${headRate}`], cols.price, cols.priceW],
+    [[`Сумма Руб.`, `в т.ч. НДС${headRate}`], cols.sum, cols.sumW],
+  ];
   const header = () => {
-    put({ kind: 'rect', x: left, y, w: width, h: 22, fill: COLOR.head });
-    text('№', cols.n, y + 7, { bold: true, size: 8.5, color: COLOR.dark, width: cols.nW, align: 'center' });
-    text('Описание', cols.desc, y + 7, { bold: true, size: 8.5, color: COLOR.dark });
-    text('Кол-во', cols.qty, y + 7, { bold: true, size: 8, color: COLOR.dark, width: cols.qtyW, align: 'right' });
-    text('Цена, ₽', cols.price, y + 7, { bold: true, size: 8.5, color: COLOR.dark, width: cols.priceW, align: 'right' });
-    text('Сумма, ₽', cols.sum, y + 7, { bold: true, size: 8.5, color: COLOR.dark, width: cols.sumW, align: 'right' });
-    gridRow(y, 22);
-    y += 22;
+    put({ kind: 'rect', x: left, y, w: width, h: HEAD_H, fill: COLOR.head });
+    for (const [lines, x, w] of headCells) {
+      const startY = y + (HEAD_H - lines.length * HEAD_LINE) / 2 + 1;
+      lines.forEach((part, i) => {
+        text(part, x, startY + i * HEAD_LINE,
+             { bold: true, size: HEAD_SIZE, color: COLOR.dark, width: w, align: 'center' });
+      });
+    }
+    gridRow(y, HEAD_H);
+    y += HEAD_H;
   };
   header();
 
@@ -422,7 +572,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
     // шапку — распечатанный лист обязан читаться сам по себе.
     if (y + rowH > BOTTOM) {
       newPage();
-      y = 56;
+      y = top + 28;
       header();
     }
     let ty = y + PAD;
@@ -447,14 +597,11 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // Ставка берётся у позиций, а не одна на документ: она задаётся у товара.
   // Если ставки разные, единой в заголовке не пишем — там стояла бы ставка,
   // по которой посчитана только часть суммы.
-  const vat = vatOfItems(data.items, VAT_PERCENT);
-  const rate = singleVatRate(data.items, VAT_PERCENT);
-  const rateLabel = rate === null ? '' : ` ${rate}%`;
   // Итог, налог и сумма прописью — один смысловой блок: разорвать его
   // между листами значит отправить лист с суммой без расшифровки.
   const totalsH = 16 + 16 + wrap(`Стоимость предложения: ${amountPhrase(data.total)}, в т.ч. НДС`
     + `${rateLabel} ${amountPhrase(vat)}.`, 9, width, measure).length * 13 + 8;
-  if (y + totalsH > BOTTOM) { newPage(); y = 56; }
+  if (y + totalsH > BOTTOM) { newPage(); y = top + 28; }
   y += 8;
   // Копейки здесь обязательны: formatRub округляет до рубля, и строка НДС
   // разошлась бы с суммой прописью — а её сверяют до копейки.
@@ -466,16 +613,16 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   y += 16;
   y = para(`Стоимость предложения: ${amountPhrase(data.total)}, в т.ч. НДС`
            + `${rateLabel} ${amountPhrase(vat)}.`,
-           left, y, width, { size: 9 });
+           left, y, width, { size: 9, justify: true });
 
   // ── Условия ────────────────────────────────────────────────────────────
   y += 10;
-  const condH = 14 + quoteConditions(data.validUntil)
+  const condH = 14 + quoteConditions(data.validUntil, data.date)
     .reduce((h, c) => h + wrap(c, 9, width - 14, measure).length * 13 + 2, 0);
-  if (y + condH > BOTTOM) { newPage(); y = 56; }
+  if (y + condH > BOTTOM) { newPage(); y = top + 28; }
   text('Условия поставки', left, y, { bold: true, size: 10, color: COLOR.dark });
   y += 14;
-  for (const c of quoteConditions(data.validUntil)) {
+  for (const c of quoteConditions(data.validUntil, data.date)) {
     put({ kind: 'bullet', x: left + 3, y: y + 4, size: 3, color: COLOR.accent });
     y = para(c, left + 14, y, width - 14, { size: 9 }) + 2;
   }
@@ -483,10 +630,10 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // ── Оговорка о статусе документа ───────────────────────────────────────
   y += 6;
   const noteH = wrap(PRELIMINARY_NOTE, 9, width - 24, measure).length * 13 + 18;
-  if (y + noteH > BOTTOM) { newPage(); y = 56; }
+  if (y + noteH > BOTTOM) { newPage(); y = top + 28; }
   put({ kind: 'rect', x: left, y, w: width, h: noteH, fill: COLOR.noteBg });
   put({ kind: 'rect', x: left, y, w: 3, h: noteH, fill: COLOR.accent });
-  para(PRELIMINARY_NOTE, left + 14, y + 9, width - 24, { size: 9, color: COLOR.dark });
+  para(PRELIMINARY_NOTE, left + 14, y + 9, width - 24, { size: 9, color: COLOR.dark, justify: true });
   y += noteH + 10;
 
   // ── Подпись и реквизиты ────────────────────────────────────────────────
@@ -500,7 +647,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // над линией колонтитула. С общим пределом BOTTOM подпись уезжала на
   // отдельный лист из-за девяти пунктов — и получался лист с одной подписью.
   const TAIL_H = 18 + 15 + 33;
-  if (y + TAIL_H > PAGE.height - 58) { newPage(); y = 56; }
+  if (y + TAIL_H > footRuleY() - 4) { newPage(); y = top + 28; }
   text('С уважением,', left, y, { size: 9.5, color: COLOR.body });
   y += 18;
   text(`${signer.name}, ${signer.role}`, left, y, { bold: true, size: 10, color: COLOR.dark });
@@ -517,21 +664,25 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // лист многостраничного КП оставался без продавца и без номера. Теперь
   // каждый лист самодостаточен — шапка продолжения сверху, реквизиты и
   // «Лист N из M» снизу.
+  // Колонтитул: знак слева, обе строки реквизитов от него влево-выключкой,
+  // номер листа — к правому полю (постановка руководителя 15.09.2026).
   const [foot1, foot2] = footerLines();
-  const footY = PAGE.height - 46;
+  const ruleY = footRuleY();
+  const footY = ruleY + 8;
+  const textX = left + FOOT.w + FOOT.gap;
   pages.forEach((page, idx) => {
     const add = (p: Primitive) => page.items.push(p);
     if (idx > 0) {
-      add({ kind: 'text', x: left, y: 34, size: 8, color: COLOR.muted,
-            text: `Коммерческое предложение № ${data.outgoingNo || data.quoteNo} от ${data.date} — продолжение`,
-            width, align: 'left' });
-      add({ kind: 'line', x1: left, y1: 46, x2: right, y2: 46, color: COLOR.rule, lineWidth: 0.5 });
+      add({ kind: 'text', x: left, y: top + 6, size: 8, color: COLOR.muted,
+            text: continuationLine(data), width, align: 'left' });
+      add({ kind: 'line', x1: left, y1: top + 18, x2: right, y2: top + 18,
+            color: COLOR.rule, lineWidth: 0.5 });
     }
-    add({ kind: 'line', x1: left, y1: footY - 8, x2: right, y2: footY - 8,
-          color: COLOR.rule, lineWidth: 0.5 });
-    add({ kind: 'text', x: left, y: footY, text: foot1, size: 7, color: COLOR.muted, width, align: 'center' });
-    add({ kind: 'text', x: left, y: footY + 10, text: foot2, size: 7, color: COLOR.muted, width, align: 'center' });
-    add({ kind: 'text', x: left, y: footY + 10, text: sheetLabel(idx + 1, pages.length),
+    add({ kind: 'line', x1: left, y1: ruleY, x2: right, y2: ruleY, color: COLOR.rule, lineWidth: 0.5 });
+    add({ kind: 'image', x: left, y: footY, w: FOOT.w, h: FOOT.h, file: MARK_FILE });
+    add({ kind: 'text', x: textX, y: footY, text: foot1, size: FOOT.size, color: COLOR.muted });
+    add({ kind: 'text', x: textX, y: footY + FOOT.line, text: foot2, size: FOOT.size, color: COLOR.muted });
+    add({ kind: 'text', x: left, y: footY + FOOT.line, text: sheetLabel(idx + 1, pages.length),
           size: 7.5, color: COLOR.muted, width, align: 'right' });
   });
   return pages;

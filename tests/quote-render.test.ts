@@ -6,7 +6,7 @@
  * двух форматов.
  */
 import { describe, expect, it } from 'vitest';
-import { buildQuoteLayout, watermarks, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
+import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, CM, MARK_FILE, PAGE, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
 import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
 import { generateQuoteJpgPages, jpgFileNames, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
@@ -110,6 +110,17 @@ describe('раскладка КП', () => {
     expect(tt).toContain('Исх. № 17/2026');
   });
 
+  it('предмет предложения — услуги доступа, а не поставка лицензий', () => {
+    // Формулировка руководителя 15.09.2026: шапка обязана совпадать с
+    // предметом договора и с описанием позиций в таблице.
+    const all = texts.join(' ');
+    expect(all).toContain('Направляем Вам предварительное коммерческое предложение');
+    expect(all).toContain('на оказание комплексных услуг по обеспечению доступа к программному обеспечению (ПО)');
+    expect(all).toContain('web-сервисам и/или пополнению балансов API токенов');
+    expect(all).toContain('Детальная спецификация состава услуг отражена в таблице настоящего предложения:');
+    expect(all).not.toMatch(/поставку лицензий/);
+  });
+
   it('условия поставки — по распоряжению, без ЭДО и договора', () => {
     const all = texts.join(' ');
     expect(all).toContain('Форма поставки: в электронном виде.');
@@ -117,6 +128,33 @@ describe('раскладка КП', () => {
     expect(all).toContain('по согласованию сторон');
     expect(all).not.toMatch(/ЭДО|закрывающие документы/);
     expect(all).not.toMatch(/1–3 рабочих дня/);
+  });
+
+  it('срок действия назван рабочими днями и датой', () => {
+    // Формулировка руководителя 15.09.2026: одна дата не говорит покупателю,
+    // сколько у него времени на согласование.
+    const all = texts.join(' ');
+    // 21.08.2026 — пятница; до 05.09 (суббота) — десять рабочих дней.
+    expect(all).toContain('Срок действия предложения: 10 (десять) рабочих дней до 05.09.2026.');
+  });
+
+  it('склонение и границы счёта рабочих дней', () => {
+    expect(validityLine('15.09.2026', '16.09.2026')).toContain('1 (один) рабочий день до 16.09.2026.');
+    expect(validityLine('15.09.2026', '18.09.2026')).toContain('3 (три) рабочих дня до 18.09.2026.');
+    // Выходные не считаются: с пятницы по понедельник — один рабочий день.
+    expect(workdaysBetween('18.09.2026', '21.09.2026')).toBe(1);
+    // Нераспознанная дата не даёт выдумать срок.
+    expect(workdaysBetween('нет даты', '21.09.2026')).toBe(null);
+    expect(validityLine('нет даты', '21.09.2026')).toBe('Срок действия предложения: до 21.09.2026.');
+  });
+
+  it('оговорка о курсе ЦБ названа датой формирования КП', () => {
+    // Цены привязаны к курсу ЦБ, и между КП и оплатой счёта он двигается:
+    // условие пересчёта обязано стоять в самом предложении.
+    const all = texts.join(' ');
+    expect(all).toContain('рублёвый эквивалент стоимости рассчитан по курсу ЦБ РФ на дату 21.08.2026');
+    expect(all).toContain('более чем на 5%');
+    expect(all).toContain('как в большую, так и в меньшую сторону');
   });
 
   it('итог подписан «в т.ч. НДС», а налог выделен отдельной строкой', () => {
@@ -219,10 +257,56 @@ describe('раскладка КП', () => {
     // артикул, и он наезжал на название (находка руководителя 15.09.2026).
     expect(texts).toContain('Описание');
     expect(texts).toContain('Кол-во');
-    expect(texts).toContain('Цена, ₽');
-    expect(texts).toContain('Сумма, ₽');
+    // Денежные колонки названы в две строки со ставкой налога: цена в
+    // таблице указана с НДС, и это должно быть видно в самой шапке.
+    expect(texts).toContain('Цена Руб.');
+    expect(texts).toContain('Сумма Руб.');
+    expect(texts.filter((t) => t === 'в т.ч. НДС 5%')).toHaveLength(2);
     expect(texts).not.toContain('Артикул');
     expect(texts).not.toContain('Наименование');
+  });
+
+  it('подписи шапки стоят по центру своих колонок', () => {
+    const heads = (buildQuoteLayout(data, pdfMeasure())[0].items as any[])
+      .filter((i) => i.kind === 'text' && ['№', 'Описание', 'Кол-во', 'Цена Руб.', 'Сумма Руб.'].includes(i.text));
+    expect(heads.length).toBe(5);
+    for (const h of heads) expect(h.align, h.text).toBe('center');
+  });
+
+  it('поля страницы: слева 3 см, справа, сверху и снизу по 1 см', () => {
+    // Решение руководителя 15.09.2026. Проверяется не число в константе, а
+    // то, что содержимое действительно живёт внутри поля.
+    expect(PAGE.margin.left).toBeCloseTo(3 * CM, 1);
+    expect(PAGE.margin.right).toBeCloseTo(CM, 1);
+    const texted = pages.flatMap((p) => p.items.filter((i) => i.kind === 'text') as any[]);
+    for (const t of texted) {
+      expect(t.x, t.text).toBeGreaterThanOrEqual(PAGE.margin.left - 0.5);
+      const rightEdge = t.width ? t.x + t.width : t.x;
+      expect(rightEdge, t.text).toBeLessThanOrEqual(PAGE.width - PAGE.margin.right + 0.5);
+      expect(t.y, t.text).toBeGreaterThanOrEqual(PAGE.margin.top - 0.5);
+      expect(t.y, t.text).toBeLessThanOrEqual(PAGE.height - PAGE.margin.bottom);
+    }
+  });
+
+  it('колонтитул: знак слева, реквизиты влево, номер листа вправо', () => {
+    const many = buildQuoteLayout({
+      ...data,
+      items: Array.from({ length: 12 }, (_, i) => ({
+        sku: `ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-${i}`, name: 'Claude Team, Standard seat',
+        vendor: 'Anthropic', qty: 1, price: 46421, sum: 46421,
+      })),
+      total: 46421 * 12,
+    }, pdfMeasure());
+    for (const page of many) {
+      const marks = page.items.filter((i) => i.kind === 'image' && (i as any).file === MARK_FILE);
+      expect(marks.length).toBe(1);
+      const foot = page.items.find((i) => i.kind === 'text' && /ИНН 507202054051/.test((i as any).text)) as any;
+      // Реквизиты выключены влево (без align) и сдвинуты правее знака.
+      expect(foot.align).toBeUndefined();
+      expect(foot.x).toBeGreaterThan(PAGE.margin.left);
+      const sheet = page.items.find((i) => i.kind === 'text' && /^Лист /.test((i as any).text)) as any;
+      expect(sheet.align).toBe('right');
+    }
   });
 
   it('описание позиции — то же, что в спецификации на сайте', () => {
