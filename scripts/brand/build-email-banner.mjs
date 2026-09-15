@@ -26,8 +26,11 @@
  * шрифтом — от чёрного глифа до цветного эмодзи. Отрисованный png одинаков
  * у всех.
  *
+ * Исходники лежат в src/assets/email и на прод не уезжают: это сырьё сборки
+ * весом 1,8 МБ, в public им делать нечего — там только готовые файлы.
+ *
  * Запуск: node scripts/brand/build-email-banner.mjs
- * Исходники: public/email/banner-bg.png, public/email/bizsoft-logo-lockup.png
+ * Исходники: src/assets/email/banner-bg.png, src/assets/email/bizsoft-logo-lockup.png
  * Результат: public/email/banner-desk.jpg, public/email/banner-mob.jpg,
  *            public/email/g-mail.png, g-phone.png, g-tg.png, g-wa.png
  */
@@ -44,9 +47,9 @@ const FONTS = [
 ];
 
 /** Подложка: изометрические плитки вендоров, пустая левая часть под текст. */
-export const BG = { file: 'public/email/banner-bg.png', w: 1844, h: 853 };
+export const BG = { file: 'src/assets/email/banner-bg.png', w: 1844, h: 853 };
 /** Лок-ап целиком: знак, BIZSoft, BUSINESS INTEGRATION ZONE и слоган. */
-export const LOCKUP = { file: 'public/email/bizsoft-logo-lockup.png', w: 1962, h: 648 };
+export const LOCKUP = { file: 'src/assets/email/bizsoft-logo-lockup.png', w: 1962, h: 648 };
 
 const ORANGE = '#FF763C';
 const DEEP = '#16202C';
