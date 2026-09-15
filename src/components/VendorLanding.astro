@@ -16,6 +16,7 @@ import VendorLogo from './VendorLogo.astro';
 import JsonLd from './JsonLd.astro';
 import { getProducts } from '../lib/directus';
 import { effectivePrice, formatRub } from '../lib/pricing';
+import { pluralForm } from '../lib/rub-words';
 import { collectionPageSchema } from '../lib/seo';
 import { SEO_EXPERIMENTS } from '../data/seo-experiments';
 import { planType, PLAN_LABEL } from '../lib/plan-type';
@@ -24,7 +25,10 @@ import { productIcons } from '../data/product-icons';
 import ProductIcon from './ProductIcon.astro';
 import AddToCartButton from './AddToCartButton.astro';
 import VendorTariffCard from './VendorTariffCard.astro';
+import VendorTariffRow from './VendorTariffRow.astro';
 import VendorSections from './VendorSections.astro';
+import CategoryIcon from './CategoryIcon.astro';
+import { VENDOR_TEMPLATE_V2, ROW_LAYOUT_MIN } from '../lib/vendor-template';
 import { DOMAIN_AUDIENCE, type VendorEntry } from '../data/vendors';
 import { vendorContent } from '../data/vendor-content';
 import type { Product } from '../lib/types';
@@ -71,6 +75,10 @@ const cards = listingProducts(products)
     seg: meta?.seg
       || (content.segments || []).find((sg) => (sg.keys || []).some((k) => k === p.slug || k === p.sku))?.id
       || '',
+    // Направление линейки: перечислено в записи направления одним списком.
+    // Позиция без направления (полный набор, флагман) остаётся видимой при
+    // любом выборе — фильтр не должен тихо уносить её со страницы.
+    cat: (content.categories || []).find((ct) => ct.keys.some((k) => k === p.slug || k === p.sku))?.id || '',
     minQty: Math.max(1, meta?.minQty ?? 1),
     qtyLabel: meta?.qtyLabel || 'Лицензий',
     check: meta?.check || '',
@@ -128,6 +136,39 @@ const groups = (content.groups || [])
   .filter((g) => g.cards.length > 0);
 const grouped = new Set(groups.flatMap((g) => g.cards));
 const ungrouped = cards.filter((c) => !grouped.has(c));
+
+// ── Универсальный шаблон: блоки утверждённого макета от 15.09.2026 ──────
+// Движок включается контентом: есть запись ценности или направлений — блок
+// появляется, нет — страница собирается как прежде. Поэтому правка шаблона
+// не меняет сотню страниц разом, а рубильник PUBLIC_VENDOR_TEMPLATE_V2=0
+// гасит движок целиком, не трогая написанный контент.
+const value = VENDOR_TEMPLATE_V2 ? content.businessValue : undefined;
+// Плитка направления несёт своё число позиций, и направление без позиций
+// плитки не получает: фильтр, приводящий к пустому списку, — дефект.
+const catTiles = (VENDOR_TEMPLATE_V2 ? content.categories || [] : [])
+  .map((ct) => ({ ...ct, count: cards.filter((c) => c.cat === ct.id).length }))
+  .filter((ct) => ct.count > 0);
+// Карта нужна там, где направления действительно разные. У двух направлений
+// она занимает экран, ничего не объясняя: для этого есть разделы линейки.
+const hasCatMap = catTiles.length >= 3;
+// Флагманский раздел идёт первым и остаётся карточками: у полного набора
+// есть состав, и его читают перед выбором.
+const orderedGroups = [...groups.filter((g) => g.flagship), ...groups.filter((g) => !g.flagship)];
+// Длинный хвост строками — там, где карточек набирается стена (см.
+// ROW_LAYOUT_MIN). Ниже порога подача не меняется.
+const useRows = hasCatMap && ungrouped.length >= ROW_LAYOUT_MIN;
+const tailTitle = orderedGroups.length > 0 ? 'Отдельные приложения и продукты' : 'Продукты';
+// Дата проверки состава и цен — из данных каталога, а не литералом в тексте:
+// литерал устаревает молча, а `content_updated_at` двигается сам, когда
+// применение контента правит позицию (правило catalog.md).
+const updatedAt = products
+  .map((p) => p.content_updated_at || '')
+  .filter(Boolean)
+  .sort()
+  .at(-1);
+const checkedLabel = VENDOR_TEMPLATE_V2 && updatedAt && !Number.isNaN(Date.parse(updatedAt))
+  ? new Date(updatedAt).toLocaleDateString('ru-RU', { timeZone: 'Europe/Moscow' })
+  : '';
 
 const priced = cards.filter((c) => !c.byRequest);
 // «Цены от … в год» — по основным продуктам (тарифам): дополнения — пакеты
@@ -205,6 +246,10 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
         <span class="vendor-legal">{entry.legalName}</span>
       </div>
       <h1>{entry.h1 || `${title} для юридических лиц: тарифы и оформление через BIZSoft`}</h1>
+      {/* Ценность для бизнеса: одна фраза о том, что изменится в работе
+          компании. Стоит до цены и до описания продукта — на вопрос «зачем
+          это нам» покупатель отвечает раньше, чем на «сколько это стоит». */}
+      {value && <p class="value-headline">{value.headline}</p>}
       {heroForm ? (
         <>
           {/* На посадочной с формой цена и действие идут сразу за
@@ -257,6 +302,15 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
 
   <!-- Прямой ответ (GEO/AEO) -->
   <div class="summary"><strong>Коротко:</strong> {summaryText}</div>
+
+  {/* Раскрытие ценности: механика, за счёт которой обещание из первого
+      экрана выполняется. Пишется проверяемым — «обновление палитры не
+      требует рассылки файлов», а не «повышает эффективность». */}
+  {value && (
+    <section class="block value-box">
+      <p>{value.elaboration}</p>
+    </section>
+  )}
 
   {/* Разбор, без которого цены не читаются: типы мест, виды лицензий,
       редакции. Ставится до сетки карточек. */}
@@ -323,13 +377,38 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
 
   <VendorSections sections={content.sections || []} place="before-products" vendor={title} />
 
+  {/* Карта направлений: у широкого вендора позиции решают разные задачи, и
+      без карты линейка читается как стена. Фильтр только прячет лишнее
+      атрибутом hidden — без JavaScript и для поискового робота на странице
+      видны все позиции. Работает вместе с выбором случая: отмечены оба —
+      остаётся пересечение. */}
+  {hasCatMap && (
+    <section class="block" id="directions">
+      <h2>Выберите направление</h2>
+      <p class="muted lead-note">Отметьте направление — в списке позиций останется только оно.</p>
+      <div class="cats" role="group" aria-label="Выбор направления">
+        {catTiles.map((ct) => (
+          <button type="button" class="card card-hover cat" data-cat-btn={ct.id} aria-pressed="false">
+            <CategoryIcon slug={ct.icon || ct.id} name={ct.label} size={24} />
+            <b>{ct.label}</b>
+            <span class="muted">{ct.count} {pluralForm(ct.count, ['позиция', 'позиции', 'позиций'])}</span>
+          </button>
+        ))}
+      </div>
+      {catTiles.filter((ct) => ct.description).map((ct) => (
+        <p class="cat-note" data-cat-note={ct.id} hidden>{ct.description}</p>
+      ))}
+      <button type="button" class="btn btn-ghost btn-sm cat-reset" data-cat-reset hidden>Показать все направления</button>
+    </section>
+  )}
+
   <!-- Карточки продуктов -->
   {hasCards ? (
     <section class="block" id="products">
       <h2>Тарифы и продукты {title}</h2>
-      {groups.length > 0 ? (
+      {orderedGroups.length > 0 ? (
         <div class="vgroups">
-          {groups.map((g) => (
+          {orderedGroups.map((g) => (
             <div class="vgroup" id={g.id}>
               <h3 class="vgroup-title">{g.title}</h3>
               {g.note && <p class="muted small vgroup-note">{g.note}</p>}
@@ -340,19 +419,42 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
           ))}
           {ungrouped.length > 0 && (
             <div class="vgroup">
-              <h3 class="vgroup-title">Остальные позиции</h3>
-              <div class="vgrid">
-                {ungrouped.map((c) => <VendorTariffCard card={c} title={title} vendor={entry.vendor} />)}
-              </div>
+              <h3 class="vgroup-title">{tailTitle}</h3>
+              {/* Длинный хвост — строками: состав плана у отдельного
+                  приложения читать нечего, а цена и счётчик в строке
+                  остаются те же, что в карточке. */}
+              {useRows ? (
+                <div class="vrows">
+                  {ungrouped.map((c) => <VendorTariffRow card={c} title={title} vendor={entry.vendor} />)}
+                </div>
+              ) : (
+                <div class="vgrid">
+                  {ungrouped.map((c) => <VendorTariffCard card={c} title={title} vendor={entry.vendor} />)}
+                </div>
+              )}
             </div>
           )}
+        </div>
+      ) : useRows ? (
+        <div class="vrows">
+          {cards.map((c) => <VendorTariffRow card={c} title={title} vendor={entry.vendor} />)}
         </div>
       ) : (
         <div class="vgrid">
           {cards.map((c) => <VendorTariffCard card={c} title={title} vendor={entry.vendor} />)}
         </div>
       )}
-      <p class="muted small">Стоимость в рублях пересчитывается по курсу ЦБ РФ на дату счёта.</p>
+      {/* Пустой список — следствие фильтра, и сказать об этом должна
+          страница, а не догадка покупателя. Показывается только когда
+          фильтр действительно всё скрыл. */}
+      <p class="muted small" data-filter-empty hidden>
+        В этом направлении для выбранного случая позиций нет.
+        <button type="button" class="btn-link" data-filter-reset>Показать все позиции</button>
+      </p>
+      <p class="muted small">
+        Стоимость в рублях пересчитывается по курсу ЦБ РФ на дату счёта.
+        {checkedLabel && ` Состав и цены проверены: ${checkedLabel}.`}
+      </p>
 
       {topups.length > 0 && denom && (
         <div class="topups" data-seg-card={content.cards?.[denom.parent]?.seg || undefined}>
@@ -562,6 +664,23 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   #products, #lead, #security { scroll-margin-top: 96px; }
   .block > h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
   .vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 1.2rem; }
+  /* Длинный хвост строками: между строками узкий зазор, иначе список
+     распадается на отдельные карточки и смысл плотной подачи теряется. */
+  .vrows { display: grid; gap: 0.6rem; }
+  /* Ценность для бизнеса: акцентная фраза под заголовком и абзац-раскрытие
+     с полосой слева — тот же приём, что у блока «Коротко», но полоса здесь
+     отделяет вывод от факта. */
+  .value-headline { margin-top: 0.7rem; font-size: clamp(1.02rem, 2.2vw, 1.18rem); font-weight: 700; line-height: 1.4; color: var(--vc, var(--color-accent)); max-width: 62ch; }
+  .value-box { border-left: 3px solid var(--vc, var(--color-accent)); padding-left: 1.2rem; }
+  .value-box p { color: var(--color-text-muted); max-width: 80ch; line-height: 1.7; }
+  /* Карта направлений */
+  .cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 0.7rem; }
+  .cat { display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; padding: 0.9rem 1rem; cursor: pointer; font: inherit; color: var(--color-text); text-align: left; }
+  .cat b { font-size: 0.95rem; }
+  .cat .muted { font-size: 0.8rem; }
+  .cat[aria-pressed='true'] { border-color: var(--vc, var(--color-accent)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--vc, var(--color-accent)) 16%, transparent); }
+  .cat-note { margin-top: 1rem; color: var(--color-text-muted); font-size: 0.92rem; max-width: 80ch; }
+  .cat-reset { margin-top: 1rem; }
   /* Выбор ситуации */
   .lead-note { max-width: 70ch; margin-bottom: 1rem; }
   .segs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 1rem; }
@@ -624,34 +743,71 @@ const solutionLinks = (VENDOR_SOLUTIONS[entry.slug] || [])
   // значило бы задваивать цель на страницах, где он тоже есть.
   trackGoal('view_vendor_landing', { page_url: location.pathname });
 
-  // ── Выбор ситуации сужает сетку ─────────────────────────────────────
-  // Фильтр только прячет лишнее атрибутом hidden: без JavaScript и для
-  // поискового робота на странице видны все карточки и весь текст.
+  // ── Выбор ситуации и направления сужает сетку ───────────────────────
+  // Осей две — случай («кому покупаем») и направление («какая задача»), и
+  // работают они вместе: отмечены обе — остаётся пересечение. Фильтр только
+  // прячет лишнее атрибутом hidden: без JavaScript и для поискового робота
+  // на странице видны все карточки и весь текст.
   const segBtns = Array.from(document.querySelectorAll('[data-seg-btn]')) as HTMLElement[];
-  if (segBtns.length > 0) {
-    const segCards = Array.from(document.querySelectorAll('[data-seg-card]')) as HTMLElement[];
+  const catBtns = Array.from(document.querySelectorAll('[data-cat-btn]')) as HTMLElement[];
+  if (segBtns.length > 0 || catBtns.length > 0) {
+    const items = Array.from(document.querySelectorAll('[data-seg-card], [data-cat-card]')) as HTMLElement[];
     const whys = Array.from(document.querySelectorAll('[data-seg-why]')) as HTMLElement[];
-    const reset = document.querySelector('[data-seg-reset]') as HTMLElement | null;
+    const notes = Array.from(document.querySelectorAll('[data-cat-note]')) as HTMLElement[];
+    const segReset = document.querySelector('[data-seg-reset]') as HTMLElement | null;
+    const catReset = document.querySelector('[data-cat-reset]') as HTMLElement | null;
+    const empty = document.querySelector('[data-filter-empty]') as HTMLElement | null;
+    const state = { seg: '', cat: '' };
 
-    function applySegment(id: string) {
-      segBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.segBtn === id)));
-      // Позиция без пометки видна всегда: правка сегмента не должна тихо
-      // уносить карточку со страницы.
-      segCards.forEach((c) => { c.hidden = Boolean(id) && c.dataset.segCard !== id; });
-      whys.forEach((w) => { w.hidden = w.dataset.segWhy !== id; });
-      if (reset) reset.hidden = !id;
+    function apply() {
+      segBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.segBtn === state.seg)));
+      catBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.catBtn === state.cat)));
+      // Позиция без пометки по оси проходит эту ось: правка случая или
+      // направления не должна тихо уносить карточку со страницы, а полный
+      // набор виден при любом выбранном направлении — он их закрывает все.
+      items.forEach((el) => {
+        const okSeg = !state.seg || !el.dataset.segCard || el.dataset.segCard === state.seg;
+        const okCat = !state.cat || !el.dataset.catCard || el.dataset.catCard === state.cat;
+        el.hidden = !(okSeg && okCat);
+      });
+      whys.forEach((w) => { w.hidden = w.dataset.segWhy !== state.seg; });
+      notes.forEach((n) => { n.hidden = n.dataset.catNote !== state.cat; });
+      if (segReset) segReset.hidden = !state.seg;
+      if (catReset) catReset.hidden = !state.cat;
+      // Сообщение о пустом списке — про список позиций, а не про страницу
+      // целиком: полный набор пометки направления не несёт и остаётся на
+      // экране при любом выборе, поэтому считать надо только размеченные
+      // позиции. Иначе «Для организации» плюс направление без командных
+      // позиций даёт пустой список молча — видны одни флагманы, и покупатель
+      // думает, что у вендора больше ничего нет.
+      const scoped = items.filter((el) => el.dataset.catCard);
+      if (empty) {
+        empty.hidden = !((state.seg || state.cat) && scoped.length > 0 && scoped.every((el) => el.hidden));
+      }
+    }
+
+    function step() {
+      trackGoal('vendor_selector_step', {
+        page_url: location.pathname,
+        segment: state.seg || 'сброшен',
+        direction: state.cat || 'сброшено',
+      });
     }
 
     segBtns.forEach((b) => b.addEventListener('click', () => {
-      const id = b.getAttribute('aria-pressed') === 'true' ? '' : (b.dataset.segBtn || '');
-      applySegment(id);
-      trackGoal('vendor_selector_step', {
-        page_url: location.pathname, segment: id || 'сброшен',
-      });
+      state.seg = b.getAttribute('aria-pressed') === 'true' ? '' : (b.dataset.segBtn || '');
+      apply();
+      step();
     }));
-    reset?.addEventListener('click', () => {
-      applySegment('');
-      trackGoal('vendor_selector_step', { page_url: location.pathname, segment: 'сброшен' });
+    catBtns.forEach((b) => b.addEventListener('click', () => {
+      state.cat = b.getAttribute('aria-pressed') === 'true' ? '' : (b.dataset.catBtn || '');
+      apply();
+      step();
+    }));
+    segReset?.addEventListener('click', () => { state.seg = ''; apply(); step(); });
+    catReset?.addEventListener('click', () => { state.cat = ''; apply(); step(); });
+    document.querySelector('[data-filter-reset]')?.addEventListener('click', () => {
+      state.seg = ''; state.cat = ''; apply(); step();
     });
   }
 </script>

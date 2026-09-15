@@ -22,6 +22,7 @@
 
 ## Каталог, страницы, SEO
 - `catalog.md` — каталог и привязки
+- `vendor-template.md` — универсальный шаблон страницы производителя
 - `sitemap-indexing.md` — новые страницы → sitemap → индексация
 - `structured-data.md` — микроразметка
 - `webmcp.md` — WebMCP
