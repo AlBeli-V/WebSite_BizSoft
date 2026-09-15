@@ -53,8 +53,14 @@ const FIELDS: Record<string, Field> = {
   inn: { key: 'inn', label: 'ИНН', pii: true, inputmode: 'numeric', pattern: '[0-9]{10,12}', placeholder: '10 или 12 цифр' },
   seats: { key: 'seats', label: 'Количество мест', type: 'number', inputmode: 'numeric', min: '1', max: '10000', placeholder: 'например, 10' },
 };
-const STEP1 = compact ? ['company', 'email'] : ['name', 'email', 'phone', 'company', 'inn', 'seats'];
-const STEP2 = compact ? ['name', 'phone', 'inn', 'seats'] : [];
+// Первый шаг компактного вида — минимум, по которому можно ответить: адрес
+// и задача. Решение руководителя 14.09.2026 по итогу первой недели замера:
+// форма попала на экран 24 раза, а начатых заполнений не было ни одного —
+// снимаем с первого контакта всё, кроме способа ответить. Состав реквизитов
+// заявки при этом прежний (решение 28.08.2026), меняется только момент, когда
+// о них спрашивают: компания уехала на второй шаг к остальным реквизитам.
+const STEP1 = compact ? ['email'] : ['name', 'email', 'phone', 'company', 'inn', 'seats'];
+const STEP2 = compact ? ['company', 'name', 'phone', 'inn', 'seats'] : [];
 const messageLabel = compact ? 'Что требуется?' : 'Что нужно подобрать?';
 const messagePlaceholder = compact
   ? 'Например: Claude Team на 5 человек, нужен счёт'
@@ -80,7 +86,7 @@ const messagePlaceholder = compact
       {plans.map((p) => <option value={p.value}>{p.label}</option>)}
     </select></label>
   )}
-  <div class="lf-grid">
+  <div class:list={['lf-grid', STEP1.length === 1 && 'lf-grid-one']}>
     {STEP1.map((k) => {
       const f = FIELDS[k];
       return (
@@ -160,6 +166,9 @@ const messagePlaceholder = compact
   .lead-form.lf-compact { padding: 1.15rem; gap: 0.7rem; }
   .lf-title { margin: 0; font-size: 1.12rem; font-weight: 700; color: var(--color-text); }
   .lf-compact .lf-grid { grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  /* Единственное поле первого шага занимает строку целиком: половина ширины
+     рядом с пустотой читается как незаконченная вёрстка. */
+  .lf-grid.lf-grid-one { grid-template-columns: 1fr; }
   .lf-step2 { display: flex; flex-direction: column; gap: 0.6rem; }
   .lf-step2-note { margin: 0; font-size: 0.82rem; color: var(--color-text-muted); }
   @media (max-width: 900px) { .lf-compact .lf-grid { grid-template-columns: 1fr; } }

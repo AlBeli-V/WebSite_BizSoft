@@ -94,6 +94,12 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   `ops-lead-source-mail` + `scripts/ops/lead_source_enrich.py`; правило и
   границы — `docs/rules/lead-source.md`. Признаки перехода внешних площадок
   ведутся в `data/marketing/platform-accounts.json` (`referrer_match`).
+- **Заявка в Bitrix24** — зеркало `src/lib/bitrix24.ts`, вызовы из
+  `src/pages/api/lead.ts` и `src/pages/api/quote.ts`, проверка и установка
+  вебхука — `ops-b24-setup`; правило и границы — `docs/rules/crm-mirror.md`.
+  Обратный канал по стадиям — приёмник `src/pages/api/b24/hook.ts`, карта
+  стадий `data/sales/b24-stages.json`, общий расчёт дат `src/lib/lead-stage.ts`.
+  Воронка при этом остаётся в Directus: сделки портала не зеркалятся.
 - **Правка письма отчёта** — блоки письма в `scripts/seo/report_v4.py`
   (Growth Intelligence) или `scripts/seo/committee.py` (Growth Committee);
   методика — `docs/seo/reporting-methodology.md`, открывать нужный раздел,
