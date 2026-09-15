@@ -101,9 +101,17 @@ export type Primitive =
    * вверх — надпись прописными, на концах — замок. Рисуется под текстом.
    */
   | { kind: 'band'; x: number; y: number; w: number; h: number;
-      fill: string; fillOpacity: number; edge: string;
-      text: string; textColor: string; textOpacity: number;
-      size: number; spacing: number; lock: number };
+      /** Ось полосы: по ней стоят замки и надпись. */
+      cx: number;
+      color: string; fillOpacity: number;
+      coreInset: number; coreOpacity: number; edgeOpacity: number;
+      /** Надпись и её середина: она прижата к своему замку, а не к центру листа. */
+      text: string; textCy: number; textOpacity: number;
+      /** Шрифт надписи: файл для драйверов и имя семейства для SVG. */
+      fontFile: string; fontFamily: string;
+      size: number; spacing: number;
+      /** Готовый контур замка (`lockPath`) — один и тот же в обоих форматах. */
+      locks: string[]; lockOpacity: number };
 
 export interface Page { items: Primitive[] }
 
@@ -117,7 +125,12 @@ export interface Page { items: Primitive[] }
  */
 export interface Measure {
   height(text: string, size: number, width: number, bold?: boolean): number;
-  width(text: string, size: number, bold?: boolean): number;
+  /**
+   * Ширина строки. `fontFile` — начертание из `public/brand/fonts`: надпись
+   * водяного знака набрана не текстовым шрифтом документа, и мерить её
+   * документным значило бы промахнуться мимо замка на полтора сантиметра.
+   */
+  width(text: string, size: number, bold?: boolean, fontFile?: string): number;
 }
 
 /** Разбить строку по ширине колонки. Длинное слово не рвём — пусть выступит. */
@@ -152,66 +165,177 @@ export const COLOR = {
   body: '#374151', rule: '#E5E7EB', head: '#F3F4F6',
   /** Подложка оговорки о статусе документа. */
   noteBg: '#FFF4EF',
-  /** Знак статуса: красный — решение руководителя 28.08.2026. */
-  stamp: '#C81E1E',
-  /** Полоса «КОНФИДЕНЦИАЛЬНО»: деловой синий, не спорит с фирменным оранжевым. */
-  confidential: '#1D4ED8',
+  /**
+   * Тона водяных знаков подобраны к фирменной паре «рыжий с чёрным»
+   * (решение руководителя 15.09.2026): красный взят из тёплого семейства
+   * акцента — кирпичный, а не сигнальный; синий — глубокий сине-стальной,
+   * дополнительный к оранжевому. Прежние #C81E1E и #1D4ED8 были яркими
+   * веб-цветами и с фирменным стилем не разговаривали.
+   */
+  preliminary: '#A83C1B',
+  confidential: '#2C4A73',
 };
 
 /**
- * Водяные знаки — две боковые полосы (референс руководителя 15.09.2026,
- * заменяет шесть штампов сеткой 2×3 от 28.08.2026).
+ * Водяные знаки — две боковые полосы (референс и решение руководителя
+ * 15.09.2026; заменяют шесть штампов сеткой 2×3 от 28.08.2026, а те, в
+ * свою очередь, узкие полосы по краям листа первой редакции).
  *
- * Слева «КОНФИДЕНЦИАЛЬНО», справа «ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ
- * ПРЕДЛОЖЕНИЕ». Полосы идут во всю высоту листа и упираются в его края:
- * распечатать документ и выдать за официальную переписку, отрезав знак,
- * нельзя — край без полосы виден сразу. При этом они бледные и стоят в
- * полях: правая заходит на границу полосы набора всего на несколько
- * пунктов, и текст под ней читается.
+ * Полоса шириной 2,5 см идёт во всю высоту листа и заходит на полосу
+ * набора: отрезать знак, не срезав таблицу, нельзя, поэтому распечатанный
+ * документ не выдать за официальную переписку. Подложка прозрачна на 85%,
+ * надпись — на 50%: знак виден, спецификация под ним читается.
  *
- * Прежние штампы сняты целиком: шесть оттисков поверх таблицы мешали
- * читать спецификацию, а полоса решает ту же задачу, не заходя в текст.
+ * Слева «КОНФИДЕНЦИАЛЬНО» синим, справа «ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ
+ * ПРЕДЛОЖЕНИЕ» красным.
+ *
+ * Положение считается от полосы набора, а не от края листа: поля
+ * несимметричны (слева 3 см под подшивку, справа 1 см), и знак,
+ * привязанный к краю бумаги, заходил бы на текст по-разному. Правая
+ * полоса упирается в край листа: при поле в 1 см полоса в 2,5 см иначе
+ * ушла бы за бумагу — `clampBand` держит её на листе целиком.
  */
 export const BAND = {
-  /** Ширина полосы и отступ от края листа, пт. Правая полоса заходит на
-   *  границу полосы набора примерно на полтора пункта: знак пересекает
-   *  край документа, но не накрывает цифры итога. */
-  w: 26,
-  inset: 4,
-  /** Подложка едва заметна, надпись читается — знак не спорит с текстом. */
-  fillOpacity: 0.12,
-  textOpacity: 0.55,
-  size: 10.5,
-  /** Разрядка: надпись во всю высоту листа держится ритмом, а не кеглем. */
-  spacing: 2.2,
-  /** Сторона значка замка на концах полосы. */
-  lock: 13,
+  /** Ширина полосы, пт (2,5 см). */
+  w: 2.5 * CM,
+  /** Отступ от края листа, пт (1 см) — одинаковый у синей и красной. */
+  inset: CM,
+  /** Подложка: прозрачность 93,25%. */
+  fillOpacity: 0.0675,
+  /**
+   * Градиентное ядро: отступ от краёв полосы и плотность в середине.
+   * Ядро на 30% уже прежнего (решение 15.09.2026) — полоса читается как
+   * рельс с тонкой светящейся жилой, а не как сплошная заливка.
+   */
+  coreInset: 15.5,
+  coreOpacity: 0.099,
+  /** Тонкие линии по краям полосы. */
+  edgeOpacity: 0.135,
+  /** Надпись: прозрачность 77,5%. */
+  textOpacity: 0.225,
+  size: 13,
+  /**
+   * Разрядка надписи. Прежние 2,6 пт рассыпали строку на отдельные буквы;
+   * надпись водяного знака должна читаться одним плотным блоком.
+   */
+  spacing: 0.8,
+  /**
+   * Шрифт надписи — отдельный от текста документа: у знака своя задача,
+   * его набирают узким строгим гротеском, а не текстовым начертанием.
+   * Файл лежит рядом с документными начертаниями и попадает в образ
+   * вместе с dist/client; если его нет, драйвер берёт жирный шрифт
+   * документа — знак выйдет шире, но выйдет.
+   */
+  fontFile: 'Oswald-SemiBold.ttf',
+  fontFamily: 'Oswald',
+  /**
+   * Сторона замка и его отступ от края листа. Замок на полосе один и стоит
+   * у своей надписи: у синей сверху, у красной снизу (решение 15.09.2026).
+   */
+  lock: 24,
+  lockInset: 74,
+  lockOpacity: 0.225,
+  /** Просвет между замком и началом надписи. */
+  textGap: 18,
 };
 
-export const BAND_LEFT_TEXT = 'КОНФИДЕНЦИАЛЬНО';
-export const BAND_RIGHT_TEXT = 'ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ';
-
-/** Две полосы листа: левая — синяя, правая — красная, обе под содержимым. */
-export function watermarks(): Primitive[] {
-  const band = (x: number, color: string, text: string): Primitive => ({
-    kind: 'band',
-    x,
-    y: 0,
-    w: BAND.w,
-    h: PAGE.height,
-    fill: color,
-    fillOpacity: BAND.fillOpacity,
-    edge: color,
-    text,
-    textColor: color,
-    textOpacity: BAND.textOpacity,
-    size: BAND.size,
-    spacing: BAND.spacing,
-    lock: BAND.lock,
-  });
+/**
+ * Контур замка одним путём с правилом even-odd: скоба дугой, корпус со
+ * скруглением и замочная скважина, вырезанная из корпуса.
+ *
+ * Путь один на оба формата: pdfkit принимает данные SVG-пути как есть, и
+ * рисунок в PDF и картинке совпадает до точки. Разойтись они не могут по
+ * построению — расхождение значка ловить было бы нечем.
+ */
+export function lockPath(cx: number, cy: number, s: number): string {
+  const bw = 0.62 * s, bh = 0.5 * s;
+  const bx = cx - bw / 2, by = cy - 0.04 * s;
+  const r = 0.11 * s;
+  const R = 0.23 * s, ri = 0.135 * s;
+  const kr = 0.076 * s, ky = by + bh * 0.46;
+  const n = (v: number) => Math.round(v * 100) / 100;
   return [
-    band(BAND.inset, COLOR.confidential, BAND_LEFT_TEXT),
-    band(PAGE.width - BAND.inset - BAND.w, COLOR.stamp, BAND_RIGHT_TEXT),
+    // Корпус.
+    `M${n(bx + r)},${n(by)}`,
+    `H${n(bx + bw - r)}`,
+    `A${n(r)},${n(r)} 0 0 1 ${n(bx + bw)},${n(by + r)}`,
+    `V${n(by + bh - r)}`,
+    `A${n(r)},${n(r)} 0 0 1 ${n(bx + bw - r)},${n(by + bh)}`,
+    `H${n(bx + r)}`,
+    `A${n(r)},${n(r)} 0 0 1 ${n(bx)},${n(by + bh - r)}`,
+    `V${n(by + r)}`,
+    `A${n(r)},${n(r)} 0 0 1 ${n(bx + r)},${n(by)}`,
+    'Z',
+    // Скоба: наружная дуга туда, внутренняя обратно.
+    `M${n(cx - R)},${n(by)}`,
+    `A${n(R)},${n(R)} 0 0 1 ${n(cx + R)},${n(by)}`,
+    `H${n(cx + ri)}`,
+    `A${n(ri)},${n(ri)} 0 0 0 ${n(cx - ri)},${n(by)}`,
+    'Z',
+    // Скважина: вырезается правилом even-odd.
+    `M${n(cx + kr)},${n(ky)}`,
+    `A${n(kr)},${n(kr)} 0 1 0 ${n(cx - kr)},${n(ky)}`,
+    `A${n(kr)},${n(kr)} 0 1 0 ${n(cx + kr)},${n(ky)}`,
+    'Z',
+  ].join(' ');
+}
+
+export const BAND_LEFT_TEXT = 'КОНФИДЕНЦИАЛЬНО';
+export const BAND_RIGHT_TEXT = 'ПРЕДВАРИТЕЛЬНОЕ КП';
+
+/**
+ * Две полосы листа: левая синяя, правая красная, обе под содержимым.
+ *
+ * Отступ от края листа одинаковый (`BAND.inset`, решение 15.09.2026):
+ * знаки стоят симметрично относительно бумаги, а не относительно полосы
+ * набора — поля документа несимметричны, и привязка к тексту разводила
+ * полосы по разным краям.
+ *
+ * Надпись прижата к своему замку: «КОНФИДЕНЦИАЛЬНО» — к верхнему,
+ * «ПРЕДВАРИТЕЛЬНОЕ КП» — к нижнему. Середина строки считается здесь, по
+ * измеренной ширине с разрядкой: драйверы только поворачивают готовый
+ * текст, и картинка не расходится с PDF.
+ */
+export function watermarks(measure: Measure): Primitive[] {
+  const textLen = (text: string) =>
+    measure.width(text, BAND.size, true, BAND.fontFile) + BAND.spacing * (text.length - 1);
+
+  const band = (x: number, color: string, text: string, atTop: boolean): Primitive => {
+    const cx = x + BAND.w / 2;
+    const top = BAND.lockInset;
+    const bottom = PAGE.height - BAND.lockInset;
+    const half = textLen(text) / 2;
+    // Надпись идёт снизу вверх, поэтому у верхнего замка она начинается
+    // ниже него, а у нижнего — заканчивается выше.
+    const textCy = atTop
+      ? top + BAND.lock / 2 + BAND.textGap + half
+      : bottom - BAND.lock / 2 - BAND.textGap - half;
+    return {
+      kind: 'band',
+      x,
+      y: 0,
+      w: BAND.w,
+      h: PAGE.height,
+      cx,
+      color,
+      fillOpacity: BAND.fillOpacity,
+      coreInset: BAND.coreInset,
+      coreOpacity: BAND.coreOpacity,
+      edgeOpacity: BAND.edgeOpacity,
+      text,
+      textCy,
+      textOpacity: BAND.textOpacity,
+      fontFile: BAND.fontFile,
+      fontFamily: BAND.fontFamily,
+      size: BAND.size,
+      spacing: BAND.spacing,
+      locks: [lockPath(cx, atTop ? top : bottom, BAND.lock)],
+      lockOpacity: BAND.lockOpacity,
+    };
+  };
+  return [
+    band(BAND.inset, COLOR.confidential, BAND_LEFT_TEXT, true),
+    band(PAGE.width - BAND.inset - BAND.w, COLOR.preliminary, BAND_RIGHT_TEXT, false),
   ];
 }
 
@@ -393,8 +517,8 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   const LINE = 12;
 
   const pages: Page[] = [];
-  let items: Primitive[] = [...watermarks()];
-  const newPage = () => { pages.push({ items }); items = [...watermarks()]; };
+  let items: Primitive[] = [];
+  const newPage = () => { pages.push({ items }); items = []; };
 
   const put = (p: Primitive) => { items.push(p); };
   const text = (t: string, x: number, y: number, o: Partial<Extract<Primitive, { kind: 'text' }>> = {}) =>
@@ -680,6 +804,13 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
     add({ kind: 'text', x: left, y: footY + FOOT.line, text: sheetLabel(idx + 1, pages.length),
           size: 7.5, color: COLOR.muted, width, align: 'right' });
   });
+
+  // Знак кладётся последним — поверх текста, таблиц и колонтитула (решение
+  // руководителя 15.09.2026): распечатанным КП не должны пользоваться в
+  // официальной переписке и конкурсах, а знак под текстом этому не мешал.
+  // Важно, что это происходит после колонтитулов: иначе реквизиты легли бы
+  // поверх полосы, и на нижней трети листа знак пропадал бы.
+  for (const page of pages) page.items.push(...watermarks(measure));
   return pages;
 }
 

@@ -14,7 +14,7 @@
 import jpeg from 'jpeg-js';
 import { Resvg } from '@resvg/resvg-js';
 import { buildQuoteLayout, PAGE, type QuoteData, type Primitive } from './quote-layout';
-import { pdfMeasure, docFonts, logoBuffer } from './pdf-quote';
+import { pdfMeasure, docFonts, logoBuffer, bandFontPath } from './pdf-quote';
 
 /** Начертания документа — те же файлы, что у PDF (шрифт сайта Raleway). */
 const FONTS = docFonts();
@@ -58,33 +58,35 @@ function svgOf(p: Primitive): string {
       + `stroke="${p.color}" stroke-width="${p.lineWidth}"/>`;
   }
   if (p.kind === 'band') {
-    const cx = p.x + p.w / 2;
-    const cy = p.y + p.h / 2;
-    const inner = p.x < PAGE.width / 2 ? p.x + p.w : p.x;
-    // Замок: дужка линией и корпус скруглённым прямоугольником — те же
-    // пропорции, что в PDF-драйвере, иначе картинка разойдётся с PDF.
-    const lock = (top: number) => {
-      const size = p.lock;
-      const bodyY = top + size * 0.34;
-      return `<g fill="${p.textColor}" stroke="${p.textColor}" opacity="${p.textOpacity}">`
-        + `<path d="M ${cx - size * 0.26} ${bodyY} L ${cx - size * 0.26} ${bodyY - size * 0.16} `
-        + `C ${cx - size * 0.26} ${top} ${cx + size * 0.26} ${top} ${cx + size * 0.26} ${bodyY - size * 0.16} `
-        + `L ${cx + size * 0.26} ${bodyY}" fill="none" stroke-width="${size * 0.15}"/>`
-        + `<rect x="${cx - size * 0.43}" y="${bodyY}" width="${size * 0.86}" height="${size * 0.66}" `
-        + `rx="${size * 0.16}" ry="${size * 0.16}" stroke="none"/>`
-        + `</g>`;
-    };
+    // Идентификатор градиента привязан к координате полосы: на листе их
+    // две, и общий id склеил бы синее ядро с красным.
+    const gid = `band-core-${Math.round(p.x)}`;
     return `<g>`
-      + `<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" fill="${p.fill}" `
+      // Слой 1 — подложка.
+      + `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">`
+      + `<stop offset="0" stop-color="${p.color}" stop-opacity="0"/>`
+      + `<stop offset="0.16" stop-color="${p.color}" stop-opacity="${p.coreOpacity}"/>`
+      + `<stop offset="0.84" stop-color="${p.color}" stop-opacity="${p.coreOpacity}"/>`
+      + `<stop offset="1" stop-color="${p.color}" stop-opacity="0"/>`
+      + `</linearGradient></defs>`
+      + `<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" fill="${p.color}" `
       + `opacity="${p.fillOpacity}"/>`
-      + `<line x1="${inner}" y1="${p.y}" x2="${inner}" y2="${p.y + p.h}" stroke="${p.edge}" `
-      + `stroke-width="0.8" opacity="${p.fillOpacity * 3}"/>`
-      + `<text x="${cx}" y="${cy}" font-family="${FONTS.family}" font-weight="bold" `
-      + `font-size="${p.size}" letter-spacing="${p.spacing}" fill="${p.textColor}" `
+      // Слой 2 — градиентное ядро.
+      + `<rect x="${p.x + p.coreInset}" y="${p.y}" width="${p.w - p.coreInset * 2}" `
+      + `height="${p.h}" fill="url(#${gid})"/>`
+      + `<line x1="${p.x}" y1="${p.y}" x2="${p.x}" y2="${p.y + p.h}" stroke="${p.color}" `
+      + `stroke-width="0.8" opacity="${p.edgeOpacity}"/>`
+      + `<line x1="${p.x + p.w}" y1="${p.y}" x2="${p.x + p.w}" y2="${p.y + p.h}" `
+      + `stroke="${p.color}" stroke-width="0.8" opacity="${p.edgeOpacity}"/>`
+      // Слой 3 — замки: тот же путь, что в PDF, скважина вырезается
+      // правилом even-odd.
+      + p.locks.map((d) => `<path d="${d}" fill="${p.color}" fill-rule="evenodd" `
+        + `opacity="${p.lockOpacity}"/>`).join('')
+      // Слой 4 — надпись снизу вверх, прижатая к своему замку.
+      + `<text x="${p.cx}" y="${p.textCy}" font-family="${bandFontPath(p.fontFile) ? p.fontFamily : FONTS.family}" font-weight="bold" `
+      + `font-size="${p.size}" letter-spacing="${p.spacing}" fill="${p.color}" `
       + `opacity="${p.textOpacity}" text-anchor="middle" dominant-baseline="central" `
-      + `transform="rotate(-90 ${cx} ${cy})">${esc(p.text)}</text>`
-      + lock(p.y + p.lock * 2.6)
-      + lock(p.y + p.h - p.lock * 3.6)
+      + `transform="rotate(-90 ${p.cx} ${p.textCy})">${esc(p.text)}</text>`
       + `</g>`;
   }
   const y = p.y + p.size * ASCENT;
@@ -105,13 +107,24 @@ export function quotePageSvg(items: Primitive[]): string {
     + `</svg>`;
 }
 
+/** Начертания, которые нужны растеризатору: документное и знака. */
+function rasterFonts(items: Primitive[]): string[] {
+  const files = new Set(FONTS.files);
+  for (const p of items) {
+    if (p.kind !== 'band') continue;
+    const path = bandFontPath(p.fontFile);
+    if (path) files.add(path);
+  }
+  return [...files];
+}
+
 interface Raster { width: number; height: number; data: Buffer }
 
-function raster(svg: string): Raster {
+function raster(svg: string, fontFiles: string[] = FONTS.files): Raster {
   const r = new Resvg(svg, {
     fitTo: { mode: 'width', value: Math.round(PAGE.width * SCALE) },
     font: {
-      fontFiles: FONTS.files,
+      fontFiles,
       loadSystemFonts: false,
       defaultFontFamily: FONTS.family,
     },
@@ -133,7 +146,7 @@ function raster(svg: string): Raster {
 export function generateQuoteJpgPages(data: QuoteData): Buffer[] {
   const pages = buildQuoteLayout(data, pdfMeasure());
   return pages.map((p) => {
-    const img = raster(quotePageSvg(p.items));
+    const img = raster(quotePageSvg(p.items), rasterFonts(p.items));
     return jpeg.encode({ width: img.width, height: img.height, data: img.data }, QUALITY).data;
   });
 }
