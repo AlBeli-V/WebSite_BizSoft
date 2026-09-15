@@ -1,16 +1,16 @@
 /**
- * Контур предложения после выпуска КП: документ, письмо, страница, действия.
+ * Контур предложения после выпуска КП: документ и письмо.
  *
- * Проверяем то, что ломается молча: имя файла, число страниц в PDF, подпись
- * ссылки на страницу, запреты вёрстки письма (форма и скрипт в почте не
- * работают) и отсутствие персональных данных в ссылках аналитики.
+ * Проверяем то, что ломается молча: имя файла, число страниц в PDF, запреты
+ * вёрстки письма (форма и скрипт в почте не работают), состав по
+ * производителям и отсутствие персональных данных в ссылках аналитики.
+ *
+ * Страницы `/offer/<токен>` больше нет — снята решением руководителя
+ * 15.09.2026 вместе с токенами, списком действий и целями offer_*.
  */
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
 import { latinName, pdfFromJpegPages, quotePdfFileName, fileSizeRu } from '../src/lib/offer-doc';
-import { offerExpired, offerToken, offerTokenMatches, offerUrl } from '../src/lib/offer-token';
-import { OFFER_ACTIONS, actionLabels, knownActionIds } from '../src/lib/offer-actions';
-import { offerCategoryLinks, offerProductLinks, offerVendorGroups, withEmailUtm } from '../src/lib/offer-content';
+import { offerProductLinks, offerVendorGroups, withEmailUtm } from '../src/lib/offer-content';
 import { buildMailto, contractMailto, finalQuoteMailto, invoiceMailto,
   edoAccountingMailto } from '../src/lib/mailto';
 import { buildCustomerQuoteEmail } from '../src/lib/email/quote-customer';
@@ -88,47 +88,6 @@ describe('единый PDF из листов', () => {
   });
 });
 
-describe('ссылка на страницу предложения', () => {
-  it('токен подписывает номер КП и сверяется с ним', () => {
-    const t = offerToken(data.quoteNo);
-    expect(t).toHaveLength(32);
-    expect(offerTokenMatches(data.quoteNo, t)).toBe(true);
-    expect(offerTokenMatches('BZ-20260915-00000', t)).toBe(false);
-  });
-
-  it('в адресе нет ни номера КП, ни данных клиента', () => {
-    const url = offerUrl('https://biz-soft.pro', data.quoteNo, 'actions');
-    expect(url).not.toContain(data.quoteNo);
-    expect(url).not.toContain(data.buyerInn);
-    expect(url).not.toContain(data.email);
-    expect(url).toContain('utm_source=bizsoft_email');
-  });
-
-  it('страница живёт дольше предложения, но не вечно', () => {
-    const issued = new Date('2026-09-15T09:00:00Z');
-    expect(offerExpired(issued, 7, new Date('2026-09-30T09:00:00Z'))).toBe(false);
-    expect(offerExpired(issued, 7, new Date('2026-11-30T09:00:00Z'))).toBe(true);
-  });
-});
-
-describe('список действий', () => {
-  it('идентификаторы уникальны и пригодны для параметров аналитики', () => {
-    const ids = OFFER_ACTIONS.map((a) => a.id);
-    expect(new Set(ids).size).toBe(ids.length);
-    for (const id of ids) expect(id).toMatch(/^[a-z_]+$/);
-  });
-
-  it('чужие значения с формы отбрасываются', () => {
-    expect(knownActionIds(['invoice', 'drop table', 'invoice'])).toEqual(['invoice']);
-    expect(knownActionIds('invoice')).toEqual([]);
-  });
-
-  it('приглашение в ЭДО отправляем мы, а не ждём клиента', () => {
-    expect(OFFER_ACTIONS.some((a) => a.id === 'edo_invite')).toBe(true);
-    expect(actionLabels(['edo_invite'])[0]).toContain('Диадок');
-  });
-});
-
 describe('заготовки писем', () => {
   const ctx = { to: 'a@b.ru', managerName: 'Алексей', quoteNo: data.quoteNo, buyerCompany: data.buyerCompany };
 
@@ -200,12 +159,6 @@ describe('ссылки предложения', () => {
     expect(links).toHaveLength(1);
   });
 
-  it('разделов не больше трёх и они не повторяются', () => {
-    const cats = offerCategoryLinks(data.items, catalog, 'https://biz-soft.pro');
-    expect(cats.length).toBeLessThanOrEqual(3);
-    expect(new Set(cats.map((c) => c.url)).size).toBe(cats.length);
-  });
-
   it('состав группируется по производителям в порядке позиций', () => {
     const groups = offerVendorGroups(
       offerProductLinks(data.items, catalog, 'https://biz-soft.pro'), 'https://biz-soft.pro');
@@ -227,7 +180,6 @@ describe('письмо клиенту', () => {
     data,
     pdfName: quotePdfFileName(data.quoteNo, data.buyerCompany, data.date),
     pdfSize: 1153434,
-    offerUrl: offerUrl('https://biz-soft.pro', data.quoteNo, 'actions'),
     vendors,
   });
 
@@ -258,16 +210,23 @@ describe('письмо клиенту', () => {
     expect(mail.html).toContain('в интересах ООО «ИТ МАТРИЦА»');
   });
 
-  it('следующий шаг — пять строк с маркерами от /01', () => {
-    for (const label of ['Открыть КП в браузере', 'Запросить счёт', 'Запросить договор',
-                         'Скачать образец договора', 'Подключиться к ЭДО']) {
+  it('следующий шаг — четыре строки с маркерами от /01', () => {
+    for (const label of ['Запросить счёт', 'Запросить договор',
+                         'Скачать образец договора', 'Коннект в ЭДО']) {
       expect(mail.html).toContain(label);
     }
-    for (const marker of ['/01', '/02', '/03', '/04', '/05']) {
+    for (const marker of ['/01', '/02', '/03', '/04']) {
       expect(mail.html).toContain(`>${marker}<`);
     }
+    expect(mail.html).not.toContain('>/05<');
     // Стрелка скачивания смотрит вниз: она обещает файл, а не переход.
     expect(mail.html).toContain('&#8595;');
+  });
+
+  it('ссылок на страницу предложения в письме нет', () => {
+    // Страница снята 15.09.2026: ссылка вела бы в 404 из живого КП.
+    expect(mail.html).not.toContain('/offer/');
+    expect(mail.text).not.toContain('/offer/');
   });
 
   it('состав — производитель, под ним его позиции', () => {
@@ -312,35 +271,10 @@ describe('письмо клиенту', () => {
     }
   });
 
-  it('без настроенной страницы предложения нумерация не рвётся', () => {
-    const fallback = buildCustomerQuoteEmail({
-      data, pdfName: 'x.pdf', pdfSize: 100, vendors: [],
-    });
-    expect(fallback.html).not.toContain('/offer/');
-    expect(fallback.html).toContain('>/01<');
-    expect(fallback.html).toContain('>/04<');
-    expect(fallback.html).not.toContain('>/05<');
+  it('без состава письмо остаётся рабочим', () => {
+    const bare = buildCustomerQuoteEmail({ data, pdfName: 'x.pdf', pdfSize: 100, vendors: [] });
+    expect(bare.html).toContain('>/01<');
+    expect(bare.html).not.toContain('СОСТАВ ПРЕДЛОЖЕНИЯ');
   });
 });
 
-describe('страница предложения', () => {
-  const page = readFileSync('src/pages/offer/[token].astro', 'utf8');
-
-  it('в индекс не попадает', () => {
-    expect(page).toContain('noindex={true}');
-  });
-
-  it('поля с персональными данными закрыты от Вебвизора', () => {
-    // Правило docs/rules/webvisor-masking.md: любое поле ПДн на публичной
-    // странице несёт класс ym-disable-keys.
-    const inputs = page.match(/<(input|textarea)[^>]*>/g) || [];
-    const personal = inputs.filter((t) => /name="(comment|contact_)/.test(t));
-    expect(personal.length).toBeGreaterThan(0);
-    for (const tag of personal) expect(tag).toContain('ym-disable-keys');
-  });
-
-  it('чекбоксы настоящие — это и есть смысл страницы', () => {
-    expect(page).toContain('type="checkbox"');
-    expect(page).toContain('/api/offer-actions');
-  });
-});

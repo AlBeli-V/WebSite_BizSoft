@@ -56,8 +56,8 @@ const DEEP = '#16202C';
 const MUTED = '#78828F';
 
 const HEADLINE = 'ОТ ИДЕЙ К РЕЗУЛЬТАТАМ';
-const LEAD_DESK = ['AI-сервисы, облачные решения', 'и лицензионное ПО для задач', 'любого масштаба.'];
-const LEAD_MOB = ['AI-сервисы, облачные решения и лицензионное', 'ПО для задач любого масштаба.'];
+const LEAD_DESK = ['Популярные SaaS и AI-сервисы,', 'ПО для задач любого масштаба.'];
+const LEAD_MOB = ['Популярные SaaS и AI-сервисы,', 'ПО для задач любого масштаба.'];
 
 const b64 = (rel) => readFileSync(resolve(ROOT, rel)).toString('base64');
 

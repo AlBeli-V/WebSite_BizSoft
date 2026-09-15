@@ -12,7 +12,6 @@ import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData }
 import { generateQuoteJpgPages } from '../../lib/jpg-quote';
 import { pdfFromJpegPages, quotePdfFileName } from '../../lib/offer-doc';
 import { offerProductLinks, offerVendorGroups } from '../../lib/offer-content';
-import { offerTokensReady, offerUrl } from '../../lib/offer-token';
 import { generateQuoteDocx } from '../../lib/docx-quote';
 import { site } from '../../config/site';
 import { verifyCompany } from '../../lib/inn';
@@ -301,7 +300,6 @@ export const POST: APIRoute = async ({ request }) => {
     data,
     pdfName: clientPdfName,
     pdfSize: clientPdf.length,
-    offerUrl: offerTokensReady() ? offerUrl(site.url, quoteNo, 'actions') : undefined,
     vendors: offerVendorGroups(offerProductLinks(items, products, site.url), site.url),
   });
 

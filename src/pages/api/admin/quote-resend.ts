@@ -25,7 +25,6 @@ import { generateQuoteDocx } from '../../../lib/docx-quote';
 import { generateQuoteJpgPages } from '../../../lib/jpg-quote';
 import { pdfFromJpegPages, quotePdfFileName } from '../../../lib/offer-doc';
 import { offerProductLinks, offerVendorGroups } from '../../../lib/offer-content';
-import { offerTokensReady, offerUrl } from '../../../lib/offer-token';
 import { buildCustomerQuoteEmail } from '../../../lib/email/quote-customer';
 import { managerEmail, salesFrom, sendMail } from '../../../lib/mailer';
 import { generateQuotePdf } from '../../../lib/pdf-quote';
@@ -173,7 +172,6 @@ export const POST: APIRoute = async ({ request }) => {
       data,
       pdfName: clientPdfName,
       pdfSize: clientPdf.length,
-      offerUrl: offerTokensReady() ? offerUrl(site.url, data.quoteNo, 'actions') : undefined,
       vendors: offerVendorGroups(offerProductLinks(items, catalog, site.url), site.url),
     });
     try {
