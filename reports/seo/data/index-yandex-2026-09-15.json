@@ -11,10 +11,7 @@
   "/about",
   "/alternatives",
   "/alternatives/anydesk",
-  "/alternatives/canva",
-  "/alternatives/cursor",
   "/alternatives/figma",
-  "/alternatives/miro",
   "/alternatives/notion",
   "/alternatives/openrouter",
   "/authors/alexey-belyaev",
@@ -24,6 +21,7 @@
   "/blog/apple-prekratila-priem-platezhey-v-rossii-kak-prodlit-podpiski",
   "/blog/bezopasnost-dannyh-v-korporativnyh-ai",
   "/blog/elevenlabs-tarify-oplata-dlya-yurlica",
+  "/blog/enterprise-vs-team-korporativnye-tarify-ai",
   "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
   "/blog/glpi-manageengine-ili-korobka",
   "/blog/inventarizaciya-it-aktivov-s-chego-nachat",
@@ -65,24 +63,18 @@
   "/blog/zakryvayushchie-dokumenty-na-po",
   "/cases",
   "/catalog",
-  "/catalog/ai/code",
-  "/catalog/ai/image",
-  "/catalog/ai/office",
-  "/catalog/ai/text",
   "/catalog/ai/video",
   "/catalog/architecture",
   "/catalog/database",
   "/catalog/design",
   "/catalog/development",
-  "/catalog/endpoint",
-  "/catalog/engineering",
   "/catalog/helpdesk",
   "/catalog/media",
-  "/catalog/monitoring",
   "/catalog/office",
-  "/catalog/pm",
-  "/catalog/vcs",
   "/compare",
+  "/compare/copilot-vs-gemini",
+  "/compare/cursor-vs-windsurf",
+  "/compare/firefly-vs-canva",
   "/compare/fl-studio-vs-ableton",
   "/compare/gamma-vs-canva",
   "/compare/midjourney-vs-recraft",
@@ -98,21 +90,23 @@
   "/product/acronis-cp-adv-3vm",
   "/product/acronis-cp-adv-server",
   "/product/acronis-cp-adv-vhost",
-  "/product/acronis-cp-adv-ws",
-  "/product/acronis-cp-backup-adv-email-5",
-  "/product/acronis-cp-backup-adv-gws-5",
   "/product/acronis-cp-backup-adv-m365-5",
   "/product/acronis-cp-standard-3vm",
+  "/product/acronis-cp-standard-server",
   "/product/acronis-cp-standard-vhost",
+  "/product/acronis-cp-standard-win-ess",
+  "/product/acronis-cp-standard-ws",
   "/product/adobe-acro-pro",
   "/product/adobe-acro-pro-team",
   "/product/adobe-ae",
   "/product/adobe-ai",
   "/product/adobe-cc-pro-team",
+  "/product/adobe-express",
   "/product/adobe-id",
   "/product/adobe-lr",
   "/product/adobe-pr",
   "/product/adobe-substance",
+  "/product/ai-code-assistant-team",
   "/product/ai-text-team",
   "/product/airalo-gift-card",
   "/product/anthropic-enterprise",
@@ -126,14 +120,12 @@
   "/product/artlst-social",
   "/product/artlst-teams",
   "/product/astute-bundle",
-  "/product/avid-pt-studio",
   "/product/binance-btc-gift-card",
   "/product/binance-usdc-gift-card",
   "/product/binance-usdt-gift-card",
   "/product/bitdefender-premium-security-family",
   "/product/bitdefender-total-security-family",
   "/product/bitdefender-ultimate-security-family",
-  "/product/bmd-resolve-studio",
   "/product/boris-mocha-sub",
   "/product/box-business",
   "/product/browserstack-live-team",
@@ -152,15 +144,15 @@
   "/product/cubase-elements",
   "/product/cubase-pro",
   "/product/cursor-business",
-  "/product/cursor-business-premium",
-  "/product/deepl-advanced",
-  "/product/deepl-business",
+  "/product/cursor-enterprise",
   "/product/deepl-starter",
+  "/product/design-collab-team",
   "/product/discord-nitro-gift-card",
   "/product/docker-business",
   "/product/docker-pro",
   "/product/docker-team",
   "/product/dropbox-plus",
+  "/product/dropbox-standard",
   "/product/envato-core",
   "/product/figma-ent-collab",
   "/product/figma-ent-full",
@@ -172,7 +164,6 @@
   "/product/fl-studio-producer",
   "/product/fl-studio-signature",
   "/product/fmod-premium",
-  "/product/fndry-nuke-studio",
   "/product/fndry-nukex",
   "/product/framer-basic",
   "/product/framer-pro",
@@ -183,27 +174,33 @@
   "/product/gemini-workspace-standard",
   "/product/ghcopilot-business",
   "/product/ghcopilot-enterprise",
+  "/product/gitlab-premium-saas",
   "/product/gitlab-premium-self-managed",
   "/product/grammarly-enterprise",
   "/product/graphics-pro-yearly",
+  "/product/hailuo-master",
   "/product/hailuo-max",
   "/product/hailuo-pro",
   "/product/hailuo-standard",
   "/product/heygen-business",
   "/product/heygen-creator",
   "/product/heygen-ent",
+  "/product/heygen-pro",
   "/product/higgsfield-pro",
   "/product/hou-fx",
   "/product/hou-indie",
   "/product/int-design-figma",
   "/product/int-dev-jetbrains",
+  "/product/int-office-m365",
   "/product/izotope-neutron",
   "/product/izotope-ozone-advanced",
   "/product/izotope-ozone-standard",
   "/product/jasper-pro",
   "/product/jb-ai-pro",
   "/product/jb-ai-ultimate",
+  "/product/jb-clion-org",
   "/product/jb-dotultimate-org",
+  "/product/jb-goland-org",
   "/product/jb-phpstorm-org",
   "/product/jb-pycharm-pro-org",
   "/product/jb-rider-org",
@@ -225,6 +222,7 @@
   "/product/lumion-pro-floating",
   "/product/lumion-view",
   "/product/manageengine-servicedesk-professional-5",
+  "/product/manageengine-servicedesk-standard-10",
   "/product/maxon-c4d",
   "/product/maxon-c4d-teams",
   "/product/maxon-one",
@@ -233,20 +231,6 @@
   "/product/maxon-redshift-teams",
   "/product/maxon-universe",
   "/product/maxon-zbrush-teams",
-  "/product/me-adaudit-plus-professional-2-domain-controllers",
-  "/product/me-admanager-plus-msp-500-domain-users",
-  "/product/me-admanager-plus-professional-1-domain",
-  "/product/me-analytics-plus-professional-5-concurrent-guests-pack",
-  "/product/me-appcreator-manageengine-essentials-base-pack",
-  "/product/me-application-control-plus-professional-100-workstations",
-  "/product/me-applications-manager-professional-10-monitors-with-1-user",
-  "/product/me-assetexplorer-250-it-assets",
-  "/product/me-browser-security-plus-professional-50-computers-and-single-user-license",
-  "/product/me-cloud-security-plus-1-cloud-account",
-  "/product/me-datasecurity-plus-professional-data-leak-prevention-100-workstations",
-  "/product/me-datasecurity-plus-professional-data-risk-assessment-2-tb",
-  "/product/me-datasecurity-plus-professional-file-server-auditing-2-file-servers",
-  "/product/me-datasecurity-plus-professional-fileanalysis-2-tb",
   "/product/me-ddi-central-enterprise-5-dns-clusters-5-dhcp-clusters-5-ntp-servers",
   "/product/me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers",
   "/product/me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license",
@@ -254,9 +238,7 @@
   "/product/me-endpoint-central-security-10-servers-and-single-user-license",
   "/product/me-endpoint-central-uem-10-servers-and-single-user-license",
   "/product/me-endpoint-dlp-plus-professional-100-workstations",
-  "/product/me-exchange-reporter-plus-professional-100-mailboxes",
   "/product/me-exchange-reporter-plus-standard-100-mailboxes",
-  "/product/me-fileanalysis-professional-2-tb",
   "/product/me-key-manager-plus-25-keys-perp",
   "/product/me-m365-manager-plus-professional-100-users-mailboxes-with-1-help-desk-technic",
   "/product/me-m365-manager-plus-standard-100-users-mailboxes-with-1-help-desk-technic",
@@ -268,8 +250,6 @@
   "/product/me-netflow-analyzer-standard-500-interfaces-pack-with-2-users",
   "/product/me-network-configuration-manager-enterprise-250-devices-pack-with-2-users",
   "/product/me-opmanager-apm-plugin-10-monitors-apm-plugin",
-  "/product/me-opmanager-msp-50-devices-pack-with-2-users",
-  "/product/me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall",
   "/product/me-opmanager-nexus-flow-interfaces-10-flow-interfaces",
   "/product/me-opmanager-professional-10-devices-pack-with-2-users",
   "/product/me-opmanager-standard-10-devices-pack-with-2-users",
@@ -282,54 +262,43 @@
   "/product/me-pam360-msp-enterprise-10-administrators-and-25-keys",
   "/product/me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys",
   "/product/me-password-manager-pro-enterprise-10-administrators-and-10-keys",
-  "/product/me-password-manager-pro-enterprise-10-administrators-and-10-keys-perp",
   "/product/me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys",
-  "/product/me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys-perp",
-  "/product/me-password-manager-pro-msp-premium-5-administrators-perp",
-  "/product/me-password-manager-pro-msp-standard-5-administrators-perp",
   "/product/me-password-manager-pro-premium-5-administrators",
-  "/product/me-password-manager-pro-premium-5-administrators-perp",
   "/product/me-password-manager-pro-standard-2-administrators",
-  "/product/me-password-manager-pro-standard-2-administrators-perp",
   "/product/me-patch-connect-plus-enterprise-250-computers",
   "/product/me-patch-connect-plus-professional-250-computers",
   "/product/me-patch-manager-plus-enterprise-10-servers-and-single-user-license",
   "/product/me-patch-manager-plus-professional-10-servers-and-single-user-license",
   "/product/me-ransomware-protection-plus-enterprise-10-servers",
-  "/product/me-remote-access-plus-professional-25-computers-and-5-users",
   "/product/me-servicedesk-plus-enterprise-2-technicians",
   "/product/me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians",
   "/product/me-servicedesk-plus-multi-language-professional-servicedesk-plus-multi-lan-2-technicians",
-  "/product/me-servicedesk-plus-professional-2-technicians",
   "/product/me-supportcenter-plus-enterprise-2-support-representatives",
-  "/product/me-supportcenter-plus-professional-2-support-representatives",
   "/product/me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license",
   "/product/me-vulnerability-manager-plus-professional-10-servers-and-single-user-license",
   "/product/moarr-everything",
   "/product/moarr-team",
   "/product/mono-ind",
   "/product/mrmst-tb5-studio",
-  "/product/ms-office-hb-2021-mac",
-  "/product/ms-office-hb-2021-win",
-  "/product/ms-office-hb-2024-mac",
-  "/product/ms-office-hb-2024-win",
-  "/product/ms-office-proplus-2021",
   "/product/ms-project-pro-2024",
   "/product/ms-visio-pro-2019",
   "/product/ms-visio-pro-2024",
   "/product/ms-visio-std-2021",
   "/product/ms-visual-studio-pro-2019",
   "/product/ms-visual-studio-pro-2022",
-  "/product/ms-windows-11-pro",
   "/product/mscopilot-m365",
-  "/product/mvls-personal-y",
+  "/product/mvls-ent-y",
   "/product/n8n-pro",
   "/product/n8n-starter",
+  "/product/ni-rx-adv",
   "/product/notion-business",
+  "/product/notion-enterprise",
   "/product/openai-api-balance",
+  "/product/openai-enterprise",
   "/product/openai-pro",
   "/product/openrouter-balance",
   "/product/parallels-desktop-pro",
+  "/product/parallels-desktop-standard-perpetual",
   "/product/parallels-desktop-standard-sub",
   "/product/perplexity-enterprise-max",
   "/product/perplexity-enterprise-pro",
@@ -342,7 +311,10 @@
   "/product/prfrc-p4-platform",
   "/product/principle-license",
   "/product/principle-updates",
+  "/product/recraft-ent",
   "/product/recraft-pro",
+  "/product/recraft-team",
+  "/product/rive-cadet",
   "/product/rlsn-cc5",
   "/product/rlsn-iclone8",
   "/product/rlsn-suite365",
@@ -354,6 +326,7 @@
   "/product/sketchup-pro-scan",
   "/product/slack-business-plus",
   "/product/slack-pro",
+  "/product/solidworks-design-premium-device",
   "/product/solidworks-design-professional",
   "/product/solidworks-design-professional-device",
   "/product/solidworks-design-standard",
@@ -364,33 +337,34 @@
   "/product/spine-pro",
   "/product/suno-premier",
   "/product/suno-pro",
+  "/product/teamviewer-business",
   "/product/teamviewer-corporate",
   "/product/teamviewer-remote-access",
   "/product/think-cell-suite",
-  "/product/tlstr-wirecast-studio",
   "/product/topaz-photo",
   "/product/topaz-studio",
   "/product/ue-realityscan",
   "/product/unity-ent",
   "/product/unity-pro",
+  "/product/vegas-edit-perp",
+  "/product/vegas-edit-sub",
   "/product/windsurf-pro",
   "/product/windsurf-teams",
   "/product/winrar-license",
   "/product/wndr-filmora-team",
   "/product/wordpress-commerce",
-  "/product/xai-supergrok",
   "/product/xai-supergrok-heavy",
   "/product/zoom-wp-business",
   "/product/zoom-wp-business-plus",
   "/product/zoom-wp-pro",
   "/solutions",
   "/solutions/ai-dlya-prodazh",
+  "/solutions/po-dlya-razrabotki-igr",
+  "/solutions/uchet-po-i-it-aktivov",
   "/vendors",
   "/vendors/ableton",
   "/vendors/acronis",
   "/vendors/adobe",
-  "/vendors/adobe?etext=2202.I5EmsuMYExjKVrXihVmZ0-OP6Ite5JIjkON0y-Sp7DSczKhD81SvWHKXqdgwy7Fdc3Jyc2hnenhkZmp3enFpeA.68f85ec87847d208120cf1f3ebcb3a0314307276",
-  "/vendors/adobe?etext=2202.IWAPd7-p9SHw__t5jXH0n721V50hkfSVOZ4r89FZ2h1pY2FqaWtwYXpjc25xYXpy.2278439fcf9c1abbaf2ae4ad426766aaf73a2969",
   "/vendors/airalo",
   "/vendors/anthropic",
   "/vendors/anthropic?etext=2202.4elJqfLrzNI_wcYLaqYRhgdZgSm1bRzGsEM-7angtqh0cXpscWN6dmdtaWp5aXZk.118bd5d68c598ae873975769f79df9ca9be30083",
@@ -406,7 +380,6 @@
   "/vendors/blackmagic",
   "/vendors/boris-fx",
   "/vendors/box",
-  "/vendors/box?etext=2202.x8PG2VcXBIJIt4oyZrnQGYg42zpNlOcjLgD9EyFbDpwHogANMlw7a1rEchCCTLOjfmaw4rslubiHO2a3XVQ6vhan1w59OOcVfwSxLaIkYIlqZ3lzeXFyd3N6c3hjd2xk.eda5753b0eb070aa0c30eff328e51fbf6449472b",
   "/vendors/browserstack",
   "/vendors/canva",
   "/vendors/capcut",
@@ -419,7 +392,6 @@
   "/vendors/deepl",
   "/vendors/depositphotos",
   "/vendors/descript",
-  "/vendors/descript?etext=2202.0qh3GS0UEQOgMjSDLAdR0gOdskletnmW7Sa8WGiDU9s7IgQfU2QV8j9h-4XeB8jr6JAky0y_x6ayohIRZQ2pohsEw5H-wWKcAP10sCNzNlvAwez86u8CgxOxqrEVmFNw9AEZec5XgApiyJKvm_2cVm1xcnBjYnVwZmhjZWNrdGc.361127371cb442bc78cf561cc3004446e759ce16",
   "/vendors/discord",
   "/vendors/docker",
   "/vendors/dropbox",
@@ -505,9 +477,483 @@
   "/vendors/zoho",
   "/vendors/zoom"
  ],
- "in_search_count": 521,
- "in_search_fetched": 521,
+ "in_search_count": 475,
+ "in_search_fetched": 475,
  "excluded": {
+  "/alternatives/canva": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/alternatives/cursor": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/alternatives/miro": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/ai/code": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/ai/image": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/ai/office": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/ai/text": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/endpoint": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/engineering": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/monitoring": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/pm": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/vcs": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/acronis-cp-adv-ws": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/acronis-cp-backup-adv-email-5": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/acronis-cp-backup-adv-gws-5": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/avid-pt-studio": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/bmd-resolve-studio": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/cursor-business-premium": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/deepl-advanced": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/deepl-business": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/fndry-nuke-studio": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-adaudit-plus-professional-2-domain-controllers": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-admanager-plus-msp-500-domain-users": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-admanager-plus-professional-1-domain": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-analytics-plus-professional-5-concurrent-guests-pack": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-appcreator-manageengine-essentials-base-pack": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-application-control-plus-professional-100-workstations": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-applications-manager-professional-10-monitors-with-1-user": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-assetexplorer-250-it-assets": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-browser-security-plus-professional-50-computers-and-single-user-license": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-cloud-security-plus-1-cloud-account": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-datasecurity-plus-professional-data-leak-prevention-100-workstations": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-datasecurity-plus-professional-data-risk-assessment-2-tb": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-datasecurity-plus-professional-file-server-auditing-2-file-servers": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-datasecurity-plus-professional-fileanalysis-2-tb": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-endpoint-central-professional-10-servers-and-single-user-license": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-endpoint-central-security-10-servers-and-single-user-license": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-endpoint-dlp-plus-professional-100-workstations": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-exchange-reporter-plus-professional-100-mailboxes": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-fileanalysis-professional-2-tb": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-netflow-analyzer-professional-10-interfaces-pack-with-2-users": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-opmanager-apm-plugin-10-monitors-apm-plugin": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-opmanager-msp-50-devices-pack-with-2-users": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-opmanager-nexus-50-devices-pack-with-2-users-and-1-firewall": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-opmanager-nexus-flow-interfaces-10-flow-interfaces": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-opmanager-professional-10-devices-pack-with-2-users": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-oputils-management-every-additional-250-used-ports-in-switch-po": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-oputils-professional-every-additional-250-used-ports-in-switch-po": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-os-deployer-professional-10-servers": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-enterprise-10-administrators-and-10-keys": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-enterprise-10-administrators-and-10-keys-perp": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys-perp": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-msp-premium-5-administrators-perp": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-msp-standard-5-administrators-perp": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-premium-5-administrators": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-premium-5-administrators-perp": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-standard-2-administrators": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-password-manager-pro-standard-2-administrators-perp": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-patch-connect-plus-professional-250-computers": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-patch-manager-plus-professional-10-servers-and-single-user-license": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-remote-access-plus-professional-25-computers-and-5-users": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-servicedesk-plus-professional-2-technicians": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-supportcenter-plus-professional-2-support-representatives": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/me-vulnerability-manager-plus-professional-10-servers-and-single-user-license": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/ms-office-hb-2021-mac": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/ms-office-hb-2021-win": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/ms-office-hb-2024-mac": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/ms-office-hb-2024-win": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/ms-office-proplus-2021": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/ms-windows-11-pro": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/mvls-personal-y": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/tlstr-wirecast-studio": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/xai-supergrok": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/vendors/adobe?etext=2202.I5EmsuMYExjKVrXihVmZ0-OP6Ite5JIjkON0y-Sp7DSczKhD81SvWHKXqdgwy7Fdc3Jyc2hnenhkZmp3enFpeA.68f85ec87847d208120cf1f3ebcb3a0314307276": {
+   "status": "NOT_CANONICAL",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": "https://biz-soft.pro/vendors/adobe"
+  },
+  "/vendors/adobe?etext=2202.IWAPd7-p9SHw__t5jXH0n721V50hkfSVOZ4r89FZ2h1pY2FqaWtwYXpjc25xYXpy.2278439fcf9c1abbaf2ae4ad426766aaf73a2969": {
+   "status": "NOT_CANONICAL",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": "https://biz-soft.pro/vendors/adobe"
+  },
+  "/vendors/box?etext=2202.x8PG2VcXBIJIt4oyZrnQGYg42zpNlOcjLgD9EyFbDpwHogANMlw7a1rEchCCTLOjfmaw4rslubiHO2a3XVQ6vhan1w59OOcVfwSxLaIkYIlqZ3lzeXFyd3N6c3hjd2xk.eda5753b0eb070aa0c30eff328e51fbf6449472b": {
+   "status": "NOT_CANONICAL",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": "https://biz-soft.pro/vendors/box"
+  },
+  "/vendors/descript?etext=2202.0qh3GS0UEQOgMjSDLAdR0gOdskletnmW7Sa8WGiDU9s7IgQfU2QV8j9h-4XeB8jr6JAky0y_x6ayohIRZQ2pohsEw5H-wWKcAP10sCNzNlvAwez86u8CgxOxqrEVmFNw9AEZec5XgApiyJKvm_2cVm1xcnBjYnVwZmhjZWNrdGc.361127371cb442bc78cf561cc3004446e759ce16": {
+   "status": "NOT_CANONICAL",
+   "date": "2026-09-15",
+   "bad_http_status": null,
+   "target_url": "https://biz-soft.pro/vendors/descript"
+  },
   "/product/acronis-cp-backup-adv-3vm": {
    "status": "LOW_QUALITY",
    "date": "2026-09-10",
@@ -562,19 +1008,31 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/solutions/po-dlya-razrabotki-igr": {
+  "/catalog/ai": {
    "status": "LOW_QUALITY",
-   "date": "2026-09-10",
+   "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/solutions/uchet-po-i-it-aktivov": {
+  "/catalog/ai/audio": {
    "status": "LOW_QUALITY",
-   "date": "2026-09-10",
+   "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/blog/enterprise-vs-team-korporativnye-tarify-ai": {
+  "/catalog/ai/enterprise": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-09",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/ai/marketing": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-09",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/collaboration": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -599,24 +1057,6 @@
    "target_url": null
   },
   "/catalog/web": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-standard-server": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-standard-win-ess": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-standard-ws": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -659,12 +1099,6 @@
    "target_url": null
   },
   "/product/adobe-dw": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-express": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -749,12 +1183,6 @@
    "target_url": null
   },
   "/product/adsk-mudbox": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ai-code-assistant-team": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -934,19 +1362,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/design-collab-team": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/dropbox-advanced": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/dropbox-standard": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1042,54 +1458,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/figma-prof-dev": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fmod-basic": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fmod-indie": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fndry-katana-team": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fndry-mari": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fndry-nuke": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fndry-nuke-indie": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/framer-ent": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/framer-scale": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
@@ -1109,12 +1477,6 @@
    "target_url": null
   },
   "/product/gaea-indie": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/heygen-pro": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1144,12 +1506,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/int-office-m365": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/izotope-rx-standard": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
@@ -1174,12 +1530,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/jb-clion-org": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/jb-datagrip-org": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
@@ -1187,12 +1537,6 @@
    "target_url": null
   },
   "/product/jb-datalore": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jb-goland-org": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1241,12 +1585,6 @@
    "target_url": null
   },
   "/product/lovable-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/manageengine-servicedesk-standard-10": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1492,12 +1830,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/mvls-ent-y": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/mvls-personal-m": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
@@ -1528,12 +1860,6 @@
    "bad_http_status": null,
    "target_url": "https://biz-soft.pro/product/izotope-ozone-advanced"
   },
-  "/product/ni-rx-adv": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/ni-rx-std": {
    "status": "REDIRECT_NOTSEARCHABLE",
    "date": "2026-09-09",
@@ -1552,19 +1878,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/openai-enterprise": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/parallels-desktop-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/parallels-desktop-standard-perpetual": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1582,49 +1896,37 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/photon-fusion-500": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/prfrc-p4-scale": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/procr-dreams": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/procr-ipad": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/recraft-advanced": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/recraft-ent": {
+  "/product/rive-ent": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/recraft-team": {
+  "/product/rive-voyager": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/rive-cadet": {
+  "/product/rizom-rs-perp": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-09",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/rizom-rs-sub": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-09",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/rizom-vs-perp": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1702,12 +2004,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/solidworks-design-premium-device": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/spdtr-ent": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
@@ -1727,12 +2023,6 @@
    "target_url": null
   },
   "/product/spdtr-pro-nl": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/teamviewer-business": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1781,12 +2071,6 @@
    "target_url": null
   },
   "/product/ue-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/vegas-edit-sub": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1924,19 +2208,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/compare/cursor-vs-windsurf": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-07",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/compare/perplexity-vs-chatgpt": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-07",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/cursor-enterprise": {
    "status": "LOW_QUALITY",
    "date": "2026-09-07",
    "bad_http_status": null,
@@ -1960,13 +2232,25 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/notion-enterprise": {
+  "/product/video-conferencing-business": {
    "status": "LOW_QUALITY",
    "date": "2026-09-07",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/vegas-edit-perp": {
+  "/solutions/ai-dlya-analitikov": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/ai-dlya-buhgalterii": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-07",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/solutions/po-dlya-yurlic-po-schetu": {
    "status": "LOW_QUALITY",
    "date": "2026-09-07",
    "bad_http_status": null,
@@ -1979,12 +2263,6 @@
    "target_url": null
   },
   "/compare/chatgpt-vs-gemini": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-06",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/compare/firefly-vs-canva": {
    "status": "LOW_QUALITY",
    "date": "2026-09-06",
    "bad_http_status": null,
@@ -2050,18 +2328,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/catalog/ai/image": {
-   "status": "LOW_QUALITY",
-   "date": "2026-08-28",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/collaboration": {
-   "status": "LOW_QUALITY",
-   "date": "2026-08-28",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/avid-mc-perp": {
    "status": "LOW_QUALITY",
    "date": "2026-07-23",
@@ -2123,6 +2389,6 @@
    "target_url": null
   }
  },
- "events_count": 1871,
- "events_fetched": 1832
+ "events_count": 1983,
+ "events_fetched": 1944
 }
