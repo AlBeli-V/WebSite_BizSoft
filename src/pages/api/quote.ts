@@ -6,6 +6,7 @@ import { leadFromQuote, describeQuote, attributionFields } from '../../lib/quote
 import { createLeadTolerant } from '../../lib/lead-write';
 import { mirrorLeadAndLink } from '../../lib/bitrix24';
 import { effectivePrice } from '../../lib/pricing';
+import { EMAIL_RENT_PRICE, emailRentApplies } from '../../lib/email-rent';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
 import { generateQuoteJpg } from '../../lib/jpg-quote';
@@ -148,12 +149,24 @@ export const POST: APIRoute = async ({ request }) => {
   }
   const bySku = new Map(products.map((p) => [p.sku, p]));
 
+  // Аренда адресов электронной почты: выбор покупателя в шапке спецификации
+  // (docs/rules/email-rent.md). Применимость считается здесь заново, по
+  // артикулу из базы, а не принимается с формы: клиент присылает только сам
+  // выбор, всё остальное — данные каталога.
+  const emailRent = body.email_rent === true;
+  /** Артикул → рубли нашей услуги в цене единицы (для экономики сделки). */
+  const rentPerUnit = new Map<string, number>();
   const items: QuoteItem[] = [];
   for (const line of lines) {
     const p = bySku.get(line.sku);
     if (!p) continue;
-    const price = effectivePrice(p).price;
-    items.push({ sku: p.sku, name: p.name, qty: line.qty, price,
+    const rent = emailRent && emailRentApplies(p.sku);
+    if (rent) rentPerUnit.set(p.sku, EMAIL_RENT_PRICE);
+    const price = effectivePrice(p).price + (rent ? EMAIL_RENT_PRICE : 0);
+    const name = rent
+      ? `${p.name} (включая аренду учётной записи электронной почты на 1 год)`
+      : p.name;
+    items.push({ sku: p.sku, name, qty: line.qty, price,
                  sum: price * line.qty, vat_percent: p.vat_percent });
   }
   if (items.length === 0) return new Response(JSON.stringify({ error: 'позиции не найдены' }), { status: 422 });
@@ -221,7 +234,7 @@ export const POST: APIRoute = async ({ request }) => {
   // письмо руководителю. Обещание, а не ожидание: курс ЦБ — внешний сервис,
   // его сбой или медленный ответ не должны задерживать письмо клиенту.
   const ecoPromise: Promise<QuoteEconomics | null> = fetchCbrRates()
-    .then((rates) => buildQuoteEconomics(items, products, rates))
+    .then((rates) => buildQuoteEconomics(items, products, rates, rentPerUnit))
     .catch((e) => { console.error('quote economics failed', e); return null; });
 
   // Заявка в воронку. Скачивание КП — самый тёплый контакт на сайте: назвали
