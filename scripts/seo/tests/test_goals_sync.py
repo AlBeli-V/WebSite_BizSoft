@@ -27,8 +27,13 @@ class TestRegistry(unittest.TestCase):
 
     def test_conversions_are_contacts_only(self):
         key = sorted(n for n, s in self.goals.items() if s['key'])
-        self.assertEqual(key, sorted(
-            ['lead_sent', 'quote_pdf', 'click_phone', 'click_email', 'click_messenger']))
+        self.assertEqual(key, sorted([
+            'lead_sent', 'quote_pdf', 'click_phone', 'click_email', 'click_messenger',
+            # Вторая половина сделки (15.09.2026): запрос финального КП, счёта
+            # и действий по предложению — такие же обращения, как форма.
+            'offer_final_request_click', 'offer_invoice_request_click',
+            'offer_action_submit',
+        ]))
 
     def test_standard_ga4_names_are_used_where_they_exist(self):
         """GA4 сам строит отчёты под рекомендованные имена — берём их."""
