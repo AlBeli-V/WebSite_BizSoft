@@ -268,7 +268,7 @@ describe('поля в разметке совпадают с проверкой 
   it('поля стоят во всех трёх публичных формах', () => {
     for (const f of ['src/components/LeadForm.astro',
                      'src/components/QuestionForm.astro',
-                     'src/pages/cart/index.astro']) {
+                     'src/components/QuoteDialog.astro']) {
       expect(readFileSync(f, 'utf8'), f).toContain('<FormGuardFields />');
     }
   });

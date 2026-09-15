@@ -21,6 +21,10 @@ import { getAiInterlinks } from '../../data/ai-interlinks';
 import { productIcons } from '../../data/product-icons';
 import ProductIcon from '../../components/ProductIcon.astro';
 import VendorLogo from '../../components/VendorLogo.astro';
+import CollectionMark from '../../components/CollectionMark.astro';
+import { cardParams } from '../../lib/card-params';
+import TrustLines from '../../components/TrustLines.astro';
+import AssistBanner from '../../components/AssistBanner.astro';
 import { vendorContent } from '../../data/vendor-content';
 import { vendorSlug } from '../../lib/vendor-links';
 import { vendorBySlug } from '../../data/vendors';
@@ -30,7 +34,7 @@ import { cardComposition, KIND_MARKER } from '../../lib/product-composition';
 import { displayName, termLabel, TERM } from '../../lib/card-display';
 import { parseSku } from '../../lib/sku';
 import { FACT_HEADS, factTerm, factMin, factTransfer, splitLede, creditsLabel } from '../../lib/card-facts';
-import { PROCUREMENT_FLOW, TRUST_LINES } from '../../data/policies';
+import { PROCUREMENT_FLOW } from '../../data/policies';
 import { seller } from '../../config/site';
 
 const { slug } = Astro.params;
@@ -184,6 +188,33 @@ const unitName = unitNoun(commerce.qtyLabel);
 const planLine = planMarker || PLAN_MARKER_UNIVERSAL;
 const term = termLabel(product, composition);
 const subtitleParts = [planLine, term].filter(Boolean) as string[];
+
+// Строки таблицы параметров: состав и порядок задаёт card-params.ts, значения
+// приходят отсюда — те же поля, что в плашках, подзаголовке и блоке цены.
+// Категория берётся из плашки под крошками, а не из product.category: у
+// пополнений и дополнений плашка называет основную категорию вендора, и
+// таблица обязана говорить то же, что навигация.
+const params = cardParams({
+  vendorLegal: vendorLegal(product.vendor),
+  category: categoryMarker?.name || '',
+  planShort,
+  term,
+  sku: product.sku,
+  unitField: product.unit_label,
+  qtyLabel: commerce.qtyLabel,
+  minQty: commerce.minQty,
+  // Трансфер — то же значение, что в колонке ТРАНСФЕР блока фактов: два
+  // ответа на один вопрос на одной странице расходиться не должны.
+  transfer: factTransfer(composition, planKind, cardMeta?.reassign),
+  management: cardMeta?.management,
+  vat: (!byRequest || isGift) ? vat : 0,
+  // Строки вида позиции идут после «Управления» — канонический порядок они
+  // не рвут.
+  extra: isGift && giftRegions.length > 0 ? [
+    { key: 'Регионы', value: giftRegions.map((r) => `${r.name} (${r.currency})`).join(', ') },
+    { key: 'Номиналов', value: String(giftRegions.reduce((n, r) => n + r.variants.length, 0)) },
+  ] : [],
+});
 
 // Блок фактов под описанием (правило docs/rules/card-lede-facts.md): три
 // колонки у любой позиции — срок действия плана, минимальное количество,
@@ -484,9 +515,7 @@ try {
             />
             {/* Доверительные признаки показываются один раз на страницу — и у
                 подарочной карты тоже: до 12.09.2026 их на ней не было вовсе. */}
-            <ul class="buy-trust">
-              {TRUST_LINES.map((t) => <li>{t}</li>)}
-            </ul>
+            <TrustLines />
           </div>
         ) : (
         <div class="card buy-card" id="buy" {...mdOffer}>
@@ -523,22 +552,11 @@ try {
             </div>
           )}
 
-          {product.price_note && !byRequest && (
-            <p class="price-note">
-              {product.price_note}
-              {vat > 0 && (
-                <details class="vat-hint">
-                  <summary>в т.ч. НДС {vat}% ⓘ</summary>
-                  <span>
-                    Налог включён в цену, сверху не добавляется. В счёте, КП и
-                    закрывающих документах выделен отдельной строкой.
-                    {' '}Принимается к вычету, если вы на общей системе.
-                    {' '}<a href="/blog/zakryvayushchie-dokumenty-na-po">Подробнее о документах</a>
-                  </span>
-                </details>
-              )}
-            </p>
-          )}
+          {/* Приписки к цене под блоком нет: «за пользователя в год» повторяет
+              пункты справа («1 рабочее место», «1 календарный год»), а рыжая
+              раскладка «в т.ч. НДС N% ⓘ» — строку «в том числе НДС N%» под
+              суммой. Две строки сняты решением руководителя 14.09.2026:
+              налог назван один раз, у суммы, и там же в ИТОГО. */}
 
           {!byRequest && (
             <div class="buy-qty">
@@ -575,28 +593,34 @@ try {
             </div>
           )}
 
-          {/* Главный призыв называет результат, а не механику. Подборка —
-              второе действие: ею собирают КП из нескольких позиций, и
-              отметка о том, что позиция уже в подборке, видна флажком, а не
-              только подписью кнопки. */}
+          {/* Главный призыв называет результат, а не механику, и показывает
+              стрелку движения дальше. Под ним ряд из двух обведённых кнопок:
+              подборка и вопрос. Заливка в колонке одна — у призыва; подборка
+              и вопрос отличаются от него обводкой, а друг от друга — знаком
+              (решение руководителя 14.09.2026 по референсу). Отдельного
+              флажка у подборки нет: состояние называет сама кнопка —
+              подписью и знаком «+» / «×». */}
           <div class="buy-cta">
             <button
-              class="btn btn-primary"
+              class="btn btn-primary btn-caps"
               data-open-question
               data-quote-cta
               data-product={product.name}
               data-sku={product.sku}
               data-ref={ctaRef}
               data-dialog-title={byRequest ? 'Запросить цену' : 'Запросить КП'}
-            >{ctaLabel}</button>
+            >
+              <span class="cta-txt" data-cta-txt>{ctaLabel}</span>
+              <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" y1="12" x2="19" y2="12" /><polyline points="13,6 19,12 13,18" /></svg>
+            </button>
             {!byRequest && (
-              <div class="coll-strip">
-                <p>Нужно несколько продуктов в одном предложении? Соберите подборку и запросите единое КП.</p>
-                <div class="coll-toggle">
-                  <input type="checkbox" id="coll-check" class="coll-check" data-coll-check />
-                  <label for="coll-check" class="coll-box" aria-label="Добавить в подборку для КП">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5" /></svg>
-                  </label>
+              <>
+                <div class="act-row">
+                  {/* Знак-матрица слева — тот же, что в плашке «Подборка для
+                      КП» в шапке: покупатель видит, куда уходит позиция.
+                      Справа знак действия: плюс — положить, диагональный
+                      крестик — исключить. Состояние названо дважды, словом
+                      и знаком, и читается, не читая подпись. */}
                   <button
                     class="coll-btn" type="button"
                     data-add-cart
@@ -604,16 +628,53 @@ try {
                     data-slug={product.slug}
                     data-name={product.name}
                     data-price={eff.price}
-                  ><span data-coll-label>Добавить в подборку</span></button>
+                  >
+                    <CollectionMark size={18} />
+                    {/* Обе подписи лежат в одной ячейке сетки: видимая меняется
+                        по классу состояния, а ячейка всегда шириной и высотой
+                        с большую из двух. Кнопка поэтому не меняет размер при
+                        нажатии, и колонка под пальцем не прыгает (постановка
+                        руководителя 14.09.2026). Подпись «Исключить» короткая
+                        намеренно — длинная всё равно не влезла бы в ту же
+                        ячейку без переноса. */}
+                    <span class="coll-txt" data-coll-label>
+                      <span class="ct-add">Добавить в подборку</span>
+                      <span class="ct-out">Исключить</span>
+                    </span>
+                    <svg class="coll-sign" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false">
+                      <g class="sign-plus"><line x1="12" y1="4.5" x2="12" y2="19.5" /><line x1="4.5" y1="12" x2="19.5" y2="12" /></g>
+                      <g class="sign-cross" opacity="0"><line x1="5.8" y1="5.8" x2="18.2" y2="18.2" /><line x1="18.2" y1="5.8" x2="5.8" y2="18.2" /></g>
+                    </svg>
+                  </button>
+                  {/* Окно называет то, за чем пришли: кнопка вопроса не должна
+                      открывать окно с тем же словом, что на ней, — человек не
+                      понимает, что изменилось (решение руководителя
+                      14.09.2026). Заголовок и подводка приходят от кнопки. */}
+                  <button
+                    class="ask-btn" type="button"
+                    data-open-question
+                    data-product={product.name}
+                    data-sku={product.sku}
+                    data-dialog-title="Вопрос специалисту"
+                    data-dialog-lead="Опишите вопрос — ответим на указанную почту. Позиция уже подставлена."
+                  >
+                    <svg class="ask-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9 9 0 0 1-3.8-.8L3 20.5l1.6-4.4a8.2 8.2 0 0 1-1.1-4.1A8.4 8.4 0 0 1 12 3.2a8.4 8.4 0 0 1 9 8.3Z" /></svg>
+                    <span>Задать вопрос</span>
+                  </button>
                 </div>
-              </div>
+                {/* Подсказка под кнопками, а не над ними: сначала действие,
+                    потом объяснение, зачем оно нужно. Знак стопки слева —
+                    тот же смысл, что у подборки: несколько позиций в одном
+                    предложении. */}
+                <p class="coll-hint">
+                  <svg class="hint-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3 3 7.5l9 4.5 9-4.5L12 3Z" /><path d="M3 12.5 12 17l9-4.5" /><path d="M3 17 12 21.5 21 17" /></svg>
+                  <span>Нужно несколько продуктов в одном предложении? Добавьте в подборку и запросите единое КП.</span>
+                </p>
+              </>
             )}
-            <button class="btn-link" data-open-question data-product={product.name} data-sku={product.sku}>Задать вопрос</button>
           </div>
 
-          <ul class="buy-trust">
-            {TRUST_LINES.map((t) => <li>{t}</li>)}
-          </ul>
+          <TrustLines />
         </div>
         )}
       </aside>
@@ -715,30 +776,31 @@ try {
 
         <section class="sec">
           <h2 class="sec-head"><i aria-hidden="true">/</i>Основные параметры</h2>
-          {/* Таблица без границ: строка — подпись и значение, а не ячейки
-              сетки. Полезные покупателю параметры идут выше административных,
-              артикул — последним: внутренний артикул BIZSoft при выборе не
-              используется. */}
+          {/* Состав, порядок и значения строк собирает `cardParams`
+              (src/lib/card-params.ts) — одна логика на весь каталог, а не
+              перечень в разметке: иначе порядок разъезжается от карточки к
+              карточке. Строка — подпись и значение на одной оси, значение
+              под подпись не переносится даже на телефоне (постановка
+              руководителя 14.09.2026, docs/rules/card-params.md). */}
           <div class="params">
-            {product.vendor && <div class="prow"><span class="k">Производитель:</span><span class="v">{vendorLegal(product.vendor)}</span></div>}
-            {planShort && <div class="prow"><span class="k">Тип плана:</span><span class="v">{planShort}</span></div>}
-            {term && <div class="prow"><span class="k">Срок:</span><span class="v">{term}</span></div>}
-            {(isUnitPlan || product.unit_label) && <div class="prow"><span class="k">Расчётная единица:</span><span class="v">{product.unit_label || unitName}</span></div>}
-            {isUnitPlan && <div class="prow"><span class="k">Минимальное количество:</span><span class="v">{commerce.minQty}</span></div>}
-            {cardMeta?.reassign && <div class="prow"><span class="k">Переназначение пользователей:</span><span class="v">{cardMeta.reassign}</span></div>}
-            {cardMeta?.management && <div class="prow"><span class="k">Управление:</span><span class="v">{cardMeta.management}</span></div>}
-            {category && <div class="prow"><span class="k">Категория:</span><span class="v">{category.name}</span></div>}
-            {product.license_type && LICENSE_LABEL[product.license_type] && (
-              <div class="prow"><span class="k">Тип использования:</span><span class="v">{LICENSE_LABEL[product.license_type]}</span></div>
-            )}
-            {isGift && giftRegions.length > 0 && (
-              <div class="prow"><span class="k">Регионы:</span><span class="v">{giftRegions.map((r) => `${r.name} (${r.currency})`).join(', ')}</span></div>
-            )}
-            {isGift && giftRegions.length > 0 && (
-              <div class="prow"><span class="k">Номиналов:</span><span class="v">{giftRegions.reduce((n, r) => n + r.variants.length, 0)}</span></div>
-            )}
-            {(!byRequest || isGift) && vat > 0 && <div class="prow"><span class="k">НДС:</span><span class="v">{vat}% (включено в стоимость)</span></div>}
-            <div class="prow"><span class="k">Артикул BIZSoft:</span><span class="v">{product.sku}</span></div>
+            {params.map((row) => (
+              <div class="prow">
+                <span class="k">{row.key}:</span>
+                <span class="v">
+                  {row.key === 'Производитель' && vendorPageSlug ? (
+                    /* Знак и название — одна ссылка на раздел производителя, без
+                       подчёркивания и цвета ссылки: та же подача, что в строке
+                       производителя первого экрана (docs/rules/vendor-line.md). */
+                    <a class="v-vendor" href={`/vendors/${vendorPageSlug}`}>
+                      <VendorLogo slug={vendorPageSlug} name={row.value} size={18} fluid />
+                      <span>{row.value}</span>
+                    </a>
+                  ) : (
+                    <span>{row.value}</span>
+                  )}
+                </span>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -811,11 +873,7 @@ try {
               {/* Помощь с выбором — другое намерение, чем запрос КП: человек
                   не знает, что выбрать, а не готов запрашивать предложение.
                   Письмо открывается с готовой темой и началом текста. */}
-              <div class="assist">
-                <h3>Не уверены, что выбран правильный план?</h3>
-                <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
-                <a class="btn btn-primary" href={askHref}>Задать вопрос специалисту</a>
-              </div>
+              <AssistBanner href={askHref} variant="inline" />
             </div>
           </section>
         )}
@@ -824,25 +882,42 @@ try {
           <div class="prose-bizsoft block"><p>{product.seo_text}</p></div>
         )}
         {hasModules && (
-          <section class="sec"><div class="assist assist-inline">
-            <h3>Не уверены, что выбран правильный план?</h3>
-            <p>Поможем проверить редакцию, объём и условия использования под вашу задачу.</p>
-            <a class="btn btn-primary" href={askHref}>Задать вопрос специалисту</a>
-          </div></section>
+          <section class="sec"><AssistBanner href={askHref} /></section>
         )}
 
-        <FAQ items={faq} title={gift ? 'Вопросы и ответы' : 'Частые вопросы'} columns={2} mark={true} />
+        <FAQ items={faq} title={gift ? 'Вопросы и ответы' : 'Частые вопросы'} columns={2} mark={true} allHref="/faq" />
 
         {relatedProducts.length > 0 && (
+          /* Строка позиции, а не плитка (решение руководителя 14.09.2026 по
+             референсу): знак, название с производителем, цена и стрелка на
+             одной оси — так строки сравнимы между собой. Плитка знака
+             светлая: сайт воздушный, тёмный квадрат в нём читается как
+             дыра. */
           <section class="sec">
-            <h2 class="sec-head"><i aria-hidden="true">/</i>Похожие товары</h2>
-            <div class="related-grid">
-              {relatedProducts.map((rp) => (
-                <a href={`/product/${rp.slug}`} class="card card-hover related-card">
-                  <strong>{rp.name}</strong>
-                  {rp.vendor && <span>{rp.vendor}</span>}
-                </a>
-              ))}
+            <div class="sec-row">
+              <h2 class="sec-head"><i aria-hidden="true">/</i>Похожие товары</h2>
+              {vendorPageSlug && <a class="sec-all" href={`/vendors/${vendorPageSlug}`}>Все похожие <span aria-hidden="true">›</span></a>}
+            </div>
+            <div class="related-list">
+              {relatedProducts.map((rp) => {
+                const rprice = effectivePrice(rp);
+                return (
+                  <a href={`/product/${rp.slug}`} class="card card-hover related-row">
+                    <span class="rr-ic">
+                      <ProductIcon slug={rp.slug} name={rp.name} size={28} variant="color" />
+                      {productIcons(rp.slug).length === 0 && rp.vendor && (
+                        <VendorLogo slug={vendorSlug(rp.vendor)} name={rp.vendor} size={24} />
+                      )}
+                    </span>
+                    <span class="rr-name">
+                      <strong>{rp.name}</strong>
+                      {rp.vendor && <span>{rp.vendor}</span>}
+                    </span>
+                    <span class="rr-price">{rprice.price > 0 ? `от ${formatRub(rprice.price)}` : 'по запросу'}</span>
+                    <span class="rr-go" aria-hidden="true">›</span>
+                  </a>
+                );
+              })}
             </div>
           </section>
         )}
@@ -993,11 +1068,6 @@ try {
   .pz-what { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; justify-self: end; text-align: left; }
   .pz-what li { position: relative; padding-left: 0.7rem; font-size: 0.85rem; color: var(--color-text-muted); }
   .pz-what li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 4px; height: 4px; background: var(--color-accent); }
-  .price-note { color: var(--color-text-dim); font-size: 0.82rem; margin: 0; }
-  .vat-hint { display: inline-block; margin-left: 0.3rem; }
-  .vat-hint summary { display: inline; cursor: pointer; color: var(--color-accent); list-style: none; }
-  .vat-hint summary::-webkit-details-marker { display: none; }
-  .vat-hint span { display: block; margin-top: 0.4rem; padding: 0.6rem 0.8rem; background: var(--color-bg-elevated); border-radius: 8px; color: var(--color-text-muted); font-size: 0.82rem; }
   .rate-note { color: var(--color-text-dim); font-size: 0.78rem; margin: 0.35rem 0 0; }
   .buy-qty { display: flex; flex-direction: column; gap: 0.5rem; }
   .qty-label { color: var(--color-text); font-size: 0.9rem; font-weight: 700; }
@@ -1017,24 +1087,66 @@ try {
   .bt-row b { font-size: 1.3rem; font-variant-numeric: tabular-nums; }
   .buy-cta { display: flex; flex-direction: column; gap: 0.8rem; }
   .buy-cta .btn { width: 100%; }
-  /* Подборка: отметка видна флажком, а не только подписью кнопки —
-     состояние «позиция уже в подборке» читается без чтения текста. */
-  .coll-strip { border-top: 1px dashed var(--color-border); padding-top: 0.8rem; }
-  .coll-strip p { margin: 0 0 0.6rem; color: var(--color-text-dim); font-size: 0.81rem; line-height: 1.45; }
-  .coll-toggle { display: flex; align-items: center; gap: 0.6rem; }
-  .coll-check { position: absolute; opacity: 0; width: 0; height: 0; }
-  .coll-box { width: 22px; height: 22px; flex: none; border: 1.5px solid var(--color-border-strong); border-radius: 6px; display: grid; place-items: center; cursor: pointer; background: var(--color-bg); }
-  .coll-box svg { width: 14px; height: 14px; color: #fff; opacity: 0; }
-  .coll-check:checked + .coll-box { background: var(--color-success); border-color: var(--color-success); }
-  .coll-check:checked + .coll-box svg { opacity: 1; }
-  .coll-check:focus-visible + .coll-box { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-  /* Кнопка подборки — рыжая, короткая (не на всю ширину), флажок слева от
-     неё: клик по любому из двух переключает подборку. */
-  .coll-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0.45rem 1.1rem; border: none; border-radius: 10px; background: var(--color-accent); color: #fff; font: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-align: center; }
-  .coll-btn:hover { filter: brightness(0.94); }
-  /* Второстепенное действие — ссылкой, а не третьей кнопкой. */
-  .btn-link { background: none; border: none; padding: 0; font: inherit; font-size: 0.9rem; font-weight: 600; color: var(--color-accent); cursor: pointer; align-self: center; }
-  .buy-trust { list-style: none; padding: 1rem 0 0; margin: 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.35rem; color: var(--color-text-muted); font-size: 0.83rem; }
+  /* Главный призыв — в той же типографике, что подборка и вопрос: прописные,
+     тот же трекинг. Кегль чуть меньше обычного: «ПОЛУЧИТЬ КП НА 20 РАБОЧИХ
+     МЕСТ» прописными длиннее строчного и иначе ломается на две строки уже на
+     широкой колонке. */
+  .btn-caps { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; }
+  /* Главный призыв: подпись по центру, стрелка прижата к правому краю —
+     она показывает движение дальше, а не украшает кнопку. */
+  .cta-txt { flex: 1 1 auto; min-width: 0; }
+  .cta-arrow { flex: none; width: 20px; height: 20px; }
+  /* Ряд второстепенных действий: подборка и вопрос, строго в одну строку
+     (решение руководителя 14.09.2026 по референсу). Перенос запрещён: обе
+     кнопки сжимаются, подпись внутри ложится на две строки — это честнее,
+     чем уронить вопрос на свою строку и разорвать пару действий. Флажка у
+     подборки нет: состояние называет сама кнопка. */
+  .act-row { display: flex; align-items: stretch; gap: 0.5rem; flex-wrap: nowrap; }
+  /* Обе кнопки ряда — обводкой акцентом на белом: заливка в колонке одна, у
+     главного призыва. Между собой они различаются знаком, а не весом. */
+  .coll-btn, .ask-btn {
+    min-width: 0;
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid var(--color-accent); border-radius: 12px;
+    background: var(--color-bg-card); color: var(--color-accent);
+    font: inherit; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.03em;
+    text-transform: uppercase; line-height: 1.25; text-align: center; cursor: pointer;
+    transition: background-color 0.22s ease, color 0.22s ease, transform 0.15s ease;
+  }
+  .coll-btn:hover, .ask-btn:hover { background: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg-card)); }
+  .coll-btn:active, .ask-btn:active { transform: translateY(1px); }
+  /* Ячейка подписи — сетка из одной клетки: обе подписи стоят друг на друге,
+     размер клетки равен большей из них и не зависит от состояния. */
+  /* Подборка забирает остаток строки, вопрос стоит по содержимому: подпись
+     вопроса не меняется никогда, поэтому обе ширины постоянны. */
+  .coll-btn { flex: 1 1 auto; }
+  .ask-btn { flex: 0 1 auto; }
+  .coll-txt { min-width: 0; display: grid; }
+  .coll-txt > span { grid-area: 1 / 1; }
+  .ct-out { visibility: hidden; }
+  .coll-btn.is-in .ct-add { visibility: hidden; }
+  .coll-btn.is-in .ct-out { visibility: visible; }
+  .coll-sign { flex: none; width: 16px; height: 16px; }
+  .ask-ic { flex: none; width: 18px; height: 18px; }
+  /* Позиция уже в подборке — плюс сменяется диагональным крестиком: кнопка
+     называет и показывает обратное действие, а не то же самое другими словами. */
+  .coll-btn.is-in .sign-plus { opacity: 0; }
+  .coll-btn.is-in .sign-cross { opacity: 1; }
+  /* Подсказка под кнопками: знак стопки и текст на одной оси, по левому краю
+     — она объясняет уже показанное действие, а не анонсирует его. */
+  .coll-hint { display: flex; align-items: flex-start; gap: 0.7rem; margin: 0.2rem 0 0; color: var(--color-text-dim); font-size: 0.82rem; line-height: 1.45; }
+  .hint-ic { flex: none; width: 20px; height: 20px; margin-top: 0.1rem; color: var(--color-text-dim); }
+  /* На телефоне ряд остаётся рядом, но при прежнем кегле «ДОБАВИТЬ В
+     ПОДБОРКУ» ложилось в три строки и кнопки вырастали в столбики. Кегль,
+     отступы и промежутки поджимаются — две строки максимум. */
+  @media (max-width: 560px) {
+    .act-row { gap: 0.35rem; }
+    .coll-btn, .ask-btn { gap: 0.35rem; padding: 0.6rem 0.55rem; font-size: 0.68rem; letter-spacing: 0.01em; }
+    .coll-sign { width: 14px; height: 14px; }
+    .ask-ic { width: 16px; height: 16px; }
+    .cta-arrow { width: 18px; height: 18px; }
+  }
 
   /* ── Разделы страницы ────────────────────────────────────────────── */
   .sec { margin-top: 3rem; }
@@ -1048,11 +1160,21 @@ try {
   .incl-wide li { padding-left: 0.85rem; color: var(--color-text); }
   .incl-wide b { display: block; font-weight: 600; margin-bottom: 0.2rem; }
   .incl-wide p { margin: 0; color: var(--color-text-muted); font-size: 0.93rem; line-height: 1.55; max-width: 68ch; }
-  /* Параметры без границ ячеек: строка — подпись и значение. */
+  /* Параметры без границ ячеек. Строка — одна строка: подпись и значение на
+     общей вертикальной оси, значение не уезжает под подпись даже на телефоне
+     (постановка руководителя 14.09.2026). Поэтому flex, а не сетка с колонкой
+     фиксированной ширины: на узком экране подпись сжимается, но остаётся
+     слева. Знак вендора стоит в той же оси, что его название. */
   .params { display: grid; gap: 0.1rem; }
-  .prow { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--color-border); font-size: 0.93rem; }
-  .prow .k { color: var(--color-text-dim); }
-  .prow .v { color: var(--color-text); font-weight: 600; }
+  .prow { display: flex; align-items: center; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--color-border); font-size: 0.93rem; }
+  /* overflow-wrap: normal отменяет глобальное anywhere только для подписи:
+     иначе «Артикул:» ломался пополам («Артику / л:»), отдавая место длинному
+     артикулу справа. Значение правило не отменяет — там anywhere и держит
+     ширину страницы (global.css). */
+  .prow .k { flex: 0 0 290px; max-width: 52%; overflow-wrap: normal; color: var(--color-text-dim); }
+  .prow .v { flex: 1 1 auto; min-width: 0; display: inline-flex; align-items: center; gap: 0.45rem; color: var(--color-text); font-weight: 600; }
+  .v-vendor { display: inline-flex; align-items: center; gap: 0.45rem; min-width: 0; color: inherit; text-decoration: none; }
+  .v-vendor:hover { color: var(--color-accent); }
   .deal { display: grid; }
   .deal-row { display: grid; grid-template-columns: 52px 210px minmax(0, 1fr); gap: 1.2rem; padding: 1.3rem 0; border-top: 1px solid var(--color-border); align-items: start; }
   .deal-row:first-child { border-top: 0; padding-top: 0.3rem; }
@@ -1074,14 +1196,11 @@ try {
   .cmp th { font-weight: 600; color: var(--color-text-dim); }
   .cmp td:first-child { color: var(--color-text-dim); }
   .cmp .me { font-weight: 600; }
-  .assist-inline { max-width: 328px; }
   .split { display: grid; grid-template-columns: minmax(0, 1fr) 328px; gap: 3rem; align-items: start; }
   .longread h3 { font-size: 1rem; margin: 1.6rem 0 0.6rem; }
-  .assist { border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.3rem; background: var(--color-bg-card); }
-  .assist h3 { font-size: 1rem; margin: 0 0 0.6rem; }
-  .assist p { color: var(--color-text-muted); font-size: 0.9rem; margin: 0 0 1rem; }
-  .assist .btn { width: 100%; }
-
+  /* Баннер помощи с выбором — свой компонент со своими стилями:
+     `src/components/AssistBanner.astro`. Форму он выбирает по собственной
+     ширине (запрос к контейнеру), поэтому странице о нём знать нечего. */
   /* ── Прочее ──────────────────────────────────────────────────────── */
   .gallery { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.4rem; }
   .gthumb { padding: 0; border: 1px solid var(--color-border); border-radius: 10px; background: #fff; cursor: zoom-in; overflow: hidden; }
@@ -1120,10 +1239,26 @@ try {
   .ai-interlinks h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-dim); margin-bottom: 0.6rem; }
   .ai-interlinks ul { list-style: none; padding: 0; display: grid; gap: 0.4rem; }
   .ai-interlinks a { color: var(--color-accent); font-weight: 600; font-size: 0.92rem; }
-  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 0.8rem; }
-  .related-card { padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.2rem; }
-  .related-card strong { font-size: 0.98rem; }
-  .related-card span { color: var(--color-text-dim); font-size: 0.8rem; }
+  /* Заголовок раздела и ссылка «все …» — одной строкой, по краям. */
+  .sec-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.4rem; }
+  .sec-row .sec-head { margin: 0; }
+  .sec-all { flex: none; color: var(--color-accent); font-size: 0.88rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .sec-all:hover { text-decoration: underline; }
+  .related-list { display: grid; gap: 0.6rem; }
+  .related-row { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.1rem; text-decoration: none; color: inherit; }
+  /* Плитка знака светлая: тёмный квадрат в воздушной вёрстке читается дырой. */
+  .rr-ic { flex: none; width: 48px; height: 48px; border-radius: 12px; background: var(--color-bg-elevated); border: 1px solid var(--color-border); display: grid; place-items: center; }
+  .rr-name { flex: 1 1 auto; min-width: 0; display: grid; gap: 0.1rem; }
+  .rr-name strong { font-size: 0.98rem; line-height: 1.25; }
+  .rr-name span { color: var(--color-text-dim); font-size: 0.82rem; }
+  .rr-price { flex: none; color: var(--color-text-muted); font-size: 0.92rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .rr-go { flex: none; color: var(--color-text-dim); font-size: 1.3rem; line-height: 1; }
+  .related-row:hover .rr-go { color: var(--color-accent); }
+  @media (max-width: 520px) {
+    .related-row { gap: 0.7rem; padding: 0.7rem 0.8rem; }
+    .rr-ic { width: 40px; height: 40px; border-radius: 10px; }
+    .rr-price { font-size: 0.85rem; }
+  }
   .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: flex; align-items: center; justify-content: center; }
   .lightbox[hidden] { display: none; }
   .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; background: #fff; border-radius: 8px; }
@@ -1134,7 +1269,7 @@ try {
   @media (max-width: 1100px) {
     .product-layout { column-gap: 2.2rem; grid-template-columns: minmax(0, 1fr) 330px; }
     .split { grid-template-columns: minmax(0, 1fr); gap: 1.8rem; }
-    .prow { grid-template-columns: 220px minmax(0, 1fr); }
+    .prow .k { flex-basis: 220px; }
   }
   @media (max-width: 900px) {
     /* Одна колонка: порядок в разметке (экран → покупка → остальное) даёт
@@ -1160,7 +1295,15 @@ try {
     .deal-row { grid-template-columns: 44px minmax(0, 1fr); gap: 0.6rem 0.9rem; }
     .deal-row h3 { grid-column: 2; }
     .deal-row ul { grid-column: 2; }
-    .prow { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+  }
+  /* Параметры на телефоне: строка остаётся строкой. Подпись отдаёт
+     фиксированную ширину и сжимается по содержимому, кегль чуть мельче —
+     значение встаёт рядом с подписью, а не под ней. */
+  @media (max-width: 700px) {
+    .prow { gap: 0.6rem; font-size: 0.85rem; padding: 0.5rem 0; }
+    /* Подпись сжимается по содержимому, но не уже самого длинного слова:
+       переносы между словами остаются, внутри слова — нет. */
+    .prow .k { flex: 0 1 auto; min-width: min-content; }
   }
   /* На телефоне ячейки цены остаются рядом (решение руководителя
      13.09.2026): сумма чуть мельче, зазор меньше — колонку не складываем. */
@@ -1270,7 +1413,11 @@ try {
     if (!commerce) return;
     for (const b of quoteBtns) {
       b.dataset.ref = quoteProductRef(itemName, itemSku, commerce, q, namedUnit);
-      if (b.dataset.ctaShort === undefined) b.textContent = quoteCtaLabel(commerce, q, namedUnit);
+      // Подпись пишется в свой узел: textContent на самой кнопке снёс бы
+      // стрелку вместе с ней (кнопка карточки — подпись и знак, не текст).
+      if (b.dataset.ctaShort !== undefined) continue;
+      const txt = b.querySelector('[data-cta-txt]') ?? b;
+      txt.textContent = quoteCtaLabel(commerce, q, namedUnit);
     }
   }
 
@@ -1322,19 +1469,18 @@ try {
   });
 
   // ── Подборка для КП ────────────────────────────────────────────────
-  // Действие обратимое: пока позиция в подборке, флажок зажжён, а кнопка
-  // предлагает исключить. Одноразовое «Добавлено ✓» не давало ни состояния,
-  // ни способа передумать — покупатель шёл искать корзину.
-  const collCheck = document.querySelector<HTMLInputElement>('[data-coll-check]');
-  const collLabel = document.querySelector<HTMLElement>('[data-coll-label]');
-
+  // Действие обратимое: пока позиция в подборке, кнопка предлагает исключить
+  // и показывает крестик вместо плюса. Одноразовое «Добавлено ✓» не давало ни
+  // состояния, ни способа передумать — покупатель шёл искать корзину.
   function inCollection(): boolean {
     return readCart().some((i) => i.sku === (addBtn?.dataset.sku || ''));
   }
   function paintCollection() {
     const on = inCollection();
-    if (collCheck) collCheck.checked = on;
-    if (collLabel) collLabel.textContent = on ? 'Исключить из подборки' : 'Добавить в подборку';
+    // Подпись и знак меняет один класс: обе подписи уже в разметке, и кнопка
+    // не меняет размер при нажатии. Перезапись textContent вернула бы скачок.
+    addBtn?.classList.toggle('is-in', on);
+    addBtn?.setAttribute('aria-label', on ? 'Исключить из подборки для КП' : 'Добавить в подборку для КП');
   }
   function toggleCollection() {
     if (!addBtn) return;
@@ -1347,9 +1493,6 @@ try {
     paintCollection();
   }
   addBtn?.addEventListener('click', toggleCollection);
-  // Флажок — вторая точка входа в то же действие: клик по нему не должен
-  // менять отметку сам по себе, иначе она разъедется с содержимым подборки.
-  collCheck?.addEventListener('click', (e) => { e.preventDefault(); toggleCollection(); });
   paintCollection();
   window.addEventListener('cart:change', paintCollection);
 
