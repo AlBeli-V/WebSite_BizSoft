@@ -11,7 +11,7 @@
  */
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
-import { amountPhrase, moneyFmt, singleVatRate, vatOfItems } from './rub-words';
+import { amountPhrase, moneyFmt, numberWords, pluralForm, singleVatRate, vatOfItems } from './rub-words';
 import { salutation } from './salutation';
 import { specLine } from './spec-line';
 import type { QuoteItem } from './types';
@@ -273,13 +273,68 @@ export function itemSpec(it: QuoteItem): ItemSpec {
 }
 
 /** Условия поставки — список под таблицей. */
-export function quoteConditions(validUntil: string): string[] {
+export function quoteConditions(validUntil: string, issued: string): string[] {
   return [
-    `Срок действия предложения: до ${validUntil}.`,
+    validityLine(issued, validUntil),
     'Форма поставки: в электронном виде.',
     'Условия оплаты: 100% аванс, безналичный расчёт в рублях по счёту.',
     'Срок поставки: по согласованию сторон в зависимости от типа ПО, от 1 дня.',
+    // Цены каталога привязаны к курсу ЦБ (docs/rules/catalog.md): между
+    // выпуском предложения и оплатой счёта курс двигается, и оговорка о
+    // пересчёте должна стоять в самом предложении, а не всплывать при счёте.
+    `Стоимость: рублёвый эквивалент стоимости рассчитан по курсу ЦБ РФ на дату ${issued} `
+    + '(дата формирования КП). В случае изменения курса валют более чем на 5% на дату '
+    + 'заключения Договора и оплаты Счёта стоимость корректируется на дельту курсовой '
+    + 'разницы — как в большую, так и в меньшую сторону.',
   ];
+}
+
+/** Дата вида dd.mm.yyyy → UTC-полночь; null — строка не распознана. */
+function parseRuDate(s: string): Date | null {
+  const m = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(s.trim());
+  if (!m) return null;
+  const d = new Date(Date.UTC(Number(m[3]), Number(m[2]) - 1, Number(m[1])));
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+/**
+ * Рабочих дней от выпуска предложения до последнего дня действия.
+ *
+ * Считаются дни после даты выпуска по дату окончания включительно, суббота
+ * и воскресенье не в счёт. Праздники не учитываются: производственный
+ * календарь в проекте не ведётся, и подставлять его «примерно» значило бы
+ * назвать клиенту срок, которого нет.
+ */
+export function workdaysBetween(issued: string, validUntil: string): number | null {
+  const from = parseRuDate(issued);
+  const to = parseRuDate(validUntil);
+  if (!from || !to || to <= from) return null;
+  let count = 0;
+  const cur = new Date(from);
+  while (cur < to) {
+    cur.setUTCDate(cur.getUTCDate() + 1);
+    const day = cur.getUTCDay();
+    if (day !== 0 && day !== 6) count += 1;
+  }
+  return count;
+}
+
+/** «Срок действия предложения: 5 (пять) рабочих дней до 22.09.2026.» */
+export function validityLine(issued: string, validUntil: string): string {
+  const days = workdaysBetween(issued, validUntil);
+  // Без распознанных дат срок называется одной датой: соврать о числе
+  // рабочих дней хуже, чем не назвать его.
+  if (days === null || days === 0) return `Срок действия предложения: до ${validUntil}.`;
+  const word = pluralForm(days, ['рабочий день', 'рабочих дня', 'рабочих дней']);
+  return `Срок действия предложения: ${days} (${numberWords(days)}) ${word} до ${validUntil}.`;
+}
+
+/**
+ * Шапка листов продолжения: распечатанный второй лист обязан называть
+ * документ, к которому относится. Текст один на все форматы.
+ */
+export function continuationLine(data: QuoteData): string {
+  return `Коммерческое предложение № ${data.outgoingNo || data.quoteNo} от ${data.date} — продолжение`;
 }
 
 /** Две строки колонтитула с реквизитами продавца. */
@@ -480,12 +535,12 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
 
   // ── Условия ────────────────────────────────────────────────────────────
   y += 10;
-  const condH = 14 + quoteConditions(data.validUntil)
+  const condH = 14 + quoteConditions(data.validUntil, data.date)
     .reduce((h, c) => h + wrap(c, 9, width - 14, measure).length * 13 + 2, 0);
   if (y + condH > BOTTOM) { newPage(); y = 56; }
   text('Условия поставки', left, y, { bold: true, size: 10, color: COLOR.dark });
   y += 14;
-  for (const c of quoteConditions(data.validUntil)) {
+  for (const c of quoteConditions(data.validUntil, data.date)) {
     put({ kind: 'bullet', x: left + 3, y: y + 4, size: 3, color: COLOR.accent });
     y = para(c, left + 14, y, width - 14, { size: 9 }) + 2;
   }
@@ -533,8 +588,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
     const add = (p: Primitive) => page.items.push(p);
     if (idx > 0) {
       add({ kind: 'text', x: left, y: 34, size: 8, color: COLOR.muted,
-            text: `Коммерческое предложение № ${data.outgoingNo || data.quoteNo} от ${data.date} — продолжение`,
-            width, align: 'left' });
+            text: continuationLine(data), width, align: 'left' });
       add({ kind: 'line', x1: left, y1: 46, x2: right, y2: 46, color: COLOR.rule, lineWidth: 0.5 });
     }
     add({ kind: 'line', x1: left, y1: footY - 8, x2: right, y2: footY - 8,

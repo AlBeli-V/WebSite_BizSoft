@@ -6,7 +6,7 @@
  * двух форматов.
  */
 import { describe, expect, it } from 'vitest';
-import { buildQuoteLayout, watermarks, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
+import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
 import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
 import { generateQuoteJpgPages, jpgFileNames, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
@@ -128,6 +128,33 @@ describe('раскладка КП', () => {
     expect(all).toContain('по согласованию сторон');
     expect(all).not.toMatch(/ЭДО|закрывающие документы/);
     expect(all).not.toMatch(/1–3 рабочих дня/);
+  });
+
+  it('срок действия назван рабочими днями и датой', () => {
+    // Формулировка руководителя 15.09.2026: одна дата не говорит покупателю,
+    // сколько у него времени на согласование.
+    const all = texts.join(' ');
+    // 21.08.2026 — пятница; до 05.09 (суббота) — десять рабочих дней.
+    expect(all).toContain('Срок действия предложения: 10 (десять) рабочих дней до 05.09.2026.');
+  });
+
+  it('склонение и границы счёта рабочих дней', () => {
+    expect(validityLine('15.09.2026', '16.09.2026')).toContain('1 (один) рабочий день до 16.09.2026.');
+    expect(validityLine('15.09.2026', '18.09.2026')).toContain('3 (три) рабочих дня до 18.09.2026.');
+    // Выходные не считаются: с пятницы по понедельник — один рабочий день.
+    expect(workdaysBetween('18.09.2026', '21.09.2026')).toBe(1);
+    // Нераспознанная дата не даёт выдумать срок.
+    expect(workdaysBetween('нет даты', '21.09.2026')).toBe(null);
+    expect(validityLine('нет даты', '21.09.2026')).toBe('Срок действия предложения: до 21.09.2026.');
+  });
+
+  it('оговорка о курсе ЦБ названа датой формирования КП', () => {
+    // Цены привязаны к курсу ЦБ, и между КП и оплатой счёта он двигается:
+    // условие пересчёта обязано стоять в самом предложении.
+    const all = texts.join(' ');
+    expect(all).toContain('рублёвый эквивалент стоимости рассчитан по курсу ЦБ РФ на дату 21.08.2026');
+    expect(all).toContain('более чем на 5%');
+    expect(all).toContain('как в большую, так и в меньшую сторону');
   });
 
   it('итог подписан «в т.ч. НДС», а налог выделен отдельной строкой', () => {

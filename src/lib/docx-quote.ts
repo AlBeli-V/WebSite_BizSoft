@@ -12,7 +12,7 @@
  * общего содержимого форматов. Совпадение закрепляет tests/quote-docx.test.ts.
  */
 import {
-  AlignmentType, BorderStyle, Document, Footer, HeadingLevel, LevelFormat,
+  AlignmentType, BorderStyle, Document, Footer, Header, HeadingLevel, LevelFormat,
   PageNumber, Packer, Paragraph, ShadingType, Table, TableCell, TableRow,
   TextRun, WidthType,
 } from 'docx';
@@ -21,7 +21,7 @@ import { formatRub } from './pricing';
 import { amountPhrase, moneyFmt, singleVatRate, vatOfItems } from './rub-words';
 import { salutation } from './salutation';
 import {
-  buyerLines, footerLines, headMetaLines, HEAD_SUBTITLE, itemSpec, PRELIMINARY_NOTE,
+  buyerLines, continuationLine, footerLines, headMetaLines, HEAD_SUBTITLE, itemSpec, PRELIMINARY_NOTE,
   quoteConditions, quoteIntro, sellerContactLines, signatureContactLines,
   signer, VAT_PERCENT, type QuoteData,
 } from './quote-layout';
@@ -185,7 +185,7 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
   // ── Условия поставки ───────────────────────────────────────────────────
   const conditions = [
     line('Условия поставки', { bold: true, size: 10, color: DARK, before: 120 }),
-    ...quoteConditions(data.validUntil).map((t) => new Paragraph({
+    ...quoteConditions(data.validUntil, data.date).map((t) => new Paragraph({
       numbering: { reference: 'conditions', level: 0 },
       spacing: { after: 40 },
       children: [new TextRun({ text: t, size: 18, color: BODY, font: FONT })],
@@ -209,6 +209,24 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
 
   const [foot1, foot2] = footerLines();
 
+  // Колонтитулы: первый лист без шапки продолжения, остальные — с ней.
+  // Word печатает документ сам, но лист без имени документа теряется так же,
+  // как лист картинки (docs/rules/quote-document.md).
+  const footerChildren = () => [
+    line(foot1, { size: 7, color: GREY, align: AlignmentType.CENTER, after: 0 }),
+    line(foot2, { size: 7, color: GREY, align: AlignmentType.CENTER, after: 0 }),
+    new Paragraph({
+      alignment: AlignmentType.RIGHT,
+      spacing: { after: 0 },
+      children: [
+        new TextRun({ text: 'Лист ', size: 14, color: GREY, font: FONT }),
+        new TextRun({ children: [PageNumber.CURRENT], size: 14, color: GREY, font: FONT }),
+        new TextRun({ text: ' из ', size: 14, color: GREY, font: FONT }),
+        new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 14, color: GREY, font: FONT }),
+      ],
+    }),
+  ];
+
   const doc = new Document({
     creator: seller.shortName,
     title: `Коммерческое предложение № ${data.quoteNo}`,
@@ -223,25 +241,17 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
       }],
     },
     sections: [{
-      footers: {
-        default: new Footer({
-          children: [
-            line(foot1, { size: 7, color: GREY, align: AlignmentType.CENTER, after: 0 }),
-            line(foot2, { size: 7, color: GREY, align: AlignmentType.CENTER, after: 0 }),
-            // Нумерация листов: распечатанный лист многостраничного КП
-            // должен называть себя сам.
-            new Paragraph({
-              alignment: AlignmentType.RIGHT,
-              spacing: { after: 0 },
-              children: [
-                new TextRun({ text: 'Лист ', size: 14, color: GREY, font: FONT }),
-                new TextRun({ children: [PageNumber.CURRENT], size: 14, color: GREY, font: FONT }),
-                new TextRun({ text: ' из ', size: 14, color: GREY, font: FONT }),
-                new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 14, color: GREY, font: FONT }),
-              ],
-            }),
-          ],
+      properties: { titlePage: true },
+      headers: {
+        // first — первый лист: шапка документа уже в теле, повторять нечего.
+        first: new Header({ children: [] }),
+        default: new Header({
+          children: [line(continuationLine(data), { size: 8, color: GREY, after: 0 })],
         }),
+      },
+      footers: {
+        first: new Footer({ children: footerChildren() }),
+        default: new Footer({ children: footerChildren() }),
       },
       children: [...head, ...addressee, table, ...totals, ...conditions, note, ...signature],
     }],
