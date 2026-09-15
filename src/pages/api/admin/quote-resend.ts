@@ -24,7 +24,7 @@ import { getProductsBySkus, getQuotes } from '../../../lib/directus';
 import { generateQuoteDocx } from '../../../lib/docx-quote';
 import { generateQuoteJpgPages } from '../../../lib/jpg-quote';
 import { pdfFromJpegPages, quotePdfFileName } from '../../../lib/offer-doc';
-import { offerCategoryLinks, offerProductLinks } from '../../../lib/offer-content';
+import { offerProductLinks, offerVendorGroups } from '../../../lib/offer-content';
 import { offerTokensReady, offerUrl } from '../../../lib/offer-token';
 import { buildCustomerQuoteEmail } from '../../../lib/email/quote-customer';
 import { managerEmail, salesFrom, sendMail } from '../../../lib/mailer';
@@ -174,8 +174,7 @@ export const POST: APIRoute = async ({ request }) => {
       pdfName: clientPdfName,
       pdfSize: clientPdf.length,
       offerUrl: offerTokensReady() ? offerUrl(site.url, data.quoteNo, 'actions') : undefined,
-      products: offerProductLinks(items, catalog, site.url),
-      categories: offerCategoryLinks(items, catalog, site.url),
+      vendors: offerVendorGroups(offerProductLinks(items, catalog, site.url), site.url),
     });
     try {
       await sendMail({

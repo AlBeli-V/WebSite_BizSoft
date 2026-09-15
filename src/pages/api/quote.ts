@@ -11,7 +11,7 @@ import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
 import { generateQuoteJpgPages } from '../../lib/jpg-quote';
 import { pdfFromJpegPages, quotePdfFileName } from '../../lib/offer-doc';
-import { offerCategoryLinks, offerProductLinks } from '../../lib/offer-content';
+import { offerProductLinks, offerVendorGroups } from '../../lib/offer-content';
 import { offerTokensReady, offerUrl } from '../../lib/offer-token';
 import { generateQuoteDocx } from '../../lib/docx-quote';
 import { site } from '../../config/site';
@@ -302,8 +302,7 @@ export const POST: APIRoute = async ({ request }) => {
     pdfName: clientPdfName,
     pdfSize: clientPdf.length,
     offerUrl: offerTokensReady() ? offerUrl(site.url, quoteNo, 'actions') : undefined,
-    products: offerProductLinks(items, products, site.url),
-    categories: offerCategoryLinks(items, products, site.url),
+    vendors: offerVendorGroups(offerProductLinks(items, products, site.url), site.url),
   });
 
   // Письмо клиенту отправляем до ответа и ждём результата: экран говорит
