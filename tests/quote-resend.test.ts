@@ -83,7 +83,7 @@ describe('повтор выпущенного КП', () => {
     expect(sendMail).not.toHaveBeenCalled();
   });
 
-  it('отправляет листы, PDF и Word одним письмом с пометкой о повторе', async () => {
+  it('отправляет клиентский PDF, макет и Word одним письмом с пометкой о повторе', async () => {
     const res = await call({ email: 'avbelyaev@matrix-it.ru', to: 'me@biz-soft.pro' });
     const out = await res.json();
     expect(out.sent).toBe(true);
@@ -94,8 +94,11 @@ describe('повтор выпущенного КП', () => {
     expect(mail.subject).toContain('(ТЕСТ ПОВТОР)');
     expect(mail.subject).toContain('BZ-20260915-29343');
     const names = mail.attachments.map((a) => a.filename);
-    expect(names.some((n) => n.endsWith('.jpg'))).toBe(true);
-    expect(names).toContain('KP_BZ-20260915-29343.pdf');
+    // Клиентский документ — ровно тот файл, что уходит заказчику; рядом
+    // рабочие форматы менеджера. Листов картинками больше нет.
+    expect(names.some((n) => n.startsWith('КП_BIZSoft_') && n.endsWith('.pdf'))).toBe(true);
+    expect(names.some((n) => n.endsWith('.jpg'))).toBe(false);
+    expect(names).toContain('KP_BZ-20260915-29343_макет.pdf');
     expect(names).toContain('KP_BZ-20260915-29343.docx');
   });
 
