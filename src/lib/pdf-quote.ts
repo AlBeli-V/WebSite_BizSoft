@@ -116,6 +116,28 @@ export function logoBuffer(file: string): Buffer {
   return buf;
 }
 
+/**
+ * Начертание водяного знака с диска. Кэш: полос на листе две, файл один.
+ * Файла нет — возвращаем null, и знак набирается жирным шрифтом документа.
+ */
+const bandCache = new Map<string, Buffer | null>();
+export function bandFontBuffer(file: string): Buffer | null {
+  if (!bandCache.has(file)) {
+    try {
+      bandCache.set(file, readFileSync(resolveAsset(`public/brand/fonts/${file}`)));
+    } catch (e) {
+      console.error(`шрифт водяного знака ${file} не найден, берём шрифт документа`, e);
+      bandCache.set(file, null);
+    }
+  }
+  return bandCache.get(file) ?? null;
+}
+
+/** Файл начертания знака для драйвера картинки; null — файла нет. */
+export function bandFontPath(file: string): string | null {
+  return bandFontBuffer(file) ? resolveAsset(`public/brand/fonts/${file}`) : null;
+}
+
 /** Измеритель на pdfkit: оба формата считают раскладку им, поэтому не расходятся. */
 export function pdfMeasure(): Measure {
   // Поле у пробного документа роли не играет: раскладка рисует по
@@ -123,40 +145,26 @@ export function pdfMeasure(): Measure {
   const probe = new PDFDocument({ size: 'A4', margin: PAGE.margin.left });
   probe.registerFont('r', FONT_REGULAR);
   probe.registerFont('b', FONT_BOLD);
-  const pick = (size: number, bold?: boolean) => probe.font(bold ? 'b' : 'r').fontSize(size);
+  const registered = new Set<string>();
+  const pick = (size: number, bold?: boolean, fontFile?: string) => {
+    let name = bold ? 'b' : 'r';
+    if (fontFile) {
+      const buf = bandFontBuffer(fontFile);
+      if (buf) {
+        name = `f:${fontFile}`;
+        if (!registered.has(name)) { probe.registerFont(name, buf); registered.add(name); }
+      }
+    }
+    return probe.font(name).fontSize(size);
+  };
   return {
     height: (text, size, width, bold) => { pick(size, bold); return probe.heightOfString(text, { width }); },
-    width: (text, size, bold) => { pick(size, bold); return probe.widthOfString(text); },
+    width: (text, size, bold, fontFile) => { pick(size, bold, fontFile); return probe.widthOfString(text); },
   };
 }
 
-/**
- * Замок на скруглённой плашке — как на референсе: плашка подложкой, над
- * ней дужка линией и корпус заливкой.
- */
-function lock(doc: PDFKit.PDFDocument, cx: number, cy: number,
-              size: number, color: string, opacity: number): void {
-  const bodyW = size / 2;
-  const bodyH = size * 0.39;
-  const bodyY = cy - size * 0.05;
-  doc.save();
-  // Плашка: та же заливка, что у полосы, только плотнее — замок читается
-  // как значок, а не как пятно.
-  doc.fillOpacity(opacity * 0.28);
-  doc.roundedRect(cx - size / 2, cy - size / 2, size, size, size * 0.25).fill(color);
-  doc.fillOpacity(opacity);
-  doc.strokeOpacity(opacity);
-  doc.strokeColor(color).lineWidth(size * 0.073);
-  const arm = size * 0.164;
-  doc.moveTo(cx - arm, bodyY)
-    .lineTo(cx - arm, bodyY - size * 0.19)
-    .bezierCurveTo(cx - arm, cy - size * 0.42, cx + arm, cy - size * 0.42, cx + arm, bodyY - size * 0.19)
-    .lineTo(cx + arm, bodyY)
-    .stroke();
-  doc.roundedRect(cx - bodyW / 2, bodyY, bodyW, bodyH, size * 0.09).fill(color);
-  doc.restore();
-  doc.fillOpacity(1).strokeOpacity(1);
-}
+/** Какие начертания знака уже зарегистрированы в документе. */
+const bandFonts = new WeakMap<PDFKit.PDFDocument, Set<string>>();
 
 function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
   if (p.kind === 'image') {
@@ -188,8 +196,8 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
     doc.rect(p.x, p.y, p.w, p.h).fill(p.color);
     doc.fillOpacity(1);
 
-    // Слой 2 — градиентное ядро: свечение вдоль середины полосы, гаснет к
-    // верхнему и нижнему краю листа.
+    // Слой 2 — градиентное ядро: узкая светящаяся жила вдоль середины
+    // полосы, гаснет к верхнему и нижнему краю листа.
     const core = doc.linearGradient(p.x, p.y, p.x, p.y + p.h);
     core.stop(0, p.color, 0)
       .stop(0.16, p.color, p.coreOpacity)
@@ -204,20 +212,26 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
     }
     doc.strokeOpacity(1);
 
-    // Слой 3 — замки на концах полосы.
-    const cx = p.cx;
-    lock(doc, cx, p.y + p.lockInset, p.lock, p.color, p.textOpacity);
-    lock(doc, cx, p.y + p.h - p.lockInset, p.lock, p.color, p.textOpacity);
+    // Слой 3 — замки: путь приходит из раскладки, скважина вырезается
+    // правилом even-odd.
+    doc.fillOpacity(p.lockOpacity);
+    for (const d of p.locks) doc.path(d).fill(p.color, 'even-odd');
+    doc.fillOpacity(1);
 
-    // Слой 4 — надпись снизу вверх по середине полосы. Разрядка задаётся
-    // characterSpacing: она делает длинную строку ритмичной, не увеличивая
+    // Слой 4 — надпись снизу вверх, прижатая к своему замку. Разрядка
+    // задаётся characterSpacing: она делает строку ритмичной, не увеличивая
     // кегль, и одинаково считается в обоих форматах.
-    const cy = p.y + p.h / 2;
-    doc.font('b').fontSize(p.size).fillColor(p.color).fillOpacity(p.textOpacity);
+    // Надпись набирается своим шрифтом; регистрируем его один раз на документ.
+    const bandBuf = bandFontBuffer(p.fontFile);
+    const bandName = `w:${p.fontFile}`;
+    if (bandBuf && !bandFonts.has(doc)) bandFonts.set(doc, new Set());
+    const reg = bandFonts.get(doc);
+    if (bandBuf && reg && !reg.has(bandName)) { doc.registerFont(bandName, bandBuf); reg.add(bandName); }
+    doc.font(bandBuf ? bandName : 'b').fontSize(p.size).fillColor(p.color).fillOpacity(p.textOpacity);
     doc.save();
-    doc.rotate(-90, { origin: [cx, cy] });
+    doc.rotate(-90, { origin: [p.cx, p.textCy] });
     const tw = doc.widthOfString(p.text, { characterSpacing: p.spacing });
-    doc.text(p.text, cx - tw / 2, cy - p.size * 0.62,
+    doc.text(p.text, p.cx - tw / 2, p.textCy - p.size * 0.62,
              { lineBreak: false, characterSpacing: p.spacing });
     doc.restore();
     doc.fillOpacity(1);

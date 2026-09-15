@@ -7,7 +7,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, BAND, CM, MARK_FILE, PAGE, LOGO_FILE } from '../src/lib/quote-layout';
-import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
+import { bandFontPath, generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
 import { generateQuoteJpgPages, jpgFileNames, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
 import { defaultLeadOwner } from '../src/config/site';
@@ -37,83 +37,113 @@ describe('раскладка КП', () => {
   const pages = buildQuoteLayout(data, pdfMeasure());
 
   it('знаков два на каждом листе — боковые полосы, референс 15.09.2026', () => {
-    // Шесть штампов сеткой 2×3 сняты: они ложились поверх таблицы и мешали
-    // читать спецификацию. Полосы решают ту же задачу, не заходя в текст.
+    // Шесть штампов сеткой 2×3 сняты: они ложились по всему листу и мешали
+    // читать спецификацию. Полосы решают ту же задачу вдоль краёв.
     for (const p of pages) {
       const bands = p.items.filter((i) => i.kind === 'band');
       expect(bands.length).toBe(2);
     }
   });
 
+  it('знак идёт поверх содержимого: рисуется последним', () => {
+    // Решение руководителя 15.09.2026: распечатанным КП не должны
+    // пользоваться в официальной переписке и конкурсах, и знак под текстом
+    // этому не мешал. Поэтому полосы кладутся последними на каждом листе.
+    for (const p of pages) {
+      const kinds = p.items.map((i) => i.kind);
+      expect(kinds.lastIndexOf('band')).toBe(kinds.length - 1);
+      expect(kinds.indexOf('band')).toBeGreaterThan(kinds.indexOf('text'));
+    }
+  });
+
   it('полоса шириной 2,5 см идёт во всю высоту листа', () => {
-    // Ширина задана референсом руководителя 15.09.2026 и меряется в
-    // сантиметрах: в пунктах число некруглое, и глазами его не поймать.
-    const [l, r] = watermarks() as any[];
-    for (const b of [l, r]) {
+    // Ширина задана референсом руководителя и меряется в сантиметрах: в
+    // пунктах число некруглое, и глазами его не поймать.
+    for (const b of watermarks(pdfMeasure()) as any[]) {
       expect(b.w / CM).toBeCloseTo(2.5, 2);
       expect(b.y).toBe(0);
       expect(b.h).toBe(PAGE.height);
     }
   });
 
-  it('обе полосы заходят на полосу набора на полсантиметра', () => {
-    // Требование руководителя: знак перекрывает текст и слева, и справа —
-    // отрезать его при печати, не срезав таблицу, нельзя.
-    const [l, r] = watermarks() as any[];
-    const textLeft = PAGE.margin.left;
-    const textRight = PAGE.width - PAGE.margin.right;
-    expect((l.x + l.w - textLeft) / CM).toBeCloseTo(0.5, 2);
-    expect((textRight - r.x) / CM).toBeCloseTo(0.5, 2);
+  it('полосы стоят на равном отступе в 1 см от краёв листа', () => {
+    // Требование руководителя: знаки симметричны относительно бумаги.
+    const [l, r] = watermarks(pdfMeasure()) as any[];
+    expect(l.x / CM).toBeCloseTo(1, 2);
+    expect((PAGE.width - (r.x + r.w)) / CM).toBeCloseTo(1, 2);
   });
 
-  it('правая полоса срезается краем листа, а её знаки остаются на бумаге', () => {
-    // При правом поле в 1 см полоса уходит за край: ось надписи и замков
-    // считается по видимой части, иначе значки оказались бы за бумагой.
-    const [, r] = watermarks() as any[];
-    expect(r.x + r.w).toBeGreaterThan(PAGE.width);
-    expect(r.cx).toBeLessThan(PAGE.width - 4);
-    expect(r.cx).toBeGreaterThan(r.x);
+  it('обе полосы заходят на полосу набора', () => {
+    // Знак перекрывает текст и слева, и справа — отрезать его при печати,
+    // не срезав таблицу, нельзя.
+    const [l, r] = watermarks(pdfMeasure()) as any[];
+    expect(l.x + l.w).toBeGreaterThan(PAGE.margin.left);
+    expect(r.x).toBeLessThan(PAGE.width - PAGE.margin.right);
   });
 
   it('у полосы есть градиентное ядро внутри подложки', () => {
-    const [l] = watermarks() as any[];
+    const [l] = watermarks(pdfMeasure()) as any[];
     expect(l.coreInset).toBeGreaterThan(0);
     expect(l.coreInset * 2).toBeLessThan(l.w);
     expect(l.coreOpacity).toBeGreaterThan(l.fillOpacity);
   });
 
-  it('надписи — «КОНФИДЕНЦИАЛЬНО» и статус предложения, без слова «черновик»', () => {
-    const [l, r] = watermarks() as any[];
+  it('замок на полосе один и стоит у своей надписи', () => {
+    // На синей — сверху, на красной — снизу (решение 15.09.2026).
+    const [l, r] = watermarks(pdfMeasure()) as any[];
+    expect(l.locks.length).toBe(1);
+    expect(r.locks.length).toBe(1);
+    // Надпись начинается от своего замка: у синей полосы её середина в
+    // верхней половине листа, у красной — в нижней.
+    expect(l.textCy).toBeLessThan(PAGE.height / 2);
+    expect(r.textCy).toBeGreaterThan(PAGE.height / 2);
+  });
+
+  it('надписи — «КОНФИДЕНЦИАЛЬНО» и «ПРЕДВАРИТЕЛЬНОЕ КП», без слова «черновик»', () => {
+    const [l, r] = watermarks(pdfMeasure()) as any[];
     expect(l.text).toBe('КОНФИДЕНЦИАЛЬНО');
-    expect(r.text).toBe('ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ');
+    expect(r.text).toBe('ПРЕДВАРИТЕЛЬНОЕ КП');
     expect(/draft|черновик|копия/i.test(`${l.text} ${r.text}`)).toBe(false);
   });
 
-  it('подложка прозрачна на 85%, надпись — на 50%', () => {
-    // Числа названы руководителем: подложка не мешает читать, надпись не
-    // бьёт по глазам.
-    for (const b of watermarks() as any[]) {
-      expect(b.fillOpacity).toBeCloseTo(0.15, 2);
-      expect(b.textOpacity).toBeCloseTo(0.5, 2);
+  it('надпись набрана своим шрифтом плотно, а не текстовым вразрядку', () => {
+    // Шрифт знака отдельный от документного (решение 15.09.2026): узкий
+    // строгий гротеск, буквы сбиты в блок.
+    const [l] = watermarks(pdfMeasure()) as any[];
+    expect(l.fontFile).toBe('Oswald-SemiBold.ttf');
+    expect(l.fontFamily).toBe('Oswald');
+    expect(l.spacing).toBeLessThan(1.5);
+    // Файл начертания на месте: без него знак молча ушёл бы на документный
+    // шрифт и разъехался бы по высоте.
+    expect(bandFontPath(l.fontFile)).toBeTruthy();
+  });
+
+  it('прозрачность слоёв: подложка почти невесома, надпись читается', () => {
+    for (const b of watermarks(pdfMeasure()) as any[]) {
+      expect(b.fillOpacity).toBeCloseTo(0.0675, 3);
+      expect(b.coreOpacity).toBeCloseTo(0.099, 3);
+      expect(b.textOpacity).toBeCloseTo(0.225, 3);
+      expect(b.textOpacity).toBeGreaterThan(b.fillOpacity);
     }
+  });
+
+  it('тона знаков — фирменные, а не яркие веб-цвета', () => {
+    // Подобраны к паре «рыжий с чёрным» (решение 15.09.2026).
+    const [l, r] = watermarks(pdfMeasure()) as any[];
+    expect(l.color).toBe('#2C4A73');
+    expect(r.color).toBe('#A83C1B');
   });
 
   it('полосы попадают в оба формата одинаково', () => {
     const page = buildQuoteLayout(data, pdfMeasure())[0];
     const svg = quotePageSvg(page.items);
     expect(svg).toContain('КОНФИДЕНЦИАЛЬНО');
-    expect(svg).toContain('ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ');
+    expect(svg).toContain('ПРЕДВАРИТЕЛЬНОЕ КП');
     // Надпись повёрнута вдоль полосы, а не лежит поперёк листа.
     expect(svg).toMatch(/transform="rotate\(-90/);
-    // Градиентное ядро и замки — в обоих форматах: у каждой полосы свой
+    // Градиентное ядро — в обоих форматах: у каждой полосы свой
     // градиент, иначе синее ядро склеилось бы с красным.
     expect(svg.match(/<linearGradient id="band-core-/g)?.length).toBe(2);
-  });
-
-  it('знак идёт под содержимым: рисуется раньше текста', () => {
-    const first = pages[0].items.findIndex((i) => i.kind !== 'band');
-    const lastMark = pages[0].items.map((i) => i.kind).lastIndexOf('band');
-    expect(lastMark).toBeLessThan(first);
   });
 
   const texts = pages.flatMap((p) => p.items.filter((i) => i.kind === 'text').map((i: any) => i.text));
