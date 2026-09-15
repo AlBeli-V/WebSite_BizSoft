@@ -17,7 +17,11 @@ import { VENDORS } from '../src/data/vendors';
 const CLAUDE = { sku: 'ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-STD', name: 'Claude Team, Standard seat', vendor: 'Anthropic' };
 const VS = { sku: 'MSFT-LIC-VISUALSTUDIO-UNI-PERP-USER-2026PRO', name: 'Microsoft Visual Studio 2026 Professional', vendor: 'Microsoft' };
 const CREDITS = { sku: 'OPAI-CRD-API-UNI-BAL-NOM-100', name: 'OpenAI API — пополнение баланса на 100 $', vendor: 'OpenAI' };
-const RIDER = { sku: 'JB-LIC-RIDER-IND-1Y-USER', name: 'JetBrains Rider (личная лицензия)', vendor: 'JetBrains' };
+// Каталог унифицирован: тип лицензии в названии не пишется, его несёт
+// сегмент ПЛАН артикула (IND — индивидуальная, TEAM — корпоративная).
+const RIDER = { sku: 'JB-LIC-RIDER-IND-1Y-USER', name: 'JetBrains Rider', vendor: 'JetBrains' };
+const RIDER_TEAM = { sku: 'JB-LIC-RIDER-TEAM-1Y-USER', name: 'JetBrains Rider', vendor: 'JetBrains' };
+const RIDER_LEGACY = { sku: 'JB-LIC-RIDER-IND-1Y-USER', name: 'JetBrains Rider (личная лицензия)', vendor: 'JetBrains' };
 const GIFT = { sku: 'APPL-GFT-APPSTORE-UNI-BAL-NOM-RU1000', name: 'Apple Gift Card 1000 RUB, Россия', vendor: 'Apple' };
 
 describe('строка спецификации', () => {
@@ -29,7 +33,8 @@ describe('строка спецификации', () => {
   it('подписка на сервис: план, тип рабочего места и срок словами', () => {
     expect(specText(CLAUDE)).toBe(
       'Оказание услуг по предоставлению доступа к web-сервису Claude производства компании Anthropic PBC '
-      + 'в рамках тарифного плана Team, (тип рабочего места — Standard seat) сроком на 1 (один) календарный год');
+      + 'в рамках тарифного плана Team (тип лицензии — корпоративная, тип рабочего места — Standard seat) '
+      + 'сроком на 1 (один) календарный год');
   });
 
   it('бессрочная лицензия — ключ активации, срока в фразе нет', () => {
@@ -46,11 +51,21 @@ describe('строка спецификации', () => {
       + 'в личный кабинет Заказчика');
   });
 
-  it('подписка на ПО: план подписки и тип доступа Individual Use', () => {
+  it('подписка на ПО: план подписки и тип лицензии из сегмента артикула', () => {
     const text = specText(RIDER);
     expect(text).toContain('доступа к ПО JetBrains производства компании JetBrains s.r.o.');
-    expect(text).toContain('в рамках плана подписки Rider (тип доступа — Individual Use)');
+    expect(text).toContain('в рамках плана подписки Rider (тип лицензии — индивидуальная)');
     expect(text).toContain('сроком на 1 (один) календарный год');
+    expect(specText(RIDER_TEAM)).toContain('в рамках плана подписки Rider (тип лицензии — корпоративная)');
+  });
+
+  it('тип лицензии не берётся из названия — только из артикула', () => {
+    // Позиция, положенная в подборку до унификации каталога: маркер из
+    // старого имени в предмет договора не попадает и не двоится с атрибутом.
+    const text = specText(RIDER_LEGACY);
+    expect(text).not.toMatch(/личная лицензия/);
+    expect(text.match(/тип лицензии/g)).toHaveLength(1);
+    expect(text).toContain('(тип лицензии — индивидуальная)');
   });
 
   it('подарочная карта: номинал и регион называются по одному разу', () => {

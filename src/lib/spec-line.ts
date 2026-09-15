@@ -111,10 +111,19 @@ export function specKind(sku: string, name: string): SpecKind {
   return 'subscription';
 }
 
-/** Маркеры срока и типа плана в названии: в фразе их место занимают данные. */
+/**
+ * Маркеры срока и принадлежности в названии: в фразе их место занимают
+ * данные — сегменты срока и плана артикула.
+ *
+ * Каталог унифицирован, и таких маркеров в именах товаров быть не должно.
+ * Очистка остаётся страховкой: в подборке покупателя могут лежать позиции,
+ * положенные туда до унификации (подборка живёт в его браузере и по ссылке
+ * «поделиться»), и «личная лицензия» из старого имени не должна всплыть в
+ * предмете договора второй раз — тип лицензии уже сказан атрибутом.
+ */
 const NAME_NOISE: RegExp[] = [
   /,\s*(вечная лицензия|бессрочн(ый|ая)|годов(ая|ой)( подписка)?|\d+\s*(год|года|лет|месяц(а|ев)?))(?=,|\s*\(|$)/gi,
-  /\s*\((личная|личная лицензия|индивидуальная|подписка)\)/gi,
+  /\s*\((личная|личная лицензия|индивидуальн(ая|ый)|корпоративн(ая|ый)|подписка)\)/gi,
   /\s+для (организаций|команд)(?=,|$)/gi,
   /\s+\d[YМ]\b/g,
 ];
@@ -122,7 +131,7 @@ const NAME_NOISE: RegExp[] = [
 /** Словарь тарифных планов: только то, что действительно является планом. */
 const PLAN_WORDS = [
   'Enterprise Pro', 'Enterprise Plus', 'Enterprise Max', 'Business Plus', 'Business Standard',
-  'Professional Plus', 'Individual Use', 'Free', 'Starter', 'Basic', 'Standard', 'Plus',
+  'Professional Plus', 'Free', 'Starter', 'Basic', 'Standard', 'Plus',
   'Pro', 'Professional', 'Premium', 'Premier', 'Business', 'Team', 'Teams', 'Enterprise',
   'Ultimate', 'Advanced', 'Essentials', 'Expert', 'Max', 'Ultra', 'Elite', 'Growth', 'Scale',
   'Individual', 'Personal', 'Education', 'Academic', 'Commercial', 'Studio', 'Organization',
@@ -298,16 +307,23 @@ export function specText(input: SpecInput): string {
   const rent = Boolean(input.emailRent) && emailRentApplies(sku);
   const rentText = rent ? rentClause(kind, form) : '';
 
-  // Тип доступа называется только там, где он различает позиции: тип
-  // рабочего места — из названия, индивидуальный доступ — из сегмента плана.
-  const access = seat
-    ? `, (тип рабочего места — ${seat})`
-    : parsed?.plan === 'IND' && kind !== 'credits' && kind !== 'gift_card'
-      ? ' (тип доступа — Individual Use)'
-      : '';
+  // Принадлежность лицензии — атрибут позиции, а не слово в названии
+  // (постановка руководителя 15.09.2026): каталог унифицирован, и «личная
+  // лицензия» из имени товара ушла. Тип берётся из сегмента ПЛАН артикула —
+  // того же, что печатает плашку карточки (docs/rules/product-markers.md):
+  // TEAM — корпоративная, IND — индивидуальная, UNI — деления нет и в
+  // договоре о нём не пишут. Тип рабочего места — из названия: это
+  // различитель позиций одного плана («Standard seat» против «Premium seat»).
+  const attrs: string[] = [];
+  if (kind !== 'credits' && kind !== 'gift_card' && kind !== 'service') {
+    if (parsed?.plan === 'TEAM') attrs.push('тип лицензии — корпоративная');
+    else if (parsed?.plan === 'IND') attrs.push('тип лицензии — индивидуальная');
+  }
+  if (seat) attrs.push(`тип рабочего места — ${seat}`);
+  const access = attrs.length ? ` (${attrs.join(', ')})` : '';
   const planClause = plan
     ? `${form === 'software' && kind === 'subscription' ? 'в рамках плана подписки' : 'в рамках тарифного плана'} ${plan}${access}`
-    : access.replace(/^,\s*/, '');
+    : access.trim();
 
   switch (kind) {
     case 'activation_key':
@@ -360,7 +376,7 @@ export function specText(input: SpecInput): string {
         `Оказание услуг по предоставлению доступа к дополнению «${addonName}»`,
         base && `к ${subject(form, base)}`,
         madeBy(legal).trim(),
-        access.replace(/^,\s*/, ''),
+        access.trim(),
         period,
       ) + rentText;
     }

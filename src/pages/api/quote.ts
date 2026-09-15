@@ -162,11 +162,12 @@ export const POST: APIRoute = async ({ request }) => {
     if (!p) continue;
     const rent = emailRent && emailRentApplies(p.sku);
     if (rent) rentPerUnit.set(p.sku, EMAIL_RENT_PRICE);
+    // Аренда входит в цену позиции, но отдельной строкой в бланке КП не
+    // называется (решение руководителя 15.09.2026): документу клиента и
+    // руководителя — состав и цены, пояснение об аренде живёт сноской на
+    // странице спецификации.
     const price = effectivePrice(p).price + (rent ? EMAIL_RENT_PRICE : 0);
-    const name = rent
-      ? `${p.name} (включая аренду учётной записи электронной почты на 1 год)`
-      : p.name;
-    items.push({ sku: p.sku, name, qty: line.qty, price,
+    items.push({ sku: p.sku, name: p.name, qty: line.qty, price,
                  sum: price * line.qty, vat_percent: p.vat_percent });
   }
   if (items.length === 0) return new Response(JSON.stringify({ error: 'позиции не найдены' }), { status: 422 });
