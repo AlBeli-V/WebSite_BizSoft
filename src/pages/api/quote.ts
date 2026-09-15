@@ -9,7 +9,10 @@ import { effectivePrice } from '../../lib/pricing';
 import { EMAIL_RENT_PRICE, emailRentApplies } from '../../lib/email-rent';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
-import { generateQuoteJpgPages, jpgFileNames } from '../../lib/jpg-quote';
+import { generateQuoteJpgPages } from '../../lib/jpg-quote';
+import { pdfFromJpegPages, quotePdfFileName } from '../../lib/offer-doc';
+import { offerCategoryLinks, offerProductLinks } from '../../lib/offer-content';
+import { offerTokensReady, offerUrl } from '../../lib/offer-token';
 import { generateQuoteDocx } from '../../lib/docx-quote';
 import { site } from '../../config/site';
 import { verifyCompany } from '../../lib/inn';
@@ -269,18 +272,39 @@ export const POST: APIRoute = async ({ request }) => {
   })).catch((e) => console.error('quote lead failed', e));
 
   // ── Письма ──
-  // Имена вложений называют лист: у многостраничного КП это «…_лист1»,
-  // «…_лист2» по числу реальных листов (решение руководителя 15.09.2026).
-  const clientFiles = jpgFileNames(quoteNo, jpgPages.length);
-  const clientAttachments = clientFiles.map((filename, i) => ({
-    filename, content: jpgPages[i], contentType: 'image/jpeg',
-  }));
+  // Клиенту уходит один PDF, собранный из листов-картинок: листать три
+  // отдельных файла неудобно, а картинка внутри PDF сохраняет главное —
+  // документ нельзя открыть в редакторе и подменить сумму
+  // (решение руководителя 15.09.2026).
+  let clientPdf: Buffer;
+  try {
+    clientPdf = await pdfFromJpegPages(jpgPages);
+  } catch (e) {
+    console.error('quote client pdf failed', e);
+    return new Response(JSON.stringify({
+      error: 'Не удалось собрать документ. Позвоните нам — отправим вручную.',
+      quote_no: quoteNo,
+    }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+  }
+  const clientPdfName = quotePdfFileName(quoteNo, data.buyerCompany, data.date);
 
   // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro.
-  // HTML с text-fallback собирает шаблон (src/lib/email): фирменная шапка,
-  // карточка предложения, оговорка о предварительном характере, приглашение
-  // ответить на письмо — Reply-To ведёт к менеджеру.
-  const clientMail = buildCustomerQuoteEmail(data, jpgPages.length);
+  // Письмо собирает шаблон (src/lib/email/quote-customer.ts): сводка
+  // предложения, вложенный документ, запрос финального КП и счёта, перечень
+  // действий со ссылкой на страницу предложения, типовые документы, данные
+  // для ЭДО, состав и контакты менеджера. Reply-To ведёт к менеджеру.
+  //
+  // Ссылка на страницу предложения ставится только при настроенном секрете
+  // подписи: без него страница не выпускается, и вести на неё из письма
+  // значило бы отправить клиента в ошибку (offer-token.ts).
+  const clientMail = buildCustomerQuoteEmail({
+    data,
+    pdfName: clientPdfName,
+    pdfSize: clientPdf.length,
+    offerUrl: offerTokensReady() ? offerUrl(site.url, quoteNo, 'actions') : undefined,
+    products: offerProductLinks(items, products, site.url),
+    categories: offerCategoryLinks(items, products, site.url),
+  });
 
   // Письмо клиенту отправляем до ответа и ждём результата: экран говорит
   // «отправлено», и это должно быть правдой. Сбой SMTP при отправке в фоне
@@ -293,7 +317,11 @@ export const POST: APIRoute = async ({ request }) => {
       subject: clientMail.subject,
       text: clientMail.text,
       html: clientMail.html,
-      attachments: clientAttachments,
+      attachments: [{
+        filename: clientPdfName,
+        content: clientPdf,
+        contentType: 'application/pdf',
+      }],
     });
   } catch (e) {
     console.error('quote client mail failed', e);

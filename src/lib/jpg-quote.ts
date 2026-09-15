@@ -150,12 +150,3 @@ export function generateQuoteJpgPages(data: QuoteData): Buffer[] {
     return jpeg.encode({ width: img.width, height: img.height, data: img.data }, QUALITY).data;
   });
 }
-
-/**
- * Имена файлов листов: `KP_<номер>.jpg` у одностраничного КП и
- * `KP_<номер>_лист1.jpg`, `…_лист2.jpg` — у многостраничного.
- */
-export function jpgFileNames(quoteNo: string, pages: number): string[] {
-  if (pages <= 1) return [`KP_${quoteNo}.jpg`];
-  return Array.from({ length: pages }, (_, i) => `KP_${quoteNo}_лист${i + 1}.jpg`);
-}

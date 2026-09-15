@@ -9,6 +9,10 @@ Disallow: /cart
 Disallow: /checkout
 Disallow: /search
 Disallow: /consent
+# Персональные предложения и типовые документы: открываются только по прямой
+# ссылке из письма, в индексе им делать нечего (решение 15.09.2026).
+Disallow: /offer
+Disallow: /documents/
 
 # CSS/JS/изображения и публичные ассеты открыты (отдельных Disallow нет)
 
