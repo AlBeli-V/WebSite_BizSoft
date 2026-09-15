@@ -65,6 +65,8 @@ export interface SpecInput {
 export interface SpecLine {
   /** «Anthropic PBC / Claude Team, Standard seat» */
   title: string;
+  /** Юридическое название производителя отдельно — первая половина `title`. */
+  legal: string;
   /** Артикул без подписи — подпись ставит разметка. */
   sku: string;
   /** Договорная фраза. */
@@ -376,6 +378,7 @@ export function specLine(input: SpecInput): SpecLine {
   const legal = vendorLegal(input.vendor || '');
   return {
     title: legal ? `${legal} / ${input.name}` : input.name,
+    legal,
     sku: input.sku,
     text: specText(input),
     emailRent: Boolean(input.emailRent) && emailRentApplies(input.sku),

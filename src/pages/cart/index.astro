@@ -306,7 +306,7 @@ try {
       const spec = specLine({ sku: it.sku, name: it.name, vendor: vendorOf(it), emailRent: rent });
       tr.innerHTML = `
         <td class="c-name">
-          <div class="ci-title"><span class="ci-legal">${escapeHtml(spec.title.split(' / ')[0])}</span> / <span class="ci-item">${escapeHtml(it.name)}</span></div>
+          <div class="ci-title"><span class="ci-legal">${escapeHtml(spec.legal || vendorOf(it))}</span> / <span class="ci-item">${escapeHtml(it.name)}</span></div>
           <div class="ci-sku">Артикул: ${escapeHtml(it.sku)}</div>
           <div class="ci-spec">${escapeHtml(spec.text)}</div>
           ${spec.emailRent ? `<div class="ci-rent">В цене учтена аренда адреса электронной почты — ${formatRub(EMAIL_RENT_PRICE)} за 1 год.</div>` : ''}
