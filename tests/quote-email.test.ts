@@ -35,12 +35,13 @@ describe('письмо клиенту', () => {
     data, pdfName: 'КП_BIZSoft_BZ-20260828-0042_ROMASHKA_28.08.2026.pdf', pdfSize: 512000,
   });
 
-  it('есть и HTML, и text-fallback с одним содержимым', () => {
+  it('есть и HTML, и text-fallback', () => {
     expect(mail.html).toContain('<!doctype html>');
-    for (const part of ['BZ-20260828-0042', 'не является публичной офертой', '04.09.2026']) {
-      expect(mail.html).toContain(part);
-      expect(mail.text).toContain(part);
-    }
+    expect(mail.text).toContain('BZ-20260828-0042');
+    // Номер письмо несёт темой и текстовой версией: в HTML его больше нет —
+    // сводка из письма убрана, чтобы оно не читалось как второй экземпляр КП
+    // (решение руководителя 15.09.2026).
+    expect(mail.subject).toContain('BZ-20260828-0042');
   });
 
   it('обращение по имени, а не по всему полю ФИО', () => {

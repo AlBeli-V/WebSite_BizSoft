@@ -49,6 +49,26 @@ export interface OfferMailContext {
   managerName: string;
   quoteNo: string;
   buyerCompany: string;
+  /** Дата КП и ИНН заказчика — чтобы менеджер узнал сделку по одной теме. */
+  date?: string;
+  buyerInn?: string;
+  /** Производители из состава: тема письма называет, о чём сделка. */
+  vendors?: readonly string[];
+}
+
+/** Тема запроса: заказчик, предмет, номер и дата КП, производители состава. */
+function requestSubject(c: OfferMailContext, what: string): string {
+  const tail = [
+    `Запрос ${what} по КП ${c.quoteNo}`,
+    c.date ? `от ${c.date}` : '',
+    c.vendors?.length ? `на ${c.vendors.join(' / ')}` : '',
+  ].filter(Boolean).join(' ');
+  return `${c.buyerCompany} — ${tail}`;
+}
+
+/** «в интересах ООО «Ромашка» (ИНН: 7701234567)» — ИНН только если он есть. */
+function inFavourOf(c: OfferMailContext): string {
+  return `${c.buyerCompany}${c.buyerInn ? ` (ИНН: ${c.buyerInn})` : ''}`;
 }
 
 /** Запрос финального КП: без водяных знаков, после согласования условий. */
@@ -71,23 +91,38 @@ export function finalQuoteMailto(c: OfferMailContext): string {
   });
 }
 
-/** Запрос счёта на условиях предложения. */
+/**
+ * Запрос счёта на условиях предложения.
+ *
+ * Реквизиты заказчик прикладывает сам: в письме их у нас нет, а выдумывать
+ * за него поля значит получить счёт не на то юрлицо.
+ */
 export function invoiceMailto(c: OfferMailContext): string {
   return buildMailto({
     to: c.to,
-    subject: `${c.quoteNo} — запрос счёта`,
+    subject: requestSubject(c, 'счёта'),
     body: [
-      `${c.managerName}, добрый день!`,
+      'Добрый день!',
       '',
-      'В ответ на коммерческое предложение',
-      `№ ${c.quoteNo}`,
-      `для ${c.buyerCompany}`,
+      `Просьба выставить счёт на оплату в интересах ${inFavourOf(c)}.`,
+      'Реквизиты для выставления счёта прилагаем к настоящему письму.',
       '',
-      'просим сформировать счёт на оплату на условиях, отражённых в '
-      + 'коммерческом предложении.',
+      'С уважением,',
+      FIELD,
+    ].join('\n'),
+  });
+}
+
+/** Запрос договора на согласование — та же механика, другой предмет. */
+export function contractMailto(c: OfferMailContext): string {
+  return buildMailto({
+    to: c.to,
+    subject: requestSubject(c, 'договора'),
+    body: [
+      'Добрый день!',
       '',
-      'Если для подготовки счёта требуются дополнительные реквизиты или '
-      + 'документы, пожалуйста, сообщите ответным письмом.',
+      `Просьба оформить и направить нам на согласование Договор в интересах ${inFavourOf(c)}.`,
+      'Реквизиты для оформления договора прилагаем к настоящему письму.',
       '',
       'С уважением,',
       FIELD,
@@ -122,34 +157,46 @@ export function actionsMailto(c: OfferMailContext, actions: readonly string[]): 
 
 export interface EdoMailContext {
   legalName: string;
+  shortName: string;
   inn: string;
+  ogrnip: string;
   participantId: string;
   provider: string;
-  howTo: string;
+  /** Заказчик, от чьего имени пишут бухгалтерии — уходит в тему письма. */
+  buyerCompany?: string;
 }
 
 /**
  * Письмо бухгалтерии заказчика: адресата подставляет он сам — своей
  * бухгалтерии адрес знает только он.
+ *
+ * Первая строка прописными вместо выделения цветом: тело `mailto:` — простой
+ * текст, письмо создаёт почтовый клиент получателя, и разметки в нём не
+ * существует. Прописные работают в любом клиенте.
  */
 export function edoAccountingMailto(c: EdoMailContext): string {
+  const who = c.buyerCompany ? `${c.buyerCompany} ` : '';
   return buildMailto({
     to: '',
-    subject: 'BIZSoft — подключение ЭДО',
+    subject: `${who}присоединение к обмену по ЭДО BIZSoft (${c.shortName})`,
     body: [
+      'НАПРАВИТЬ В БУХГАЛТЕРИЮ',
+      '',
       'Коллеги, добрый день!',
       '',
-      `Для обмена документами с BIZSoft необходимо добавить контрагента в ${c.provider}.`,
+      `Планируем сотрудничество с контрагентом BIZSoft (${c.shortName}, ИНН: ${c.inn}, `
+      + `ОГРНИП: ${c.ogrnip}). Для обмена договорной и бухгалтерской документацией с BIZSoft `
+      + `необходимо установить коннект в ЭДО ${c.provider}.`,
       '',
       `Организация: ${c.legalName}`,
       `ИНН: ${c.inn}`,
-      `Идентификатор участника ЭДО: ${c.participantId}`,
+      `Идентификатор участника ЭДО ${c.shortName}: ${c.participantId}`,
       '',
-      `Порядок: ${c.howTo}.`,
-      'Поиск по идентификатору участника надёжнее поиска по названию — '
-      + 'исключает приглашение однофамильца.',
+      'Либо просим добавить через механизм поиска и приглашения: '
+      + `Контрагенты → Пригласить нового → поиск по ИНН ${c.inn}.`,
       '',
-      'Просим установить соединение с контрагентом.',
+      'С уважением,',
+      FIELD,
     ].join('\n'),
   });
 }

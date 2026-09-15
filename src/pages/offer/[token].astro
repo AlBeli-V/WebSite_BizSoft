@@ -43,10 +43,12 @@ const mailCtx = {
 };
 const edoHref = edoAccountingMailto({
   legalName: seller.legalName,
+  shortName: seller.shortName,
   inn: seller.inn,
+  ogrnip: seller.ogrnip,
   participantId: edo.participantId,
   provider: edo.provider,
-  howTo: edo.howTo,
+  buyerCompany: data.buyerCompany || '',
 });
 const kpi = [
   { label: 'Номер КП', value: data.quoteNo, hint: '' },
@@ -183,7 +185,6 @@ const kpi = [
         <div class="ava" aria-hidden="true">{offerManager.initials}</div>
         <div>
           <b>{offerManager.name}</b>
-          <span>{offerManager.role}</span>
         </div>
       </div>
       <p class="contacts">

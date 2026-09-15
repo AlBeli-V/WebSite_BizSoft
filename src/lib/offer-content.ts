@@ -25,6 +25,14 @@ export interface OfferCategoryLink {
   url: string;
 }
 
+/** Производитель из состава КП и его позиции — блок «Состав предложения». */
+export interface OfferVendorGroup {
+  vendor: string;
+  /** Раздел производителя на сайте; пусто — марки нет в реестре. */
+  url: string;
+  products: OfferProductLink[];
+}
+
 /** Метки кампании ставятся только на переходе «письмо → сайт». */
 export function withEmailUtm(url: string, content: string): string {
   const sep = url.includes('?') ? '&' : '?';
@@ -93,4 +101,37 @@ export function offerCategoryLinks(
     if (out.length >= limit) break;
   }
   return out;
+}
+
+/**
+ * Состав предложения по производителям: марка, её раздел, её позиции.
+ *
+ * Порядок как в документе — производитель, его позиции, следующий
+ * производитель: читатель сверяет письмо с КП сверху вниз, и другой порядок
+ * заставил бы его искать.
+ *
+ * Ссылка на раздел марки берётся из реестра вендоров. Марки в реестре нет —
+ * строка остаётся без ссылки: битая ссылка в коммерческом предложении хуже
+ * её отсутствия (то же правило, что у позиций без карточки).
+ */
+export function offerVendorGroups(
+  links: readonly OfferProductLink[],
+  siteUrl: string,
+): OfferVendorGroup[] {
+  const base = siteUrl.replace(/\/$/, '');
+  const order: string[] = [];
+  const byVendor = new Map<string, OfferProductLink[]>();
+  for (const link of links) {
+    const name = link.vendor || '';
+    if (!byVendor.has(name)) { byVendor.set(name, []); order.push(name); }
+    byVendor.get(name)!.push(link);
+  }
+  return order.map((name) => {
+    const entry = name ? VENDORS.find((v) => v.vendor === name) : undefined;
+    return {
+      vendor: name,
+      url: entry ? withEmailUtm(`${base}/vendors/${entry.slug}`, 'vendor') : '',
+      products: byVendor.get(name) || [],
+    };
+  });
 }
