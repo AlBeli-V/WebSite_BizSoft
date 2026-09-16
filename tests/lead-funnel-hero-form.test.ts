@@ -25,8 +25,9 @@ describe('шаги воронки', () => {
   });
 
   it('открытие формы шлётся один раз на страницу, а не каждой формой', () => {
-    // На лендинге производителя форм три: в первом экране, внизу страницы
-    // и модальная. Без общего замка один визит дал бы три form_open.
+    // На лендинге производителя форм две: внизу страницы и модальная (до
+    // 15.09.2026 была ещё в первом экране). Без общего замка один визит дал
+    // бы столько form_open, сколько форм на странице.
     expect(analytics).toContain('const onceSent = new Set<string>()');
     expect(analytics).toContain('export function trackGoalOnce');
     expect(leadForm).not.toContain("trackGoal('form_open'");
@@ -85,19 +86,28 @@ describe('компактная форма первого экрана', () => {
   });
 });
 
-describe('первый экран рекламных посадочных', () => {
-  it('форма стоит только на посадочных эксперимента', () => {
-    // anthropic выведен из замера 11.09.2026: страница переведена на единый
-    // путь заявки. adobe остаётся с формой до отдельного решения.
-    expect(vendorLanding).toContain("HERO_FORM_SLUGS = new Set(['adobe'])");
-    expect(vendorLanding).toContain('compact');
+describe('первый экран лендинга производителя', () => {
+  it('замер формы первого экрана закрыт: формы в первом экране нет', () => {
+    // Решение руководителя 15.09.2026. Anthropic вывели из замера
+    // 11.09.2026, и Adobe осталась единственной страницей с формой — пары
+    // для сравнения не было, а значит вывод «форма против кнопки» из замера
+    // уже не следовал. Первый экран вернулся к композиции макета.
+    expect(vendorLanding).not.toContain('HERO_FORM_SLUGS');
+    expect(vendorLanding).not.toContain('hero-split');
+    expect(vendorLanding).not.toContain('vendor-hero-');
   });
 
-  it('на узком экране первый экран остаётся одноколоночным', () => {
-    expect(vendorLanding).toMatch(/@media \(max-width: 900px\)[^}]*hero-split[^}]*grid-template-columns: 1fr/);
+  it('входов в первом экране два: расчёт и вопрос', () => {
+    // Третья точка сбора контакта — дефект: кнопка и ссылка ведут в разные
+    // каналы, а форма расчёта на странице одна.
+    const hero = vendorLanding.slice(0, vendorLanding.indexOf('<div class="summary">'));
+    expect(hero).toContain('href="#lead"');
+    expect(hero).toContain('data-open-question');
+    expect(hero).not.toContain('<LeadForm');
   });
 
-  it('оффер идёт в разметке раньше формы', () => {
-    expect(vendorLanding.indexOf('hero-copy')).toBeLessThan(vendorLanding.indexOf('hero-form'));
+  it('компактный вид формы остался живым — его использует главная', () => {
+    // Режим не удалён вместе с замером: на главной форма компактная.
+    expect(readFileSync('src/pages/index.astro', 'utf8')).toContain('compact');
   });
 });

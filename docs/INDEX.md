@@ -39,6 +39,14 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   чеклист и обязательные шаги (sitemap, микроразметка, WebMCP, уникальность
   meta) — `docs/vendors-expansion-prompt.md`, раздел 11/11а, и правила в
   `CLAUDE.md`.
+- **Страница производителя** — шаблон `src/components/VendorLanding.astro`
+  (карточка тарифа — `VendorTariffCard.astro`, строка длинного хвоста —
+  `VendorTariffRow.astro`, путь заявки — `VendorQuotePath.astro`), контент —
+  `scripts/content/<slug>.json` → `src/data/vendor-content.ts`
+  (`node scripts/build-vendor-content.mjs`), рубильник движка —
+  `src/lib/vendor-template.ts`. Правило — `docs/rules/vendor-template.md`,
+  путь перестройки — навык `vendor-page-rebuild`, проверки —
+  `tests/vendor-template.test.ts`.
 - **Артикул новой позиции** — правило `docs/rules/sku-system.md`: сегменты
   и словари в `src/lib/sku.ts`, код вендора — `data/catalog/sku-vendors.json`,
   код продукта — `data/catalog/sku-products.json`; в пакете вендора вместо
