@@ -7,7 +7,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { totpAt, verifyTotp, base32Decode } from '../src/lib/totp';
+import { totpAt, verifyTotp, base32Decode, isValidBase32 } from '../src/lib/totp';
 
 const ROOT = resolve(__dirname, '..');
 const read = (rel: string) => readFileSync(resolve(ROOT, rel), 'utf8');
@@ -158,6 +158,25 @@ describe('второй фактор', () => {
     // Секрет «12345678901234567890» в base32; шаг 59 с → счётчик 1.
     expect(totpAt('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 1)).toBe('287082');
   });
+
+  it('испорченный секрет возвращает false, а не роняет обработчик', () => {
+    // Проверка доступа вызывается ДО блока try обработчика: исключение
+    // отсюда отвечало бы 500 вместо понятного сообщения.
+    for (const bad of ['НЕ-BASE32', 'ABCD0189', 'JBSWY3DP!', '   ', 'a b c']) {
+      expect(() => verifyTotp(bad, '123456'), bad).not.toThrow();
+      expect(verifyTotp(bad, '123456'), bad).toBe(false);
+    }
+  });
+
+  it('алфавит base32 распознаётся: нет 0, 1, 8 и 9', () => {
+    expect(isValidBase32('JBSWY3DPEHPK3PXP')).toBe(true);
+    // Регистр, пробелы и разделители при переносе руками — не ошибка.
+    expect(isValidBase32('jbswy3dp ehpk-3pxp')).toBe(true);
+    expect(isValidBase32('JBSWY3DP====')).toBe(true);
+    for (const bad of ['ABCD0', 'ABCD1', 'ABCD8', 'ABCD9', 'ABCD!', 'ЖЖЖЖ', '', '   ']) {
+      expect(isValidBase32(bad), bad).toBe(false);
+    }
+  });
 });
 
 describe('роли и права раздела комплаенса', () => {
@@ -165,8 +184,15 @@ describe('роли и права раздела комплаенса', () => {
   const api = read('src/pages/api/admin/compliance.ts');
 
   it('раздел не открывается вовсе, если второй фактор не настроен', () => {
-    expect(auth).toMatch(/totpSecret\(\)\.length >= 16/);
+    expect(auth).toMatch(/secret\.length >= 16/);
     expect(auth).toContain('Раздел не настроен');
+  });
+
+  it('негодный формат ключа — это «не настроено», а не «неверный код»', () => {
+    // Ключ с посторонним символом не даст сойтись ни одному коду. Без этой
+    // проверки раздел выглядел бы настроенным, а войти в него было бы нельзя.
+    expect(auth).toContain('isValidBase32(secret)');
+    expect(auth).toContain('не в формате base32');
   });
 
   it('оба фактора обязательны', () => {
