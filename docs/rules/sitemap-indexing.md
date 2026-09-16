@@ -8,8 +8,12 @@
    Sitemap динамический (SSR из Directus, `src/pages/sitemap.xml.ts`):
    товары и вендоры из БД подхватываются автоматически, но новые
    **статические/bespoke-страницы** нужно вручную добавить в `STATIC_ROUTES`.
-   Товары с `noindex` и sku из `productNoindex()` (плагины JB-PLG-*, личные
-   лицензии *-IND) в sitemap не попадают — их не индексируем.
+   Товары с `noindex` и sku из `productNoindex()` (плагины JetBrains
+   Marketplace, личные планы `IND`) в sitemap не попадают — их не
+   индексируем. Исключение из правила личных планов заводится вендором в
+   `IND_INDEXABLE_VENDORS` (`src/lib/catalog.ts`) и только решением
+   руководителя: TryHackMe — 15.09.2026, личные Premium и MAX там основной
+   товар, а не младший вариант командного тарифа.
    `lastmod` карточки — `content_updated_at`: его ставят `ops-apply-content`
    и `ops-apply-descriptions`, поэтому после правки контента дата в карте
    сайта обновляется сама, руками ничего не делать. Робот Яндекса при
