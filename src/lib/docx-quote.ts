@@ -12,19 +12,20 @@
  * общего содержимого форматов. Совпадение закрепляет tests/quote-docx.test.ts.
  */
 import {
-  AlignmentType, BorderStyle, Document, Footer, HeadingLevel, LevelFormat,
-  PageNumber, Packer, Paragraph, ShadingType, Table, TableCell, TableRow,
-  TextRun, WidthType,
+  AlignmentType, BorderStyle, Document, Footer, Header, HeadingLevel, ImageRun,
+  LevelFormat, PageNumber, Packer, Paragraph, ShadingType, Table, TableCell,
+  TableRow, TextRun, VerticalAlign, WidthType,
 } from 'docx';
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
 import { amountPhrase, moneyFmt, singleVatRate, vatOfItems } from './rub-words';
 import { salutation } from './salutation';
 import {
-  buyerLines, footerLines, headMetaLines, HEAD_SUBTITLE, itemSpec, PRELIMINARY_NOTE,
-  quoteConditions, quoteIntro, sellerContactLines, signatureContactLines,
-  signer, VAT_PERCENT, type QuoteData,
+  buyerBlock, continuationLine, footerLines, headMetaLines, HEAD_SUBTITLE, itemSpec,
+  MARK_FILE, PRELIMINARY_NOTE, quoteConditions, quoteIntro, sellerContactLines,
+  signatureContactLines, signer, VAT_PERCENT, type QuoteData,
 } from './quote-layout';
+import { logoBuffer } from './pdf-quote';
 
 /**
  * Шрифт документа — тот же Raleway, что на сайте (решение руководителя
@@ -61,12 +62,18 @@ const cell = (text: string, opts: { bold?: boolean; align?: Align; width: number
     })],
   });
 
-// Ширины колонок в DXA. Рабочая ширина A4 при полях 2 см ≈ 9640 twips.
-// Состав колонок — как в спецификации на сайте (docs/rules/spec-line.md):
-// описание целиком, количество, цена, сумма. Отдельной колонки артикула
-// нет — он стоит внутри описания, как в предмете договора.
-const COLS = { n: 480, desc: 5340, qty: 760, price: 1460, sum: 1600 };
-const TABLE_W = COLS.n + COLS.desc + COLS.qty + COLS.price + COLS.sum;
+/**
+ * Поля страницы в твипах (1 см = 567): слева 3 см, справа, сверху и снизу
+ * по 1 см — те же, что в макете картинки и PDF (docs/rules/quote-document.md).
+ */
+const TWIP_CM = 567;
+const MARGIN = { left: 3 * TWIP_CM, right: TWIP_CM, top: TWIP_CM, bottom: TWIP_CM };
+
+// Рабочая ширина A4 (11906 твипов) минус поля. Таблица занимает её целиком:
+// документ подшивают к договору, и колонка не должна обрываться раньше поля.
+const TABLE_W = 11906 - MARGIN.left - MARGIN.right;
+// Доли повторяют макет: №, описание, кол-во, цена, сумма.
+const COLS = { n: 400, desc: TABLE_W - 400 - 760 - 1560 - 1680, qty: 760, price: 1560, sum: 1680 };
 
 /** Ячейка описания: производитель и название, артикул, договорная фраза. */
 const descCell = (spec: { title: string; sku: string; text: string }) =>
@@ -82,6 +89,27 @@ const descCell = (spec: { title: string; sku: string; text: string }) =>
         children: [new TextRun({ text: spec.text, size: 16, color: BODY, font: FONT })] }),
     ],
   });
+
+/**
+ * Знак марки в колонтитуле. Высота — две строки реквизитов (≈24 пт),
+ * ширина по пропорции файла 290×350. Файла нет — колонтитул обходится без
+ * знака: документ важнее картинки.
+ */
+function markParagraph(): Paragraph[] {
+  try {
+    const data = logoBuffer(MARK_FILE);
+    return [new Paragraph({
+      spacing: { after: 0 },
+      children: [new ImageRun({
+        data, type: 'png',
+        transformation: { height: 24, width: Math.round(24 * (290 / 350)) },
+      })],
+    })];
+  } catch (e) {
+    console.error('знак для колонтитула Word не прочитан', e);
+    return [];
+  }
+}
 
 export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
   const vat = vatOfItems(data.items, VAT_PERCENT);
@@ -110,12 +138,28 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
   ];
 
   // ── Кому и обращение ───────────────────────────────────────────────────
+  // Подпись и заказчик — одна строка, остальное под ней с тем же отступом
+  // (композиция руководителя 16.09.2026). Висячий отступ держит «Кому:» у
+  // поля, а текст — на общей вертикали.
+  const buyer = buyerBlock(data);
+  const BUYER_INDENT = 700;
   const addressee = [
-    line('Кому:', { bold: true, size: 10, color: DARK, before: 160 }),
-    ...buyerLines(data).map((t) => line(t, { size: 9 })),
+    new Paragraph({
+      spacing: { before: 160, after: 40 },
+      indent: { left: BUYER_INDENT, hanging: BUYER_INDENT },
+      children: [
+        new TextRun({ text: 'Кому:\t', bold: true, color: DARK, size: 20, font: FONT }),
+        new TextRun({ text: buyer.head, color: BODY, size: 18, font: FONT }),
+      ],
+    }),
+    ...buyer.lines.map((t: string) => new Paragraph({
+      spacing: { after: 40 },
+      indent: { left: BUYER_INDENT },
+      children: [new TextRun({ text: t, color: BODY, size: 18, font: FONT })],
+    })),
     line(salutation(data.contactName), { bold: true, size: 11, color: DARK,
       align: AlignmentType.CENTER, before: 160, after: 120 }),
-    line(quoteIntro(data.buyerCompany), { size: 9.5, after: 120 }),
+    line(quoteIntro(data.buyerCompany), { size: 9.5, after: 120, align: AlignmentType.JUSTIFIED }),
   ];
 
   // ── Таблица позиций — колонки и порядок как в макете ───────────────────
@@ -133,30 +177,27 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
       insideVertical: { style: BorderStyle.SINGLE, size: 1, color: RULE },
     },
     rows: [
+      // Шапка: подписи по центру ячейки и по её середине, денежные колонки —
+      // в две строки со ставкой налога (решение руководителя 15.09.2026).
       new TableRow({
         tableHeader: true,
-        children: [
-          new TableCell({
-            width: { size: COLS.n, type: WidthType.DXA },
-            shading: { type: ShadingType.CLEAR, fill: 'F3F4F6' },
-            margins: { top: 60, bottom: 60, left: 80, right: 80 },
-            children: [new Paragraph({ children: [new TextRun({ text: '№', bold: true, size: 18, font: FONT })] })],
-          }),
-          ...([
-            ['Описание', COLS.desc, undefined],
-            ['Кол-во', COLS.qty, AlignmentType.RIGHT],
-            ['Цена, ₽', COLS.price, AlignmentType.RIGHT],
-            ['Сумма, ₽', COLS.sum, AlignmentType.RIGHT],
-          ] as const).map(([t, w, a]) => new TableCell({
-            width: { size: w, type: WidthType.DXA },
-            shading: { type: ShadingType.CLEAR, fill: 'F3F4F6' },
-            margins: { top: 60, bottom: 60, left: 80, right: 80 },
-            children: [new Paragraph({
-              alignment: a,
-              children: [new TextRun({ text: t, bold: true, size: 18, font: FONT })],
-            })],
+        children: ([
+          [['№'], COLS.n],
+          [['Описание'], COLS.desc],
+          [['Кол-во'], COLS.qty],
+          [['Цена Руб.', `в т.ч. НДС${rateLabel}`], COLS.price],
+          [['Сумма Руб.', `в т.ч. НДС${rateLabel}`], COLS.sum],
+        ] as [string[], number][]).map(([lines, w]) => new TableCell({
+          width: { size: w, type: WidthType.DXA },
+          shading: { type: ShadingType.CLEAR, fill: 'F3F4F6' },
+          margins: { top: 60, bottom: 60, left: 80, right: 80 },
+          verticalAlign: VerticalAlign.CENTER,
+          children: lines.map((t) => new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 0 },
+            children: [new TextRun({ text: t, bold: true, size: 16, font: FONT })],
           })),
-        ],
+        })),
       }),
       ...data.items.map((it, i) => new TableRow({
         children: [
@@ -185,7 +226,7 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
   // ── Условия поставки ───────────────────────────────────────────────────
   const conditions = [
     line('Условия поставки', { bold: true, size: 10, color: DARK, before: 120 }),
-    ...quoteConditions(data.validUntil).map((t) => new Paragraph({
+    ...quoteConditions(data.validUntil, data.date).map((t) => new Paragraph({
       numbering: { reference: 'conditions', level: 0 },
       spacing: { after: 40 },
       children: [new TextRun({ text: t, size: 18, color: BODY, font: FONT })],
@@ -194,6 +235,7 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
 
   // ── Оговорка о статусе на подложке ─────────────────────────────────────
   const note = new Paragraph({
+    alignment: AlignmentType.JUSTIFIED,
     shading: { type: ShadingType.CLEAR, fill: NOTE_BG },
     spacing: { before: 160, after: 160 },
     border: { left: { style: BorderStyle.SINGLE, size: 18, color: ACCENT, space: 4 } },
@@ -209,6 +251,61 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
 
   const [foot1, foot2] = footerLines();
 
+  // Колонтитулы: первый лист без шапки продолжения, остальные — с ней.
+  // Word печатает документ сам, но лист без имени документа теряется так же,
+  // как лист картинки (docs/rules/quote-document.md).
+  // Колонтитул собран таблицей без границ: знак слева, реквизиты от него
+  // влево-выключкой, номер листа — к правому полю. Абзацами так не выйдет:
+  // в одной строке Word умеет только одно выравнивание.
+  const footCell = (children: Paragraph[], width: number, align?: Align) => new TableCell({
+    width: { size: width, type: WidthType.DXA },
+    margins: { top: 0, bottom: 0, left: 0, right: 0 },
+    verticalAlign: VerticalAlign.CENTER,
+    borders: {
+      top: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+      bottom: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+      left: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+      right: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+    },
+    children: children.length ? children : [new Paragraph({ alignment: align, children: [] })],
+  });
+
+  const markW = 500; // ≈0,9 см — высота двух строк реквизитов
+  const pageNoW = 1100;
+  const footerChildren = () => [
+    new Table({
+      width: { size: TABLE_W, type: WidthType.DXA },
+      columnWidths: [markW, TABLE_W - markW - pageNoW, pageNoW],
+      borders: {
+        top: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        bottom: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        left: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        right: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        insideHorizontal: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        insideVertical: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+      },
+      rows: [new TableRow({
+        children: [
+          footCell(markParagraph(), markW),
+          footCell([
+            line(foot1, { size: 7, color: GREY, after: 0 }),
+            line(foot2, { size: 7, color: GREY, after: 0 }),
+          ], TABLE_W - markW - pageNoW),
+          footCell([new Paragraph({
+            alignment: AlignmentType.RIGHT,
+            spacing: { after: 0 },
+            children: [
+              new TextRun({ text: 'Лист ', size: 14, color: GREY, font: FONT }),
+              new TextRun({ children: [PageNumber.CURRENT], size: 14, color: GREY, font: FONT }),
+              new TextRun({ text: ' из ', size: 14, color: GREY, font: FONT }),
+              new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 14, color: GREY, font: FONT }),
+            ],
+          })], pageNoW, AlignmentType.RIGHT),
+        ],
+      })],
+    }),
+  ];
+
   const doc = new Document({
     creator: seller.shortName,
     title: `Коммерческое предложение № ${data.quoteNo}`,
@@ -223,25 +320,20 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
       }],
     },
     sections: [{
-      footers: {
-        default: new Footer({
-          children: [
-            line(foot1, { size: 7, color: GREY, align: AlignmentType.CENTER, after: 0 }),
-            line(foot2, { size: 7, color: GREY, align: AlignmentType.CENTER, after: 0 }),
-            // Нумерация листов: распечатанный лист многостраничного КП
-            // должен называть себя сам.
-            new Paragraph({
-              alignment: AlignmentType.RIGHT,
-              spacing: { after: 0 },
-              children: [
-                new TextRun({ text: 'Лист ', size: 14, color: GREY, font: FONT }),
-                new TextRun({ children: [PageNumber.CURRENT], size: 14, color: GREY, font: FONT }),
-                new TextRun({ text: ' из ', size: 14, color: GREY, font: FONT }),
-                new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 14, color: GREY, font: FONT }),
-              ],
-            }),
-          ],
+      properties: {
+        titlePage: true,
+        page: { margin: MARGIN },
+      },
+      headers: {
+        // first — первый лист: шапка документа уже в теле, повторять нечего.
+        first: new Header({ children: [] }),
+        default: new Header({
+          children: [line(continuationLine(data), { size: 8, color: GREY, after: 0 })],
         }),
+      },
+      footers: {
+        first: new Footer({ children: footerChildren() }),
+        default: new Footer({ children: footerChildren() }),
       },
       children: [...head, ...addressee, table, ...totals, ...conditions, note, ...signature],
     }],

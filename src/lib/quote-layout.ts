@@ -11,13 +11,36 @@
  */
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
-import { amountPhrase, moneyFmt, singleVatRate, vatOfItems } from './rub-words';
-import { salutation } from './salutation';
+import { amountPhrase, moneyFmt, numberWords, pluralForm, singleVatRate, vatOfItems } from './rub-words';
+import { salutation, shortFio } from './salutation';
 import { specLine } from './spec-line';
 import type { QuoteItem } from './types';
 
 /** Логотип в шапке. Путь от корня проекта — файл читает драйвер формата. */
 export const LOGO_FILE = 'public/brand/bizsoft-logo-lockup.png';
+
+/**
+ * Знак в колонтитуле — марка без надписи (решение руководителя 15.09.2026).
+ * Высота равна двум строкам реквизитов, ширина — по пропорции файла
+ * (290×350): знак не растягивается.
+ */
+export const MARK_FILE = 'public/brand/bizsoft-mark-transparent.png';
+export const FOOT = {
+  /** Высота знака и всего блока реквизитов, пт. */
+  h: 20,
+  /** Ширина знака по пропорции 290×350. */
+  w: 20 * (290 / 350),
+  /** Просвет между знаком и текстом. */
+  gap: 8,
+  /** Кегль строк реквизитов и интерлиньяж. */
+  size: 7,
+  line: 10,
+};
+
+/** Y линии над колонтитулом: сам колонтитул стоит на нижнем поле. */
+export function footRuleY(): number {
+  return PAGE.height - PAGE.margin.bottom - FOOT.h - 8;
+}
 
 /** Подписант коммерческого предложения. */
 export const signer = { name: 'Беляев Алексей', role: 'директор по развитию бизнеса' };
@@ -73,10 +96,21 @@ export type Primitive =
       color: string; lineWidth: number }
   | { kind: 'image'; x: number; y: number; w: number; h: number; file: string }
   | { kind: 'bullet'; x: number; y: number; size: number; color: string }
-  | { kind: 'watermark'; x: number; y: number; text: string; text2?: string;
-      sub?: string; size: number; subSize: number; w: number; h: number;
-      radius: number; stroke: number; dash: number[]; color: string;
-      opacity: number; angle: number };
+  /**
+   * Боковая полоса-знак: подложка во всю высоту листа, вдоль неё снизу
+   * вверх — надпись прописными, на концах — замок. Рисуется под текстом.
+   */
+  | { kind: 'band'; x: number; y: number; w: number; h: number;
+      /** Ось полосы: по ней стоят замки и надпись. */
+      cx: number;
+      color: string; fillOpacity: number;
+      coreInset: number; coreOpacity: number; edgeOpacity: number;
+      /** Надпись и её середина: она прижата к своему замку, а не к центру листа. */
+      text: string; textCy: number; textOpacity: number;
+      /** Шрифт надписи: файл для драйверов и имя семейства для SVG. */
+      size: number; spacing: number;
+      /** Готовый контур замка (`lockPath`) — один и тот же в обоих форматах. */
+      locks: string[]; lockOpacity: number };
 
 export interface Page { items: Primitive[] }
 
@@ -90,6 +124,7 @@ export interface Page { items: Primitive[] }
  */
 export interface Measure {
   height(text: string, size: number, width: number, bold?: boolean): number;
+  /** Ширина строки в шрифте документа. */
   width(text: string, size: number, bold?: boolean): number;
 }
 
@@ -107,82 +142,191 @@ export function wrap(text: string, size: number, max: number, m: Measure, bold?:
   return lines;
 }
 
-export const PAGE = { width: 595.28, height: 841.89, margin: 48 };
+/** Пункт на сантиметр: поля документа руководитель задаёт в сантиметрах. */
+export const CM = 28.3465;
+
+/**
+ * Поля страницы — решение руководителя 15.09.2026: слева 3 см под подшивку,
+ * справа, сверху и снизу по 1 см. Всё содержимое, включая таблицу и
+ * колонтитул, живёт внутри этого поля.
+ */
+export const PAGE = {
+  width: 595.28,
+  height: 841.89,
+  margin: { left: 3 * CM, right: CM, top: CM, bottom: CM },
+};
 export const COLOR = {
   accent: '#FF763C', dark: '#14161A', muted: '#6B7280',
   body: '#374151', rule: '#E5E7EB', head: '#F3F4F6',
   /** Подложка оговорки о статусе документа. */
   noteBg: '#FFF4EF',
-  /** Штамп: красный — решение руководителя 28.08.2026 (было: фирменный оранжевый). */
-  stamp: '#C81E1E',
-};
-
-/**
- * Водяные знаки: сетка 2×3 = 6 штампов на каждой странице.
- *
- * Решение руководителя 28.08.2026 (заменяет прежние 12 в сетке 3×4):
- * двенадцать создавали визуальный шум, шесть достаточно, чтобы страницу
- * нельзя было присвоить, и документ остаётся деловым на вид.
- * Знак идёт под содержимым и с низкой непрозрачностью — он должен мешать
- * присвоить документ, а не читать его.
- */
-export const WATERMARK = {
-  cols: 2, rows: 3,
-  /** Заметен, но не спорит с текстом: читаемость документа важнее приметности знака. */
-  opacity: 0.15,
-  size: 12.5, subSize: 7,
-  w: 180, h: 66, radius: 8, stroke: 1.6,
-  angle: -18,
   /**
-   * Рваная обводка вместо сплошной.
-   *
-   * На образце руководителя штамп потёртый — краска легла неровно. Растровую
-   * текстуру пришлось бы тащить картинкой в оба формата; неравномерный пунктир
-   * даёт тот же эффект оттиска вектором и одинаково выглядит в PDF и в JPG.
+   * Тона водяных знаков подобраны к фирменной паре «рыжий с чёрным»
+   * (решение руководителя 15.09.2026): красный взят из тёплого семейства
+   * акцента — кирпичный, а не сигнальный; синий — глубокий сине-стальной,
+   * дополнительный к оранжевому. Прежние #C81E1E и #1D4ED8 были яркими
+   * веб-цветами и с фирменным стилем не разговаривали.
    */
-  dash: [9, 2, 4, 2, 14, 3, 6, 2],
+  preliminary: '#A83C1B',
+  confidential: '#2C4A73',
 };
 
 /**
- * Строки штампа — решение руководителя 28.08.2026.
+ * Водяные знаки — две боковые полосы (референс и решение руководителя
+ * 15.09.2026; заменяют шесть штампов сеткой 2×3 от 28.08.2026, а те, в
+ * свою очередь, узкие полосы по краям листа первой редакции).
  *
- * Статус документа читается прямо из знака: «ПРЕДВАРИТЕЛЬНОЕ КП» / «BIZSoft»,
- * мелкой строкой номер. Номер в штампе оставлен сознательно: он мешает
- * переиспользовать страницы одного предложения в другом. Пометки «черновик»
- * по-прежнему нет — документ действующий, знак сообщает статус, а не
- * отменяет предложение.
+ * Полоса шириной 2,5 см идёт во всю высоту листа и заходит на полосу
+ * набора: отрезать знак, не срезав таблицу, нельзя, поэтому распечатанный
+ * документ не выдать за официальную переписку. Подложка прозрачна на 85%,
+ * надпись — на 50%: знак виден, спецификация под ним читается.
+ *
+ * Слева «КОНФИДЕНЦИАЛЬНО» синим, справа «ПРЕДВАРИТЕЛЬНОЕ КОММЕРЧЕСКОЕ
+ * ПРЕДЛОЖЕНИЕ» красным.
+ *
+ * Положение считается от полосы набора, а не от края листа: поля
+ * несимметричны (слева 3 см под подшивку, справа 1 см), и знак,
+ * привязанный к краю бумаги, заходил бы на текст по-разному. Правая
+ * полоса упирается в край листа: при поле в 1 см полоса в 2,5 см иначе
+ * ушла бы за бумагу — `clampBand` держит её на листе целиком.
  */
-export const STAMP_LINE_1 = 'ПРЕДВАРИТЕЛЬНОЕ КП';
-export const STAMP_LINE_2 = 'BIZSoft';
+export const BAND = {
+  /** Ширина полосы, пт (2,5 см). */
+  w: 2.5 * CM,
+  /** Отступ от края листа, пт (1 см) — одинаковый у синей и красной. */
+  inset: CM,
+  /** Подложка: прозрачность 93,25%. */
+  fillOpacity: 0.0675,
+  /**
+   * Градиентное ядро: отступ от краёв полосы и плотность в середине.
+   * Ядро на 30% уже прежнего (решение 15.09.2026) — полоса читается как
+   * рельс с тонкой светящейся жилой, а не как сплошная заливка.
+   */
+  coreInset: 15.5,
+  coreOpacity: 0.099,
+  /** Тонкие линии по краям полосы. */
+  edgeOpacity: 0.135,
+  /** Надпись: прозрачность 77,5%. */
+  textOpacity: 0.225,
+  size: 13,
+  /**
+   * Разрядка надписи. Прежние 2,6 пт рассыпали строку на отдельные буквы;
+   * надпись водяного знака должна читаться одним плотным блоком.
+   */
+  spacing: 0.8,
+  /*
+   * Своего начертания у надписи нет. Узкий гротеск на знаке стоял с
+   * 15.09.2026 и был снят 16.09.2026: документ набирается одним шрифтом —
+   * вторая гарнитура на листе читается как чужая вставка, даже когда она
+   * бледная. Знак набирается жирным Raleway, как и всё остальное.
+   */
+  /**
+   * Сторона замка и его отступ от края листа. Замок на полосе один и стоит
+   * у своей надписи: у синей сверху, у красной снизу (решение 15.09.2026).
+   */
+  lock: 24,
+  lockInset: 74,
+  lockOpacity: 0.225,
+  /** Просвет между замком и началом надписи. */
+  textGap: 18,
+};
 
-/** Штамп: красная рамка со скруглёнными углами и три строки внутри. */
-export function watermarks(quoteNo?: string): Primitive[] {
-  const out: Primitive[] = [];
-  const stepX = PAGE.width / WATERMARK.cols;
-  const stepY = PAGE.height / WATERMARK.rows;
-  for (let r = 0; r < WATERMARK.rows; r += 1) {
-    for (let c = 0; c < WATERMARK.cols; c += 1) {
-      out.push({
-        kind: 'watermark',
-        x: stepX * (c + 0.5),
-        y: stepY * (r + 0.5),
-        text: STAMP_LINE_1,
-        text2: STAMP_LINE_2,
-        sub: quoteNo,
-        size: WATERMARK.size,
-        subSize: WATERMARK.subSize,
-        w: WATERMARK.w,
-        h: WATERMARK.h,
-        radius: WATERMARK.radius,
-        stroke: WATERMARK.stroke,
-        dash: WATERMARK.dash,
-        color: COLOR.stamp,
-        opacity: WATERMARK.opacity,
-        angle: WATERMARK.angle,
-      });
-    }
-  }
-  return out;
+/**
+ * Контур замка одним путём с правилом even-odd: скоба дугой, корпус со
+ * скруглением и замочная скважина, вырезанная из корпуса.
+ *
+ * Путь один на оба формата: pdfkit принимает данные SVG-пути как есть, и
+ * рисунок в PDF и картинке совпадает до точки. Разойтись они не могут по
+ * построению — расхождение значка ловить было бы нечем.
+ */
+export function lockPath(cx: number, cy: number, s: number): string {
+  const bw = 0.62 * s, bh = 0.5 * s;
+  const bx = cx - bw / 2, by = cy - 0.04 * s;
+  const r = 0.11 * s;
+  const R = 0.23 * s, ri = 0.135 * s;
+  const kr = 0.076 * s, ky = by + bh * 0.46;
+  const n = (v: number) => Math.round(v * 100) / 100;
+  return [
+    // Корпус.
+    `M${n(bx + r)},${n(by)}`,
+    `H${n(bx + bw - r)}`,
+    `A${n(r)},${n(r)} 0 0 1 ${n(bx + bw)},${n(by + r)}`,
+    `V${n(by + bh - r)}`,
+    `A${n(r)},${n(r)} 0 0 1 ${n(bx + bw - r)},${n(by + bh)}`,
+    `H${n(bx + r)}`,
+    `A${n(r)},${n(r)} 0 0 1 ${n(bx)},${n(by + bh - r)}`,
+    `V${n(by + r)}`,
+    `A${n(r)},${n(r)} 0 0 1 ${n(bx + r)},${n(by)}`,
+    'Z',
+    // Скоба: наружная дуга туда, внутренняя обратно.
+    `M${n(cx - R)},${n(by)}`,
+    `A${n(R)},${n(R)} 0 0 1 ${n(cx + R)},${n(by)}`,
+    `H${n(cx + ri)}`,
+    `A${n(ri)},${n(ri)} 0 0 0 ${n(cx - ri)},${n(by)}`,
+    'Z',
+    // Скважина: вырезается правилом even-odd.
+    `M${n(cx + kr)},${n(ky)}`,
+    `A${n(kr)},${n(kr)} 0 1 0 ${n(cx - kr)},${n(ky)}`,
+    `A${n(kr)},${n(kr)} 0 1 0 ${n(cx + kr)},${n(ky)}`,
+    'Z',
+  ].join(' ');
+}
+
+export const BAND_LEFT_TEXT = 'КОНФИДЕНЦИАЛЬНО';
+export const BAND_RIGHT_TEXT = 'ПРЕДВАРИТЕЛЬНОЕ КП';
+
+/**
+ * Две полосы листа: левая синяя, правая красная, обе под содержимым.
+ *
+ * Отступ от края листа одинаковый (`BAND.inset`, решение 15.09.2026):
+ * знаки стоят симметрично относительно бумаги, а не относительно полосы
+ * набора — поля документа несимметричны, и привязка к тексту разводила
+ * полосы по разным краям.
+ *
+ * Надпись прижата к своему замку: «КОНФИДЕНЦИАЛЬНО» — к верхнему,
+ * «ПРЕДВАРИТЕЛЬНОЕ КП» — к нижнему. Середина строки считается здесь, по
+ * измеренной ширине с разрядкой: драйверы только поворачивают готовый
+ * текст, и картинка не расходится с PDF.
+ */
+export function watermarks(measure: Measure): Primitive[] {
+  const textLen = (text: string) =>
+    measure.width(text, BAND.size, true) + BAND.spacing * (text.length - 1);
+
+  const band = (x: number, color: string, text: string, atTop: boolean): Primitive => {
+    const cx = x + BAND.w / 2;
+    const top = BAND.lockInset;
+    const bottom = PAGE.height - BAND.lockInset;
+    const half = textLen(text) / 2;
+    // Надпись идёт снизу вверх, поэтому у верхнего замка она начинается
+    // ниже него, а у нижнего — заканчивается выше.
+    const textCy = atTop
+      ? top + BAND.lock / 2 + BAND.textGap + half
+      : bottom - BAND.lock / 2 - BAND.textGap - half;
+    return {
+      kind: 'band',
+      x,
+      y: 0,
+      w: BAND.w,
+      h: PAGE.height,
+      cx,
+      color,
+      fillOpacity: BAND.fillOpacity,
+      coreInset: BAND.coreInset,
+      coreOpacity: BAND.coreOpacity,
+      edgeOpacity: BAND.edgeOpacity,
+      text,
+      textCy,
+      textOpacity: BAND.textOpacity,
+      size: BAND.size,
+      spacing: BAND.spacing,
+      locks: [lockPath(cx, atTop ? top : bottom, BAND.lock)],
+      lockOpacity: BAND.lockOpacity,
+    };
+  };
+  return [
+    band(BAND.inset, COLOR.confidential, BAND_LEFT_TEXT, true),
+    band(PAGE.width - BAND.inset - BAND.w, COLOR.preliminary, BAND_RIGHT_TEXT, false),
+  ];
 }
 
 /**
@@ -221,22 +365,45 @@ export function headMetaLines(data: QuoteData): string[] {
   ];
 }
 
-/** Блок «Кому»: реквизиты покупателя из формы. */
-export function buyerLines(data: QuoteData): string[] {
-  return [
-    data.buyerCompany || '—',
-    data.buyerInn ? `ИНН ${data.buyerInn}` : '',
-    data.contactName || '',
-    data.email || '',
-    data.phone ? `Тел.: ${data.phone}` : '',
-  ].filter(Boolean);
+/**
+ * Блок «Кому»: реквизиты покупателя из формы.
+ *
+ * Композиция руководителя 16.09.2026: заказчик с ИНН стоит в одной строке со
+ * словом «Кому:», остальные строки выровнены по началу названия организации.
+ * Так блок читается как адресная шапка письма, а не как столбик полей формы.
+ *
+ * `head` — то, что печатается справа от подписи, `lines` — под ним с тем же
+ * отступом. Получатель назван сокращённо («Беляев А.В.»), а если фамилии в
+ * форме не было — строки нет вовсе: одно имя в реквизитах ничего не сообщает.
+ */
+export function buyerBlock(data: QuoteData): { head: string; lines: string[] } {
+  const head = [data.buyerCompany || '—', data.buyerInn ? `ИНН ${data.buyerInn}` : '']
+    .filter(Boolean).join(', ');
+  return {
+    head,
+    lines: [
+      shortFio(data.contactName),
+      data.email || '',
+      data.phone ? `Тел.: ${data.phone}` : '',
+    ].filter(Boolean),
+  };
 }
 
-/** Вводная фраза под обращением. */
+/**
+ * Вводная фраза под обращением (формулировка руководителя 15.09.2026).
+ *
+ * «Поставка лицензий» ушла: мы не поставляем лицензии, а оказываем услуги по
+ * обеспечению доступа — к ПО, к web-сервисам и к балансам API. Предмет
+ * предложения обязан совпадать с предметом договора и с описанием позиций
+ * в таблице (`docs/rules/spec-line.md`), иначе шапка обещает одно, а
+ * спецификация называет другое.
+ */
 export function quoteIntro(buyerCompany: string): string {
   const company = buyerCompany ? `в интересах ${buyerCompany}` : 'в интересах вашей организации';
-  return `Направляем вам предварительное коммерческое предложение ${company} `
-    + 'на поставку лицензий на программное обеспечение:';
+  return `Направляем Вам предварительное коммерческое предложение ${company} `
+    + 'на оказание комплексных услуг по обеспечению доступа к программному обеспечению (ПО), '
+    + 'web-сервисам и/или пополнению балансов API токенов. Детальная спецификация состава '
+    + 'услуг отражена в таблице настоящего предложения:';
 }
 
 /**
@@ -263,13 +430,68 @@ export function itemSpec(it: QuoteItem): ItemSpec {
 }
 
 /** Условия поставки — список под таблицей. */
-export function quoteConditions(validUntil: string): string[] {
+export function quoteConditions(validUntil: string, issued: string): string[] {
   return [
-    `Срок действия предложения: до ${validUntil}.`,
+    validityLine(issued, validUntil),
     'Форма поставки: в электронном виде.',
     'Условия оплаты: 100% аванс, безналичный расчёт в рублях по счёту.',
     'Срок поставки: по согласованию сторон в зависимости от типа ПО, от 1 дня.',
+    // Цены каталога привязаны к курсу ЦБ (docs/rules/catalog.md): между
+    // выпуском предложения и оплатой счёта курс двигается, и оговорка о
+    // пересчёте должна стоять в самом предложении, а не всплывать при счёте.
+    `Стоимость: рублёвый эквивалент стоимости рассчитан по курсу ЦБ РФ на дату ${issued} `
+    + '(дата формирования КП). В случае изменения курса валют более чем на 5% на дату '
+    + 'заключения Договора и оплаты Счёта стоимость корректируется на дельту курсовой '
+    + 'разницы — как в большую, так и в меньшую сторону.',
   ];
+}
+
+/** Дата вида dd.mm.yyyy → UTC-полночь; null — строка не распознана. */
+function parseRuDate(s: string): Date | null {
+  const m = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(s.trim());
+  if (!m) return null;
+  const d = new Date(Date.UTC(Number(m[3]), Number(m[2]) - 1, Number(m[1])));
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+/**
+ * Рабочих дней от выпуска предложения до последнего дня действия.
+ *
+ * Считаются дни после даты выпуска по дату окончания включительно, суббота
+ * и воскресенье не в счёт. Праздники не учитываются: производственный
+ * календарь в проекте не ведётся, и подставлять его «примерно» значило бы
+ * назвать клиенту срок, которого нет.
+ */
+export function workdaysBetween(issued: string, validUntil: string): number | null {
+  const from = parseRuDate(issued);
+  const to = parseRuDate(validUntil);
+  if (!from || !to || to <= from) return null;
+  let count = 0;
+  const cur = new Date(from);
+  while (cur < to) {
+    cur.setUTCDate(cur.getUTCDate() + 1);
+    const day = cur.getUTCDay();
+    if (day !== 0 && day !== 6) count += 1;
+  }
+  return count;
+}
+
+/** «Срок действия предложения: 5 (пять) рабочих дней до 22.09.2026.» */
+export function validityLine(issued: string, validUntil: string): string {
+  const days = workdaysBetween(issued, validUntil);
+  // Без распознанных дат срок называется одной датой: соврать о числе
+  // рабочих дней хуже, чем не назвать его.
+  if (days === null || days === 0) return `Срок действия предложения: до ${validUntil}.`;
+  const word = pluralForm(days, ['рабочий день', 'рабочих дня', 'рабочих дней']);
+  return `Срок действия предложения: ${days} (${numberWords(days)}) ${word} до ${validUntil}.`;
+}
+
+/**
+ * Шапка листов продолжения: распечатанный второй лист обязан называть
+ * документ, к которому относится. Текст один на все форматы.
+ */
+export function continuationLine(data: QuoteData): string {
+  return `Коммерческое предложение № ${data.outgoingNo || data.quoteNo} от ${data.date} — продолжение`;
 }
 
 /** Две строки колонтитула с реквизитами продавца. */
@@ -291,47 +513,71 @@ export function footerLines(): [string, string] {
  * примитивы по порядку, поэтому знак оказывается под текстом, а не поверх.
  */
 export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
-  const left = PAGE.margin;
-  const right = PAGE.width - PAGE.margin;
+  const left = PAGE.margin.left;
+  const right = PAGE.width - PAGE.margin.right;
+  const top = PAGE.margin.top;
   const width = right - left;
   const LINE = 12;
 
   const pages: Page[] = [];
-  let items: Primitive[] = [...watermarks(data.quoteNo)];
-  const newPage = () => { pages.push({ items }); items = [...watermarks(data.quoteNo)]; };
+  let items: Primitive[] = [];
+  const newPage = () => { pages.push({ items }); items = []; };
 
   const put = (p: Primitive) => { items.push(p); };
   const text = (t: string, x: number, y: number, o: Partial<Extract<Primitive, { kind: 'text' }>> = {}) =>
     put({ kind: 'text', x, y, text: t, size: 9, color: COLOR.body, ...o } as Primitive);
 
-  /** Абзац с переносом. Возвращает Y под последней строкой. */
+  /**
+   * Абзац с переносом. Возвращает Y под последней строкой.
+   *
+   * `justify` — выключка по ширине: строка растягивается до правого поля
+   * пробелами между словами (последняя строка абзаца остаётся как есть).
+   * Делается здесь, а не драйвером: SVG выключки не умеет вовсе, а мы и так
+   * переносим текст сами — иначе картинка разошлась бы с PDF.
+   */
   const para = (t: string, x: number, y: number, w: number,
-                o: { size?: number; bold?: boolean; color?: string; align?: Align } = {}) => {
+                o: { size?: number; bold?: boolean; color?: string; align?: Align;
+                     justify?: boolean } = {}) => {
     const size = o.size ?? 9.5;
+    const color = o.color || COLOR.body;
+    const lines = wrap(t, size, w, measure, o.bold);
     let cur = y;
-    for (const part of wrap(t, size, w, measure, o.bold)) {
-      text(part, x, cur, { size, bold: o.bold, color: o.color || COLOR.body,
-                           width: o.align ? w : undefined, align: o.align });
+    lines.forEach((part, i) => {
+      const last = i === lines.length - 1;
+      const words = part.split(' ').filter(Boolean);
+      if (o.justify && !last && words.length > 1) {
+        const wordsW = words.reduce((acc, word) => acc + measure.width(word, size, o.bold), 0);
+        const gap = (w - wordsW) / (words.length - 1);
+        let wx = x;
+        for (const word of words) {
+          text(word, wx, cur, { size, bold: o.bold, color });
+          wx += measure.width(word, size, o.bold) + gap;
+        }
+      } else {
+        text(part, x, cur, { size, bold: o.bold, color,
+                             width: o.align ? w : undefined, align: o.align });
+      }
       cur += size * 1.45;
-    }
+    });
     return cur;
   };
 
   // ── Шапка: логотип слева, заголовок справа ─────────────────────────────
-  put({ kind: 'image', x: left, y: 40, w: 132, h: 44, file: LOGO_FILE });
-  text('КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ', left, 52,
+  // Всё считается от верхнего поля: сдвинулось поле — сдвинулась шапка.
+  put({ kind: 'image', x: left, y: top, w: 132, h: 44, file: LOGO_FILE });
+  text('КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ', left, top + 12,
        { bold: true, size: 14, color: COLOR.dark, width, align: 'right' });
-  text(HEAD_SUBTITLE, left, 70,
+  text(HEAD_SUBTITLE, left, top + 30,
        { size: 8, color: COLOR.muted, width, align: 'right' });
 
   // ── Контакты продавца слева, номера и даты справа ──────────────────────
-  let yL = 92;
+  let yL = top + 52;
   for (const l of sellerContactLines()) {
     text(l, left, yL, { size: 8.5, color: COLOR.muted });
     yL += 11;
   }
 
-  let yR = 92;
+  let yR = top + 52;
   for (const l of headMetaLines(data)) {
     text(l, left, yR, { size: 8.5, color: COLOR.muted, width, align: 'right' });
     yR += 11;
@@ -342,11 +588,17 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   y += 16;
 
   // ── Кому ───────────────────────────────────────────────────────────────
+  // Подпись и заказчик — одна строка, остальное под ней с тем же отступом.
+  const buyer = buyerBlock(data);
+  const labelX = left + measure.width('Кому:', 10, true) + 8;
   text('Кому:', left, y, { bold: true, size: 10, color: COLOR.dark });
-  y += 14;
-  for (const l of buyerLines(data)) {
-    for (const part of wrap(l, 9, width * 0.6, measure)) {
-      text(part, left, y);
+  for (const part of wrap(buyer.head, 9, right - labelX, measure)) {
+    text(part, labelX, y);
+    y += 11;
+  }
+  for (const l of buyer.lines) {
+    for (const part of wrap(l, 9, right - labelX, measure)) {
+      text(part, labelX, y);
       y += 11;
     }
   }
@@ -357,8 +609,16 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
        { bold: true, size: 11, color: COLOR.dark, width, align: 'center' });
   y += 18;
 
-  y = para(quoteIntro(data.buyerCompany), left, y, width);
+  y = para(quoteIntro(data.buyerCompany), left, y, width, { justify: true });
   y += 8;
+
+  // Ставка налога считается до таблицы: она стоит и в её шапке, и в итогах.
+  // Ставки разные — числа в заголовке нет: там стояла бы ставка, по которой
+  // посчитана только часть суммы.
+  const vat = vatOfItems(data.items, VAT_PERCENT);
+  const rate = singleVatRate(data.items, VAT_PERCENT);
+  const rateLabel = rate === null ? '' : ` ${rate}%`;
+  const headRate = rateLabel;
 
   // ── Таблица позиций ────────────────────────────────────────────────────
   // Структура повторяет спецификацию на сайте (docs/rules/spec-line.md):
@@ -375,10 +635,10 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // заходила под соседнюю границу, а «Цена, ₽» упиралась в линию.
   const B = {
     n0: left,
-    n1: left + 22,
-    desc1: right - 198,
-    qty1: right - 158,
-    price1: right - 82,
+    n1: left + 20,
+    desc1: right - 200,
+    qty1: right - 162,
+    price1: right - 84,
     sum1: right,
   };
   const CELL = 5;
@@ -390,25 +650,43 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
     sum: B.price1 + CELL, sumW: B.sum1 - B.price1 - CELL * 2,
   };
   const PAD = 5;
-  const BOTTOM = PAGE.height - 78; // ниже — колонтитул и номер листа
+  // Нижняя граница содержимого: под ней живёт колонтитул со знаком, а под
+  // ним — нижнее поле страницы.
+  const BOTTOM = footRuleY() - 10;
 
   /** Границы строки таблицы: вертикали по колонкам и линия снизу. */
-  const gridRow = (top: number, h: number) => {
+  const gridRow = (rowTop: number, h: number) => {
     for (const x of [B.n0, B.n1, B.desc1, B.qty1, B.price1, B.sum1]) {
-      put({ kind: 'line', x1: x, y1: top, x2: x, y2: top + h, color: COLOR.rule, lineWidth: 0.5 });
+      put({ kind: 'line', x1: x, y1: rowTop, x2: x, y2: rowTop + h, color: COLOR.rule, lineWidth: 0.5 });
     }
-    put({ kind: 'line', x1: left, y1: top + h, x2: right, y2: top + h, color: COLOR.rule, lineWidth: 0.5 });
+    put({ kind: 'line', x1: left, y1: rowTop + h, x2: right, y2: rowTop + h, color: COLOR.rule, lineWidth: 0.5 });
   };
 
+  // Шапка таблицы: все подписи по центру ячейки и по её середине, денежные
+  // колонки — в две строки (решение руководителя 15.09.2026). Ставка налога
+  // названа прямо в заголовке: цена в таблице указана с НДС, и читатель не
+  // должен искать это в примечании под итогом.
+  const HEAD_SIZE = 8;
+  const HEAD_LINE = 9.5;
+  const HEAD_H = 26;
+  const headCells: [string[], number, number][] = [
+    [['№'], cols.n, cols.nW],
+    [['Описание'], cols.desc, cols.descW],
+    [['Кол-во'], cols.qty, cols.qtyW],
+    [[`Цена Руб.`, `в т.ч. НДС${headRate}`], cols.price, cols.priceW],
+    [[`Сумма Руб.`, `в т.ч. НДС${headRate}`], cols.sum, cols.sumW],
+  ];
   const header = () => {
-    put({ kind: 'rect', x: left, y, w: width, h: 22, fill: COLOR.head });
-    text('№', cols.n, y + 7, { bold: true, size: 8.5, color: COLOR.dark, width: cols.nW, align: 'center' });
-    text('Описание', cols.desc, y + 7, { bold: true, size: 8.5, color: COLOR.dark });
-    text('Кол-во', cols.qty, y + 7, { bold: true, size: 8, color: COLOR.dark, width: cols.qtyW, align: 'right' });
-    text('Цена, ₽', cols.price, y + 7, { bold: true, size: 8.5, color: COLOR.dark, width: cols.priceW, align: 'right' });
-    text('Сумма, ₽', cols.sum, y + 7, { bold: true, size: 8.5, color: COLOR.dark, width: cols.sumW, align: 'right' });
-    gridRow(y, 22);
-    y += 22;
+    put({ kind: 'rect', x: left, y, w: width, h: HEAD_H, fill: COLOR.head });
+    for (const [lines, x, w] of headCells) {
+      const startY = y + (HEAD_H - lines.length * HEAD_LINE) / 2 + 1;
+      lines.forEach((part, i) => {
+        text(part, x, startY + i * HEAD_LINE,
+             { bold: true, size: HEAD_SIZE, color: COLOR.dark, width: w, align: 'center' });
+      });
+    }
+    gridRow(y, HEAD_H);
+    y += HEAD_H;
   };
   header();
 
@@ -422,7 +700,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
     // шапку — распечатанный лист обязан читаться сам по себе.
     if (y + rowH > BOTTOM) {
       newPage();
-      y = 56;
+      y = top + 28;
       header();
     }
     let ty = y + PAD;
@@ -447,14 +725,11 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // Ставка берётся у позиций, а не одна на документ: она задаётся у товара.
   // Если ставки разные, единой в заголовке не пишем — там стояла бы ставка,
   // по которой посчитана только часть суммы.
-  const vat = vatOfItems(data.items, VAT_PERCENT);
-  const rate = singleVatRate(data.items, VAT_PERCENT);
-  const rateLabel = rate === null ? '' : ` ${rate}%`;
   // Итог, налог и сумма прописью — один смысловой блок: разорвать его
   // между листами значит отправить лист с суммой без расшифровки.
   const totalsH = 16 + 16 + wrap(`Стоимость предложения: ${amountPhrase(data.total)}, в т.ч. НДС`
     + `${rateLabel} ${amountPhrase(vat)}.`, 9, width, measure).length * 13 + 8;
-  if (y + totalsH > BOTTOM) { newPage(); y = 56; }
+  if (y + totalsH > BOTTOM) { newPage(); y = top + 28; }
   y += 8;
   // Копейки здесь обязательны: formatRub округляет до рубля, и строка НДС
   // разошлась бы с суммой прописью — а её сверяют до копейки.
@@ -466,16 +741,16 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   y += 16;
   y = para(`Стоимость предложения: ${amountPhrase(data.total)}, в т.ч. НДС`
            + `${rateLabel} ${amountPhrase(vat)}.`,
-           left, y, width, { size: 9 });
+           left, y, width, { size: 9, justify: true });
 
   // ── Условия ────────────────────────────────────────────────────────────
   y += 10;
-  const condH = 14 + quoteConditions(data.validUntil)
+  const condH = 14 + quoteConditions(data.validUntil, data.date)
     .reduce((h, c) => h + wrap(c, 9, width - 14, measure).length * 13 + 2, 0);
-  if (y + condH > BOTTOM) { newPage(); y = 56; }
+  if (y + condH > BOTTOM) { newPage(); y = top + 28; }
   text('Условия поставки', left, y, { bold: true, size: 10, color: COLOR.dark });
   y += 14;
-  for (const c of quoteConditions(data.validUntil)) {
+  for (const c of quoteConditions(data.validUntil, data.date)) {
     put({ kind: 'bullet', x: left + 3, y: y + 4, size: 3, color: COLOR.accent });
     y = para(c, left + 14, y, width - 14, { size: 9 }) + 2;
   }
@@ -483,10 +758,10 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // ── Оговорка о статусе документа ───────────────────────────────────────
   y += 6;
   const noteH = wrap(PRELIMINARY_NOTE, 9, width - 24, measure).length * 13 + 18;
-  if (y + noteH > BOTTOM) { newPage(); y = 56; }
+  if (y + noteH > BOTTOM) { newPage(); y = top + 28; }
   put({ kind: 'rect', x: left, y, w: width, h: noteH, fill: COLOR.noteBg });
   put({ kind: 'rect', x: left, y, w: 3, h: noteH, fill: COLOR.accent });
-  para(PRELIMINARY_NOTE, left + 14, y + 9, width - 24, { size: 9, color: COLOR.dark });
+  para(PRELIMINARY_NOTE, left + 14, y + 9, width - 24, { size: 9, color: COLOR.dark, justify: true });
   y += noteH + 10;
 
   // ── Подпись и реквизиты ────────────────────────────────────────────────
@@ -500,7 +775,7 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // над линией колонтитула. С общим пределом BOTTOM подпись уезжала на
   // отдельный лист из-за девяти пунктов — и получался лист с одной подписью.
   const TAIL_H = 18 + 15 + 33;
-  if (y + TAIL_H > PAGE.height - 58) { newPage(); y = 56; }
+  if (y + TAIL_H > footRuleY() - 4) { newPage(); y = top + 28; }
   text('С уважением,', left, y, { size: 9.5, color: COLOR.body });
   y += 18;
   text(`${signer.name}, ${signer.role}`, left, y, { bold: true, size: 10, color: COLOR.dark });
@@ -517,23 +792,34 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   // лист многостраничного КП оставался без продавца и без номера. Теперь
   // каждый лист самодостаточен — шапка продолжения сверху, реквизиты и
   // «Лист N из M» снизу.
+  // Колонтитул: знак слева, обе строки реквизитов от него влево-выключкой,
+  // номер листа — к правому полю (постановка руководителя 15.09.2026).
   const [foot1, foot2] = footerLines();
-  const footY = PAGE.height - 46;
+  const ruleY = footRuleY();
+  const footY = ruleY + 8;
+  const textX = left + FOOT.w + FOOT.gap;
   pages.forEach((page, idx) => {
     const add = (p: Primitive) => page.items.push(p);
     if (idx > 0) {
-      add({ kind: 'text', x: left, y: 34, size: 8, color: COLOR.muted,
-            text: `Коммерческое предложение № ${data.outgoingNo || data.quoteNo} от ${data.date} — продолжение`,
-            width, align: 'left' });
-      add({ kind: 'line', x1: left, y1: 46, x2: right, y2: 46, color: COLOR.rule, lineWidth: 0.5 });
+      add({ kind: 'text', x: left, y: top + 6, size: 8, color: COLOR.muted,
+            text: continuationLine(data), width, align: 'left' });
+      add({ kind: 'line', x1: left, y1: top + 18, x2: right, y2: top + 18,
+            color: COLOR.rule, lineWidth: 0.5 });
     }
-    add({ kind: 'line', x1: left, y1: footY - 8, x2: right, y2: footY - 8,
-          color: COLOR.rule, lineWidth: 0.5 });
-    add({ kind: 'text', x: left, y: footY, text: foot1, size: 7, color: COLOR.muted, width, align: 'center' });
-    add({ kind: 'text', x: left, y: footY + 10, text: foot2, size: 7, color: COLOR.muted, width, align: 'center' });
-    add({ kind: 'text', x: left, y: footY + 10, text: sheetLabel(idx + 1, pages.length),
+    add({ kind: 'line', x1: left, y1: ruleY, x2: right, y2: ruleY, color: COLOR.rule, lineWidth: 0.5 });
+    add({ kind: 'image', x: left, y: footY, w: FOOT.w, h: FOOT.h, file: MARK_FILE });
+    add({ kind: 'text', x: textX, y: footY, text: foot1, size: FOOT.size, color: COLOR.muted });
+    add({ kind: 'text', x: textX, y: footY + FOOT.line, text: foot2, size: FOOT.size, color: COLOR.muted });
+    add({ kind: 'text', x: left, y: footY + FOOT.line, text: sheetLabel(idx + 1, pages.length),
           size: 7.5, color: COLOR.muted, width, align: 'right' });
   });
+
+  // Знак кладётся последним — поверх текста, таблиц и колонтитула (решение
+  // руководителя 15.09.2026): распечатанным КП не должны пользоваться в
+  // официальной переписке и конкурсах, а знак под текстом этому не мешал.
+  // Важно, что это происходит после колонтитулов: иначе реквизиты легли бы
+  // поверх полосы, и на нижней трети листа знак пропадал бы.
+  for (const page of pages) page.items.push(...watermarks(measure));
   return pages;
 }
 

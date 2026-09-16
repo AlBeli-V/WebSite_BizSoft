@@ -57,20 +57,36 @@ function svgOf(p: Primitive): string {
     return `<line x1="${p.x1}" y1="${p.y1}" x2="${p.x2}" y2="${p.y2}" `
       + `stroke="${p.color}" stroke-width="${p.lineWidth}"/>`;
   }
-  if (p.kind === 'watermark') {
-    // Смещения повторяют PDF-драйвер (верх строки → базовая линия SVG),
-    // иначе оттиск в картинке съезжает относительно PDF.
-    const stampLine = (t: string, top: number, size: number, bold: boolean) =>
-      `<text x="${p.x}" y="${top + size * ASCENT}" font-family="${FONTS.family}" `
-      + `${bold ? 'font-weight="bold" ' : ''}font-size="${size}" fill="${p.color}" `
-      + `text-anchor="middle">${esc(t)}</text>`;
-    return `<g transform="rotate(${p.angle} ${p.x} ${p.y})" opacity="${p.opacity}">`
-      + `<rect x="${p.x - p.w / 2}" y="${p.y - p.h / 2}" width="${p.w}" height="${p.h}" `
-      + `rx="${p.radius}" ry="${p.radius}" fill="none" stroke="${p.color}" `
-      + `stroke-width="${p.stroke}" stroke-dasharray="${p.dash.join(' ')}"/>`
-      + stampLine(p.text, p.y - p.size * 1.9, p.size, true)
-      + (p.text2 ? stampLine(p.text2, p.y - p.size * 0.55, p.size, true) : '')
-      + (p.sub ? stampLine(p.sub, p.y + p.size * 0.95, p.subSize, false) : '')
+  if (p.kind === 'band') {
+    // Идентификатор градиента привязан к координате полосы: на листе их
+    // две, и общий id склеил бы синее ядро с красным.
+    const gid = `band-core-${Math.round(p.x)}`;
+    return `<g>`
+      // Слой 1 — подложка.
+      + `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">`
+      + `<stop offset="0" stop-color="${p.color}" stop-opacity="0"/>`
+      + `<stop offset="0.16" stop-color="${p.color}" stop-opacity="${p.coreOpacity}"/>`
+      + `<stop offset="0.84" stop-color="${p.color}" stop-opacity="${p.coreOpacity}"/>`
+      + `<stop offset="1" stop-color="${p.color}" stop-opacity="0"/>`
+      + `</linearGradient></defs>`
+      + `<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" fill="${p.color}" `
+      + `opacity="${p.fillOpacity}"/>`
+      // Слой 2 — градиентное ядро.
+      + `<rect x="${p.x + p.coreInset}" y="${p.y}" width="${p.w - p.coreInset * 2}" `
+      + `height="${p.h}" fill="url(#${gid})"/>`
+      + `<line x1="${p.x}" y1="${p.y}" x2="${p.x}" y2="${p.y + p.h}" stroke="${p.color}" `
+      + `stroke-width="0.8" opacity="${p.edgeOpacity}"/>`
+      + `<line x1="${p.x + p.w}" y1="${p.y}" x2="${p.x + p.w}" y2="${p.y + p.h}" `
+      + `stroke="${p.color}" stroke-width="0.8" opacity="${p.edgeOpacity}"/>`
+      // Слой 3 — замки: тот же путь, что в PDF, скважина вырезается
+      // правилом even-odd.
+      + p.locks.map((d) => `<path d="${d}" fill="${p.color}" fill-rule="evenodd" `
+        + `opacity="${p.lockOpacity}"/>`).join('')
+      // Слой 4 — надпись снизу вверх, прижатая к своему замку.
+      + `<text x="${p.cx}" y="${p.textCy}" font-family="${FONTS.family}" font-weight="bold" `
+      + `font-size="${p.size}" letter-spacing="${p.spacing}" fill="${p.color}" `
+      + `opacity="${p.textOpacity}" text-anchor="middle" dominant-baseline="central" `
+      + `transform="rotate(-90 ${p.cx} ${p.textCy})">${esc(p.text)}</text>`
       + `</g>`;
   }
   const y = p.y + p.size * ASCENT;
@@ -93,11 +109,11 @@ export function quotePageSvg(items: Primitive[]): string {
 
 interface Raster { width: number; height: number; data: Buffer }
 
-function raster(svg: string): Raster {
+function raster(svg: string, fontFiles: string[] = FONTS.files): Raster {
   const r = new Resvg(svg, {
     fitTo: { mode: 'width', value: Math.round(PAGE.width * SCALE) },
     font: {
-      fontFiles: FONTS.files,
+      fontFiles,
       loadSystemFonts: false,
       defaultFontFamily: FONTS.family,
     },
@@ -122,13 +138,4 @@ export function generateQuoteJpgPages(data: QuoteData): Buffer[] {
     const img = raster(quotePageSvg(p.items));
     return jpeg.encode({ width: img.width, height: img.height, data: img.data }, QUALITY).data;
   });
-}
-
-/**
- * Имена файлов листов: `KP_<номер>.jpg` у одностраничного КП и
- * `KP_<номер>_лист1.jpg`, `…_лист2.jpg` — у многостраничного.
- */
-export function jpgFileNames(quoteNo: string, pages: number): string[] {
-  if (pages <= 1) return [`KP_${quoteNo}.jpg`];
-  return Array.from({ length: pages }, (_, i) => `KP_${quoteNo}_лист${i + 1}.jpg`);
 }

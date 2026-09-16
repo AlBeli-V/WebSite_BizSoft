@@ -118,10 +118,13 @@ export function logoBuffer(file: string): Buffer {
 
 /** Измеритель на pdfkit: оба формата считают раскладку им, поэтому не расходятся. */
 export function pdfMeasure(): Measure {
-  const probe = new PDFDocument({ size: 'A4', margin: PAGE.margin });
+  // Поле у пробного документа роли не играет: раскладка рисует по
+  // абсолютным координатам, пробник нужен только для метрик шрифта.
+  const probe = new PDFDocument({ size: 'A4', margin: PAGE.margin.left });
   probe.registerFont('r', FONT_REGULAR);
   probe.registerFont('b', FONT_BOLD);
-  const pick = (size: number, bold?: boolean) => probe.font(bold ? 'b' : 'r').fontSize(size);
+  const pick = (size: number, bold?: boolean) =>
+    probe.font(bold ? 'b' : 'r').fontSize(size);
   return {
     height: (text, size, width, bold) => { pick(size, bold); return probe.heightOfString(text, { width }); },
     width: (text, size, bold) => { pick(size, bold); return probe.widthOfString(text); },
@@ -150,34 +153,50 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
       .strokeColor(p.color).lineWidth(p.lineWidth).stroke();
     return;
   }
-  if (p.kind === 'watermark') {
+  if (p.kind === 'band') {
     doc.save();
-    doc.rotate(p.angle, { origin: [p.x, p.y] });
-    doc.fillOpacity(p.opacity).strokeOpacity(p.opacity);
 
-    // Рамка оттиска. Пунктир имитирует потёртость краски — сплошная линия
-    // выглядит печатью на бланке, а не штампом.
-    doc.roundedRect(p.x - p.w / 2, p.y - p.h / 2, p.w, p.h, p.radius)
-      .lineWidth(p.stroke).strokeColor(p.color).dash(p.dash[0], { space: p.dash[1] }).stroke();
-    doc.undash();
+    // Слой 1 — подложка во всю высоту листа.
+    doc.fillOpacity(p.fillOpacity);
+    doc.rect(p.x, p.y, p.w, p.h).fill(p.color);
+    doc.fillOpacity(1);
 
-    // Три строки оттиска: статус, марка, мелко номер. Каждая центрируется
-    // отдельно — строки разной длины, общий сдвиг перекосил бы штамп.
-    doc.font('b').fontSize(p.size).fillColor(p.color);
-    const l1w = doc.widthOfString(p.text);
-    doc.text(p.text, p.x - l1w / 2, p.y - p.size * 1.9, { lineBreak: false });
-    if (p.text2) {
-      const l2w = doc.widthOfString(p.text2);
-      doc.text(p.text2, p.x - l2w / 2, p.y - p.size * 0.55, { lineBreak: false });
+    // Слой 2 — градиентное ядро: узкая светящаяся жила вдоль середины
+    // полосы, гаснет к верхнему и нижнему краю листа.
+    const core = doc.linearGradient(p.x, p.y, p.x, p.y + p.h);
+    core.stop(0, p.color, 0)
+      .stop(0.16, p.color, p.coreOpacity)
+      .stop(0.84, p.color, p.coreOpacity)
+      .stop(1, p.color, 0);
+    doc.rect(p.x + p.coreInset, p.y, p.w - p.coreInset * 2, p.h).fill(core);
+
+    // Тонкие линии по краям: край полосы виден и на чёрно-белой печати.
+    doc.strokeOpacity(p.edgeOpacity).strokeColor(p.color).lineWidth(0.8);
+    for (const x of [p.x, p.x + p.w]) {
+      doc.moveTo(x, p.y).lineTo(x, p.y + p.h).stroke();
     }
-    if (p.sub) {
-      doc.font('r').fontSize(p.subSize);
-      const sw = doc.widthOfString(p.sub);
-      doc.text(p.sub, p.x - sw / 2, p.y + p.size * 0.95, { lineBreak: false });
-    }
+    doc.strokeOpacity(1);
+
+    // Слой 3 — замки: путь приходит из раскладки, скважина вырезается
+    // правилом even-odd.
+    doc.fillOpacity(p.lockOpacity);
+    for (const d of p.locks) doc.path(d).fill(p.color, 'even-odd');
+    doc.fillOpacity(1);
+
+    // Слой 4 — надпись снизу вверх, прижатая к своему замку. Разрядка
+    // задаётся characterSpacing: она делает строку ритмичной, не увеличивая
+    // кегль, и одинаково считается в обоих форматах. Шрифт — документный:
+    // вторая гарнитура на листе читается как чужая вставка (16.09.2026).
+    doc.font('b').fontSize(p.size).fillColor(p.color).fillOpacity(p.textOpacity);
+    doc.save();
+    doc.rotate(-90, { origin: [p.cx, p.textCy] });
+    const tw = doc.widthOfString(p.text, { characterSpacing: p.spacing });
+    doc.text(p.text, p.cx - tw / 2, p.textCy - p.size * 0.62,
+             { lineBreak: false, characterSpacing: p.spacing });
+    doc.restore();
+    doc.fillOpacity(1);
 
     doc.restore();
-    doc.fillOpacity(1).strokeOpacity(1);
     return;
   }
   doc.font(p.bold ? 'b' : 'r').fontSize(p.size).fillColor(p.color);
