@@ -1,5 +1,6 @@
 ---
 import { seller, site, mainNav, footerNav } from '../config/site';
+import { LEGAL_FOOTER_NAV, COOKIE_UI } from '../config/legal';
 import SiteLogo from './SiteLogo.astro';
 const year = 2026;
 ---
@@ -32,6 +33,20 @@ const year = 2026;
       <p class="footer-req">ОГРНИП {seller.ogrnip}</p>
       <p class="footer-req">{seller.address}</p>
     </div>
+  </div>
+
+  {/* Правовая информация — отдельным блоком во всю ширину и только в
+      подвале: в главное меню документы не выносятся (ТЗ 16.09.2026, п. 1).
+      «Настройки cookies» стоит здесь же, потому что по документу 05 (п. 5)
+      именно отсюда посетитель меняет однажды сделанный выбор. */}
+  <div class="container-page footer-legal">
+    <h3>Правовая информация</h3>
+    <ul>
+      {LEGAL_FOOTER_NAV.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+      <li>
+        <button type="button" class="footer-cookie-btn" data-cookie-settings>{COOKIE_UI.footerLink}</button>
+      </li>
+    </ul>
   </div>
 
   <div class="container-page footer-bottom">
@@ -84,8 +99,51 @@ const year = 2026;
     font-size: 0.82rem;
     margin: 0;
   }
-  .footer-bottom {
+  /* Правовой блок: подписи длинные, поэтому не колонка сетки, а строка
+     ссылок во всю ширину — на телефоне она сворачивается сама. */
+  .footer-legal {
     margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .footer-legal h3 {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-dim);
+    margin-bottom: 0.8rem;
+  }
+  .footer-legal ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 1.4rem;
+  }
+  .footer-legal a,
+  .footer-cookie-btn {
+    color: var(--color-text-muted);
+    font-size: 0.86rem;
+    transition: color 0.18s ease;
+  }
+  .footer-legal a:hover,
+  .footer-cookie-btn:hover { color: var(--color-accent); }
+  /* Кнопка, а не ссылка: она открывает интерфейс выбора, а не страницу.
+     Выглядеть должна как соседние ссылки — иначе читается как призыв. */
+  .footer-cookie-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-size: 0.86rem;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .footer-bottom {
+    margin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--color-border);
     display: flex;

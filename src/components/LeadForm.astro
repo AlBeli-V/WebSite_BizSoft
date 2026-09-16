@@ -11,6 +11,7 @@
 // рекламы не проходит.
 import VendorChips from './VendorChips.astro';
 import FormGuardFields from './FormGuardFields.astro';
+import ConsentControls from './ConsentControls.astro';
 import ContactDirect from './ContactDirect.astro';
 
 interface Props {
@@ -127,10 +128,7 @@ const messagePlaceholder = compact
       покупателя, а не пересказ своими словами. */}
   <input type="hidden" name="product_ref" data-product-ref value="" />
   <FormGuardFields />
-  <label class="lf-consent">
-    <input type="checkbox" name="consent" required />
-    <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
-  </label>
+  <ConsentControls formId="lead-form" submitPurpose="Подбор и расчёт, подготовка ответа и КП" />
   <button type="submit" class="btn btn-primary lf-submit" data-submit-label={submitLabel}>
     {compact ? 'Продолжить' : submitLabel}
   </button>
@@ -151,10 +149,6 @@ const messagePlaceholder = compact
   .lead-form .lf-plan { white-space: normal; }
   .lead-form input, .lead-form textarea { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; font-weight: 400; width: 100%; min-width: 0; box-sizing: border-box; }
   .lead-form input:focus, .lead-form textarea:focus { border-color: var(--color-accent); outline: none; }
-  /* Специфичнее, чем .lead-form label — иначе nowrap/column из общего правила ломают строку согласия */
-  .lead-form .lf-consent { flex-direction: row; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; font-weight: 400; white-space: normal; }
-  .lead-form .lf-consent input { width: auto; margin-top: 0.2rem; }
-  .lead-form .lf-consent a { color: var(--color-accent); }
   .lf-alt { margin: 0; }
   .lf-status { font-size: 0.9rem; margin: 0; }
   .lf-status.ok { color: var(--color-success); }
@@ -176,6 +170,7 @@ const messagePlaceholder = compact
 
 <script>
   import { trackGoal, trackGoalOnce } from '@/lib/analytics';
+  import { requireConsent, readConsent, lockConsent, unlockConsent, markConsentSubmitting } from '@/lib/consent-controls';
   import { attributionPayload } from '@/lib/attribution';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
@@ -244,8 +239,13 @@ const messagePlaceholder = compact
         status.className = 'lf-status';
         return;
       }
+      // Согласие проверяется после раскрытия второго шага: на первом шаге
+      // форма ещё не отправляется, и требовать галочку там значило бы
+      // ругаться на человека до того, как он дошёл до отправки.
+      if (!requireConsent(form)) return;
       const submit = form.querySelector('.lf-submit') as HTMLButtonElement;
       submit.disabled = true;
+      markConsentSubmitting(form);
       status.textContent = 'Отправляем…'; status.className = 'lf-status';
       // Количество из поля дописывается к составу заявки: без этого число
       // мест оставалось в форме и до заявки не доезжало (в payload
@@ -268,7 +268,7 @@ const messagePlaceholder = compact
         const res = await fetch('/api/lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...data, source: form.dataset.source, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked }),
+          body: JSON.stringify({ ...data, source: form.dataset.source, attribution, ...readConsent(form) }),
         });
         if (!res.ok) {
           let msg = 'Не удалось отправить. Проверьте поля и попробуйте снова.';
@@ -276,13 +276,15 @@ const messagePlaceholder = compact
           httpStatus = res.status;
           throw new Error(msg);
         }
-        form.querySelectorAll('label, .lf-grid, .vc-cap, .vc-chips, [data-chips], .lf-submit, .lf-consent, .lf-alt').forEach((n) => n.remove());
+        lockConsent(form);
+        form.querySelectorAll('label, .lf-grid, .vc-cap, .vc-chips, [data-chips], .lf-submit, [data-consent-block], .lf-alt').forEach((n) => n.remove());
         status.className = 'lf-status ok';
         status.innerHTML = '<b>Заявка получена.</b> Ответим в рабочее время. Пока ждёте — посмотрите <a href="/documents">образцы документов</a> или <a href="/how-we-work">как проходит поставка</a>.';
         form.reset();
         trackGoal('lead_sent', { form_source: source() });
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось отправить. Позвоните нам или попробуйте позже.'; status.className = 'lf-status err';
+        unlockConsent(form);
         // Сбой отправки — не то же самое, что передумал: без отдельной цели
         // техническая потеря заявки списывается на поведение клиента.
         //

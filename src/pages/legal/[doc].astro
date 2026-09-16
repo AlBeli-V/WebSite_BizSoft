@@ -1,0 +1,38 @@
+---
+/**
+ * Постоянные страницы правовых документов: /legal/privacy,
+ * /legal/personal-data-consent, /legal/marketing-consent, /legal/cookies,
+ * /legal/terms.
+ *
+ * Адреса постоянные: на них ссылаются формы, письма и сами согласия в
+ * журнале. Переименование такой страницы обесценивает выданные согласия —
+ * поэтому слаги совпадают с идентификаторами документов в манифесте.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import LegalDocument from '../../components/LegalDocument.astro';
+import { LEGAL_MANIFEST, LEGAL_DOC_IDS, legalContent, legalDoc } from '../../lib/legal';
+import type { LegalDocId } from '../../lib/legal-doc';
+
+export function getStaticPaths() {
+  return LEGAL_DOC_IDS.map((doc) => ({ params: { doc } }));
+}
+
+const doc = Astro.params.doc as LegalDocId;
+if (!LEGAL_MANIFEST[doc]) return Astro.redirect('/404');
+
+const meta = legalDoc(doc);
+const content = legalContent(doc);
+const dateRu = meta.version.split('-').reverse().join('.');
+const description = `${meta.title} — редакция от ${dateRu}. Оператор BIZSoft (ИП Беляев А. В.), 152-ФЗ.`;
+---
+<BaseLayout title={meta.title} description={description} canonical={meta.url}>
+  <div class="container-page section">
+    <Breadcrumbs items={[{ name: 'Правовая информация', url: '/legal' }, { name: meta.title, url: meta.url }]} />
+    <LegalDocument meta={meta} content={content} />
+  </div>
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+</style>

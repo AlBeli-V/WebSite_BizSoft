@@ -352,8 +352,6 @@ export const footerNav: { label: string; href: string }[] = [
   { label: 'Аналоги зарубежного ПО', href: '/alternatives' },
   { label: 'Кейсы', href: '/cases' },
   { label: 'FAQ', href: '/faq' },
-  { label: 'Политика обработки ПДн', href: '/privacy' },
-  { label: 'Согласие на обработку ПДн', href: '/consent' },
 ];
 
 /** ID интеграций аналитики (плейсхолдеры, реальные значения — в .env/прод). */
