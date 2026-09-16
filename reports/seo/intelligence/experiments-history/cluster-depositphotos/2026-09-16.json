@@ -1,0 +1,40 @@
+{
+ "experiment_id": "cluster-depositphotos",
+ "ticket": "CONTENT-001",
+ "date": "2026-09-16",
+ "source": "yandex",
+ "evaluation_kind": "impressions_growth",
+ "windows": {
+  "experiment": {
+   "from": "2026-09-02",
+   "to": "2026-09-14",
+   "file": "2026-09-16",
+   "tainted": false
+  }
+ },
+ "metrics": {
+  "experiment": {
+   "impressions": 60,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 8.016666666666667,
+   "queries": 9
+  },
+  "baseline_registry": {
+   "impressions": 273,
+   "days": 14
+  }
+ },
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [],
+ "statistical_result": null,
+ "summary_line": "показы кластера 5/день (окно 2026-09-02–2026-09-14) против 20/день baseline (273 за 14 дн.) — -76% · статья в топ-10: позиция 8 (замер 2026-09-16) · без критерия значимости (у показов нет модели испытаний)",
+ "confidence": "LOW",
+ "verdict": "INCONCLUSIVE",
+ "verdict_reason": "показы кластера снизились на -76% к baseline — без критерия значимости падение неотличимо от сезонного",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "продлить наблюдение и разобрать причины (сезонность, смена выдачи, каннибализация статьёй карточек)",
+ "recommended_targets": [],
+ "requires_owner_decision": false
+}

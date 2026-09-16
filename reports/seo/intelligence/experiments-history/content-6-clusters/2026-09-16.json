@@ -1,0 +1,53 @@
+{
+ "experiment_id": "content-6-clusters",
+ "ticket": "CONTENT-002",
+ "date": "2026-09-16",
+ "source": "yandex",
+ "evaluation_kind": "impressions_growth",
+ "windows": {
+  "experiment": {
+   "from": "2026-09-02",
+   "to": "2026-09-14",
+   "file": "2026-09-16",
+   "tainted": true
+  }
+ },
+ "metrics": {
+  "experiment": {
+   "impressions": 3206,
+   "clicks": 1,
+   "ctr": 0.00031191515907673113,
+   "avg_position": 7.006550218340611,
+   "queries": 269
+  },
+  "baseline_registry": {
+   "impressions": 684,
+   "days": 12
+  }
+ },
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [
+  "окно захватывает день внедрения — рост слегка занижен"
+ ],
+ "statistical_result": null,
+ "summary_line": "показы кластера 247/день (окно 2026-09-02–2026-09-14) против 57/день baseline (684 за 12 дн.) — +333% · в топ-10 6 из 6 замеренных страниц партии (позиции: kak-kupit-perplexity-dlya-yurlica — 5, kak-oplatit-framer-dlya-yurlica — 2, kak-kupit-github-copilot-dlya-yurlica — 3, kak-oplatit-envato-elements-dlya-yurlica — 1, kak-oplatit-postman-dlya-yurlica — 1, tarify-runway-oplata-dlya-yurlica — 5; замер 2026-09-16) · без критерия значимости (у показов нет модели испытаний)",
+ "confidence": "HIGH",
+ "verdict": "CONFIRMED",
+ "verdict_reason": "показы кластера выросли на +333% к baseline (57 → 247 показов/день), в топ-10 вошли 6 из 6 замеренных страниц партии",
+ "recommendation": "EXPAND",
+ "recommendation_detail": "перенести приём (статья под транзакционный интент + взаимная перелинковка с карточками) на следующие 10 кластеров, где условия оригинала выполнены целиком: сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товара для перелинковки",
+ "recommended_targets": [
+  "/vendors/recraft",
+  "/vendors/hailuo",
+  "/vendors/slack",
+  "/vendors/apple",
+  "/vendors/airalo",
+  "/vendors/anthropic",
+  "/vendors/gaea",
+  "/vendors/kling-ai",
+  "/vendors/toon-boom",
+  "/vendors/openai"
+ ],
+ "requires_owner_decision": true
+}

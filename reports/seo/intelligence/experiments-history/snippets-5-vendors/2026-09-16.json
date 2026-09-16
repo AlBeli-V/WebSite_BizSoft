@@ -1,0 +1,80 @@
+{
+ "experiment_id": "snippets-5-vendors",
+ "ticket": "SEO-EXP-001",
+ "date": "2026-09-16",
+ "source": "yandex",
+ "evaluation_kind": "ctr",
+ "windows": {
+  "baseline": {
+   "from": "2026-07-19",
+   "to": "2026-08-15",
+   "file": "2026-09-04",
+   "fixed": true
+  },
+  "experiment": {
+   "from": "2026-09-02",
+   "to": "2026-09-14",
+   "file": "2026-09-16",
+   "tainted": false,
+   "fixed": false
+  }
+ },
+ "metrics": {
+  "baseline": {
+   "impressions": 1151,
+   "clicks": 7,
+   "ctr": 0.006081668114682885,
+   "avg_position": 7.415291051259774,
+   "queries": 77
+  },
+  "experiment": {
+   "impressions": 397,
+   "clicks": 3,
+   "ctr": 0.007556675062972292,
+   "avg_position": 6.503778337531486,
+   "queries": 88
+  },
+  "days": {
+   "baseline": 28,
+   "experiment": 13
+  }
+ },
+ "matched_metrics": {
+  "baseline": {
+   "impressions": 258,
+   "clicks": 1,
+   "ctr": 0.003875968992248062,
+   "avg_position": 6.8604651162790695,
+   "queries": 13
+  },
+  "experiment": {
+   "impressions": 83,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 8.25301204819277,
+   "queries": 13
+  },
+  "queries": 13
+ },
+ "position_delta": null,
+ "sample_quality": [
+  "baseline фиксированный, окно после — скользящее: у эксперимента, заведённого до фиксированных окон, полного окна «после» нет по построению, и сравнение окон разной длины идёт по CTR",
+  "порог экспозиции адаптирован под ёмкость кластера (181/100 вместо 500/500): окно источника скользящее, и больший объём кластер не наберёт; надёжно различим только рост CTR от ×6.7"
+ ],
+ "statistical_result": null,
+ "summary_line": null,
+ "confidence": "LOW",
+ "verdict": "INSUFFICIENT_DATA",
+ "verdict_reason": "экспозиция ниже минимальной по совпадающим запросам (после внедрения: 83 из 100)",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "копить данные до следующей вехи; не хватает 17 показов суммарно",
+ "recommended_targets": [],
+ "requires_owner_decision": false,
+ "per_page": [],
+ "effective_gate": {
+  "baseline": 181,
+  "experiment": 100,
+  "adapted": true
+ },
+ "formula_group_result": null
+}

@@ -1,0 +1,91 @@
+{
+ "experiment_id": "snippets-10-expand",
+ "ticket": "SEO-EXP-005",
+ "date": "2026-09-16",
+ "source": "yandex",
+ "evaluation_kind": "ctr",
+ "windows": {
+  "baseline": {
+   "from": "2026-08-21",
+   "to": "2026-09-01",
+   "file": "2026-09-04",
+   "fixed": false
+  },
+  "experiment": {
+   "from": "2026-09-02",
+   "to": "2026-09-14",
+   "file": "2026-09-16",
+   "tainted": true,
+   "fixed": false
+  }
+ },
+ "metrics": {
+  "baseline": {
+   "impressions": 425,
+   "clicks": 1,
+   "ctr": 0.002352941176470588,
+   "avg_position": 6.924705882352941,
+   "queries": 98
+  },
+  "experiment": {
+   "impressions": 1208,
+   "clicks": 7,
+   "ctr": 0.005794701986754967,
+   "avg_position": 7.748344370860927,
+   "queries": 160
+  },
+  "days": {
+   "baseline": 12,
+   "experiment": 13
+  }
+ },
+ "matched_metrics": {
+  "baseline": {
+   "impressions": 332,
+   "clicks": 1,
+   "ctr": 0.0030120481927710845,
+   "avg_position": 6.725903614457831,
+   "queries": 34
+  },
+  "experiment": {
+   "impressions": 342,
+   "clicks": 3,
+   "ctr": 0.008771929824561403,
+   "avg_position": 6.619883040935672,
+   "queries": 34
+  },
+  "queries": 34
+ },
+ "position_delta": 0.10602057352215866,
+ "sample_quality": [
+  "окно эксперимента захватывает день внедрения — часть показов могла увидеть старый вариант",
+  "порог экспозиции адаптирован под ёмкость кластера (232/239 вместо 500/500): окно источника скользящее, и больший объём кластер не наберёт; надёжно различим только рост CTR от ×4.9"
+ ],
+ "statistical_result": {
+  "baseline_ctr": 0.0030120481927710845,
+  "experiment_ctr": 0.008771929824561403,
+  "absolute_uplift": 0.0057598816317903185,
+  "relative_uplift": 1.9122807017543857,
+  "z": 0.9733257312007142,
+  "p_value": 0.33039143782478314,
+  "sample_sizes": {
+   "baseline": 332,
+   "experiment": 342
+  },
+  "min_detectable_relative_uplift": 3.927063999267428
+ },
+ "summary_line": null,
+ "confidence": "LOW",
+ "verdict": "INCONCLUSIVE",
+ "verdict_reason": "различие CTR статистически неразличимо (p=0.330 при пороге 0.05); наблюдаемый рост +191% меньше минимально различимого при этой выборке (от ×4.9)",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "оставить как есть и продлить наблюдение до следующей вехи; если и она не даст вывода — NEW_TEST с более контрастной формулой",
+ "recommended_targets": [],
+ "requires_owner_decision": false,
+ "per_page": [],
+ "effective_gate": {
+  "baseline": 232,
+  "experiment": 239,
+  "adapted": true
+ }
+}

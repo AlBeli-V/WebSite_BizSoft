@@ -1,0 +1,92 @@
+{
+ "experiment_id": "snippets-3-gap-d",
+ "ticket": "SEO-EXP-004",
+ "date": "2026-09-16",
+ "source": "yandex",
+ "evaluation_kind": "ctr",
+ "windows": {
+  "baseline": {
+   "from": "2026-08-01",
+   "to": "2026-08-28",
+   "file": "2026-09-04",
+   "fixed": true
+  },
+  "experiment": {
+   "from": "2026-09-02",
+   "to": "2026-09-14",
+   "file": "2026-09-16",
+   "tainted": false,
+   "fixed": false
+  }
+ },
+ "metrics": {
+  "baseline": {
+   "impressions": 155,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 4.103225806451613,
+   "queries": 18
+  },
+  "experiment": {
+   "impressions": 322,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 5.711180124223603,
+   "queries": 34
+  },
+  "days": {
+   "baseline": 28,
+   "experiment": 13
+  }
+ },
+ "matched_metrics": {
+  "baseline": {
+   "impressions": 140,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 3.9785714285714286,
+   "queries": 7
+  },
+  "experiment": {
+   "impressions": 206,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 4.155339805825243,
+   "queries": 7
+  },
+  "queries": 7
+ },
+ "position_delta": -0.176768377253814,
+ "sample_quality": [
+  "baseline фиксированный, окно после — скользящее: у эксперимента, заведённого до фиксированных окон, полного окна «после» нет по построению, и сравнение окон разной длины идёт по CTR",
+  "порог экспозиции адаптирован под ёмкость кластера (100/144 вместо 500/500): окно источника скользящее, и больший объём кластер не наберёт"
+ ],
+ "statistical_result": {
+  "baseline_ctr": 0.0,
+  "experiment_ctr": 0.0,
+  "absolute_uplift": 0.0,
+  "relative_uplift": null,
+  "z": 0.0,
+  "p_value": 1.0,
+  "sample_sizes": {
+   "baseline": 140,
+   "experiment": 206
+  },
+  "min_detectable_relative_uplift": null
+ },
+ "summary_line": null,
+ "confidence": "LOW",
+ "verdict": "INCONCLUSIVE",
+ "verdict_reason": "различие CTR статистически неразличимо (p=1.000 при пороге 0.05)",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "оставить как есть и продлить наблюдение до следующей вехи; если и она не даст вывода — NEW_TEST с более контрастной формулой",
+ "recommended_targets": [],
+ "requires_owner_decision": false,
+ "per_page": [],
+ "effective_gate": {
+  "baseline": 100,
+  "experiment": 144,
+  "adapted": true
+ },
+ "formula_group_result": null
+}

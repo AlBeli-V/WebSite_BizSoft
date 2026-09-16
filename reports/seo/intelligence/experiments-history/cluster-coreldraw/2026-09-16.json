@@ -1,0 +1,53 @@
+{
+ "experiment_id": "cluster-coreldraw",
+ "ticket": "CONTENT-003",
+ "date": "2026-09-16",
+ "source": "yandex",
+ "evaluation_kind": "impressions_growth",
+ "windows": {
+  "experiment": {
+   "from": "2026-09-02",
+   "to": "2026-09-14",
+   "file": "2026-09-16",
+   "tainted": true
+  }
+ },
+ "metrics": {
+  "experiment": {
+   "impressions": 379,
+   "clicks": 3,
+   "ctr": 0.0079155672823219,
+   "avg_position": 6.385224274406332,
+   "queries": 72
+  },
+  "baseline_registry": {
+   "impressions": 145,
+   "days": 13
+  }
+ },
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [
+  "окно захватывает день внедрения — рост слегка занижен"
+ ],
+ "statistical_result": null,
+ "summary_line": "показы кластера 29/день (окно 2026-09-02–2026-09-14) против 11/день baseline (145 за 13 дн.) — +161% · статья в топ-10: позиция 4 (замер 2026-09-16) · без критерия значимости (у показов нет модели испытаний)",
+ "confidence": "MEDIUM",
+ "verdict": "CONFIRMED",
+ "verdict_reason": "показы кластера выросли на +161% к baseline (11 → 29 показов/день), статья вошла в топ-10 (позиция 4)",
+ "recommendation": "EXPAND",
+ "recommendation_detail": "перенести приём (статья под транзакционный интент + взаимная перелинковка с карточками) на следующие 10 кластеров, где условия оригинала выполнены целиком: сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товара для перелинковки",
+ "recommended_targets": [
+  "/vendors/recraft",
+  "/vendors/hailuo",
+  "/vendors/slack",
+  "/vendors/apple",
+  "/vendors/airalo",
+  "/vendors/anthropic",
+  "/vendors/gaea",
+  "/vendors/kling-ai",
+  "/vendors/toon-boom",
+  "/vendors/openai"
+ ],
+ "requires_owner_decision": true
+}
