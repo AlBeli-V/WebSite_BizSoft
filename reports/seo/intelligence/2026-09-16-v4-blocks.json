@@ -21,28 +21,28 @@
   },
   {
    "label": "ОТ ВАС",
-   "state": "required",
-   "text": "требуется"
+   "state": "none",
+   "text": "2 предложения"
   }
  ],
  "sources_line": "Яндекс по 14.09 · Google по 13.09 · Метрика по 15.09 · спрос 15.09",
- "user_action": "CONTENT-002: вердикт ПОДТВЕРЖДЁН, рекомендация — расширить. Ответьте в чате: EXPAND CONTENT-002 (или KEEP/REVERT/EXPAND/EXTEND CONTENT-002).",
- "user_action_required": true,
+ "user_action": "Срочных решений нет.",
+ "user_action_required": false,
  "owner_desk": [
   "эксперименты: ближайшее предложение решения — 18.09 (CONTENT-004); варианты и вероятный исход — в «Контроле эксперимента»",
   "рост без бюджета: 3 кластера с показами без переходов (google, adobe, suno) ждут переписанных сниппетов — «Где ближе всего рост»"
  ],
  "management_actions": [
   {
-   "task": "Принять решение по эксперименту CONTENT-002",
-   "why": "контрольная точка 17.09; предварительно ×0,2 по CTR кластера (3 206 показов)",
+   "task": "Принять решение по эксперименту CONTENT-004",
+   "why": "контрольная точка 18.09; предварительно ×0,2 по CTR кластера (4 300 показов)",
    "steps": "прочитать панель вердикта в письме контрольной даты (вердикт, уверенность, p-value, рекомендация с целевыми страницами) и ответить в чате командой",
    "acceptance": "решение зафиксировано в журнале решений экспериментов",
-   "from_you": "одна команда 17.09: EXPAND / KEEP / REVERT / EXTEND CONTENT-002"
+   "from_you": "одна команда 18.09: EXPAND / KEEP / REVERT / EXTEND CONTENT-004"
   },
   {
    "task": "Переписать сниппеты под 3 запроса с показами без переходов",
-   "why": "«google» — «gemini купить» — 5300 запросов в месяц (рыночный спрос, замер 2026-09-15), наша страница по этим словам не видна; «adobe» — «adobe купить» — 3887 запросов в месяц (рыночный спрос, замер 2026-09-15), наша страница по этим словам не видна; «suno» — «suno подписка» — 3002 запросов в месяц (рыночный спрос, замер 2026-09-15), наша страница по этим словам не видна; запросы страниц активных экспериментов (google) — после вердикта, чтобы не смазать оценку",
+   "why": "«google» — «gemini купить» — 5300 запросов в месяц (рыночный спрос, замер 2026-09-15), наша страница по этим словам не видна; «adobe» — «adobe купить» — 3887 запросов в месяц (рыночный спрос, замер 2026-09-15), наша страница по этим словам не видна; «suno» — «suno подписка» — 3002 запросов в месяц (рыночный спрос, замер 2026-09-15), наша страница по этим словам не видна",
    "steps": "для каждого запроса: переписать title целевой страницы под запросную формулу (≤65 символов, штатный слой src/lib/seo.ts), description ≤160 с оффером «счёт, договор, ЭДО», добавить вопрос в FAQ-блок; изменения — отдельным PR с частотностью по каждой правке, мерж ваш",
    "acceptance": "по каждому запросу появились переходы (CTR > 0) в течение 14 дней при позиции не хуже исходной ±1",
    "from_you": "команда «делай сниппеты» — правки уходят в PR"
@@ -993,309 +993,6 @@
  ],
  "experiments": [
   {
-   "id": "snippets-5-vendors",
-   "ticket": "SEO-EXP-001",
-   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
-   "treatment": "title по формуле «Оплата {Vendor} для юр(идических )лиц из России — счёт, договор, ЭДО | BIZSoft» (HeyGen и Marmoset — свои формулы); ядро ≤65 символов; description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160); FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой",
-   "combined_treatment": true,
-   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
-   "start": "2026-08-19",
-   "days_elapsed": 28,
-   "minimum_exposure": "7 дн. и 278 показов (гейт снижен с 500: ёмкость окна кластера меньше)",
-   "minimum_exposure_configured": 500,
-   "pages_total": 5,
-   "pages_live_with_treatment": 5,
-   "site_check_date": "2026-09-16",
-   "new_variant_detected_on_site": 5,
-   "search_snippet_refresh": "новый сниппет виден в выдаче у 4 из 5 страниц (замер 16.09)",
-   "serp": {
-    "measured_at": "2026-09-16",
-    "pages_total": 5,
-    "pages_seen": 4,
-    "pages_with_new_snippet": 4,
-    "pages": {
-     "/vendors/coreldraw": {
-      "best_position": 1,
-      "serp_title": "Оплата CorelDRAW для россиян — счёт, договор, ЭДО | BIZSoft",
-      "query": "оплата coreldraw для россиян",
-      "new_snippet": true
-     },
-     "/vendors/heygen": {
-      "best_position": 2,
-      "serp_title": "HeyGen — тарифы и оплата на юрлицо в рублях | BIZSoft",
-      "query": "купить heygen юридическим лицом",
-      "new_snippet": true
-     },
-     "/vendors/depositphotos": {
-      "best_position": 8,
-      "serp_title": "Оплата Depositphotos для юрлиц из России — счёт... | BIZSoft",
-      "query": "оплата depositphotos",
-      "new_snippet": true
-     },
-     "/vendors/canva": {
-      "best_position": 2,
-      "serp_title": "Оплата Canva для юридических лиц из России — счёт... | BIZSoft",
-      "query": "canva business купить",
-      "new_snippet": true
-     }
-    }
-   },
-   "interim": {
-    "preliminary": true,
-    "baseline": {
-     "from": "2026-07-19",
-     "to": "2026-08-15",
-     "impressions": 1151,
-     "clicks": 7,
-     "ctr": 0.006081668114682885,
-     "avg_position": 7.415291051259774,
-     "queries": 77
-    },
-    "current": {
-     "from": "2026-09-02",
-     "to": "2026-09-14",
-     "impressions": 397,
-     "clicks": 3,
-     "ctr": 0.007556675062972292,
-     "avg_position": 6.503778337531486,
-     "queries": 88,
-     "post_days": 13,
-     "window_days": 13
-    },
-    "relative_uplift": 0.24253328535444393,
-    "caveats": [
-     "базовое окно фиксированное (полная выгрузка 2026-07-19–2026-08-15); текущее — скользящее, окна разной длины сравниваются по CTR, не по показам"
-    ]
-   },
-   "evaluation_kind": "ctr",
-   "exposure_min_impressions": 100,
-   "exposure_gate_adapted": true,
-   "exposure_ok": false,
-   "impressions_since_deploy": 83,
-   "impressions_estimated": true,
-   "clicks_since_deploy": 0,
-   "per_page": [],
-   "primary_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
-   "current_result": "3 перехода на 397 показов по запросам кластеров",
-   "confidence": "low",
-   "next_review": null,
-   "verdict": "observing",
-   "verdict_reason": "экспозиция набрана, до контрольной даты",
-   "owner_decision": "02.09: вердикт мало данных, решение — тиражировать",
-   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
-   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
-   "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 26.08 и 02.09",
-   "confidence_plain": "низкая: выборка мала",
-   "control_date_today": true,
-   "evaluation": {
-    "experiment_id": "snippets-5-vendors",
-    "ticket": "SEO-EXP-001",
-    "date": "2026-09-16",
-    "source": "yandex",
-    "evaluation_kind": "ctr",
-    "windows": {
-     "baseline": {
-      "from": "2026-07-19",
-      "to": "2026-08-15",
-      "file": "2026-09-04",
-      "fixed": true
-     },
-     "experiment": {
-      "from": "2026-09-02",
-      "to": "2026-09-14",
-      "file": "2026-09-16",
-      "tainted": false,
-      "fixed": false
-     }
-    },
-    "metrics": {
-     "baseline": {
-      "impressions": 1151,
-      "clicks": 7,
-      "ctr": 0.006081668114682885,
-      "avg_position": 7.415291051259774,
-      "queries": 77
-     },
-     "experiment": {
-      "impressions": 397,
-      "clicks": 3,
-      "ctr": 0.007556675062972292,
-      "avg_position": 6.503778337531486,
-      "queries": 88
-     },
-     "days": {
-      "baseline": 28,
-      "experiment": 13
-     }
-    },
-    "matched_metrics": {
-     "baseline": {
-      "impressions": 258,
-      "clicks": 1,
-      "ctr": 0.003875968992248062,
-      "avg_position": 6.8604651162790695,
-      "queries": 13
-     },
-     "experiment": {
-      "impressions": 83,
-      "clicks": 0,
-      "ctr": 0.0,
-      "avg_position": 8.25301204819277,
-      "queries": 13
-     },
-     "queries": 13
-    },
-    "position_delta": null,
-    "sample_quality": [
-     "baseline фиксированный, окно после — скользящее: у эксперимента, заведённого до фиксированных окон, полного окна «после» нет по построению, и сравнение окон разной длины идёт по CTR",
-     "порог экспозиции адаптирован под ёмкость кластера (181/100 вместо 500/500): окно источника скользящее, и больший объём кластер не наберёт; надёжно различим только рост CTR от ×6.7"
-    ],
-    "statistical_result": null,
-    "summary_line": null,
-    "confidence": "LOW",
-    "verdict": "INSUFFICIENT_DATA",
-    "verdict_reason": "экспозиция ниже минимальной по совпадающим запросам (после внедрения: 83 из 100)",
-    "recommendation": "EXTEND",
-    "recommendation_detail": "копить данные до следующей вехи; не хватает 17 показов суммарно",
-    "recommended_targets": [],
-    "requires_owner_decision": false,
-    "per_page": [],
-    "effective_gate": {
-     "baseline": 181,
-     "experiment": 100,
-     "adapted": true
-    },
-    "formula_group_result": null
-   },
-   "cluster_impressions": 397,
-   "cluster_clicks": 3,
-   "exposure_basis": "matched"
-  },
-  {
-   "id": "cluster-depositphotos",
-   "ticket": "CONTENT-001",
-   "hypothesis": "Информационная статья под транзакционный интент «оплатить Depositphotos для юрлица» перехватывает запросы, по которым карточки и лендинг стоят на позициях 3–9, и передаёт им ссылочный вес через взаимную перелинковку — это поднимает показы всего кластера и выводит статью в топ-10.",
-   "treatment": "статья src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md: прямой ответ в первых двух предложениях, H2/H3, таблица сравнения тарифов (пакет 100 изображений, Unlimited месяц, Unlimited год), FAQ-блок из 6 вопросов с FAQPage-разметкой; частотные формулировки кластера в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «пакет»; перелинковка статья → /vendors/depositphotos, /catalog, /documents и три карточки товаров; обратная перелинковка карточка → статья: product/[slug].astro выводит статьи, которые ссылаются на товар через relatedProducts (раньше блок статей был только у AI-вендоров)",
-   "combined_treatment": true,
-   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
-   "start": "2026-08-19",
-   "days_elapsed": 28,
-   "minimum_exposure": "7 дн. и 100 показов (гейт снижен с 500: ёмкость окна кластера меньше)",
-   "minimum_exposure_configured": 500,
-   "pages_total": 5,
-   "pages_live_with_treatment": 5,
-   "site_check_date": "2026-09-16",
-   "new_variant_detected_on_site": 2,
-   "search_snippet_refresh": "новый сниппет виден в выдаче у 2 из 5 страниц (замер 16.09)",
-   "serp": {
-    "measured_at": "2026-09-16",
-    "pages_total": 5,
-    "pages_seen": 2,
-    "pages_with_new_snippet": 2,
-    "pages": {
-     "/blog/kak-oplatit-depositphotos-dlya-yurlica": {
-      "best_position": 8,
-      "serp_title": "Как оплатить Depositphotos для юридического лица в России",
-      "query": "оплата depositphotos из россии",
-      "new_snippet": true
-     },
-     "/vendors/depositphotos": {
-      "best_position": 8,
-      "serp_title": "Оплата Depositphotos для юрлиц из России — счёт... | BIZSoft",
-      "query": "оплата depositphotos",
-      "new_snippet": true
-     }
-    }
-   },
-   "interim": {
-    "preliminary": true,
-    "baseline": {
-     "from": "2026-07-19",
-     "to": "2026-08-15",
-     "impressions": 670,
-     "clicks": 2,
-     "ctr": 0.0029850746268656717,
-     "avg_position": 7.517910447761194,
-     "queries": 31
-    },
-    "current": {
-     "from": "2026-09-02",
-     "to": "2026-09-14",
-     "impressions": 60,
-     "clicks": 0,
-     "ctr": 0.0,
-     "avg_position": 8.016666666666667,
-     "queries": 9,
-     "post_days": 13,
-     "window_days": 13
-    },
-    "relative_uplift": -1.0,
-    "caveats": [
-     "базовое окно фиксированное (полная выгрузка 2026-07-19–2026-08-15); текущее — скользящее, окна разной длины сравниваются по CTR, не по показам"
-    ]
-   },
-   "evaluation_kind": "impressions_growth",
-   "exposure_min_impressions": 100,
-   "exposure_gate_adapted": true,
-   "exposure_ok": false,
-   "impressions_since_deploy": 60,
-   "impressions_estimated": true,
-   "clicks_since_deploy": 0,
-   "per_page": [],
-   "primary_metric": "рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)",
-   "current_result": "0 переходов на 60 показов по запросам кластеров",
-   "confidence": "low",
-   "next_review": null,
-   "verdict": "observing",
-   "verdict_reason": "накоплено 60 показов из 100 минимальных для вывода",
-   "owner_decision": "03.09: вердикт подтверждён, решение — тиражировать",
-   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
-   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
-   "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 26.08 и 02.09",
-   "confidence_plain": "низкая: выборка мала",
-   "control_date_today": true,
-   "evaluation": {
-    "experiment_id": "cluster-depositphotos",
-    "ticket": "CONTENT-001",
-    "date": "2026-09-16",
-    "source": "yandex",
-    "evaluation_kind": "impressions_growth",
-    "windows": {
-     "experiment": {
-      "from": "2026-09-02",
-      "to": "2026-09-14",
-      "file": "2026-09-16",
-      "tainted": false
-     }
-    },
-    "metrics": {
-     "experiment": {
-      "impressions": 60,
-      "clicks": 0,
-      "ctr": 0.0,
-      "avg_position": 8.016666666666667,
-      "queries": 9
-     },
-     "baseline_registry": {
-      "impressions": 273,
-      "days": 14
-     }
-    },
-    "matched_metrics": null,
-    "position_delta": null,
-    "sample_quality": [],
-    "statistical_result": null,
-    "summary_line": "показы кластера 5/день (окно 2026-09-02–2026-09-14) против 20/день baseline (273 за 14 дн.) — -76% · статья в топ-10: позиция 8 (замер 2026-09-16) · без критерия значимости (у показов нет модели испытаний)",
-    "confidence": "LOW",
-    "verdict": "INCONCLUSIVE",
-    "verdict_reason": "показы кластера снизились на -76% к baseline — без критерия значимости падение неотличимо от сезонного",
-    "recommendation": "EXTEND",
-    "recommendation_detail": "продлить наблюдение и разобрать причины (сезонность, смена выдачи, каннибализация статьёй карточек)",
-    "recommended_targets": [],
-    "requires_owner_decision": false
-   }
-  },
-  {
    "id": "pages-exp-001-alternatives",
    "ticket": "PAGES-EXP-001",
    "hypothesis": "Интент «аналоги X» ловит покупателя до выбора продукта: страницы с поставляемыми альтернативами дадут показы и переходы по non-brand кластерам замены и лиды через КП.",
@@ -1394,521 +1091,6 @@
     "recommendation_detail": "разобрать отсутствующие страницы (индексация, сниппеты); запросить переобход через ops-yandex-recrawl; если и следующая веха провалена — решение о судьбе раздела",
     "recommended_targets": [],
     "requires_owner_decision": false
-   }
-  },
-  {
-   "id": "snippets-3-gap-d",
-   "ticket": "SEO-EXP-004",
-   "hypothesis": "Запросы стоят в топ-5 без единого перехода: позиция клику не мешает, мешает сниппет по общей коммерческой формуле «для юрлиц из России». Точная формулировка запроса в заголовке и описании повышает кликабельность без изменения контента страницы.",
-   "treatment": "title по запросной формуле «Оплата {Vendor} юридическим лицом — счёт, договор, ЭДО | BIZSoft», ядро ≤65 символов, бренд в строке один раз; description: «Оплата {Vendor} юридическим лицом: счёт, договор и закрывающие документы через ЭДО. Оформим подписку на вашу компанию, оплата в рублях, доступ за 1–3 дня.» (153 символа); первый вопрос FAQ «Как оплатить {Vendor} юридическим лицом из России?» добавлен к собственному FAQ страницы (механика faqAdd), блок целиком не заменяется; внутренние ссылки на обе страницы в блоке перелинковки на / и /catalog",
-   "combined_treatment": true,
-   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
-   "start": "2026-09-01",
-   "days_elapsed": 15,
-   "minimum_exposure": "7 дн. и 225 показов (гейт снижен с 500: ёмкость окна кластера меньше)",
-   "minimum_exposure_configured": 500,
-   "pages_total": 2,
-   "pages_live_with_treatment": 2,
-   "site_check_date": "2026-09-16",
-   "new_variant_detected_on_site": 2,
-   "search_snippet_refresh": "новый сниппет виден в выдаче у 2 из 2 страниц (замер 16.09)",
-   "serp": {
-    "measured_at": "2026-09-16",
-    "pages_total": 2,
-    "pages_seen": 2,
-    "pages_with_new_snippet": 2,
-    "pages": {
-     "/vendors/artlist": {
-      "best_position": 1,
-      "serp_title": "Оплата Artlist юридическим лицом — счёт, договор, ЭДО | BIZSoft",
-      "query": "оплата artlist юридическим лицом",
-      "new_snippet": true
-     },
-     "/vendors/motion-array": {
-      "best_position": 1,
-      "serp_title": "Оплата Motion Array юридическим лицом — счёт... | BIZSoft",
-      "query": "оплата motion array юридическим лицом",
-      "new_snippet": true
-     }
-    }
-   },
-   "interim": {
-    "preliminary": true,
-    "baseline": {
-     "from": "2026-08-01",
-     "to": "2026-08-28",
-     "impressions": 155,
-     "clicks": 0,
-     "ctr": 0.0,
-     "avg_position": 4.103225806451613,
-     "queries": 18
-    },
-    "current": {
-     "from": "2026-09-02",
-     "to": "2026-09-14",
-     "impressions": 322,
-     "clicks": 0,
-     "ctr": 0.0,
-     "avg_position": 5.711180124223603,
-     "queries": 34,
-     "post_days": 13,
-     "window_days": 13
-    },
-    "relative_uplift": null,
-    "caveats": [
-     "базовое окно фиксированное (полная выгрузка 2026-08-01–2026-08-28); текущее — скользящее, окна разной длины сравниваются по CTR, не по показам"
-    ]
-   },
-   "evaluation_kind": "ctr",
-   "exposure_min_impressions": 144,
-   "exposure_gate_adapted": true,
-   "exposure_ok": true,
-   "impressions_since_deploy": 206,
-   "impressions_estimated": true,
-   "clicks_since_deploy": 0,
-   "per_page": [],
-   "primary_metric": "CTR > 0 по каждому запросу за 14 дней от появления сниппета в выдаче при средней позиции не хуже базовой ±1 (3,39 и 3,13)",
-   "current_result": "0 переходов на 322 показа по запросам кластеров",
-   "confidence": "low",
-   "next_review": "2026-09-29",
-   "verdict": "observing",
-   "verdict_reason": "экспозиция набрана, до контрольной даты",
-   "owner_decision": null,
-   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
-   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
-   "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 08.09 и 15.09",
-   "confidence_plain": "низкая: выборка мала",
-   "control_date_today": true,
-   "evaluation": {
-    "experiment_id": "snippets-3-gap-d",
-    "ticket": "SEO-EXP-004",
-    "date": "2026-09-16",
-    "source": "yandex",
-    "evaluation_kind": "ctr",
-    "windows": {
-     "baseline": {
-      "from": "2026-08-01",
-      "to": "2026-08-28",
-      "file": "2026-09-04",
-      "fixed": true
-     },
-     "experiment": {
-      "from": "2026-09-02",
-      "to": "2026-09-14",
-      "file": "2026-09-16",
-      "tainted": false,
-      "fixed": false
-     }
-    },
-    "metrics": {
-     "baseline": {
-      "impressions": 155,
-      "clicks": 0,
-      "ctr": 0.0,
-      "avg_position": 4.103225806451613,
-      "queries": 18
-     },
-     "experiment": {
-      "impressions": 322,
-      "clicks": 0,
-      "ctr": 0.0,
-      "avg_position": 5.711180124223603,
-      "queries": 34
-     },
-     "days": {
-      "baseline": 28,
-      "experiment": 13
-     }
-    },
-    "matched_metrics": {
-     "baseline": {
-      "impressions": 140,
-      "clicks": 0,
-      "ctr": 0.0,
-      "avg_position": 3.9785714285714286,
-      "queries": 7
-     },
-     "experiment": {
-      "impressions": 206,
-      "clicks": 0,
-      "ctr": 0.0,
-      "avg_position": 4.155339805825243,
-      "queries": 7
-     },
-     "queries": 7
-    },
-    "position_delta": -0.176768377253814,
-    "sample_quality": [
-     "baseline фиксированный, окно после — скользящее: у эксперимента, заведённого до фиксированных окон, полного окна «после» нет по построению, и сравнение окон разной длины идёт по CTR",
-     "порог экспозиции адаптирован под ёмкость кластера (100/144 вместо 500/500): окно источника скользящее, и больший объём кластер не наберёт"
-    ],
-    "statistical_result": {
-     "baseline_ctr": 0.0,
-     "experiment_ctr": 0.0,
-     "absolute_uplift": 0.0,
-     "relative_uplift": null,
-     "z": 0.0,
-     "p_value": 1.0,
-     "sample_sizes": {
-      "baseline": 140,
-      "experiment": 206
-     },
-     "min_detectable_relative_uplift": null
-    },
-    "summary_line": null,
-    "confidence": "LOW",
-    "verdict": "INCONCLUSIVE",
-    "verdict_reason": "различие CTR статистически неразличимо (p=1.000 при пороге 0.05)",
-    "recommendation": "EXTEND",
-    "recommendation_detail": "оставить как есть и продлить наблюдение до следующей вехи; если и она не даст вывода — NEW_TEST с более контрастной формулой",
-    "recommended_targets": [],
-    "requires_owner_decision": false,
-    "per_page": [],
-    "effective_gate": {
-     "baseline": 100,
-     "experiment": 144,
-     "adapted": true
-    },
-    "formula_group_result": null
-   },
-   "cluster_impressions": 322,
-   "cluster_clicks": 0,
-   "exposure_basis": "matched"
-  },
-  {
-   "id": "content-6-clusters",
-   "ticket": "CONTENT-002",
-   "hypothesis": "Приём, подтверждённый на кластере Depositphotos (CONTENT-001; вердикт и решение руководителя — в журнале решений), воспроизводится на других кластерах при тех же условиях — сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товаров для взаимной перелинковки.",
-   "treatment": "шесть статей блога под транзакционный интент кластера по схеме CONTENT-001: прямой ответ в первых двух предложениях, порядок оформления счёта, таблица сравнения тарифов со ссылками на карточки, раздел «когда это не нужно», FAQ-блок с FAQPage-разметкой; частотные формулировки кластеров в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «из России», «оформить подписку»; перелинковка статья → /vendors/<slug>, /catalog, /documents и карточки товаров кластера; обратная перелинковка карточка → статья работает штатно через relatedProducts (src/pages/product/[slug].astro), нового кода не нужно",
-   "combined_treatment": true,
-   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
-   "start": "2026-09-02",
-   "days_elapsed": 14,
-   "minimum_exposure": "7 дн. и 500 показов",
-   "minimum_exposure_configured": 500,
-   "pages_total": 12,
-   "pages_live_with_treatment": 12,
-   "site_check_date": "2026-09-16",
-   "new_variant_detected_on_site": 11,
-   "search_snippet_refresh": "новый сниппет виден в выдаче у 12 из 12 страниц (замер 16.09)",
-   "serp": {
-    "measured_at": "2026-09-16",
-    "pages_total": 12,
-    "pages_seen": 12,
-    "pages_with_new_snippet": 12,
-    "pages": {
-     "/blog/tarify-runway-oplata-dlya-yurlica": {
-      "best_position": 5,
-      "serp_title": "Тарифы Runway: чем различаются и как оплатить из России",
-      "query": "runway оплата ежемесячно из россии",
-      "new_snippet": true
-     },
-     "/blog/kak-oplatit-postman-dlya-yurlica": {
-      "best_position": 1,
-      "serp_title": "Оплата Postman юридическим лицом: тарифы... — BIZSoft",
-      "query": "оплата postman юридическим лицом",
-      "new_snippet": true
-     },
-     "/vendors/runway": {
-      "best_position": 7,
-      "serp_title": "Оплата Runway для юрлиц из России — счёт, договор, ЭДО | BIZSoft",
-      "query": "runway тарифы",
-      "new_snippet": true
-     },
-     "/vendors/framer": {
-      "best_position": 3,
-      "serp_title": "Купить Framer для юрлица — тарифы, счёт и КП — BIZSoft",
-      "query": "framer тарифы",
-      "new_snippet": true
-     },
-     "/blog/kak-oplatit-envato-elements-dlya-yurlica": {
-      "best_position": 1,
-      "serp_title": "Оплата Envato Elements юридическим лицом в России — BIZSoft",
-      "query": "оплата envato юридическим лицом",
-      "new_snippet": true
-     },
-     "/blog/kak-oplatit-framer-dlya-yurlica": {
-      "best_position": 2,
-      "serp_title": "Как оформить подписку Framer из России на юрлицо — BIZSoft",
-      "query": "framer оплата рублями",
-      "new_snippet": true
-     },
-     "/vendors/envato": {
-      "best_position": 1,
-      "serp_title": "Купить Envato для юрлица — тарифы, счёт и КП — BIZSoft",
-      "query": "купить envato elements юридическим лицом",
-      "new_snippet": true
-     },
-     "/blog/kak-kupit-perplexity-dlya-yurlica": {
-      "best_position": 5,
-      "serp_title": "Как купить Perplexity Pro и Max для юридического лица — BIZSoft",
-      "query": "купить perplexity max юридическим лицом",
-      "new_snippet": true
-     },
-     "/vendors/perplexity": {
-      "best_position": 1,
-      "serp_title": "Оплата Perplexity для юрлиц из России — счёт, договор... | BIZSoft",
-      "query": "купить perplexity max юридическим лицом",
-      "new_snippet": true
-     },
-     "/blog/kak-kupit-github-copilot-dlya-yurlica": {
-      "best_position": 3,
-      "serp_title": "Как купить GitHub Copilot Business на юридическое лицо — BIZSoft",
-      "query": "github copilot business оплата из россии",
-      "new_snippet": true
-     },
-     "/vendors/github": {
-      "best_position": 2,
-      "serp_title": "Оплата GitHub Copilot для юрлиц из России — счёт... | BIZSoft",
-      "query": "github business купить",
-      "new_snippet": true
-     },
-     "/vendors/postman": {
-      "best_position": 8,
-      "serp_title": "Купить Postman для юрлица — тарифы, счёт и КП — BIZSoft",
-      "query": "купить подписку postman",
-      "new_snippet": true
-     }
-    }
-   },
-   "interim": {
-    "preliminary": true,
-    "baseline": {
-     "from": "2026-08-02",
-     "to": "2026-08-29",
-     "impressions": 705,
-     "clicks": 1,
-     "ctr": 0.0014184397163120568,
-     "avg_position": 6.621276595744681,
-     "queries": 114
-    },
-    "current": {
-     "from": "2026-09-02",
-     "to": "2026-09-14",
-     "impressions": 3206,
-     "clicks": 1,
-     "ctr": 0.00031191515907673113,
-     "avg_position": 7.006550218340611,
-     "queries": 269,
-     "post_days": 12,
-     "window_days": 13
-    },
-    "relative_uplift": -0.7800998128509047,
-    "caveats": [
-     "базовое окно фиксированное (полная выгрузка 2026-08-02–2026-08-29); текущее — скользящее, окна разной длины сравниваются по CTR, не по показам",
-     "текущее окно пересекает период до внедрения: 12 из 13 дней — после"
-    ]
-   },
-   "evaluation_kind": "impressions_growth",
-   "exposure_min_impressions": 500,
-   "exposure_gate_adapted": false,
-   "exposure_ok": true,
-   "impressions_since_deploy": 3206,
-   "impressions_estimated": true,
-   "clicks_since_deploy": 1,
-   "per_page": [],
-   "primary_metric": "рост суммарных показов шести кластеров относительно базовых 684 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 16.09.2026",
-   "current_result": "1 переход на 3 206 показов по запросам кластеров",
-   "confidence": "sufficient",
-   "next_review": "2026-09-17",
-   "verdict": "observing",
-   "verdict_reason": "экспозиция набрана, до контрольной даты",
-   "owner_decision": null,
-   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
-   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
-   "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 09.09 и 16.09",
-   "confidence_plain": "достаточная по объёму показов",
-   "control_date_today": true,
-   "evaluation": {
-    "experiment_id": "content-6-clusters",
-    "ticket": "CONTENT-002",
-    "date": "2026-09-16",
-    "source": "yandex",
-    "evaluation_kind": "impressions_growth",
-    "windows": {
-     "experiment": {
-      "from": "2026-09-02",
-      "to": "2026-09-14",
-      "file": "2026-09-16",
-      "tainted": true
-     }
-    },
-    "metrics": {
-     "experiment": {
-      "impressions": 3206,
-      "clicks": 1,
-      "ctr": 0.00031191515907673113,
-      "avg_position": 7.006550218340611,
-      "queries": 269
-     },
-     "baseline_registry": {
-      "impressions": 684,
-      "days": 12
-     }
-    },
-    "matched_metrics": null,
-    "position_delta": null,
-    "sample_quality": [
-     "окно захватывает день внедрения — рост слегка занижен"
-    ],
-    "statistical_result": null,
-    "summary_line": "показы кластера 247/день (окно 2026-09-02–2026-09-14) против 57/день baseline (684 за 12 дн.) — +333% · в топ-10 6 из 6 замеренных страниц партии (позиции: kak-kupit-perplexity-dlya-yurlica — 5, kak-oplatit-framer-dlya-yurlica — 2, kak-kupit-github-copilot-dlya-yurlica — 3, kak-oplatit-envato-elements-dlya-yurlica — 1, kak-oplatit-postman-dlya-yurlica — 1, tarify-runway-oplata-dlya-yurlica — 5; замер 2026-09-16) · без критерия значимости (у показов нет модели испытаний)",
-    "confidence": "HIGH",
-    "verdict": "CONFIRMED",
-    "verdict_reason": "показы кластера выросли на +333% к baseline (57 → 247 показов/день), в топ-10 вошли 6 из 6 замеренных страниц партии",
-    "recommendation": "EXPAND",
-    "recommendation_detail": "перенести приём (статья под транзакционный интент + взаимная перелинковка с карточками) на следующие 10 кластеров, где условия оригинала выполнены целиком: сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товара для перелинковки",
-    "recommended_targets": [
-     "/vendors/recraft",
-     "/vendors/hailuo",
-     "/vendors/slack",
-     "/vendors/apple",
-     "/vendors/airalo",
-     "/vendors/anthropic",
-     "/vendors/gaea",
-     "/vendors/kling-ai",
-     "/vendors/toon-boom",
-     "/vendors/openai"
-    ],
-    "requires_owner_decision": true
-   }
-  },
-  {
-   "id": "cluster-coreldraw",
-   "ticket": "CONTENT-003",
-   "hypothesis": "Тираж приёма, подтверждённого CONTENT-001 (+70% показов кластера Depositphotos и вход статьи в топ-10 за 14 дней): статья под транзакционный интент плюс взаимная перелинковка поднимут показы кластера CorelDRAW, где страницы стоят на позициях 5-11.",
-   "treatment": "статья src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md под транзакционный интент «оплата CorelDRAW для юрлица»: прямой ответ в первых двух предложениях, таблица моделей лицензирования, раздел для бухгалтерии, раздел ограничений, FAQ из 7 вопросов с FAQPage-разметкой; взаимная перелинковка: статья → /vendors/coreldraw, /catalog, /documents и три карточки Graphics Suite; обратная связь карточка → статья через relatedProducts",
-   "combined_treatment": true,
-   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
-   "start": "2026-09-02",
-   "days_elapsed": 14,
-   "minimum_exposure": "7 дн. и 265 показов (гейт снижен с 500: ёмкость окна кластера меньше)",
-   "minimum_exposure_configured": 500,
-   "pages_total": 5,
-   "pages_live_with_treatment": 5,
-   "site_check_date": "2026-09-16",
-   "new_variant_detected_on_site": 2,
-   "search_snippet_refresh": "новый сниппет виден в выдаче у 2 из 5 страниц (замер 16.09)",
-   "serp": {
-    "measured_at": "2026-09-16",
-    "pages_total": 5,
-    "pages_seen": 2,
-    "pages_with_new_snippet": 2,
-    "pages": {
-     "/vendors/coreldraw": {
-      "best_position": 1,
-      "serp_title": "Оплата CorelDRAW для россиян — счёт, договор, ЭДО | BIZSoft",
-      "query": "оплата coreldraw для россиян",
-      "new_snippet": true
-     },
-     "/blog/kak-oplatit-coreldraw-dlya-yurlica": {
-      "best_position": 4,
-      "serp_title": "Как оплатить CorelDRAW для юридического лица в России",
-      "query": "оплатить coreldraw из россии",
-      "new_snippet": true
-     }
-    }
-   },
-   "interim": {
-    "preliminary": true,
-    "baseline": {
-     "from": "2026-08-02",
-     "to": "2026-08-29",
-     "impressions": 215,
-     "clicks": 0,
-     "ctr": 0.0,
-     "avg_position": 7.0,
-     "queries": 26
-    },
-    "current": {
-     "from": "2026-09-02",
-     "to": "2026-09-14",
-     "impressions": 379,
-     "clicks": 3,
-     "ctr": 0.0079155672823219,
-     "avg_position": 6.385224274406332,
-     "queries": 72,
-     "post_days": 12,
-     "window_days": 13
-    },
-    "relative_uplift": null,
-    "caveats": [
-     "базовое окно фиксированное (полная выгрузка 2026-08-02–2026-08-29); текущее — скользящее, окна разной длины сравниваются по CTR, не по показам",
-     "текущее окно пересекает период до внедрения: 12 из 13 дней — после"
-    ]
-   },
-   "evaluation_kind": "impressions_growth",
-   "exposure_min_impressions": 265,
-   "exposure_gate_adapted": true,
-   "exposure_ok": true,
-   "impressions_since_deploy": 379,
-   "impressions_estimated": true,
-   "clicks_since_deploy": 3,
-   "per_page": [],
-   "primary_metric": "рост показов кластера CorelDRAW относительно базовых 145 показов за 13 дней и вход статьи /blog/kak-oplatit-coreldraw-dlya-yurlica в топ-10 Яндекса к 16.09.2026",
-   "current_result": "3 перехода на 379 показов по запросам кластеров",
-   "confidence": "low",
-   "next_review": "2026-09-17",
-   "verdict": "observing",
-   "verdict_reason": "экспозиция набрана, до контрольной даты",
-   "owner_decision": null,
-   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
-   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
-   "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 09.09 и 16.09",
-   "confidence_plain": "низкая: выборка мала",
-   "control_date_today": true,
-   "evaluation": {
-    "experiment_id": "cluster-coreldraw",
-    "ticket": "CONTENT-003",
-    "date": "2026-09-16",
-    "source": "yandex",
-    "evaluation_kind": "impressions_growth",
-    "windows": {
-     "experiment": {
-      "from": "2026-09-02",
-      "to": "2026-09-14",
-      "file": "2026-09-16",
-      "tainted": true
-     }
-    },
-    "metrics": {
-     "experiment": {
-      "impressions": 379,
-      "clicks": 3,
-      "ctr": 0.0079155672823219,
-      "avg_position": 6.385224274406332,
-      "queries": 72
-     },
-     "baseline_registry": {
-      "impressions": 145,
-      "days": 13
-     }
-    },
-    "matched_metrics": null,
-    "position_delta": null,
-    "sample_quality": [
-     "окно захватывает день внедрения — рост слегка занижен"
-    ],
-    "statistical_result": null,
-    "summary_line": "показы кластера 29/день (окно 2026-09-02–2026-09-14) против 11/день baseline (145 за 13 дн.) — +161% · статья в топ-10: позиция 4 (замер 2026-09-16) · без критерия значимости (у показов нет модели испытаний)",
-    "confidence": "MEDIUM",
-    "verdict": "CONFIRMED",
-    "verdict_reason": "показы кластера выросли на +161% к baseline (11 → 29 показов/день), статья вошла в топ-10 (позиция 4)",
-    "recommendation": "EXPAND",
-    "recommendation_detail": "перенести приём (статья под транзакционный интент + взаимная перелинковка с карточками) на следующие 10 кластеров, где условия оригинала выполнены целиком: сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товара для перелинковки",
-    "recommended_targets": [
-     "/vendors/recraft",
-     "/vendors/hailuo",
-     "/vendors/slack",
-     "/vendors/apple",
-     "/vendors/airalo",
-     "/vendors/anthropic",
-     "/vendors/gaea",
-     "/vendors/kling-ai",
-     "/vendors/toon-boom",
-     "/vendors/openai"
-    ],
-    "requires_owner_decision": true
    }
   },
   {
@@ -2091,238 +1273,6 @@
    }
   },
   {
-   "id": "snippets-2-price-intent",
-   "ticket": "SEO-EXP-002-R",
-   "hypothesis": "Обе страницы уже показываются по ценовым запросам («сколько стоит … в рублях», «купить … в России», «бессрочная лицензия») на позициях 5–14 без единого перехода. Сниппет с точной формулировкой ценового запроса и моделью лицензии поднимет кликабельность без изменения контента; прежняя коммерческая формула «для юрлиц» на этот интент не отвечала.",
-   "treatment": "title: «Clip Studio Paint: цена бессрочной лицензии и подписки в рублях | BIZSoft» и «Procreate: цена в рублях и покупка в России на компанию | BIZSoft» — ядро ≤65, бренд один раз; description начинается с запроса «Сколько стоит {Vendor} … в рублях», дальше модель лицензии и оффер (счёт, ЭДО, 1–3 дня), ≤160; первый вопрос FAQ «Сколько стоит {Vendor} …?» добавлен к собственному FAQ страницы (faqAdd), блок целиком не заменяется; контент страниц и блок /solutions не меняются — одно изменение: сниппет",
-   "combined_treatment": true,
-   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
-   "start": "2026-09-03",
-   "days_elapsed": 13,
-   "minimum_exposure": "7 дн. и 100 показов (гейт снижен с 500: ёмкость окна кластера меньше)",
-   "minimum_exposure_configured": 500,
-   "pages_total": 2,
-   "pages_live_with_treatment": 2,
-   "site_check_date": "2026-09-16",
-   "new_variant_detected_on_site": 2,
-   "search_snippet_refresh": "новый сниппет виден в выдаче у 1 из 2 страниц (замер 16.09)",
-   "serp": {
-    "measured_at": "2026-09-16",
-    "pages_total": 2,
-    "pages_seen": 1,
-    "pages_with_new_snippet": 1,
-    "pages": {
-     "/vendors/procreate": {
-      "best_position": 9,
-      "serp_title": "Procreate: цена в рублях и покупка в России на компанию | BIZSoft",
-      "query": "стоимость procreate в рублях",
-      "new_snippet": true
-     }
-    }
-   },
-   "interim": {
-    "preliminary": true,
-    "baseline": {
-     "from": "2026-08-03",
-     "to": "2026-08-30",
-     "impressions": 129,
-     "clicks": 0,
-     "ctr": 0.0,
-     "avg_position": 9.55813953488372,
-     "queries": 82
-    },
-    "current": {
-     "from": "2026-09-02",
-     "to": "2026-09-14",
-     "impressions": 89,
-     "clicks": 1,
-     "ctr": 0.011235955056179775,
-     "avg_position": 8.910112359550562,
-     "queries": 39,
-     "post_days": 11,
-     "window_days": 13
-    },
-    "relative_uplift": null,
-    "caveats": [
-     "базовое окно фиксированное (полная выгрузка 2026-08-03–2026-08-30); текущее — скользящее, окна разной длины сравниваются по CTR, не по показам",
-     "текущее окно пересекает период до внедрения: 11 из 13 дней — после"
-    ]
-   },
-   "evaluation_kind": "ctr",
-   "exposure_min_impressions": 100,
-   "exposure_gate_adapted": true,
-   "exposure_ok": false,
-   "impressions_since_deploy": 89,
-   "impressions_estimated": true,
-   "clicks_since_deploy": 1,
-   "per_page": [
-    {
-     "page": "/vendors/clip-studio-paint",
-     "impressions": 38,
-     "clicks": 1
-    },
-    {
-     "page": "/vendors/procreate",
-     "impressions": 51,
-     "clicks": 0
-    }
-   ],
-   "primary_metric": "CTR по совпадающим запросам каждой страницы > 0 и по кластеру ≥2 % за фиксированное окно 28 дней после выката при средней позиции не хуже базовой ±1; вспомогательно — пул формулы query-phrase-snippet-2026-09",
-   "current_result": "1 переход на 89 показов по запросам кластеров",
-   "confidence": "low",
-   "next_review": "2026-10-04",
-   "verdict": "observing",
-   "verdict_reason": "накоплено 89 показов из 100 минимальных для вывода",
-   "owner_decision": null,
-   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
-   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
-   "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 10.09 и 17.09",
-   "confidence_plain": "низкая: выборка мала",
-   "control_date_today": false,
-   "evaluation": {
-    "experiment_id": "snippets-2-price-intent",
-    "ticket": "SEO-EXP-002-R",
-    "date": "2026-09-16",
-    "source": "yandex",
-    "evaluation_kind": "ctr",
-    "windows": null,
-    "metrics": null,
-    "matched_metrics": null,
-    "position_delta": null,
-    "sample_quality": [],
-    "statistical_result": null,
-    "summary_line": null,
-    "confidence": "LOW",
-    "verdict": "INSUFFICIENT_DATA",
-    "verdict_reason": "окно источника захватывает период до внедрения; чистое окно — с 2026-10-04",
-    "recommendation": "EXTEND",
-    "recommendation_detail": "продлить наблюдение до 2026-10-04",
-    "recommended_targets": [],
-    "requires_owner_decision": false,
-    "clean_window_eta": "2026-10-04",
-    "formula_group_result": null
-   }
-  },
-  {
-   "id": "snippets-2-product-gap-d",
-   "ticket": "SEO-EXP-006",
-   "hypothesis": "Карточки стоят в топ-5 по запросам «купить after effects / lightroom юридическим лицом» с 44 показами и нулём переходов: позиция клику не мешает, мешает общий сниппет «купить для юрлица». Точная формулировка запроса в начале title и description поднимет кликабельность без изменения контента.",
-   "treatment": "meta_title по запросной формуле «Купить {Продукт} юридическим лицом — счёт, договор, ЭДО» (≤60, бренд добавляет SeoHead); meta_description начинается с «Купить Adobe {Продукт} юридическим лицом из России», дальше состав плана и оффер (счёт, договор, рубли, ЭДО, 1–3 дня), ≤160; контент карточки, FAQ и цена не меняются — одно изменение: сниппет; правка через data/seo/product-descriptions.json + ops-apply-descriptions",
-   "combined_treatment": true,
-   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
-   "start": "2026-09-03",
-   "days_elapsed": 13,
-   "minimum_exposure": "7 дн. и 100 показов (гейт снижен с 500: ёмкость окна кластера меньше)",
-   "minimum_exposure_configured": 500,
-   "pages_total": 2,
-   "pages_live_with_treatment": 2,
-   "site_check_date": "2026-09-16",
-   "new_variant_detected_on_site": 0,
-   "search_snippet_refresh": "2 из 2 страниц в выдаче, обновление сниппета не подтверждено (замер 16.09)",
-   "serp": {
-    "measured_at": "2026-09-16",
-    "pages_total": 2,
-    "pages_seen": 2,
-    "pages_with_new_snippet": 0,
-    "pages": {
-     "/product/adobe-lr": {
-      "best_position": 1,
-      "serp_title": "Купить Lightroom юридическим лицом — счёт... — BIZSoft",
-      "query": "купить lightroom юридическим лицом",
-      "new_snippet": false
-     },
-     "/product/adobe-ae": {
-      "best_position": 1,
-      "serp_title": "Купить After Effects юридическим лицом — счёт... — BIZSoft",
-      "query": "купить after effects юридическим лицом",
-      "new_snippet": false
-     }
-    }
-   },
-   "interim": {
-    "preliminary": true,
-    "baseline": {
-     "from": "2026-08-03",
-     "to": "2026-08-30",
-     "impressions": 44,
-     "clicks": 0,
-     "ctr": 0.0,
-     "avg_position": 4.318181818181818,
-     "queries": 6
-    },
-    "current": {
-     "from": "2026-09-02",
-     "to": "2026-09-14",
-     "impressions": 70,
-     "clicks": 0,
-     "ctr": 0.0,
-     "avg_position": 3.242857142857143,
-     "queries": 9,
-     "post_days": 11,
-     "window_days": 13
-    },
-    "relative_uplift": null,
-    "caveats": [
-     "базовое окно фиксированное (полная выгрузка 2026-08-03–2026-08-30); текущее — скользящее, окна разной длины сравниваются по CTR, не по показам",
-     "текущее окно пересекает период до внедрения: 11 из 13 дней — после"
-    ]
-   },
-   "evaluation_kind": "ctr",
-   "exposure_min_impressions": 100,
-   "exposure_gate_adapted": true,
-   "exposure_ok": false,
-   "impressions_since_deploy": 70,
-   "impressions_estimated": true,
-   "clicks_since_deploy": 0,
-   "per_page": [
-    {
-     "page": "/product/adobe-ae",
-     "impressions": 23,
-     "clicks": 0
-    },
-    {
-     "page": "/product/adobe-lr",
-     "impressions": 47,
-     "clicks": 0
-    }
-   ],
-   "primary_metric": "CTR > 0 по каждому запросу и ≥3 % по кластеру страницы за фиксированное окно 28 дней после выката при средней позиции не хуже базовой ±1 (4,4 и 3,5); вспомогательно — пул формулы query-phrase-snippet-2026-09",
-   "current_result": "0 переходов на 70 показов по запросам кластеров",
-   "confidence": "low",
-   "next_review": "2026-10-04",
-   "verdict": "observing",
-   "verdict_reason": "накоплено 70 показов из 100 минимальных для вывода",
-   "owner_decision": null,
-   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
-   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
-   "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 10.09 и 17.09",
-   "confidence_plain": "низкая: выборка мала",
-   "control_date_today": false,
-   "evaluation": {
-    "experiment_id": "snippets-2-product-gap-d",
-    "ticket": "SEO-EXP-006",
-    "date": "2026-09-16",
-    "source": "yandex",
-    "evaluation_kind": "ctr",
-    "windows": null,
-    "metrics": null,
-    "matched_metrics": null,
-    "position_delta": null,
-    "sample_quality": [],
-    "statistical_result": null,
-    "summary_line": null,
-    "confidence": "LOW",
-    "verdict": "INSUFFICIENT_DATA",
-    "verdict_reason": "окно источника захватывает период до внедрения; чистое окно — с 2026-10-04",
-    "recommendation": "EXTEND",
-    "recommendation_detail": "продлить наблюдение до 2026-10-04",
-    "recommended_targets": [],
-    "requires_owner_decision": false,
-    "clean_window_eta": "2026-10-04",
-    "formula_group_result": null
-   }
-  },
-  {
    "id": "cluster-heygen",
    "ticket": "CONTENT-005",
    "hypothesis": "Второй тираж приёма, подтверждённого CONTENT-001 (+70 % показов кластера Depositphotos и вход статьи в топ-10 за 14 дней): транзакционная статья и взаимная перелинковка поднимут показы кластера HeyGen. Запас роста здесь больше, чем у CorelDRAW: транзакционное ядро стоит на позиции 10,8 — это вторая страница выдачи, где показы есть, а переходов почти нет.",
@@ -2430,135 +1380,6 @@
    }
   },
   {
-   "id": "money-a1-query-phrase",
-   "ticket": "MONEY-A1",
-   "hypothesis": "Кластеры стоят в первой десятке при нулевом CTR, а текст в выдаче отвечает не на тот вопрос, которым спрашивают: у Capture One — про юрлицо вместо непроходящего платежа, у Magnific — про стоковую библиотеку вместо оплаты и лицензии, у Zoom — «купить» вместо «оформление для организации из РФ». Точная формулировка кластера в заголовке и описании поднимет кликабельность без изменения страницы.",
-   "treatment": "title под собственную формулировку кластера каждой страницы, ядро ≤65 символов: Capture One — «Оплата Capture One юридическим лицом — продление без карты» (кластер спрашивает про непроходящий платёж и продление), Magnific — «Оплата Magnific AI юридическим лицом — счёт, договор, ЭДО» (страница ранжируется по Magnific, а описание говорило про стоковую библиотеку Freepik), Zoom — «Оформление Zoom Business для организации из РФ — счёт и договор» (формулировка запроса, дающего три четверти показов кластера); description ≤160 символов с формулировкой кластера в начале: прежние описания vendor-шаблона длиной 171–216 символов обрывались в выдаче ровно на обещании про договор и ЭДО; первый вопрос FAQ под формулировку кластера (механика faqAdd — собственный FAQ страницы сохраняется); у Magnific добавлен второй вопрос про коммерческую лицензию: этого нет ни у одного соседа по топ-5",
-   "combined_treatment": true,
-   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
-   "start": "2026-09-08",
-   "days_elapsed": 8,
-   "minimum_exposure": "7 дн. и 282 показов (гейт снижен с 500: ёмкость окна кластера меньше)",
-   "minimum_exposure_configured": 500,
-   "pages_total": 3,
-   "pages_live_with_treatment": 3,
-   "site_check_date": "2026-09-16",
-   "new_variant_detected_on_site": 3,
-   "search_snippet_refresh": "новый сниппет виден в выдаче у 1 из 3 страниц (замер 16.09)",
-   "serp": {
-    "measured_at": "2026-09-16",
-    "pages_total": 3,
-    "pages_seen": 3,
-    "pages_with_new_snippet": 1,
-    "pages": {
-     "/vendors/freepik": {
-      "best_position": 2,
-      "serp_title": "Купить Magnific для юрлица — тарифы, счёт и КП — BIZSoft",
-      "query": "оплата magnific ai юридическим лицом",
-      "new_snippet": false
-     },
-     "/vendors/capture-one": {
-      "best_position": 1,
-      "serp_title": "Оплата Capture One юридическим лицом — продление... | BIZSoft",
-      "query": "оплата capture one юридическим лицом",
-      "new_snippet": true
-     },
-     "/vendors/zoom": {
-      "best_position": 7,
-      "serp_title": "Купить Zoom для юридических лиц — тарифы Zoom... — BIZSoft",
-      "query": "купить zoom pro юридическим лицом",
-      "new_snippet": false
-     }
-    }
-   },
-   "interim": {
-    "preliminary": true,
-    "baseline": {
-     "from": "2026-08-08",
-     "to": "2026-09-04",
-     "impressions": 277,
-     "clicks": 2,
-     "ctr": 0.007220216606498195,
-     "avg_position": 6.707581227436823,
-     "queries": 38
-    },
-    "current": {
-     "from": "2026-09-02",
-     "to": "2026-09-14",
-     "impressions": 403,
-     "clicks": 1,
-     "ctr": 0.0024813895781637717,
-     "avg_position": 6.305210918114144,
-     "queries": 43,
-     "post_days": 6,
-     "window_days": 13
-    },
-    "relative_uplift": -0.6563275434243176,
-    "caveats": [
-     "базовое окно фиксированное (полная выгрузка 2026-08-08–2026-09-04); текущее — скользящее, окна разной длины сравниваются по CTR, не по показам",
-     "текущее окно пересекает период до внедрения: 6 из 13 дней — после"
-    ]
-   },
-   "evaluation_kind": "ctr",
-   "exposure_min_impressions": 282,
-   "exposure_gate_adapted": true,
-   "exposure_ok": true,
-   "impressions_since_deploy": 403,
-   "impressions_estimated": true,
-   "clicks_since_deploy": 1,
-   "per_page": [
-    {
-     "page": "/vendors/capture-one",
-     "impressions": 273,
-     "clicks": 0
-    },
-    {
-     "page": "/vendors/freepik",
-     "impressions": 72,
-     "clicks": 1
-    },
-    {
-     "page": "/vendors/zoom",
-     "impressions": 58,
-     "clicks": 0
-    }
-   ],
-   "primary_metric": "CTR партии за фиксированное окно «после» против окна «до» при средней позиции не хуже базовой ±1. Экспозиция партии (~750 показов за 28 дней) различает только трёхкратную разницу: рост с 0,6 % до 2 % и выше — вывод, рост до 1 % — «недостаточно данных», и он будет записан именно так.",
-   "current_result": "1 переход на 403 показа по запросам кластеров",
-   "confidence": "low",
-   "next_review": "2026-10-06",
-   "verdict": "observing",
-   "verdict_reason": "экспозиция набрана, до контрольной даты",
-   "owner_decision": null,
-   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
-   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
-   "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 15.09 и 22.09",
-   "confidence_plain": "низкая: выборка мала",
-   "control_date_today": false,
-   "evaluation": {
-    "experiment_id": "money-a1-query-phrase",
-    "ticket": "MONEY-A1",
-    "date": "2026-09-16",
-    "source": "yandex",
-    "evaluation_kind": "ctr",
-    "windows": null,
-    "metrics": null,
-    "matched_metrics": null,
-    "position_delta": null,
-    "sample_quality": [],
-    "statistical_result": null,
-    "summary_line": null,
-    "confidence": "LOW",
-    "verdict": "INSUFFICIENT_DATA",
-    "verdict_reason": "окно источника захватывает период до внедрения; чистое окно — с 2026-10-09",
-    "recommendation": "EXTEND",
-    "recommendation_detail": "продлить наблюдение до 2026-10-09",
-    "recommended_targets": [],
-    "requires_owner_decision": false,
-    "clean_window_eta": "2026-10-09"
-   }
-  },
-  {
    "id": "money-a2-generic-documents",
    "ticket": "MONEY-A2",
    "hypothesis": "Единственный кластер, где предмет запроса — сама услуга, а не продукт вендора. Слово «документы» стоит в трёх из пяти ведущих запросов кластера, а прежнее описание вело словом «гайд» и обещало пошаговость — то есть отвечало на вопрос «как это устроено», тогда как спрашивают «что я получу на руки». Конкуренты в топ-5 (klerk.ru, duc-technologies, dolphinpay) — обзоры сервисов и платёжные посредники; поставщик, который сам выписывает документы, в выдаче один.",
@@ -2658,208 +1479,6 @@
     "requires_owner_decision": false,
     "clean_window_eta": "2026-10-09"
    }
-  },
-  {
-   "id": "snippets-10-expand",
-   "ticket": "SEO-EXP-005",
-   "hypothesis": "Коммерческая формула сниппета, оценённая на snippets-5-vendors, воспроизводится на десяти карточках с наибольшим замеренным спросом Вордстата вне действующих экспериментов.",
-   "treatment": "тираж формулы snippets-5-vendors без изменений: title «Оплата {Vendor} для юрлиц из России — счёт, договор, ЭДО», description «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.», FAQ-блок «Как купить {Vendor} на юрлицо» из 4 вопросов; формула при тираже намеренно не менялась — иначе тиражируется не то, что оценивалось",
-   "combined_treatment": true,
-   "combined_note": "Метаданные и FAQ внедрены одной правкой на одних и тех же страницах, поэтому их вклады не разделяются.",
-   "start": "2026-09-02",
-   "days_elapsed": 14,
-   "minimum_exposure": "7 дн. и 500 показов",
-   "minimum_exposure_configured": 500,
-   "pages_total": 10,
-   "pages_live_with_treatment": 10,
-   "site_check_date": "2026-09-16",
-   "new_variant_detected_on_site": 10,
-   "search_snippet_refresh": "новый сниппет виден в выдаче у 6 из 10 страниц (замер 16.09)",
-   "serp": {
-    "measured_at": "2026-09-16",
-    "pages_total": 10,
-    "pages_seen": 6,
-    "pages_with_new_snippet": 6,
-    "pages": {
-     "/vendors/docker": {
-      "best_position": 4,
-      "serp_title": "Оплата Docker для юрлиц из России — счёт, договор, ЭДО | BIZSoft",
-      "query": "оплата докер",
-      "new_snippet": true
-     },
-     "/vendors/runway": {
-      "best_position": 7,
-      "serp_title": "Оплата Runway для юрлиц из России — счёт, договор, ЭДО | BIZSoft",
-      "query": "runway тарифы",
-      "new_snippet": true
-     },
-     "/vendors/perplexity": {
-      "best_position": 1,
-      "serp_title": "Оплата Perplexity для юрлиц из России — счёт, договор... | BIZSoft",
-      "query": "купить perplexity max юридическим лицом",
-      "new_snippet": true
-     },
-     "/vendors/github": {
-      "best_position": 2,
-      "serp_title": "Оплата GitHub Copilot для юрлиц из России — счёт... | BIZSoft",
-      "query": "github business купить",
-      "new_snippet": true
-     },
-     "/vendors/google": {
-      "best_position": 8,
-      "serp_title": "Оплата Google Workspace для юрлиц из России — счёт... | BIZSoft",
-      "query": "оплата gemini для бизнеса id2497171 vc",
-      "new_snippet": true
-     },
-     "/vendors/unity": {
-      "best_position": 5,
-      "serp_title": "Оплата Unity Pro для юрлиц из России — счёт, договор... | BIZSoft",
-      "query": "стоимость лицензии unity",
-      "new_snippet": true
-     }
-    }
-   },
-   "interim": {
-    "preliminary": true,
-    "baseline": {
-     "from": "2026-08-21",
-     "to": "2026-09-01",
-     "impressions": 425,
-     "clicks": 1,
-     "ctr": 0.002352941176470588,
-     "avg_position": 6.924705882352941,
-     "queries": 98
-    },
-    "current": {
-     "from": "2026-09-02",
-     "to": "2026-09-14",
-     "impressions": 1208,
-     "clicks": 7,
-     "ctr": 0.005794701986754967,
-     "avg_position": 7.748344370860927,
-     "queries": 160,
-     "post_days": 12,
-     "window_days": 13
-    },
-    "relative_uplift": 1.462748344370861,
-    "caveats": [
-     "текущее окно пересекает период до внедрения: 12 из 13 дней — после"
-    ]
-   },
-   "evaluation_kind": "ctr",
-   "exposure_min_impressions": 239,
-   "exposure_gate_adapted": true,
-   "exposure_ok": true,
-   "impressions_since_deploy": 342,
-   "impressions_estimated": true,
-   "clicks_since_deploy": 3,
-   "per_page": [],
-   "primary_metric": "CTR партии за фиксированное окно «после» против окна «до» при средней позиции не хуже базовой ±1.",
-   "current_result": "7 переходов на 1 208 показов по запросам кластеров",
-   "confidence": "sufficient",
-   "next_review": "2026-09-30",
-   "verdict": "observing",
-   "verdict_reason": "экспозиция набрана, до контрольной даты",
-   "owner_decision": null,
-   "hypothesis_plain": "понятнее ли описание страницы в выдаче для того, кто покупает на компанию, и чаще ли по ней переходят",
-   "treatment_plain": "переписали заголовок и описание страницы под покупку по счёту и добавили блок ответов на частые вопросы.",
-   "metric_plain": "переходы из выдачи Яндекса по запросам страниц эксперимента; контрольные точки — 09.09 и 16.09",
-   "confidence_plain": "достаточная по объёму показов",
-   "control_date_today": true,
-   "evaluation": {
-    "experiment_id": "snippets-10-expand",
-    "ticket": "SEO-EXP-005",
-    "date": "2026-09-16",
-    "source": "yandex",
-    "evaluation_kind": "ctr",
-    "windows": {
-     "baseline": {
-      "from": "2026-08-21",
-      "to": "2026-09-01",
-      "file": "2026-09-04",
-      "fixed": false
-     },
-     "experiment": {
-      "from": "2026-09-02",
-      "to": "2026-09-14",
-      "file": "2026-09-16",
-      "tainted": true,
-      "fixed": false
-     }
-    },
-    "metrics": {
-     "baseline": {
-      "impressions": 425,
-      "clicks": 1,
-      "ctr": 0.002352941176470588,
-      "avg_position": 6.924705882352941,
-      "queries": 98
-     },
-     "experiment": {
-      "impressions": 1208,
-      "clicks": 7,
-      "ctr": 0.005794701986754967,
-      "avg_position": 7.748344370860927,
-      "queries": 160
-     },
-     "days": {
-      "baseline": 12,
-      "experiment": 13
-     }
-    },
-    "matched_metrics": {
-     "baseline": {
-      "impressions": 332,
-      "clicks": 1,
-      "ctr": 0.0030120481927710845,
-      "avg_position": 6.725903614457831,
-      "queries": 34
-     },
-     "experiment": {
-      "impressions": 342,
-      "clicks": 3,
-      "ctr": 0.008771929824561403,
-      "avg_position": 6.619883040935672,
-      "queries": 34
-     },
-     "queries": 34
-    },
-    "position_delta": 0.10602057352215866,
-    "sample_quality": [
-     "окно эксперимента захватывает день внедрения — часть показов могла увидеть старый вариант",
-     "порог экспозиции адаптирован под ёмкость кластера (232/239 вместо 500/500): окно источника скользящее, и больший объём кластер не наберёт; надёжно различим только рост CTR от ×4.9"
-    ],
-    "statistical_result": {
-     "baseline_ctr": 0.0030120481927710845,
-     "experiment_ctr": 0.008771929824561403,
-     "absolute_uplift": 0.0057598816317903185,
-     "relative_uplift": 1.9122807017543857,
-     "z": 0.9733257312007142,
-     "p_value": 0.33039143782478314,
-     "sample_sizes": {
-      "baseline": 332,
-      "experiment": 342
-     },
-     "min_detectable_relative_uplift": 3.927063999267428
-    },
-    "summary_line": null,
-    "confidence": "LOW",
-    "verdict": "INCONCLUSIVE",
-    "verdict_reason": "различие CTR статистически неразличимо (p=0.330 при пороге 0.05); наблюдаемый рост +191% меньше минимально различимого при этой выборке (от ×4.9)",
-    "recommendation": "EXTEND",
-    "recommendation_detail": "оставить как есть и продлить наблюдение до следующей вехи; если и она не даст вывода — NEW_TEST с более контрастной формулой",
-    "recommended_targets": [],
-    "requires_owner_decision": false,
-    "per_page": [],
-    "effective_gate": {
-     "baseline": 232,
-     "experiment": 239,
-     "adapted": true
-    }
-   },
-   "cluster_impressions": 1208,
-   "cluster_clicks": 7,
-   "exposure_basis": "matched"
   }
  ],
  "owner_decisions": {
@@ -2902,6 +1521,62 @@
    "verdict": "INCONCLUSIVE",
    "owner_decision": "KEEP",
    "ticket": "SEO-EXP-003"
+  },
+  "snippets-3-gap-d": {
+   "dates": [
+    "2026-09-16"
+   ],
+   "verdict": "INCONCLUSIVE",
+   "owner_decision": "CLOSE",
+   "ticket": "SEO-EXP-004"
+  },
+  "snippets-2-price-intent": {
+   "dates": [
+    "2026-09-16"
+   ],
+   "verdict": "INSUFFICIENT_DATA",
+   "owner_decision": "CLOSE",
+   "ticket": "SEO-EXP-002-R"
+  },
+  "snippets-10-expand": {
+   "dates": [
+    "2026-09-16"
+   ],
+   "verdict": "INCONCLUSIVE",
+   "owner_decision": "CLOSE",
+   "ticket": "SEO-EXP-005"
+  },
+  "money-a1-query-phrase": {
+   "dates": [
+    "2026-09-16"
+   ],
+   "verdict": "INSUFFICIENT_DATA",
+   "owner_decision": "CLOSE",
+   "ticket": "MONEY-A1"
+  },
+  "snippets-2-product-gap-d": {
+   "dates": [
+    "2026-09-16"
+   ],
+   "verdict": "INSUFFICIENT_DATA",
+   "owner_decision": "CLOSE",
+   "ticket": "SEO-EXP-006"
+  },
+  "content-6-clusters": {
+   "dates": [
+    "2026-09-16"
+   ],
+   "verdict": "CONFIRMED",
+   "owner_decision": "KEEP",
+   "ticket": "CONTENT-002"
+  },
+  "cluster-coreldraw": {
+   "dates": [
+    "2026-09-16"
+   ],
+   "verdict": "CONFIRMED",
+   "owner_decision": "KEEP",
+   "ticket": "CONTENT-003"
   }
  },
  "board": [],
@@ -3945,7 +2620,7 @@
  },
  "loop_health": {
   "date": "2026-09-16",
-  "generated_at": "2026-09-16T09:16:33+00:00",
+  "generated_at": "2026-09-16T10:40:20+00:00",
   "contours": [
    {
     "id": "collect",
@@ -4011,7 +2686,7 @@
     "id": "report",
     "label": "Сборка письма V4",
     "cadence": "ежедневно 09:00 МСК",
-    "last_run": "2026-09-15",
+    "last_run": "2026-09-16",
     "expected_since": "2026-09-15",
     "overdue": false,
     "days_late": 0,
@@ -4021,7 +2696,7 @@
     "id": "email",
     "label": "Отправка письма руководителю",
     "cadence": "ежедневно ~09:30 МСК",
-    "last_run": "2026-09-15",
+    "last_run": "2026-09-16",
     "expected_since": "2026-09-15",
     "overdue": false,
     "days_late": 0,
@@ -5503,16 +4178,16 @@
  "measurement_summary": "Показы и переходы Яндекса относятся к весь сайт, визиты Метрики — к весь сайт и ко всем поисковым системам сразу. Сопоставлять корректно показы с переходами одной выборки, а визиты Метрики — с сессиями GA4.",
  "checkpoints": [
   {
-   "date": "17.09",
-   "what": "CONTENT-002: замер роста показов кластера и позиции статьи"
-  },
-  {
-   "date": "17.09",
-   "what": "CONTENT-003: замер роста показов кластера и позиции статьи"
+   "date": "18.09",
+   "what": "CONTENT-004: замер роста показов кластера и позиции статьи"
   },
   {
    "date": "18.09",
-   "what": "CONTENT-004: замер роста показов кластера и позиции статьи"
+   "what": "CONTENT-005: замер роста показов кластера и позиции статьи"
+  },
+  {
+   "date": "27.09",
+   "what": "PAGES-EXP-001: замер индексации и показов новых страниц"
   }
  ],
  "links": {
