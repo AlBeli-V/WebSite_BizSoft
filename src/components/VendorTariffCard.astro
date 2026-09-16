@@ -13,6 +13,8 @@ import { PLAN_LABEL, type PlanType } from '../lib/plan-type';
 
 export interface TariffCard {
   seg: string;
+  /** Направление линейки (VendorCategory): по нему сужает список карта. */
+  cat: string;
   minQty: number;
   qtyLabel: string;
   check: string;
@@ -41,7 +43,7 @@ interface Props {
 }
 const { card: c, title, vendor } = Astro.props;
 ---
-<article class="card vcard" data-qty-scope data-seg-card={c.seg || undefined}>
+<article class="card vcard" data-qty-scope data-seg-card={c.seg || undefined} data-cat-card={c.cat || undefined}>
   {c.badge && <span class="vbadge">{c.badge}</span>}
   <div class="vc-head">
     {c.icon && <ProductIcon slug={c.slug} name={c.name} size={38} />}

@@ -6,9 +6,12 @@ import { leadFromQuote, describeQuote, attributionFields } from '../../lib/quote
 import { createLeadTolerant } from '../../lib/lead-write';
 import { mirrorLeadAndLink } from '../../lib/bitrix24';
 import { effectivePrice } from '../../lib/pricing';
+import { EMAIL_RENT_PRICE, emailRentApplies } from '../../lib/email-rent';
 import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { generateQuotePdf, buildQuoteNo, formatDateRu, addDays, type QuoteData } from '../../lib/pdf-quote';
-import { generateQuoteJpg } from '../../lib/jpg-quote';
+import { generateQuoteJpgPages } from '../../lib/jpg-quote';
+import { pdfFromJpegPages, quotePdfFileName } from '../../lib/offer-doc';
+import { offerProductLinks, offerVendorGroups } from '../../lib/offer-content';
 import { generateQuoteDocx } from '../../lib/docx-quote';
 import { site } from '../../config/site';
 import { verifyCompany } from '../../lib/inn';
@@ -21,6 +24,7 @@ import { fetchCbrRates } from '../../lib/currency';
 import type { QuoteItem } from '../../lib/types';
 import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
 import { clientIp } from '../../lib/client-ip';
+import { intakeFormConsents } from '../../lib/consent-intake';
 
 interface CartLine { sku: string; qty: number }
 
@@ -82,6 +86,8 @@ async function recordQuoteLead(q: Parameters<typeof leadFromQuote>[0]): Promise<
     formSource: 'quote',
     channel: attr?.last_touch_source,
     productRef: String(record.product_ref || ''),
+    consentEventId: q.consent?.personalDataEventId,
+    marketingStatus: q.consent?.marketingEventId ? 'subscribed' : 'not_subscribed',
     utm: {
       utm_source: attr?.utm_source,
       utm_medium: attr?.utm_medium,
@@ -129,6 +135,32 @@ export const POST: APIRoute = async ({ request }) => {
   // письмо. Порог тратит эта заявка, а не отвергнутая валидацией попытка.
   await countSubmission(ip);
 
+  // Согласия — до документов и до письма (ТЗ 16.09.2026, п. 3). КП уходит на
+  // адрес, указанный в форме; выпускать его, не зафиксировав согласие,
+  // нельзя ни при каком состоянии журнала.
+  let consent: Awaited<ReturnType<typeof intakeFormConsents>>;
+  try {
+    consent = await intakeFormConsents({
+      body,
+      subject: {
+        name: String(contact),
+        email: String(body.email),
+        phone: String(body.phone || ''),
+        company: String(company),
+      },
+      fallbackFormId: 'quote',
+      purpose: 'Подготовка коммерческого предложения, счёта и договора',
+      ip,
+      userAgent: request.headers.get('user-agent') || undefined,
+    });
+  } catch (e) {
+    console.error('consent log failed', e);
+    return new Response(
+      JSON.stringify({ error: 'Не удалось зафиксировать согласие. Напишите нам на hello@biz-soft.pro или позвоните.' }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
+
   // Пересчёт по авторитетным ценам из БД (с учётом акции на момент запроса)
   let products;
   try {
@@ -148,13 +180,30 @@ export const POST: APIRoute = async ({ request }) => {
   }
   const bySku = new Map(products.map((p) => [p.sku, p]));
 
+  // Аренда адресов электронной почты: выбор покупателя в шапке спецификации
+  // (docs/rules/email-rent.md). Применимость считается здесь заново, по
+  // артикулу из базы, а не принимается с формы: клиент присылает только сам
+  // выбор, всё остальное — данные каталога.
+  const emailRent = body.email_rent === true;
+  /** Артикул → рубли нашей услуги в цене единицы (для экономики сделки). */
+  const rentPerUnit = new Map<string, number>();
   const items: QuoteItem[] = [];
   for (const line of lines) {
     const p = bySku.get(line.sku);
     if (!p) continue;
-    const price = effectivePrice(p).price;
+    const rent = emailRent && emailRentApplies(p.sku);
+    if (rent) rentPerUnit.set(p.sku, EMAIL_RENT_PRICE);
+    // Аренда входит в цену позиции, но отдельной строкой в бланке КП не
+    // называется (решение руководителя 15.09.2026): документу клиента и
+    // руководителя — состав и цены, пояснение об аренде живёт сноской на
+    // странице спецификации.
+    const price = effectivePrice(p).price + (rent ? EMAIL_RENT_PRICE : 0);
     items.push({ sku: p.sku, name: p.name, qty: line.qty, price,
-                 sum: price * line.qty, vat_percent: p.vat_percent });
+                 sum: price * line.qty, vat_percent: p.vat_percent,
+                 // Производитель и признак аренды нужны документу: по ним
+                 // собирается то же описание позиции, что на странице
+                 // спецификации (docs/rules/spec-line.md).
+                 vendor: p.vendor || '', email_rent: rent });
   }
   if (items.length === 0) return new Response(JSON.stringify({ error: 'позиции не найдены' }), { status: 422 });
 
@@ -184,10 +233,12 @@ export const POST: APIRoute = async ({ request }) => {
   // Редактируемый PDF с реквизитами, гуляющий по почте клиента, — риск:
   // сумму в нём меняют в любом просмотрщике и предъявляют как наш документ.
   let pdf: Buffer;
-  let jpg: Buffer;
+  let jpgPages: Buffer[];
   try {
     pdf = await generateQuotePdf(data);
-    jpg = generateQuoteJpg(data);
+    // Картинка — по файлу на лист: одну вертикальную ленту нельзя
+    // распечатать, а документ подшивают к договору.
+    jpgPages = generateQuoteJpgPages(data);
   } catch (e) {
     console.error('quote: gen failed', e);
     return new Response(JSON.stringify({ error: 'не удалось сформировать документ' }), { status: 500 });
@@ -221,7 +272,7 @@ export const POST: APIRoute = async ({ request }) => {
   // письмо руководителю. Обещание, а не ожидание: курс ЦБ — внешний сервис,
   // его сбой или медленный ответ не должны задерживать письмо клиенту.
   const ecoPromise: Promise<QuoteEconomics | null> = fetchCbrRates()
-    .then((rates) => buildQuoteEconomics(items, products, rates))
+    .then((rates) => buildQuoteEconomics(items, products, rates, rentPerUnit))
     .catch((e) => { console.error('quote economics failed', e); return null; });
 
   // Заявка в воронку. Скачивание КП — самый тёплый контакт на сайте: назвали
@@ -239,6 +290,7 @@ export const POST: APIRoute = async ({ request }) => {
     total,
     validUntil: data.validUntil,
     attribution: attributionFields(body),
+    consent: { personalDataEventId: consent.personalDataEventId, marketingEventId: consent.marketingEventId },
     economics: eco ? {
       costRub: eco.purchaseRub > 0 ? eco.purchaseRub : null,
       marginRub: eco.profit,
@@ -249,14 +301,37 @@ export const POST: APIRoute = async ({ request }) => {
   })).catch((e) => console.error('quote lead failed', e));
 
   // ── Письма ──
-  const clientFile = `KP_${quoteNo}.jpg`;
-  const clientAttachment = { filename: clientFile, content: jpg, contentType: 'image/jpeg' };
+  // Клиенту уходит один PDF, собранный из листов-картинок: листать три
+  // отдельных файла неудобно, а картинка внутри PDF сохраняет главное —
+  // документ нельзя открыть в редакторе и подменить сумму
+  // (решение руководителя 15.09.2026).
+  let clientPdf: Buffer;
+  try {
+    clientPdf = await pdfFromJpegPages(jpgPages);
+  } catch (e) {
+    console.error('quote client pdf failed', e);
+    return new Response(JSON.stringify({
+      error: 'Не удалось собрать документ. Позвоните нам — отправим вручную.',
+      quote_no: quoteNo,
+    }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+  }
+  const clientPdfName = quotePdfFileName(quoteNo, data.buyerCompany, data.date);
 
   // 1. Клиенту — КП во вложении, отправитель hello@biz-soft.pro.
-  // HTML с text-fallback собирает шаблон (src/lib/email): фирменная шапка,
-  // карточка предложения, оговорка о предварительном характере, приглашение
-  // ответить на письмо — Reply-To ведёт к менеджеру.
-  const clientMail = buildCustomerQuoteEmail(data);
+  // Письмо собирает шаблон (src/lib/email/quote-customer.ts): сводка
+  // предложения, вложенный документ, запрос финального КП и счёта, перечень
+  // действий со ссылкой на страницу предложения, типовые документы, данные
+  // для ЭДО, состав и контакты менеджера. Reply-To ведёт к менеджеру.
+  //
+  // Ссылка на страницу предложения ставится только при настроенном секрете
+  // подписи: без него страница не выпускается, и вести на неё из письма
+  // значило бы отправить клиента в ошибку (offer-token.ts).
+  const clientMail = buildCustomerQuoteEmail({
+    data,
+    pdfName: clientPdfName,
+    pdfSize: clientPdf.length,
+    vendors: offerVendorGroups(offerProductLinks(items, products, site.url), site.url),
+  });
 
   // Письмо клиенту отправляем до ответа и ждём результата: экран говорит
   // «отправлено», и это должно быть правдой. Сбой SMTP при отправке в фоне
@@ -269,7 +344,11 @@ export const POST: APIRoute = async ({ request }) => {
       subject: clientMail.subject,
       text: clientMail.text,
       html: clientMail.html,
-      attachments: [clientAttachment],
+      attachments: [{
+        filename: clientPdfName,
+        content: clientPdf,
+        contentType: 'application/pdf',
+      }],
     });
   } catch (e) {
     console.error('quote client mail failed', e);
