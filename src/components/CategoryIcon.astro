@@ -20,7 +20,7 @@ const key = `${slug} ${name}`.toLowerCase();
 
 type Icon = 'design' | 'dev' | 'ai' | 'media' | 'collab' | 'office' | 'comm'
   | 'security' | 'os' | 'iam' | 'helpdesk' | 'endpoint' | 'monitoring'
-  | 'pm' | 'database' | 'engineering' | 'architecture' | 'web' | 'gift' | 'default';
+  | 'pm' | 'database' | 'engineering' | 'architecture' | 'web' | 'gift' | 'training' | 'default';
 
 /**
  * Точное соответствие «слаг раздела → иконка».
@@ -51,6 +51,7 @@ const BY_SLUG: Record<string, Icon> = {
   endpoint: 'endpoint',
   web: 'web',
   'gift-cards': 'gift',
+  training: 'training',
   // AI-подкатегории: на /catalog их плитки рисуются по полному слагу (ai-*),
   // на /catalog/ai — по короткому sub (text, code, …) через подбор по словам.
   'ai-text': 'ai',
@@ -73,6 +74,7 @@ function pick(): Icon {
   if (/(collab|board|доск|совмест|whiteboard|коллаборац)/.test(key)) return 'collab';
   if (/(office|офис|документ|таблиц|презентац)/.test(key)) return 'office';
   if (/(communicat|вкс|связь|конференц|meeting|звонк|телефон|маркет|marketing)/.test(key)) return 'comm';
+  if (/(training|обучен|курс|полигон|практикум|лаборатор)/.test(key)) return 'training';
   if (/(security|безопас|антивир|защит|vpn|enterprise|корпоратив)/.test(key)) return 'security';
   if (/(\bos\b|операцион|система)/.test(key)) return 'os';
   if (/(identity|учётн|учетн|привилегированн|парол)/.test(key)) return 'iam';
@@ -117,6 +119,8 @@ const icon = pick();
   {icon === 'web' && (<><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.7 2.6 2.7 14.4 0 17-2.7-2.6-2.7-14.4 0-17Z"/></>)}
   {/* Подарочные карты — карта с бантом: код пополнения баланса. */}
   {icon === 'gift' && (<><rect x="2.5" y="8" width="19" height="12" rx="2"/><path d="M2.5 13h19"/><path d="M12 8v12"/><path d="M12 8c-.9-3-4.8-3.6-4.8-1.2S10.6 8 12 8Zm0 0c.9-3 4.8-3.6 4.8-1.2S13.4 8 12 8Z"/></>)}
+  {/* Обучение и киберполигоны — академическая шапочка: практика и рост навыка. */}
+  {icon === 'training' && (<><path d="m12 4 9.5 4.4-9.5 4.4-9.5-4.4z"/><path d="M6.6 10.6v4.7c0 1.6 2.4 2.9 5.4 2.9s5.4-1.3 5.4-2.9v-4.7"/><path d="M21.5 8.4v5.2"/></>)}
   {icon === 'default' && (<><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>)}
 </svg>
 
