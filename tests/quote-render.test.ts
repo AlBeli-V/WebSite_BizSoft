@@ -7,8 +7,8 @@
  */
 import { describe, expect, it } from 'vitest';
 import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, BAND, CM, MARK_FILE, PAGE, LOGO_FILE } from '../src/lib/quote-layout';
-import { bandFontPath, generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
-import { generateQuoteJpgPages, jpgFileNames, quotePageSvg } from '../src/lib/jpg-quote';
+import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
+import { generateQuoteJpgPages, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
 import { defaultLeadOwner } from '../src/config/site';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -106,16 +106,13 @@ describe('раскладка КП', () => {
     expect(/draft|черновик|копия/i.test(`${l.text} ${r.text}`)).toBe(false);
   });
 
-  it('надпись набрана своим шрифтом плотно, а не текстовым вразрядку', () => {
-    // Шрифт знака отдельный от документного (решение 15.09.2026): узкий
-    // строгий гротеск, буквы сбиты в блок.
+  it('надпись набрана шрифтом документа, плотно, без второй гарнитуры', () => {
+    // Своё начертание знака снято 16.09.2026: документ набирается одним
+    // шрифтом, вторая гарнитура читается как чужая вставка даже бледной.
     const [l] = watermarks(pdfMeasure()) as any[];
-    expect(l.fontFile).toBe('Oswald-SemiBold.ttf');
-    expect(l.fontFamily).toBe('Oswald');
+    expect(l.fontFile).toBeUndefined();
+    expect(l.fontFamily).toBeUndefined();
     expect(l.spacing).toBeLessThan(1.5);
-    // Файл начертания на месте: без него знак молча ушёл бы на документный
-    // шрифт и разъехался бы по высоте.
-    expect(bandFontPath(l.fontFile)).toBeTruthy();
   });
 
   it('прозрачность слоёв: подложка почти невесома, надпись читается', () => {
@@ -440,14 +437,6 @@ describe('форматы КП', () => {
     }
   });
 
-  it('имена файлов называют лист только у многостраничного КП', () => {
-    // Лента из склеенных страниц не печаталась: лист документа — лист файла
-    // (решение руководителя 15.09.2026).
-    expect(jpgFileNames('BZ-1', 1)).toEqual(['KP_BZ-1.jpg']);
-    expect(jpgFileNames('BZ-1', 3)).toEqual([
-      'KP_BZ-1_лист1.jpg', 'KP_BZ-1_лист2.jpg', 'KP_BZ-1_лист3.jpg',
-    ]);
-  });
 
   it('SVG страницы содержит те же тексты, что и раскладка', () => {
     const page = buildQuoteLayout(data, pdfMeasure())[0];
@@ -482,9 +471,13 @@ describe('форматы по получателям', () => {
     expect(api).toMatch(/await sendMail\(\{[\s\S]{0,200}to: data\.email/);
   });
 
-  it('в письме клиенту вложена картинка', () => {
-    expect(api).toContain('clientAttachment');
-    expect(api).toMatch(/contentType: 'image\/jpeg'/);
+  it('клиенту уходит один PDF, собранный из листов', () => {
+    // До 15.09.2026 уходило по файлу на лист: три вложения на трёхлистовое
+    // КП, и клиент искал, какой из них «тот самый документ».
+    expect(api).toContain('pdfFromJpegPages(jpgPages)');
+    expect(api).toContain('quotePdfFileName');
+    expect(api).toMatch(/contentType: 'application\/pdf'/);
+    expect(api).not.toContain("contentType: 'image/jpeg'");
   });
 
   it('руководителю уходят Word и PDF', () => {

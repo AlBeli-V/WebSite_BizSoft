@@ -14,7 +14,7 @@
 import jpeg from 'jpeg-js';
 import { Resvg } from '@resvg/resvg-js';
 import { buildQuoteLayout, PAGE, type QuoteData, type Primitive } from './quote-layout';
-import { pdfMeasure, docFonts, logoBuffer, bandFontPath } from './pdf-quote';
+import { pdfMeasure, docFonts, logoBuffer } from './pdf-quote';
 
 /** Начертания документа — те же файлы, что у PDF (шрифт сайта Raleway). */
 const FONTS = docFonts();
@@ -83,7 +83,7 @@ function svgOf(p: Primitive): string {
       + p.locks.map((d) => `<path d="${d}" fill="${p.color}" fill-rule="evenodd" `
         + `opacity="${p.lockOpacity}"/>`).join('')
       // Слой 4 — надпись снизу вверх, прижатая к своему замку.
-      + `<text x="${p.cx}" y="${p.textCy}" font-family="${bandFontPath(p.fontFile) ? p.fontFamily : FONTS.family}" font-weight="bold" `
+      + `<text x="${p.cx}" y="${p.textCy}" font-family="${FONTS.family}" font-weight="bold" `
       + `font-size="${p.size}" letter-spacing="${p.spacing}" fill="${p.color}" `
       + `opacity="${p.textOpacity}" text-anchor="middle" dominant-baseline="central" `
       + `transform="rotate(-90 ${p.cx} ${p.textCy})">${esc(p.text)}</text>`
@@ -105,17 +105,6 @@ export function quotePageSvg(items: Primitive[]): string {
     + `<rect width="100%" height="100%" fill="#FFFFFF"/>`
     + items.map(svgOf).join('')
     + `</svg>`;
-}
-
-/** Начертания, которые нужны растеризатору: документное и знака. */
-function rasterFonts(items: Primitive[]): string[] {
-  const files = new Set(FONTS.files);
-  for (const p of items) {
-    if (p.kind !== 'band') continue;
-    const path = bandFontPath(p.fontFile);
-    if (path) files.add(path);
-  }
-  return [...files];
 }
 
 interface Raster { width: number; height: number; data: Buffer }
@@ -146,16 +135,7 @@ function raster(svg: string, fontFiles: string[] = FONTS.files): Raster {
 export function generateQuoteJpgPages(data: QuoteData): Buffer[] {
   const pages = buildQuoteLayout(data, pdfMeasure());
   return pages.map((p) => {
-    const img = raster(quotePageSvg(p.items), rasterFonts(p.items));
+    const img = raster(quotePageSvg(p.items));
     return jpeg.encode({ width: img.width, height: img.height, data: img.data }, QUALITY).data;
   });
-}
-
-/**
- * Имена файлов листов: `KP_<номер>.jpg` у одностраничного КП и
- * `KP_<номер>_лист1.jpg`, `…_лист2.jpg` — у многостраничного.
- */
-export function jpgFileNames(quoteNo: string, pages: number): string[] {
-  if (pages <= 1) return [`KP_${quoteNo}.jpg`];
-  return Array.from({ length: pages }, (_, i) => `KP_${quoteNo}_лист${i + 1}.jpg`);
 }

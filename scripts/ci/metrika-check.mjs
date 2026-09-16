@@ -17,6 +17,13 @@
  * Проверять разбор очереди ym.a оказалось нельзя — настоящий тег этот
  * массив не чистит, и пункт краснел на исправном сайте.
  *
+ * С 16.09.2026 счётчик грузится только после согласия в cookie-плашке
+ * (docs/rules/consent-audit.md). Поэтому проверка сама выдаёт согласие —
+ * кладёт выбор в localStorage до открытия страницы — и отдельным пунктом
+ * убеждается, что БЕЗ согласия тег не запрашивается вовсе. Второй пункт
+ * важнее первого: молчаливый возврат безусловной загрузки — это нарушение
+ * 152-ФЗ, которое по поведению сайта незаметно.
+ *
  * Два режима:
  *   без аргументов — против локальной сборки (стаб Directus + dist).
  *     Тег подменяется заглушкой: проверяется наш код, а не доступность
@@ -39,6 +46,11 @@ const BASE = LIVE || `http://127.0.0.1:${APP_PORT}`;
 // поломка может быть и в конкретном шаблоне (лишний скрипт, ошибка JS).
 const PAGES = ['/', '/vendors/anthropic', '/catalog'];
 const TAG_HOST = 'mc.yandex.ru';
+// Ключ и форма записи — те же, что в src/lib/cookie-consent.ts. Дубль
+// строкой намеренно: скрипт проверки не должен импортировать модуль сайта,
+// иначе он проверял бы сам себя.
+const CONSENT_KEY = 'bizsoft_consent_v1';
+const CONSENT_GRANTED = { v: 1, at: '2026-09-16T00:00:00.000Z', yandex_analytics: true, google_analytics: true };
 const TAG_PATH = '/metrika/tag.js';
 // Настоящий tag.js — минифицированный файл в десятки килобайт. Ответ 200
 // телом в сотни байт означает не счётчик, а заглушку: так вёл себя прокси
@@ -100,8 +112,35 @@ try {
   );
   console.log(`\nСчётчик в браузере (${LIVE ? 'живой сайт' : 'локальная сборка'}): ${BASE}\n`);
 
+  // Без согласия ни один необязательный тег грузиться не должен. Пункт
+  // стоит первым и с чистым хранилищем: именно этот случай видит посетитель
+  // на первом визите.
+  {
+    const ctx = await browser.newContext();
+    const page = await ctx.newPage();
+    const asked = [];
+    page.on('request', (r) => { if (r.url().includes(TAG_PATH) || r.url().includes('googletagmanager.com/gtag')) asked.push(r.url()); });
+    if (!LIVE) {
+      await page.route(`**${TAG_HOST}${TAG_PATH}**`, (route) => route.fulfill({
+        status: 200, contentType: 'application/javascript', body: TAG_STUB,
+      }));
+    }
+    await page.goto(`${BASE}/`, { waitUntil: 'networkidle' }).catch(() => {});
+    await page.waitForTimeout(LIVE ? 4000 : 1200);
+    report('до согласия аналитические теги не грузятся', asked.length === 0,
+      asked.map((u) => u.replace(/\?.*/, '')).join(', ') || 'ни одного запроса');
+    const ymType = await page.evaluate(() => typeof window.ym);
+    report('до согласия очередь ym не создаётся', ymType === 'undefined', `typeof ym=${ymType}`);
+    await ctx.close();
+  }
+
   for (const path of PAGES) {
     const ctx = await browser.newContext();
+    // Согласие выдаётся до открытия страницы: дальше проверяется уже то,
+    // ради чего сторож заведён, — реально ли запускается счётчик.
+    await ctx.addInitScript(([key, value]) => {
+      try { localStorage.setItem(key, value); } catch (e) { /* приватный режим */ }
+    }, [CONSENT_KEY, JSON.stringify(CONSENT_GRANTED)]);
     const page = await ctx.newPage();
     const tagRequests = [];
     const tagResponses = [];

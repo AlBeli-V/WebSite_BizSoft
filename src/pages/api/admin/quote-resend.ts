@@ -22,7 +22,9 @@ import type { APIRoute } from 'astro';
 import { checkAdmin, isAdminConfigured, unauthorized } from '../../../lib/admin-auth';
 import { getProductsBySkus, getQuotes } from '../../../lib/directus';
 import { generateQuoteDocx } from '../../../lib/docx-quote';
-import { generateQuoteJpgPages, jpgFileNames } from '../../../lib/jpg-quote';
+import { generateQuoteJpgPages } from '../../../lib/jpg-quote';
+import { pdfFromJpegPages, quotePdfFileName } from '../../../lib/offer-doc';
+import { offerProductLinks, offerVendorGroups } from '../../../lib/offer-content';
 import { buildCustomerQuoteEmail } from '../../../lib/email/quote-customer';
 import { managerEmail, salesFrom, sendMail } from '../../../lib/mailer';
 import { generateQuotePdf } from '../../../lib/pdf-quote';
@@ -128,10 +130,13 @@ export const POST: APIRoute = async ({ request }) => {
   const to = String(body.to || '').trim() || managerEmail;
 
   let jpgPages: Buffer[];
+  let clientPdf: Buffer;
   let pdf: Buffer;
   let docx: Buffer;
   try {
     jpgPages = generateQuoteJpgPages(data);
+    // Клиенту — тот же единый PDF из листов, что и при выпуске КП.
+    clientPdf = await pdfFromJpegPages(jpgPages);
     pdf = await generateQuotePdf(data);
     docx = await generateQuoteDocx(data);
   } catch (e) {
@@ -140,7 +145,8 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const asClient = body.mode === 'client';
-  const files = jpgFileNames(data.quoteNo, jpgPages.length);
+  const clientPdfName = quotePdfFileName(data.quoteNo, data.buyerCompany, data.date);
+  const files = [clientPdfName];
   const summary = {
     ok: true,
     quote_no: data.quoteNo,
@@ -161,7 +167,13 @@ export const POST: APIRoute = async ({ request }) => {
   // теме: письмо уходит на внутренний адрес, и спутать его с настоящим
   // предложением нельзя.
   if (asClient) {
-    const mail = buildCustomerQuoteEmail(data, jpgPages.length);
+    const catalog = await getProductsBySkus(items.map((i) => i.sku)).catch(() => []);
+    const mail = buildCustomerQuoteEmail({
+      data,
+      pdfName: clientPdfName,
+      pdfSize: clientPdf.length,
+      vendors: offerVendorGroups(offerProductLinks(items, catalog, site.url), site.url),
+    });
     try {
       await sendMail({
         from: salesFrom,
@@ -170,9 +182,9 @@ export const POST: APIRoute = async ({ request }) => {
         subject: `${TEST_PREFIX} ${mail.subject}`,
         text: mail.text,
         html: mail.html,
-        attachments: files.map((filename, i) => ({
-          filename, content: jpgPages[i], contentType: 'image/jpeg',
-        })),
+        attachments: [{
+          filename: clientPdfName, content: clientPdf, contentType: 'application/pdf',
+        }],
       });
     } catch (e) {
       console.error('quote-resend: client mail failed', e);
@@ -192,14 +204,14 @@ export const POST: APIRoute = async ({ request }) => {
         `Повторная отправка ранее выпущенного КП № ${data.quoteNo} от ${data.date}.`,
         `Заказчик: ${data.buyerCompany || '—'}, адрес клиента: ${data.email || '—'}.`,
         `Позиций: ${items.length}. Сумма: ${data.total.toLocaleString('ru-RU')} ₽.`,
-        `Листов в документе: ${jpgPages.length} — картинка идёт по файлу на лист.`,
+        `Листов в документе: ${jpgPages.length} — один PDF, собранный из листов.`,
         '',
         'Письмо служебное: заявка не заводилась, запись в CRM не создавалась,'
         + ' клиенту ничего не отправлялось.',
       ].join('\n'),
       attachments: [
-        ...files.map((filename, i) => ({ filename, content: jpgPages[i], contentType: 'image/jpeg' })),
-        { filename: `KP_${data.quoteNo}.pdf`, content: pdf, contentType: 'application/pdf' },
+        { filename: clientPdfName, content: clientPdf, contentType: 'application/pdf' },
+        { filename: `KP_${data.quoteNo}_макет.pdf`, content: pdf, contentType: 'application/pdf' },
         { filename: `KP_${data.quoteNo}.docx`, content: docx,
           contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
       ],
