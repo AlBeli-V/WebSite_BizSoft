@@ -51,14 +51,20 @@ const dict = { TYPE_LABEL, ACTION_LABEL, STATUS_LABEL };
     </p>
 
     <form class="cmp-auth card" data-auth>
+      {/* Подписи под полями: три источника здесь разные, и без пояснения
+          экран читается как «три части одного токена, который кто-то выдаёт»
+          (вопрос руководителя 16.09.2026). */}
       <label><span>Токен роли</span>
         <input type="password" data-token autocomplete="current-password" placeholder="COMPLIANCE_*_TOKEN" required />
+        <small>Значение секрета <code>COMPLIANCE_OWNER_TOKEN</code> или <code>COMPLIANCE_ADMIN_TOKEN</code> — оно и определяет роль.</small>
       </label>
       <label><span>Код из приложения</span>
         <input type="text" data-otp inputmode="numeric" pattern="[0-9]{6}" placeholder="000000" autocomplete="one-time-code" required />
+        <small>Шесть цифр из приложения-аутентификатора, меняются каждые 30 секунд.</small>
       </label>
       <label><span>Кто работает</span>
         <input type="text" data-actor placeholder="Фамилия и имя" autocomplete="name" required />
+        <small>Не секрет: имя печатается руками и попадает в журнал действий.</small>
       </label>
       <button type="submit" class="btn btn-primary">Открыть раздел</button>
       <p class="cmp-auth-note">Токен и код не сохраняются в браузере: после перезагрузки страницы вход повторяется.</p>
@@ -182,7 +188,16 @@ const dict = { TYPE_LABEL, ACTION_LABEL, STATUS_LABEL };
   .cmp-lead { color: var(--color-text-muted); font-size: 0.9rem; max-width: 80ch; line-height: 1.6; margin-bottom: 1.5rem; }
   .cmp-lead a { color: var(--color-accent); }
 
-  .cmp-auth { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: flex-end; padding: 1.2rem; }
+  /* Поля выровнены по верху, а не по низу: у каждого своя подпись-пояснение,
+     и при выравнивании по низу сами поля вставали на разной высоте. Отступ у
+     кнопки повторяет высоту строки подписи — иначе она всплывает к заголовкам. */
+  .cmp-auth { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: flex-start; padding: 1.2rem; }
+  .cmp-auth label { flex: 1 1 15rem; max-width: 22rem; }
+  .cmp-auth > button[type='submit'] { margin-top: 1.4rem; }
+  .cmp-auth label small {
+    font-weight: 400; font-size: 0.74rem; color: var(--color-text-dim); line-height: 1.45;
+  }
+  .cmp-auth label small code { font-size: 0.72rem; word-break: break-word; }
   .cmp-auth label, .cmp-filters label, .cmp-op-row label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem; font-weight: 600; min-width: 0; }
   .cmp-auth input, .cmp-filters input, .cmp-filters select, .cmp-op-row input {
     background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong);
