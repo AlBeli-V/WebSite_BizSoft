@@ -214,5 +214,197 @@
     "ADBE-LIC-FIREFLYENT-TEAM-1Y-USER": {
       "marker": "team"
     }
-  }
+  },
+  "businessValue": {
+    "headline": "Один источник шрифтов, цветов и макетов для всех, кто работает над брендом",
+    "elaboration": "Creative Cloud хранит шрифты, цвета, стили и графические активы в общих библиотеках, доступных всем участникам лицензии организации. Дизайнер, открывающий проект, подключается к той же версии библиотеки, что и остальная команда, — обновление логотипа или цветовой палитры не требует повторной рассылки файлов каждому исполнителю. Admin Console закрепляет места за организацией, а не за личными Adobe ID: при смене состава команды лицензия и доступ к библиотекам переназначаются другому сотруднику, а не создаются заново. Это снижает число ручных передач бренд-активов между дизайнерами и внешними исполнителями и даёт единую точку контроля над тем, кто на данный момент имеет доступ к лицензии."
+  },
+  "intro": "Линейка делится на три решения. Полный набор Creative Cloud нужен там, где специалист работает в нескольких приложениях сразу: сумма отдельных подписок обычно превышает стоимость набора уже на двух приложениях. Отдельное приложение берут, когда задача одна — ретушь, вёрстка, монтаж. Командные планы отличаются не составом приложений, а принадлежностью лицензии: она закреплена за организацией и переназначается в Admin Console при смене сотрудника.",
+  "explainer": {
+    "title": "Что нужно понять до выбора тарифа",
+    "items": [
+      {
+        "title": "Creative Cloud или отдельное приложение",
+        "text": "Creative Cloud — весь каталог приложений в одной подписке. Отдельное приложение (Single App) — лицензия ровно на одно приложение; дешевле она только тогда, когда используется действительно одно."
+      },
+      {
+        "title": "Личный Adobe ID и управляемая учётная запись",
+        "text": "Индивидуальная подписка живёт на личном Adobe ID сотрудника и уходит вместе с ним. Командная лицензия закреплена за организацией: место переназначается другому сотруднику из Admin Console."
+      },
+      {
+        "title": "Генеративные кредиты Firefly",
+        "text": "Firefly считает не запросы, а кредиты: стандартные генерации на Pro-плане не лимитированы, премиальные модели списывают кредиты из ежемесячного пакета."
+      },
+      {
+        "title": "Admin Console",
+        "text": "Панель управления организацией: кто какие приложения использует, назначение и снятие лицензий, общие библиотеки бренда. На индивидуальных подписках её нет."
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "graphics",
+      "label": "Фото и графика",
+      "icon": "design",
+      "description": "Растровая и векторная графика: ретушь, цветокоррекция, каталогизация снимков, логотипы и иллюстрации, сохраняющие чёткость при любом масштабе.",
+      "keys": [
+        "ADBE-LIC-PHOTOSHOP-UNI-1Y-USER",
+        "ADBE-LIC-LIGHTROOM-UNI-1Y-USER",
+        "ADBE-LIC-PHOTOGRAPHY-UNI-1Y-USER",
+        "ADBE-LIC-ILLUSTRATOR-UNI-1Y-USER"
+      ]
+    },
+    {
+      "id": "three-d",
+      "label": "3D и текстуры",
+      "icon": "engineering",
+      "description": "Создание и текстурирование трёхмерных моделей для продуктовой визуализации, рекламы и игровых проектов.",
+      "keys": [
+        "ADBE-LIC-SUBSTANCE3D-IND-1Y-USER",
+        "ADBE-LIC-SUBSTANCE3D-TEAM-1Y-USER"
+      ]
+    },
+    {
+      "id": "video",
+      "label": "Видео, анимация и звук",
+      "icon": "media",
+      "description": "Монтаж, моушн-дизайн и работа со звуковой дорожкой: сборка таймлайна, цветокоррекция, композитинг и визуальные эффекты, экспорт под требования площадок.",
+      "keys": [
+        "ADBE-LIC-PREMIEREPRO-UNI-1Y-USER",
+        "ADBE-LIC-AFTEREFFECTS-UNI-1Y-USER",
+        "ADBE-LIC-ANIMATE-UNI-1Y-USER",
+        "ADBE-LIC-AUDITION-UNI-1Y-USER"
+      ]
+    },
+    {
+      "id": "layout",
+      "label": "Вёрстка и веб",
+      "icon": "web",
+      "description": "Многостраничные издания и веб-страницы: мастер-страницы, стили абзацев, редакторская работа с текстом, вёрстка сайтов.",
+      "keys": [
+        "ADBE-LIC-INDESIGN-UNI-1Y-USER",
+        "ADBE-LIC-INCOPY-UNI-1Y-USER",
+        "ADBE-LIC-DREAMWEAVER-UNI-1Y-USER"
+      ]
+    },
+    {
+      "id": "pdf",
+      "label": "PDF и документы",
+      "icon": "office",
+      "description": "Создание, правка, защита и подписание PDF: конвертация в офисные форматы и обратно, распознавание сканов, сравнение версий, электронная подпись.",
+      "keys": [
+        "ADBE-LIC-ACROBATSTD-UNI-1Y-USER",
+        "ADBE-LIC-ACROBATPRO-IND-1Y-USER",
+        "ADBE-LIC-ACROBATSTUD-UNI-1Y-USER",
+        "ADBE-LIC-ACROBATPRO-TEAM-1Y-USER"
+      ]
+    },
+    {
+      "id": "ai",
+      "label": "Генеративный ИИ",
+      "icon": "ai",
+      "description": "Генерация и правка изображений моделями Firefly отдельной подпиской — когда генеративные возможности нужны шире, чем внутри приложений Creative Cloud.",
+      "keys": [
+        "ADBE-LIC-FIREFLYTEAMS-TEAM-1Y-USER",
+        "ADBE-LIC-FIREFLYENT-TEAM-1Y-USER"
+      ]
+    },
+    {
+      "id": "marketing",
+      "label": "Контент для маркетинга",
+      "icon": "comm",
+      "description": "Быстрый дизайн материалов для соцсетей и рекламы по готовым шаблонам и банк лицензионного стокового контента.",
+      "keys": [
+        "ADBE-LIC-EXPRESS-IND-1Y-USER",
+        "ADBE-LIC-EXPRESS-TEAM-1Y-USER",
+        "ADBE-LIC-STOCK-UNI-1Y-PACK-10IMG"
+      ]
+    }
+  ],
+  "segments": [
+    {
+      "id": "team",
+      "title": "Для организации",
+      "text": "Командные планы: лицензия принадлежит компании, места назначаются и снимаются в Admin Console.",
+      "hint": "Место переназначается при смене сотрудника",
+      "why": "Командные планы отличаются от индивидуальных не составом приложений, а принадлежностью лицензии: файлы и место остаются у организации, когда сотрудник уходит.",
+      "keys": [
+        "ADBE-LIC-ACROBATPRO-TEAM-1Y-USER",
+        "ADBE-LIC-CCPRO-TEAM-1Y-USER",
+        "ADBE-LIC-CCSINGLEAPP-TEAM-1Y-USER",
+        "ADBE-LIC-EXPRESS-TEAM-1Y-USER",
+        "ADBE-LIC-SUBSTANCE3D-TEAM-1Y-USER",
+        "ADBE-LIC-FIREFLYTEAMS-TEAM-1Y-USER",
+        "ADBE-LIC-FIREFLYENT-TEAM-1Y-USER"
+      ]
+    },
+    {
+      "id": "individual",
+      "title": "Один специалист",
+      "text": "Индивидуальная подписка на одного пользователя: лицензия закреплена за личным Adobe ID.",
+      "hint": "Подходит, когда лицензия нужна одному человеку",
+      "why": "Индивидуальная подписка живёт на личном Adobe ID: при увольнении сотрудника она уходит вместе с ним, а файлы остаются в его личном хранилище.",
+      "keys": [
+        "ADBE-LIC-PHOTOSHOP-UNI-1Y-USER",
+        "ADBE-LIC-ILLUSTRATOR-UNI-1Y-USER",
+        "ADBE-LIC-INDESIGN-UNI-1Y-USER",
+        "ADBE-LIC-INCOPY-UNI-1Y-USER",
+        "ADBE-LIC-PREMIEREPRO-UNI-1Y-USER",
+        "ADBE-LIC-AFTEREFFECTS-UNI-1Y-USER",
+        "ADBE-LIC-ANIMATE-UNI-1Y-USER",
+        "ADBE-LIC-AUDITION-UNI-1Y-USER",
+        "ADBE-LIC-DREAMWEAVER-UNI-1Y-USER",
+        "ADBE-LIC-LIGHTROOM-UNI-1Y-USER",
+        "ADBE-LIC-PHOTOGRAPHY-UNI-1Y-USER",
+        "ADBE-LIC-EXPRESS-IND-1Y-USER",
+        "ADBE-LIC-ACROBATSTD-UNI-1Y-USER",
+        "ADBE-LIC-ACROBATPRO-IND-1Y-USER",
+        "ADBE-LIC-ACROBATSTUD-UNI-1Y-USER",
+        "ADBE-LIC-CCSTD-UNI-1Y-USER",
+        "ADBE-LIC-CCPRO-IND-1Y-USER",
+        "ADBE-LIC-SUBSTANCE3D-IND-1Y-USER",
+        "ADBE-LIC-STOCK-UNI-1Y-PACK-10IMG"
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "id": "creative-cloud",
+      "title": "Полный набор Creative Cloud",
+      "flagship": true,
+      "note": "Все приложения линейки в одной подписке. Считается выгоднее отдельных приложений начиная с двух используемых одновременно.",
+      "items": [
+        "ADBE-LIC-CCPRO-TEAM-1Y-USER",
+        "ADBE-LIC-CCPRO-IND-1Y-USER",
+        "ADBE-LIC-CCSTD-UNI-1Y-USER",
+        "ADBE-LIC-CCSINGLEAPP-TEAM-1Y-USER"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "adobe-org",
+      "title": "Adobe для организаций",
+      "kind": "cells",
+      "place": "after-compare",
+      "cells": [
+        {
+          "title": "Firefly и генеративный ИИ",
+          "text": "Стандартные генерации без лимита на Pro-планах, премиальные — по кредитам из ежемесячного пакета. На Enterprise-условиях данные организации не используются для обучения модели."
+        },
+        {
+          "title": "Совместная работа",
+          "text": "Общие библиотеки шрифтов, цветов, стилей и ассетов доступны всей команде без пересылки файлов между сотрудниками."
+        },
+        {
+          "title": "Уход сотрудника",
+          "text": "На командных планах лицензия и файлы остаются у организации: место переназначается новому сотруднику из Admin Console."
+        },
+        {
+          "title": "Где Adobe — отраслевой стандарт",
+          "text": "Рекламные и брендинговые агентства, издательские дома, теле- и видеопродакшены, архитектурные бюро и корпоративные маркетинговые отделы."
+        }
+      ]
+    }
+  ]
 }

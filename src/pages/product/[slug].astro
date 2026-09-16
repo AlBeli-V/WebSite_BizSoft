@@ -621,12 +621,17 @@ try {
                       Справа знак действия: плюс — положить, диагональный
                       крестик — исключить. Состояние названо дважды, словом
                       и знаком, и читается, не читая подпись. */}
+                  {/* data-vendor уезжает в подборку вместе с позицией: из
+                      него спецификация берёт юридическое название первой
+                      строкой описания. Без него туда попадало первое слово
+                      названия — «Claude» вместо «Anthropic PBC». */}
                   <button
                     class="coll-btn" type="button"
                     data-add-cart
                     data-sku={product.sku}
                     data-slug={product.slug}
                     data-name={product.name}
+                    data-vendor={product.vendor || ''}
                     data-price={eff.price}
                   >
                     <CollectionMark size={18} />
@@ -1487,7 +1492,8 @@ try {
     if (inCollection()) {
       removeFromCart(addBtn.dataset.sku!);
     } else {
-      addToCart({ sku: addBtn.dataset.sku!, slug: addBtn.dataset.slug!, name: addBtn.dataset.name!, price: unit }, curQty());
+      addToCart({ sku: addBtn.dataset.sku!, slug: addBtn.dataset.slug!, name: addBtn.dataset.name!,
+                  vendor: addBtn.dataset.vendor || '', price: unit }, curQty());
       trackGoal('add_to_cart', { ...schema, sku: addBtn.dataset.sku || '' });
     }
     paintCollection();
