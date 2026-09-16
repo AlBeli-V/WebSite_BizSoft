@@ -4,8 +4,26 @@
 # https://biz-soft.pro с раннера GitHub (у сессии Claude egress к проду
 # закрыт). Read-only: страницы только читаются, прод не меняется.
 # Результат — комментарием в журнал-issue #22.
+#
+# Недельный слот заведён 15.09.2026 решением руководителя. Повод: и дубль
+# идентификатора узла (01.09), и письма Search Console 15.09 пришли от Google
+# с задержкой в неделю и больше, хотя проверка с нужными инвариантами (повтор
+# @id/itemid, поля Offer в обоих слоях, цена = разметке) в проекте написана и
+# работает — её просто некому было запускать. Тишина по правилу операционных
+# прогонов: при успехе прогон по расписанию молчит, при сбое — одна запись в
+# журнал; ручной запуск отчитывается всегда, как раньше.
 name: ops-schema-check
 on:
+  schedule:
+    # Понедельник, 03:41 UTC = 06:41 МСК — штатный слот. Минута некруглая
+    # сознательно: круглые слоты планировщик GitHub задерживает сильнее.
+    - cron: "41 3 * * 1"
+    # Понедельник, 04:29 UTC = 07:29 МСК — контрольный слот через 48 минут:
+    # планировщик GitHub пропускает отдельные слоты (27.08, 03.09.2026).
+    # Если штатный слот сегодня уже прошёл успешно, второй ничего не делает
+    # (Guard ниже). Сторож seo-morning-gate этому контуру не нужен: письма
+    # он не шлёт и к утреннему окну не привязан, задержка слота ему не вредит.
+    - cron: "29 4 * * 1"
   workflow_dispatch:
     inputs:
       urls:
@@ -17,6 +35,15 @@ permissions:
   # приватному репозиторию и actions/checkout падает «Repository not found».
   contents: read
   issues: write
+  # actions: read — Guard спрашивает у API историю прогонов этого же workflow.
+  actions: read
+
+# Штатный и контрольный слоты идут по очереди: второй дожидается первого и по
+# его исходу решает, есть ли ему что делать.
+concurrency:
+  group: ops-schema-check
+  cancel-in-progress: false
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -25,8 +52,35 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      # Идемпотентность по дню (дата по МСК). Артефакта у проверки нет —
+      # её результат живёт в журнале, — поэтому роль «файла за сегодня»
+      # играет успешный прогон этого же workflow по расписанию: он и значит,
+      # что прод сегодня уже проверен. Ручной запуск проверку не проходит —
+      # это осознанный повтор. Если API недоступен, прогон идёт: лишняя
+      # проверка стоит двух минут, пропущенная — недели тишины.
+      - name: Guard - today's successful run
+        id: guard
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          run=yes
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            today=$(TZ=Europe/Moscow date +%F)
+            done_today=$(gh api \
+              "repos/$GITHUB_REPOSITORY/actions/workflows/ops-schema-check.yml/runs?event=schedule&status=success&per_page=20" \
+              --jq "[.workflow_runs[] | select((((.run_started_at | fromdateiso8601) + 10800) | strftime(\"%Y-%m-%d\")) == \"$today\")] | length" \
+              2>/dev/null || echo "")
+            if [ -n "$done_today" ] && [ "$done_today" -gt 0 ] 2>/dev/null; then
+              run=no
+              echo "прод сегодня ($today) уже проверен успешным прогоном — слот пропущен"
+            fi
+          fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+
       - name: Check structured data
         id: run
+        if: steps.guard.outputs.run == 'yes'
         env:
           URLS: ${{ inputs.urls }}
         run: |
@@ -42,11 +96,16 @@ jobs:
               # Контрольная выборка: заменяем стабовые слаги на реальные прод-URL.
               node scripts/seo/check-structured-data.mjs --base https://biz-soft.pro --urls "/,/catalog,/catalog/design,/catalog/ai,/catalog/ai/text,/product/chatgpt-business,/product/anthropic-team,/product/app-store-itunes-gift-card,/vendors,/vendors/jetbrains,/vendors/zoom,/vendors/openai,/vendors/figma,/vendors/maxon,/vendors/adobe,/vendors/canva,/vendors/miro,/vendors/zoho,/compare/chatgpt-vs-claude,/compare/cursor-vs-copilot,/blog,/solutions,/faq,/pricing,/how-we-work,/contacts,/about,/cases,/documents" || rc=$?
             fi
+            echo "прогон: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
             echo 'SCHEMA_EOF'
           } >> "$GITHUB_OUTPUT"
           exit $rc
+
+      # Тишина при успехе: прогон по расписанию пишет в журнал только тогда,
+      # когда проверка нашла нарушения. Ручной запуск отчитывается всегда —
+      # оператор запускал проверку затем, чтобы увидеть её результат.
       - name: Post to issue
-        if: always()
+        if: always() && (steps.run.outcome == 'failure' || github.event_name == 'workflow_dispatch')
         uses: ./.github/actions/journal-post
         with:
           title: "ops-schema-check"
