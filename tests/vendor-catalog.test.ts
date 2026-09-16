@@ -6,8 +6,11 @@
  */
 import { describe, expect, it } from 'vitest';
 import { isSystemSku } from '../src/lib/sku';
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, rmSync } from 'node:fs';
 import { resolve, basename } from 'node:path';
+import { tmpdir } from 'node:os';
+import { execFileSync } from 'node:child_process';
+import * as XLSX from 'xlsx';
 import { VENDORS } from '../src/data/vendors';
 import { computePegRub } from '../src/lib/pricing';
 
@@ -57,7 +60,11 @@ const ALLOWED_CATEGORIES = ['system', 'security', 'development', 'collaboration'
   // Заведён 05.09.2026 под подарочные карты (Apple Gift Card): цифровой код
   // пополнения баланса — не лицензия и не подписка, в прежние разделы не
   // ложится. Создаёт ops-categories по data/catalog/categories.json.
-  'gift-cards'];
+  'gift-cards',
+  // Заведён 15.09.2026 решением руководителя под TryHackMe: практическое
+  // обучение кибербезопасности — не антивирус и не системное ПО. Создаёт
+  // ops-categories по data/catalog/categories.json.
+  'training'];
 
 describe('VENDORS', () => {
   it('слаги уникальны', () => {
@@ -175,9 +182,15 @@ describe('пакеты scripts/catalog', () => {
     }
   });
 
-  it('карточки с публикуемой ценой привязаны к USD, «по запросу» — без базовой цены', () => {
+  it('карточки с публикуемой ценой привязаны к валюте вендора, «по запросу» — без базовой цены', () => {
     for (const { pkg } of packages) {
       for (const p of pkg.products) {
+        // Себестоимость — в одной валюте: две сразу означают, что никто не
+        // знает, по какому курсу считается цена (import-vendors такую строку
+        // отвергает, тест ловит её раньше прогона).
+        expect(p.base_price_usd != null && p.base_price_eur != null,
+          `${p.slug}: себестоимость сразу в долларах и евро`).toBe(false);
+        if (p.base_price_eur != null) expect(p.base_price_eur).toBeGreaterThan(0);
         if (p.base_price_usd != null) {
           expect(p.base_price_usd).toBeGreaterThan(0);
           // Цена без страницы допустима только у скрытых позиций
@@ -238,5 +251,42 @@ describe('контрольные расчёты цены (формула compute
       rates,
     );
     expect(rub).toBe(expected);
+  });
+
+  // Закупка в евро (TryHackMe, 15.09.2026): та же формула, другая колонка
+  // курса. Пересчёта евро в доллары в цепочке нет — он сделал бы рублёвую
+  // цену заложницей движения EUR/USD.
+  const eurRates = { usd: 80, eur: 95 };
+  const eurCases: [string, number, number][] = [
+    // [описание, base_eur, ожидаемые ₽ при курсе 95 и коэффициенте 1.9]
+    ['личная подписка tryhackme-premium', 255, 46028],
+    ['личная подписка tryhackme-max', 445, 80323],
+    ['пакет мест tryhackme-business-5-seats', 1488, 268584],
+  ];
+  it.each(eurCases)('%s', (_label, base, expected) => {
+    const rub = computePegRub(
+      { peg_to_usd: true, peg_currency: 'EUR', base_price_usd: null, base_price_eur: base, markup_coeff: 1.9 },
+      eurRates,
+    );
+    expect(rub).toBe(expected);
+  });
+});
+
+describe('сборка xlsx для штатного импорта (scripts/import-vendors.mjs)', () => {
+  it('пакет с закупкой в евро уезжает в импорт евро, а не долларами', () => {
+    const out = resolve(tmpdir(), `vendors-eur-${process.pid}.xlsx`);
+    execFileSync(process.execPath, ['scripts/import-vendors.mjs', '--emit', out, 'tryhackme'],
+      { cwd: resolve(__dirname, '..'), encoding: 'utf8' });
+    const wb = XLSX.read(readFileSync(out));
+    const rows = XLSX.utils.sheet_to_json<Record<string, string | number>>(wb.Sheets['Товары']);
+    rmSync(out, { force: true });
+    const premium = rows.find((r) => r.sku === 'THM-LIC-PREMIUM-IND-1Y-USER')!;
+    expect(premium, 'позиция не попала в файл импорта').toBeTruthy();
+    expect(premium.base_price_eur).toBe(255);
+    expect(premium.base_price_usd).toBe('');
+    expect(premium.peg_currency).toBe('EUR');
+    expect(premium.markup_coeff).toBe(1.9);
+    expect(premium.price, 'цена считается по курсу ЦБ, а не проставляется файлом').toBe('');
+    expect(premium.slug).toBe('tryhackme-premium');
   });
 });
