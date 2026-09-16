@@ -12,7 +12,7 @@
 import { seller, site } from '../config/site';
 import { formatRub } from './pricing';
 import { amountPhrase, moneyFmt, numberWords, pluralForm, singleVatRate, vatOfItems } from './rub-words';
-import { salutation } from './salutation';
+import { salutation, shortFio } from './salutation';
 import { specLine } from './spec-line';
 import type { QuoteItem } from './types';
 
@@ -375,15 +375,28 @@ export function headMetaLines(data: QuoteData): string[] {
   ];
 }
 
-/** Блок «Кому»: реквизиты покупателя из формы. */
-export function buyerLines(data: QuoteData): string[] {
-  return [
-    data.buyerCompany || '—',
-    data.buyerInn ? `ИНН ${data.buyerInn}` : '',
-    data.contactName || '',
-    data.email || '',
-    data.phone ? `Тел.: ${data.phone}` : '',
-  ].filter(Boolean);
+/**
+ * Блок «Кому»: реквизиты покупателя из формы.
+ *
+ * Композиция руководителя 16.09.2026: заказчик с ИНН стоит в одной строке со
+ * словом «Кому:», остальные строки выровнены по началу названия организации.
+ * Так блок читается как адресная шапка письма, а не как столбик полей формы.
+ *
+ * `head` — то, что печатается справа от подписи, `lines` — под ним с тем же
+ * отступом. Получатель назван сокращённо («Беляев А.В.»), а если фамилии в
+ * форме не было — строки нет вовсе: одно имя в реквизитах ничего не сообщает.
+ */
+export function buyerBlock(data: QuoteData): { head: string; lines: string[] } {
+  const head = [data.buyerCompany || '—', data.buyerInn ? `ИНН ${data.buyerInn}` : '']
+    .filter(Boolean).join(', ');
+  return {
+    head,
+    lines: [
+      shortFio(data.contactName),
+      data.email || '',
+      data.phone ? `Тел.: ${data.phone}` : '',
+    ].filter(Boolean),
+  };
 }
 
 /**
@@ -585,11 +598,17 @@ export function buildQuoteLayout(data: QuoteData, measure: Measure): Page[] {
   y += 16;
 
   // ── Кому ───────────────────────────────────────────────────────────────
+  // Подпись и заказчик — одна строка, остальное под ней с тем же отступом.
+  const buyer = buyerBlock(data);
+  const labelX = left + measure.width('Кому:', 10, true) + 8;
   text('Кому:', left, y, { bold: true, size: 10, color: COLOR.dark });
-  y += 14;
-  for (const l of buyerLines(data)) {
-    for (const part of wrap(l, 9, width * 0.6, measure)) {
-      text(part, left, y);
+  for (const part of wrap(buyer.head, 9, right - labelX, measure)) {
+    text(part, labelX, y);
+    y += 11;
+  }
+  for (const l of buyer.lines) {
+    for (const part of wrap(l, 9, right - labelX, measure)) {
+      text(part, labelX, y);
       y += 11;
     }
   }
