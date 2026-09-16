@@ -53,6 +53,7 @@ Claude, реестр, сторожа привязок) — `operational-routines
 | Конкурентная разведка, ежедневно | `competitive-intelligence-daily.yml` | 09:20, 10:05 | `reports/competitive/<дата>-email.html` | `competitive-intelligence-mail` (сторож 10:40) |
 | SERP Яндекса и Google | `seo-serp-watch.yml` | 01:37, 02:45 | `serp/<дата>-serp.jsonl` | — |
 | Wordstat | `seo-wordstat.yml` | 04:20, 05:35, каждые 6 ч | `wordstat/<дата>-full-result.json` | — |
+| Разметка Schema.org на проде, понедельник | `ops-schema-check.yml` | 06:41, 07:29 | успешный прогон дня (API Actions) | — |
 | Сторож времени утренних контуров | `seo-morning-gate.yml` | каждый час 01:03–12:03 | — | — |
 
 Веб-отчёт и deep report публикуются теми же прогонами через

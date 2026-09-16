@@ -28,15 +28,20 @@ const data = {
 };
 
 describe('письмо клиенту', () => {
-  const mail = buildCustomerQuoteEmail(data);
+  // Полный разбор письма — в tests/offer-flow.test.ts. Здесь остаётся то,
+  // что относится к безопасности шаблона: экранирование полей формы и
+  // обязательный текстовый двойник.
+  const mail = buildCustomerQuoteEmail({
+    data, pdfName: 'КП_BIZSoft_BZ-20260828-0042_ROMASHKA_28.08.2026.pdf', pdfSize: 512000,
+  });
 
-  it('есть и HTML, и text-fallback с одним содержимым', () => {
-    expect(mail.html).toContain('<!DOCTYPE html>');
-    for (const part of ['BZ-20260828-0042', 'не является публичной офертой',
-                        '100% аванс', '04.09.2026']) {
-      expect(mail.html).toContain(part);
-      expect(mail.text).toContain(part);
-    }
+  it('есть и HTML, и text-fallback', () => {
+    expect(mail.html).toContain('<!doctype html>');
+    expect(mail.text).toContain('BZ-20260828-0042');
+    // Номер письмо несёт темой и текстовой версией: в HTML его больше нет —
+    // сводка из письма убрана, чтобы оно не читалось как второй экземпляр КП
+    // (решение руководителя 15.09.2026).
+    expect(mail.subject).toContain('BZ-20260828-0042');
   });
 
   it('обращение по имени, а не по всему полю ФИО', () => {
@@ -44,17 +49,18 @@ describe('письмо клиенту', () => {
   });
 
   it('пользовательские поля экранируются в HTML', () => {
+    // Название организации приходит из формы: неэкранированный тег в письме
+    // — это чужой HTML в почтовом клиенте получателя.
     expect(mail.html).not.toContain('<script>');
     expect(mail.html).toContain('&lt;script&gt;');
   });
 
-  it('приглашает ответить на письмо — путь к менеджеру', () => {
-    expect(mail.html).toContain('ответьте на это письмо');
-    expect(mail.text).toContain('Ответьте на это письмо');
-  });
-
-  it('вёрстка без внешних ресурсов', () => {
-    expect(mail.html).not.toMatch(/src="http|<link|<script/);
+  it('вёрстка без внешних ресурсов и скриптов', () => {
+    expect(mail.html).not.toMatch(/<link|<script/);
+    // Картинок со стороны в письме нет: единственная — фотография менеджера
+    // с нашего домена, и только если файл действительно лежит на месте.
+    const external = [...mail.html.matchAll(/src="(https?:[^"]+)"/g)].map((m) => m[1]);
+    for (const src of external) expect(src).toContain('biz-soft.pro');
   });
 });
 
