@@ -82,45 +82,11 @@ export const GOALS: Record<string, GoalSpec> = {
   company_autofill: { ga4: 'form_autofill', key: false,
     meaning: 'Организация выбрана из справочника, реквизиты подставлены' },
 
-  // ── Предложение после отправки: письмо и страница КП ────────────────
-  // До 15.09.2026 воронка обрывалась на скачивании КП: что происходило с
-  // предложением дальше — открыл ли клиент документ, попросил ли счёт,
-  // дошёл ли до договора — не было видно ни в одном отчёте. Эти цели
-  // размечают вторую половину сделки, ту, где деньги.
-  //
-  // Персональных данных в параметрах нет: ни имени, ни телефона, ни почты,
-  // ни ИНН, ни суммы — только внутренние идентификаторы и вид действия.
-  offer_webview_open: { ga4: 'offer_webview_open', key: false,
-    meaning: 'Открыта страница предложения по ссылке из письма' },
-  offer_pdf_open: { ga4: 'offer_pdf_open', key: false,
-    meaning: 'Открыт PDF предложения со страницы' },
-  offer_final_request_click: { ga4: 'generate_lead', key: true,
-    meaning: 'Запрошено финальное КП без водяных знаков — клиент готов к переговорам' },
-  offer_invoice_request_click: { ga4: 'generate_lead', key: true,
-    meaning: 'Запрошен счёт по предложению' },
-  offer_actions_open: { ga4: 'offer_actions_open', key: false,
-    meaning: 'Открыт выбор действий по предложению' },
-  offer_action_select: { ga4: 'offer_action_select', key: false,
-    meaning: 'Отмечено действие в списке — какое, в параметре action_type' },
-  offer_action_submit: { ga4: 'generate_lead', key: true,
-    meaning: 'Отправлен запрос действий по предложению' },
-  offer_action_success: { ga4: 'offer_action_success', key: false,
-    meaning: 'Запрос действий принят сервером' },
-  offer_contract_download: { ga4: 'file_download', key: false,
-    meaning: 'Скачан типовой договор с дополнительным соглашением' },
-  offer_edo_open: { ga4: 'offer_edo_open', key: false,
-    meaning: 'Раскрыты данные для подключения ЭДО' },
-  offer_edo_copy: { ga4: 'offer_edo_copy', key: false,
-    meaning: 'Скопирован идентификатор участника ЭДО или ИНН' },
-  offer_edo_accounting_mail_click: { ga4: 'offer_edo_accounting_mail', key: false,
-    meaning: 'Открыто письмо бухгалтерии с данными для ЭДО' },
-  offer_product_click: { ga4: 'select_item', key: false,
-    meaning: 'Переход к товару из предложения' },
-  offer_category_click: { ga4: 'select_item', key: false,
-    meaning: 'Переход в раздел каталога из предложения' },
-  // Контакт со страницы предложения шлёт общие цели click_phone/click_email/
-  // click_messenger с параметром placement: своя цель на каждый экран
-  // означала бы две конверсии за один звонок и завышенный отчёт.
+  // Целей вида offer_* здесь нет. Они появились 15.09.2026 вместе со
+  // страницей предложения и ушли вместе с ней в тот же день: разметить
+  // вторую половину сделки можно было только на странице, а в письме
+  // событий не бывает — почтовый клиент не выполняет скриптов. Что
+  // происходит после отправки КП, видно по ответным письмам менеджеру.
 
   // ── Интерес: что смотрят ────────────────────────────────────────────
   view_product: { ga4: 'view_item', key: false,
@@ -306,20 +272,84 @@ type Ym = (id: number, action: string, goal?: string, params?: Record<string, un
 type Gtag = (command: string, event: string, params?: Record<string, unknown>) => void;
 
 /**
- * Отправить цель. Безопасна до загрузки счётчика и при отключённой аналитике:
- * счётчик Метрики буферизует вызовы, а отсутствие gtag просто пропускается.
+ * Имена параметров, которых в аналитике не бывает никогда.
+ *
+ * Список закрытый и проверяется тестом: в параметр цели персональные данные
+ * попадают не злым умыслом, а тем, что удобно — «передадим заодно почту,
+ * пригодится». Один раз попав в счётчик, они оттуда не удаляются
+ * (документ 05, п. 3: в Google Analytics не уходят поля форм, ФИО, e-mail,
+ * телефон, ИНН).
+ */
+const PII_KEYS = new Set([
+  'email', 'e_mail', 'mail', 'phone', 'tel', 'telephone', 'inn', 'name',
+  'fio', 'first_name', 'last_name', 'company', 'company_name', 'organization',
+  'message', 'comment', 'address', 'user_id', 'client_email',
+]);
+
+/** Почта, телефон и длинные номера в любом текстовом значении. */
+const EMAIL_RE = /[\w.+-]+@[\w-]+\.[\w.-]+/g;
+const PHONE_RE = /(?:\+?\d[\s()-]?){10,15}/g;
+const LONG_DIGITS_RE = /\b\d{10,}\b/g;
+
+function scrubText(value: string): string {
+  return value
+    .replace(EMAIL_RE, '[email]')
+    .replace(PHONE_RE, '[phone]')
+    .replace(LONG_DIGITS_RE, '[number]')
+    .slice(0, 200);
+}
+
+/**
+ * Очистить параметры цели от персональных данных.
+ *
+ * Два рубежа: имена полей из закрытого списка выбрасываются целиком, а в
+ * оставшихся строках маскируются почта, телефон и длинные номера. Второй
+ * рубеж нужен потому, что текст приходит и в безобидные на вид параметры —
+ * например, `reason` цели `lead_error` содержит сообщение сервера, а оно
+ * может процитировать введённый адрес.
+ *
+ * Экспортируется ради теста: проверка «в аналитику не уходят ПДн» должна
+ * смотреть на ту же функцию, которой пользуется код, а не на её описание.
+ */
+export function sanitizeGoalParams(params: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(params)) {
+    if (PII_KEYS.has(key.toLowerCase())) continue;
+    if (typeof value === 'string') {
+      out[key] = scrubText(value);
+      continue;
+    }
+    if (typeof value === 'number' || typeof value === 'boolean' || value === null) {
+      out[key] = value;
+      continue;
+    }
+    // Вложенные объекты и массивы в параметрах целей не нужны, а проверить
+    // их состав нечем: отбрасываем целиком.
+  }
+  return out;
+}
+
+/**
+ * Отправить цель.
+ *
+ * Безопасна и до загрузки счётчика, и при отсутствующем согласии: пока
+ * человек не разрешил аналитику, функций `ym` и `gtag` в окне нет вовсе
+ * (см. Analytics.astro), и вызов молча пропускается. Именно так выглядит
+ * «не загружать необязательные теги до выбора пользователя» со стороны
+ * прикладного кода — ни одной ветки с проверкой согласия в компонентах.
  */
 export function trackGoal(name: string, params: Record<string, unknown> = {}): void {
   if (typeof window === 'undefined') return;
   const w = window as unknown as { ym?: Ym; gtag?: Gtag };
+  const safe = sanitizeGoalParams(params);
   try {
-    if (typeof w.ym === 'function') w.ym(Number(METRIKA_ID), 'reachGoal', name, params);
+    if (typeof w.ym === 'function') w.ym(Number(METRIKA_ID), 'reachGoal', name, safe);
     // В GA4 уходит рекомендованное имя, если оно есть: под стандартные имена
     // он сам строит отчёты. Наше имя при этом сохраняется параметром, иначе
     // generate_lead от формы и от скачивания КП слились бы в одно число.
     if (typeof w.gtag === 'function') {
       const spec = GOALS[name];
-      w.gtag('event', spec ? spec.ga4 : name, spec ? { ...params, bz_goal: name } : params);
+      w.gtag('event', spec ? spec.ga4 : name, spec ? { ...safe, bz_goal: name } : safe);
     }
   } catch {
     // Аналитика не должна ломать сценарий пользователя: заявка уже отправлена.

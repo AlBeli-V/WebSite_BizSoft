@@ -1,17 +1,18 @@
 /**
- * Контур предложения после выпуска КП: документ, письмо, страница, действия.
+ * Контур предложения после выпуска КП: документ и письмо.
  *
- * Проверяем то, что ломается молча: имя файла, число страниц в PDF, подпись
- * ссылки на страницу, запреты вёрстки письма (форма и скрипт в почте не
- * работают) и отсутствие персональных данных в ссылках аналитики.
+ * Проверяем то, что ломается молча: имя файла, число страниц в PDF, запреты
+ * вёрстки письма (форма и скрипт в почте не работают), состав по
+ * производителям и отсутствие персональных данных в ссылках аналитики.
+ *
+ * Страницы `/offer/<токен>` больше нет — снята решением руководителя
+ * 15.09.2026 вместе с токенами, списком действий и целями offer_*.
  */
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
 import { latinName, pdfFromJpegPages, quotePdfFileName, fileSizeRu } from '../src/lib/offer-doc';
-import { offerExpired, offerToken, offerTokenMatches, offerUrl } from '../src/lib/offer-token';
-import { OFFER_ACTIONS, actionLabels, knownActionIds } from '../src/lib/offer-actions';
-import { offerCategoryLinks, offerProductLinks, withEmailUtm } from '../src/lib/offer-content';
-import { buildMailto, finalQuoteMailto, invoiceMailto, edoAccountingMailto } from '../src/lib/mailto';
+import { offerProductLinks, offerVendorGroups, withEmailUtm } from '../src/lib/offer-content';
+import { buildMailto, contractMailto, finalQuoteMailto, invoiceMailto,
+  edoAccountingMailto } from '../src/lib/mailto';
 import { buildCustomerQuoteEmail } from '../src/lib/email/quote-customer';
 import { generateQuoteJpgPages } from '../src/lib/jpg-quote';
 import { edo, offerDocs, offerManager, seller } from '../src/config/site';
@@ -87,47 +88,6 @@ describe('единый PDF из листов', () => {
   });
 });
 
-describe('ссылка на страницу предложения', () => {
-  it('токен подписывает номер КП и сверяется с ним', () => {
-    const t = offerToken(data.quoteNo);
-    expect(t).toHaveLength(32);
-    expect(offerTokenMatches(data.quoteNo, t)).toBe(true);
-    expect(offerTokenMatches('BZ-20260915-00000', t)).toBe(false);
-  });
-
-  it('в адресе нет ни номера КП, ни данных клиента', () => {
-    const url = offerUrl('https://biz-soft.pro', data.quoteNo, 'actions');
-    expect(url).not.toContain(data.quoteNo);
-    expect(url).not.toContain(data.buyerInn);
-    expect(url).not.toContain(data.email);
-    expect(url).toContain('utm_source=bizsoft_email');
-  });
-
-  it('страница живёт дольше предложения, но не вечно', () => {
-    const issued = new Date('2026-09-15T09:00:00Z');
-    expect(offerExpired(issued, 7, new Date('2026-09-30T09:00:00Z'))).toBe(false);
-    expect(offerExpired(issued, 7, new Date('2026-11-30T09:00:00Z'))).toBe(true);
-  });
-});
-
-describe('список действий', () => {
-  it('идентификаторы уникальны и пригодны для параметров аналитики', () => {
-    const ids = OFFER_ACTIONS.map((a) => a.id);
-    expect(new Set(ids).size).toBe(ids.length);
-    for (const id of ids) expect(id).toMatch(/^[a-z_]+$/);
-  });
-
-  it('чужие значения с формы отбрасываются', () => {
-    expect(knownActionIds(['invoice', 'drop table', 'invoice'])).toEqual(['invoice']);
-    expect(knownActionIds('invoice')).toEqual([]);
-  });
-
-  it('приглашение в ЭДО отправляем мы, а не ждём клиента', () => {
-    expect(OFFER_ACTIONS.some((a) => a.id === 'edo_invite')).toBe(true);
-    expect(actionLabels(['edo_invite'])[0]).toContain('Диадок');
-  });
-});
-
 describe('заготовки писем', () => {
   const ctx = { to: 'a@b.ru', managerName: 'Алексей', quoteNo: data.quoteNo, buyerCompany: data.buyerCompany };
 
@@ -144,15 +104,41 @@ describe('заготовки писем', () => {
     expect(href).toContain(encodeURIComponent(data.quoteNo));
   });
 
-  it('счёт и финальное КП — разные темы, обе с номером предложения', () => {
-    expect(invoiceMailto(ctx)).toContain(encodeURIComponent('запрос счёта'));
-    expect(invoiceMailto(ctx)).not.toBe(finalQuoteMailto(ctx));
+  it('счёт, договор и финальное КП — разные темы, все с номером предложения', () => {
+    for (const href of [invoiceMailto(ctx), contractMailto(ctx), finalQuoteMailto(ctx)]) {
+      expect(href).toContain(encodeURIComponent(data.quoteNo));
+    }
+    expect(invoiceMailto(ctx)).toContain(encodeURIComponent('Запрос счёта'));
+    expect(contractMailto(ctx)).toContain(encodeURIComponent('Запрос договора'));
+    expect(invoiceMailto(ctx)).not.toBe(contractMailto(ctx));
+  });
+
+  it('тема запроса называет заказчика, дату и производителей состава', () => {
+    // Менеджер узнаёт сделку по одной строке в списке писем, не открывая её.
+    const href = invoiceMailto({ ...ctx, date: data.date, buyerInn: data.buyerInn,
+      vendors: ['Adobe', 'JetBrains'] });
+    expect(href).toContain(encodeURIComponent(`${data.buyerCompany} — Запрос счёта`));
+    expect(href).toContain(encodeURIComponent(`от ${data.date}`));
+    expect(href).toContain(encodeURIComponent('на Adobe / JetBrains'));
+    expect(href).toContain(encodeURIComponent(`(ИНН: ${data.buyerInn})`));
+  });
+
+  it('письмо бухгалтерии начинается адресацией прописными', () => {
+    // Цвета в теле mailto: не существует — письмо создаёт почтовый клиент
+    // получателя. Прописные работают везде.
+    const href = edoAccountingMailto({
+      legalName: seller.legalName, shortName: seller.shortName, inn: seller.inn,
+      ogrnip: seller.ogrnip, participantId: edo.participantId, provider: edo.provider,
+      buyerCompany: data.buyerCompany,
+    });
+    expect(href).toContain(encodeURIComponent('НАПРАВИТЬ В БУХГАЛТЕРИЮ'));
+    expect(href).toContain(encodeURIComponent(seller.ogrnip));
   });
 
   it('письмо бухгалтерии несёт идентификатор ЭДО и без адресата', () => {
     const href = edoAccountingMailto({
-      legalName: seller.legalName, inn: seller.inn,
-      participantId: edo.participantId, provider: edo.provider, howTo: edo.howTo,
+      legalName: seller.legalName, shortName: seller.shortName, inn: seller.inn,
+      ogrnip: seller.ogrnip, participantId: edo.participantId, provider: edo.provider,
     });
     expect(href.startsWith('mailto:?')).toBe(true);
     expect(href).toContain(encodeURIComponent(edo.participantId));
@@ -173,10 +159,13 @@ describe('ссылки предложения', () => {
     expect(links).toHaveLength(1);
   });
 
-  it('разделов не больше трёх и они не повторяются', () => {
-    const cats = offerCategoryLinks(data.items, catalog, 'https://biz-soft.pro');
-    expect(cats.length).toBeLessThanOrEqual(3);
-    expect(new Set(cats.map((c) => c.url)).size).toBe(cats.length);
+  it('состав группируется по производителям в порядке позиций', () => {
+    const groups = offerVendorGroups(
+      offerProductLinks(data.items, catalog, 'https://biz-soft.pro'), 'https://biz-soft.pro');
+    expect(groups.map((g) => g.vendor)).toEqual(['Adobe', 'Figma']);
+    expect(groups[0].url).toContain('/vendors/adobe');
+    expect(groups[0].url).toContain('utm_content=vendor');
+    expect(groups.flatMap((g) => g.products)).toHaveLength(data.items.length);
   });
 
   it('метка кампании не затирает существующий параметр', () => {
@@ -185,13 +174,13 @@ describe('ссылки предложения', () => {
 });
 
 describe('письмо клиенту', () => {
+  const vendors = offerVendorGroups(
+    offerProductLinks(data.items, catalog, 'https://biz-soft.pro'), 'https://biz-soft.pro');
   const mail = buildCustomerQuoteEmail({
     data,
     pdfName: quotePdfFileName(data.quoteNo, data.buyerCompany, data.date),
     pdfSize: 1153434,
-    offerUrl: offerUrl('https://biz-soft.pro', data.quoteNo, 'actions'),
-    products: offerProductLinks(data.items, catalog, 'https://biz-soft.pro'),
-    categories: offerCategoryLinks(data.items, catalog, 'https://biz-soft.pro'),
+    vendors,
   });
 
   it('вёрстка табличная, без того, что почта вырезает', () => {
@@ -203,47 +192,71 @@ describe('письмо клиенту', () => {
     expect(mail.html).not.toContain('fonts.googleapis.com');
   });
 
-  it('называет документ во вложении и не обещает кнопку «скачать»', () => {
-    expect(mail.html).toContain('КП_BIZSoft_BZ-20260915-29343_IT-MATRITSA_15.09.2026.pdf');
-    expect(mail.html).toContain('приложено к письму');
-    expect(mail.html).not.toContain('Скачать коммерческое предложение');
+  it('шапка — две картинки, телефонная скрыта и от Outlook тоже', () => {
+    // Word-движок Outlook `display:none` соблюдает не всегда: без условного
+    // комментария получатель увидел бы обе шапки подряд.
+    expect(mail.html).toContain('/email/banner-desk.jpg');
+    expect(mail.html).toContain('/email/banner-mob.jpg');
+    expect(mail.html).toContain('<!--[if !mso]><!-->');
+    expect(mail.html).toContain('<!--<![endif]-->');
+    // Картинки могут не загрузиться — подпись обязана нести смысл.
+    expect(mail.html).toContain('alt="BIZSoft — единая точка доступа');
   });
 
-  it('номер, сумма, срок и позиции есть текстом, а не картинкой', () => {
-    // Сумма сверяется тем же форматированием, каким собрана: в ru-RU
-    // разряды разделяет неразрывный пробел, и обычный здесь не совпадёт.
-    const total = data.total.toLocaleString('ru-RU');
-    for (const must of [data.quoteNo, total, data.validUntil, String(data.items.length)]) {
-      expect(mail.html).toContain(must);
-      expect(mail.text).toContain(must);
+  it('заголовок прописными и обращение по имени', () => {
+    expect(mail.html).toContain('Коммерческое предложение</div>');
+    expect(mail.html).toContain('text-transform:uppercase');
+    expect(mail.html).toContain('Уважаемый Алексей!');
+    expect(mail.html).toContain('в интересах ООО «ИТ МАТРИЦА»');
+  });
+
+  it('следующий шаг — четыре строки с маркерами от /01', () => {
+    for (const label of ['Запросить счёт', 'Запросить договор',
+                         'Скачать образец договора', 'Коннект в ЭДО']) {
+      expect(mail.html).toContain(label);
     }
+    for (const marker of ['/01', '/02', '/03', '/04']) {
+      expect(mail.html).toContain(`>${marker}<`);
+    }
+    expect(mail.html).not.toContain('>/05<');
+    // Стрелка скачивания смотрит вниз: она обещает файл, а не переход.
+    expect(mail.html).toContain('&#8595;');
   });
 
-  it('главный призыв — запрос финального КП, счёт и действия — вторые', () => {
-    expect(mail.html).toContain('ЗАПРОСИТЬ ФИНАЛЬНОЕ КП');
-    expect(mail.html).toContain('ЗАПРОСИТЬ СЧЁТ ПО КП');
-    expect(mail.html).toContain('ВЫБРАТЬ НУЖНЫЕ ДЕЙСТВИЯ');
-    // Автоматической выдачи документа без знаков быть не должно: кнопка
-    // создаёт разговор с менеджером, а не отдаёт файл.
-    expect(mail.html).toContain('после согласования условий');
+  it('ссылок на страницу предложения в письме нет', () => {
+    // Страница снята 15.09.2026: ссылка вела бы в 404 из живого КП.
+    expect(mail.html).not.toContain('/offer/');
+    expect(mail.text).not.toContain('/offer/');
   });
 
-  it('перечень действий показан, но формы в письме нет', () => {
-    for (const a of OFFER_ACTIONS) expect(mail.html).toContain(a.label);
-    expect(mail.html).toContain('&#9744;');
+  it('состав — производитель, под ним его позиции', () => {
+    expect(mail.html).toContain('Каталог Adobe');
+    expect(mail.html).toContain('Каталог Figma');
+    expect(mail.html).toContain('Страница Adobe Creative Cloud для команд');
+    expect(mail.html.indexOf('Каталог Adobe')).toBeLessThan(mail.html.indexOf('Каталог Figma'));
   });
 
-  it('данные ЭДО и типовые документы на месте', () => {
-    expect(mail.html).toContain(edo.participantId);
-    expect(mail.html).toContain(seller.inn);
+  it('сумма и срок в письме не дублируются — они в документе', () => {
+    // Решение руководителя 15.09.2026: письмо не должно читаться как второй
+    // экземпляр КП. Номер и имя файла остаются в текстовой версии.
+    expect(mail.html).not.toContain(data.total.toLocaleString('ru-RU'));
+    expect(mail.html).not.toContain(data.validUntil);
+    expect(mail.text).toContain(data.quoteNo);
+    expect(mail.text).toContain('КП_BIZSoft_BZ-20260915-29343_IT-MATRITSA_15.09.2026.pdf');
+  });
+
+  it('данные ЭДО и образец договора уходят заготовкой письма', () => {
+    expect(mail.html).toContain(encodeURIComponent(edo.participantId));
     expect(mail.html).toContain(offerDocs.contract.path);
     expect(mail.text).toContain(edo.participantId);
   });
 
-  it('контакты менеджера настоящие и кликабельные', () => {
+  it('контакты менеджера настоящие и кликабельные, должности нет', () => {
     expect(mail.html).toContain(`mailto:${offerManager.email}`);
     expect(mail.html).toContain(`tel:${offerManager.phoneHref}`);
     expect(mail.html).toContain(offerManager.telegram);
+    expect(mail.html).toContain('wa.me/79647161111');
+    expect(mail.html).not.toContain(offerManager.role);
   });
 
   it('ссылки не несут персональных данных клиента', () => {
@@ -258,33 +271,28 @@ describe('письмо клиенту', () => {
     }
   });
 
-  it('без настроенной страницы предложения письмо остаётся рабочим', () => {
-    const fallback = buildCustomerQuoteEmail({
-      data, pdfName: 'x.pdf', pdfSize: 100, products: [], categories: [],
-    });
-    expect(fallback.html).toContain('ответным письмом');
-    expect(fallback.html).not.toContain('/offer/');
+  it('без состава письмо остаётся рабочим', () => {
+    const bare = buildCustomerQuoteEmail({ data, pdfName: 'x.pdf', pdfSize: 100, vendors: [] });
+    expect(bare.html).toContain('>/01<');
+    expect(bare.html).not.toContain('СОСТАВ ПРЕДЛОЖЕНИЯ');
   });
 });
 
-describe('страница предложения', () => {
-  const page = readFileSync('src/pages/offer/[token].astro', 'utf8');
 
-  it('в индекс не попадает', () => {
-    expect(page).toContain('noindex={true}');
+describe('тема письма', () => {
+  const vendors = offerVendorGroups(
+    offerProductLinks(data.items, catalog, 'https://biz-soft.pro'), 'https://biz-soft.pro');
+
+  it('называет дату и производителей состава, а не номер', () => {
+    // Номер КП заказчику ни о чём не говорит: в списке писем он узнаёт
+    // предложение по дате и маркам (решение руководителя 16.09.2026).
+    const mail = buildCustomerQuoteEmail({ data, pdfName: 'x.pdf', pdfSize: 1, vendors });
+    expect(mail.subject).toBe('Предварительное КП BIZSoft от 15.09.2026 на поставку Adobe / Figma');
+    expect(mail.subject).not.toContain(data.quoteNo);
   });
 
-  it('поля с персональными данными закрыты от Вебвизора', () => {
-    // Правило docs/rules/webvisor-masking.md: любое поле ПДн на публичной
-    // странице несёт класс ym-disable-keys.
-    const inputs = page.match(/<(input|textarea)[^>]*>/g) || [];
-    const personal = inputs.filter((t) => /name="(comment|contact_)/.test(t));
-    expect(personal.length).toBeGreaterThan(0);
-    for (const tag of personal) expect(tag).toContain('ym-disable-keys');
-  });
-
-  it('чекбоксы настоящие — это и есть смысл страницы', () => {
-    expect(page).toContain('type="checkbox"');
-    expect(page).toContain('/api/offer-actions');
+  it('без состава тема остаётся осмысленной', () => {
+    const mail = buildCustomerQuoteEmail({ data, pdfName: 'x.pdf', pdfSize: 1, vendors: [] });
+    expect(mail.subject).toBe('Предварительное КП BIZSoft от 15.09.2026');
   });
 });
