@@ -90,6 +90,25 @@ const PRODUCTS = [
   // смоук видит и сам механизм, и то, что он не задваивает товар в своём
   // разделе.
   product({ id: 110, name: 'Cloudflare Pro', sku: 'CFLR-LIC-PRO-UNI-1Y-ORG', vendor: 'Cloudflare', slug: 'cloudflare-pro', category: CATEGORIES[1] }),
+  // Линейка Adobe: пилот универсального шаблона страницы производителя
+  // (движок v2, 15.09.2026). Нужна широкая линейка — иначе стенд не видит ни
+  // карты направлений (она включается от трёх направлений с позициями), ни
+  // подачи длинного хвоста строками (от восьми позиций вне флагманского
+  // раздела). Артикулы — настоящие, они же ключи в scripts/content/adobe.json.
+  product({ id: 120, name: 'Adobe Creative Cloud Pro для команд', sku: 'ADBE-LIC-CCPRO-TEAM-1Y-USER', vendor: 'Adobe', slug: 'adobe-cc-pro-team', price: 231307, category: CATEGORIES[1] }),
+  product({ id: 121, name: 'Adobe Creative Cloud Pro (личная)', sku: 'ADBE-LIC-CCPRO-IND-1Y-USER', vendor: 'Adobe', slug: 'adobe-cc-pro', price: 175147, category: CATEGORIES[1] }),
+  product({ id: 122, name: 'Adobe Creative Cloud Standard', sku: 'ADBE-LIC-CCSTD-UNI-1Y-USER', vendor: 'Adobe', slug: 'adobe-cc-standard', price: 139123, category: CATEGORIES[1] }),
+  product({ id: 123, name: 'Adobe Creative Cloud — одно приложение для команд', sku: 'ADBE-LIC-CCSINGLEAPP-TEAM-1Y-USER', vendor: 'Adobe', slug: 'adobe-cc-single-app-team', price: 89502, category: CATEGORIES[1] }),
+  product({ id: 124, name: 'Adobe Photoshop', sku: 'ADBE-LIC-PHOTOSHOP-UNI-1Y-USER', vendor: 'Adobe', slug: 'adobe-photoshop', price: 58361, category: CATEGORIES[1] }),
+  product({ id: 125, name: 'Adobe Illustrator', sku: 'ADBE-LIC-ILLUSTRATOR-UNI-1Y-USER', vendor: 'Adobe', slug: 'adobe-illustrator', price: 58361, category: CATEGORIES[1] }),
+  product({ id: 126, name: 'Adobe Lightroom', sku: 'ADBE-LIC-LIGHTROOM-UNI-1Y-USER', vendor: 'Adobe', slug: 'adobe-lightroom', price: 32548, category: CATEGORIES[1] }),
+  product({ id: 127, name: 'Adobe Premiere Pro', sku: 'ADBE-LIC-PREMIEREPRO-UNI-1Y-USER', vendor: 'Adobe', slug: 'adobe-premiere-pro', price: 58361, category: CATEGORIES[1] }),
+  product({ id: 128, name: 'Adobe After Effects', sku: 'ADBE-LIC-AFTEREFFECTS-UNI-1Y-USER', vendor: 'Adobe', slug: 'adobe-after-effects', price: 58361, category: CATEGORIES[1] }),
+  product({ id: 129, name: 'Adobe Acrobat Pro для команд', sku: 'ADBE-LIC-ACROBATPRO-TEAM-1Y-USER', vendor: 'Adobe', slug: 'adobe-acrobat-pro-team', price: 64113, category: CATEGORIES[1] }),
+  product({ id: 130, name: 'Adobe Acrobat Standard', sku: 'ADBE-LIC-ACROBATSTD-UNI-1Y-USER', vendor: 'Adobe', slug: 'adobe-acrobat-standard', price: 32548, category: CATEGORIES[1] }),
+  product({ id: 131, name: 'Adobe InDesign', sku: 'ADBE-LIC-INDESIGN-UNI-1Y-USER', vendor: 'Adobe', slug: 'adobe-indesign', price: 58361, category: CATEGORIES[1] }),
+  product({ id: 132, name: 'Adobe Express для команд', sku: 'ADBE-LIC-EXPRESS-TEAM-1Y-USER', vendor: 'Adobe', slug: 'adobe-express-team', price: 24411, category: CATEGORIES[1] }),
+  product({ id: 133, name: 'Adobe Substance 3D для команд', sku: 'ADBE-LIC-SUBSTANCE3D-TEAM-1Y-USER', vendor: 'Adobe', slug: 'adobe-substance-3d-team', price: 96722, category: CATEGORIES[1] }),
   product({ id: 103, name: 'Плагин скрытый', sku: 'JB-ADD-HIDDEN-TEAM-1Y-USER', vendor: 'JetBrains', slug: 'plagin-skrytyj' }),
   product({ id: 104, name: 'Товар noindex', sku: 'NOIDX-1', vendor: 'OpenAI', slug: 'tovar-noindex', noindex: true }),
   product({ id: 105, name: 'Черновик', sku: 'DRAFT-1', vendor: 'OpenAI', slug: 'chernovik', status: 'draft' }),
