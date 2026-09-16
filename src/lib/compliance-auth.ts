@@ -60,6 +60,28 @@ function equals(a: string, b: string): boolean {
   return timingSafeEqual(Buffer.from(a), Buffer.from(b));
 }
 
+/**
+ * Имя оператора из заголовка.
+ *
+ * Заголовок HTTP переносит байты ISO-8859-1, поэтому клиент кодирует имя
+ * процентами: без этого `fetch` бросал TypeError на первой же кириллической
+ * букве и запрос не уходил вовсе. Раскодирование терпимо к незакодированному
+ * значению — латинское имя с пробелом проходит через decodeURIComponent без
+ * изменений, так что старые клиенты и ручные запросы не ломаются.
+ */
+function decodeActor(raw: string | null): string {
+  const value = String(raw || '');
+  if (!value) return '';
+  let decoded = value;
+  try {
+    decoded = decodeURIComponent(value);
+  } catch {
+    // Испорченная процентная последовательность — берём как есть, а не
+    // роняем проверку доступа: имя нужно журналу, но не решает допуск.
+  }
+  return decoded.trim().slice(0, 120);
+}
+
 export interface ComplianceSession {
   role: ComplianceRole;
   /** Имя оператора из формы — попадает в admin_audit_log. */
@@ -90,7 +112,7 @@ export function authorizeCompliance(request: Request): ComplianceAuth {
   }
   const token = request.headers.get('x-compliance-token') || '';
   const otp = request.headers.get('x-compliance-otp') || '';
-  const actor = (request.headers.get('x-compliance-actor') || '').trim().slice(0, 120);
+  const actor = decodeActor(request.headers.get('x-compliance-actor'));
 
   const t = tokens();
   let role: ComplianceRole | null = null;

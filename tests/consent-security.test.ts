@@ -336,6 +336,42 @@ describe('заявка не принимается без записи согл�
   });
 });
 
+describe('имя оператора и заголовок доступа', () => {
+  const page = readFileSync(resolve(__dirname, '..', 'src/pages/admin/compliance.astro'), 'utf8');
+
+  it('имя кодируется перед отправкой заголовком', () => {
+    // Заголовок HTTP переносит байты ISO-8859-1. `fetch` бросает TypeError на
+    // первой же кириллической букве — и запрос не уходит вовсе. То есть
+    // «Алексей Беляев» в поле «Кто работает» не давал войти ни с каким
+    // паролем и кодом (разбор 16.09.2026). Проверка статическая, но точная:
+    // сырое значение в заголовке — это в точности тот дефект.
+    expect(page).toContain("'x-compliance-actor': encodeURIComponent(auth.actor)");
+    expect(page, 'сырое имя в заголовок не ставится')
+      .not.toMatch(/'x-compliance-actor':\s*auth\.actor/);
+  });
+
+  it('сервер раскодирует имя и терпит незакодированное', () => {
+    const src = readFileSync(resolve(__dirname, '..', 'src/lib/compliance-auth.ts'), 'utf8');
+    expect(src).toContain('decodeActor');
+    expect(src).toContain('decodeURIComponent');
+    // Испорченная процентная последовательность не должна ронять проверку.
+    const fn = src.slice(src.indexOf('function decodeActor'));
+    expect(fn).toContain('catch');
+  });
+
+  it('кириллица переживает круг «закодировать — раскодировать»', () => {
+    const name = 'Алексей Беляев';
+    const encoded = encodeURIComponent(name);
+    // Заголовок после кодирования обязан быть чистым ASCII, иначе браузер
+    // откажется собирать запрос.
+    expect(encoded).toMatch(/^[\x20-\x7e]+$/);
+    expect(decodeURIComponent(encoded)).toBe(name);
+    // Латинское имя с пробелом проходит раскодирование без изменений —
+    // значит, старые клиенты не ломаются.
+    expect(decodeURIComponent('Belyaev Alexey')).toBe('Belyaev Alexey');
+  });
+});
+
 describe('заведение секретов: пароль вместо команды', () => {
   const help = readFileSync(resolve(__dirname, '..', 'src/pages/admin/help.astro'), 'utf8');
   const setup = readFileSync(resolve(__dirname, '..', '.github/workflows/ops-consent-setup.yml'), 'utf8');
