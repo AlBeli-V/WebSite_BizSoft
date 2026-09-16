@@ -320,3 +320,47 @@ describe('заявка не принимается без записи согл�
     expect(b24).toContain('не портал');
   });
 });
+
+describe('заведение секретов: пароль вместо команды', () => {
+  const help = readFileSync(resolve(__dirname, '..', 'src/pages/admin/help.astro'), 'utf8');
+  const setup = readFileSync(resolve(__dirname, '..', '.github/workflows/ops-consent-setup.yml'), 'utf8');
+
+  it('ключ второго фактора генерируется в браузере и никуда не уходит', () => {
+    // Терминал был тем шагом, на котором заведение контура и вставало
+    // (16.09.2026). Кнопка его снимает, но только при условии, что значение
+    // не покидает машину администратора: ни запроса, ни хранилища.
+    const script = help.slice(help.indexOf('<script>'));
+    expect(script).toContain('crypto.getRandomValues');
+    expect(script).toContain('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567');
+    expect(script, 'ключ не отправляется на сервер').not.toMatch(/\bfetch\s*\(/);
+    expect(script, 'ключ не сохраняется в браузере').not.toMatch(/localStorage|sessionStorage|indexedDB/);
+  });
+
+  it('в алфавите ключа нет цифр, на которых спотыкаются при переносе', () => {
+    const m = /const ALPHABET = '([A-Z2-7]+)'/.exec(help);
+    expect(m, 'алфавит base32 задан строкой').toBeTruthy();
+    const alphabet = m![1];
+    expect(alphabet).toHaveLength(32);
+    for (const digit of ['0', '1', '8', '9']) expect(alphabet).not.toContain(digit);
+  });
+
+  it('check ловит пароль с символами, которые не доедут до сервера', () => {
+    // Значение пишется в astro.env строкой ИМЯ=значение без кавычек, поэтому
+    // кавычка, пробел или решётка обрезали бы его молча, а раздел ответил бы
+    // «неверный токен» — причину по интерфейсу не восстановить.
+    expect(setup).toContain('check_alphabet');
+    expect(setup).toContain("grep -qE '^[A-Za-z0-9._-]+$'");
+    for (const name of ['COMPLIANCE_OWNER_TOKEN', 'COMPLIANCE_ADMIN_TOKEN', 'UNSUBSCRIBE_SECRET']) {
+      expect(setup, `${name}: алфавит должен проверяться`).toContain(`check_alphabet ${name}`);
+    }
+  });
+
+  it('пароли из безопасного набора проходят проверку приложения', () => {
+    // Ровно то, что менеджер паролей выдаёт с выключенными спецсимволами.
+    const samples = ['Xk9.pQ2_mR7-vT4wZ', 'abcdefghijklmnop', 'A1b2C3d4E5f6G7h8'];
+    for (const value of samples) {
+      expect(value.length).toBeGreaterThanOrEqual(16);
+      expect(value).toMatch(/^[A-Za-z0-9._-]+$/);
+    }
+  });
+});
