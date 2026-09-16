@@ -1,0 +1,307 @@
+---
+/**
+ * Единый блок согласий для всех форм сайта.
+ *
+ * Своей копии этой логики ни у одной формы нет и быть не должно: расхождение
+ * между тем, что показано человеку, и тем, что ушло в журнал, — это именно
+ * тот дефект, из-за которого согласие перестаёт быть доказательством.
+ * Тексты и адреса документов берутся из src/config/legal.ts, версия и хэш
+ * проставляются сервером при записи события.
+ *
+ * Механика (дополнение к ТЗ от 16.09.2026):
+ *
+ *  • оба чекбокса пустые при загрузке, предвыбранных нет;
+ *  • маркетинговое согласие отправку не блокирует — только ПДн-согласие;
+ *  • главная кнопка формы остаётся нажимаемой всегда. Заблокированная кнопка
+ *    не объясняет, почему форма не уходит: человек жмёт, ничего не
+ *    происходит, и он уходит со страницы. Вместо этого при нажатии без
+ *    обязательной галочки показывается ошибка и фокус переводится на неё;
+ *  • «Подтвердить всё» — вторичный контрол, и сам по себе он маркетинговое
+ *    согласие не ставит: сперва короткое подтверждение с двумя ответами.
+ *    Иначе это был бы тот самый dark pattern, когда реклама включается
+ *    «заодно».
+ */
+import { CONSENT_UI, LEGAL_LINKS, PRIVACY_SHORT_LABEL } from '../config/legal';
+
+interface Props {
+  /** Идентификатор формы в журнале согласий: lead-form, question, quote, cart. */
+  formId: string;
+  /** Зачем собираются данные — уходит в объём согласия (consent_scope). */
+  submitPurpose: string;
+  /** Показывать ли необязательное согласие на рассылку. */
+  showMarketingConsent?: boolean;
+  /** Компактная подача для модальных окон: без рамки и заголовка блока. */
+  compact?: boolean;
+}
+const {
+  formId,
+  submitPurpose,
+  showMarketingConsent = true,
+  compact = false,
+} = Astro.props;
+
+const pd = CONSENT_UI.personalData;
+const mk = CONSENT_UI.marketing;
+
+// Ссылка внутри фразы: текст режется по подстроке, а не собирается из кусков
+// в разметке, — иначе формулировка в интерфейсе и её снимок в журнале
+// разъедутся при первой же правке.
+function split(text: string, linkText: string): [string, string, string] {
+  const i = linkText ? text.indexOf(linkText) : -1;
+  // Пустой linkText — у согласия нет ссылки внутри фразы, документ открывает
+  // подпись под строкой.
+  if (i < 0) return [text, '', ''];
+  return [text.slice(0, i), linkText, text.slice(i + linkText.length)];
+}
+const [pdBefore, pdLink, pdAfter] = split(pd.text, pd.linkText);
+const [mkBefore, mkLink, mkAfter] = split(mk.text, mk.linkText);
+
+const uid = `cc-${formId}-${Math.random().toString(36).slice(2, 7)}`;
+---
+<fieldset
+  class:list={['consent', compact && 'cc-compact']}
+  data-consent-block
+  data-form-id={formId}
+  data-purpose={submitPurpose}
+  data-state="default"
+>
+  <legend class="cc-legend">{CONSENT_UI.legend}</legend>
+
+  <div class="cc-row cc-required">
+    <input
+      class="cc-box"
+      type="checkbox"
+      id={`${uid}-pd`}
+      name="consent"
+      value="1"
+      data-consent-pd
+      aria-describedby={`${uid}-err`}
+    />
+    <div class="cc-body">
+      <label class="cc-text" for={`${uid}-pd`}>
+        {pdBefore}<a
+          href={LEGAL_LINKS.personalDataConsent}
+          target="_blank"
+          rel="noopener noreferrer"
+        >{pdLink}</a>{pdAfter}
+        <span class="cc-req" aria-hidden="true">*</span>
+        <span class="sr-only">— {pd.required}</span>
+      </label>
+      <p class="cc-links">
+        <a href={LEGAL_LINKS.personalDataConsent} target="_blank" rel="noopener noreferrer">{pd.docLabel}</a>
+        <span aria-hidden="true">·</span>
+        <a href={LEGAL_LINKS.privacy} target="_blank" rel="noopener noreferrer">{pd.policyLabel}</a>
+      </p>
+    </div>
+  </div>
+
+  {showMarketingConsent && (
+    <div class="cc-row cc-optional">
+      <input
+        class="cc-box"
+        type="checkbox"
+        id={`${uid}-mk`}
+        name="marketing_consent"
+        value="1"
+        data-consent-marketing
+      />
+      <div class="cc-body">
+        <label class="cc-text" for={`${uid}-mk`}>
+          {mkBefore}{mkLink && (
+            <a href={LEGAL_LINKS.marketingConsent} target="_blank" rel="noopener noreferrer">{mkLink}</a>
+          )}{mkAfter}
+        </label>
+        <p class="cc-links">
+          <span class="cc-optional-mark">{mk.optional}</span>
+          <span aria-hidden="true">·</span>
+          <a href={LEGAL_LINKS.marketingConsent} target="_blank" rel="noopener noreferrer">{mk.docLabel}</a>
+        </p>
+      </div>
+    </div>
+  )}
+
+  {/* Ошибка — только у обязательного согласия и только после неудачной
+      попытки отправки. Цвет не единственный её признак: рядом стоит знак и
+      текст, а role="alert" читает её вслух. */}
+  <p class="cc-error" id={`${uid}-err`} data-consent-error role="alert" hidden>
+    <span class="cc-error-mark" aria-hidden="true">!</span>{CONSENT_UI.error}
+  </p>
+
+  {showMarketingConsent && (
+    <div class="cc-bulk">
+      <button
+        type="button"
+        class="cc-bulk-btn"
+        data-consent-bulk
+        aria-expanded="false"
+        aria-controls={`${uid}-confirm`}
+      >{CONSENT_UI.bulk.label}</button>
+
+      {/* Подтверждение рядом с кнопкой, а не модальным окном на весь экран:
+          это уточнение к второстепенному действию, а не отдельный шаг. */}
+      <div class="cc-confirm" id={`${uid}-confirm`} data-consent-confirm hidden>
+        <p class="cc-confirm-q">{CONSENT_UI.bulk.question}</p>
+        <p class="cc-confirm-n">{CONSENT_UI.bulk.note}</p>
+        <div class="cc-confirm-actions">
+          <button type="button" class="cc-confirm-btn" data-consent-only-required>{CONSENT_UI.bulk.requiredOnly}</button>
+          <button type="button" class="cc-confirm-btn cc-confirm-primary" data-consent-all>{CONSENT_UI.bulk.all}</button>
+        </div>
+      </div>
+    </div>
+  )}
+
+  <p class="cc-policy">
+    <a href={LEGAL_LINKS.privacy} target="_blank" rel="noopener noreferrer">{PRIVACY_SHORT_LABEL}</a>
+  </p>
+
+  {/* Как именно человек выразил волю. Значение пишет скрипт блока, а
+      сервер сохраняет его в source_action события: «Подтвердить всё» —
+      это способ ввода, а не отдельное согласие. */}
+  <input type="hidden" name="consent_source_action" value="checkbox" data-consent-source-action />
+</fieldset>
+
+<style>
+  /* Блок согласий — служебная часть формы: минимальная высота, ничего
+     яркого, ни одной заливки. Он не должен спорить с призывом. */
+  .consent {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 0.85rem 0.6rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  .cc-compact { border: none; padding: 0; }
+  .cc-legend {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+    padding: 0 0.3rem;
+  }
+  .cc-compact .cc-legend { padding: 0; }
+
+  .cc-row { display: flex; align-items: flex-start; gap: 0.6rem; min-width: 0; }
+  /* 20×20 — нижняя граница из дополнения к ТЗ: меньше не попасть пальцем. */
+  .cc-box {
+    width: 20px; height: 20px; min-width: 20px;
+    margin: 0.1rem 0 0;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+  }
+  .cc-box:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .cc-body { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+
+  /* Вся строка переключает чекбокс — это делает сам <label for>. Ссылки
+     внутри работают как ссылки: клик по ним до чекбокса не доходит (см.
+     скрипт), иначе открытие документа заодно ставило бы галочку. */
+  .cc-text {
+    font-size: 0.84rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--color-text);
+    cursor: pointer;
+    white-space: normal;
+  }
+  .cc-text a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }
+  .cc-req { color: var(--color-accent); font-weight: 700; }
+
+  .cc-links {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    font-size: 0.76rem;
+    color: var(--color-text-dim);
+  }
+  .cc-links a { color: var(--color-text-muted); text-decoration: underline; text-underline-offset: 2px; }
+  .cc-links a:hover { color: var(--color-accent); }
+  /* Пометка «Необязательно» — нейтральная. Предупреждающий цвет здесь
+     читался бы как «что-то не так», хотя ничего делать не нужно. */
+  .cc-optional-mark { color: var(--color-text-dim); }
+  .cc-optional .cc-text { color: var(--color-text-muted); }
+
+  .cc-error {
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--color-danger);
+  }
+  .cc-error-mark {
+    flex: 0 0 auto;
+    width: 1.05rem; height: 1.05rem;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 800;
+  }
+  /* Красное состояние появляется только после неудачной отправки. */
+  .consent[data-state='required_error'] .cc-required .cc-box { outline: 2px solid var(--color-danger); outline-offset: 2px; }
+
+  .cc-bulk { position: relative; }
+  /* Вторичный контрол: подчёркнутая надпись, а не кнопка с заливкой.
+     Заливка здесь конкурировала бы с призывом формы. */
+  .cc-bulk-btn {
+    background: none; border: none; padding: 0;
+    font: inherit; font-size: 0.78rem; font-weight: 600;
+    color: var(--color-text-muted);
+    text-decoration: underline; text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .cc-bulk-btn:hover { color: var(--color-accent); }
+  .cc-bulk-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 3px; }
+
+  .cc-confirm {
+    position: absolute; z-index: 20; left: 0; top: calc(100% + 0.4rem);
+    width: min(21rem, calc(100vw - 3rem));
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    padding: 0.75rem 0.85rem;
+  }
+  .cc-confirm-q { margin: 0 0 0.25rem; font-size: 0.84rem; font-weight: 700; }
+  .cc-confirm-n { margin: 0 0 0.6rem; font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.4; }
+  .cc-confirm-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .cc-confirm-btn {
+    flex: 1 1 auto;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 12px;
+    background: var(--color-bg-elevated);
+    color: var(--color-text);
+    font: inherit; font-size: 0.8rem; font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .cc-confirm-btn:hover { border-color: var(--color-accent); }
+  .cc-confirm-primary { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+
+  .cc-policy { margin: 0; font-size: 0.76rem; }
+  .cc-policy a { color: var(--color-text-dim); text-decoration: underline; text-underline-offset: 2px; }
+  .cc-policy a:hover { color: var(--color-accent); }
+
+  /* После успешной отправки переключать согласия уже нельзя: состояние
+     заявки зафиксировано на сервере, и галочка, снятая postfactum, вводила
+     бы в заблуждение. */
+  .consent[data-state='submitted'] { opacity: 0.65; }
+
+  @media (max-width: 480px) {
+    /* На узком экране подтверждение раскрывается под контролом в потоке —
+       всплывающий блок поверх формы там перекрывает поля. */
+    .cc-confirm { position: static; width: auto; margin-top: 0.4rem; box-shadow: none; }
+  }
+</style>
+
+<script>
+  import { initConsentBlocks } from '../lib/consent-controls';
+  initConsentBlocks();
+  // Переходы с сохранением документа не перезапускают модуль.
+  document.addEventListener('astro:page-load', () => initConsentBlocks());
+</script>
