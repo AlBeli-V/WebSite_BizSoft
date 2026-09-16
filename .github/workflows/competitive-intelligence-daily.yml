@@ -130,16 +130,19 @@ jobs:
         if: steps.guard.outputs.build == 'yes'
         run: bash scripts/ops/gh_dispatch_wait.sh ci-publish-report.yml --timeout 600
 
-      # Ручной dispatch почтового workflow маркер игнорирует (сознательная
-      # переотправка), поэтому проверка «уже отправлено» — здесь.
+      # Проверка «уже отправлено» — здесь и в самом почтовом workflow.
+      # Здесь она была, но сравнивала маркер целой строкой, а маркер разведки
+      # с 04.09.2026 несёт три поля: «<дата> <sha256> <счётчик>». Совпадения
+      # не случалось никогда, и каждый прогон слал письмо заново — 16.09.2026
+      # руководитель получил четыре письма подряд. Разбор вынесен в
+      # scripts/ops/mail_marker.py, у него есть тесты.
       - name: Ensure letter is sent
         env:
           DATE: ${{ steps.guard.outputs.date }}
         run: |
           git fetch origin competitive-data --quiet
           mailed=$(git show origin/competitive-data:reports/competitive/last-mailed.txt 2>/dev/null || echo "")
-          if [ "$mailed" = "$DATE" ]; then
-            echo "письмо за $DATE уже отправлено"
+          if python3 scripts/ops/mail_marker.py sent --date "$DATE" --marker "$mailed"; then
             exit 0
           fi
           if ! git cat-file -e "origin/competitive-data:reports/competitive/$DATE-email.html" 2>/dev/null; then
