@@ -71,7 +71,7 @@
 | Пакетный менеджер | pnpm 9.15.9 (`packageManager` зафиксирован) |
 | CMS / БД | Directus (REST API, тонкий самописный fetch-клиент, без SDK) |
 | Стили | скоуп-CSS Astro (56 блоков `<style>`) + `global.css` (314 строк) |
-| Шрифты | self-host `@fontsource` Raleway + Prosto One, preload woff2 |
+| Шрифты | self-host Raleway (вариативный) + Prosto One, два woff2, `font-display: swap`, без preload |
 | Почта | nodemailer (SMTP reg.ru) |
 | PDF | pdfkit |
 | OG-картинки | `@resvg/resvg-js` + DejaVu, рендер на лету |

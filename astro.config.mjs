@@ -22,12 +22,12 @@ export default defineConfig({
     inlineStylesheets: 'always',
   },
   vite: {
-    // Шрифты переведены на font-display: optional, а preload с них снят
-    // (решение руководителя 04.09.2026, правила — в @font-face в global.css
-    // и в шапке BaseLayout). Первый визит на медленной сети идёт запасным
-    // шрифтом: это принятая плата за то, что PageSpeed вообще начал считать
-    // балл — прежде замер возвращал NO_LCP. Раскладку держит метрический
-    // фолбэк Raleway-fallback в global.css, сдвиг в замерах ноль.
+    // Шрифты отдаются с font-display: swap и без preload (решение
+    // руководителя 15.09.2026, правило — docs/rules/typography.md, директивы
+    // — в @font-face в global.css и в шапке BaseLayout). Фирменное
+    // начертание применяется на каждом визите, включая первый; раскладку при
+    // подмене держит метрический фолбэк Raleway-fallback в global.css,
+    // сдвиг в замерах ноль.
     plugins: [tailwindcss()],
     // Иконки вендоров/товаров подключены через ?url в расчёте на хешированные
     // файлы в /_astro с годовым кэшем, но дефолтный assetsInlineLimit (4 КБ)

@@ -6,9 +6,9 @@
  * двух форматов.
  */
 import { describe, expect, it } from 'vitest';
-import { buildQuoteLayout, watermarks, WATERMARK, LOGO_FILE } from '../src/lib/quote-layout';
+import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, BAND, CM, MARK_FILE, PAGE, LOGO_FILE } from '../src/lib/quote-layout';
 import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
-import { generateQuoteJpg, quotePageSvg } from '../src/lib/jpg-quote';
+import { generateQuoteJpgPages, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
 import { defaultLeadOwner } from '../src/config/site';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -25,8 +25,10 @@ const data = {
   email: 'k@encoreresort.ru',
   phone: '+79167898651',
   items: [
-    { sku: 'ADOBE-CC-TEAMS', name: 'Adobe Creative Cloud для команд', qty: 5, price: 100000, sum: 500000 },
-    { sku: 'FIGMA-PRO', name: 'Figma Professional', qty: 3, price: 30000, sum: 90000 },
+    // vendor приходит от API вместе с позицией: из него документ берёт
+    // юридическое название производителя и форму поставки для фразы.
+    { sku: 'ADOBE-CC-TEAMS', name: 'Adobe Creative Cloud для команд', vendor: 'Adobe', qty: 5, price: 100000, sum: 500000 },
+    { sku: 'FIGMA-PRO', name: 'Figma Professional', vendor: 'Figma', qty: 3, price: 30000, sum: 90000 },
   ],
   total: 590000,
 };
@@ -34,59 +36,111 @@ const data = {
 describe('раскладка КП', () => {
   const pages = buildQuoteLayout(data, pdfMeasure());
 
-  it('штампов шесть на каждой странице — сетка 2×3, решение 28.08.2026', () => {
+  it('знаков два на каждом листе — боковые полосы, референс 15.09.2026', () => {
+    // Шесть штампов сеткой 2×3 сняты: они ложились по всему листу и мешали
+    // читать спецификацию. Полосы решают ту же задачу вдоль краёв.
     for (const p of pages) {
-      const marks = p.items.filter((i) => i.kind === 'watermark');
-      expect(marks.length).toBe(WATERMARK.cols * WATERMARK.rows);
-      expect(marks.length).toBe(6);
+      const bands = p.items.filter((i) => i.kind === 'band');
+      expect(bands.length).toBe(2);
     }
   });
 
-  it('знаки полупрозрачные и распределены по всей странице, а не в одном углу', () => {
-    const marks = watermarks('проба');
-    expect(WATERMARK.opacity).toBeGreaterThan(0);
-    expect(WATERMARK.opacity).toBeLessThan(0.5);
-    expect(new Set(marks.map((m) => m.kind === 'watermark' && m.x)).size).toBe(WATERMARK.cols);
-    expect(new Set(marks.map((m) => m.kind === 'watermark' && m.y)).size).toBe(WATERMARK.rows);
+  it('знак идёт поверх содержимого: рисуется последним', () => {
+    // Решение руководителя 15.09.2026: распечатанным КП не должны
+    // пользоваться в официальной переписке и конкурсах, и знак под текстом
+    // этому не мешал. Поэтому полосы кладутся последними на каждом листе.
+    for (const p of pages) {
+      const kinds = p.items.map((i) => i.kind);
+      expect(kinds.lastIndexOf('band')).toBe(kinds.length - 1);
+      expect(kinds.indexOf('band')).toBeGreaterThan(kinds.indexOf('text'));
+    }
   });
 
-  it('это штамп с рамкой, а не просто надпись', () => {
-    const [m] = watermarks('BZ-1') as any[];
-    expect(m.w).toBeGreaterThan(0);
-    expect(m.h).toBeGreaterThan(0);
-    expect(m.radius).toBeGreaterThan(0);
-    expect(m.stroke).toBeGreaterThan(0);
-    expect(m.dash.length).toBeGreaterThan(2);
-    expect(m.angle).not.toBe(0);
+  it('полоса шириной 2,5 см идёт во всю высоту листа', () => {
+    // Ширина задана референсом руководителя и меряется в сантиметрах: в
+    // пунктах число некруглое, и глазами его не поймать.
+    for (const b of watermarks(pdfMeasure()) as any[]) {
+      expect(b.w / CM).toBeCloseTo(2.5, 2);
+      expect(b.y).toBe(0);
+      expect(b.h).toBe(PAGE.height);
+    }
   });
 
-  it('в оттиске статус, марка и номер, а не пометка «черновик»', () => {
-    // Документ действующий: «черновик» на живом предложении обесценил бы
-    // его в глазах получателя, а знак должен мешать присвоить, а не отменять.
-    const [m] = watermarks('BZ-20260821-0042') as any[];
-    expect(m.text).toBe('ПРЕДВАРИТЕЛЬНОЕ КП');
-    expect(m.text2).toBe('BIZSoft');
-    expect(m.sub).toBe('BZ-20260821-0042');
-    expect(/draft|черновик|копия/i.test(`${m.text} ${m.text2} ${m.sub}`)).toBe(false);
+  it('полосы стоят на равном отступе в 1 см от краёв листа', () => {
+    // Требование руководителя: знаки симметричны относительно бумаги.
+    const [l, r] = watermarks(pdfMeasure()) as any[];
+    expect(l.x / CM).toBeCloseTo(1, 2);
+    expect((PAGE.width - (r.x + r.w)) / CM).toBeCloseTo(1, 2);
   });
 
-  it('штамп красный, тонкая рамка — решение 28.08.2026', () => {
-    const [m] = watermarks('BZ-1') as any[];
-    expect(m.color).toBe('#C81E1E');
-    expect(m.stroke).toBeLessThan(2);
+  it('обе полосы заходят на полосу набора', () => {
+    // Знак перекрывает текст и слева, и справа — отрезать его при печати,
+    // не срезав таблицу, нельзя.
+    const [l, r] = watermarks(pdfMeasure()) as any[];
+    expect(l.x + l.w).toBeGreaterThan(PAGE.margin.left);
+    expect(r.x).toBeLessThan(PAGE.width - PAGE.margin.right);
   });
 
-  it('рамка попадает в оба формата одинаково', () => {
+  it('у полосы есть градиентное ядро внутри подложки', () => {
+    const [l] = watermarks(pdfMeasure()) as any[];
+    expect(l.coreInset).toBeGreaterThan(0);
+    expect(l.coreInset * 2).toBeLessThan(l.w);
+    expect(l.coreOpacity).toBeGreaterThan(l.fillOpacity);
+  });
+
+  it('замок на полосе один и стоит у своей надписи', () => {
+    // На синей — сверху, на красной — снизу (решение 15.09.2026).
+    const [l, r] = watermarks(pdfMeasure()) as any[];
+    expect(l.locks.length).toBe(1);
+    expect(r.locks.length).toBe(1);
+    // Надпись начинается от своего замка: у синей полосы её середина в
+    // верхней половине листа, у красной — в нижней.
+    expect(l.textCy).toBeLessThan(PAGE.height / 2);
+    expect(r.textCy).toBeGreaterThan(PAGE.height / 2);
+  });
+
+  it('надписи — «КОНФИДЕНЦИАЛЬНО» и «ПРЕДВАРИТЕЛЬНОЕ КП», без слова «черновик»', () => {
+    const [l, r] = watermarks(pdfMeasure()) as any[];
+    expect(l.text).toBe('КОНФИДЕНЦИАЛЬНО');
+    expect(r.text).toBe('ПРЕДВАРИТЕЛЬНОЕ КП');
+    expect(/draft|черновик|копия/i.test(`${l.text} ${r.text}`)).toBe(false);
+  });
+
+  it('надпись набрана шрифтом документа, плотно, без второй гарнитуры', () => {
+    // Своё начертание знака снято 16.09.2026: документ набирается одним
+    // шрифтом, вторая гарнитура читается как чужая вставка даже бледной.
+    const [l] = watermarks(pdfMeasure()) as any[];
+    expect(l.fontFile).toBeUndefined();
+    expect(l.fontFamily).toBeUndefined();
+    expect(l.spacing).toBeLessThan(1.5);
+  });
+
+  it('прозрачность слоёв: подложка почти невесома, надпись читается', () => {
+    for (const b of watermarks(pdfMeasure()) as any[]) {
+      expect(b.fillOpacity).toBeCloseTo(0.0675, 3);
+      expect(b.coreOpacity).toBeCloseTo(0.099, 3);
+      expect(b.textOpacity).toBeCloseTo(0.225, 3);
+      expect(b.textOpacity).toBeGreaterThan(b.fillOpacity);
+    }
+  });
+
+  it('тона знаков — фирменные, а не яркие веб-цвета', () => {
+    // Подобраны к паре «рыжий с чёрным» (решение 15.09.2026).
+    const [l, r] = watermarks(pdfMeasure()) as any[];
+    expect(l.color).toBe('#2C4A73');
+    expect(r.color).toBe('#A83C1B');
+  });
+
+  it('полосы попадают в оба формата одинаково', () => {
     const page = buildQuoteLayout(data, pdfMeasure())[0];
     const svg = quotePageSvg(page.items);
-    expect(svg).toContain('stroke-dasharray');
-    expect(svg).toMatch(/<rect[^>]+fill="none"/);
-  });
-
-  it('знак идёт под содержимым: рисуется раньше текста', () => {
-    const first = pages[0].items.findIndex((i) => i.kind !== 'watermark');
-    const lastMark = pages[0].items.map((i) => i.kind).lastIndexOf('watermark');
-    expect(lastMark).toBeLessThan(first);
+    expect(svg).toContain('КОНФИДЕНЦИАЛЬНО');
+    expect(svg).toContain('ПРЕДВАРИТЕЛЬНОЕ КП');
+    // Надпись повёрнута вдоль полосы, а не лежит поперёк листа.
+    expect(svg).toMatch(/transform="rotate\(-90/);
+    // Градиентное ядро — в обоих форматах: у каждой полосы свой
+    // градиент, иначе синее ядро склеилось бы с красным.
+    expect(svg.match(/<linearGradient id="band-core-/g)?.length).toBe(2);
   });
 
   const texts = pages.flatMap((p) => p.items.filter((i) => i.kind === 'text').map((i: any) => i.text));
@@ -108,6 +162,17 @@ describe('раскладка КП', () => {
     expect(tt).toContain('Исх. № 17/2026');
   });
 
+  it('предмет предложения — услуги доступа, а не поставка лицензий', () => {
+    // Формулировка руководителя 15.09.2026: шапка обязана совпадать с
+    // предметом договора и с описанием позиций в таблице.
+    const all = texts.join(' ');
+    expect(all).toContain('Направляем Вам предварительное коммерческое предложение');
+    expect(all).toContain('на оказание комплексных услуг по обеспечению доступа к программному обеспечению (ПО)');
+    expect(all).toContain('web-сервисам и/или пополнению балансов API токенов');
+    expect(all).toContain('Детальная спецификация состава услуг отражена в таблице настоящего предложения:');
+    expect(all).not.toMatch(/поставку лицензий/);
+  });
+
   it('условия поставки — по распоряжению, без ЭДО и договора', () => {
     const all = texts.join(' ');
     expect(all).toContain('Форма поставки: в электронном виде.');
@@ -115,6 +180,33 @@ describe('раскладка КП', () => {
     expect(all).toContain('по согласованию сторон');
     expect(all).not.toMatch(/ЭДО|закрывающие документы/);
     expect(all).not.toMatch(/1–3 рабочих дня/);
+  });
+
+  it('срок действия назван рабочими днями и датой', () => {
+    // Формулировка руководителя 15.09.2026: одна дата не говорит покупателю,
+    // сколько у него времени на согласование.
+    const all = texts.join(' ');
+    // 21.08.2026 — пятница; до 05.09 (суббота) — десять рабочих дней.
+    expect(all).toContain('Срок действия предложения: 10 (десять) рабочих дней до 05.09.2026.');
+  });
+
+  it('склонение и границы счёта рабочих дней', () => {
+    expect(validityLine('15.09.2026', '16.09.2026')).toContain('1 (один) рабочий день до 16.09.2026.');
+    expect(validityLine('15.09.2026', '18.09.2026')).toContain('3 (три) рабочих дня до 18.09.2026.');
+    // Выходные не считаются: с пятницы по понедельник — один рабочий день.
+    expect(workdaysBetween('18.09.2026', '21.09.2026')).toBe(1);
+    // Нераспознанная дата не даёт выдумать срок.
+    expect(workdaysBetween('нет даты', '21.09.2026')).toBe(null);
+    expect(validityLine('нет даты', '21.09.2026')).toBe('Срок действия предложения: до 21.09.2026.');
+  });
+
+  it('оговорка о курсе ЦБ названа датой формирования КП', () => {
+    // Цены привязаны к курсу ЦБ, и между КП и оплатой счёта он двигается:
+    // условие пересчёта обязано стоять в самом предложении.
+    const all = texts.join(' ');
+    expect(all).toContain('рублёвый эквивалент стоимости рассчитан по курсу ЦБ РФ на дату 21.08.2026');
+    expect(all).toContain('более чем на 5%');
+    expect(all).toContain('как в большую, так и в меньшую сторону');
   });
 
   it('итог подписан «в т.ч. НДС», а налог выделен отдельной строкой', () => {
@@ -211,11 +303,120 @@ describe('раскладка КП', () => {
     expect(all).not.toMatch(/Р\/с|К\/с|БИК|Реквизиты для оплаты/);
   });
 
-  it('артикул стоит перед наименованием', () => {
-    const head = texts.indexOf('Артикул');
-    const nameIdx = texts.indexOf('Наименование');
-    expect(head).toBeGreaterThan(-1);
-    expect(head).toBeLessThan(nameIdx);
+  it('колонки — как в спецификации на сайте: описание, кол-во, цена, сумма', () => {
+    // Отдельной колонки артикула нет: он стоит внутри описания, как в
+    // предмете договора. Прежняя колонка в 96 pt не вмещала системный
+    // артикул, и он наезжал на название (находка руководителя 15.09.2026).
+    expect(texts).toContain('Описание');
+    expect(texts).toContain('Кол-во');
+    // Денежные колонки названы в две строки со ставкой налога: цена в
+    // таблице указана с НДС, и это должно быть видно в самой шапке.
+    expect(texts).toContain('Цена Руб.');
+    expect(texts).toContain('Сумма Руб.');
+    expect(texts.filter((t) => t === 'в т.ч. НДС 5%')).toHaveLength(2);
+    expect(texts).not.toContain('Артикул');
+    expect(texts).not.toContain('Наименование');
+  });
+
+  it('подписи шапки стоят по центру своих колонок', () => {
+    const heads = (buildQuoteLayout(data, pdfMeasure())[0].items as any[])
+      .filter((i) => i.kind === 'text' && ['№', 'Описание', 'Кол-во', 'Цена Руб.', 'Сумма Руб.'].includes(i.text));
+    expect(heads.length).toBe(5);
+    for (const h of heads) expect(h.align, h.text).toBe('center');
+  });
+
+  it('поля страницы: слева 3 см, справа, сверху и снизу по 1 см', () => {
+    // Решение руководителя 15.09.2026. Проверяется не число в константе, а
+    // то, что содержимое действительно живёт внутри поля.
+    expect(PAGE.margin.left).toBeCloseTo(3 * CM, 1);
+    expect(PAGE.margin.right).toBeCloseTo(CM, 1);
+    const texted = pages.flatMap((p) => p.items.filter((i) => i.kind === 'text') as any[]);
+    for (const t of texted) {
+      expect(t.x, t.text).toBeGreaterThanOrEqual(PAGE.margin.left - 0.5);
+      const rightEdge = t.width ? t.x + t.width : t.x;
+      expect(rightEdge, t.text).toBeLessThanOrEqual(PAGE.width - PAGE.margin.right + 0.5);
+      expect(t.y, t.text).toBeGreaterThanOrEqual(PAGE.margin.top - 0.5);
+      expect(t.y, t.text).toBeLessThanOrEqual(PAGE.height - PAGE.margin.bottom);
+    }
+  });
+
+  it('колонтитул: знак слева, реквизиты влево, номер листа вправо', () => {
+    const many = buildQuoteLayout({
+      ...data,
+      items: Array.from({ length: 12 }, (_, i) => ({
+        sku: `ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-${i}`, name: 'Claude Team, Standard seat',
+        vendor: 'Anthropic', qty: 1, price: 46421, sum: 46421,
+      })),
+      total: 46421 * 12,
+    }, pdfMeasure());
+    for (const page of many) {
+      const marks = page.items.filter((i) => i.kind === 'image' && (i as any).file === MARK_FILE);
+      expect(marks.length).toBe(1);
+      const foot = page.items.find((i) => i.kind === 'text' && /ИНН 507202054051/.test((i as any).text)) as any;
+      // Реквизиты выключены влево (без align) и сдвинуты правее знака.
+      expect(foot.align).toBeUndefined();
+      expect(foot.x).toBeGreaterThan(PAGE.margin.left);
+      const sheet = page.items.find((i) => i.kind === 'text' && /^Лист /.test((i as any).text)) as any;
+      expect(sheet.align).toBe('right');
+    }
+  });
+
+  it('описание позиции — то же, что в спецификации на сайте', () => {
+    const all = texts.join(' ');
+    // Юрлицо и название первой строкой, артикул второй, договорная фраза
+    // третьей: документ и страница обязаны совпадать слово в слово.
+    expect(all).toContain('Adobe Inc. / Adobe Creative Cloud для команд');
+    expect(all).toContain('Артикул: ADOBE-CC-TEAMS');
+    expect(all).toContain('Оказание услуг по предоставлению доступа');
+  });
+
+  it('аренда почты названа в фразе, но сноски «в цене учтена» в бланке нет', () => {
+    const rent = buildQuoteLayout({
+      ...data,
+      items: [{ sku: 'ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-STD', name: 'Claude Team, Standard seat',
+                vendor: 'Anthropic', qty: 1, price: 46421, sum: 46421, email_rent: true }],
+      total: 46421,
+    }, pdfMeasure());
+    const all = rent.flatMap((p) => p.items.filter((i) => i.kind === 'text').map((i: any) => i.text)).join(' ');
+    expect(all).toContain('учетной записи электронной почты');
+    expect(all).not.toMatch(/В цене учтена аренда/);
+  });
+
+  it('каждый лист подписан номером и реквизитами продавца', () => {
+    // Распечатанный лист многостраничного КП обязан называть себя сам:
+    // раньше колонтитул стоял только на последнем.
+    const many = buildQuoteLayout({
+      ...data,
+      items: Array.from({ length: 12 }, (_, i) => ({
+        sku: `ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-${i}`, name: 'Claude Team, Standard seat',
+        vendor: 'Anthropic', qty: 1, price: 46421, sum: 46421,
+      })),
+      total: 46421 * 12,
+    }, pdfMeasure());
+    expect(many.length).toBeGreaterThan(1);
+    many.forEach((page, i) => {
+      const tt = page.items.filter((x) => x.kind === 'text').map((x: any) => x.text);
+      expect(tt, `лист ${i + 1}`).toContain(`Лист ${i + 1} из ${many.length}`);
+      expect(tt.some((t: string) => t.includes('ИНН 507202054051')), `лист ${i + 1}`).toBe(true);
+      // На листах продолжения — шапка с номером КП, чтобы лист не потерялся.
+      if (i > 0) expect(tt.some((t: string) => t.includes('продолжение')), `лист ${i + 1}`).toBe(true);
+    });
+  });
+
+  it('шапка таблицы повторяется на каждом листе с позициями', () => {
+    const many = buildQuoteLayout({
+      ...data,
+      items: Array.from({ length: 12 }, (_, i) => ({
+        sku: `ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-${i}`, name: 'Claude Team, Standard seat',
+        vendor: 'Anthropic', qty: 1, price: 46421, sum: 46421,
+      })),
+      total: 46421 * 12,
+    }, pdfMeasure());
+    const withRows = many.filter((p) => p.items.some((x) => x.kind === 'text' && /^Артикул: /.test((x as any).text)));
+    expect(withRows.length).toBeGreaterThan(1);
+    for (const p of withRows) {
+      expect(p.items.some((x) => x.kind === 'text' && (x as any).text === 'Описание')).toBe(true);
+    }
   });
 });
 
@@ -226,12 +427,16 @@ describe('форматы КП', () => {
     expect(pdf.length).toBeGreaterThan(2000);
   });
 
-  it('JPG собирается и это действительно JPEG', () => {
-    const jpg = generateQuoteJpg(data);
-    expect(jpg[0]).toBe(0xFF);
-    expect(jpg[1]).toBe(0xD8);
-    expect(jpg.length).toBeGreaterThan(10000);
+  it('JPG собирается по файлу на лист, и это действительно JPEG', () => {
+    const pages = generateQuoteJpgPages(data);
+    expect(pages.length).toBeGreaterThan(0);
+    for (const jpg of pages) {
+      expect(jpg[0]).toBe(0xFF);
+      expect(jpg[1]).toBe(0xD8);
+      expect(jpg.length).toBeGreaterThan(10000);
+    }
   });
+
 
   it('SVG страницы содержит те же тексты, что и раскладка', () => {
     const page = buildQuoteLayout(data, pdfMeasure())[0];
@@ -266,9 +471,13 @@ describe('форматы по получателям', () => {
     expect(api).toMatch(/await sendMail\(\{[\s\S]{0,200}to: data\.email/);
   });
 
-  it('в письме клиенту вложена картинка', () => {
-    expect(api).toContain('clientAttachment');
-    expect(api).toMatch(/contentType: 'image\/jpeg'/);
+  it('клиенту уходит один PDF, собранный из листов', () => {
+    // До 15.09.2026 уходило по файлу на лист: три вложения на трёхлистовое
+    // КП, и клиент искал, какой из них «тот самый документ».
+    expect(api).toContain('pdfFromJpegPages(jpgPages)');
+    expect(api).toContain('quotePdfFileName');
+    expect(api).toMatch(/contentType: 'application\/pdf'/);
+    expect(api).not.toContain("contentType: 'image/jpeg'");
   });
 
   it('руководителю уходят Word и PDF', () => {

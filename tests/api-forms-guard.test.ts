@@ -10,6 +10,7 @@ import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { HONEYPOT_FIELD, OPENED_AT_FIELD, HOURLY_LIMIT } from '../src/lib/form-guard';
 
 const createLead = vi.fn(async () => {});
+const createConsentEvent = vi.fn(async () => {});
 const sendMail = vi.fn(async () => {});
 
 vi.mock('../src/lib/directus', () => ({
@@ -18,6 +19,13 @@ vi.mock('../src/lib/directus', () => ({
   // дело не доходит; заглушки нужны, чтобы импорт модуля не разъехался.
   kvGet: async () => null,
   kvPut: async () => {},
+  // Журнал согласий. Заявка не принимается, пока событие не записано
+  // (см. src/lib/consent-intake.ts), поэтому без этих заглушек эндпоинт
+  // отвечал бы 503 и проверки порогов измеряли бы не то.
+  createConsentEvent: (...a: unknown[]) => createConsentEvent(...(a as [])),
+  findMarketingEntry: async () => null,
+  createMarketingEntry: async () => {},
+  patchMarketingEntry: async () => {},
   DirectusError: class extends Error { status = 0 },
 }));
 
@@ -53,6 +61,7 @@ const post = (body: Record<string, unknown>, ip = '203.0.113.10') =>
 
 beforeEach(() => {
   createLead.mockClear();
+  createConsentEvent.mockClear();
   sendMail.mockClear();
 });
 
