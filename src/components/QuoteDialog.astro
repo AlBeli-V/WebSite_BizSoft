@@ -15,6 +15,7 @@
  * как и раньше. Пустая подборка форму не открывает.
  */
 import FormGuardFields from './FormGuardFields.astro';
+import ConsentControls from './ConsentControls.astro';
 ---
 <!-- Диалог «Получить КП» -->
 <dialog class="kp-dialog" data-kp-dialog aria-label="Получить коммерческое предложение">
@@ -40,10 +41,7 @@ import FormGuardFields from './FormGuardFields.astro';
       <label>Телефон:<input class="ym-disable-keys" name="phone" type="tel" required autocomplete="tel" placeholder="+7 (___) ___-__-__" /></label>
     </div>
     <FormGuardFields />
-    <label class="kp-consent">
-      <input type="checkbox" name="consent" required />
-      <span>Согласен на обработку персональных данных согласно <a href="/privacy" target="_blank" rel="noopener noreferrer">политике</a>.</span>
-    </label>
+    <ConsentControls formId="quote" submitPurpose="Подготовка коммерческого предложения по подборке" compact={true} />
     <button type="submit" class="btn btn-primary kp-submit">Отправить КП на почту</button>
     <p class="kp-status" data-kp-status role="status" aria-live="polite"></p>
   </form>
@@ -85,9 +83,6 @@ import FormGuardFields from './FormGuardFields.astro';
   .kp-form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.86rem; color: var(--color-text-muted); }
   .kp-form input { background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; color: var(--color-text); font: inherit; }
   .kp-form input:focus { border-color: var(--color-accent); outline: none; }
-  .kp-consent { flex-direction: row; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; }
-  .kp-consent input { width: auto; margin-top: 0.2rem; }
-  .kp-consent a { color: var(--color-accent); }
   .kp-status { font-size: 0.9rem; margin: 0; }
   .kp-status.ok { color: var(--color-success); }
   .kp-status.err { color: var(--color-danger); }
@@ -99,8 +94,9 @@ import FormGuardFields from './FormGuardFields.astro';
 
 <script>
   import { trackGoal } from '@/lib/analytics';
+  import { requireConsent, readConsent, lockConsent, unlockConsent, markConsentSubmitting, resetConsent } from '@/lib/consent-controls';
   import { attributionPayload } from '@/lib/attribution';
-  import { readCart, cartTotal } from '../lib/cart-client';
+  import { readCart, cartTotal, readEmailRent } from '../lib/cart-client';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
 
@@ -234,9 +230,10 @@ import FormGuardFields from './FormGuardFields.astro';
       return;
     }
     status.textContent = ''; status.className = 'kp-status';
+    resetConsent(form);
     // Форма открыта, но ещё не отправлена. Разрыв между этой целью и
     // quote_pdf показывает, сколько людей упирается в саму форму.
-    trackGoal('begin_checkout', { items: readCart().length, total: cartTotal(), kp_source: kpSource });
+    trackGoal('begin_checkout', { items: readCart().length, total: cartTotal(), kp_source: kpSource, email_rent: readEmailRent() ? 1 : 0 });
     dialog.showModal();
   });
   document.querySelector('[data-kp-close]')?.addEventListener('click', () => dialog.close());
@@ -244,18 +241,26 @@ import FormGuardFields from './FormGuardFields.astro';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    // Призыв остаётся нажимаемым и без обязательной галочки: человек должен
+    // увидеть причину, а не молчащую кнопку (дополнение к ТЗ, п. 4).
+    if (!requireConsent(form)) return;
     const submit = form.querySelector('.kp-submit') as HTMLButtonElement;
     submit.disabled = true;
+    markConsentSubmitting(form);
     let httpStatus = 0;
     status.textContent = 'Формируем и отправляем…'; status.className = 'kp-status';
     try {
       const fd = Object.fromEntries(new FormData(form).entries());
       const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
+      // Выбор аренды адресов почты — часть расчёта, а не оформления: без него
+      // сервер пересчитает КП по одним лишь ценам каталога, и покупатель
+      // получит письмом сумму меньше той, что видел в спецификации.
+      const emailRent = readEmailRent();
       const attribution = await attributionPayload();
       const res = await fetch('/api/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...fd, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items }),
+        body: JSON.stringify({ ...fd, attribution, ...readConsent(form), items, email_rent: emailRent }),
       });
       if (!res.ok) {
         let msg = 'Не удалось сформировать КП. Проверьте поля и попробуйте снова.';
@@ -273,7 +278,8 @@ import FormGuardFields from './FormGuardFields.astro';
       status.innerHTML = `<b>Готово.</b> Коммерческое предложение № ${quoteNo} `
         + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
       status.className = 'kp-status ok';
-      trackGoal('quote_pdf', { form_source: 'quote', kp_source: kpSource, quote_no: quoteNo });
+      lockConsent(form);
+      trackGoal('quote_pdf', { form_source: 'quote', kp_source: kpSource, quote_no: quoteNo, email_rent: emailRent ? 1 : 0 });
       // Тот же шаг в разрезе производителей: воронка лендинга вендора
       // заканчивается здесь, а не на его странице. Цель приехала из
       // main вместе с диалогом, когда он переехал из /cart в компонент.
@@ -284,6 +290,7 @@ import FormGuardFields from './FormGuardFields.astro';
     } catch (err) {
       status.textContent = err instanceof Error && err.message ? err.message : 'Не удалось сформировать КП. Попробуйте позже или позвоните нам.';
       status.className = 'kp-status err';
+      unlockConsent(form);
       // Без этой цели сбой неотличим от того, что клиент передумал: в отчёте
       // и то и другое выглядит как незавершённое оформление.
       trackGoal('quote_error', {

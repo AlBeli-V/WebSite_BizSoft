@@ -4,18 +4,19 @@
 // кэшем) — быстрее из РФ, без стороннего CDN. Правила @font-face — в
 // global.css.
 //
-// preload у них снят. Он ставил оба файла (79 КБ) в начало очереди, на один
-// канал с документом первого экрана, а выигрыша не давал: с font-display
-// optional шрифт применяется, только если успел к первой отрисовке, и на
-// медленной сети он не успевает всё равно. Замеры прода 04.09.2026: без
-// загрузки шрифтов балл 98 и LCP 1,8 с, с загрузкой — 92 и 3,3 с; то есть
-// платим именно за место в очереди, а не за подмену шрифта.
+// preload у них снят и не возвращается. Он ставит оба файла (79 КБ) в начало
+// очереди, на один канал с документом первого экрана, а фирменное начертание
+// и без него приходит на каждом визите: за это отвечает font-display: swap в
+// global.css. Замер 15.09.2026 (Chromium, холодный кэш, /about): preload
+// поднимал FCP на 90–140 мс (376 против 240 мс при задержке сети 150 мс,
+// 588 против 496 мс при 400 мс), а шрифт со swap применялся одинаково — с
+// preload и без него. То есть платим за место в очереди, ничего не получая.
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SeoHead from '../components/SeoHead.astro';
 import Analytics from '../components/Analytics.astro';
-import CookieNotice from '../components/CookieNotice.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import JsonLd from '../components/JsonLd.astro';
 import WebMCP from '../components/WebMCP.astro';
 import { WEBMCP_ENABLED } from '../webmcp/flag';
@@ -63,7 +64,7 @@ const { title, description, canonical, ogImage, noindex, type, keywords, localBu
     </main>
     <Footer />
     <Analytics />
-    <CookieNotice />
+    <CookieConsent />
     {WEBMCP_ENABLED && <WebMCP />}
 
     <style is:global>

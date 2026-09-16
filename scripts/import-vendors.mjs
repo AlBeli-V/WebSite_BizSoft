@@ -54,7 +54,7 @@ if (files.length === 0) { console.error('нет пакетов в scripts/catalo
 // позиции (src/lib/bulk-import.ts), у существующей строка игнорируется.
 const COLS = ['sku', 'slug', 'name', 'vendor', 'origin', 'category', 'license_type',
   'short_description', 'description', 'keywords',
-  'base_price_usd', 'peg_currency', 'markup_coeff', 'price_locked',
+  'base_price_usd', 'base_price_eur', 'peg_currency', 'markup_coeff', 'price_locked',
   'price', 'price_note', 'vat_percent', 'currency', 'features', 'status', 'sort',
   // Тип товара и варианты подарочных карт (docs/gift-cards.md).
   'product_type', 'parent_sku', 'region_code', 'region_name', 'denomination', 'denomination_currency', 'availability', 'variant_label', 'price_from',
@@ -73,7 +73,17 @@ for (const f of files) {
       rows.push({ sku: p.sku, status: 'archived' });
       continue;
     }
-    const hasBase = typeof p.base_price_usd === 'number' && p.base_price_usd > 0;
+    // Себестоимость — в долларах или в евро: вендор выставляет счёт в своей
+    // валюте, и пересчёт её в доллары сделал бы цену заложницей курса EUR/USD
+    // (TryHackMe, 15.09.2026 — первая партия с закупкой в евро). Курс ЦБ к
+    // обеим валютам ежедневно подтягивает ops-currency-refresh.
+    const baseUsd = typeof p.base_price_usd === 'number' && p.base_price_usd > 0 ? p.base_price_usd : null;
+    const baseEur = typeof p.base_price_eur === 'number' && p.base_price_eur > 0 ? p.base_price_eur : null;
+    if (baseUsd && baseEur) {
+      console.error(`${f}: у позиции «${p.name}» себестоимость сразу в двух валютах — оставьте одну`);
+      process.exit(1);
+    }
+    const hasBase = Boolean(baseUsd || baseEur);
     if (!p.sku && !p.sku_product) {
       console.error(`${f}: у позиции «${p.name}» нет ни sku, ни sku_product`);
       process.exit(1);
@@ -89,10 +99,12 @@ for (const f of files) {
       short_description: p.short_description || '',
       description: p.description || '',
       keywords: p.keywords || '',
-      // Себестоимость в USD + пустая price → импорт сам включит peg_to_usd и
-      // посчитает ₽ по курсу ЦБ × коэффициент; ежедневная переоценка её обновляет.
-      base_price_usd: hasBase ? p.base_price_usd : '',
-      peg_currency: hasBase ? 'USD' : '',
+      // Себестоимость в валюте вендора + пустая price → импорт сам включит
+      // peg_to_usd и посчитает ₽ по курсу ЦБ × коэффициент; ежедневная
+      // переоценка её обновляет.
+      base_price_usd: baseUsd ?? '',
+      base_price_eur: baseEur ?? '',
+      peg_currency: hasBase ? (baseEur ? 'EUR' : 'USD') : '',
       markup_coeff: p.markup_coeff ?? '',
       price_locked: 0,
       price: hasBase ? '' : 0, // без себестоимости — «Цена по запросу» (0)

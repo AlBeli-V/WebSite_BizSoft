@@ -615,6 +615,116 @@ export async function createQuote(payload: Record<string, unknown>): Promise<voi
   await dx('/items/quotes', { auth: true, method: 'POST', body: payload });
 }
 
+// ── Журнал согласий и рассылочный реестр (152-ФЗ) ───────────────────────────
+//
+// Коллекции заведены ops-directus-schema. Прав на update и delete у журнала
+// нет ни здесь, ни в политике сервисной роли: событие согласия не
+// переписывается (docs/rules/consent-audit.md).
+
+export interface ConsentEventRow {
+  id?: string | number;
+  event_id: string;
+  subject_id?: string | null;
+  source?: string | null;
+  source_action?: string | null;
+  page_url?: string | null;
+  form_id?: string | null;
+  submitted_at?: string | null;
+  last_name?: string | null;
+  first_name?: string | null;
+  company?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  consent_type: string;
+  consent_action: string;
+  consent_scope?: unknown;
+  document_version?: string | null;
+  document_sha256?: string | null;
+  consent_text_snapshot?: string | null;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  request_id?: string | null;
+  lead_id?: number | null;
+  bitrix_lead_id?: string | null;
+  corrects_event?: string | null;
+  created_at?: string;
+}
+
+/** Записать событие согласия. Только INSERT — другого способа изменить журнал нет. */
+export async function createConsentEvent(row: ConsentEventRow): Promise<void> {
+  await dx('/items/consent_audit_log', { auth: true, method: 'POST', body: row });
+}
+
+/** Выборка журнала по фильтрам админ-раздела. Фильтры уже собраны вызывающим. */
+export async function queryConsentEvents(
+  filter: Record<string, string | number>,
+  limit = 500,
+): Promise<ConsentEventRow[]> {
+  return dx<ConsentEventRow[]>('/items/consent_audit_log', {
+    auth: true,
+    params: { limit, sort: '-submitted_at', ...filter },
+  });
+}
+
+export interface MarketingRegistryRow {
+  id?: string | number;
+  subject_id?: string | null;
+  email_normalized: string;
+  status: string;
+  consent_event_id?: string | null;
+  subscribed_at?: string | null;
+  unsubscribed_at?: string | null;
+  unsubscribe_reason?: string | null;
+  source?: string | null;
+  provider_contact_id?: string | null;
+  updated_at?: string;
+}
+
+export async function findMarketingEntry(emailNormalized: string): Promise<MarketingRegistryRow | null> {
+  const rows = await dx<MarketingRegistryRow[]>('/items/marketing_registry', {
+    auth: true,
+    params: { limit: 1, 'filter[email_normalized][_eq]': emailNormalized },
+  });
+  return rows?.[0] || null;
+}
+
+export async function createMarketingEntry(row: MarketingRegistryRow): Promise<void> {
+  await dx('/items/marketing_registry', { auth: true, method: 'POST', body: row });
+}
+
+export async function patchMarketingEntry(id: string | number, row: Partial<MarketingRegistryRow>): Promise<void> {
+  await dx(`/items/marketing_registry/${id}`, { auth: true, method: 'PATCH', body: row });
+}
+
+export async function queryMarketingRegistry(
+  filter: Record<string, string | number> = {},
+  limit = 1000,
+): Promise<MarketingRegistryRow[]> {
+  return dx<MarketingRegistryRow[]>('/items/marketing_registry', {
+    auth: true,
+    params: { limit, sort: '-updated_at', ...filter },
+  });
+}
+
+export interface AdminAuditRow {
+  id?: string | number;
+  actor: string;
+  role: string;
+  action: string;
+  target?: string | null;
+  details?: unknown;
+  ip_address?: string | null;
+  created_at?: string;
+}
+
+export async function createAdminAuditEntry(row: AdminAuditRow): Promise<void> {
+  await dx('/items/admin_audit_log', { auth: true, method: 'POST', body: row });
+}
+
+export async function queryAdminAudit(limit = 300): Promise<AdminAuditRow[]> {
+  return dx<AdminAuditRow[]>('/items/admin_audit_log', { auth: true, params: { limit, sort: '-created_at' } });
+}
+
 export async function patchProduct(id: string | number, payload: Record<string, unknown>): Promise<void> {
   await writeWithStamp((body) => dx(`/items/products/${id}`, { auth: true, method: 'PATCH', body }), payload);
 }

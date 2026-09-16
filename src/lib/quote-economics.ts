@@ -104,10 +104,20 @@ function purchaseOf(p: Product | undefined): { unit: number; currency: 'USD' | '
   return null;
 }
 
+/**
+ * @param serviceInPrice Сумма наших услуг, включённая в цену позиции (аренда
+ *   адреса электронной почты, `docs/rules/email-rent.md`): ключ — артикул,
+ *   значение — рубли за единицу. У этой части выручки нет закупки у
+ *   производителя, и в санити-проверке периодичности она не участвует:
+ *   иначе дешёвая подписка с арендой выглядела бы «закупкой за месяц при
+ *   годовой продаже». В выручку и маржу она входит как есть — это наши
+ *   деньги по этому КП.
+ */
 export function buildQuoteEconomics(
   items: QuoteItem[],
   products: Product[],
   fx: CbrRates,
+  serviceInPrice: Map<string, number> = new Map(),
 ): QuoteEconomics {
   const bySku = new Map(products.map((p) => [p.sku, p]));
   const missingPurchase: string[] = [];
@@ -139,11 +149,14 @@ export function buildQuoteEconomics(
     // Санити-проверка периодичности (поручение руководителя 28.08.2026):
     // ошибка «закупка за месяц, продажа за год» уже случалась, и молча она
     // выглядит как фантастическая маржа. Сверяем соотношение по единице.
+    // Сравнивается цена производителя с его же закупкой: наша услуга в цене
+    // к периодичности лицензии отношения не имеет.
+    const licenseSum = r2(it.sum - (serviceInPrice.get(it.sku) || 0) * it.qty);
     let flag: EconomicsLine['flag'] = 'ok';
-    if (rub > it.sum && it.sum > 0) {
+    if (rub > licenseSum && licenseSum > 0) {
       flag = 'above_sale';
       aboveSale.push(it.sku);
-    } else if (it.sum > 0 && rub > 0 && it.sum / rub >= cfg.monthlySuspectRatio) {
+    } else if (licenseSum > 0 && rub > 0 && licenseSum / rub >= cfg.monthlySuspectRatio) {
       flag = 'suspect_monthly';
       suspectMonthly.push(it.sku);
     }

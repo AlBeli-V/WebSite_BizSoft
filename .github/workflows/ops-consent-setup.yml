@@ -1,0 +1,175 @@
+# Контур согласий (152-ФЗ): проверка и установка секретов на прод.
+#
+# Раздел «Комплаенс → Согласия и рассылки» и ссылка отписки не работают без
+# четырёх значений в окружении приложения. Они читаются из секретов
+# репозитория, а не из параметров запуска: параметры workflow_dispatch видны
+# в интерфейсе Actions всем, у кого есть доступ к репозиторию, и остаются
+# там навсегда.
+#
+#   COMPLIANCE_OWNER_TOKEN  — роль владельца: журнал целиком, выгрузки, статусы
+#   COMPLIANCE_ADMIN_TOKEN  — роль комплаенс-администратора: без IP и выгрузок
+#   COMPLIANCE_TOTP_SECRET  — секрет второго фактора (base32), общий на раздел
+#   UNSUBSCRIBE_SECRET      — подпись ссылок отписки в рекламных письмах
+#
+# check — сказать, какие значения заданы и сходится ли реестр редакций
+#         правовых документов, ничего не меняя.
+# apply — записать значения в /opt/bizsoft/astro.env и перезапустить
+#         приложение.
+#
+# Ни одно значение секрета не печатается ни на одном шаге: в журнал уходят
+# только длины и признак «задано». Полагаться на маскировку раннера вместо
+# того, чтобы не печатать, — та же ошибка, что печатать.
+#
+# ВАЖНО: перед первым apply на проде должен быть выполнен ops-directus-schema
+# — без коллекций consent_audit_log и marketing_registry формы начнут
+# отвечать отказом «не удалось зафиксировать согласие».
+#
+# Смена UNSUBSCRIBE_SECRET обесценивает ссылки отписки во всех уже
+# отправленных письмах: получатель попадёт на страницу с ручным вводом
+# адреса, а не на готовую отписку. Менять только осознанно.
+name: ops-consent-setup
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check — только проверить; apply — записать на сервер и перезапустить"
+        required: true
+        default: "check"
+        type: choice
+        options: [check, apply]
+
+permissions:
+  # Явный блок permissions обнуляет всё неперечисленное: без contents токен
+  # не читает репозиторий, и checkout падает с «Repository not found».
+  contents: read
+  issues: write
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Verify secrets and legal manifest
+        id: verify
+        env:
+          OWNER: ${{ secrets.COMPLIANCE_OWNER_TOKEN }}
+          ADMIN: ${{ secrets.COMPLIANCE_ADMIN_TOKEN }}
+          TOTP: ${{ secrets.COMPLIANCE_TOTP_SECRET }}
+          UNSUB: ${{ secrets.UNSUBSCRIBE_SECRET }}
+        run: |
+          set -o pipefail
+          : > /tmp/consent.txt
+          FAIL=0
+
+          check_len() {
+            NAME="$1"; VAL="$2"; MIN="$3"
+            if [ -z "$VAL" ]; then
+              echo "$NAME: пусто — раздел с этим значением не заработает" | tee -a /tmp/consent.txt
+              FAIL=1
+            elif [ "${#VAL}" -lt "$MIN" ]; then
+              echo "$NAME: задано, но короче $MIN символов (${#VAL}) — приложение сочтёт контур ненастроенным" | tee -a /tmp/consent.txt
+              FAIL=1
+            else
+              echo "$NAME: задано, ${#VAL} символов" | tee -a /tmp/consent.txt
+            fi
+          }
+
+          check_len COMPLIANCE_OWNER_TOKEN "$OWNER" 16
+          check_len COMPLIANCE_ADMIN_TOKEN "$ADMIN" 16
+          check_len COMPLIANCE_TOTP_SECRET "$TOTP" 16
+          check_len UNSUBSCRIBE_SECRET "$UNSUB" 16
+
+          # Два токена ролей обязаны различаться: одинаковые значения означают
+          # одну роль с правами владельца и молча снимают разделение доступа.
+          if [ -n "$OWNER" ] && [ "$OWNER" = "$ADMIN" ]; then
+            echo "COMPLIANCE_OWNER_TOKEN и COMPLIANCE_ADMIN_TOKEN совпадают — разделения ролей нет" | tee -a /tmp/consent.txt
+            FAIL=1
+          fi
+
+          # Секрет второго фактора обязан быть корректным base32, иначе код
+          # из приложения не сойдётся ни разу, а понять это по интерфейсу
+          # нельзя: он просто скажет «неверный код».
+          if [ -n "$TOTP" ]; then
+            if printf '%s' "$TOTP" | grep -qiE '^[A-Z2-7 =-]+$'; then
+              echo "COMPLIANCE_TOTP_SECRET: похоже на base32" | tee -a /tmp/consent.txt
+            else
+              echo "COMPLIANCE_TOTP_SECRET: не base32 — приложение-аутентификатор такой секрет не примет" | tee -a /tmp/consent.txt
+              FAIL=1
+            fi
+          fi
+
+          printf '\n--- реестр редакций правовых документов ---\n' | tee -a /tmp/consent.txt
+          if node scripts/legal/build-manifest.mjs --check 2>&1 | tee -a /tmp/consent.txt; then
+            :
+          else
+            echo "реестр устарел: выпущенную редакцию правили или забыли пересобрать манифест" | tee -a /tmp/consent.txt
+            FAIL=1
+          fi
+
+          exit $FAIL
+
+      - name: Write secrets to server
+        id: write
+        if: inputs.mode == 'apply'
+        uses: ./.github/actions/ssh-run
+        env:
+          P_OWNER: ${{ secrets.COMPLIANCE_OWNER_TOKEN }}
+          P_ADMIN: ${{ secrets.COMPLIANCE_ADMIN_TOKEN }}
+          P_TOTP: ${{ secrets.COMPLIANCE_TOTP_SECRET }}
+          P_UNSUB: ${{ secrets.UNSUBSCRIBE_SECRET }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_OWNER,P_ADMIN,P_TOTP,P_UNSUB
+          script: |
+            set -e
+            ENV_FILE=/opt/bizsoft/astro.env
+            cp "$ENV_FILE" "$ENV_FILE.bak.$(date +%s)"
+            put() {
+              NAME="$1"; VAL="$2"
+              # Пустой секрет не стирает работающее значение: повторный apply
+              # ради смены одного токена не должен выключать остальные.
+              if [ -z "$VAL" ]; then
+                echo "$NAME: в секретах пусто — оставлено как было ($(grep -c "^$NAME=" "$ENV_FILE") строк)"
+                return
+              fi
+              sed -i "/^$NAME=/d" "$ENV_FILE"
+              printf '%s=%s\n' "$NAME" "$VAL" >> "$ENV_FILE"
+              echo "$NAME: записано, строк: $(grep -c "^$NAME=" "$ENV_FILE")"
+            }
+            put COMPLIANCE_OWNER_TOKEN "$P_OWNER"
+            put COMPLIANCE_ADMIN_TOKEN "$P_ADMIN"
+            put COMPLIANCE_TOTP_SECRET "$P_TOTP"
+            put UNSUBSCRIBE_SECRET "$P_UNSUB"
+            cd /opt/bizsoft && docker compose up -d --force-recreate astro
+            sleep 6
+            docker compose ps astro
+
+      - name: Merge server output into journal body
+        if: always()
+        run: |
+          BODY='${{ steps.write.outputs.body-file }}'
+          if [ -n "$BODY" ] && [ -f "$BODY" ]; then
+            printf '\n--- сервер ---\n' >> /tmp/consent.txt
+            cat "$BODY" >> /tmp/consent.txt
+          fi
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-consent-setup (${{ inputs.mode }})"
+          outcome: ${{ inputs.mode == 'apply' && steps.write.outputs.outcome || steps.verify.outcome }}
+          body-file: /tmp/consent.txt
