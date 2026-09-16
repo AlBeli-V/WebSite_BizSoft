@@ -1,0 +1,188 @@
+# Срок хранения записей о согласии на аналитику: один год.
+#
+# Решение руководителя 16.09.2026. Обоснование: срок давности привлечения к
+# административной ответственности за нарушения в области персональных
+# данных — один год, дольше запись как защита не нужна, а принцип ст. 5
+# 152-ФЗ требует не хранить данные дольше цели. В записи есть IP и
+# user-agent посетителя — сами по себе персональные данные, поэтому
+# бессрочное накопление увеличивает и объём хранения, и цену утечки.
+#
+# ЧТО УДАЛЯЕТСЯ: только события типов yandex_analytics и google_analytics
+# старше года. Согласия из форм (personal_data, marketing) не удаляются
+# никогда — они и есть доказательство по 152-ФЗ.
+#
+# Три независимых условия отбора, и каждое само по себе достаточно, чтобы
+# запись человека не попала под удаление: тип события из списка
+# аналитических; пустой адрес; пустая связь с заявкой. Ошибка в одном
+# условии не приводит к потере доказательств.
+#
+# Удаляет не сайт. У служебной роли прав на удаление нет и не будет —
+# журнал для приложения остаётся только на добавление. Здесь вход
+# администратором, тем же способом, что в ops-categories и
+# ops-directus-schema.
+#
+# Первый прогон — с apply=false: он ничего не меняет и показывает, сколько
+# записей подпадает под правило.
+name: ops-consent-retention
+
+on:
+  schedule:
+    # 03:20 UTC = 06:20 МСК, первое число месяца. Чистка не срочная и не
+    # должна попадать в утреннее окно отчётных контуров.
+    - cron: '20 3 1 * *'
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'false — только посчитать; true — удалить'
+        required: true
+        default: 'false'
+      days:
+        description: 'Хранить записей аналитики (дней)'
+        required: false
+        default: '365'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  retention:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Purge analytics consents older than retention
+        id: run
+        uses: ./.github/actions/ssh-run
+        env:
+          P_APPLY: ${{ inputs.apply || 'false' }}
+          P_DAYS: ${{ inputs.days || '365' }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_APPLY,P_DAYS
+          script: |
+            set -e
+            python3 - <<'PYEOF'
+            import json, os, urllib.request, urllib.parse
+            from datetime import datetime, timedelta, timezone
+
+            BASE = 'http://127.0.0.1:8055'
+            APPLY = (os.environ.get('P_APPLY') or 'false').lower() == 'true'
+            DAYS = int(os.environ.get('P_DAYS') or 365)
+            # Типы, которые вообще могут быть удалены. Список закрытый:
+            # ошибиться можно в дате, но не в том, чью запись трогаем.
+            ANALYTICS = ('yandex_analytics', 'google_analytics')
+
+            def read_env(path):
+                out = {}
+                try:
+                    with open(path, encoding='utf-8') as f:
+                        for line in f:
+                            line = line.strip()
+                            if not line or line.startswith('#') or '=' not in line:
+                                continue
+                            k, v = line.split('=', 1)
+                            out[k.strip()] = v.strip().strip('"').strip("'")
+                except OSError:
+                    pass
+                return out
+
+            env = {}
+            for path in ('/opt/bizsoft/.env', '/opt/bizsoft/astro.env'):
+                for k, v in read_env(path).items():
+                    env.setdefault(k, v)
+
+            def call(method, path, body=None, token=None):
+                data = json.dumps(body).encode() if body is not None else None
+                req = urllib.request.Request(BASE + path, data=data, method=method)
+                if token:
+                    req.add_header('Authorization', f'Bearer {token}')
+                if data:
+                    req.add_header('Content-Type', 'application/json')
+                with urllib.request.urlopen(req, timeout=180) as r:
+                    raw = r.read()
+                return json.loads(raw)['data'] if raw else None
+
+            email = env.get('ADMIN_EMAIL') or env.get('DIRECTUS_ADMIN_EMAIL')
+            password = env.get('ADMIN_PASSWORD') or env.get('DIRECTUS_ADMIN_PASSWORD')
+            if not (email and password):
+                raise SystemExit('ADMIN_EMAIL/ADMIN_PASSWORD не найдены — удалять нечем')
+            token = call('POST', '/auth/login', {'email': email, 'password': password})['access_token']
+            print('вход администратором: успешно')
+
+            cutoff = (datetime.now(timezone.utc) - timedelta(days=DAYS)).isoformat()
+            print(f'граница: события аналитики старше {cutoff} (хранение {DAYS} дн.)')
+
+            # Три условия разом. Пустой адрес и пустая связь с заявкой — это
+            # страховка: у события из cookie-плашки их не бывает, а у события
+            # человека они есть, и такая запись под фильтр не попадёт даже
+            # при ошибке в типе.
+            flt = {
+                'consent_type': {'_in': list(ANALYTICS)},
+                'submitted_at': {'_lt': cutoff},
+                'email': {'_null': True},
+                'lead_id': {'_null': True},
+            }
+            q = urllib.parse.urlencode({'filter': json.dumps(flt), 'aggregate': json.dumps({'count': 'id'})})
+            total = int(call('GET', f'/items/consent_audit_log?{q}', token=token)[0]['count']['id'])
+            print(f'подпадает под правило: {total}')
+
+            # Сколько всего и сколько согласий людей — чтобы в журнале было
+            # видно, что именно осталось нетронутым.
+            for label, f in (
+                ('всего в журнале', {}),
+                ('согласий из форм (не удаляются)', {'consent_type': {'_in': ['personal_data', 'marketing']}}),
+            ):
+                qq = urllib.parse.urlencode({'filter': json.dumps(f), 'aggregate': json.dumps({'count': 'id'})})
+                n = call('GET', f'/items/consent_audit_log?{qq}', token=token)[0]['count']['id']
+                print(f'{label}: {n}')
+
+            if not APPLY:
+                print('режим подсчёта — ничего не удалено, запустите с apply=true')
+                raise SystemExit(0)
+
+            if total == 0:
+                print('удалять нечего')
+                raise SystemExit(0)
+
+            deleted = 0
+            while True:
+                qq = urllib.parse.urlencode({'filter': json.dumps(flt), 'fields': 'id', 'limit': 200})
+                rows = call('GET', f'/items/consent_audit_log?{qq}', token=token) or []
+                if not rows:
+                    break
+                ids = [r['id'] for r in rows]
+                call('DELETE', '/items/consent_audit_log', ids, token=token)
+                deleted += len(ids)
+                print(f'удалено: {deleted} из {total}')
+
+            # Удаление данных само по себе — административное действие, и оно
+            # обязано быть видно в журнале действий.
+            call('POST', '/items/admin_audit_log', {
+                'actor': 'ops-consent-retention',
+                'role': 'owner',
+                'action': 'retention_purge',
+                'target': 'consent_audit_log',
+                'details': {'deleted': deleted, 'days': DAYS, 'types': list(ANALYTICS), 'cutoff': cutoff},
+            }, token=token)
+            print(f'итог: удалено {deleted}, запись о действии добавлена в журнал действий')
+            PYEOF
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-consent-retention (apply=${{ inputs.apply || 'false' }})"
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}

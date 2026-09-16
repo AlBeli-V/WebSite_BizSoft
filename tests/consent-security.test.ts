@@ -435,3 +435,55 @@ describe('заведение секретов: пароль вместо ком�
     }
   });
 });
+
+describe('срок хранения аналитических согласий', () => {
+  const wf = readFileSync(
+    resolve(__dirname, '..', '.github/workflows/ops-consent-retention.yml'), 'utf8');
+
+  it('удаляются только события аналитики, согласия людей — никогда', () => {
+    // Решение руководителя 16.09.2026: год для cookie-событий, согласия из
+    // форм не трогаем. Ошибка здесь уничтожает доказательства по 152-ФЗ, и
+    // заметить её можно будет только в момент запроса регулятора.
+    expect(wf).toContain("ANALYTICS = ('yandex_analytics', 'google_analytics')");
+    // Смотрим именно на фильтр удаления: `personal_data` в файле встречается
+    // и в подсчётном запросе «согласий из форм (не удаляются)», и такое
+    // упоминание безобидно. Проверка обязана различать эти два места.
+    const del = wf.slice(wf.indexOf('flt = {'), wf.indexOf('flt = {') + 400);
+    expect(del, 'типы согласий людей в фильтре удаления не участвуют')
+      .not.toMatch(/personal_data|marketing/);
+  });
+
+  it('фильтр несёт три независимых условия-страховки', () => {
+    const flt = wf.slice(wf.indexOf('flt = {'), wf.indexOf('flt = {') + 400);
+    expect(flt).toContain("'consent_type'");
+    expect(flt).toContain("'submitted_at'");
+    // Пустой адрес и пустая связь с заявкой: у события cookie-плашки их не
+    // бывает, у события человека — есть. Любое из условий в одиночку
+    // защищает запись человека.
+    expect(flt).toContain("'email': {'_null': True}");
+    expect(flt).toContain("'lead_id': {'_null': True}");
+  });
+
+  it('по умолчанию прогон только считает, а не удаляет', () => {
+    expect(wf).toMatch(/apply[\s\S]{0,200}default: 'false'/);
+    expect(wf).toContain('режим подсчёта — ничего не удалено');
+  });
+
+  it('срок хранения — год, и он задан явно', () => {
+    expect(wf).toMatch(/default: '365'/);
+  });
+
+  it('чистка сама попадает в журнал действий', () => {
+    // Удаление данных — административное действие: если его не видно, журнал
+    // действий перестаёт отвечать на вопрос «кто и что сделал с данными».
+    expect(wf).toContain("'action': 'retention_purge'");
+    expect(wf).toContain('/items/admin_audit_log');
+  });
+
+  it('правило записано в документации, а не только в коде', () => {
+    const doc = readFileSync(resolve(__dirname, '..', 'docs/rules/consent-audit.md'), 'utf8');
+    expect(doc).toContain('Срок хранения');
+    expect(doc).toContain('ops-consent-retention');
+    expect(doc).toMatch(/один год/);
+  });
+});
