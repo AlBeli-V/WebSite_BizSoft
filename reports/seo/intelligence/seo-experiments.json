@@ -1,1307 +1,1970 @@
 {
- "experiments": [
-  {
-   "id": "snippets-5-vendors",
-   "ticket": "SEO-EXP-001",
-   "start": "2026-08-19",
-   "status": "running",
-   "pages": [
-    "/vendors/canva",
-    "/vendors/depositphotos",
-    "/vendors/coreldraw",
-    "/vendors/heygen",
-    "/vendors/marmoset"
-   ],
-   "changes": [
-    "title по формуле «Оплата {Vendor} для юр(идических )лиц из России — счёт, договор, ЭДО | BIZSoft» (HeyGen и Marmoset — свои формулы); ядро ≤65 символов",
-    "description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160)",
-    "FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой"
-   ],
-   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
-   "success_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
-   "control_group": "остальные vendor-страницы без изменений",
-   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
-   "formula_group": "commercial-snippet-2026-08",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-07-19",
-     "to": "2026-08-15"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04"
-  },
-  {
-   "id": "cluster-depositphotos",
-   "ticket": "CONTENT-001",
-   "start": "2026-08-19",
-   "status": "running",
-   "pages": [
-    "/blog/kak-oplatit-depositphotos-dlya-yurlica",
-    "/vendors/depositphotos",
-    "/product/deposit-unl-year",
-    "/product/deposit-unl-month",
-    "/product/deposit-pack-100"
-   ],
-   "baseline": {
-    "period": "14 дней до 19.08.2026",
-    "impressions_cluster": 273,
-    "positions": "3–9",
-    "note": "Depositphotos — лидер спроса среди кластеров вендоров по данным Яндекс.Вебмастера",
-    "days": 14
-   },
-   "changes": [
-    "статья src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md: прямой ответ в первых двух предложениях, H2/H3, таблица сравнения тарифов (пакет 100 изображений, Unlimited месяц, Unlimited год), FAQ-блок из 6 вопросов с FAQPage-разметкой",
-    "частотные формулировки кластера в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «пакет»",
-    "перелинковка статья → /vendors/depositphotos, /catalog, /documents и три карточки товаров",
-    "обратная перелинковка карточка → статья: product/[slug].astro выводит статьи, которые ссылаются на товар через relatedProducts (раньше блок статей был только у AI-вендоров)"
-   ],
-   "hypothesis": "Информационная статья под транзакционный интент «оплатить Depositphotos для юрлица» перехватывает запросы, по которым карточки и лендинг стоят на позициях 3–9, и передаёт им ссылочный вес через взаимную перелинковку — это поднимает показы всего кластера и выводит статью в топ-10.",
-   "success_metric": "рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)",
-   "control_group": "кластеры Canva, CorelDRAW, HeyGen, Marmoset — без статей блога",
-   "source": "src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md; обратные ссылки — src/pages/product/[slug].astro",
-   "evaluation_kind": "impressions_growth",
-   "target_page": "/blog/kak-oplatit-depositphotos-dlya-yurlica",
-   "query_markers": [
-    "depositphotos",
-    "депозитфотос",
-    "депозит фото"
-   ],
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-07-19",
-     "to": "2026-08-15"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04"
-  },
-  {
-   "id": "snippets-6-demand",
-   "ticket": "SEO-EXP-002",
-   "start": "2026-08-20",
-   "status": "closed",
-   "pages": [
-    "/vendors/adobe",
-    "/vendors/autodesk",
-    "/vendors/procreate",
-    "/vendors/blackmagic",
-    "/vendors/midjourney",
-    "/vendors/clip-studio-paint"
-   ],
-   "changes": [
-    "title по формуле раздела, ядро ≤65 символов, бренд в title ровно один раз",
-    "description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160)",
-    "FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой",
-    "блок «{Vendor} под задачу бизнеса» со ссылками на раздел решений (/solutions)"
-   ],
-   "selection": "Отобраны по измеренному коммерческому спросу Вордстата на 20.08.2026: у всех шести кластеров ноль фраз в топ-10 Яндекса при заметной частотности. Целевые фразы: adobe купить — 3 887, autodesk license — 1 800, купить procreate — 823, davinci resolve купить — 531, clip studio paint купить — 417, midjourney подписка — 380.",
-   "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО», FAQ-разметка и внутренние ссылки на раздел назначения ПО поднимут кликабельность и позиции по транзакционным запросам кластеров с подтверждённым спросом.",
-   "success_metric": "Появление фраз кластера в топ-10 Яндекс.Вебмастера и CTR ≥2% через 14 дней (03.09.2026), ≥3% через 30 дней (19.09.2026)",
-   "control_group": "остальные vendor-страницы без изменений; эксперимент snippets-5-vendors считается отдельно, пересечений нет",
-   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
-   "query_markers": [
-    "adobe",
-    "photoshop",
-    "фотошоп",
-    "lightroom",
-    "лайтрум",
-    "after effects",
-    "premiere pro",
-    "illustrator",
-    "acrobat",
-    "autodesk",
-    "autocad",
-    "автокад",
-    "3ds max",
-    "fusion 360",
-    "maya",
-    "procreate",
-    "прокриейт",
-    "blackmagic",
-    "davinci",
-    "давинчи",
-    "резолв",
-    "midjourney",
-    "миджорни",
-    "clip studio",
-    "клип студио"
-   ],
-   "formula_group": "commercial-snippet-2026-08",
-   "closed_on": "2026-09-03",
-   "outcome": "INSUFFICIENT_DATA",
-   "closed_reason": "Перезапуск по команде руководителя 03.09.2026 (отменяет KEEP того же дня). Разбор: 44 из 100 показов «кластера» — карточки /product/adobe-ae и /product/adobe-lr, а не страницы эксперимента; у Adobe, Autodesk, Blackmagic и Midjourney показов нет (0–3 за окно) — сниппет проверить нечем; целевые фразы Вордстата («adobe купить» и др.) — B2C-интент маркетплейсов, сайт по ним не показывается; baseline из усечённой выгрузки (топ-100). Сниппеты на четырёх страницах без экспозиции остаются как есть, страницы освобождены. Продолжение — snippets-2-price-intent (SEO-EXP-002-R). Разбор: docs/seo/experiments/seo-exp-002-restart.md"
-  },
-  {
-   "id": "snippet-anthropic-demand",
-   "ticket": "SEO-EXP-003",
-   "start": "2026-08-29",
-   "status": "closed",
-   "pages": [
-    "/vendors/anthropic"
-   ],
-   "baseline": {
-    "period": "замер Вордстата и Вебмастера 29.08.2026",
-    "cluster_demand": 27231,
-    "top_phrase": "claude купить — 9944 показов/мес",
-    "avg_position": 7.44,
-    "ctr": "≈0 (показы без кликов, GAP-D)"
-   },
-   "changes": [
-    "title: «Купить Claude для компании — Team и Enterprise на юрлицо | BIZSoft» — прямое вхождение ключа кластера вместо общего описания",
-    "description по штатной формуле «Оплатим подписку Claude…» (≤160)",
-    "FAQ-блок «Как купить Claude на юрлицо» с FAQPage-разметкой"
-   ],
-   "hypothesis": "Кластер «claude купить» уже в топ-10 (позиция 7,4) при нулевом CTR: сниппет с транзакционным интентом и вхождением ключа поднимет кликабельность без изменения контента страницы.",
-   "success_metric": "CTR кластера anthropic в Вебмастере ≥1% через 7 дней (05.09.2026), ≥2% через 14 дней (12.09.2026); позиция не хуже 8",
-   "control_group": "остальные vendor-страницы без изменений; эксперименты EXP-001/EXP-002 считаются раздельно",
-   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
-   "query_markers": [
-    "anthropic",
-    "claude",
-    "клод"
-   ],
-   "query_exclude": [
-    "claude code",
-    "cloud code",
-    "клод код",
-    "coder"
-   ],
-   "next_review": "2026-09-13",
-   "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-07-29",
-     "to": "2026-08-25"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04",
-   "end": "2026-09-11",
-   "closed_by": "KEEP"
-  },
-  {
-   "id": "pages-exp-001-alternatives",
-   "ticket": "PAGES-EXP-001",
-   "start": "2026-08-30",
-   "status": "running",
-   "pages": [
-    "/alternatives/anydesk",
-    "/alternatives/notion",
-    "/alternatives/canva",
-    "/alternatives/miro",
-    "/alternatives/cursor",
-    "/alternatives/figma",
-    "/alternatives/openrouter"
-   ],
-   "baseline": {
-    "period": "замер Вордстата 30.08.2026",
-    "clusters": {
-     "anydesk": 2931,
-     "notion": 1249,
-     "canva": 1175,
-     "miro": 620,
-     "cursor": 474,
-     "figma": 363,
-     "openrouter": 329
-    },
-    "total_demand": 7141,
-    "pages_before": "тип страниц не существовал"
-   },
-   "changes": [
-    "Новый тип страниц /alternatives/[slug]: TL;DR, карточки поставляемых альтернатив, сводная таблица, FAQ, ItemList/FAQPage/Breadcrumb JSON-LD",
-    "7 страниц только под замеренные кластеры «аналог/альтернатива/замена X»",
-    "Правило масштабирования: волна 2 — только после метрики волны 1"
-   ],
-   "hypothesis": "Интент «аналоги X» ловит покупателя до выбора продукта: страницы с поставляемыми альтернативами дадут показы и переходы по non-brand кластерам замены и лиды через КП.",
-   "success_metric": "К 13.09.2026: ≥5 из 7 страниц в поиске Яндекса; показы кластеров ≥300/нед суммарно. К 27.09: первые клики. Иначе — правка шаблона до волны 2.",
-   "control_group": "кластеры замены без страниц (suno, n8n, postman, teamviewer и др.)",
-   "source": "src/data/alternatives.ts, src/pages/alternatives/[slug].astro",
-   "evaluation_kind": "launch",
-   "title_marker": "(аналог|альтернатив|замен)",
-   "query_intent_any": [
-    "аналог",
-    "альтернатив",
-    "замен",
-    "вместо",
-    "похож",
-    "бесплатн",
-    "open source",
-    "опенсорс"
-   ],
-   "launch_criteria": {
-    "min_pages_in_search": 5,
-    "min_weekly_impressions": 300,
-    "by_day": 14,
-    "first_clicks_by_day": 28
-   },
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-07-30",
-     "to": "2026-08-26"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04",
-   "checkpoints": [
+  "experiments": [
     {
-     "date": "2026-09-13",
-     "in_search": "7/7 страниц в поиске Яндекса (index-yandex-2026-09-13, критерий ≥5/7 выполнен); страницы устояли при массовом исключении 2026-09-10 (LOW_QUALITY срезал ~259 URL, в основном /product/*)",
-     "impressions": "15 показов кластера замены за окно 30.08–11.09 (~7/нед) при цели ≥300/нед — критерий НЕ выполнен; клики 0; лучшая фраза «опенроутер аналоги» поз. 7,4",
-     "gsc": "/alternatives/* в GSC: 0 показов (Google ещё не индексирует раздел, см. IDX-001)",
-     "diagnosis": "страницы были внутренними сиротами до 08.09 (входящие ссылки появились только с перелинковкой IDX-001, PR #446); позиции большинства фраз 10–20; окно замера почти целиком до появления ссылок",
-     "action": "правка шаблона не показана (страницы в индексе, LOW_QUALITY их не тронул); закрыт последний пробел перелинковки — /alternatives/cursor не имел ссылки со «своего» лендинга (PR #513); очередь волны 2 подготовлена и передана руководителю на отмашку",
-     "next": "контрольная точка 27.09: первые клики; повторный замер показов после того, как окно Вебмастера станет полностью «после перелинковки»",
-     "owner_decision": "решение руководителя 13.09.2026: волну 2 не публиковать до контрольной точки 27.09 — правило «волна 2 только по метрике волны 1» действует; очередь волны 2 (procreate 419, coreldraw 226, sketchup 197, midjourney 196, rive 133, perplexity 120, gitlab 105 — ~1400/мес) утверждена как подготовленная и ждёт метрики"
+      "id": "snippets-5-vendors",
+      "ticket": "SEO-EXP-001",
+      "start": "2026-08-19",
+      "status": "closed",
+      "pages": [
+        "/vendors/canva",
+        "/vendors/depositphotos",
+        "/vendors/coreldraw",
+        "/vendors/heygen",
+        "/vendors/marmoset"
+      ],
+      "changes": [
+        "title по формуле «Оплата {Vendor} для юр(идических )лиц из России — счёт, договор, ЭДО | BIZSoft» (HeyGen и Marmoset — свои формулы); ядро ≤65 символов",
+        "description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160)",
+        "FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой"
+      ],
+      "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО» и FAQ-разметка поднимут кликабельность страниц в выдаче Яндекса по транзакционным запросам кластеров.",
+      "success_metric": "CTR кластеров Canva/Depositphotos/CorelDRAW/HeyGen/Marmoset в Яндекс.Вебмастере ≥2% через 7 дней (26.08.2026), ≥3% через 14 дней (02.09.2026)",
+      "control_group": "остальные vendor-страницы без изменений",
+      "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
+      "formula_group": "commercial-snippet-2026-08",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-07-19",
+          "to": "2026-08-15"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04",
+      "end": "2026-09-16",
+      "closed_by": "CLOSE"
+    },
+    {
+      "id": "cluster-depositphotos",
+      "ticket": "CONTENT-001",
+      "start": "2026-08-19",
+      "status": "closed",
+      "pages": [
+        "/blog/kak-oplatit-depositphotos-dlya-yurlica",
+        "/vendors/depositphotos",
+        "/product/deposit-unl-year",
+        "/product/deposit-unl-month",
+        "/product/deposit-pack-100"
+      ],
+      "baseline": {
+        "period": "14 дней до 19.08.2026",
+        "impressions_cluster": 273,
+        "positions": "3–9",
+        "note": "Depositphotos — лидер спроса среди кластеров вендоров по данным Яндекс.Вебмастера",
+        "days": 14
+      },
+      "changes": [
+        "статья src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md: прямой ответ в первых двух предложениях, H2/H3, таблица сравнения тарифов (пакет 100 изображений, Unlimited месяц, Unlimited год), FAQ-блок из 6 вопросов с FAQPage-разметкой",
+        "частотные формулировки кластера в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «пакет»",
+        "перелинковка статья → /vendors/depositphotos, /catalog, /documents и три карточки товаров",
+        "обратная перелинковка карточка → статья: product/[slug].astro выводит статьи, которые ссылаются на товар через relatedProducts (раньше блок статей был только у AI-вендоров)"
+      ],
+      "hypothesis": "Информационная статья под транзакционный интент «оплатить Depositphotos для юрлица» перехватывает запросы, по которым карточки и лендинг стоят на позициях 3–9, и передаёт им ссылочный вес через взаимную перелинковку — это поднимает показы всего кластера и выводит статью в топ-10.",
+      "success_metric": "рост показов кластера Depositphotos относительно базовых 273 показов за 14 дней и вход статьи /blog/kak-oplatit-depositphotos-dlya-yurlica в топ-10 Яндекса за 14 дней (контроль 02.09.2026)",
+      "control_group": "кластеры Canva, CorelDRAW, HeyGen, Marmoset — без статей блога",
+      "source": "src/content/blog/kak-oplatit-depositphotos-dlya-yurlica.md; обратные ссылки — src/pages/product/[slug].astro",
+      "evaluation_kind": "impressions_growth",
+      "target_page": "/blog/kak-oplatit-depositphotos-dlya-yurlica",
+      "query_markers": [
+        "depositphotos",
+        "депозитфотос",
+        "депозит фото"
+      ],
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-07-19",
+          "to": "2026-08-15"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04",
+      "end": "2026-09-16",
+      "closed_by": "CLOSE"
+    },
+    {
+      "id": "snippets-6-demand",
+      "ticket": "SEO-EXP-002",
+      "start": "2026-08-20",
+      "status": "closed",
+      "pages": [
+        "/vendors/adobe",
+        "/vendors/autodesk",
+        "/vendors/procreate",
+        "/vendors/blackmagic",
+        "/vendors/midjourney",
+        "/vendors/clip-studio-paint"
+      ],
+      "changes": [
+        "title по формуле раздела, ядро ≤65 символов, бренд в title ровно один раз",
+        "description: «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.» (≤160)",
+        "FAQ-блок «Как купить {Vendor} на юрлицо» — 4 вопроса (счёт и договор, ЭДО, сроки 1–3 дня, рубли по курсу ЦБ) с FAQPage-разметкой",
+        "блок «{Vendor} под задачу бизнеса» со ссылками на раздел решений (/solutions)"
+      ],
+      "selection": "Отобраны по измеренному коммерческому спросу Вордстата на 20.08.2026: у всех шести кластеров ноль фраз в топ-10 Яндекса при заметной частотности. Целевые фразы: adobe купить — 3 887, autodesk license — 1 800, купить procreate — 823, davinci resolve купить — 531, clip studio paint купить — 417, midjourney подписка — 380.",
+      "hypothesis": "Коммерческие сниппеты с явным интентом «оплата на юрлицо, счёт, договор, ЭДО», FAQ-разметка и внутренние ссылки на раздел назначения ПО поднимут кликабельность и позиции по транзакционным запросам кластеров с подтверждённым спросом.",
+      "success_metric": "Появление фраз кластера в топ-10 Яндекс.Вебмастера и CTR ≥2% через 14 дней (03.09.2026), ≥3% через 30 дней (19.09.2026)",
+      "control_group": "остальные vendor-страницы без изменений; эксперимент snippets-5-vendors считается отдельно, пересечений нет",
+      "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
+      "query_markers": [
+        "adobe",
+        "photoshop",
+        "фотошоп",
+        "lightroom",
+        "лайтрум",
+        "after effects",
+        "premiere pro",
+        "illustrator",
+        "acrobat",
+        "autodesk",
+        "autocad",
+        "автокад",
+        "3ds max",
+        "fusion 360",
+        "maya",
+        "procreate",
+        "прокриейт",
+        "blackmagic",
+        "davinci",
+        "давинчи",
+        "резолв",
+        "midjourney",
+        "миджорни",
+        "clip studio",
+        "клип студио"
+      ],
+      "formula_group": "commercial-snippet-2026-08",
+      "closed_on": "2026-09-03",
+      "outcome": "INSUFFICIENT_DATA",
+      "closed_reason": "Перезапуск по команде руководителя 03.09.2026 (отменяет KEEP того же дня). Разбор: 44 из 100 показов «кластера» — карточки /product/adobe-ae и /product/adobe-lr, а не страницы эксперимента; у Adobe, Autodesk, Blackmagic и Midjourney показов нет (0–3 за окно) — сниппет проверить нечем; целевые фразы Вордстата («adobe купить» и др.) — B2C-интент маркетплейсов, сайт по ним не показывается; baseline из усечённой выгрузки (топ-100). Сниппеты на четырёх страницах без экспозиции остаются как есть, страницы освобождены. Продолжение — snippets-2-price-intent (SEO-EXP-002-R). Разбор: docs/seo/experiments/seo-exp-002-restart.md"
+    },
+    {
+      "id": "snippet-anthropic-demand",
+      "ticket": "SEO-EXP-003",
+      "start": "2026-08-29",
+      "status": "closed",
+      "pages": [
+        "/vendors/anthropic"
+      ],
+      "baseline": {
+        "period": "замер Вордстата и Вебмастера 29.08.2026",
+        "cluster_demand": 27231,
+        "top_phrase": "claude купить — 9944 показов/мес",
+        "avg_position": 7.44,
+        "ctr": "≈0 (показы без кликов, GAP-D)"
+      },
+      "changes": [
+        "title: «Купить Claude для компании — Team и Enterprise на юрлицо | BIZSoft» — прямое вхождение ключа кластера вместо общего описания",
+        "description по штатной формуле «Оплатим подписку Claude…» (≤160)",
+        "FAQ-блок «Как купить Claude на юрлицо» с FAQPage-разметкой"
+      ],
+      "hypothesis": "Кластер «claude купить» уже в топ-10 (позиция 7,4) при нулевом CTR: сниппет с транзакционным интентом и вхождением ключа поднимет кликабельность без изменения контента страницы.",
+      "success_metric": "CTR кластера anthropic в Вебмастере ≥1% через 7 дней (05.09.2026), ≥2% через 14 дней (12.09.2026); позиция не хуже 8",
+      "control_group": "остальные vendor-страницы без изменений; эксперименты EXP-001/EXP-002 считаются раздельно",
+      "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
+      "query_markers": [
+        "anthropic",
+        "claude",
+        "клод"
+      ],
+      "query_exclude": [
+        "claude code",
+        "cloud code",
+        "клод код",
+        "coder"
+      ],
+      "next_review": "2026-09-13",
+      "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-07-29",
+          "to": "2026-08-25"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04",
+      "end": "2026-09-11",
+      "closed_by": "KEEP"
+    },
+    {
+      "id": "pages-exp-001-alternatives",
+      "ticket": "PAGES-EXP-001",
+      "start": "2026-08-30",
+      "status": "running",
+      "pages": [
+        "/alternatives/anydesk",
+        "/alternatives/notion",
+        "/alternatives/canva",
+        "/alternatives/miro",
+        "/alternatives/cursor",
+        "/alternatives/figma",
+        "/alternatives/openrouter"
+      ],
+      "baseline": {
+        "period": "замер Вордстата 30.08.2026",
+        "clusters": {
+          "anydesk": 2931,
+          "notion": 1249,
+          "canva": 1175,
+          "miro": 620,
+          "cursor": 474,
+          "figma": 363,
+          "openrouter": 329
+        },
+        "total_demand": 7141,
+        "pages_before": "тип страниц не существовал"
+      },
+      "changes": [
+        "Новый тип страниц /alternatives/[slug]: TL;DR, карточки поставляемых альтернатив, сводная таблица, FAQ, ItemList/FAQPage/Breadcrumb JSON-LD",
+        "7 страниц только под замеренные кластеры «аналог/альтернатива/замена X»",
+        "Правило масштабирования: волна 2 — только после метрики волны 1"
+      ],
+      "hypothesis": "Интент «аналоги X» ловит покупателя до выбора продукта: страницы с поставляемыми альтернативами дадут показы и переходы по non-brand кластерам замены и лиды через КП.",
+      "success_metric": "К 13.09.2026: ≥5 из 7 страниц в поиске Яндекса; показы кластеров ≥300/нед суммарно. К 27.09: первые клики. Иначе — правка шаблона до волны 2.",
+      "control_group": "кластеры замены без страниц (suno, n8n, postman, teamviewer и др.)",
+      "source": "src/data/alternatives.ts, src/pages/alternatives/[slug].astro",
+      "evaluation_kind": "launch",
+      "title_marker": "(аналог|альтернатив|замен)",
+      "query_intent_any": [
+        "аналог",
+        "альтернатив",
+        "замен",
+        "вместо",
+        "похож",
+        "бесплатн",
+        "open source",
+        "опенсорс"
+      ],
+      "launch_criteria": {
+        "min_pages_in_search": 5,
+        "min_weekly_impressions": 300,
+        "by_day": 14,
+        "first_clicks_by_day": 28
+      },
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-07-30",
+          "to": "2026-08-26"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04",
+      "checkpoints": [
+        {
+          "date": "2026-09-13",
+          "in_search": "7/7 страниц в поиске Яндекса (index-yandex-2026-09-13, критерий ≥5/7 выполнен); страницы устояли при массовом исключении 2026-09-10 (LOW_QUALITY срезал ~259 URL, в основном /product/*)",
+          "impressions": "15 показов кластера замены за окно 30.08–11.09 (~7/нед) при цели ≥300/нед — критерий НЕ выполнен; клики 0; лучшая фраза «опенроутер аналоги» поз. 7,4",
+          "gsc": "/alternatives/* в GSC: 0 показов (Google ещё не индексирует раздел, см. IDX-001)",
+          "diagnosis": "страницы были внутренними сиротами до 08.09 (входящие ссылки появились только с перелинковкой IDX-001, PR #446); позиции большинства фраз 10–20; окно замера почти целиком до появления ссылок",
+          "action": "правка шаблона не показана (страницы в индексе, LOW_QUALITY их не тронул); закрыт последний пробел перелинковки — /alternatives/cursor не имел ссылки со «своего» лендинга (PR #513); очередь волны 2 подготовлена и передана руководителю на отмашку",
+          "next": "контрольная точка 27.09: первые клики; повторный замер показов после того, как окно Вебмастера станет полностью «после перелинковки»",
+          "owner_decision": "решение руководителя 13.09.2026: волну 2 не публиковать до контрольной точки 27.09 — правило «волна 2 только по метрике волны 1» действует; очередь волны 2 (procreate 419, coreldraw 226, sketchup 197, midjourney 196, rive 133, perplexity 120, gitlab 105 — ~1400/мес) утверждена как подготовленная и ждёт метрики"
+        }
+      ],
+      "next_review": "2026-09-27",
+      "next_review_note": "первые клики по launch_criteria (28-й день); показы пересчитать на окне, полностью накрывающем перелинковку IDX-001 (в проде с 08.09)"
+    },
+    {
+      "id": "snippets-3-gap-d",
+      "ticket": "SEO-EXP-004",
+      "start": "2026-09-01",
+      "status": "closed",
+      "pages": [
+        "/vendors/artlist",
+        "/vendors/motion-array"
+      ],
+      "baseline": {
+        "period": "отчётный период Яндекс.Вебмастера до 01.09.2026",
+        "queries": {
+          "оплата artlist юридическим лицом": {
+            "impressions": 66,
+            "avg_position": 3.39,
+            "clicks": 0
+          },
+          "оплата motion array юридическим лицом": {
+            "impressions": 63,
+            "avg_position": 3.13,
+            "clicks": 0
+          }
+        },
+        "cluster_demand": {
+          "Artlist": 4609,
+          "Motion Array": 990
+        },
+        "note": "GAP-D: топ-5 при нулевом CTR. Спрос кластеров — Вордстат, src/data/vendor-demand.json",
+        "recrawl_requested": "2026-09-02"
+      },
+      "changes": [
+        "title по запросной формуле «Оплата {Vendor} юридическим лицом — счёт, договор, ЭДО | BIZSoft», ядро ≤65 символов, бренд в строке один раз",
+        "description: «Оплата {Vendor} юридическим лицом: счёт, договор и закрывающие документы через ЭДО. Оформим подписку на вашу компанию, оплата в рублях, доступ за 1–3 дня.» (153 символа)",
+        "первый вопрос FAQ «Как оплатить {Vendor} юридическим лицом из России?» добавлен к собственному FAQ страницы (механика faqAdd), блок целиком не заменяется",
+        "внутренние ссылки на обе страницы в блоке перелинковки на / и /catalog"
+      ],
+      "hypothesis": "Запросы стоят в топ-5 без единого перехода: позиция клику не мешает, мешает сниппет по общей коммерческой формуле «для юрлиц из России». Точная формулировка запроса в заголовке и описании повышает кликабельность без изменения контента страницы.",
+      "success_metric": "CTR > 0 по каждому запросу за 14 дней от появления сниппета в выдаче при средней позиции не хуже базовой ±1 (3,39 и 3,13)",
+      "control_group": "остальные vendor-страницы без изменений; snippets-5-vendors, snippets-6-demand и snippet-anthropic-demand считаются раздельно, пересечений по страницам нет",
+      "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
+      "title_marker": "оплата .+ юридическим лицом",
+      "query_markers": [
+        "artlist",
+        "артлист",
+        "motion array",
+        "моушн эррей",
+        "моушен эррей",
+        "моушн array"
+      ],
+      "formula_group": "query-phrase-snippet-2026-09",
+      "power_note": "объём мал (≈65 показов на запрос за период): при нуле кликов на 14-й день публикуется описательный вывод «недостаточно данных», не отрицательный результат",
+      "next_review": "2026-09-16",
+      "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-01",
+          "to": "2026-08-28"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04",
+      "end": "2026-09-16",
+      "closed_by": "CLOSE"
+    },
+    {
+      "id": "content-6-clusters",
+      "ticket": "CONTENT-002",
+      "start": "2026-09-02",
+      "status": "closed",
+      "pages": [
+        "/blog/kak-kupit-perplexity-dlya-yurlica",
+        "/blog/kak-oplatit-framer-dlya-yurlica",
+        "/blog/kak-kupit-github-copilot-dlya-yurlica",
+        "/blog/kak-oplatit-envato-elements-dlya-yurlica",
+        "/blog/kak-oplatit-postman-dlya-yurlica",
+        "/blog/tarify-runway-oplata-dlya-yurlica",
+        "/vendors/perplexity",
+        "/vendors/framer",
+        "/vendors/github",
+        "/vendors/envato",
+        "/vendors/postman",
+        "/vendors/runway"
+      ],
+      "target_pages": [
+        "/blog/kak-kupit-perplexity-dlya-yurlica",
+        "/blog/kak-oplatit-framer-dlya-yurlica",
+        "/blog/kak-kupit-github-copilot-dlya-yurlica",
+        "/blog/kak-oplatit-envato-elements-dlya-yurlica",
+        "/blog/kak-oplatit-postman-dlya-yurlica",
+        "/blog/tarify-runway-oplata-dlya-yurlica"
+      ],
+      "baseline": {
+        "period": "12 дней, окно Вебмастера 19.08–30.08.2026 (выгрузка 02.09)",
+        "impressions_cluster": 684,
+        "days": 12,
+        "positions": "4.8–9.1 (средняя по кластерам, взвешенная показами)",
+        "note": "Шесть кластеров, прошедших гейты приёма CONTENT-001 целиком: Perplexity 159, Framer 120, GitHub 112, Envato 106, Postman 102, Runway 85 показов за окно (сумма 684 посчитана маркерами самого эксперимента — тем же кодом, которым вердикт считает окно после внедрения). Отбор — scripts/seo/expansion.py, профиль content.",
+        "by_cluster": {
+          "perplexity": 159,
+          "framer": 120,
+          "github": 112,
+          "envato": 106,
+          "postman": 102,
+          "runway": 85
+        }
+      },
+      "changes": [
+        "шесть статей блога под транзакционный интент кластера по схеме CONTENT-001: прямой ответ в первых двух предложениях, порядок оформления счёта, таблица сравнения тарифов со ссылками на карточки, раздел «когда это не нужно», FAQ-блок с FAQPage-разметкой",
+        "частотные формулировки кластеров в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «из России», «оформить подписку»",
+        "перелинковка статья → /vendors/<slug>, /catalog, /documents и карточки товаров кластера",
+        "обратная перелинковка карточка → статья работает штатно через relatedProducts (src/pages/product/[slug].astro), нового кода не нужно"
+      ],
+      "hypothesis": "Приём, подтверждённый на кластере Depositphotos (CONTENT-001; вердикт и решение руководителя — в журнале решений), воспроизводится на других кластерах при тех же условиях — сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товаров для взаимной перелинковки.",
+      "success_metric": "рост суммарных показов шести кластеров относительно базовых 684 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 16.09.2026",
+      "control_group": "до 03.09.2026 — кластеры Windsurf, GitLab, Atlassian, Box, Descript, Dropbox; решением руководителя 03.09.2026 (EXPAND по CONTENT-001) все шесть получили статьи в партии CONTENT-003, поэтому контроль переназначен на кластеры Unity, QuadSpinner Gaea, Foundry, SideFX Houdini, Maxon — без статей блога (общая контрольная группа с content-10-clusters). Оговорка для вердикта 16.09: у новой группы показов меньше (24 + 21 + 20 + 20 + 19 за окно), чем у прежней, и сравнение с ней слабее.",
+      "source": "src/content/blog/*.md (шесть файлов партии); отбор целей — scripts/seo/expansion.py, профиль content",
+      "evaluation_kind": "impressions_growth",
+      "query_markers": [
+        "perplexity",
+        "перплексити",
+        "framer",
+        "github",
+        "copilot",
+        "envato",
+        "postman",
+        "постман",
+        "runway"
+      ],
+      "query_exclude": [
+        "microsoft copilot",
+        "ms copilot",
+        "video copilot"
+      ],
+      "owner_decision": {
+        "date": "2026-09-02",
+        "decision": "EXPAND",
+        "note": "Решение руководителя по вердикту CONTENT-001: тиражируем приём. Отбор целей — по условиям оригинала (не по списку из отчёта: он был собран по общей частотности бренда), первая партия — шесть кластеров."
+      },
+      "notes": [
+        "03.09.2026: контрольная группа переназначена — прежняя целиком ушла в партию CONTENT-003 по решению руководителя."
+      ],
+      "next_review": "2026-09-17",
+      "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-02",
+          "to": "2026-08-29"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04",
+      "end": "2026-09-16",
+      "closed_by": "KEEP"
+    },
+    {
+      "id": "cluster-coreldraw",
+      "ticket": "CONTENT-003",
+      "start": "2026-09-02",
+      "status": "closed",
+      "evaluation_kind": "impressions_growth",
+      "pages": [
+        "/blog/kak-oplatit-coreldraw-dlya-yurlica",
+        "/vendors/coreldraw",
+        "/product/cdr-gs-sub",
+        "/product/cdr-gs-perp",
+        "/product/cdr-gs-biz"
+      ],
+      "target_page": "/blog/kak-oplatit-coreldraw-dlya-yurlica",
+      "query_markers": [
+        "coreldraw",
+        "корел"
+      ],
+      "baseline": {
+        "period": "окно Вебмастера до 02.09.2026",
+        "impressions_cluster": 145,
+        "days": 13,
+        "positions": "5-11",
+        "note": "замер 02.09.2026: 24 запроса кластера, ядро «оплата coreldraw для россиян» — 69 показов, позиция 9,1"
+      },
+      "changes": [
+        "статья src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md под транзакционный интент «оплата CorelDRAW для юрлица»: прямой ответ в первых двух предложениях, таблица моделей лицензирования, раздел для бухгалтерии, раздел ограничений, FAQ из 7 вопросов с FAQPage-разметкой",
+        "взаимная перелинковка: статья → /vendors/coreldraw, /catalog, /documents и три карточки Graphics Suite; обратная связь карточка → статья через relatedProducts"
+      ],
+      "hypothesis": "Тираж приёма, подтверждённого CONTENT-001 (+70% показов кластера Depositphotos и вход статьи в топ-10 за 14 дней): статья под транзакционный интент плюс взаимная перелинковка поднимут показы кластера CorelDRAW, где страницы стоят на позициях 5-11.",
+      "success_metric": "рост показов кластера CorelDRAW относительно базовых 145 показов за 13 дней и вход статьи /blog/kak-oplatit-coreldraw-dlya-yurlica в топ-10 Яндекса к 16.09.2026",
+      "control_group": "остальные кластеры вендоров без статьи",
+      "source": "решение руководителя 02.09.2026 (EXPAND по CONTENT-001, первый кластер — CorelDRAW); номер изменён с CONTENT-002 на CONTENT-003 02.09.2026: тикет заняла раньше партия content-6-clusters, а два эксперимента с одним номером в письме неразличимы",
+      "next_review": "2026-09-17",
+      "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-02",
+          "to": "2026-08-29"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04",
+      "end": "2026-09-16",
+      "closed_by": "KEEP"
+    },
+    {
+      "id": "content-10-clusters",
+      "ticket": "CONTENT-004",
+      "start": "2026-09-03",
+      "status": "running",
+      "pages": [
+        "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
+        "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
+        "/blog/oplata-descript-yuridicheskim-licom",
+        "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
+        "/blog/kak-oplatit-box-business-iz-rossii",
+        "/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf",
+        "/blog/oplata-dropbox-dlya-yurlica-iz-rossii",
+        "/blog/kupit-leonardo-ai-yuridicheskim-licom",
+        "/blog/spine-2d-kupit-licenziyu-dlya-yurlica",
+        "/blog/elevenlabs-tarify-oplata-dlya-yurlica",
+        "/vendors/windsurf",
+        "/vendors/gitlab",
+        "/vendors/descript",
+        "/vendors/atlassian",
+        "/vendors/box",
+        "/vendors/cloudflare",
+        "/vendors/dropbox",
+        "/vendors/leonardo-ai",
+        "/vendors/spine",
+        "/vendors/elevenlabs"
+      ],
+      "target_pages": [
+        "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
+        "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
+        "/blog/oplata-descript-yuridicheskim-licom",
+        "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
+        "/blog/kak-oplatit-box-business-iz-rossii",
+        "/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf",
+        "/blog/oplata-dropbox-dlya-yurlica-iz-rossii",
+        "/blog/kupit-leonardo-ai-yuridicheskim-licom",
+        "/blog/spine-2d-kupit-licenziyu-dlya-yurlica",
+        "/blog/elevenlabs-tarify-oplata-dlya-yurlica"
+      ],
+      "baseline": {
+        "period": "12 дней, окно Вебмастера 20.08–31.08.2026 (выгрузка 03.09)",
+        "impressions_cluster": 609,
+        "days": 12,
+        "positions": "4.0–9.2 (средняя по кластерам, взвешенная показами)",
+        "note": "Десять кластеров второй волны тиража — все кандидаты профиля content на 03.09.2026 (scripts/seo/expansion.py): показы кластера при средней позиции ≤ 10, не меньше двух карточек, кластер не занят другим экспериментом. Сумма 609 посчитана маркерами самого эксперимента — тем же кодом, которым вердикт считает окно после внедрения; по-кластерный разрез (596) — по первому совпавшему маркеру, разница — запросы с несколькими маркерами и общие формы.",
+        "by_cluster": {
+          "windsurf": 111,
+          "gitlab": 62,
+          "descript": 56,
+          "atlassian": 100,
+          "box": 49,
+          "cloudflare": 47,
+          "dropbox": 58,
+          "leonardo-ai": 49,
+          "spine": 36,
+          "elevenlabs": 28
+        }
+      },
+      "changes": [
+        "десять статей блога под транзакционный интент кластера по схеме CONTENT-001: прямой ответ в первых двух предложениях, разбор, которого нет на лендинге (расчёт мест, единица тарификации, права), порядок оформления счёта, таблица сравнения тарифов со ссылками на карточки, раздел «когда это не нужно», FAQ-блок с FAQPage-разметкой штатным компонентом",
+        "ведущие запросы кластеров из выгрузки Вебмастера — в заголовках и тексте дословно: «windsurf ai в россии», «gitlab годовая подписка из россии», «оплата descript юридическим лицом», «как получить счет и закрывающие от atlassian», «оплата box для юридических лиц из россии», «корпоративные планы cloudflare для компаний из рф», «оплата dropbox для юридических лиц из россии», «купить leonardo ai юридическим лицом», «spine 2d купить», «elevenlabs тарифы»",
+        "перелинковка статья → /vendors/<slug>, /catalog, /documents и карточки товаров кластера",
+        "обратная перелинковка карточка → статья работает штатно через relatedProducts (src/pages/product/[slug].astro), нового кода не нужно",
+        "обложки по единой дизайн-системе тем же генератором (scripts/marketing/build-blog-covers.mjs)"
+      ],
+      "hypothesis": "Приём, подтверждённый на кластере Depositphotos (CONTENT-001, вердикт CONFIRMED 03.09.2026: +62% показов, статья на 6-й позиции) и тиражированный первой партией (CONTENT-002), воспроизводится на следующих десяти кластерах при тех же условиях — сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товаров для взаимной перелинковки.",
+      "success_metric": "рост суммарных показов десяти кластеров относительно базовых 609 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 17.09.2026 (14 дней после внедрения), затем 01.10.2026 (28 дней)",
+      "control_group": "кластеры Unity (прошёл все гейты профиля content: 24 показа за окно, позиция 7.0, две карточки), QuadSpinner Gaea, Foundry, SideFX Houdini, Maxon (позиция в топ-10 и карточки есть, показов меньше порога 2/день) — без статей блога. Статей по ним до контрольной точки 01.10.2026 не заводить: это единственные оставшиеся кластеры, на которых видно, растут ли показы без приёма.",
+      "source": "src/content/blog/*.md (десять файлов партии); отбор целей — scripts/seo/expansion.py, профиль content; задача — reports/seo/tasks/CONTENT-003-cluster-articles-wave2.md",
+      "evaluation_kind": "impressions_growth",
+      "query_markers": [
+        "windsurf",
+        "виндсерф",
+        "gitlab",
+        "гитлаб",
+        "descript",
+        "дескрипт",
+        "atlassian",
+        "атлассиан",
+        "jira",
+        "джира",
+        "confluence",
+        "конфлюенс",
+        "box",
+        "бокс",
+        "cloudflare",
+        "клаудфлар",
+        "клаудфлаер",
+        "dropbox",
+        "дропбокс",
+        "дроп бокс",
+        "leonardo",
+        "леонардо",
+        "spine",
+        "спайн",
+        "elevenlabs",
+        "eleven labs",
+        "элевенлабс"
+      ],
+      "query_exclude": [
+        "xbox",
+        "x box",
+        "leonardo da vinci",
+        "да винчи",
+        "бизнес бокс"
+      ],
+      "owner_decision": {
+        "date": "2026-09-03",
+        "decision": "EXPAND",
+        "note": "Решение руководителя 03.09.2026 в чате по вердикту CONTENT-001 (CONFIRMED, +62%, позиция 6): «эксперимент удачный, расширяем на рекомендованные страницы и продукты вендоров второй части, ставим на аналогичное наблюдение и контроль для дальнейшего тиража». Партия — все десять кандидатов профиля content на дату решения."
+      },
+      "ticket_note": "03.09.2026: тикет переназначен с CONTENT-003 (занят cluster-coreldraw) решением руководителя",
+      "next_review": "2026-09-18",
+      "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-03",
+          "to": "2026-08-30"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04"
+    },
+    {
+      "id": "snippets-2-price-intent",
+      "ticket": "SEO-EXP-002-R",
+      "start": "2026-09-03",
+      "status": "closed",
+      "supersedes": "snippets-6-demand",
+      "pages": [
+        "/vendors/clip-studio-paint",
+        "/vendors/procreate"
+      ],
+      "page_markers": {
+        "/vendors/clip-studio-paint": [
+          "clip studio",
+          "clipstudio",
+          "клип студио",
+          "клип-студио",
+          "клипстудио"
+        ],
+        "/vendors/procreate": [
+          "procreate",
+          "прокриейт",
+          "прокриэйт",
+          "прокреат"
+        ]
+      },
+      "query_intent_any": [
+        "купить",
+        "покуп",
+        "цена",
+        "стоимость",
+        "сколько стоит",
+        "стоит",
+        "подписк",
+        "лицензи",
+        "оплат",
+        "рубл",
+        "росси",
+        "юрлиц",
+        "юридическ",
+        "компани",
+        "бизнес",
+        "business",
+        "навсегда",
+        "бессрочн"
+      ],
+      "query_exclude": [
+        "скачать",
+        "торрент",
+        "torrent",
+        "взлом",
+        "crack",
+        "кряк",
+        "бесплатно",
+        "free",
+        "кисти",
+        "brush",
+        "урок",
+        "как рисовать",
+        "андроид",
+        "android",
+        "windows",
+        "pipl",
+        "пипл"
+      ],
+      "title_marker": "(цена|сколько стоит)",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-03",
+          "to": "2026-08-30"
+        },
+        "experiment": {
+          "from": "2026-09-04",
+          "to": "2026-10-01"
+        }
+      },
+      "evaluation_kind": "ctr",
+      "formula_group": "query-phrase-snippet-2026-09",
+      "baseline": {
+        "period": "выгрузка Вебмастера от 2026-09-03 (окно 2026-08-20–2026-08-31, 1016 запросов полным обходом)",
+        "pages": {
+          "/vendors/clip-studio-paint": {
+            "queries": 25,
+            "impressions": 36,
+            "clicks": 0,
+            "avg_position": 10.0,
+            "top_queries": [
+              {
+                "q": "сколько стоит подписка в клип студио",
+                "impressions": 3,
+                "position": 10.3
+              },
+              {
+                "q": "клип студио пейнт подписка на год",
+                "impressions": 3,
+                "position": 8.0
+              },
+              {
+                "q": "сколько стоит подписка клип студио бессрочная",
+                "impressions": 3,
+                "position": 8.0
+              },
+              {
+                "q": "сколько стоит подписка навсегда клип студио",
+                "impressions": 2,
+                "position": 11.0
+              },
+              {
+                "q": "сколько стоит купить полные права над версией в клип студио",
+                "impressions": 2,
+                "position": 7.5
+              }
+            ]
+          },
+          "/vendors/procreate": {
+            "queries": 2,
+            "impressions": 3,
+            "clicks": 0,
+            "avg_position": 10.67,
+            "top_queries": [
+              {
+                "q": "прокриэйт цена",
+                "impressions": 2,
+                "position": 14.5
+              },
+              {
+                "q": "business procreate",
+                "impressions": 1,
+                "position": 3.0
+              }
+            ]
+          }
+        },
+        "serp_check": "03.09.2026: /vendors/clip-studio-paint — позиция 6 по «сколько стоит подписка клип студио бессрочная»; по целевым фразам Вордстата («clip studio paint купить», «купить procreate») сайта в топ-10 нет",
+        "note": "Фиксированные окна baseline/experiment записывает activate по факту выката; числа здесь — контрольный снимок экспозиции на день заведения"
+      },
+      "changes": [
+        "title: «Clip Studio Paint: цена бессрочной лицензии и подписки в рублях | BIZSoft» и «Procreate: цена в рублях и покупка в России на компанию | BIZSoft» — ядро ≤65, бренд один раз",
+        "description начинается с запроса «Сколько стоит {Vendor} … в рублях», дальше модель лицензии и оффер (счёт, ЭДО, 1–3 дня), ≤160",
+        "первый вопрос FAQ «Сколько стоит {Vendor} …?» добавлен к собственному FAQ страницы (faqAdd), блок целиком не заменяется",
+        "контент страниц и блок /solutions не меняются — одно изменение: сниппет"
+      ],
+      "hypothesis": "Обе страницы уже показываются по ценовым запросам («сколько стоит … в рублях», «купить … в России», «бессрочная лицензия») на позициях 5–14 без единого перехода. Сниппет с точной формулировкой ценового запроса и моделью лицензии поднимет кликабельность без изменения контента; прежняя коммерческая формула «для юрлиц» на этот интент не отвечала.",
+      "success_metric": "CTR по совпадающим запросам каждой страницы > 0 и по кластеру ≥2 % за фиксированное окно 28 дней после выката при средней позиции не хуже базовой ±1; вспомогательно — пул формулы query-phrase-snippet-2026-09",
+      "control_group": "остальные vendor-страницы без изменений; Adobe, Autodesk, Blackmagic, Midjourney выведены из эксперимента с прежними сниппетами (KEEP 03.09.2026); SEO-EXP-004 — тот же приём на других страницах, считается раздельно",
+      "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
+      "power_note": "ёмкость Clip Studio Paint ≈150 показов за 28 дней, Procreate ≈45: порог экспозиции у Procreate не наберётся — на контрольной точке по нему публикуется описательный вывод, не отрицательный результат; вывод о формуле — по пулу",
+      "selection": "Две из шести страниц snippets-6-demand с реальной экспозицией в Вебмастере; отбор по показам, а не по частотности Вордстата (docs/seo/experiments/seo-exp-002-restart.md)",
+      "owner_decision": "перезапуск — команда руководителя 2026-09-03",
+      "activated": {
+        "date": "2026-09-03",
+        "pages": [
+          {
+            "page": "/vendors/clip-studio-paint",
+            "title": "Clip Studio Paint: цена бессрочной лицензии и подписки в рублях | BIZSoft",
+            "new_variant": true
+          },
+          {
+            "page": "/vendors/procreate",
+            "title": "Procreate: цена в рублях и покупка в России на компанию | BIZSoft",
+            "new_variant": true
+          }
+        ]
+      },
+      "next_review": "2026-10-04",
+      "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
+      "end": "2026-09-16",
+      "closed_by": "CLOSE"
+    },
+    {
+      "id": "snippets-2-product-gap-d",
+      "ticket": "SEO-EXP-006",
+      "start": "2026-09-03",
+      "status": "closed",
+      "pages": [
+        "/product/adobe-ae",
+        "/product/adobe-lr"
+      ],
+      "page_markers": {
+        "/product/adobe-ae": [
+          "after effects",
+          "aftereffects",
+          "афтер эффект",
+          "афтерэффект",
+          "after effect"
+        ],
+        "/product/adobe-lr": [
+          "lightroom",
+          "лайтрум",
+          "light room"
+        ]
+      },
+      "query_intent_any": [
+        "купить",
+        "покуп",
+        "оплат",
+        "юрлиц",
+        "юридическ",
+        "лиценз",
+        "подписк",
+        "цена",
+        "стоимость",
+        "сколько стоит",
+        "компани",
+        "бизнес",
+        "организац",
+        "счёт",
+        "счет",
+        "росси"
+      ],
+      "query_exclude": [
+        "скачать",
+        "торрент",
+        "torrent",
+        "взлом",
+        "crack",
+        "кряк",
+        "бесплатно",
+        "free",
+        "урок",
+        "плагин",
+        "plugin",
+        "шаблон",
+        "template",
+        "пресет",
+        "preset"
+      ],
+      "title_marker": "юридическим лицом",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-03",
+          "to": "2026-08-30"
+        },
+        "experiment": {
+          "from": "2026-09-04",
+          "to": "2026-10-01"
+        }
+      },
+      "evaluation_kind": "ctr",
+      "formula_group": "query-phrase-snippet-2026-09",
+      "baseline": {
+        "period": "выгрузка Вебмастера от 2026-09-03 (окно 2026-08-20–2026-08-31, 1016 запросов)",
+        "pages": {
+          "/product/adobe-ae": {
+            "queries": 3,
+            "impressions": 33,
+            "clicks": 0,
+            "avg_position": 4.64,
+            "top_queries": [
+              {
+                "q": "купить after effects юридическим лицом",
+                "impressions": 31,
+                "position": 4.4
+              },
+              {
+                "q": "купить after effects юридическим лицрм",
+                "impressions": 1,
+                "position": 10.0
+              },
+              {
+                "q": "adobe after effects цена",
+                "impressions": 1,
+                "position": 7.0
+              }
+            ]
+          },
+          "/product/adobe-lr": {
+            "queries": 3,
+            "impressions": 17,
+            "clicks": 0,
+            "avg_position": 3.71,
+            "top_queries": [
+              {
+                "q": "купить lightroom юридическим лицом",
+                "impressions": 13,
+                "position": 3.5
+              },
+              {
+                "q": "купить lightroom юридическим лицом московская область",
+                "impressions": 2,
+                "position": 2.5
+              },
+              {
+                "q": "купить lightroom юридическим лицом москва и мо",
+                "impressions": 2,
+                "position": 6.0
+              }
+            ]
+          }
+        },
+        "current_titles": {
+          "/product/adobe-ae": "Adobe After Effects — купить для юрлица | BIZSoft",
+          "/product/adobe-lr": "Adobe Lightroom — купить для юрлица | BIZSoft"
+        },
+        "serp_check": "01–03.09.2026 (Москва и СПб): /product/adobe-ae — позиции 2–3 по «купить after effects юридическим лицом», /product/adobe-lr — позиции 1–7 по «купить lightroom юридическим лицом»",
+        "note": "GAP-D на карточках товаров: топ-5 при нуле переходов; фиксированные окна записывает activate по факту выката"
+      },
+      "changes": [
+        "meta_title по запросной формуле «Купить {Продукт} юридическим лицом — счёт, договор, ЭДО» (≤60, бренд добавляет SeoHead)",
+        "meta_description начинается с «Купить Adobe {Продукт} юридическим лицом из России», дальше состав плана и оффер (счёт, договор, рубли, ЭДО, 1–3 дня), ≤160",
+        "контент карточки, FAQ и цена не меняются — одно изменение: сниппет; правка через data/seo/product-descriptions.json + ops-apply-descriptions"
+      ],
+      "hypothesis": "Карточки стоят в топ-5 по запросам «купить after effects / lightroom юридическим лицом» с 44 показами и нулём переходов: позиция клику не мешает, мешает общий сниппет «купить для юрлица». Точная формулировка запроса в начале title и description поднимет кликабельность без изменения контента.",
+      "success_metric": "CTR > 0 по каждому запросу и ≥3 % по кластеру страницы за фиксированное окно 28 дней после выката при средней позиции не хуже базовой ±1 (4,4 и 3,5); вспомогательно — пул формулы query-phrase-snippet-2026-09",
+      "control_group": "остальные карточки Adobe (Photoshop, Premiere Pro, Illustrator и др.) без изменений; SEO-EXP-004 и SEO-EXP-002-R — тот же приём на других страницах, считаются раздельно",
+      "source": "data/seo/product-descriptions.json → ops-apply-descriptions → Directus meta_title/meta_description (рендер: src/pages/product/[slug].astro, SeoHead)",
+      "power_note": "ёмкость ≈100 показов за 28 дней на две карточки: вывод по самим карточкам описательный, вывод о формуле — по пулу",
+      "selection": "Находка разбора SEO-EXP-002: маркеры кластера Adobe приписывали vendor-странице показы этих карточек; по правилу 03.09.2026 сниппет-тест ставится там, где показы есть (docs/seo/experiments/seo-exp-002-restart.md)",
+      "owner_decision": "заведён решением руководителя 2026-09-03 (кнопка в чате)",
+      "activated": {
+        "date": "2026-09-03",
+        "pages": [
+          {
+            "page": "/product/adobe-ae",
+            "title": "Купить After Effects юридическим лицом — счёт, договор, ЭДО — BIZSoft",
+            "new_variant": true
+          },
+          {
+            "page": "/product/adobe-lr",
+            "title": "Купить Lightroom юридическим лицом — счёт, договор, ЭДО — BIZSoft",
+            "new_variant": true
+          }
+        ]
+      },
+      "next_review": "2026-10-04",
+      "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
+      "end": "2026-09-16",
+      "closed_by": "CLOSE"
+    },
+    {
+      "id": "cluster-heygen",
+      "ticket": "CONTENT-005",
+      "start": "2026-09-03",
+      "status": "running",
+      "evaluation_kind": "impressions_growth",
+      "pages": [
+        "/blog/kak-oplatit-heygen-dlya-yurlica",
+        "/vendors/heygen",
+        "/product/heygen-pro",
+        "/product/heygen-business",
+        "/product/heygen-ent"
+      ],
+      "target_page": "/blog/kak-oplatit-heygen-dlya-yurlica",
+      "query_markers": [
+        "heygen",
+        "хейген"
+      ],
+      "baseline": {
+        "period": "окно Вебмастера 03.08–30.08.2026",
+        "impressions_cluster": 342,
+        "days": 28,
+        "positions": "1-19",
+        "note": "замер 03.09.2026: 39 запросов кластера, ядро «heygen тарифы» — 108 показов при позиции 6,5; транзакционное ядро — 20 запросов, 148 показов, средняя позиция 10,8 («heygen купить» 37 показов позиция 10,6, «купить heygen юридическим лицом» 34 показа позиция 3,9)"
+      },
+      "changes": [
+        "статья src/content/blog/kak-oplatit-heygen-dlya-yurlica.md под транзакционный интент «оплата HeyGen для юрлица»: прямой ответ в первом абзаце, метод расчёта состава мест, таблица выбора между Pro, Business и Enterprise, раздел о правах на ролики с ИИ-аватаром, раздел ограничений, FAQ из 7 вопросов с FAQPage-разметкой",
+        "взаимная перелинковка: статья → /vendors/heygen, /catalog, /documents и три карточки тарифов; обратная связь карточка → статья через relatedProducts",
+        "обложка блога public/blog/covers/kak-oplatit-heygen-dlya-yurlica.png в единой дизайн-системе"
+      ],
+      "hypothesis": "Второй тираж приёма, подтверждённого CONTENT-001 (+70 % показов кластера Depositphotos и вход статьи в топ-10 за 14 дней): транзакционная статья и взаимная перелинковка поднимут показы кластера HeyGen. Запас роста здесь больше, чем у CorelDRAW: транзакционное ядро стоит на позиции 10,8 — это вторая страница выдачи, где показы есть, а переходов почти нет.",
+      "success_metric": "рост показов кластера HeyGen относительно базовых 342 показов за 28 дней и вход статьи /blog/kak-oplatit-heygen-dlya-yurlica в топ-10 Яндекса к 17.09.2026",
+      "control_group": "остальные кластеры вендоров без статьи; CONTENT-003 (CorelDRAW) — тот же приём на другом кластере, считается раздельно",
+      "next_review": "2026-09-18",
+      "ads_conflict_guard": "кластер зарезервирован от рекламы до вердикта: реклама на те же запросы перетянула бы часть кликов с органики и сделала бы замер недоказуемым (разбор базового списка раунда 2, 02.09.2026)",
+      "source": "решение руководителя 03.09.2026 (кнопка в чате): второй кластер тиража выбран по спросу из четырёх свободных кандидатов — HeyGen, Recraft, Canva, Notion",
+      "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-03",
+          "to": "2026-08-30"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04"
+    },
+    {
+      "id": "cluster-recraft",
+      "ticket": "CONTENT-006",
+      "start": "2026-09-04",
+      "status": "closed",
+      "evaluation_kind": "impressions_growth",
+      "pages": [
+        "/blog/kak-kupit-recraft-dlya-yurlica",
+        "/vendors/recraft",
+        "/compare/midjourney-vs-recraft",
+        "/product/recraft-advanced",
+        "/product/recraft-pro",
+        "/product/recraft-team",
+        "/product/recraft-ent"
+      ],
+      "target_page": "/blog/kak-kupit-recraft-dlya-yurlica",
+      "query_markers": [
+        "recraft",
+        "рекрафт"
+      ],
+      "baseline": {
+        "period": "окно Вебмастера 03.08–30.08.2026",
+        "impressions_cluster": 180,
+        "days": 28,
+        "positions": "3,0-13,0",
+        "note": "замер 04.09.2026: 30 запросов кластера. Ядро — «рекрафт тарифы» 28 показов (позиция 7,0), «тарифы recraft» 24 (8,0), «как купить recraft без зарубежной карты» 21 (6,4), «recraft годовая подписка» 20 (8,8). Отдельная особенность кластера: восемь запросов содержат хвост «www.klerk.ru» (~47 показов, позиции 5,7-11,7) — спрос приходит с внешней публикации на бухгалтерском портале"
+      },
+      "changes": [
+        "статья src/content/blog/kak-kupit-recraft-dlya-yurlica.md под ядро спроса: разбор тарифов, оплата без зарубежной карты, выбор между месячной и годовой оплатой, метод выбора ветки тарифов, раздел о правах на сгенерированную графику, раздел ограничений, FAQ из 7 вопросов с FAQPage-разметкой",
+        "взаимная перелинковка: статья → /vendors/recraft, /compare/midjourney-vs-recraft, /documents, /catalog и четыре карточки тарифов; обратная связь через relatedProducts",
+        "обложка блога public/blog/covers/kak-kupit-recraft-dlya-yurlica.png"
+      ],
+      "hypothesis": "Третий тираж приёма, подтверждённого CONTENT-001. В отличие от CorelDRAW и HeyGen, здесь ядро спроса — не «оплата вендора», а «тарифы» и «без зарубежной карты»: статья отвечает именно на эти формулировки, поэтому проверяется не только сам приём, но и его переносимость на другой тип интента.",
+      "success_metric": "рост показов кластера Recraft относительно базовых 180 показов за 28 дней и вход статьи /blog/kak-kupit-recraft-dlya-yurlica в топ-10 Яндекса к 18.09.2026",
+      "control_group": "остальные кластеры вендоров без статьи; CONTENT-003 (CorelDRAW) и CONTENT-005 (HeyGen) — тот же приём на других кластерах, считаются раздельно",
+      "next_review": "2026-09-19",
+      "ads_conflict_guard": "кластер зарезервирован от рекламы до вердикта: реклама на те же запросы перетянула бы часть кликов с органики и сделала бы замер недоказуемым",
+      "source": "решение руководителя 04.09.2026 (кнопка в чате): третий кластер тиража — Recraft, второй по приоритету в разборе свободных кандидатов от 03.09",
+      "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-04",
+          "to": "2026-08-31"
+        },
+        "experiment": null
+      },
+      "windows_backfilled": "2026-09-04",
+      "closed_on": "2026-09-04",
+      "outcome": "INSUFFICIENT_DATA",
+      "closed_reason": "Закрыт решением руководителя 04.09.2026 в день заведения: правило порога экспозиции (experiment_windows.py validate) показало 0,3 показа в день при минимуме 3,6. Baseline 180 показов взят из окна 03.08–30.08, куда попал всплеск от внешней публикации на klerk.ru; к сентябрю кластер даёт 4 показа за 12 дней, и рост к августовскому пику недостижим по построению — вердикт 18.09 был бы «показы снизились» при исправной статье. Статья /blog/kak-kupit-recraft-dlya-yurlica остаётся на сайте и в индексе; кластер освобождён и может быть заведён снова, когда наберёт показы."
+    },
+    {
+      "id": "money-a1-query-phrase",
+      "ticket": "MONEY-A1",
+      "status": "closed",
+      "start": "2026-09-08",
+      "evaluation_kind": "ctr",
+      "pages": [
+        "/vendors/capture-one",
+        "/vendors/freepik",
+        "/vendors/zoom"
+      ],
+      "changes": [
+        "title под собственную формулировку кластера каждой страницы, ядро ≤65 символов: Capture One — «Оплата Capture One юридическим лицом — продление без карты» (кластер спрашивает про непроходящий платёж и продление), Magnific — «Оплата Magnific AI юридическим лицом — счёт, договор, ЭДО» (страница ранжируется по Magnific, а описание говорило про стоковую библиотеку Freepik), Zoom — «Оформление Zoom Business для организации из РФ — счёт и договор» (формулировка запроса, дающего три четверти показов кластера)",
+        "description ≤160 символов с формулировкой кластера в начале: прежние описания vendor-шаблона длиной 171–216 символов обрывались в выдаче ровно на обещании про договор и ЭДО",
+        "первый вопрос FAQ под формулировку кластера (механика faqAdd — собственный FAQ страницы сохраняется); у Magnific добавлен второй вопрос про коммерческую лицензию: этого нет ни у одного соседа по топ-5"
+      ],
+      "not_changed": [
+        "H1, текст страниц, карточки товаров, внутренняя перелинковка",
+        "SEO_EXPERIMENT_LINKS: ссылки с / и /catalog намеренно не заведены — они меняют ранжирование, и вывод о сниппете стал бы неотделим от вывода о ссылках"
+      ],
+      "hypothesis": "Кластеры стоят в первой десятке при нулевом CTR, а текст в выдаче отвечает не на тот вопрос, которым спрашивают: у Capture One — про юрлицо вместо непроходящего платежа, у Magnific — про стоковую библиотеку вместо оплаты и лицензии, у Zoom — «купить» вместо «оформление для организации из РФ». Точная формулировка кластера в заголовке и описании поднимет кликабельность без изменения страницы.",
+      "baseline": {
+        "source": "Яндекс.Вебмастер, окно 2026-08-25–2026-09-05 (12 дней), выгрузка yandex-2026-09-08.json",
+        "days": 12,
+        "pages": {
+          "/vendors/capture-one": {
+            "impressions": 211,
+            "clicks": 0,
+            "avg_position": 6.97,
+            "per_day": 17.6
+          },
+          "/vendors/freepik": {
+            "impressions": 64,
+            "clicks": 2,
+            "avg_position": 5.14,
+            "per_day": 5.3
+          },
+          "/vendors/zoom": {
+            "impressions": 48,
+            "clicks": 0,
+            "avg_position": 7.62,
+            "per_day": 4.0
+          }
+        },
+        "total": {
+          "impressions": 323,
+          "clicks": 2,
+          "ctr": 0.0062
+        },
+        "exposure_gate": "26.9 показа в день на партию при минимуме 3.6 — порог пройден и по каждой странице отдельно"
+      },
+      "success_metric": "CTR партии за фиксированное окно «после» против окна «до» при средней позиции не хуже базовой ±1. Экспозиция партии (~750 показов за 28 дней) различает только трёхкратную разницу: рост с 0,6 % до 2 % и выше — вывод, рост до 1 % — «недостаточно данных», и он будет записан именно так.",
+      "control_group": "Свободные кластеры Вебмастера без правки сниппета за то же окно: grok, zoho, openai, hailuo, foundry, houdini, vegas, maxon, toon-boom, gaea, apple, deepl, fl-studio, cubase, sketchup, discord, suno, recraft — 605 показов и 4 перехода (CTR 0,66 %) против 571 показа и 3 переходов у партии. Размеры групп сопоставимы, состояние одинаковое (показы в топ-10 без переходов).",
+      "source": "src/data/seo-experiments.ts (capture-one, freepik) и src/pages/vendors/zoom.astro; отбор — scripts/seo/money_queries.py, разбор — reports/seo/yandex-money-growth-plan.md",
+      "title_marker": "(оплата|оформление) (capture one|magnific|zoom)",
+      "page_markers": {
+        "/vendors/capture-one": [
+          "capture one",
+          "capture-one",
+          "кэпчур",
+          "капчур"
+        ],
+        "/vendors/freepik": [
+          "magnific",
+          "магнифик",
+          "freepik",
+          "фрипик"
+        ],
+        "/vendors/zoom": [
+          "zoom",
+          "зум"
+        ]
+      },
+      "query_intent_any": [
+        "оплат",
+        "оформл",
+        "купить",
+        "продлен",
+        "продлить",
+        "юридическ",
+        "юрлиц",
+        "для организаци",
+        "для бизнеса",
+        "лицензи",
+        "тариф",
+        "стоимост",
+        "цена"
+      ],
+      "query_exclude": [
+        "скачать",
+        "торрент",
+        "torrent",
+        "кряк",
+        "crack",
+        "взлом",
+        "бесплатн",
+        "урок",
+        "zoom фон",
+        "zoom обои",
+        "конференция zoom как"
+      ],
+      "next_review": "2026-10-06",
+      "next_review_note": "28 дней от выката. Раньше смотреть нельзя: выгрузка Вебмастера отдаёт скользящее 12-дневное окно с лагом, и до этой даты окно захватывает период до правки.",
+      "power_note": "Партия мала по абсолютным числам (571 показ, 3 перехода за 12 дней). При нуле или единичных переходах в контрольную дату публикуется «недостаточно данных», а не отрицательный вывод.",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-08",
+          "to": "2026-09-04"
+        },
+        "experiment": {
+          "from": "2026-09-09",
+          "to": "2026-10-06"
+        }
+      },
+      "activated": {
+        "date": "2026-09-08",
+        "pages": [
+          {
+            "page": "/vendors/capture-one",
+            "title": "Оплата Capture One юридическим лицом — продление без карты | BIZSoft",
+            "new_variant": true
+          },
+          {
+            "page": "/vendors/freepik",
+            "title": "Оплата Magnific AI юридическим лицом — счёт, договор, ЭДО | BIZSoft",
+            "new_variant": true
+          },
+          {
+            "page": "/vendors/zoom",
+            "title": "Оформление Zoom Business для организации из РФ — счёт и договор — BIZSoft",
+            "new_variant": true
+          }
+        ]
+      },
+      "end": "2026-09-16",
+      "closed_by": "CLOSE"
+    },
+    {
+      "id": "money-a2-generic-documents",
+      "ticket": "MONEY-A2",
+      "status": "running",
+      "start": "2026-09-08",
+      "evaluation_kind": "ctr",
+      "pages": [
+        "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+      ],
+      "changes": [
+        "description статьи: «Оплата зарубежного ПО и иностранных подписок для юрлица: какие документы получает бухгалтерия — договор, счёт и акт через ЭДО. Порядок оформления и сроки.» (154 символа)"
+      ],
+      "not_changed": [
+        "title статьи: в шаблоне блога он же рендерится как H1 и в хлебные крошки, поэтому его правка была бы изменением страницы, а не сниппета, и смешала бы программу CTR с программой ранжирования",
+        "текст статьи, FAQ, перелинковка"
+      ],
+      "hypothesis": "Единственный кластер, где предмет запроса — сама услуга, а не продукт вендора. Слово «документы» стоит в трёх из пяти ведущих запросов кластера, а прежнее описание вело словом «гайд» и обещало пошаговость — то есть отвечало на вопрос «как это устроено», тогда как спрашивают «что я получу на руки». Конкуренты в топ-5 (klerk.ru, duc-technologies, dolphinpay) — обзоры сервисов и платёжные посредники; поставщик, который сам выписывает документы, в выдаче один.",
+      "baseline": {
+        "source": "Яндекс.Вебмастер, окно 2026-08-25–2026-09-05 (12 дней), выгрузка yandex-2026-09-08.json",
+        "days": 12,
+        "impressions": 248,
+        "clicks": 1,
+        "ctr": 0.004,
+        "avg_position": 7.59,
+        "per_day": 20.7,
+        "top_queries": {
+          "оплата зарубежного по для юр лица документы": {
+            "impressions": 44,
+            "position": 5.52,
+            "serp_position": 3
+          },
+          "оплата иностранной подписки для бизнеса документы": {
+            "impressions": 36,
+            "position": 7.86,
+            "serp_position": 4
+          },
+          "оплата зарубежных сервисов для юридических лиц документы": {
+            "impressions": 35,
+            "position": 9.03,
+            "serp_position": 7
+          },
+          "как получить закрывающие документы от иностранных сервисов": {
+            "impressions": 31,
+            "position": 5.74
+          },
+          "оплата зарубежного по для юрлица": {
+            "impressions": 20,
+            "position": 8.8,
+            "serp_position": 8
+          }
+        }
+      },
+      "success_metric": "CTR кластера за фиксированное окно «после» против окна «до» при средней позиции не хуже 8,6 (базовая 7,59 плюс 1). Различимая разница — трёхкратная; меньшая при 250 показах за 12 дней не отделяется от шума.",
+      "control_group": "Та же группа свободных кластеров без правки, что и у MONEY-A1. Кластеры MONEY-A1 контролем для этой записи не являются: они изменены одновременно.",
+      "source": "src/content/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica.md",
+      "title_marker": "зарубежн",
+      "query_markers": [
+        "зарубежн",
+        "иностранн",
+        "закрывающ",
+        "корпоративн"
+      ],
+      "query_exclude": [
+        "скачать",
+        "бесплатн",
+        "вакансия",
+        "работа за рубежом"
+      ],
+      "next_review": "2026-10-06",
+      "next_review_note": "28 дней от выката, по той же причине лага выгрузки.",
+      "power_note": "Описание — не гарантированный источник сниппета: Яндекс собирает его и из текста страницы. Отсутствие эффекта здесь означает «description не сработал», а не «формулировка не сработала»; различить это можно только срезом выдачи, поэтому запросы кластера обязаны быть в ядре seo-serp-watch.",
+      "windows": {
+        "days": 28,
+        "baseline": {
+          "from": "2026-08-08",
+          "to": "2026-09-04"
+        },
+        "experiment": {
+          "from": "2026-09-09",
+          "to": "2026-10-06"
+        }
+      },
+      "activated": {
+        "date": "2026-09-08",
+        "pages": [
+          {
+            "page": "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica",
+            "title": "Как купить зарубежное ПО для юрлица в России: договор, счёт, ЭДО — BIZSoft",
+            "new_variant": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "snippets-10-expand",
+      "ticket": "SEO-EXP-005",
+      "status": "closed",
+      "start": "2026-09-02",
+      "evaluation_kind": "ctr",
+      "backfilled_by": "разбор 08.09.2026 (Money Query Opportunity Model). Партия выкачена в src/data/seo-experiments.ts 02.09.2026 по решению руководителя (EXPAND), но записи в реестре у неё не было: эксперимент нельзя было ни оценить, ни закрыть, а его десять страниц для любой следующей модели выглядели свободными. Запись восстановлена по коду и комментариям файла; окна не проставлены руками — их заводит experiment_windows.py backfill.",
+      "pages": [
+        "/vendors/google",
+        "/vendors/microsoft",
+        "/vendors/github",
+        "/vendors/unity",
+        "/vendors/docker",
+        "/vendors/runway",
+        "/vendors/solidworks",
+        "/vendors/acronis",
+        "/vendors/unreal-engine",
+        "/vendors/perplexity"
+      ],
+      "changes": [
+        "тираж формулы snippets-5-vendors без изменений: title «Оплата {Vendor} для юрлиц из России — счёт, договор, ЭДО», description «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.», FAQ-блок «Как купить {Vendor} на юрлицо» из 4 вопросов",
+        "формула при тираже намеренно не менялась — иначе тиражируется не то, что оценивалось"
+      ],
+      "hypothesis": "Коммерческая формула сниппета, оценённая на snippets-5-vendors, воспроизводится на десяти карточках с наибольшим замеренным спросом Вордстата вне действующих экспериментов.",
+      "success_metric": "CTR партии за фиксированное окно «после» против окна «до» при средней позиции не хуже базовой ±1.",
+      "control_group": "vendor-страницы без переопределения сниппета. Внимание: с 08.09.2026 в контрольной группе стало на три страницы меньше — Capture One, Magnific и Zoom ушли в партию money-a1-query-phrase.",
+      "source": "src/data/seo-experiments.ts (google, microsoft, github, unity, docker, runway, solidworks, acronis, unreal-engine, perplexity); отбор — expand_candidates(), src/data/vendor-demand.json",
+      "title_marker": "(оплата|лицензии|подписка) ",
+      "query_markers": [
+        "google workspace",
+        "гугл воркспейс",
+        "gemini",
+        "microsoft 365",
+        "office 365",
+        "майкрософт",
+        "github",
+        "гитхаб",
+        "copilot",
+        "unity",
+        "юнити",
+        "docker",
+        "докер",
+        "runway",
+        "solidworks",
+        "солидворкс",
+        "acronis",
+        "unreal",
+        "анрил",
+        "perplexity",
+        "перплексити"
+      ],
+      "query_exclude": [
+        "google play",
+        "гугл плей",
+        "microsoft copilot",
+        "ms copilot",
+        "video copilot",
+        "скачать",
+        "бесплатн",
+        "кряк",
+        "торрент"
+      ],
+      "power_note": "Экспозиция части страниц партии мала: по данным выгрузки 08.09.2026 кластеры Unity (50 показов за 12 дней), Google (15) и Docker ниже порога 3,6 показа в день. По ним при подведении итога публикуется «недостаточно данных», а не отрицательный вывод. Порог введён 04.09.2026, то есть после старта этой партии, и задним числом её не пересматривает.",
+      "next_review": "2026-09-30",
+      "next_review_note": "28 дней от старта 02.09.2026.",
+      "end": "2026-09-16",
+      "closed_by": "CLOSE"
+    },
+    {
+      "id": "vendor-template-v2-wave-1",
+      "ticket": "VENDOR-T2-001",
+      "status": "planned",
+      "start": null,
+      "evaluation_kind": "impressions_growth",
+      "pages": [
+        "/vendors/gitlab",
+        "/vendors/recraft",
+        "/vendors/runway",
+        "/vendors/anthropic",
+        "/vendors/postman",
+        "/vendors/capture-one",
+        "/vendors/hailuo",
+        "/vendors/notion",
+        "/vendors/motion-array",
+        "/vendors/perplexity",
+        "/vendors/adobe",
+        "/vendors/descript",
+        "/vendors/apple",
+        "/vendors/docker",
+        "/vendors/freepik",
+        "/vendors/unity",
+        "/vendors/zoom",
+        "/vendors/kling-ai",
+        "/vendors/procreate",
+        "/vendors/gaea",
+        "/vendors/toon-boom",
+        "/vendors/figma",
+        "/vendors/deepl",
+        "/vendors/openrouter",
+        "/vendors/jetbrains",
+        "/vendors/grok",
+        "/vendors/foundry",
+        "/vendors/anydesk",
+        "/vendors/houdini",
+        "/vendors/sketch",
+        "/vendors/reallusion",
+        "/vendors/suno",
+        "/vendors/rizomuv",
+        "/vendors/midjourney",
+        "/vendors/topaz-labs",
+        "/vendors/photon",
+        "/vendors/wondershare",
+        "/vendors/fl-studio",
+        "/vendors/unreal-engine",
+        "/vendors/ableton",
+        "/vendors/binance",
+        "/vendors/browserstack",
+        "/vendors/perforce",
+        "/vendors/shutterstock",
+        "/vendors/krea"
+      ],
+      "changes": [
+        "Универсальный шаблон страницы производителя (VendorLanding, движок выкачен 16.09.2026, пилот — Adobe): состав блоков задаётся контентом вендора, а не разметкой под slug",
+        "Волна 1 — 45 кластеров производителей с показами, отобранных чередованием по убыванию экспозиции: так обе группы получают и крупные, и мелкие кластеры",
+        "Остальные страницы производителей остаются на прежнем шаблоне до вердикта — это контрольная группа, а не очередь"
+      ],
+      "not_changed": [
+        "Страницы контрольной группы: шаблон, тексты, сниппеты и перелинковка не трогаются до вердикта",
+        "Статьи блога и карточки товаров: их меняли 12–16.09.2026 отдельно, и в предмет этого замера они не входят"
+      ],
+      "hypothesis": "Единый шаблон с составом блоков от контента даёт странице производителя больше релевантного текста и внутренних связей, чем прежняя разметка под slug, и поднимает показы кластера в Яндексе и долю страниц в топ-10.",
+      "evaluation_note": "Метрика — показы кластера и доля страниц в топ-10, не CTR. На всей популяции производителей за две недели пришёлся 101 переход на 11 986 показов; такой выборкой различие CTR не измеряется — это и показали пять закрытых сниппетных опытов. Показы измеряются: у волны 6 345 за окно 02–16.09.2026, это в 16 раз больше, чем было у snippets-5-vendors.",
+      "baseline": {
+        "source": "Яндекс.Вебмастер, снимок 2026-09-16, окно 2026-09-02–2026-09-16 (14 дней); атрибуция запроса к производителю — cluster_of() из scripts/seo/money_queries.py",
+        "days": 14,
+        "wave": {
+          "clusters": 45,
+          "impressions": 6345,
+          "clicks": 79,
+          "queries": 813
+        },
+        "control": {
+          "clusters": 44,
+          "impressions": 5641,
+          "clicks": 22,
+          "queries": 831
+        },
+        "per_cluster": {
+          "gitlab": {
+            "impressions": 1341,
+            "clicks": 4,
+            "queries": 93,
+            "avg_position": 7.46
+          },
+          "framer": {
+            "impressions": 1323,
+            "clicks": 0,
+            "queries": 64,
+            "avg_position": 6.68
+          },
+          "recraft": {
+            "impressions": 1319,
+            "clicks": 0,
+            "queries": 128,
+            "avg_position": 8.49
+          },
+          "atlassian": {
+            "impressions": 934,
+            "clicks": 0,
+            "queries": 98,
+            "avg_position": 7.63
+          },
+          "runway": {
+            "impressions": 698,
+            "clicks": 0,
+            "queries": 59,
+            "avg_position": 8.83
+          },
+          "envato": {
+            "impressions": 667,
+            "clicks": 0,
+            "queries": 84,
+            "avg_position": 6.9
+          },
+          "anthropic": {
+            "impressions": 432,
+            "clicks": 10,
+            "queries": 61,
+            "avg_position": 6.49
+          },
+          "coreldraw": {
+            "impressions": 379,
+            "clicks": 3,
+            "queries": 72,
+            "avg_position": 6.39
+          },
+          "postman": {
+            "impressions": 364,
+            "clicks": 0,
+            "queries": 39,
+            "avg_position": 5.17
+          },
+          "box": {
+            "impressions": 302,
+            "clicks": 1,
+            "queries": 54,
+            "avg_position": 6.3
+          },
+          "capture-one": {
+            "impressions": 301,
+            "clicks": 0,
+            "queries": 45,
+            "avg_position": 6.59
+          },
+          "windsurf": {
+            "impressions": 267,
+            "clicks": 0,
+            "queries": 32,
+            "avg_position": 7.45
+          },
+          "hailuo": {
+            "impressions": 232,
+            "clicks": 0,
+            "queries": 34,
+            "avg_position": 8.53
+          },
+          "leonardo-ai": {
+            "impressions": 231,
+            "clicks": 0,
+            "queries": 36,
+            "avg_position": 7.81
+          },
+          "notion": {
+            "impressions": 191,
+            "clicks": 0,
+            "queries": 19,
+            "avg_position": 5.58
+          },
+          "cloudflare": {
+            "impressions": 184,
+            "clicks": 0,
+            "queries": 46,
+            "avg_position": 6.29
+          },
+          "motion-array": {
+            "impressions": 180,
+            "clicks": 0,
+            "queries": 12,
+            "avg_position": 5.9
+          },
+          "github": {
+            "impressions": 175,
+            "clicks": 0,
+            "queries": 20,
+            "avg_position": 6.58
+          },
+          "perplexity": {
+            "impressions": 164,
+            "clicks": 1,
+            "queries": 20,
+            "avg_position": 6.68
+          },
+          "slack": {
+            "impressions": 164,
+            "clicks": 0,
+            "queries": 16,
+            "avg_position": 6.71
+          },
+          "adobe": {
+            "impressions": 162,
+            "clicks": 51,
+            "queries": 30,
+            "avg_position": 2.75
+          },
+          "artlist": {
+            "impressions": 147,
+            "clicks": 0,
+            "queries": 25,
+            "avg_position": 5.54
+          },
+          "descript": {
+            "impressions": 144,
+            "clicks": 0,
+            "queries": 15,
+            "avg_position": 5.59
+          },
+          "openai": {
+            "impressions": 115,
+            "clicks": 10,
+            "queries": 16,
+            "avg_position": 5.04
+          },
+          "apple": {
+            "impressions": 106,
+            "clicks": 2,
+            "queries": 25,
+            "avg_position": 8.48
+          },
+          "heygen": {
+            "impressions": 86,
+            "clicks": 0,
+            "queries": 14,
+            "avg_position": 5.71
+          },
+          "docker": {
+            "impressions": 84,
+            "clicks": 1,
+            "queries": 6,
+            "avg_position": 5.4
+          },
+          "airalo": {
+            "impressions": 76,
+            "clicks": 0,
+            "queries": 7,
+            "avg_position": 4.62
+          },
+          "freepik": {
+            "impressions": 74,
+            "clicks": 1,
+            "queries": 9,
+            "avg_position": 4.72
+          },
+          "dropbox": {
+            "impressions": 68,
+            "clicks": 0,
+            "queries": 17,
+            "avg_position": 8.38
+          },
+          "unity": {
+            "impressions": 63,
+            "clicks": 5,
+            "queries": 42,
+            "avg_position": 6.43
+          },
+          "depositphotos": {
+            "impressions": 60,
+            "clicks": 0,
+            "queries": 9,
+            "avg_position": 8.02
+          },
+          "zoom": {
+            "impressions": 58,
+            "clicks": 0,
+            "queries": 6,
+            "avg_position": 7.61
+          },
+          "discord": {
+            "impressions": 56,
+            "clicks": 0,
+            "queries": 26,
+            "avg_position": 8.91
+          },
+          "kling-ai": {
+            "impressions": 54,
+            "clicks": 2,
+            "queries": 13,
+            "avg_position": 6.69
+          },
+          "elevenlabs": {
+            "impressions": 52,
+            "clicks": 0,
+            "queries": 17,
+            "avg_position": 8.67
+          },
+          "procreate": {
+            "impressions": 51,
+            "clicks": 0,
+            "queries": 12,
+            "avg_position": 8.27
+          },
+          "cursor": {
+            "impressions": 48,
+            "clicks": 0,
+            "queries": 17,
+            "avg_position": 8.65
+          },
+          "gaea": {
+            "impressions": 41,
+            "clicks": 0,
+            "queries": 11,
+            "avg_position": 8.78
+          },
+          "clip-studio-paint": {
+            "impressions": 39,
+            "clicks": 1,
+            "queries": 28,
+            "avg_position": 9.77
+          },
+          "toon-boom": {
+            "impressions": 38,
+            "clicks": 0,
+            "queries": 10,
+            "avg_position": 7.08
+          },
+          "google": {
+            "impressions": 34,
+            "clicks": 0,
+            "queries": 8,
+            "avg_position": 5.94
+          },
+          "figma": {
+            "impressions": 31,
+            "clicks": 1,
+            "queries": 20,
+            "avg_position": 8.77
+          },
+          "marmoset": {
+            "impressions": 30,
+            "clicks": 0,
+            "queries": 11,
+            "avg_position": 7.7
+          },
+          "deepl": {
+            "impressions": 29,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 7.79
+          },
+          "spine": {
+            "impressions": 29,
+            "clicks": 2,
+            "queries": 17,
+            "avg_position": 7.73
+          },
+          "openrouter": {
+            "impressions": 28,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 3.42
+          },
+          "maxon": {
+            "impressions": 26,
+            "clicks": 0,
+            "queries": 14,
+            "avg_position": 4.77
+          },
+          "jetbrains": {
+            "impressions": 24,
+            "clicks": 0,
+            "queries": 16,
+            "avg_position": 8.21
+          },
+          "n8n": {
+            "impressions": 22,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 8.78
+          },
+          "grok": {
+            "impressions": 20,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 3.1
+          },
+          "zoho": {
+            "impressions": 20,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 4.85
+          },
+          "foundry": {
+            "impressions": 20,
+            "clicks": 0,
+            "queries": 15,
+            "avg_position": 9.05
+          },
+          "vegas": {
+            "impressions": 20,
+            "clicks": 2,
+            "queries": 13,
+            "avg_position": 8.8
+          },
+          "anydesk": {
+            "impressions": 19,
+            "clicks": 0,
+            "queries": 14,
+            "avg_position": 7.37
+          },
+          "cubase": {
+            "impressions": 17,
+            "clicks": 0,
+            "queries": 14,
+            "avg_position": 7.65
+          },
+          "houdini": {
+            "impressions": 16,
+            "clicks": 0,
+            "queries": 12,
+            "avg_position": 7.44
+          },
+          "sketchup": {
+            "impressions": 12,
+            "clicks": 2,
+            "queries": 8,
+            "avg_position": 6.83
+          },
+          "sketch": {
+            "impressions": 9,
+            "clicks": 0,
+            "queries": 5,
+            "avg_position": 7.33
+          },
+          "marvelous-designer": {
+            "impressions": 9,
+            "clicks": 0,
+            "queries": 8,
+            "avg_position": 6.11
+          },
+          "reallusion": {
+            "impressions": 9,
+            "clicks": 1,
+            "queries": 7,
+            "avg_position": 3.56
+          },
+          "lovable": {
+            "impressions": 8,
+            "clicks": 0,
+            "queries": 5,
+            "avg_position": 10.0
+          },
+          "suno": {
+            "impressions": 6,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 8.17
+          },
+          "kimi": {
+            "impressions": 6,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 10.83
+          },
+          "rizomuv": {
+            "impressions": 6,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 4.0
+          },
+          "canva": {
+            "impressions": 6,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 5.17
+          },
+          "midjourney": {
+            "impressions": 5,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 7.6
+          },
+          "acronis": {
+            "impressions": 5,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 10.2
+          },
+          "topaz-labs": {
+            "impressions": 5,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 8.8
+          },
+          "solidworks": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 4.75
+          },
+          "photon": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 6.25
+          },
+          "lansweeper": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 4.75
+          },
+          "wondershare": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 10.75
+          },
+          "fmod": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 4.75
+          },
+          "fl-studio": {
+            "impressions": 3,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 12.33
+          },
+          "microsoft": {
+            "impressions": 3,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 15.33
+          },
+          "unreal-engine": {
+            "impressions": 3,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 6.33
+          },
+          "wwise": {
+            "impressions": 3,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 8.0
+          },
+          "ableton": {
+            "impressions": 2,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 11.0
+          },
+          "autodesk": {
+            "impressions": 2,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 7.0
+          },
+          "binance": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 15.0
+          },
+          "speedtree": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 7.0
+          },
+          "browserstack": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 10.0
+          },
+          "higgsfield": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 8.0
+          },
+          "perforce": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 5.0
+          },
+          "telestream": {
+            "impressions": 1,
+            "clicks": 1,
+            "queries": 1,
+            "avg_position": 2.0
+          },
+          "shutterstock": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 5.0
+          },
+          "izotope": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 5.0
+          },
+          "krea": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 3.0
+          }
+        },
+        "exposure_gate": "453.2 показа в день на волну при минимуме 3,6 — порог пройден с запасом на порядок",
+        "silent_clusters": [
+          "astute-graphics",
+          "avid",
+          "bitdefender",
+          "blackmagic",
+          "boris-fx",
+          "capcut",
+          "epidemic-sound",
+          "lumion",
+          "miro",
+          "monotype",
+          "native-instruments",
+          "parallels",
+          "principle",
+          "rive",
+          "sentry",
+          "teamviewer",
+          "think-cell",
+          "tryhackme",
+          "winrar",
+          "wordpress",
+          "zeplin"
+        ]
+      },
+      "success_metric": "Показы кластеров волны за фиксированное окно после выкатки против того же окна контрольной группы. Вывод «подтверждён» — когда прирост волны опережает прирост контроля; обе группы читаются в одном окне, поэтому сезон и общий тренд сайта вычитаются сами.",
+      "control_group": "44 кластеров производителей на прежнем шаблоне: 5641 показов и 831 запросов за то же окно против 6345 показов и 813 запросов у волны. Группы сопоставимы по экспозиции; по переходам нет, поэтому CTR между ними не сравнивается.",
+      "source": "решение руководителя 16.09.2026 (кнопки): база снята сейчас, переделка идёт волнами с контролем",
+      "wave_plan": "Волна 2 — контрольная группа, но только после вердикта по волне 1. 21 производитель без показов вовсе в волны не входит: у них нечего мерить, и переделка им делается вне замера."
     }
-   ],
-   "next_review": "2026-09-27",
-   "next_review_note": "первые клики по launch_criteria (28-й день); показы пересчитать на окне, полностью накрывающем перелинковку IDX-001 (в проде с 08.09)"
-  },
-  {
-   "id": "snippets-3-gap-d",
-   "ticket": "SEO-EXP-004",
-   "start": "2026-09-01",
-   "status": "running",
-   "pages": [
-    "/vendors/artlist",
-    "/vendors/motion-array"
-   ],
-   "baseline": {
-    "period": "отчётный период Яндекс.Вебмастера до 01.09.2026",
-    "queries": {
-     "оплата artlist юридическим лицом": {
-      "impressions": 66,
-      "avg_position": 3.39,
-      "clicks": 0
-     },
-     "оплата motion array юридическим лицом": {
-      "impressions": 63,
-      "avg_position": 3.13,
-      "clicks": 0
-     }
-    },
-    "cluster_demand": {
-     "Artlist": 4609,
-     "Motion Array": 990
-    },
-    "note": "GAP-D: топ-5 при нулевом CTR. Спрос кластеров — Вордстат, src/data/vendor-demand.json",
-    "recrawl_requested": "2026-09-02"
-   },
-   "changes": [
-    "title по запросной формуле «Оплата {Vendor} юридическим лицом — счёт, договор, ЭДО | BIZSoft», ядро ≤65 символов, бренд в строке один раз",
-    "description: «Оплата {Vendor} юридическим лицом: счёт, договор и закрывающие документы через ЭДО. Оформим подписку на вашу компанию, оплата в рублях, доступ за 1–3 дня.» (153 символа)",
-    "первый вопрос FAQ «Как оплатить {Vendor} юридическим лицом из России?» добавлен к собственному FAQ страницы (механика faqAdd), блок целиком не заменяется",
-    "внутренние ссылки на обе страницы в блоке перелинковки на / и /catalog"
-   ],
-   "hypothesis": "Запросы стоят в топ-5 без единого перехода: позиция клику не мешает, мешает сниппет по общей коммерческой формуле «для юрлиц из России». Точная формулировка запроса в заголовке и описании повышает кликабельность без изменения контента страницы.",
-   "success_metric": "CTR > 0 по каждому запросу за 14 дней от появления сниппета в выдаче при средней позиции не хуже базовой ±1 (3,39 и 3,13)",
-   "control_group": "остальные vendor-страницы без изменений; snippets-5-vendors, snippets-6-demand и snippet-anthropic-demand считаются раздельно, пересечений по страницам нет",
-   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
-   "title_marker": "оплата .+ юридическим лицом",
-   "query_markers": [
-    "artlist",
-    "артлист",
-    "motion array",
-    "моушн эррей",
-    "моушен эррей",
-    "моушн array"
-   ],
-   "formula_group": "query-phrase-snippet-2026-09",
-   "power_note": "объём мал (≈65 показов на запрос за период): при нуле кликов на 14-й день публикуется описательный вывод «недостаточно данных», не отрицательный результат",
-   "next_review": "2026-09-16",
-   "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-01",
-     "to": "2026-08-28"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04"
-  },
-  {
-   "id": "content-6-clusters",
-   "ticket": "CONTENT-002",
-   "start": "2026-09-02",
-   "status": "running",
-   "pages": [
-    "/blog/kak-kupit-perplexity-dlya-yurlica",
-    "/blog/kak-oplatit-framer-dlya-yurlica",
-    "/blog/kak-kupit-github-copilot-dlya-yurlica",
-    "/blog/kak-oplatit-envato-elements-dlya-yurlica",
-    "/blog/kak-oplatit-postman-dlya-yurlica",
-    "/blog/tarify-runway-oplata-dlya-yurlica",
-    "/vendors/perplexity",
-    "/vendors/framer",
-    "/vendors/github",
-    "/vendors/envato",
-    "/vendors/postman",
-    "/vendors/runway"
-   ],
-   "target_pages": [
-    "/blog/kak-kupit-perplexity-dlya-yurlica",
-    "/blog/kak-oplatit-framer-dlya-yurlica",
-    "/blog/kak-kupit-github-copilot-dlya-yurlica",
-    "/blog/kak-oplatit-envato-elements-dlya-yurlica",
-    "/blog/kak-oplatit-postman-dlya-yurlica",
-    "/blog/tarify-runway-oplata-dlya-yurlica"
-   ],
-   "baseline": {
-    "period": "12 дней, окно Вебмастера 19.08–30.08.2026 (выгрузка 02.09)",
-    "impressions_cluster": 684,
-    "days": 12,
-    "positions": "4.8–9.1 (средняя по кластерам, взвешенная показами)",
-    "note": "Шесть кластеров, прошедших гейты приёма CONTENT-001 целиком: Perplexity 159, Framer 120, GitHub 112, Envato 106, Postman 102, Runway 85 показов за окно (сумма 684 посчитана маркерами самого эксперимента — тем же кодом, которым вердикт считает окно после внедрения). Отбор — scripts/seo/expansion.py, профиль content.",
-    "by_cluster": {
-     "perplexity": 159,
-     "framer": 120,
-     "github": 112,
-     "envato": 106,
-     "postman": 102,
-     "runway": 85
-    }
-   },
-   "changes": [
-    "шесть статей блога под транзакционный интент кластера по схеме CONTENT-001: прямой ответ в первых двух предложениях, порядок оформления счёта, таблица сравнения тарифов со ссылками на карточки, раздел «когда это не нужно», FAQ-блок с FAQPage-разметкой",
-    "частотные формулировки кластеров в заголовках и тексте: «для юридических лиц», «в рублях», «по счёту», «из России», «оформить подписку»",
-    "перелинковка статья → /vendors/<slug>, /catalog, /documents и карточки товаров кластера",
-    "обратная перелинковка карточка → статья работает штатно через relatedProducts (src/pages/product/[slug].astro), нового кода не нужно"
-   ],
-   "hypothesis": "Приём, подтверждённый на кластере Depositphotos (CONTENT-001; вердикт и решение руководителя — в журнале решений), воспроизводится на других кластерах при тех же условиях — сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товаров для взаимной перелинковки.",
-   "success_metric": "рост суммарных показов шести кластеров относительно базовых 684 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 16.09.2026",
-   "control_group": "до 03.09.2026 — кластеры Windsurf, GitLab, Atlassian, Box, Descript, Dropbox; решением руководителя 03.09.2026 (EXPAND по CONTENT-001) все шесть получили статьи в партии CONTENT-003, поэтому контроль переназначен на кластеры Unity, QuadSpinner Gaea, Foundry, SideFX Houdini, Maxon — без статей блога (общая контрольная группа с content-10-clusters). Оговорка для вердикта 16.09: у новой группы показов меньше (24 + 21 + 20 + 20 + 19 за окно), чем у прежней, и сравнение с ней слабее.",
-   "source": "src/content/blog/*.md (шесть файлов партии); отбор целей — scripts/seo/expansion.py, профиль content",
-   "evaluation_kind": "impressions_growth",
-   "query_markers": [
-    "perplexity",
-    "перплексити",
-    "framer",
-    "github",
-    "copilot",
-    "envato",
-    "postman",
-    "постман",
-    "runway"
-   ],
-   "query_exclude": [
-    "microsoft copilot",
-    "ms copilot",
-    "video copilot"
-   ],
-   "owner_decision": {
-    "date": "2026-09-02",
-    "decision": "EXPAND",
-    "note": "Решение руководителя по вердикту CONTENT-001: тиражируем приём. Отбор целей — по условиям оригинала (не по списку из отчёта: он был собран по общей частотности бренда), первая партия — шесть кластеров."
-   },
-   "notes": [
-    "03.09.2026: контрольная группа переназначена — прежняя целиком ушла в партию CONTENT-003 по решению руководителя."
-   ],
-   "next_review": "2026-09-17",
-   "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-02",
-     "to": "2026-08-29"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04"
-  },
-  {
-   "id": "cluster-coreldraw",
-   "ticket": "CONTENT-003",
-   "start": "2026-09-02",
-   "status": "running",
-   "evaluation_kind": "impressions_growth",
-   "pages": [
-    "/blog/kak-oplatit-coreldraw-dlya-yurlica",
-    "/vendors/coreldraw",
-    "/product/cdr-gs-sub",
-    "/product/cdr-gs-perp",
-    "/product/cdr-gs-biz"
-   ],
-   "target_page": "/blog/kak-oplatit-coreldraw-dlya-yurlica",
-   "query_markers": [
-    "coreldraw",
-    "корел"
-   ],
-   "baseline": {
-    "period": "окно Вебмастера до 02.09.2026",
-    "impressions_cluster": 145,
-    "days": 13,
-    "positions": "5-11",
-    "note": "замер 02.09.2026: 24 запроса кластера, ядро «оплата coreldraw для россиян» — 69 показов, позиция 9,1"
-   },
-   "changes": [
-    "статья src/content/blog/kak-oplatit-coreldraw-dlya-yurlica.md под транзакционный интент «оплата CorelDRAW для юрлица»: прямой ответ в первых двух предложениях, таблица моделей лицензирования, раздел для бухгалтерии, раздел ограничений, FAQ из 7 вопросов с FAQPage-разметкой",
-    "взаимная перелинковка: статья → /vendors/coreldraw, /catalog, /documents и три карточки Graphics Suite; обратная связь карточка → статья через relatedProducts"
-   ],
-   "hypothesis": "Тираж приёма, подтверждённого CONTENT-001 (+70% показов кластера Depositphotos и вход статьи в топ-10 за 14 дней): статья под транзакционный интент плюс взаимная перелинковка поднимут показы кластера CorelDRAW, где страницы стоят на позициях 5-11.",
-   "success_metric": "рост показов кластера CorelDRAW относительно базовых 145 показов за 13 дней и вход статьи /blog/kak-oplatit-coreldraw-dlya-yurlica в топ-10 Яндекса к 16.09.2026",
-   "control_group": "остальные кластеры вендоров без статьи",
-   "source": "решение руководителя 02.09.2026 (EXPAND по CONTENT-001, первый кластер — CorelDRAW); номер изменён с CONTENT-002 на CONTENT-003 02.09.2026: тикет заняла раньше партия content-6-clusters, а два эксперимента с одним номером в письме неразличимы",
-   "next_review": "2026-09-17",
-   "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-02",
-     "to": "2026-08-29"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04"
-  },
-  {
-   "id": "content-10-clusters",
-   "ticket": "CONTENT-004",
-   "start": "2026-09-03",
-   "status": "running",
-   "pages": [
-    "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
-    "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
-    "/blog/oplata-descript-yuridicheskim-licom",
-    "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
-    "/blog/kak-oplatit-box-business-iz-rossii",
-    "/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf",
-    "/blog/oplata-dropbox-dlya-yurlica-iz-rossii",
-    "/blog/kupit-leonardo-ai-yuridicheskim-licom",
-    "/blog/spine-2d-kupit-licenziyu-dlya-yurlica",
-    "/blog/elevenlabs-tarify-oplata-dlya-yurlica",
-    "/vendors/windsurf",
-    "/vendors/gitlab",
-    "/vendors/descript",
-    "/vendors/atlassian",
-    "/vendors/box",
-    "/vendors/cloudflare",
-    "/vendors/dropbox",
-    "/vendors/leonardo-ai",
-    "/vendors/spine",
-    "/vendors/elevenlabs"
-   ],
-   "target_pages": [
-    "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
-    "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
-    "/blog/oplata-descript-yuridicheskim-licom",
-    "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian",
-    "/blog/kak-oplatit-box-business-iz-rossii",
-    "/blog/korporativnye-plany-cloudflare-dlya-kompanij-iz-rf",
-    "/blog/oplata-dropbox-dlya-yurlica-iz-rossii",
-    "/blog/kupit-leonardo-ai-yuridicheskim-licom",
-    "/blog/spine-2d-kupit-licenziyu-dlya-yurlica",
-    "/blog/elevenlabs-tarify-oplata-dlya-yurlica"
-   ],
-   "baseline": {
-    "period": "12 дней, окно Вебмастера 20.08–31.08.2026 (выгрузка 03.09)",
-    "impressions_cluster": 609,
-    "days": 12,
-    "positions": "4.0–9.2 (средняя по кластерам, взвешенная показами)",
-    "note": "Десять кластеров второй волны тиража — все кандидаты профиля content на 03.09.2026 (scripts/seo/expansion.py): показы кластера при средней позиции ≤ 10, не меньше двух карточек, кластер не занят другим экспериментом. Сумма 609 посчитана маркерами самого эксперимента — тем же кодом, которым вердикт считает окно после внедрения; по-кластерный разрез (596) — по первому совпавшему маркеру, разница — запросы с несколькими маркерами и общие формы.",
-    "by_cluster": {
-     "windsurf": 111,
-     "gitlab": 62,
-     "descript": 56,
-     "atlassian": 100,
-     "box": 49,
-     "cloudflare": 47,
-     "dropbox": 58,
-     "leonardo-ai": 49,
-     "spine": 36,
-     "elevenlabs": 28
-    }
-   },
-   "changes": [
-    "десять статей блога под транзакционный интент кластера по схеме CONTENT-001: прямой ответ в первых двух предложениях, разбор, которого нет на лендинге (расчёт мест, единица тарификации, права), порядок оформления счёта, таблица сравнения тарифов со ссылками на карточки, раздел «когда это не нужно», FAQ-блок с FAQPage-разметкой штатным компонентом",
-    "ведущие запросы кластеров из выгрузки Вебмастера — в заголовках и тексте дословно: «windsurf ai в россии», «gitlab годовая подписка из россии», «оплата descript юридическим лицом», «как получить счет и закрывающие от atlassian», «оплата box для юридических лиц из россии», «корпоративные планы cloudflare для компаний из рф», «оплата dropbox для юридических лиц из россии», «купить leonardo ai юридическим лицом», «spine 2d купить», «elevenlabs тарифы»",
-    "перелинковка статья → /vendors/<slug>, /catalog, /documents и карточки товаров кластера",
-    "обратная перелинковка карточка → статья работает штатно через relatedProducts (src/pages/product/[slug].astro), нового кода не нужно",
-    "обложки по единой дизайн-системе тем же генератором (scripts/marketing/build-blog-covers.mjs)"
-   ],
-   "hypothesis": "Приём, подтверждённый на кластере Depositphotos (CONTENT-001, вердикт CONFIRMED 03.09.2026: +62% показов, статья на 6-й позиции) и тиражированный первой партией (CONTENT-002), воспроизводится на следующих десяти кластерах при тех же условиях — сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товаров для взаимной перелинковки.",
-   "success_metric": "рост суммарных показов десяти кластеров относительно базовых 609 показов за 12 дней и вход статей в топ-10 Яндекса; контрольная точка 17.09.2026 (14 дней после внедрения), затем 01.10.2026 (28 дней)",
-   "control_group": "кластеры Unity (прошёл все гейты профиля content: 24 показа за окно, позиция 7.0, две карточки), QuadSpinner Gaea, Foundry, SideFX Houdini, Maxon (позиция в топ-10 и карточки есть, показов меньше порога 2/день) — без статей блога. Статей по ним до контрольной точки 01.10.2026 не заводить: это единственные оставшиеся кластеры, на которых видно, растут ли показы без приёма.",
-   "source": "src/content/blog/*.md (десять файлов партии); отбор целей — scripts/seo/expansion.py, профиль content; задача — reports/seo/tasks/CONTENT-003-cluster-articles-wave2.md",
-   "evaluation_kind": "impressions_growth",
-   "query_markers": [
-    "windsurf",
-    "виндсерф",
-    "gitlab",
-    "гитлаб",
-    "descript",
-    "дескрипт",
-    "atlassian",
-    "атлассиан",
-    "jira",
-    "джира",
-    "confluence",
-    "конфлюенс",
-    "box",
-    "бокс",
-    "cloudflare",
-    "клаудфлар",
-    "клаудфлаер",
-    "dropbox",
-    "дропбокс",
-    "дроп бокс",
-    "leonardo",
-    "леонардо",
-    "spine",
-    "спайн",
-    "elevenlabs",
-    "eleven labs",
-    "элевенлабс"
-   ],
-   "query_exclude": [
-    "xbox",
-    "x box",
-    "leonardo da vinci",
-    "да винчи",
-    "бизнес бокс"
-   ],
-   "owner_decision": {
-    "date": "2026-09-03",
-    "decision": "EXPAND",
-    "note": "Решение руководителя 03.09.2026 в чате по вердикту CONTENT-001 (CONFIRMED, +62%, позиция 6): «эксперимент удачный, расширяем на рекомендованные страницы и продукты вендоров второй части, ставим на аналогичное наблюдение и контроль для дальнейшего тиража». Партия — все десять кандидатов профиля content на дату решения."
-   },
-   "ticket_note": "03.09.2026: тикет переназначен с CONTENT-003 (занят cluster-coreldraw) решением руководителя",
-   "next_review": "2026-09-18",
-   "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-03",
-     "to": "2026-08-30"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04"
-  },
-  {
-   "id": "snippets-2-price-intent",
-   "ticket": "SEO-EXP-002-R",
-   "start": "2026-09-03",
-   "status": "running",
-   "supersedes": "snippets-6-demand",
-   "pages": [
-    "/vendors/clip-studio-paint",
-    "/vendors/procreate"
-   ],
-   "page_markers": {
-    "/vendors/clip-studio-paint": [
-     "clip studio",
-     "clipstudio",
-     "клип студио",
-     "клип-студио",
-     "клипстудио"
-    ],
-    "/vendors/procreate": [
-     "procreate",
-     "прокриейт",
-     "прокриэйт",
-     "прокреат"
-    ]
-   },
-   "query_intent_any": [
-    "купить",
-    "покуп",
-    "цена",
-    "стоимость",
-    "сколько стоит",
-    "стоит",
-    "подписк",
-    "лицензи",
-    "оплат",
-    "рубл",
-    "росси",
-    "юрлиц",
-    "юридическ",
-    "компани",
-    "бизнес",
-    "business",
-    "навсегда",
-    "бессрочн"
-   ],
-   "query_exclude": [
-    "скачать",
-    "торрент",
-    "torrent",
-    "взлом",
-    "crack",
-    "кряк",
-    "бесплатно",
-    "free",
-    "кисти",
-    "brush",
-    "урок",
-    "как рисовать",
-    "андроид",
-    "android",
-    "windows",
-    "pipl",
-    "пипл"
-   ],
-   "title_marker": "(цена|сколько стоит)",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-03",
-     "to": "2026-08-30"
-    },
-    "experiment": {
-     "from": "2026-09-04",
-     "to": "2026-10-01"
-    }
-   },
-   "evaluation_kind": "ctr",
-   "formula_group": "query-phrase-snippet-2026-09",
-   "baseline": {
-    "period": "выгрузка Вебмастера от 2026-09-03 (окно 2026-08-20–2026-08-31, 1016 запросов полным обходом)",
-    "pages": {
-     "/vendors/clip-studio-paint": {
-      "queries": 25,
-      "impressions": 36,
-      "clicks": 0,
-      "avg_position": 10.0,
-      "top_queries": [
-       {
-        "q": "сколько стоит подписка в клип студио",
-        "impressions": 3,
-        "position": 10.3
-       },
-       {
-        "q": "клип студио пейнт подписка на год",
-        "impressions": 3,
-        "position": 8.0
-       },
-       {
-        "q": "сколько стоит подписка клип студио бессрочная",
-        "impressions": 3,
-        "position": 8.0
-       },
-       {
-        "q": "сколько стоит подписка навсегда клип студио",
-        "impressions": 2,
-        "position": 11.0
-       },
-       {
-        "q": "сколько стоит купить полные права над версией в клип студио",
-        "impressions": 2,
-        "position": 7.5
-       }
-      ]
-     },
-     "/vendors/procreate": {
-      "queries": 2,
-      "impressions": 3,
-      "clicks": 0,
-      "avg_position": 10.67,
-      "top_queries": [
-       {
-        "q": "прокриэйт цена",
-        "impressions": 2,
-        "position": 14.5
-       },
-       {
-        "q": "business procreate",
-        "impressions": 1,
-        "position": 3.0
-       }
-      ]
-     }
-    },
-    "serp_check": "03.09.2026: /vendors/clip-studio-paint — позиция 6 по «сколько стоит подписка клип студио бессрочная»; по целевым фразам Вордстата («clip studio paint купить», «купить procreate») сайта в топ-10 нет",
-    "note": "Фиксированные окна baseline/experiment записывает activate по факту выката; числа здесь — контрольный снимок экспозиции на день заведения"
-   },
-   "changes": [
-    "title: «Clip Studio Paint: цена бессрочной лицензии и подписки в рублях | BIZSoft» и «Procreate: цена в рублях и покупка в России на компанию | BIZSoft» — ядро ≤65, бренд один раз",
-    "description начинается с запроса «Сколько стоит {Vendor} … в рублях», дальше модель лицензии и оффер (счёт, ЭДО, 1–3 дня), ≤160",
-    "первый вопрос FAQ «Сколько стоит {Vendor} …?» добавлен к собственному FAQ страницы (faqAdd), блок целиком не заменяется",
-    "контент страниц и блок /solutions не меняются — одно изменение: сниппет"
-   ],
-   "hypothesis": "Обе страницы уже показываются по ценовым запросам («сколько стоит … в рублях», «купить … в России», «бессрочная лицензия») на позициях 5–14 без единого перехода. Сниппет с точной формулировкой ценового запроса и моделью лицензии поднимет кликабельность без изменения контента; прежняя коммерческая формула «для юрлиц» на этот интент не отвечала.",
-   "success_metric": "CTR по совпадающим запросам каждой страницы > 0 и по кластеру ≥2 % за фиксированное окно 28 дней после выката при средней позиции не хуже базовой ±1; вспомогательно — пул формулы query-phrase-snippet-2026-09",
-   "control_group": "остальные vendor-страницы без изменений; Adobe, Autodesk, Blackmagic, Midjourney выведены из эксперимента с прежними сниппетами (KEEP 03.09.2026); SEO-EXP-004 — тот же приём на других страницах, считается раздельно",
-   "source": "src/data/seo-experiments.ts (рендер: src/pages/vendors/[slug].astro → VendorLanding)",
-   "power_note": "ёмкость Clip Studio Paint ≈150 показов за 28 дней, Procreate ≈45: порог экспозиции у Procreate не наберётся — на контрольной точке по нему публикуется описательный вывод, не отрицательный результат; вывод о формуле — по пулу",
-   "selection": "Две из шести страниц snippets-6-demand с реальной экспозицией в Вебмастере; отбор по показам, а не по частотности Вордстата (docs/seo/experiments/seo-exp-002-restart.md)",
-   "owner_decision": "перезапуск — команда руководителя 2026-09-03",
-   "activated": {
-    "date": "2026-09-03",
-    "pages": [
-     {
-      "page": "/vendors/clip-studio-paint",
-      "title": "Clip Studio Paint: цена бессрочной лицензии и подписки в рублях | BIZSoft",
-      "new_variant": true
-     },
-     {
-      "page": "/vendors/procreate",
-      "title": "Procreate: цена в рублях и покупка в России на компанию | BIZSoft",
-      "new_variant": true
-     }
-    ]
-   },
-   "next_review": "2026-10-04",
-   "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод"
-  },
-  {
-   "id": "snippets-2-product-gap-d",
-   "ticket": "SEO-EXP-006",
-   "start": "2026-09-03",
-   "status": "running",
-   "pages": [
-    "/product/adobe-ae",
-    "/product/adobe-lr"
-   ],
-   "page_markers": {
-    "/product/adobe-ae": [
-     "after effects",
-     "aftereffects",
-     "афтер эффект",
-     "афтерэффект",
-     "after effect"
-    ],
-    "/product/adobe-lr": [
-     "lightroom",
-     "лайтрум",
-     "light room"
-    ]
-   },
-   "query_intent_any": [
-    "купить",
-    "покуп",
-    "оплат",
-    "юрлиц",
-    "юридическ",
-    "лиценз",
-    "подписк",
-    "цена",
-    "стоимость",
-    "сколько стоит",
-    "компани",
-    "бизнес",
-    "организац",
-    "счёт",
-    "счет",
-    "росси"
-   ],
-   "query_exclude": [
-    "скачать",
-    "торрент",
-    "torrent",
-    "взлом",
-    "crack",
-    "кряк",
-    "бесплатно",
-    "free",
-    "урок",
-    "плагин",
-    "plugin",
-    "шаблон",
-    "template",
-    "пресет",
-    "preset"
-   ],
-   "title_marker": "юридическим лицом",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-03",
-     "to": "2026-08-30"
-    },
-    "experiment": {
-     "from": "2026-09-04",
-     "to": "2026-10-01"
-    }
-   },
-   "evaluation_kind": "ctr",
-   "formula_group": "query-phrase-snippet-2026-09",
-   "baseline": {
-    "period": "выгрузка Вебмастера от 2026-09-03 (окно 2026-08-20–2026-08-31, 1016 запросов)",
-    "pages": {
-     "/product/adobe-ae": {
-      "queries": 3,
-      "impressions": 33,
-      "clicks": 0,
-      "avg_position": 4.64,
-      "top_queries": [
-       {
-        "q": "купить after effects юридическим лицом",
-        "impressions": 31,
-        "position": 4.4
-       },
-       {
-        "q": "купить after effects юридическим лицрм",
-        "impressions": 1,
-        "position": 10.0
-       },
-       {
-        "q": "adobe after effects цена",
-        "impressions": 1,
-        "position": 7.0
-       }
-      ]
-     },
-     "/product/adobe-lr": {
-      "queries": 3,
-      "impressions": 17,
-      "clicks": 0,
-      "avg_position": 3.71,
-      "top_queries": [
-       {
-        "q": "купить lightroom юридическим лицом",
-        "impressions": 13,
-        "position": 3.5
-       },
-       {
-        "q": "купить lightroom юридическим лицом московская область",
-        "impressions": 2,
-        "position": 2.5
-       },
-       {
-        "q": "купить lightroom юридическим лицом москва и мо",
-        "impressions": 2,
-        "position": 6.0
-       }
-      ]
-     }
-    },
-    "current_titles": {
-     "/product/adobe-ae": "Adobe After Effects — купить для юрлица | BIZSoft",
-     "/product/adobe-lr": "Adobe Lightroom — купить для юрлица | BIZSoft"
-    },
-    "serp_check": "01–03.09.2026 (Москва и СПб): /product/adobe-ae — позиции 2–3 по «купить after effects юридическим лицом», /product/adobe-lr — позиции 1–7 по «купить lightroom юридическим лицом»",
-    "note": "GAP-D на карточках товаров: топ-5 при нуле переходов; фиксированные окна записывает activate по факту выката"
-   },
-   "changes": [
-    "meta_title по запросной формуле «Купить {Продукт} юридическим лицом — счёт, договор, ЭДО» (≤60, бренд добавляет SeoHead)",
-    "meta_description начинается с «Купить Adobe {Продукт} юридическим лицом из России», дальше состав плана и оффер (счёт, договор, рубли, ЭДО, 1–3 дня), ≤160",
-    "контент карточки, FAQ и цена не меняются — одно изменение: сниппет; правка через data/seo/product-descriptions.json + ops-apply-descriptions"
-   ],
-   "hypothesis": "Карточки стоят в топ-5 по запросам «купить after effects / lightroom юридическим лицом» с 44 показами и нулём переходов: позиция клику не мешает, мешает общий сниппет «купить для юрлица». Точная формулировка запроса в начале title и description поднимет кликабельность без изменения контента.",
-   "success_metric": "CTR > 0 по каждому запросу и ≥3 % по кластеру страницы за фиксированное окно 28 дней после выката при средней позиции не хуже базовой ±1 (4,4 и 3,5); вспомогательно — пул формулы query-phrase-snippet-2026-09",
-   "control_group": "остальные карточки Adobe (Photoshop, Premiere Pro, Illustrator и др.) без изменений; SEO-EXP-004 и SEO-EXP-002-R — тот же приём на других страницах, считаются раздельно",
-   "source": "data/seo/product-descriptions.json → ops-apply-descriptions → Directus meta_title/meta_description (рендер: src/pages/product/[slug].astro, SeoHead)",
-   "power_note": "ёмкость ≈100 показов за 28 дней на две карточки: вывод по самим карточкам описательный, вывод о формуле — по пулу",
-   "selection": "Находка разбора SEO-EXP-002: маркеры кластера Adobe приписывали vendor-странице показы этих карточек; по правилу 03.09.2026 сниппет-тест ставится там, где показы есть (docs/seo/experiments/seo-exp-002-restart.md)",
-   "owner_decision": "заведён решением руководителя 2026-09-03 (кнопка в чате)",
-   "activated": {
-    "date": "2026-09-03",
-    "pages": [
-     {
-      "page": "/product/adobe-ae",
-      "title": "Купить After Effects юридическим лицом — счёт, договор, ЭДО — BIZSoft",
-      "new_variant": true
-     },
-     {
-      "page": "/product/adobe-lr",
-      "title": "Купить Lightroom юридическим лицом — счёт, договор, ЭДО — BIZSoft",
-      "new_variant": true
-     }
-    ]
-   },
-   "next_review": "2026-10-04",
-   "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод"
-  },
-  {
-   "id": "cluster-heygen",
-   "ticket": "CONTENT-005",
-   "start": "2026-09-03",
-   "status": "running",
-   "evaluation_kind": "impressions_growth",
-   "pages": [
-    "/blog/kak-oplatit-heygen-dlya-yurlica",
-    "/vendors/heygen",
-    "/product/heygen-pro",
-    "/product/heygen-business",
-    "/product/heygen-ent"
-   ],
-   "target_page": "/blog/kak-oplatit-heygen-dlya-yurlica",
-   "query_markers": [
-    "heygen",
-    "хейген"
-   ],
-   "baseline": {
-    "period": "окно Вебмастера 03.08–30.08.2026",
-    "impressions_cluster": 342,
-    "days": 28,
-    "positions": "1-19",
-    "note": "замер 03.09.2026: 39 запросов кластера, ядро «heygen тарифы» — 108 показов при позиции 6,5; транзакционное ядро — 20 запросов, 148 показов, средняя позиция 10,8 («heygen купить» 37 показов позиция 10,6, «купить heygen юридическим лицом» 34 показа позиция 3,9)"
-   },
-   "changes": [
-    "статья src/content/blog/kak-oplatit-heygen-dlya-yurlica.md под транзакционный интент «оплата HeyGen для юрлица»: прямой ответ в первом абзаце, метод расчёта состава мест, таблица выбора между Pro, Business и Enterprise, раздел о правах на ролики с ИИ-аватаром, раздел ограничений, FAQ из 7 вопросов с FAQPage-разметкой",
-    "взаимная перелинковка: статья → /vendors/heygen, /catalog, /documents и три карточки тарифов; обратная связь карточка → статья через relatedProducts",
-    "обложка блога public/blog/covers/kak-oplatit-heygen-dlya-yurlica.png в единой дизайн-системе"
-   ],
-   "hypothesis": "Второй тираж приёма, подтверждённого CONTENT-001 (+70 % показов кластера Depositphotos и вход статьи в топ-10 за 14 дней): транзакционная статья и взаимная перелинковка поднимут показы кластера HeyGen. Запас роста здесь больше, чем у CorelDRAW: транзакционное ядро стоит на позиции 10,8 — это вторая страница выдачи, где показы есть, а переходов почти нет.",
-   "success_metric": "рост показов кластера HeyGen относительно базовых 342 показов за 28 дней и вход статьи /blog/kak-oplatit-heygen-dlya-yurlica в топ-10 Яндекса к 17.09.2026",
-   "control_group": "остальные кластеры вендоров без статьи; CONTENT-003 (CorelDRAW) — тот же приём на другом кластере, считается раздельно",
-   "next_review": "2026-09-18",
-   "ads_conflict_guard": "кластер зарезервирован от рекламы до вердикта: реклама на те же запросы перетянула бы часть кликов с органики и сделала бы замер недоказуемым (разбор базового списка раунда 2, 02.09.2026)",
-   "source": "решение руководителя 03.09.2026 (кнопка в чате): второй кластер тиража выбран по спросу из четырёх свободных кандидатов — HeyGen, Recraft, Canva, Notion",
-   "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-03",
-     "to": "2026-08-30"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04"
-  },
-  {
-   "id": "cluster-recraft",
-   "ticket": "CONTENT-006",
-   "start": "2026-09-04",
-   "status": "closed",
-   "evaluation_kind": "impressions_growth",
-   "pages": [
-    "/blog/kak-kupit-recraft-dlya-yurlica",
-    "/vendors/recraft",
-    "/compare/midjourney-vs-recraft",
-    "/product/recraft-advanced",
-    "/product/recraft-pro",
-    "/product/recraft-team",
-    "/product/recraft-ent"
-   ],
-   "target_page": "/blog/kak-kupit-recraft-dlya-yurlica",
-   "query_markers": [
-    "recraft",
-    "рекрафт"
-   ],
-   "baseline": {
-    "period": "окно Вебмастера 03.08–30.08.2026",
-    "impressions_cluster": 180,
-    "days": 28,
-    "positions": "3,0-13,0",
-    "note": "замер 04.09.2026: 30 запросов кластера. Ядро — «рекрафт тарифы» 28 показов (позиция 7,0), «тарифы recraft» 24 (8,0), «как купить recraft без зарубежной карты» 21 (6,4), «recraft годовая подписка» 20 (8,8). Отдельная особенность кластера: восемь запросов содержат хвост «www.klerk.ru» (~47 показов, позиции 5,7-11,7) — спрос приходит с внешней публикации на бухгалтерском портале"
-   },
-   "changes": [
-    "статья src/content/blog/kak-kupit-recraft-dlya-yurlica.md под ядро спроса: разбор тарифов, оплата без зарубежной карты, выбор между месячной и годовой оплатой, метод выбора ветки тарифов, раздел о правах на сгенерированную графику, раздел ограничений, FAQ из 7 вопросов с FAQPage-разметкой",
-    "взаимная перелинковка: статья → /vendors/recraft, /compare/midjourney-vs-recraft, /documents, /catalog и четыре карточки тарифов; обратная связь через relatedProducts",
-    "обложка блога public/blog/covers/kak-kupit-recraft-dlya-yurlica.png"
-   ],
-   "hypothesis": "Третий тираж приёма, подтверждённого CONTENT-001. В отличие от CorelDRAW и HeyGen, здесь ядро спроса — не «оплата вендора», а «тарифы» и «без зарубежной карты»: статья отвечает именно на эти формулировки, поэтому проверяется не только сам приём, но и его переносимость на другой тип интента.",
-   "success_metric": "рост показов кластера Recraft относительно базовых 180 показов за 28 дней и вход статьи /blog/kak-kupit-recraft-dlya-yurlica в топ-10 Яндекса к 18.09.2026",
-   "control_group": "остальные кластеры вендоров без статьи; CONTENT-003 (CorelDRAW) и CONTENT-005 (HeyGen) — тот же приём на других кластерах, считаются раздельно",
-   "next_review": "2026-09-19",
-   "ads_conflict_guard": "кластер зарезервирован от рекламы до вердикта: реклама на те же запросы перетянула бы часть кликов с органики и сделала бы замер недоказуемым",
-   "source": "решение руководителя 04.09.2026 (кнопка в чате): третий кластер тиража — Recraft, второй по приоритету в разборе свободных кандидатов от 03.09",
-   "next_review_note": "контрольная точка перенесена 04.09.2026 на дату чистого окна: Вебмастер отдаёт данные 12-дневным окном с лагом, и до этой даты окно захватывает период до внедрения — прежняя дата давала бы «рано», а не вывод",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-04",
-     "to": "2026-08-31"
-    },
-    "experiment": null
-   },
-   "windows_backfilled": "2026-09-04",
-   "closed_on": "2026-09-04",
-   "outcome": "INSUFFICIENT_DATA",
-   "closed_reason": "Закрыт решением руководителя 04.09.2026 в день заведения: правило порога экспозиции (experiment_windows.py validate) показало 0,3 показа в день при минимуме 3,6. Baseline 180 показов взят из окна 03.08–30.08, куда попал всплеск от внешней публикации на klerk.ru; к сентябрю кластер даёт 4 показа за 12 дней, и рост к августовскому пику недостижим по построению — вердикт 18.09 был бы «показы снизились» при исправной статье. Статья /blog/kak-kupit-recraft-dlya-yurlica остаётся на сайте и в индексе; кластер освобождён и может быть заведён снова, когда наберёт показы."
-  },
-  {
-   "id": "money-a1-query-phrase",
-   "ticket": "MONEY-A1",
-   "status": "running",
-   "start": "2026-09-08",
-   "evaluation_kind": "ctr",
-   "pages": [
-    "/vendors/capture-one",
-    "/vendors/freepik",
-    "/vendors/zoom"
-   ],
-   "changes": [
-    "title под собственную формулировку кластера каждой страницы, ядро ≤65 символов: Capture One — «Оплата Capture One юридическим лицом — продление без карты» (кластер спрашивает про непроходящий платёж и продление), Magnific — «Оплата Magnific AI юридическим лицом — счёт, договор, ЭДО» (страница ранжируется по Magnific, а описание говорило про стоковую библиотеку Freepik), Zoom — «Оформление Zoom Business для организации из РФ — счёт и договор» (формулировка запроса, дающего три четверти показов кластера)",
-    "description ≤160 символов с формулировкой кластера в начале: прежние описания vendor-шаблона длиной 171–216 символов обрывались в выдаче ровно на обещании про договор и ЭДО",
-    "первый вопрос FAQ под формулировку кластера (механика faqAdd — собственный FAQ страницы сохраняется); у Magnific добавлен второй вопрос про коммерческую лицензию: этого нет ни у одного соседа по топ-5"
-   ],
-   "not_changed": [
-    "H1, текст страниц, карточки товаров, внутренняя перелинковка",
-    "SEO_EXPERIMENT_LINKS: ссылки с / и /catalog намеренно не заведены — они меняют ранжирование, и вывод о сниппете стал бы неотделим от вывода о ссылках"
-   ],
-   "hypothesis": "Кластеры стоят в первой десятке при нулевом CTR, а текст в выдаче отвечает не на тот вопрос, которым спрашивают: у Capture One — про юрлицо вместо непроходящего платежа, у Magnific — про стоковую библиотеку вместо оплаты и лицензии, у Zoom — «купить» вместо «оформление для организации из РФ». Точная формулировка кластера в заголовке и описании поднимет кликабельность без изменения страницы.",
-   "baseline": {
-    "source": "Яндекс.Вебмастер, окно 2026-08-25–2026-09-05 (12 дней), выгрузка yandex-2026-09-08.json",
-    "days": 12,
-    "pages": {
-     "/vendors/capture-one": {
-      "impressions": 211,
-      "clicks": 0,
-      "avg_position": 6.97,
-      "per_day": 17.6
-     },
-     "/vendors/freepik": {
-      "impressions": 64,
-      "clicks": 2,
-      "avg_position": 5.14,
-      "per_day": 5.3
-     },
-     "/vendors/zoom": {
-      "impressions": 48,
-      "clicks": 0,
-      "avg_position": 7.62,
-      "per_day": 4.0
-     }
-    },
-    "total": {
-     "impressions": 323,
-     "clicks": 2,
-     "ctr": 0.0062
-    },
-    "exposure_gate": "26.9 показа в день на партию при минимуме 3.6 — порог пройден и по каждой странице отдельно"
-   },
-   "success_metric": "CTR партии за фиксированное окно «после» против окна «до» при средней позиции не хуже базовой ±1. Экспозиция партии (~750 показов за 28 дней) различает только трёхкратную разницу: рост с 0,6 % до 2 % и выше — вывод, рост до 1 % — «недостаточно данных», и он будет записан именно так.",
-   "control_group": "Свободные кластеры Вебмастера без правки сниппета за то же окно: grok, zoho, openai, hailuo, foundry, houdini, vegas, maxon, toon-boom, gaea, apple, deepl, fl-studio, cubase, sketchup, discord, suno, recraft — 605 показов и 4 перехода (CTR 0,66 %) против 571 показа и 3 переходов у партии. Размеры групп сопоставимы, состояние одинаковое (показы в топ-10 без переходов).",
-   "source": "src/data/seo-experiments.ts (capture-one, freepik) и src/pages/vendors/zoom.astro; отбор — scripts/seo/money_queries.py, разбор — reports/seo/yandex-money-growth-plan.md",
-   "title_marker": "(оплата|оформление) (capture one|magnific|zoom)",
-   "page_markers": {
-    "/vendors/capture-one": [
-     "capture one",
-     "capture-one",
-     "кэпчур",
-     "капчур"
-    ],
-    "/vendors/freepik": [
-     "magnific",
-     "магнифик",
-     "freepik",
-     "фрипик"
-    ],
-    "/vendors/zoom": [
-     "zoom",
-     "зум"
-    ]
-   },
-   "query_intent_any": [
-    "оплат",
-    "оформл",
-    "купить",
-    "продлен",
-    "продлить",
-    "юридическ",
-    "юрлиц",
-    "для организаци",
-    "для бизнеса",
-    "лицензи",
-    "тариф",
-    "стоимост",
-    "цена"
-   ],
-   "query_exclude": [
-    "скачать",
-    "торрент",
-    "torrent",
-    "кряк",
-    "crack",
-    "взлом",
-    "бесплатн",
-    "урок",
-    "zoom фон",
-    "zoom обои",
-    "конференция zoom как"
-   ],
-   "next_review": "2026-10-06",
-   "next_review_note": "28 дней от выката. Раньше смотреть нельзя: выгрузка Вебмастера отдаёт скользящее 12-дневное окно с лагом, и до этой даты окно захватывает период до правки.",
-   "power_note": "Партия мала по абсолютным числам (571 показ, 3 перехода за 12 дней). При нуле или единичных переходах в контрольную дату публикуется «недостаточно данных», а не отрицательный вывод.",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-08",
-     "to": "2026-09-04"
-    },
-    "experiment": {
-     "from": "2026-09-09",
-     "to": "2026-10-06"
-    }
-   },
-   "activated": {
-    "date": "2026-09-08",
-    "pages": [
-     {
-      "page": "/vendors/capture-one",
-      "title": "Оплата Capture One юридическим лицом — продление без карты | BIZSoft",
-      "new_variant": true
-     },
-     {
-      "page": "/vendors/freepik",
-      "title": "Оплата Magnific AI юридическим лицом — счёт, договор, ЭДО | BIZSoft",
-      "new_variant": true
-     },
-     {
-      "page": "/vendors/zoom",
-      "title": "Оформление Zoom Business для организации из РФ — счёт и договор — BIZSoft",
-      "new_variant": true
-     }
-    ]
-   }
-  },
-  {
-   "id": "money-a2-generic-documents",
-   "ticket": "MONEY-A2",
-   "status": "running",
-   "start": "2026-09-08",
-   "evaluation_kind": "ctr",
-   "pages": [
-    "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
-   ],
-   "changes": [
-    "description статьи: «Оплата зарубежного ПО и иностранных подписок для юрлица: какие документы получает бухгалтерия — договор, счёт и акт через ЭДО. Порядок оформления и сроки.» (154 символа)"
-   ],
-   "not_changed": [
-    "title статьи: в шаблоне блога он же рендерится как H1 и в хлебные крошки, поэтому его правка была бы изменением страницы, а не сниппета, и смешала бы программу CTR с программой ранжирования",
-    "текст статьи, FAQ, перелинковка"
-   ],
-   "hypothesis": "Единственный кластер, где предмет запроса — сама услуга, а не продукт вендора. Слово «документы» стоит в трёх из пяти ведущих запросов кластера, а прежнее описание вело словом «гайд» и обещало пошаговость — то есть отвечало на вопрос «как это устроено», тогда как спрашивают «что я получу на руки». Конкуренты в топ-5 (klerk.ru, duc-technologies, dolphinpay) — обзоры сервисов и платёжные посредники; поставщик, который сам выписывает документы, в выдаче один.",
-   "baseline": {
-    "source": "Яндекс.Вебмастер, окно 2026-08-25–2026-09-05 (12 дней), выгрузка yandex-2026-09-08.json",
-    "days": 12,
-    "impressions": 248,
-    "clicks": 1,
-    "ctr": 0.004,
-    "avg_position": 7.59,
-    "per_day": 20.7,
-    "top_queries": {
-     "оплата зарубежного по для юр лица документы": {
-      "impressions": 44,
-      "position": 5.52,
-      "serp_position": 3
-     },
-     "оплата иностранной подписки для бизнеса документы": {
-      "impressions": 36,
-      "position": 7.86,
-      "serp_position": 4
-     },
-     "оплата зарубежных сервисов для юридических лиц документы": {
-      "impressions": 35,
-      "position": 9.03,
-      "serp_position": 7
-     },
-     "как получить закрывающие документы от иностранных сервисов": {
-      "impressions": 31,
-      "position": 5.74
-     },
-     "оплата зарубежного по для юрлица": {
-      "impressions": 20,
-      "position": 8.8,
-      "serp_position": 8
-     }
-    }
-   },
-   "success_metric": "CTR кластера за фиксированное окно «после» против окна «до» при средней позиции не хуже 8,6 (базовая 7,59 плюс 1). Различимая разница — трёхкратная; меньшая при 250 показах за 12 дней не отделяется от шума.",
-   "control_group": "Та же группа свободных кластеров без правки, что и у MONEY-A1. Кластеры MONEY-A1 контролем для этой записи не являются: они изменены одновременно.",
-   "source": "src/content/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica.md",
-   "title_marker": "зарубежн",
-   "query_markers": [
-    "зарубежн",
-    "иностранн",
-    "закрывающ",
-    "корпоративн"
-   ],
-   "query_exclude": [
-    "скачать",
-    "бесплатн",
-    "вакансия",
-    "работа за рубежом"
-   ],
-   "next_review": "2026-10-06",
-   "next_review_note": "28 дней от выката, по той же причине лага выгрузки.",
-   "power_note": "Описание — не гарантированный источник сниппета: Яндекс собирает его и из текста страницы. Отсутствие эффекта здесь означает «description не сработал», а не «формулировка не сработала»; различить это можно только срезом выдачи, поэтому запросы кластера обязаны быть в ядре seo-serp-watch.",
-   "windows": {
-    "days": 28,
-    "baseline": {
-     "from": "2026-08-08",
-     "to": "2026-09-04"
-    },
-    "experiment": {
-     "from": "2026-09-09",
-     "to": "2026-10-06"
-    }
-   },
-   "activated": {
-    "date": "2026-09-08",
-    "pages": [
-     {
-      "page": "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica",
-      "title": "Как купить зарубежное ПО для юрлица в России: договор, счёт, ЭДО — BIZSoft",
-      "new_variant": true
-     }
-    ]
-   }
-  },
-  {
-   "id": "snippets-10-expand",
-   "ticket": "SEO-EXP-005",
-   "status": "running",
-   "start": "2026-09-02",
-   "evaluation_kind": "ctr",
-   "backfilled_by": "разбор 08.09.2026 (Money Query Opportunity Model). Партия выкачена в src/data/seo-experiments.ts 02.09.2026 по решению руководителя (EXPAND), но записи в реестре у неё не было: эксперимент нельзя было ни оценить, ни закрыть, а его десять страниц для любой следующей модели выглядели свободными. Запись восстановлена по коду и комментариям файла; окна не проставлены руками — их заводит experiment_windows.py backfill.",
-   "pages": [
-    "/vendors/google",
-    "/vendors/microsoft",
-    "/vendors/github",
-    "/vendors/unity",
-    "/vendors/docker",
-    "/vendors/runway",
-    "/vendors/solidworks",
-    "/vendors/acronis",
-    "/vendors/unreal-engine",
-    "/vendors/perplexity"
-   ],
-   "changes": [
-    "тираж формулы snippets-5-vendors без изменений: title «Оплата {Vendor} для юрлиц из России — счёт, договор, ЭДО», description «Оплатим подписку {Vendor} на вашу компанию в рублях по счёту. Договор, закрывающие документы через ЭДО, доступ за 1–3 дня.», FAQ-блок «Как купить {Vendor} на юрлицо» из 4 вопросов",
-    "формула при тираже намеренно не менялась — иначе тиражируется не то, что оценивалось"
-   ],
-   "hypothesis": "Коммерческая формула сниппета, оценённая на snippets-5-vendors, воспроизводится на десяти карточках с наибольшим замеренным спросом Вордстата вне действующих экспериментов.",
-   "success_metric": "CTR партии за фиксированное окно «после» против окна «до» при средней позиции не хуже базовой ±1.",
-   "control_group": "vendor-страницы без переопределения сниппета. Внимание: с 08.09.2026 в контрольной группе стало на три страницы меньше — Capture One, Magnific и Zoom ушли в партию money-a1-query-phrase.",
-   "source": "src/data/seo-experiments.ts (google, microsoft, github, unity, docker, runway, solidworks, acronis, unreal-engine, perplexity); отбор — expand_candidates(), src/data/vendor-demand.json",
-   "title_marker": "(оплата|лицензии|подписка) ",
-   "query_markers": [
-    "google workspace",
-    "гугл воркспейс",
-    "gemini",
-    "microsoft 365",
-    "office 365",
-    "майкрософт",
-    "github",
-    "гитхаб",
-    "copilot",
-    "unity",
-    "юнити",
-    "docker",
-    "докер",
-    "runway",
-    "solidworks",
-    "солидворкс",
-    "acronis",
-    "unreal",
-    "анрил",
-    "perplexity",
-    "перплексити"
-   ],
-   "query_exclude": [
-    "google play",
-    "гугл плей",
-    "microsoft copilot",
-    "ms copilot",
-    "video copilot",
-    "скачать",
-    "бесплатн",
-    "кряк",
-    "торрент"
-   ],
-   "power_note": "Экспозиция части страниц партии мала: по данным выгрузки 08.09.2026 кластеры Unity (50 показов за 12 дней), Google (15) и Docker ниже порога 3,6 показа в день. По ним при подведении итога публикуется «недостаточно данных», а не отрицательный вывод. Порог введён 04.09.2026, то есть после старта этой партии, и задним числом её не пересматривает.",
-   "next_review": "2026-09-30",
-   "next_review_note": "28 дней от старта 02.09.2026."
-  }
- ]
+  ]
 }
