@@ -154,9 +154,24 @@ describe('второй фактор', () => {
     expect(() => base32Decode('1!')).toThrow();
   });
 
-  it('код совпадает с эталоном RFC 6238 для секрета 12345678901234567890', () => {
-    // Секрет «12345678901234567890» в base32; шаг 59 с → счётчик 1.
-    expect(totpAt('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 1)).toBe('287082');
+  it('коды совпадают со всеми эталонами RFC 6238 — значит, Google Authenticator подойдёт', () => {
+    // Приложение B стандарта, секрет «12345678901234567890» в base32.
+    // Совпадение по всем меткам времени и означает совместимость с любым
+    // аутентификатором: Google Authenticator, Яндекс Ключ и прочие считают
+    // код по этому же алгоритму — HMAC-SHA1, шаг 30 секунд, шесть цифр.
+    // Одного вектора для этого мало: он не отличил бы, скажем, ошибку в
+    // переносе счётчика через границу 32 бит.
+    const SEED = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
+    const VECTORS: [number, string][] = [
+      [59, '287082'],
+      [1111111109, '081804'],
+      [1111111111, '050471'],
+      [1234567890, '005924'],
+      [2000000000, '279037'],
+    ];
+    for (const [unixTime, expected] of VECTORS) {
+      expect(totpAt(SEED, Math.floor(unixTime / 30)), `T=${unixTime}`).toBe(expected);
+    }
   });
 
   it('испорченный секрет возвращает false, а не роняет обработчик', () => {
@@ -353,6 +368,26 @@ describe('заведение секретов: пароль вместо ком�
     for (const name of ['COMPLIANCE_OWNER_TOKEN', 'COMPLIANCE_ADMIN_TOKEN', 'UNSUBSCRIBE_SECRET']) {
       expect(setup, `${name}: алфавит должен проверяться`).toContain(`check_alphabet ${name}`);
     }
+  });
+
+  it('пароль роли генерируется в том же наборе, что проверяет check', () => {
+    // Кнопка появилась после двух подряд неудачных прогонов проверки:
+    // переключатель «спецсимволы» в менеджере паролей находят не сразу.
+    // Набор кнопки обязан быть подмножеством того, что пропускает check_alphabet.
+    const m = /const PWD_ALPHABET = '([^']+)'/.exec(help);
+    expect(m, 'алфавит пароля задан строкой').toBeTruthy();
+    const alphabet = m![1];
+    expect(alphabet).toMatch(/^[A-Za-z0-9._-]+$/);
+    expect(alphabet.length).toBe(62);
+    expect(new Set(alphabet).size, 'без повторов').toBe(alphabet.length);
+  });
+
+  it('выборка символа пароля не перекошена в начало алфавита', () => {
+    // `% 62` от случайного байта сделал бы первые два символа заметно
+    // вероятнее остальных. Отбрасывание хвоста диапазона это снимает.
+    const script = help.slice(help.indexOf('<script>'));
+    expect(script).toContain('256 - (256 % PWD_ALPHABET.length)');
+    expect(script).toMatch(/if \(b >= limit\) continue/);
   });
 
   it('пароли из безопасного набора проходят проверку приложения', () => {

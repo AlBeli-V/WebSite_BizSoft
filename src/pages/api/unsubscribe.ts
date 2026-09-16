@@ -53,7 +53,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   const ip = clientIp(request);
   if (await overLimit(ip)) {
-    return json({ error: 'Слишком много запросов. Попробуйте через час или напишите на AVBelyaev@biz-soft.pro.' }, 429);
+    return json({ error: 'Слишком много запросов. Попробуйте через час или напишите на hello@biz-soft.pro.' }, 429);
   }
 
   // Адрес берётся из подписанного токена, а не из тела запроса: иначе
@@ -93,14 +93,14 @@ export const POST: APIRoute = async ({ request }) => {
     // Журнал не принял отзыв — реестр менять нельзя: получилось бы, что
     // рассылка прекращена, а доказательства отзыва нет. Для нас это отказ.
     console.error('unsubscribe consent log failed', e);
-    return json({ error: 'Не удалось зафиксировать отписку. Напишите на AVBelyaev@biz-soft.pro — отпишем вручную.' }, 503);
+    return json({ error: 'Не удалось зафиксировать отписку. Напишите на hello@biz-soft.pro — отпишем вручную.' }, 503);
   }
 
   try {
     await unsubscribe({ email, reason: verdict.ok ? 'link' : 'manual_entry' });
   } catch (e) {
     console.error('unsubscribe registry failed', e);
-    return json({ error: 'Отзыв зафиксирован, но реестр не обновился. Напишите на AVBelyaev@biz-soft.pro.' }, 503);
+    return json({ error: 'Отзыв зафиксирован, но реестр не обновился. Напишите на hello@biz-soft.pro.' }, 503);
   }
 
   return json({ ok: true, email });

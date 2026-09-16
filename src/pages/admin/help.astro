@@ -257,29 +257,50 @@ const GEN_TOKEN_SH = `openssl rand -base64 24 | tr '+/' '-_' | tr -d '='`;
       <code>COMPLIANCE_OWNER_TOKEN</code>, <code>COMPLIANCE_ADMIN_TOKEN</code> и
       <code>UNSUBSCRIBE_SECRET</code>, — и пароли останутся на вашем компьютере под рукой.
     </p>
-    <p>Два требования, оба проверяются автоматически на шаге <code>check</code>:</p>
+    <p>Три требования, все проверяются автоматически на шаге <code>check</code>:</p>
     <ul>
       <li><b>От 16 символов.</b> Практично — 24–32.</li>
       <li>
         <b>Только латинские буквы, цифры и знаки <code>-</code> <code>_</code>
-        <code>.</code></b> В генераторе менеджера паролей это обычно переключатель
-        «спецсимволы» — его надо выключить. Кавычки, пробелы, <code>#</code>,
-        <code>$</code> и подобное не переживают дорогу до файла окружения сервера:
-        значение обрежется, а раздел ответит «неверный токен» без объяснения причины.
+        <code>.</code></b> В генераторе менеджера паролей это переключатель
+        «спецсимволы» (Symbols, Special characters) — его надо выключить. Кавычки,
+        пробелы, <code>#</code>, <code>$</code>, <code>!</code>, <code>%</code> и
+        подобное не переживают дорогу до файла окружения сервера: значение обрежется,
+        а раздел ответит «неверный токен» без объяснения причины.
+      </li>
+      <li>
+        <b>Все три — разные.</b> Одинаковые токены ролей снимают разделение доступа,
+        а общий с ними ключ подписи означает, что один утёкший пароль открывает и
+        журнал персональных данных, и ссылки отписки.
       </li>
     </ul>
+
     <p>
-      Токены двух ролей обязаны <b>отличаться друг от друга</b> — одинаковые снимают
-      разделение доступа, и <code>check</code> на этом падает.
+      Не искать переключатель в менеджере паролей — нажмите кнопку трижды и разложите
+      значения по трём секретам. Набор символов здесь заведомо правильный.
     </p>
+
+    <div class="gen" data-genpwd>
+      <button type="button" class="btn btn-ghost btn-sm" data-genpwd-run>Сгенерировать пароль</button>
+      <div class="gen-out" data-genpwd-out hidden>
+        <code class="gen-key" data-genpwd-key></code>
+        <button type="button" class="btn btn-ghost btn-sm" data-genpwd-copy>Скопировать</button>
+        <span class="gen-copied" data-genpwd-copied hidden>скопировано</span>
+      </div>
+      <p class="gen-note">
+        32 знака из латиницы и цифр. Пароль создаётся в вашем браузере и
+        <b>никуда не отправляется</b>. Каждое нажатие даёт новый — сохраняйте
+        предыдущий в менеджере паролей до того, как нажмёте снова.
+      </p>
+    </div>
+
     <details class="help-fold">
-      <summary>Если привычнее командой, а не менеджером</summary>
+      <summary>Если привычнее командой, а не кнопкой</summary>
       <p>Windows, PowerShell (Win+X → «Терминал»), выполнить трижды:</p>
       <pre class="help-code"><code>{GEN_TOKEN_PS}</code></pre>
       <p>macOS или Linux, «Терминал», тоже трижды:</p>
       <pre class="help-code"><code>{GEN_TOKEN_SH}</code></pre>
     </details>
-
     <h3>Шаг 2. Ключ второго фактора — кнопкой ниже</h3>
     <p>
       Четвёртое значение паролем быть не может: приложение-аутентификатор принимает ключ
@@ -288,10 +309,10 @@ const GEN_TOKEN_SH = `openssl rand -base64 24 | tr '+/' '-_' | tr -d '='`;
     </p>
 
     <div class="gen" data-gen>
-      <button type="button" class="btn btn-outline btn-sm" data-gen-run>Сгенерировать ключ</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-gen-run>Сгенерировать ключ</button>
       <div class="gen-out" data-gen-out hidden>
         <code class="gen-key" data-gen-key></code>
-        <button type="button" class="btn btn-outline btn-sm" data-gen-copy>Скопировать</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-gen-copy>Скопировать</button>
         <span class="gen-copied" data-gen-copied hidden>скопировано</span>
       </div>
       <p class="gen-note">
@@ -453,23 +474,59 @@ const GEN_TOKEN_SH = `openssl rand -base64 24 | tr '+/' '-_' | tr -d '='`;
     return out;
   }
 
-  const root = document.querySelector('[data-gen]');
-  if (root) {
-    const out = root.querySelector('[data-gen-out]') as HTMLElement;
-    const keyEl = root.querySelector('[data-gen-key]') as HTMLElement;
-    const copied = root.querySelector('[data-gen-copied]') as HTMLElement;
+  /**
+   * Пароль роли в безопасном наборе символов.
+   *
+   * Латиница и цифры — тот же набор, что проверяет `check_alphabet` в
+   * ops-consent-setup. Кнопка появилась после двух подряд неудачных прогонов
+   * проверки (16.09.2026): переключатель «спецсимволы» в менеджере паролей
+   * находят не сразу, а пароль с ними не доезжает до файла окружения целиком.
+   * Требование, которое легче выполнить кнопкой, чем объяснить, объясняться
+   * не должно.
+   *
+   * Выборка через отбрасывание, а не остаток от деления: `% 62` сделал бы
+   * первые два символа алфавита чуть вероятнее остальных.
+   */
+  const PWD_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  function makePassword(length = 32): string {
+    const limit = 256 - (256 % PWD_ALPHABET.length);
+    let out = '';
+    while (out.length < length) {
+      const chunk = new Uint8Array(length);
+      crypto.getRandomValues(chunk);
+      for (const b of chunk) {
+        if (b >= limit) continue;
+        out += PWD_ALPHABET[b % PWD_ALPHABET.length];
+        if (out.length === length) break;
+      }
+    }
+    return out;
+  }
+
+  /** Общая обвязка: показать значение, скопировать, сказать о запрете буфера. */
+  function wireGenerator(
+    selector: string,
+    make: () => string,
+    format: (value: string) => string,
+  ): void {
+    const root = document.querySelector(selector);
+    if (!root) return;
+    const q = (suffix: string) => root.querySelector(`[${selector.slice(1, -1)}-${suffix}]`);
+    const out = q('out') as HTMLElement | null;
+    const keyEl = q('key') as HTMLElement | null;
+    const copied = q('copied') as HTMLElement | null;
+    if (!out || !keyEl || !copied) return;
     let raw = '';
 
-    root.querySelector('[data-gen-run]')?.addEventListener('click', () => {
-      raw = makeKey();
-      // Показываем группами по четыре знака: так его переписывают в
-      // приложение без ошибки. В буфер уходит строка без пробелов.
-      keyEl.textContent = (raw.match(/.{1,4}/g) || []).join(' ');
+    q('run')?.addEventListener('click', () => {
+      raw = make();
+      keyEl.textContent = format(raw);
       out.hidden = false;
       copied.hidden = true;
     });
 
-    root.querySelector('[data-gen-copy]')?.addEventListener('click', async () => {
+    q('copy')?.addEventListener('click', async () => {
       if (!raw) return;
       try {
         await navigator.clipboard.writeText(raw);
@@ -477,9 +534,15 @@ const GEN_TOKEN_SH = `openssl rand -base64 24 | tr '+/' '-_' | tr -d '='`;
       } catch {
         // Буфер закрыт настройками браузера — значение на экране, его можно
         // выделить руками. Молчать здесь нельзя: человек решит, что скопировал.
-        copied.textContent = 'браузер запретил доступ к буферу — выделите ключ и скопируйте вручную';
+        copied.textContent = 'браузер запретил доступ к буферу — выделите значение и скопируйте вручную';
       }
       copied.hidden = false;
     });
   }
+
+  // Ключ второго фактора показываем группами по четыре знака: так его
+  // переписывают в приложение без ошибки. В буфер уходит строка без пробелов.
+  wireGenerator('[data-gen]', makeKey, (v) => (v.match(/.{1,4}/g) || []).join(' '));
+  // Пароль переписывать руками не нужно — он копируется, поэтому без групп.
+  wireGenerator('[data-genpwd]', makePassword, (v) => v);
 </script>
