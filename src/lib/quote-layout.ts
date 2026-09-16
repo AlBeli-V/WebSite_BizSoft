@@ -108,7 +108,6 @@ export type Primitive =
       /** Надпись и её середина: она прижата к своему замку, а не к центру листа. */
       text: string; textCy: number; textOpacity: number;
       /** Шрифт надписи: файл для драйверов и имя семейства для SVG. */
-      fontFile: string; fontFamily: string;
       size: number; spacing: number;
       /** Готовый контур замка (`lockPath`) — один и тот же в обоих форматах. */
       locks: string[]; lockOpacity: number };
@@ -125,12 +124,8 @@ export interface Page { items: Primitive[] }
  */
 export interface Measure {
   height(text: string, size: number, width: number, bold?: boolean): number;
-  /**
-   * Ширина строки. `fontFile` — начертание из `public/brand/fonts`: надпись
-   * водяного знака набрана не текстовым шрифтом документа, и мерить её
-   * документным значило бы промахнуться мимо замка на полтора сантиметра.
-   */
-  width(text: string, size: number, bold?: boolean, fontFile?: string): number;
+  /** Ширина строки в шрифте документа. */
+  width(text: string, size: number, bold?: boolean): number;
 }
 
 /** Разбить строку по ширине колонки. Длинное слово не рвём — пусть выступит. */
@@ -219,15 +214,12 @@ export const BAND = {
    * надпись водяного знака должна читаться одним плотным блоком.
    */
   spacing: 0.8,
-  /**
-   * Шрифт надписи — отдельный от текста документа: у знака своя задача,
-   * его набирают узким строгим гротеском, а не текстовым начертанием.
-   * Файл лежит рядом с документными начертаниями и попадает в образ
-   * вместе с dist/client; если его нет, драйвер берёт жирный шрифт
-   * документа — знак выйдет шире, но выйдет.
+  /*
+   * Своего начертания у надписи нет. Узкий гротеск на знаке стоял с
+   * 15.09.2026 и был снят 16.09.2026: документ набирается одним шрифтом —
+   * вторая гарнитура на листе читается как чужая вставка, даже когда она
+   * бледная. Знак набирается жирным Raleway, как и всё остальное.
    */
-  fontFile: 'Oswald-SemiBold.ttf',
-  fontFamily: 'Oswald',
   /**
    * Сторона замка и его отступ от края листа. Замок на полосе один и стоит
    * у своей надписи: у синей сверху, у красной снизу (решение 15.09.2026).
@@ -298,7 +290,7 @@ export const BAND_RIGHT_TEXT = 'ПРЕДВАРИТЕЛЬНОЕ КП';
  */
 export function watermarks(measure: Measure): Primitive[] {
   const textLen = (text: string) =>
-    measure.width(text, BAND.size, true, BAND.fontFile) + BAND.spacing * (text.length - 1);
+    measure.width(text, BAND.size, true) + BAND.spacing * (text.length - 1);
 
   const band = (x: number, color: string, text: string, atTop: boolean): Primitive => {
     const cx = x + BAND.w / 2;
@@ -325,8 +317,6 @@ export function watermarks(measure: Measure): Primitive[] {
       text,
       textCy,
       textOpacity: BAND.textOpacity,
-      fontFile: BAND.fontFile,
-      fontFamily: BAND.fontFamily,
       size: BAND.size,
       spacing: BAND.spacing,
       locks: [lockPath(cx, atTop ? top : bottom, BAND.lock)],
