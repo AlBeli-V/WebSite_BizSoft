@@ -355,6 +355,26 @@ describe('заведение секретов: пароль вместо ком�
     }
   });
 
+  it('пароль роли генерируется в том же наборе, что проверяет check', () => {
+    // Кнопка появилась после двух подряд неудачных прогонов проверки:
+    // переключатель «спецсимволы» в менеджере паролей находят не сразу.
+    // Набор кнопки обязан быть подмножеством того, что пропускает check_alphabet.
+    const m = /const PWD_ALPHABET = '([^']+)'/.exec(help);
+    expect(m, 'алфавит пароля задан строкой').toBeTruthy();
+    const alphabet = m![1];
+    expect(alphabet).toMatch(/^[A-Za-z0-9._-]+$/);
+    expect(alphabet.length).toBe(62);
+    expect(new Set(alphabet).size, 'без повторов').toBe(alphabet.length);
+  });
+
+  it('выборка символа пароля не перекошена в начало алфавита', () => {
+    // `% 62` от случайного байта сделал бы первые два символа заметно
+    // вероятнее остальных. Отбрасывание хвоста диапазона это снимает.
+    const script = help.slice(help.indexOf('<script>'));
+    expect(script).toContain('256 - (256 % PWD_ALPHABET.length)');
+    expect(script).toMatch(/if \(b >= limit\) continue/);
+  });
+
   it('пароли из безопасного набора проходят проверку приложения', () => {
     // Ровно то, что менеджер паролей выдаёт с выключенными спецсимволами.
     const samples = ['Xk9.pQ2_mR7-vT4wZ', 'abcdefghijklmnop', 'A1b2C3d4E5f6G7h8'];
