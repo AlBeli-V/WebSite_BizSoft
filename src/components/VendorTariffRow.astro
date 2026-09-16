@@ -1,0 +1,96 @@
+---
+/**
+ * Позиция линейки строкой — подача длинного хвоста на странице производителя.
+ *
+ * Тот же предмет, что и VendorTariffCard, и та же вью-модель: отличается
+ * только плотность. Карточка показывает состав плана и оправдана, пока
+ * карточек единицы; двадцать две подряд читаются как стена, и направление в
+ * ней ищут прокруткой. Строка даёт знак, название, цену и счётчик — всё, что
+ * нужно, чтобы положить позицию в расчёт, не открывая карточку товара.
+ *
+ * Путь заявки тот же самый: счётчик — TariffQty, кнопка — AddToCartButton,
+ * количество доезжает до подборки через общий data-qty-scope. Своей логики
+ * здесь нет намеренно: две копии поведения разъехались бы при первой правке.
+ */
+import ProductIcon from './ProductIcon.astro';
+import AddToCartButton from './AddToCartButton.astro';
+import TariffQty from './TariffQty.astro';
+import type { TariffCard } from './VendorTariffCard.astro';
+
+interface Props {
+  card: TariffCard;
+  /** Отображаемое имя вендора — в подпись выбора для формы. */
+  title: string;
+  /** Точное значение поля vendor в каталоге — уходит в подборку. */
+  vendor: string;
+}
+const { card: c, title, vendor } = Astro.props;
+---
+<article
+  class="card vrow"
+  data-qty-scope
+  data-seg-card={c.seg || undefined}
+  data-cat-card={c.cat || undefined}
+>
+  <div class="vrow-main">
+    {c.icon && <ProductIcon slug={c.slug} name={c.name} size={34} />}
+    <div class="vrow-text">
+      <a class="vrow-name" href={`/product/${c.slug}`} data-ev="click_product_card">{c.name}</a>
+      {c.short && <span class="vrow-short">{c.short}</span>}
+    </div>
+  </div>
+
+  <div class="vrow-price">
+    {c.byRequest
+      ? <span class="req">Цена по запросу</span>
+      : <><b>{c.priceFrom ? `от ${c.priceText}` : c.priceText}</b>{c.note && <span class="note">{c.note}</span>}</>}
+  </div>
+
+  <div class="vrow-buy">
+    {/* Счётчик и сумма — те же, что на карточке: покупатель считает бюджет
+        там, где выбирает, а не в форме. Позиции без цены счётчика не
+        получают: считать нечего, пока цену не назвали в КП. */}
+    {!c.byRequest && !c.gift && (
+      <TariffQty price={c.price} minQty={c.minQty} qtyLabel={c.qtyLabel} name={c.name} />
+    )}
+    {c.byRequest ? (
+      <a href="#lead" class="btn btn-primary btn-sm" data-quote-cta data-context={`${title} — ${c.name}`} data-ev="click_get_quote">Запросить цену</a>
+    ) : c.gift ? (
+      <a href={`/product/${c.slug}`} class="btn btn-primary btn-sm" data-ev="click_product_card">Выбрать регион и номинал</a>
+    ) : (
+      <AddToCartButton sku={c.sku} slug={c.slug} name={c.name} vendor={vendor} price={c.price} compact />
+    )}
+  </div>
+</article>
+
+<style>
+  /* Четыре колонки на компьютере: знак с названием, цена, покупка.
+     На телефоне строка складывается в два яруса — название сверху, цена и
+     покупка под ним: в одну колонку счётчик и кнопка не помещаются, а
+     горизонтальная прокрутка на 390px запрещена. */
+  .vrow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 0.8rem 1.2rem;
+    padding: 0.85rem 1.1rem;
+  }
+  .vrow-main { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
+  .vrow-text { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+  .vrow-name { font-weight: 700; font-size: 0.95rem; color: var(--color-text); text-decoration: none; }
+  .vrow-name:hover { color: var(--color-accent); }
+  .vrow-short { color: var(--color-text-dim); font-size: 0.82rem; }
+  .vrow-price { text-align: right; white-space: nowrap; }
+  .vrow-price b { font-size: 1rem; font-variant-numeric: tabular-nums; }
+  .vrow-price .note { display: block; color: var(--color-text-dim); font-size: 0.76rem; }
+  .vrow-price .req { font-weight: 700; font-size: 0.9rem; }
+  /* Счётчик в строке идёт рядом с кнопкой, а не «прижатым вниз», как в
+     карточке: margin-top:auto из TariffQty здесь ни к чему. */
+  .vrow-buy { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; justify-content: flex-end; }
+  .vrow-buy :global(.vqty) { margin-top: 0; padding-top: 0; }
+  .vrow-buy :global(.vsum) { margin: 0; }
+  @media (max-width: 760px) {
+    .vrow { grid-template-columns: minmax(0, 1fr) auto; }
+    .vrow-buy { grid-column: 1 / -1; justify-content: space-between; }
+  }
+</style>
