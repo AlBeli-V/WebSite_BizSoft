@@ -20,7 +20,7 @@
  * что смотрел и что выгрузил (HELP администратора, п. 7).
  */
 import { timingSafeEqual } from 'node:crypto';
-import { verifyTotp } from './totp';
+import { isValidBase32, verifyTotp } from './totp';
 import { createAdminAuditEntry } from './directus';
 import { clientIp } from './client-ip';
 
@@ -38,13 +38,21 @@ function totpSecret(): string {
 }
 
 /**
- * Настроен ли контур. Токен короче 16 символов и пустой секрет второго
+ * Настроен ли контур. Токен короче 16 символов и негодный секрет второго
  * фактора считаются «не настроено»: раздел в этом случае не открывается
  * вовсе, а не открывается без защиты.
+ *
+ * Формат секрета проверяется здесь, а не только длина. Ключ с посторонним
+ * символом не даст сойтись ни одному коду, и без этой проверки раздел
+ * выглядел бы настроенным, а на деле в него нельзя было бы войти —
+ * с сообщением «неверный код», которое уводит не туда.
  */
 export function isComplianceConfigured(): boolean {
   const t = tokens();
-  return (t.admin.length >= 16 || t.owner.length >= 16) && totpSecret().length >= 16;
+  const secret = totpSecret();
+  return (t.admin.length >= 16 || t.owner.length >= 16)
+    && secret.length >= 16
+    && isValidBase32(secret);
 }
 
 function equals(a: string, b: string): boolean {
@@ -72,7 +80,13 @@ export type ComplianceAuth =
  */
 export function authorizeCompliance(request: Request): ComplianceAuth {
   if (!isComplianceConfigured()) {
-    return { ok: false, status: 503, error: 'Раздел не настроен: нет токенов ролей или секрета второго фактора.' };
+    // Причина называется конкретно: «не настроен» без подробностей заставляет
+    // перебирать четыре секрета вслепую.
+    const secret = totpSecret();
+    const why = secret && !isValidBase32(secret)
+      ? 'секрет второго фактора не в формате base32 (допустимы только A–Z и 2–7)'
+      : 'нет токенов ролей или секрета второго фактора';
+    return { ok: false, status: 503, error: `Раздел не настроен: ${why}.` };
   }
   const token = request.headers.get('x-compliance-token') || '';
   const otp = request.headers.get('x-compliance-otp') || '';
