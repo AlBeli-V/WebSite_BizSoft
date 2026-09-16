@@ -100,7 +100,7 @@ import FormGuardFields from './FormGuardFields.astro';
 <script>
   import { trackGoal } from '@/lib/analytics';
   import { attributionPayload } from '@/lib/attribution';
-  import { readCart, cartTotal } from '../lib/cart-client';
+  import { readCart, cartTotal, readEmailRent } from '../lib/cart-client';
   import { maskAllPhones } from '../lib/phone-mask';
   maskAllPhones();
 
@@ -236,7 +236,7 @@ import FormGuardFields from './FormGuardFields.astro';
     status.textContent = ''; status.className = 'kp-status';
     // Форма открыта, но ещё не отправлена. Разрыв между этой целью и
     // quote_pdf показывает, сколько людей упирается в саму форму.
-    trackGoal('begin_checkout', { items: readCart().length, total: cartTotal(), kp_source: kpSource });
+    trackGoal('begin_checkout', { items: readCart().length, total: cartTotal(), kp_source: kpSource, email_rent: readEmailRent() ? 1 : 0 });
     dialog.showModal();
   });
   document.querySelector('[data-kp-close]')?.addEventListener('click', () => dialog.close());
@@ -251,11 +251,15 @@ import FormGuardFields from './FormGuardFields.astro';
     try {
       const fd = Object.fromEntries(new FormData(form).entries());
       const items = readCart().map((i) => ({ sku: i.sku, qty: i.qty }));
+      // Выбор аренды адресов почты — часть расчёта, а не оформления: без него
+      // сервер пересчитает КП по одним лишь ценам каталога, и покупатель
+      // получит письмом сумму меньше той, что видел в спецификации.
+      const emailRent = readEmailRent();
       const attribution = await attributionPayload();
       const res = await fetch('/api/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...fd, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items }),
+        body: JSON.stringify({ ...fd, attribution, consent: (form.elements.namedItem('consent') as HTMLInputElement).checked, items, email_rent: emailRent }),
       });
       if (!res.ok) {
         let msg = 'Не удалось сформировать КП. Проверьте поля и попробуйте снова.';
@@ -273,7 +277,7 @@ import FormGuardFields from './FormGuardFields.astro';
       status.innerHTML = `<b>Готово.</b> Коммерческое предложение № ${quoteNo} `
         + `отправлено${to}. Если письма нет через пару минут — проверьте «Спам».`;
       status.className = 'kp-status ok';
-      trackGoal('quote_pdf', { form_source: 'quote', kp_source: kpSource, quote_no: quoteNo });
+      trackGoal('quote_pdf', { form_source: 'quote', kp_source: kpSource, quote_no: quoteNo, email_rent: emailRent ? 1 : 0 });
       // Тот же шаг в разрезе производителей: воронка лендинга вендора
       // заканчивается здесь, а не на его странице. Цель приехала из
       // main вместе с диалогом, когда он переехал из /cart в компонент.

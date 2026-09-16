@@ -11,10 +11,18 @@
 #   1. сколько позиций ManageEngine опубликовано и совпадает ли это с пакетом;
 #   2. нет ли опубликованных контрактов сопровождения (их публиковать нельзя);
 #   3. не осталась ли вечная лицензия без парного сопровождения;
-#   4. у всех ли позиций посчитана рублёвая цена.
+#   4. у всех ли позиций посчитана рублёвая цена;
+#   5. не осталось ли позиций под старыми артикулами.
 #
-# Запускается по расписанию после ночной переоценки и вручную. Результат —
-# комментарий в журнал-issue #22.
+# Разбор 15.09.2026. Сторож ослеп 13.09.2026, когда каталог перешёл на единые
+# артикулы: он спрашивал у базы позиции с префиксом `ME-`/`MANAGEENGINE-`,
+# а раздел давно живёт под `ZOHO-…`. Все запросы возвращали ноль строк, и
+# сверка каждый день писала «позиций в базе: 0, опубликовано 0, а должно 196»
+# — при том что раздел на месте. Контракт сопровождения он тоже искал по
+# суффиксу `-AMS`, которого в новой схеме нет (сопровождение — вид `SVC`).
+# Теперь схема одна, старые префиксы остались только как сигнал о недобитой
+# миграции, а шаг ожиданий сам проверяет, что правило вывода парного артикула
+# всё ещё совпадает с пакетом: разойдётся — прогон упадёт, а не онемеет.
 name: ops-zoho-audit
 
 on:
@@ -51,25 +59,54 @@ jobs:
           pkg = json.load(open('scripts/catalog/zoho.json'))
           products = pkg['products']
           published = [p for p in products if p['status'] == 'published']
-          ams = [p for p in products if p['sku'].endswith('-AMS')]
+          # Контракт сопровождения продаётся только парой к вечной лицензии, и
+          # пару называет сам пакет — поле pair_of у позиции сопровождения.
+          pairs = {p['pair_of']: p['sku'] for p in products if p.get('pair_of')}
+
+          def derive(lic):
+              """Артикул сопровождения по артикулу вечной лицензии: вид LIC/ADD
+              меняется на SVC, срок PERP — на 1Y, продукт и объём те же."""
+              s = lic.split('-')
+              s[1], s[4] = 'SVC', '1Y'
+              return '-'.join(s)
+
+          perp = [p['sku'] for p in products
+                  if p['sku'].split('-')[4:5] == ['PERP']
+                  and p['sku'].split('-')[1] in ('LIC', 'ADD')]
+          # Позиции, у которых сопровождение включено в цену: пары нет и быть
+          # не должно. Перечень короткий и уезжает на сервер как есть.
+          no_pair = [s for s in perp if s not in pairs]
+          # Дубль объёма развели цифрой в варианте — вывод такую пару не угадает.
+          odd = {lic: ams for lic, ams in pairs.items() if derive(lic) != ams}
+
+          # Сторож обязан падать, а не слепнуть: если схема артикулов снова
+          # поедет, правило вывода перестанет совпадать с пакетом — и об этом
+          # скажет упавший шаг, а не тихий ноль в отчёте (разбор 15.09.2026).
+          for lic, ams in pairs.items():
+              expected = odd.get(lic) or derive(lic)
+              assert expected == ams, f'правило вывода пары разошлось с пакетом: {lic} → {ams}'
+
           print(f"total={len(products)}")
           print(f"published={len(published)}")
-          print(f"ams={len(ams)}")
+          print(f"ams={len(pairs)}")
+          print(f"no_pair={','.join(no_pair)}")
+          print(f"odd_pairs={','.join(f'{lic}={ams}' for lic, ams in odd.items())}")
           PY
 
       - name: Audit production
         id: run
-        uses: appleboy/ssh-action@v1
+        uses: ./.github/actions/ssh-run
         env:
           EXPECT_TOTAL: ${{ steps.expect.outputs.total }}
           EXPECT_PUBLISHED: ${{ steps.expect.outputs.published }}
           EXPECT_AMS: ${{ steps.expect.outputs.ams }}
+          NO_PAIR: ${{ steps.expect.outputs.no_pair }}
+          ODD_PAIRS: ${{ steps.expect.outputs.odd_pairs }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: EXPECT_TOTAL,EXPECT_PUBLISHED,EXPECT_AMS
-          capture_stdout: true
+          envs: EXPECT_TOTAL,EXPECT_PUBLISHED,EXPECT_AMS,NO_PAIR,ODD_PAIRS
           script: |
             set -e
             TOKEN=$(sed -n 's/^DIRECTUS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
@@ -81,6 +118,8 @@ jobs:
             token = os.environ['TOKEN']
             expect = {k: int(os.environ.get(f'EXPECT_{k.upper()}') or 0)
                       for k in ('total', 'published', 'ams')}
+            no_pair = {s for s in os.environ.get('NO_PAIR', '').split(',') if s}
+            odd_pairs = dict(x.split('=', 1) for x in os.environ.get('ODD_PAIRS', '').split(',') if x)
 
             def get(url):
                 req = urllib.request.Request(url)
@@ -88,31 +127,43 @@ jobs:
                 with urllib.request.urlopen(req, timeout=120) as r:
                     return json.loads(r.read())['data']
 
+            # Единые артикулы (ZOHO-…) — действующая схема; ME-/MANAGEENGINE-
+            # остались в запросе, чтобы недобитая миграция была видна, а не
+            # выпала из сверки молча.
             rows = get('http://127.0.0.1:8055/items/products'
                        '?fields=sku,slug,status,price,base_price_usd'
-                       '&filter[_or][0][sku][_starts_with]=ME-'
-                       '&filter[_or][1][sku][_starts_with]=MANAGEENGINE-'
+                       '&filter[_or][0][sku][_starts_with]=ZOHO-'
+                       '&filter[_or][1][sku][_starts_with]=ME-'
+                       '&filter[_or][2][sku][_starts_with]=MANAGEENGINE-'
                        '&limit=-1')
 
             by_sku = {r['sku']: r for r in rows}
+            seg = lambda sku: sku.split('-')
+            legacy = [r for r in rows if not r['sku'].startswith('ZOHO-')]
             published = [r for r in rows if r['status'] == 'published']
-            ams = [r for r in rows if r['sku'].endswith('-AMS')]
+            # Сопровождение — вид SVC второго сегмента артикула.
+            ams = [r for r in rows if seg(r['sku'])[1:2] == ['SVC']]
             ams_published = [r for r in ams if r['status'] == 'published']
             no_price = [r for r in rows if not r.get('price')]
 
-            # Вечная лицензия без своего сопровождения: пара разорвана.
-            #
-            # Разовые работы вендора — перенос данных, установка, обучение —
-            # стоят в тех же таблицах вечной лицензии, но лицензией не
-            # являются и сопровождения не имеют. Без этого исключения сверка
-            # ругалась бы каждый день на десять позиций, и её перестали бы
-            # читать ровно тогда, когда она сообщит о настоящей поломке.
-            ONE_TIME = ('ONE-TIME', 'MIGRATION', 'TRAINING', 'INSTALLATION',
-                        'SETUP', 'ONBOARDING', 'IMPLEMENTATION')
-            broken = [r['sku'] for r in rows
-                      if r['sku'].endswith('-PERP')
-                      and f"{r['sku']}-AMS" not in by_sku
-                      and not any(w in r['sku'] for w in ONE_TIME)]
+            # Вечная лицензия без своего сопровождения: пара разорвана. Пары
+            # называет пакет: обычные выводятся из артикула лицензии, редкие
+            # исключения приехали списком.
+            broken = []
+            for r in rows:
+                s = r['sku']
+                p = seg(s)
+                if len(p) < 6 or p[1] not in ('LIC', 'ADD') or p[4] != 'PERP':
+                    continue
+                if s in no_pair:
+                    continue
+                expected = odd_pairs.get(s)
+                if not expected:
+                    p = list(p)
+                    p[1], p[4] = 'SVC', '1Y'
+                    expected = '-'.join(p)
+                if expected not in by_sku:
+                    broken.append(s)
 
             print(f"позиций ManageEngine в базе: {len(rows)} (в пакете {expect['total']})")
             print(f"опубликовано: {len(published)} (в пакете {expect['published']})")
@@ -120,9 +171,17 @@ jobs:
             print()
 
             problems = []
+            if not rows:
+                problems.append(
+                    'в базе нет ни одной позиции ManageEngine — сверять не с чем '
+                    '(проверьте схему артикулов и запрос)')
             if len(published) != expect['published']:
                 problems.append(
                     f"опубликовано {len(published)}, а должно {expect['published']}")
+            if legacy:
+                problems.append(
+                    f"позиции под старыми артикулами: {len(legacy)} — "
+                    + ', '.join(r['sku'] for r in legacy[:5]))
             if ams_published:
                 problems.append(
                     f"опубликованы контракты сопровождения ({len(ams_published)}): "
@@ -149,5 +208,5 @@ jobs:
         uses: ./.github/actions/journal-post
         with:
           title: "ops-zoho-audit"
-          outcome: ${{ steps.run.outcome }}
-          body: ${{ steps.run.outputs.stdout }}
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}
