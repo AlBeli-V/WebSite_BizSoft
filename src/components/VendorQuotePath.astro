@@ -103,7 +103,13 @@
   const spec = document.querySelector('[data-spec]') as HTMLElement | null;
   const specList = document.querySelector('[data-spec-list]') as HTMLElement | null;
   const specTotal = document.querySelector('[data-spec-total]') as HTMLElement | null;
-  const ref = document.querySelector('[data-product-ref]') as HTMLInputElement | null;
+  // Полей состава на странице столько, сколько на ней форм заявки: у
+  // посадочной с формой первого экрана их две, и заполнять надо обе. Пока
+  // заполнялось первое найденное, форма внизу страницы уходила с пустым
+  // product_ref — выбор доезжал до заявки только у тех, кто отправлял её
+  // из первого экрана. Окно вопроса сюда не входит: оно ставит свой
+  // контекст само (QuestionForm), и состав подборки его бы затёр.
+  const refs = Array.from(document.querySelectorAll('[data-lead-form] [data-product-ref]')) as HTMLInputElement[];
 
   function paintSpec() {
     const items = readCart();
@@ -121,9 +127,9 @@
       }
     }
     if (specTotal) specTotal.textContent = formatRub(cartTotal(items));
-    if (ref && items.length) {
-      ref.dataset.base = items.map((i) => `${i.name} ×${i.qty}`).join('; ').slice(0, 300);
-      ref.value = ref.dataset.base;
+    if (items.length) {
+      const base = items.map((i) => `${i.name} ×${i.qty}`).join('; ').slice(0, 300);
+      refs.forEach((ref) => { ref.dataset.base = base; ref.value = base; });
     }
   }
   paintSpec();
@@ -135,9 +141,12 @@
       const ctx = (el as HTMLElement).dataset.context || '';
       // Состав расчёта важнее подписи кнопки: если человек что-то выбрал,
       // в заявку идёт выбранное, а не «подбор тарифа».
-      if (ref && !ref.dataset.base && ctx) {
-        ref.dataset.base = ctx;
-        ref.value = ctx;
+      if (ctx) {
+        refs.forEach((ref) => {
+          if (ref.dataset.base) return;
+          ref.dataset.base = ctx;
+          ref.value = ctx;
+        });
       }
       const field = document.querySelector('#lead [data-lead-form] input') as HTMLInputElement | null;
       // Прокрутка уже идёт по якорю href="#lead"; фокус ставим после неё.

@@ -13,7 +13,7 @@
  * внутренний файл, о чём письмо предупреждает отдельно: Reply-To этого
  * письма — адрес клиента, и «Ответить» с вложениями отправит их наружу.
  */
-import { economics as cfg, taxation } from '../../config/site';
+import { edo, economics as cfg, taxation } from '../../config/site';
 import type { QuoteData } from '../quote-layout';
 import type { PartyCard } from '../dadata';
 import { usdReference, type QuoteEconomics } from '../quote-economics';
@@ -195,6 +195,17 @@ export function buildManagerQuoteEmail(input: ManagerQuoteEmailInput): RenderedE
           + 'проверить период и валюту закупочной цены.', 'warn') : '')
       : note('Экономику посчитать не удалось (нет курса ЦБ) — см. закупочные цены вручную.', 'warn'))
     + egrulNote
+    // Следующий шаг менеджера: пригласить заказчика в ЭДО. Ссылка ведёт в
+    // личный кабинет продавца (в адресе идентификатор его ящика) и клиенту
+    // не показывается никогда — только здесь, в служебном письме.
+    + heading('Электронный документооборот')
+    + card(
+      `<table role="presentation" cellpadding="0" cellspacing="0">`
+      + kvRow('Пригласить в ЭДО',
+        `<a href="${edo.managerSearchUrl}">${escapeHtml(edo.provider)} — поиск контрагентов</a>`)
+      + kvRow('ИНН заказчика', escapeHtml(data.buyerInn || '—'), true)
+      + kvRow('Наш идентификатор', escapeHtml(edo.participantId))
+      + `</table>`)
     + note('<b>Вложения.</b> Word — рабочий исходник без штампов (клиенту не пересылать), '
       + 'PDF — точная копия отправленного клиенту документа, '
       + 'Excel — <b>внутренняя экономика сделки: при ответе клиенту удалить из вложений</b>.'),
