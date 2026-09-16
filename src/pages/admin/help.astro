@@ -17,21 +17,16 @@ import AdminTabs from '../../components/AdminTabs.astro';
 import { LEGAL_MANIFEST } from '../../lib/legal';
 import { seller } from '../../config/site';
 
-// Команды генерации секретов. Живут строками, а не в разметке: в Astro
+// Запасной путь для трёх паролей — командой в терминале, если менеджер
+// паролей под рукой не оказался. Живут строками, а не в разметке: в Astro
 // фигурная скобка открывает выражение, а в PowerShell их полно.
+// Ключ второго фактора командой не выдаётся — его делает кнопка на странице.
 const GEN_TOKEN_PS = `$b = New-Object byte[] 24
 [System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b)
 [Convert]::ToBase64String($b) -replace '\\+','-' -replace '/','_' -replace '=',''`;
 
 const GEN_TOKEN_SH = `openssl rand -base64 24 | tr '+/' '-_' | tr -d '='`;
 
-const GEN_TOTP_PS = `$b = New-Object byte[] 20
-[System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b)
-$a = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; $bits = ''
-foreach ($x in $b) { $bits += [Convert]::ToString($x,2).PadLeft(8,'0') }
--join (0..31 | ForEach-Object { $a[[Convert]::ToInt32($bits.Substring($_*5,5),2)] })`;
-
-const GEN_TOTP_SH = `python3 -c "import base64,os;print(base64.b32encode(os.urandom(20)).decode())"`;
 ---
 <BaseLayout title="Справка администратора — согласия и рассылки" description="Служебная страница" noindex={true}>
   <div class="container-page section help">
@@ -189,22 +184,22 @@ const GEN_TOTP_SH = `python3 -c "import base64,os;print(base64.b32encode(os.uran
           <tr>
             <td><code>COMPLIANCE_OWNER_TOKEN</code></td>
             <td>вход ролью владельца: журнал целиком с IP и user-agent, выгрузки, смена статусов</td>
-            <td>случайная строка, от 16 символов</td>
+            <td>обычный пароль от 16 символов: латиница, цифры, <code>-</code> <code>_</code> <code>.</code></td>
           </tr>
           <tr>
             <td><code>COMPLIANCE_ADMIN_TOKEN</code></td>
             <td>вход ролью комплаенс-администратора: без технических реквизитов и без выгрузок</td>
-            <td>случайная строка, <b>обязана отличаться</b> от первой</td>
+            <td>такой же пароль, <b>обязан отличаться</b> от первого</td>
           </tr>
           <tr>
             <td><code>COMPLIANCE_TOTP_SECRET</code></td>
             <td>второй фактор: из него приложение-аутентификатор считает шестизначный код</td>
-            <td>base32 — только <code>A–Z</code> и <code>2–7</code></td>
+            <td>base32 (<code>A–Z</code> и <code>2–7</code>) — паролем быть не может, делается кнопкой в шаге 2</td>
           </tr>
           <tr>
             <td><code>UNSUBSCRIBE_SECRET</code></td>
             <td>подпись ссылок отписки в рекламных письмах</td>
-            <td>случайная строка, от 16 символов</td>
+            <td>обычный пароль от 16 символов, тот же набор знаков</td>
           </tr>
         </tbody>
       </table>
@@ -254,26 +249,61 @@ const GEN_TOTP_SH = `python3 -c "import base64,os;print(base64.b32encode(os.uran
       произвольная, на вход она не влияет.
     </p>
 
-    <h3>Шаг 1. Три случайные строки</h3>
-    <p>Windows, PowerShell (Win+X → «Терминал»). Выполнить <b>трижды</b> — нужны три разных значения:</p>
-    <pre class="help-code"><code>{GEN_TOKEN_PS}</code></pre>
-    <p>macOS или Linux, «Терминал». Тоже трижды:</p>
-    <pre class="help-code"><code>{GEN_TOKEN_SH}</code></pre>
+    <h3>Шаг 1. Три пароля — из менеджера паролей, без терминала</h3>
     <p>
-      Выйдет по 32 символа: буквы, цифры, <code>-</code> и <code>_</code>. Символы
-      <code>+</code>, <code>/</code> и <code>=</code> убраны намеренно — они ломают файл
-      окружения на сервере. Разложите значения: первое — <code>COMPLIANCE_OWNER_TOKEN</code>,
-      второе — <code>COMPLIANCE_ADMIN_TOKEN</code>, третье — <code>UNSUBSCRIBE_SECRET</code>.
+      Три из четырёх значений — это обычные длинные пароли. Никакого особого формата у них
+      нет: подойдёт любой, который вы придумаете сами или сгенерирует ваш менеджер паролей
+      (или сам браузер при сохранении). Заведите в менеджере три отдельные записи —
+      <code>COMPLIANCE_OWNER_TOKEN</code>, <code>COMPLIANCE_ADMIN_TOKEN</code> и
+      <code>UNSUBSCRIBE_SECRET</code>, — и пароли останутся на вашем компьютере под рукой.
+    </p>
+    <p>Два требования, оба проверяются автоматически на шаге <code>check</code>:</p>
+    <ul>
+      <li><b>От 16 символов.</b> Практично — 24–32.</li>
+      <li>
+        <b>Только латинские буквы, цифры и знаки <code>-</code> <code>_</code>
+        <code>.</code></b> В генераторе менеджера паролей это обычно переключатель
+        «спецсимволы» — его надо выключить. Кавычки, пробелы, <code>#</code>,
+        <code>$</code> и подобное не переживают дорогу до файла окружения сервера:
+        значение обрежется, а раздел ответит «неверный токен» без объяснения причины.
+      </li>
+    </ul>
+    <p>
+      Токены двух ролей обязаны <b>отличаться друг от друга</b> — одинаковые снимают
+      разделение доступа, и <code>check</code> на этом падает.
+    </p>
+    <details class="help-fold">
+      <summary>Если привычнее командой, а не менеджером</summary>
+      <p>Windows, PowerShell (Win+X → «Терминал»), выполнить трижды:</p>
+      <pre class="help-code"><code>{GEN_TOKEN_PS}</code></pre>
+      <p>macOS или Linux, «Терминал», тоже трижды:</p>
+      <pre class="help-code"><code>{GEN_TOKEN_SH}</code></pre>
+    </details>
+
+    <h3>Шаг 2. Ключ второго фактора — кнопкой ниже</h3>
+    <p>
+      Четвёртое значение паролем быть не может: приложение-аутентификатор принимает ключ
+      только в алфавите base32 — латинские буквы <code>A–Z</code> и цифры <code>2–7</code>,
+      без 0, 1, 8 и 9. Придумать такой руками нельзя, поэтому вот кнопка.
     </p>
 
-    <h3>Шаг 2. Ключ второго фактора</h3>
-    <p>Он в другом алфавите — base32, иначе приложение-аутентификатор его не примет. Windows:</p>
-    <pre class="help-code"><code>{GEN_TOTP_PS}</code></pre>
-    <p>macOS или Linux:</p>
-    <pre class="help-code"><code>{GEN_TOTP_SH}</code></pre>
+    <div class="gen" data-gen>
+      <button type="button" class="btn btn-outline btn-sm" data-gen-run>Сгенерировать ключ</button>
+      <div class="gen-out" data-gen-out hidden>
+        <code class="gen-key" data-gen-key></code>
+        <button type="button" class="btn btn-outline btn-sm" data-gen-copy>Скопировать</button>
+        <span class="gen-copied" data-gen-copied hidden>скопировано</span>
+      </div>
+      <p class="gen-note">
+        Ключ создаётся прямо в вашем браузере средствами операционной системы и
+        <b>никуда не отправляется</b>: ни на сервер, ни в журнал. Обновите страницу — и он
+        исчезнет, поэтому сразу сохраните его в менеджере паролей.
+      </p>
+    </div>
+
     <p>
-      Выйдет 32 символа. Проверьте глазами: в base32 <b>нет цифр 0, 1, 8 и 9</b>. Если они
-      появились — выполнилась не та команда.
+      Показан он группами по четыре знака — так его проще переписать в приложение без
+      ошибки. Пробелы при копировании не переносятся, и вводить их никуда не нужно.
     </p>
 
     <h3>Шаг 3. Завести ключ в приложении — до внесения в GitHub</h3>
@@ -373,4 +403,83 @@ const GEN_TOTP_SH = `python3 -c "import base64,os;print(base64.b32encode(os.uran
     word-break: break-word;
   }
   .help-code code { background: none; padding: 0; font-size: inherit; }
+
+  /* Блок генератора ключа второго фактора. Выделен рамкой: это единственное
+     место справки, где страница что-то создаёт, а не объясняет. */
+  .gen {
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-elevated);
+    padding: 1rem;
+    margin: 0 0 1rem;
+  }
+  .gen-out { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 0.9rem; }
+  /* Ключ длиннее экрана телефона — переносим его, а не прокручиваем блок
+     внутри себя (docs/rules/kpi-kit.md). */
+  .gen-key {
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    word-break: break-word;
+    flex: 1 1 18rem;
+    min-width: 0;
+  }
+  .gen-copied { font-size: 0.8rem; color: var(--color-success); }
+  .gen-note { margin: 0.9rem 0 0; font-size: 0.82rem; color: var(--color-text-dim); line-height: 1.55; }
+  .help-fold { margin: 0 0 1rem; font-size: 0.88rem; }
+  .help-fold summary { cursor: pointer; color: var(--color-text-muted); }
 </style>
+
+<script>
+  /**
+   * Генератор ключа второго фактора.
+   *
+   * Значение создаётся в браузере администратора через crypto.getRandomValues
+   * и никуда не уходит: ни запроса, ни записи в хранилище браузера. Граница
+   * доверия та же, что у самого раздела «Комплаенс», — обе страницы отдаёт
+   * один сервер по одному соединению, поэтому новых допущений кнопка не
+   * вносит, зато снимает шаг с терминалом, на котором всё и застревало.
+   *
+   * 20 байт — ровно 160 бит, то есть 32 знака base32 без дополнения.
+   */
+  const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+  function makeKey(): string {
+    const bytes = new Uint8Array(20);
+    crypto.getRandomValues(bytes);
+    let bits = '';
+    for (const b of bytes) bits += b.toString(2).padStart(8, '0');
+    let out = '';
+    for (let i = 0; i < bits.length; i += 5) out += ALPHABET[parseInt(bits.slice(i, i + 5), 2)];
+    return out;
+  }
+
+  const root = document.querySelector('[data-gen]');
+  if (root) {
+    const out = root.querySelector('[data-gen-out]') as HTMLElement;
+    const keyEl = root.querySelector('[data-gen-key]') as HTMLElement;
+    const copied = root.querySelector('[data-gen-copied]') as HTMLElement;
+    let raw = '';
+
+    root.querySelector('[data-gen-run]')?.addEventListener('click', () => {
+      raw = makeKey();
+      // Показываем группами по четыре знака: так его переписывают в
+      // приложение без ошибки. В буфер уходит строка без пробелов.
+      keyEl.textContent = (raw.match(/.{1,4}/g) || []).join(' ');
+      out.hidden = false;
+      copied.hidden = true;
+    });
+
+    root.querySelector('[data-gen-copy]')?.addEventListener('click', async () => {
+      if (!raw) return;
+      try {
+        await navigator.clipboard.writeText(raw);
+        copied.textContent = 'скопировано';
+      } catch {
+        // Буфер закрыт настройками браузера — значение на экране, его можно
+        // выделить руками. Молчать здесь нельзя: человек решит, что скопировал.
+        copied.textContent = 'браузер запретил доступ к буферу — выделите ключ и скопируйте вручную';
+      }
+      copied.hidden = false;
+    });
+  }
+</script>
