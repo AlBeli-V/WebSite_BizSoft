@@ -267,7 +267,12 @@ const dict = { TYPE_LABEL, ACTION_LABEL, STATUS_LABEL };
         'Content-Type': 'application/json',
         'x-compliance-token': auth.token,
         'x-compliance-otp': auth.otp,
-        'x-compliance-actor': auth.actor,
+        // Имя оператора кодируется процентами: заголовок HTTP — это байты
+        // ISO-8859-1, и `fetch` бросает TypeError на любой кириллической
+        // букве ещё до отправки запроса. То есть «Алексей Беляев» в поле
+        // «Кто работает» не давал войти вообще, с любым паролем и кодом
+        // (разбор 16.09.2026). Сервер раскодирует обратно.
+        'x-compliance-actor': encodeURIComponent(auth.actor),
       },
       body: JSON.stringify({ op, ...extra }),
     });
@@ -320,7 +325,13 @@ const dict = { TYPE_LABEL, ACTION_LABEL, STATUS_LABEL };
       $('[data-otp]').value = '';
     } catch (err) {
       auth = null;
-      say(authStatus, err.message, 'err');
+      // TypeError здесь означает, что запрос не ушёл вовсе: браузер отказался
+      // собрать его сам. Сырой текст такого исключения по-английски и про
+      // кодовые точки — не то, что должен читать человек на входе.
+      const message = err instanceof TypeError
+        ? 'Не удалось отправить запрос. Обновите страницу и повторите; если повторяется — сообщите разработчику.'
+        : err.message;
+      say(authStatus, message, 'err');
     }
   });
 
