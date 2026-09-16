@@ -12,7 +12,7 @@
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 import { generateQuoteDocx } from '../src/lib/docx-quote';
-import { buildQuoteLayout, STAMP_LINE_1 } from '../src/lib/quote-layout';
+import { BAND_LEFT_TEXT, BAND_RIGHT_TEXT, buildQuoteLayout } from '../src/lib/quote-layout';
 import { pdfMeasure } from '../src/lib/pdf-quote';
 
 const require = createRequire(import.meta.url);
@@ -31,8 +31,10 @@ const data = {
   email: 'k@encoreresort.ru',
   phone: '+79167898651',
   items: [
-    { sku: 'ADOBE-CC-TEAMS', name: 'Adobe Creative Cloud для команд', qty: 5, price: 100000, sum: 500000 },
-    { sku: 'FIGMA-PRO', name: 'Figma Professional', qty: 3, price: 30000, sum: 90000 },
+    // vendor приходит от API вместе с позицией: из него документ берёт
+    // юридическое название производителя и форму поставки для фразы.
+    { sku: 'ADOBE-CC-TEAMS', name: 'Adobe Creative Cloud для команд', vendor: 'Adobe', qty: 5, price: 100000, sum: 500000 },
+    { sku: 'FIGMA-PRO', name: 'Figma Professional', vendor: 'Figma', qty: 3, price: 30000, sum: 90000 },
   ],
   total: 590000,
 };
@@ -91,15 +93,48 @@ describe('Word повторяет клиентский документ', () => 
 
   it('водяных знаков в Word нет — внутренний документ', async () => {
     const doc = await docxText();
-    expect(doc).not.toContain(STAMP_LINE_1);
+    expect(doc).not.toContain(BAND_LEFT_TEXT);
+    expect(doc).not.toContain(BAND_RIGHT_TEXT);
     // Прежние полосы «BIZSoft · BZ-…» из версии до 28.08.2026.
     expect(doc).not.toMatch(/BIZSoft\s+·\s+BZ-/);
   });
 
-  it('исходящий номер и порядок колонок — как в макете', async () => {
+  it('исходящий номер и колонки — как в спецификации на сайте', async () => {
     const doc = await docxText();
     expect(doc).toContain(`Исх. № ${data.quoteNo}`);
-    expect(doc.indexOf('Артикул')).toBeGreaterThan(-1);
-    expect(doc.indexOf('Артикул')).toBeLessThan(doc.indexOf('Наименование'));
+    expect(doc).toContain('Описание');
+    expect(doc).toContain('Кол-во');
+    // Денежные колонки — в две строки со ставкой налога, как в макете.
+    expect(doc).toContain('Цена Руб.');
+    expect(doc).toContain('Сумма Руб.');
+    expect(doc).toContain('в т.ч. НДС 5%');
+    // Отдельной колонки артикула нет — он внутри описания позиции.
+    expect(doc).not.toContain('Наименование');
+    expect(doc).toContain(`Артикул: ${data.items[0].sku}`);
+  });
+
+  it('поля страницы и знак в колонтитуле — как в макете', async () => {
+    const buf = await generateQuoteDocx(data);
+    const zip = await JSZip.loadAsync(buf);
+    const doc = await zip.files['word/document.xml'].async('string');
+    // 3 см слева и по 1 см с остальных сторон (1 см = 567 твипов).
+    expect(doc).toMatch(/w:left="1701"/);
+    expect(doc).toMatch(/w:right="567"/);
+    expect(doc).toMatch(/w:top="567"/);
+    expect(doc).toMatch(/w:bottom="567"/);
+    // Знак марки уехал в колонтитул картинкой.
+    const media = Object.keys(zip.files).filter((n) => n.startsWith('word/media/'));
+    expect(media.length).toBeGreaterThan(0);
+  });
+
+  it('описание позиции совпадает со страницей спецификации', async () => {
+    const doc = await docxText();
+    expect(doc).toContain('Adobe Inc. / Adobe Creative Cloud для команд');
+    expect(doc).toContain('Оказание услуг по предоставлению доступа');
+  });
+
+  it('листы пронумерованы — документ печатают и подшивают', async () => {
+    const doc = await docxText();
+    expect(doc).toContain('Лист');
   });
 });

@@ -189,6 +189,10 @@ describe('карточка читает сегменты нового артик
     expect(productNoindex('JB-ADD-LOG-TEAM-1Y-USER')).toBe(true);
     expect(productNoindex('JB-LIC-CLION-TEAM-1Y-USER')).toBe(false);
     expect(productNoindex('JB-LIC-CLION-IND-1Y-USER')).toBe(true);
+    // Исключение по вендору (решение руководителя 15.09.2026): у TryHackMe
+    // личный план — основной товар, а не младший вариант командного.
+    expect(productNoindex('THM-LIC-PREMIUM-IND-1Y-USER')).toBe(false);
+    expect(productNoindex('THM-LIC-MAX-IND-1Y-USER')).toBe(false);
     expect(productNoindex('ZOHO-LIC-ADAUDITSTD-TEAM-PERP-PACK-2DC')).toBe(true);
     expect(productNoindex('ZOHO-LIC-ADAUDITSTD-TEAM-1Y-PACK-2DC')).toBe(false);
     expect(productNoindex('WPC-LIC-BUSINESS-UNI-1Y-ORG-RENEWAL')).toBe(true);
