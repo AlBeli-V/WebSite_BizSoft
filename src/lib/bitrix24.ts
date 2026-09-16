@@ -44,6 +44,10 @@ export interface B24LeadInput {
   channel?: string;
   /** Товар, с карточки которого пришло обращение. */
   productRef?: string;
+  /** Событие журнала согласий, по которому принято обращение (152-ФЗ). */
+  consentEventId?: string;
+  /** Разрешена ли рекламная рассылка на этот адрес по итогу формы. */
+  marketingStatus?: 'subscribed' | 'not_subscribed';
   utm?: {
     utm_source?: string;
     utm_medium?: string;
@@ -73,6 +77,23 @@ export function b24Base(): string {
 
 export function b24Configured(): boolean {
   return b24Base() !== '';
+}
+
+/**
+ * Коды пользовательских полей портала для реквизитов согласия.
+ *
+ * ТЗ требует передавать `consent_event_id` и маркетинговый статус в
+ * отдельные поля CRM, но коды полей заводит владелец портала, а не сайт:
+ * `UF_CRM_1234567890` у каждого портала свой. Пока коды не заданы в
+ * окружении, значения всё равно уходят — строками в комментарий лида,
+ * чтобы менеджер видел статус рассылки и не писал рекламу тому, кто её не
+ * запрашивал. Поля из окружения дополняют комментарий, а не заменяют его.
+ */
+function b24ConsentFieldCodes(): { event: string; marketing: string } {
+  return {
+    event: String(process.env.B24_UF_CONSENT_EVENT || import.meta.env.B24_UF_CONSENT_EVENT || '').trim(),
+    marketing: String(process.env.B24_UF_MARKETING_STATUS || import.meta.env.B24_UF_MARKETING_STATUS || '').trim(),
+  };
 }
 
 /**
@@ -109,7 +130,12 @@ export function b24LeadFields(input: B24LeadInput): Record<string, unknown> {
     input.productRef ? `Товар: ${input.productRef}` : '',
     input.formSource ? `Форма: ${input.formSource}` : '',
     input.channel ? `Канал (метка браузера): ${input.channel}` : '',
+    input.consentEventId ? `Согласие на обработку ПДн: ${input.consentEventId}` : '',
+    input.marketingStatus
+      ? `Рекламная рассылка: ${input.marketingStatus === 'subscribed' ? 'разрешена' : 'НЕ разрешена'}`
+      : '',
     'Источник записи: сайт biz-soft.pro. Воронка ведётся в Directus.',
+    'Доказательство согласия — журнал consent_audit_log на сайте, не портал.',
   ].filter((l) => l !== '').join('\n');
 
   const fields: Record<string, unknown> = {
@@ -124,6 +150,9 @@ export function b24LeadFields(input: B24LeadInput): Record<string, unknown> {
   if (filled(input.channel)) fields.SOURCE_DESCRIPTION = input.channel;
   if (filled(input.email)) fields.EMAIL = [{ VALUE: input.email, VALUE_TYPE: 'WORK' }];
   if (filled(input.phone)) fields.PHONE = [{ VALUE: input.phone, VALUE_TYPE: 'WORK' }];
+  const uf = b24ConsentFieldCodes();
+  if (uf.event && filled(input.consentEventId)) fields[uf.event] = input.consentEventId;
+  if (uf.marketing && input.marketingStatus) fields[uf.marketing] = input.marketingStatus;
   for (const [key, value] of Object.entries(input.utm || {})) {
     if (filled(value)) fields[key.toUpperCase()] = value;
   }

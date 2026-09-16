@@ -16,7 +16,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SeoHead from '../components/SeoHead.astro';
 import Analytics from '../components/Analytics.astro';
-import CookieNotice from '../components/CookieNotice.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import JsonLd from '../components/JsonLd.astro';
 import WebMCP from '../components/WebMCP.astro';
 import { WEBMCP_ENABLED } from '../webmcp/flag';
@@ -64,7 +64,7 @@ const { title, description, canonical, ogImage, noindex, type, keywords, localBu
     </main>
     <Footer />
     <Analytics />
-    <CookieNotice />
+    <CookieConsent />
     {WEBMCP_ENABLED && <WebMCP />}
 
     <style is:global>
