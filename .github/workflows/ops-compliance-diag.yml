@@ -1,0 +1,112 @@
+# Диагностика входа в раздел «Комплаенс». Только чтение, ничего не меняет.
+#
+# Отвечает на один вопрос: где обрывается вход. Источников три, и они
+# различают все случаи:
+#
+#   • журнал nginx — дошёл ли POST /api/admin/compliance до сервера и с каким
+#     кодом закрылся. Нет строк вовсе — запрос не ушёл из браузера; 401 —
+#     не сошёлся токен или код; 422 — пустое имя оператора; 503 — раздел
+#     считает себя ненастроенным; 200 — вход прошёл;
+#   • журнал приложения — сообщения контура согласий, в том числе разбор
+#     секрета второго фактора;
+#   • astro.env — заданы ли четыре имени и какой они длины.
+#
+# ЗНАЧЕНИЯ СЕКРЕТОВ НЕ ПЕЧАТАЮТСЯ НИГДЕ. Из файла окружения берутся только
+# имя и длина: журнал прогона остаётся в Actions навсегда и читается всеми,
+# у кого есть доступ к репозиторию.
+name: ops-compliance-diag
+
+on:
+  workflow_dispatch:
+    inputs:
+      minutes:
+        description: 'За сколько последних минут смотреть журналы'
+        required: false
+        default: '60'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      # if: always() — шаг журнала тоже always(); без этого при падении
+      # основного шага checkout пропустится, и запись в журнал не пройдёт.
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Collect compliance diagnostics
+        id: run
+        uses: ./.github/actions/ssh-run
+        env:
+          P_MIN: ${{ inputs.minutes }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: P_MIN
+          script: |
+            set -e
+            MIN="${P_MIN:-60}"
+
+            echo "════ ЗАПРОСЫ К РАЗДЕЛУ (nginx, последние $MIN мин) ════"
+            NL=/var/log/nginx
+            readlogs() {
+              if [ -r "$NL/access.log" ]; then
+                cat "$NL/access.log" "$NL/access.log.1" 2>/dev/null
+              else
+                # Файлы www-data:adm пользователю деплоя недоступны — читаем
+                # read-only через docker, как в ops-server-stats.
+                docker run --rm -v "$NL":/logs:ro --entrypoint sh postgres:16-alpine -c \
+                  'cat /logs/access.log /logs/access.log.1 2>/dev/null' 2>/dev/null
+              fi
+            }
+            CUTOFF=$(date -d "-$MIN min" +%s)
+            readlogs | grep 'admin/compliance' | awk -v cutoff="$CUTOFF" '
+              BEGIN {
+                split("Jan:01 Feb:02 Mar:03 Apr:04 May:05 Jun:06 Jul:07 Aug:08 Sep:09 Oct:10 Nov:11 Dec:12", mm, " ")
+                for (i in mm) { split(mm[i], pp, ":"); mon[pp[1]] = pp[2] }
+              }
+              {
+                d = substr($4, 2)
+                ts = mktime(substr(d,8,4)" "mon[substr(d,4,3)]" "substr(d,1,2)" "substr(d,13,2)" "substr(d,16,2)" "substr(d,19,2))
+                if (ts >= cutoff) print $4, $6, $7, "→", $9
+              }' | tail -40 || true
+            echo "(пусто выше — значит, запрос до сервера не дошёл: браузер его не отправил)"
+
+            echo
+            echo "════ ЖУРНАЛ ПРИЛОЖЕНИЯ ════"
+            docker logs --since "${MIN}m" bizsoft-astro-1 2>&1 \
+              | grep -iE 'compliance|totp|consent|согласи' | tail -30 || echo "(нет записей)"
+
+            echo
+            echo "════ ОКРУЖЕНИЕ: ИМЕНА И ДЛИНЫ, БЕЗ ЗНАЧЕНИЙ ════"
+            ENVF=/opt/bizsoft/astro.env
+            for k in COMPLIANCE_OWNER_TOKEN COMPLIANCE_ADMIN_TOKEN COMPLIANCE_TOTP_SECRET UNSUBSCRIBE_SECRET; do
+              n=$(grep -c "^$k=" "$ENVF" 2>/dev/null || echo 0)
+              v=$(sed -n "s/^$k=//p" "$ENVF" 2>/dev/null | head -1)
+              printf '%s: строк %s, длина %s\n' "$k" "$n" "${#v}"
+            done
+
+            echo
+            echo "════ ВРЕМЯ СЕРВЕРА (для второго фактора) ════"
+            date -u '+UTC: %F %T'
+            timedatectl 2>/dev/null | grep -iE 'synchron|NTP' || echo "(timedatectl недоступен)"
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-compliance-diag"
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}

@@ -270,7 +270,7 @@ const qtySteps = qtyPresets(commerce.minQty);
 // назвать компанию и дописать вопрос.
 const askSubject = `Запрос на уточнение информации с сайта BIZSoft от компании ….`;
 const askBody = `Добрый день,\n\nПросим уточнить `;
-const askHref = `mailto:${seller.salesEmail}?subject=${encodeURIComponent(askSubject)}&body=${encodeURIComponent(askBody)}`;
+const askHref = `mailto:${seller.email}?subject=${encodeURIComponent(askSubject)}&body=${encodeURIComponent(askBody)}`;
 
 // ── Путь до карточки ─────────────────────────────────────────────────
 // Правило docs/rules/breadcrumbs.md: путь карточки всегда из трёх уровней —
