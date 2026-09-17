@@ -30,11 +30,20 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
 | Аудитория (устройства и каналы) | `scripts/seo/audience_block.py`, разрезы в `scripts/seo/collect_daily.py` | ряды витрины `reports/seo/data/daily/*` (ветка `seo-data`), реестр `data/seo/referral-classes.json` | входит в `seo-data-collect` и `seo-daily-report` | `docs/rules/audience-devices.md` | `scripts/seo/tests/test_audience_block.py` |
 | Письма | `scripts/seo/report_v4.py`, `committee.py`; `competitive-intelligence/mailer/*` | ветки `seo-data` / `competitive-data` | `seo-report-email`, `seo-committee-build`+`seo-committee-email`, `competitive-intelligence-mail`, `ops-send-mail`, `ops-mail` | `reports/seo/README.md` | `uxlint_v4.py`, `contentcheck.py` (в конвейере отчёта) |
 | Сторож каталога | `scripts/ops/catalog_watch.py` | снимки на сервере `/opt/bizsoft/ops/catalog` | `ops-catalog-watch` (ежедневно, письмо через `ops-send-mail`) | `docs/rules/catalog-watch.md` | `python3 -m unittest discover -s scripts/ops/tests -t scripts/ops/tests` |
+| Согласия и рассылки (152-ФЗ) | `src/legal/*` (редакции), `src/lib/legal*.ts`, `consent-log.ts`, `marketing-registry.ts`, `consent-intake.ts`, `consent-controls.ts`, `compliance-auth.ts`, `totp.ts`, `csrf.ts`, `unsubscribe-token.ts`; `src/components/ConsentControls.astro`, `CookieConsent.astro`; страницы `/legal/*`, `/unsubscribe`, `/admin/compliance`, `/admin/help` | Directus: `consent_audit_log` (только INSERT), `marketing_registry`, `admin_audit_log`; редакции документов — в git | `ops-directus-schema` (коллекции), `ops-consent-setup` (секреты ролей, TOTP, подпись отписки) | `docs/rules/consent-audit.md`, справка администратора `/admin/help` | `tests/legal-documents.test.ts`, `consent-audit.test.ts`, `consent-ui.test.ts`, `cookie-consent.test.ts`, `consent-security.test.ts` |
 | Бэкапы/DR | `scripts/ops/backup.sh` | снапшоты на сервере `/opt/bizsoft` | `ops-backup`, сторож `ops-backup-watch` (ежедневно 07:00 МСК, письмо через `ops-send-mail`) | `docs/DR-RUNBOOK.md`, `docs/OPERATIONS.md` | — |
 | Операционные прогоны | — (детерминированные workflow, без сессий Claude/Routine) | — | `seo-daily-report`, `competitive-intelligence-daily`, `seo-committee-build`, `seo-tasks-due`; кросс-запуск между workflow — `scripts/ops/gh_dispatch_wait.sh` | заголовки этих workflow объясняют, какую Routine они заменили | — |
 
 ## Где что искать
 
+- **Правовой документ и его редакции** — `src/legal/<документ>/<версия>.md`,
+  реестр с хэшами `src/legal/legal-manifest.json`
+  (`node scripts/legal/build-manifest.mjs`). Выпущенная редакция не правится:
+  заводится новый файл. Правило — `docs/rules/consent-audit.md`.
+- **Согласие в новой форме** — компонент
+  `src/components/ConsentControls.astro`, тексты и адреса —
+  `src/config/legal.ts`, серверный приём — `src/lib/consent-intake.ts`.
+  Своей копии логики согласий форма не заводит.
 - **Новый вендор/товар** — `src/data/vendors.ts`, `scripts/catalog/<slug>.json`;
   чеклист и обязательные шаги (sitemap, микроразметка, WebMCP, уникальность
   meta) — `docs/vendors-expansion-prompt.md`, раздел 11/11а, и правила в
