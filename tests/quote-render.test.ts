@@ -7,7 +7,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { buildQuoteLayout, validityLine, watermarks, workdaysBetween, BAND, CM, MARK_FILE, PAGE, LOGO_FILE } from '../src/lib/quote-layout';
-import { bandFontPath, generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
+import { generateQuotePdf, pdfMeasure, resolveAsset } from '../src/lib/pdf-quote';
 import { generateQuoteJpgPages, quotePageSvg } from '../src/lib/jpg-quote';
 import { leadFromQuote } from '../src/lib/quote-lead';
 import { defaultLeadOwner } from '../src/config/site';
@@ -106,16 +106,13 @@ describe('раскладка КП', () => {
     expect(/draft|черновик|копия/i.test(`${l.text} ${r.text}`)).toBe(false);
   });
 
-  it('надпись набрана своим шрифтом плотно, а не текстовым вразрядку', () => {
-    // Шрифт знака отдельный от документного (решение 15.09.2026): узкий
-    // строгий гротеск, буквы сбиты в блок.
+  it('надпись набрана шрифтом документа, плотно, без второй гарнитуры', () => {
+    // Своё начертание знака снято 16.09.2026: документ набирается одним
+    // шрифтом, вторая гарнитура читается как чужая вставка даже бледной.
     const [l] = watermarks(pdfMeasure()) as any[];
-    expect(l.fontFile).toBe('Oswald-SemiBold.ttf');
-    expect(l.fontFamily).toBe('Oswald');
+    expect(l.fontFile).toBeUndefined();
+    expect(l.fontFamily).toBeUndefined();
     expect(l.spacing).toBeLessThan(1.5);
-    // Файл начертания на месте: без него знак молча ушёл бы на документный
-    // шрифт и разъехался бы по высоте.
-    expect(bandFontPath(l.fontFile)).toBeTruthy();
   });
 
   it('прозрачность слоёв: подложка почти невесома, надпись читается', () => {

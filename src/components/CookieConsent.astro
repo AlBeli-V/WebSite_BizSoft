@@ -1,0 +1,219 @@
+---
+/**
+ * Управление cookie: плашка первого визита и раздел «Настроить».
+ *
+ * Заменила уведомление, которое только сообщало о факте («продолжая, вы
+ * соглашаетесь»). Разница принципиальная: до выбора ни Метрика, ни Google
+ * Analytics не грузятся вовсе (ТЗ 16.09.2026, п. 7), и плашка — это не
+ * информирование, а сам механизм согласия.
+ *
+ * Три равноправных ответа: принять все, только необходимые, настроить.
+ * «Только необходимые» — такая же кнопка, как «Принять все», без визуальной
+ * слабости: сделать отказ незаметнее согласия значит получить согласие,
+ * которое не считается добровольным.
+ *
+ * Разметка отдаётся всем, а не только тем, у кого выбора ещё нет: страницы
+ * статические и раздаются из кэша, поэтому решение о показе принимает
+ * скрипт в браузере. Второй вход в тот же интерфейс — ссылка «Настройки
+ * cookies» в подвале (документ 05, п. 5).
+ */
+import { COOKIE_UI, LEGAL_LINKS } from '../config/legal';
+---
+<div class="cc-root" data-cookie-consent hidden>
+  <div class="cc-panel" role="dialog" aria-modal="false" aria-labelledby="cc-title" aria-describedby="cc-lead">
+    <div class="cc-head">
+      <h2 class="cc-title" id="cc-title">{COOKIE_UI.title}</h2>
+      <p class="cc-lead" id="cc-lead">
+        {COOKIE_UI.lead} Подробнее — в <a href={LEGAL_LINKS.cookies}>политике использования cookies</a>
+        и <a href={LEGAL_LINKS.privacy}>политике обработки персональных данных</a>.
+      </p>
+    </div>
+
+    {/* Настройки живут в том же блоке и раскрываются на месте: отдельное
+        окно поверх плашки — это второй слой поверх и без того служебного
+        интерфейса. */}
+    <div class="cc-settings" data-cookie-settings-panel hidden>
+      <ul class="cc-cats">
+        {COOKIE_UI.categories.map((c) => (
+          <li class="cc-cat">
+            <label class="cc-cat-row">
+              <input
+                type="checkbox"
+                class="cc-cat-box"
+                data-cookie-category={c.id}
+                checked={c.locked}
+                disabled={c.locked}
+              />
+              <span class="cc-cat-text">
+                <span class="cc-cat-title">
+                  {c.title}
+                  {c.locked && <span class="cc-cat-always">всегда включены</span>}
+                </span>
+                <span class="cc-cat-purpose">{c.purpose}</span>
+              </span>
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="cc-actions">
+      <button type="button" class="cc-btn cc-btn-primary" data-cookie-accept-all>{COOKIE_UI.acceptAll}</button>
+      <button type="button" class="cc-btn" data-cookie-necessary>{COOKIE_UI.necessaryOnly}</button>
+      <button type="button" class="cc-btn cc-btn-ghost" data-cookie-open-settings aria-expanded="false">{COOKIE_UI.settings}</button>
+      <button type="button" class="cc-btn cc-btn-primary" data-cookie-save hidden>{COOKIE_UI.save}</button>
+    </div>
+
+    <p class="cc-note" data-cookie-note hidden>
+      Выбор сохранён. Отключённый сервис перестанет работать со следующей загрузки страницы.
+    </p>
+  </div>
+</div>
+
+<style>
+  .cc-root {
+    position: fixed;
+    inset: auto 1rem 1rem;
+    z-index: 70;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .cc-panel {
+    pointer-events: auto;
+    width: min(46rem, 100%);
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 1.1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .cc-title { font-size: 1rem; margin: 0 0 0.3rem; }
+  .cc-lead { margin: 0; font-size: 0.85rem; line-height: 1.5; color: var(--color-text-muted); }
+  .cc-lead a { color: var(--color-accent); }
+
+  .cc-cats { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .cc-cat-row { display: flex; align-items: flex-start; gap: 0.6rem; cursor: pointer; }
+  .cc-cat-box { width: 20px; height: 20px; min-width: 20px; margin: 0.1rem 0 0; accent-color: var(--color-accent); }
+  .cc-cat-box:disabled { cursor: not-allowed; }
+  .cc-cat-text { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+  .cc-cat-title { font-size: 0.86rem; font-weight: 700; display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: baseline; }
+  .cc-cat-always { font-size: 0.72rem; font-weight: 400; color: var(--color-text-dim); }
+  .cc-cat-purpose { font-size: 0.79rem; color: var(--color-text-muted); line-height: 1.45; }
+
+  .cc-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  /* Отказ и согласие — кнопки одного веса и размера. Разный вес здесь
+     означал бы, что отказаться труднее, чем согласиться. */
+  .cc-btn {
+    flex: 1 1 auto;
+    min-height: 2.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 12px;
+    background: var(--color-bg-elevated);
+    color: var(--color-text);
+    font: inherit; font-size: 0.88rem; font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .cc-btn:hover { border-color: var(--color-accent); }
+  .cc-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .cc-btn-primary { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+  .cc-btn-ghost { flex: 0 1 auto; background: none; border-color: transparent; color: var(--color-text-muted); text-decoration: underline; text-underline-offset: 3px; }
+
+  .cc-note { margin: 0; font-size: 0.79rem; color: var(--color-text-dim); }
+
+  @media (max-width: 560px) {
+    .cc-root { inset: auto 0.5rem 0.5rem; }
+    .cc-panel { padding: 1rem; }
+    .cc-btn { flex: 1 1 100%; }
+  }
+</style>
+
+<script>
+  import {
+    ALLOW_ALL, DENY_ALL, applyConsent, readConsent,
+    type CookieChoices,
+  } from '../lib/cookie-consent';
+
+  function initCookieConsent() {
+    const root = document.querySelector('[data-cookie-consent]') as HTMLElement | null;
+    if (!root || root.dataset.bound === '1') return;
+    root.dataset.bound = '1';
+
+    const panel = root.querySelector('[data-cookie-settings-panel]') as HTMLElement;
+    const note = root.querySelector('[data-cookie-note]') as HTMLElement;
+    const saveBtn = root.querySelector('[data-cookie-save]') as HTMLButtonElement;
+    const settingsBtn = root.querySelector('[data-cookie-open-settings]') as HTMLButtonElement;
+    const boxes = Array.from(
+      root.querySelectorAll('[data-cookie-category]'),
+    ) as HTMLInputElement[];
+
+    const readBoxes = (): CookieChoices => ({
+      yandex_analytics: boxes.find((b) => b.dataset.cookieCategory === 'yandex_analytics')?.checked === true,
+      google_analytics: boxes.find((b) => b.dataset.cookieCategory === 'google_analytics')?.checked === true,
+    });
+
+    const fillBoxes = (c: CookieChoices) => {
+      for (const b of boxes) {
+        const id = b.dataset.cookieCategory as keyof CookieChoices | 'necessary';
+        if (id === 'necessary') continue;
+        b.checked = c[id] === true;
+      }
+    };
+
+    const open = (withSettings: boolean) => {
+      root.hidden = false;
+      panel.hidden = !withSettings;
+      saveBtn.hidden = !withSettings;
+      settingsBtn.setAttribute('aria-expanded', String(withSettings));
+    };
+
+    const close = (source: 'cookie_banner' | 'cookie_settings', choices: CookieChoices) => {
+      applyConsent(choices, source);
+      // Плашка не исчезает мгновенно: человек должен увидеть, что его выбор
+      // принят, — иначе непонятно, сработала кнопка или страница «моргнула».
+      note.hidden = false;
+      setTimeout(() => { root.hidden = true; note.hidden = true; }, 1400);
+    };
+
+    root.querySelector('[data-cookie-accept-all]')?.addEventListener('click', () => {
+      fillBoxes(ALLOW_ALL);
+      close(panel.hidden ? 'cookie_banner' : 'cookie_settings', ALLOW_ALL);
+    });
+    root.querySelector('[data-cookie-necessary]')?.addEventListener('click', () => {
+      fillBoxes(DENY_ALL);
+      close(panel.hidden ? 'cookie_banner' : 'cookie_settings', DENY_ALL);
+    });
+    settingsBtn?.addEventListener('click', () => {
+      const show = panel.hidden;
+      panel.hidden = !show;
+      saveBtn.hidden = !show;
+      settingsBtn.setAttribute('aria-expanded', String(show));
+    });
+    saveBtn?.addEventListener('click', () => close('cookie_settings', readBoxes()));
+
+    // Вход из подвала и со страницы /legal: тот же интерфейс, уже с
+    // подставленным текущим выбором.
+    document.querySelectorAll('[data-cookie-settings]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        fillBoxes(readConsent() || DENY_ALL);
+        open(true);
+      });
+    });
+
+    const saved = readConsent();
+    if (saved) fillBoxes(saved);
+    // Выбора ещё не было — спрашиваем. Молчание согласием не считается.
+    else open(false);
+  }
+
+  initCookieConsent();
+  document.addEventListener('astro:page-load', initCookieConsent);
+</script>

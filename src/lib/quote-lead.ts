@@ -33,6 +33,8 @@ export interface QuoteForLead {
   innCheck?: string;
   /** Экономика сделки из расчёта КП — когда её удалось посчитать. */
   economics?: LeadEconomics;
+  /** Ссылки на события журнала согласий, по которым принят запрос КП. */
+  consent?: { personalDataEventId: string; marketingEventId: string | null };
 }
 
 /**
@@ -104,6 +106,18 @@ export interface AttributionFields {
  * ops-directus-schema. Directus отвергает запись с незнакомым полем целиком,
  * поэтому обработчик повторяет её без них: контакт важнее разбора канала.
  */
+/**
+ * Ссылки на события журнала согласий в карточке заявки.
+ *
+ * В списке необязательных намеренно: если прод отстал по схеме, заявка
+ * должна сохраниться без ссылки, а не потеряться. Само доказательство от
+ * этого не страдает — событие уже записано в consent_audit_log до создания
+ * заявки, и найти его можно по адресу и времени.
+ */
+export const LEAD_CONSENT_FIELDS = [
+  'consent_event_id', 'marketing_consent', 'marketing_consent_event_id',
+] as const;
+
 export const ATTRIBUTION_EXTRA_FIELDS = [
   'first_touch_referrer', 'last_touch_referrer', 'visit_path',
 ] as const;
@@ -205,6 +219,12 @@ export function leadFromQuote(q: QuoteForLead): Record<string, unknown> {
     message: describeQuote(q),
     product_ref: summarizeItems(q.items),
     consent: true,
+    // Ссылки на события журнала — те же, что у заявки с обычной формы.
+    ...(q.consent ? {
+      consent_event_id: q.consent.personalDataEventId,
+      marketing_consent: Boolean(q.consent.marketingEventId),
+      marketing_consent_event_id: q.consent.marketingEventId,
+    } : {}),
     form_source: 'quote',
     source: 'quote',
     ...(q.attribution || {}),

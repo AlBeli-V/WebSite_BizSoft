@@ -1,40 +1,97 @@
 ---
-// Яндекс.Метрика (с Вебвизором) + Google Analytics 4.
+// Яндекс.Метрика (с Вебвизором) + Google Analytics 4 — под согласием.
+//
+// Главное изменение 16.09.2026 (ТЗ 152-ФЗ, п. 7): до выбора пользователя не
+// загружается ни один необязательный тег. Раньше оба счётчика стартовали на
+// первом же визите, а cookie-плашка только сообщала о факте. Теперь плашка
+// принимает решение, а этот код его исполняет.
+//
+// Что это означает на практике: визиты людей, которые закрыли страницу, не
+// нажав ничего, в статистику не попадают вовсе — ни в Метрику, ни в GA. Это
+// цена согласия, а не дефект, и сравнивать посещаемость с периодом до
+// 16.09.2026 напрямую нельзя.
 //
 // Идентификаторы берутся из src/lib/analytics.ts — там же, откуда их берёт
 // trackGoal. Прежде они были захардкожены и здесь, и там: две копии одного
-// значения, которые ничто не сверяло. Разъехавшись, они дали бы тег на одном
-// счётчике и цели на другом — обе половины выглядели бы исправными.
+// значения, которые ничто не сверяло.
 import { METRIKA_ID, GA_ID } from '../lib/analytics';
+import { CONSENT_STORAGE_KEY, CONSENT_SCHEMA_VERSION } from '../lib/cookie-consent';
 
 const metrikaId = METRIKA_ID;
 const gaId = GA_ID;
 ---
-<!--
-  Загрузчики счётчиков стартуют после события load (requestIdleCallback с
-  потолком 1,5 с, без него — setTimeout), а не в момент разбора HTML.
-  Очереди ym() и dataLayer создаются сразу, поэтому цели, отправленные до
-  загрузки tag.js/gtag.js, не теряются — библиотеки разбирают очередь при
-  старте. Причина: на мобильном профиле PageSpeed tag.js с Вебвизором и
-  gtag.js делили канал и главный поток с ресурсами первой отрисовки.
-  Визит, источник и referrer фиксируются те же — init стоит в очереди с
-  параметрами, снятыми при разборе страницы.
--->
 {(metrikaId || gaId) && (
-  <script is:inline define:vars={{ metrikaId, gaId }}>
+  <script is:inline define:vars={{ metrikaId, gaId, storageKey: CONSENT_STORAGE_KEY, schemaVersion: CONSENT_SCHEMA_VERSION }}>
     (function () {
-      var loaders = [];
-      if (metrikaId) {
-        // Очередь ym() создаётся сразу, файл тега — позже (см. комментарий выше).
+      // ── Consent Mode: запрет по умолчанию ────────────────────────────
+      //
+      // Значения по умолчанию выставляются ДО чего бы то ни было, даже если
+      // gtag.js не будет загружен вовсе: очередь dataLayer переживает
+      // страницу, и при последующем согласии Google получит сначала
+      // «запрещено», потом «разрешено» — ровно тот порядок, который он
+      // ожидает. Рекламные категории запрещены навсегда: рекламных тегов на
+      // сайте нет, и ремаркетинга мы не ведём.
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = window.gtag || gtag;
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500,
+      });
+
+      function storedChoices() {
+        try {
+          var raw = localStorage.getItem(storageKey);
+          if (!raw) return null;
+          var p = JSON.parse(raw);
+          if (!p || p.v !== schemaVersion) return null;
+          return {
+            yandex_analytics: p.yandex_analytics === true,
+            google_analytics: p.google_analytics === true,
+          };
+        } catch (e) { return null; }
+      }
+
+      var metrikaStarted = false;
+      var gaStarted = false;
+
+      // Загрузчики стартуют после события load (requestIdleCallback с
+      // потолком 1,5 с): на мобильном профиле PageSpeed tag.js с Вебвизором
+      // и gtag.js делили канал и главный поток с ресурсами первой отрисовки.
+      // Когда согласие даётся уже на загруженной странице, ждать нечего —
+      // тег ставится сразу.
+      function schedule(run) {
+        if (document.readyState === 'complete') {
+          if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 1500 });
+          else setTimeout(run, 300);
+          return;
+        }
+        window.addEventListener('load', function () {
+          if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 1500 });
+          else setTimeout(run, 300);
+        });
+      }
+
+      function startMetrika() {
+        if (metrikaStarted || !metrikaId) return;
+        metrikaStarted = true;
+        // Очередь ym() создаётся только здесь, вместе с разрешением: пока
+        // согласия нет, функции ym в окне не существует, и trackGoal молча
+        // пропускает вызов (см. lib/analytics.ts).
         window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
         window.ym.l = 1 * new Date();
+        ym(Number(metrikaId), 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true, referrer: document.referrer, url: location.href });
         // Тег грузится напрямую с mc.yandex.ru. Кэширующий прокси своего
         // домена (PERF-METRIKA-001) снят 08.09.2026: с ним сайт перестал
         // собирать визиты вовсе — 04.09 их было 45, 03.09 — 69, 02.09 — 80,
         // а с 05.09 счётчик показывал 0–1 в день при живой рекламе и живой
         // органике. Прокси при этом отвечал 200 и отдавал файл нужного
-        // размера, поэтому onerror не срабатывал и фолбэк не включался:
-        // браузер считал скрипт загруженным, а счётчик не работал.
+        // размера, поэтому onerror не срабатывал и фолбэк не включался.
         //
         // Отсюда правило: подменять адрес тега можно только с проверкой,
         // что счётчик реально инициализировался в браузере, — код ответа и
@@ -44,7 +101,7 @@ const gaId = GA_ID;
         // считает tests/analytics-contract.test.ts, защищая от повторного
         // подключения счётчика.
         var origin = 'https://mc.yandex.ru/metrika/tag.js?id=' + metrikaId;
-        loaders.push(function () {
+        schedule(function () {
           for (var j = 0; j < document.scripts.length; j++) {
             if (document.scripts[j].src === origin) return;
           }
@@ -54,61 +111,39 @@ const gaId = GA_ID;
           el.src = origin;
           first.parentNode.insertBefore(el, first);
         });
-        ym(Number(metrikaId), 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true, referrer: document.referrer, url: location.href });
       }
-      // GA4 ждёт первого действия посетителя, Метрика — нет.
-      //
-      // gtag.js весит 71 КБ неиспользуемого кода и даёт самую длинную задачу
-      // главного потока из всех наших скриптов (331 мс в замере прода
-      // 04.09.2026). В окно измерения Lighthouse он больше не попадает, а
-      // отчётность не страдает: очередь dataLayer наполняется сразу, все цели
-      // и события уходят после загрузки — без единого действия целей не
-      // бывает. Теряются только сессии посетителей, ушедших вообще без
-      // взаимодействия; в Метрике они остаются, её порядок загрузки прежний.
-      var gaLoad = null;
-      if (gaId) {
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () { window.dataLayer.push(arguments); };
+
+      function startGa() {
+        if (gaStarted || !gaId) return;
+        gaStarted = true;
+        gtag('consent', 'update', { analytics_storage: 'granted' });
         gtag('js', new Date());
-        gtag('config', gaId);
-        gaLoad = function () {
+        // anonymize_ip и запрет рекламных сигналов — минимизация состава
+        // технических данных, уходящих иностранному поставщику (док. 05, п. 3).
+        gtag('config', gaId, { anonymize_ip: true, allow_google_signals: false, allow_ad_personalization_signals: false });
+        schedule(function () {
           var s = document.createElement('script');
           s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
           document.head.appendChild(s);
-        };
+        });
       }
-      var run = function () { loaders.forEach(function (f) { f(); }); };
-      var schedule = function () {
-        if ('requestIdleCallback' in window) { requestIdleCallback(run, { timeout: 1500 }); } else { setTimeout(run, 300); }
-      };
-      if (document.readyState === 'complete') { schedule(); } else { window.addEventListener('load', schedule); }
 
-      if (gaLoad) {
-        // Прокрутка, касание, клик, ввод и уход со страницы — любое из них
-        // означает живого посетителя. Уход (pagehide) в списке намеренно:
-        // иначе цель, отправленная прямо перед закрытием, осталась бы в
-        // очереди неотправленной.
-        // Подписка без capture — намеренно. В фазе перехвата window ловит и
-        // прокрутку внутренних контейнеров, а карусель логотипов на главной
-        // прокручивает свой трек сама каждые 2,6 с: GA стартовал бы без
-        // участия посетителя, и вся отсрочка теряла бы смысл (проверено в
-        // браузере). Без capture window получает scroll только от прокрутки
-        // самой страницы, а нажатия и ввод всплывают до него штатно.
-        var GA_EVENTS = ['pointerdown', 'keydown', 'scroll', 'touchstart', 'pagehide'];
-        var gaStarted = false;
-        var startGa = function () {
-          if (gaStarted) return;
-          gaStarted = true;
-          for (var k = 0; k < GA_EVENTS.length; k++) window.removeEventListener(GA_EVENTS[k], startGa);
-          gaLoad();
-        };
-        for (var g = 0; g < GA_EVENTS.length; g++) {
-          window.addEventListener(GA_EVENTS[g], startGa, { passive: true });
-        }
-      }
+      // Единственная точка включения. Её же вызывает cookie-плашка, когда
+      // человек меняет выбор без перезагрузки страницы.
+      window.__bzAnalyticsConsent = function (choices) {
+        if (!choices) return;
+        if (choices.yandex_analytics) startMetrika();
+        if (choices.google_analytics) startGa();
+        // Обратного хода у загруженного тега нет: выключить уже работающий
+        // счётчик в текущей вкладке нельзя. Отзыв согласия применяется со
+        // следующей загрузки страницы — плашка об этом и говорит.
+      };
+
+      var saved = storedChoices();
+      if (saved) window.__bzAnalyticsConsent(saved);
     })();
   </script>
 )}
-{metrikaId && (
-  <noscript><div><img src={`https://mc.yandex.ru/watch/${metrikaId}`} style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-)}
+{/* noscript-пиксель Метрики снят вместе с безусловной загрузкой тега: без
+    JavaScript спросить согласие не у чего, а считать визит без согласия
+    нельзя. */}
