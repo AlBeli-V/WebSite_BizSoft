@@ -13,6 +13,7 @@ import { aiSubcategories } from '../data/ai-hub';
 import { VENDORS } from '../data/vendors';
 import { vendorSlug } from '../lib/vendor-links';
 import { collectTags, tagSlug } from '../lib/blog-tags';
+import { LEGAL_DOC_IDS } from '../lib/legal';
 
 // Только опубликованные индексируемые страницы. Без cart/consent/admin/api/draft/noindex.
 const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = [
@@ -42,7 +43,12 @@ const STATIC_ROUTES: { path: string; priority: number; changefreq: string }[] = 
   { path: '/cases', priority: 0.5, changefreq: 'monthly' },
   { path: '/contacts', priority: 0.6, changefreq: 'yearly' },
   { path: '/faq', priority: 0.6, changefreq: 'monthly' },
-  { path: '/privacy', priority: 0.3, changefreq: 'yearly' },
+  // Правовой раздел (152-ФЗ, ТЗ 16.09.2026). Постоянные адреса /legal/*:
+  // на них ссылаются формы, письма и сами согласия в журнале, поэтому в
+  // карте они есть, а архивные редакции /legal/<док>/<версия> — нет, они
+  // noindex.
+  { path: '/legal', priority: 0.4, changefreq: 'yearly' },
+  ...LEGAL_DOC_IDS.map((id) => ({ path: `/legal/${id}`, priority: 0.3, changefreq: 'yearly' })),
 ];
 
 /** Убрать повторяющиеся <loc>: дубль в карте — ошибка разметки, а не мелочь. */
