@@ -1,11 +1,15 @@
 ---
 /** Вкладки админ-кабинета. Один набор на обеих страницах — чтобы переход
  *  между заявками и ценами не требовал возврата в адресную строку. */
-interface Props { active: 'leads' | 'prices' }
+interface Props { active: 'leads' | 'prices' | 'compliance' | 'help' }
 const { active } = Astro.props;
 const tabs = [
   { id: 'leads', href: '/admin', label: 'Заявки' },
   { id: 'prices', href: '/admin/prices', label: 'Цены' },
+  // Раздел по 152-ФЗ: журнал согласий и рассылочный реестр. Вход туда
+  // закрыт вторым фактором, поэтому вкладка видна всем, а данные — нет.
+  { id: 'compliance', href: '/admin/compliance', label: 'Комплаенс' },
+  { id: 'help', href: '/admin/help', label: 'Справка' },
 ];
 ---
 <nav class="admin-tabs" aria-label="Разделы админ-кабинета">
