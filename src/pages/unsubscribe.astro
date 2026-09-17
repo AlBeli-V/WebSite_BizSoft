@@ -1,0 +1,134 @@
+---
+export const prerender = false;
+/**
+ * Страница отписки от рекламной рассылки.
+ *
+ * Один шаг и без входа: человек переходит по ссылке из письма, видит свой
+ * адрес и нажимает кнопку. Ни пароля, ни личного кабинета, ни анкеты
+ * «почему уходите» — всё это способы удержать, а не отписать.
+ *
+ * Сама отписка выполняется POST-запросом (см. src/pages/api/unsubscribe.ts):
+ * открытие страницы ничего не меняет.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { verifyUnsubscribeToken } from '../lib/unsubscribe-token';
+import { createCsrfToken, csrfCookieHeader, CSRF_FIELD } from '../lib/csrf';
+import { LEGAL_LINKS } from '../config/legal';
+import { seller } from '../config/site';
+
+const token = Astro.url.searchParams.get('t') || '';
+const verdict = verifyUnsubscribeToken(token);
+const email = verdict.ok ? verdict.email || '' : '';
+// Подпись не сошлась — адрес не показываем и не подставляем: ссылка могла
+// быть собрана вручную кем угодно.
+const broken = Boolean(token) && !verdict.ok;
+
+const csrf = createCsrfToken();
+Astro.response.headers.set('Set-Cookie', csrfCookieHeader(csrf));
+// Страница выдаётся по одноразовой ссылке и в индексе быть не должна.
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+---
+<BaseLayout
+  title="Отписка от рассылки BIZSoft"
+  description="Отписка от информационных и рекламных писем BIZSoft."
+  noindex={true}
+>
+  <div class="container-page section">
+    <div class="unsub">
+      <h1>Отписка от рассылки</h1>
+
+      {broken ? (
+        <p class="unsub-lead">
+          Ссылка повреждена или неполная — так бывает, когда адрес переносят из письма руками.
+          Введите адрес, на который приходят письма, и мы прекратим рассылку.
+        </p>
+      ) : email ? (
+        <p class="unsub-lead">
+          Прекратим отправку информационных и рекламных писем на адрес <strong>{email}</strong>.
+          Ответы на ваши обращения, коммерческие предложения, счета и документы по заказам это не затрагивает.
+        </p>
+      ) : (
+        <p class="unsub-lead">
+          Введите адрес, на который приходят письма BIZSoft, — прекратим рекламную рассылку.
+          Ответы на обращения, КП, счета и документы по заказам это не затрагивает.
+        </p>
+      )}
+
+      <form class="unsub-form" data-unsub-form data-token={verdict.ok ? token : ''}>
+        <input type="hidden" name={CSRF_FIELD} value={csrf} />
+        {!email && (
+          <label class="unsub-field">
+            <span>Ваш e-mail</span>
+            <input class="ym-disable-keys" type="email" name="email" required autocomplete="email"
+                   placeholder="name@company.ru" />
+          </label>
+        )}
+        <button type="submit" class="btn btn-primary">Отписаться от рассылки</button>
+        <p class="unsub-status" data-status role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="unsub-note">
+        Отписка фиксируется в журнале согласий и действует до тех пор, пока вы сами не подпишетесь заново.
+        Условия рассылки — в документе <a href={LEGAL_LINKS.marketingConsent}>«Согласие на получение информационных и рекламных сообщений»</a>.
+        Если письма продолжают приходить, напишите на <a href={`mailto:${seller.email}`}>{seller.email}</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .section { padding-top: 3rem; }
+  .unsub { max-width: 620px; }
+  h1 { font-size: clamp(1.6rem, 3.2vw, 2.1rem); margin-bottom: 0.8rem; }
+  .unsub-lead { color: var(--color-text-muted); line-height: 1.6; margin-bottom: 1.6rem; }
+  .unsub-lead strong { color: var(--color-text); }
+  .unsub-form { display: flex; flex-direction: column; gap: 0.9rem; align-items: flex-start; }
+  .unsub-field { display: flex; flex-direction: column; gap: 0.35rem; width: 100%; max-width: 22rem; font-size: 0.88rem; font-weight: 600; }
+  .unsub-field input {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 0.7rem;
+    font: inherit; font-weight: 400;
+    color: var(--color-text);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .unsub-status { margin: 0; font-size: 0.9rem; }
+  .unsub-status.ok { color: var(--color-success); }
+  .unsub-status.err { color: var(--color-danger); }
+  .unsub-note { margin-top: 2rem; font-size: 0.85rem; color: var(--color-text-dim); line-height: 1.6; }
+  .unsub-note a { color: var(--color-accent); }
+</style>
+
+<script>
+  const form = document.querySelector('[data-unsub-form]') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector('[data-status]') as HTMLElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      btn.disabled = true;
+      status.textContent = 'Отписываем…';
+      status.className = 'unsub-status';
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const res = await fetch('/api/unsubscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, token: form.dataset.token || '' }),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(out?.error || 'Не удалось отписаться.');
+        status.className = 'unsub-status ok';
+        status.textContent = `Готово. Рекламные письма на ${out.email} больше не отправляем.`;
+        btn.hidden = true;
+        form.querySelector('.unsub-field')?.remove();
+      } catch (err) {
+        status.className = 'unsub-status err';
+        status.textContent = err instanceof Error ? err.message : 'Не удалось отписаться.';
+        btn.disabled = false;
+      }
+    });
+  }
+</script>

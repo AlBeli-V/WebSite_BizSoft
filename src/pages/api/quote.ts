@@ -24,6 +24,7 @@ import { fetchCbrRates } from '../../lib/currency';
 import type { QuoteItem } from '../../lib/types';
 import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
 import { clientIp } from '../../lib/client-ip';
+import { intakeFormConsents } from '../../lib/consent-intake';
 
 interface CartLine { sku: string; qty: number }
 
@@ -85,6 +86,8 @@ async function recordQuoteLead(q: Parameters<typeof leadFromQuote>[0]): Promise<
     formSource: 'quote',
     channel: attr?.last_touch_source,
     productRef: String(record.product_ref || ''),
+    consentEventId: q.consent?.personalDataEventId,
+    marketingStatus: q.consent?.marketingEventId ? 'subscribed' : 'not_subscribed',
     utm: {
       utm_source: attr?.utm_source,
       utm_medium: attr?.utm_medium,
@@ -131,6 +134,32 @@ export const POST: APIRoute = async ({ request }) => {
   // Форма разобрана, дальше начинается дорогая часть: справочник, документы,
   // письмо. Порог тратит эта заявка, а не отвергнутая валидацией попытка.
   await countSubmission(ip);
+
+  // Согласия — до документов и до письма (ТЗ 16.09.2026, п. 3). КП уходит на
+  // адрес, указанный в форме; выпускать его, не зафиксировав согласие,
+  // нельзя ни при каком состоянии журнала.
+  let consent: Awaited<ReturnType<typeof intakeFormConsents>>;
+  try {
+    consent = await intakeFormConsents({
+      body,
+      subject: {
+        name: String(contact),
+        email: String(body.email),
+        phone: String(body.phone || ''),
+        company: String(company),
+      },
+      fallbackFormId: 'quote',
+      purpose: 'Подготовка коммерческого предложения, счёта и договора',
+      ip,
+      userAgent: request.headers.get('user-agent') || undefined,
+    });
+  } catch (e) {
+    console.error('consent log failed', e);
+    return new Response(
+      JSON.stringify({ error: 'Не удалось зафиксировать согласие. Напишите нам на hello@biz-soft.pro или позвоните.' }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
 
   // Пересчёт по авторитетным ценам из БД (с учётом акции на момент запроса)
   let products;
@@ -261,6 +290,7 @@ export const POST: APIRoute = async ({ request }) => {
     total,
     validUntil: data.validUntil,
     attribution: attributionFields(body),
+    consent: { personalDataEventId: consent.personalDataEventId, marketingEventId: consent.marketingEventId },
     economics: eco ? {
       costRub: eco.purchaseRub > 0 ? eco.purchaseRub : null,
       marginRub: eco.profit,

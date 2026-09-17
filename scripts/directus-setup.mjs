@@ -297,6 +297,12 @@ async function buildSchema() {
   // портала обратный канал не знает, к какой заявке относится его событие,
   // и стадия из портала не возвращается.
   await ensureField('leads', 'b24_lead_id', { type: 'integer', meta: { interface: 'input', width: 'half', readonly: true, note: 'Номер лида в Bitrix24. Проставляется автоматически при зеркалировании заявки.' } });
+  // Ссылки на доказательства согласий (152-ФЗ). В заявке лежат только
+  // ссылки: сам журнал consent_audit_log остаётся источником истины, а
+  // Bitrix24 получает те же значения в свои поля (docs/rules/consent-audit.md).
+  await ensureField('leads', 'consent_event_id', { type: 'uuid', meta: { interface: 'input', width: 'half', readonly: true, note: 'Событие согласия на обработку ПДн, по которому принята заявка.' } });
+  await ensureField('leads', 'marketing_consent', { type: 'boolean', meta: { interface: 'boolean', width: 'half', readonly: true, note: 'Было ли отмечено необязательное согласие на рассылку.' }, schema: { default_value: false } });
+  await ensureField('leads', 'marketing_consent_event_id', { type: 'uuid', meta: { interface: 'input', width: 'half', readonly: true, note: 'Событие MARKETING granted, если согласие дано.' } });
   await ensureField('leads', 'owner', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Ответственный менеджер.' } });
   await ensureField('leads', 'amount', { type: 'float', meta: { interface: 'input', width: 'half', note: 'Сумма сделки в рублях. Заполняется при выставлении счёта.' } });
   // Экономика сделки из КП (P1, решение руководителя 28.08.2026): воронка
@@ -400,6 +406,121 @@ async function buildSchema() {
   await ensureField('app_kv', 'value', { type: 'json', meta: { interface: 'input-code', options: { language: 'json' }, readonly: true } });
   await ensureField('app_kv', 'expires_at', { type: 'timestamp', meta: { interface: 'datetime', readonly: true, note: 'После этого момента запись считается отсутствующей' } });
 
+  // ── consent_audit_log: неизменяемые доказательства согласий ──
+  //
+  // Только INSERT: событие, однажды записанное, не правится и не удаляется
+  // (ТЗ 16.09.2026, п. 3). Ошибка исправляется новым корректирующим
+  // событием со ссылкой на исходное (`corrects_event`), а не правкой
+  // старого — иначе журнал перестаёт быть доказательством и становится
+  // просто таблицей. Права сервисной роли ниже это закрепляют: create и
+  // read есть, update и delete нет.
+  //
+  // Bitrix24 источником доказательств не является: портал хранит копию для
+  // работы менеджера, а подтверждать волеизъявление перед Роскомнадзором
+  // или ФАС можно только отсюда.
+  await ensureCollection('consent_audit_log', {
+    icon: 'gavel',
+    note: 'Журнал согласий. Записи не редактируются и не удаляются — только новое корректирующее событие.',
+  });
+  await ensureField('consent_audit_log', 'event_id', { type: 'uuid', meta: { interface: 'input', readonly: true, width: 'half', note: 'Идентификатор события. Уходит в CRM и в карточку доказательства.' }, schema: { is_unique: true, is_indexed: true } });
+  await ensureField('consent_audit_log', 'subject_id', { type: 'uuid', meta: { interface: 'input', readonly: true, width: 'half', note: 'Субъект: один и тот же адрес получает один и тот же идентификатор.' }, schema: { is_indexed: true } });
+  await ensureField('consent_audit_log', 'source', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Откуда пришло событие: идентификатор формы, cookie-баннер, ссылка отписки, админ.' }, schema: { is_indexed: true } });
+  await ensureField('consent_audit_log', 'source_action', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Как выражена воля: checkbox, bulk_control_all, cookie_banner и т. д.' } });
+  await ensureField('consent_audit_log', 'page_url', { type: 'text', meta: { interface: 'input', note: 'Страница, на которой человек дал согласие.' } });
+  await ensureField('consent_audit_log', 'form_id', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('consent_audit_log', 'submitted_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half', note: 'Момент волеизъявления.' }, schema: { is_indexed: true } });
+  await ensureField('consent_audit_log', 'last_name', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('consent_audit_log', 'first_name', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('consent_audit_log', 'company', { type: 'string', meta: { interface: 'input', width: 'half' }, schema: { is_indexed: true } });
+  await ensureField('consent_audit_log', 'phone', { type: 'string', meta: { interface: 'input', width: 'half' }, schema: { is_indexed: true } });
+  await ensureField('consent_audit_log', 'email', { type: 'string', meta: { interface: 'input', width: 'half' }, schema: { is_indexed: true } });
+  await ensureField('consent_audit_log', 'consent_type', {
+    type: 'string',
+    meta: {
+      interface: 'select-dropdown', width: 'half', display: 'labels',
+      options: { choices: [
+        { text: 'Персональные данные', value: 'personal_data' },
+        { text: 'Реклама и рассылка', value: 'marketing' },
+        { text: 'Яндекс.Метрика', value: 'yandex_analytics' },
+        { text: 'Google Analytics', value: 'google_analytics' },
+      ] },
+    },
+    schema: { is_indexed: true },
+  });
+  await ensureField('consent_audit_log', 'consent_action', {
+    type: 'string',
+    meta: {
+      interface: 'select-dropdown', width: 'half', display: 'labels',
+      options: { choices: [
+        { text: 'Дано', value: 'granted' },
+        { text: 'Отозвано', value: 'withdrawn' },
+        { text: 'Отказано', value: 'denied' },
+        { text: 'Подтверждено заново', value: 'renewed' },
+      ] },
+    },
+    schema: { is_indexed: true },
+  });
+  await ensureField('consent_audit_log', 'consent_scope', { type: 'json', meta: { interface: 'input-code', options: { language: 'json' }, note: 'Объём согласия: цели, каналы, состав данных.' } });
+  await ensureField('consent_audit_log', 'document_version', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Версия документа из legal-manifest.json. С клиента не принимается.' } });
+  await ensureField('consent_audit_log', 'document_sha256', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Контрольный хэш редакции — по нему восстанавливается текст.' }, schema: { max_length: 64 } });
+  await ensureField('consent_audit_log', 'consent_text_snapshot', { type: 'text', meta: { interface: 'input-multiline', note: 'Формулировка, которую человек видел в форме. Снимок, а не ссылка: текст интерфейса меняется.' } });
+  await ensureField('consent_audit_log', 'ip_address', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Доступен только привилегированной роли.' }, schema: { max_length: 45 } });
+  await ensureField('consent_audit_log', 'user_agent', { type: 'text', meta: { interface: 'input', note: 'Доступен только привилегированной роли.' } });
+  await ensureField('consent_audit_log', 'request_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Связывает события одной отправки формы.' }, schema: { is_indexed: true } });
+  await ensureField('consent_audit_log', 'lead_id', { type: 'integer', meta: { interface: 'input', width: 'half', note: 'Заявка в воронке Directus.' } });
+  await ensureField('consent_audit_log', 'bitrix_lead_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Номер лида в Bitrix24. Портал — зеркало, а не источник доказательства.' }, schema: { is_indexed: true } });
+  await ensureField('consent_audit_log', 'corrects_event', { type: 'uuid', meta: { interface: 'input', width: 'half', note: 'Исходное событие, которое исправляет это. Заполняется только у корректирующих записей.' } });
+  await ensureField('consent_audit_log', 'created_at', { type: 'timestamp', meta: { interface: 'datetime', special: ['date-created'], readonly: true, width: 'half' } });
+
+  // ── marketing_registry: текущее разрешение на рассылку ──
+  //
+  // Журнал отвечает на вопрос «что было», реестр — «можно ли слать письмо
+  // сейчас». Разделение не косметическое: аудиторию рассылки собирают по
+  // реестру, а доказывают журналом. Адрес из реестра не удаляется даже
+  // после отзыва — иначе следующая выгрузка подпишет человека заново,
+  // потому что «его нет в списке отписавшихся» (ТЗ, п. 4).
+  await ensureCollection('marketing_registry', {
+    icon: 'mark_email_read',
+    note: 'Разрешение на рекламную рассылку. Адрес не удаляется после отзыва — он остаётся в suppression.',
+  });
+  await ensureField('marketing_registry', 'subject_id', { type: 'uuid', meta: { interface: 'input', readonly: true, width: 'half' }, schema: { is_indexed: true } });
+  await ensureField('marketing_registry', 'email_normalized', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Адрес в нижнем регистре без пробелов — ключ реестра.' }, schema: { is_unique: true, is_indexed: true, max_length: 320 } });
+  await ensureField('marketing_registry', 'status', {
+    type: 'string',
+    meta: {
+      interface: 'select-dropdown', width: 'half', display: 'labels',
+      note: 'Рассылать можно только subscribed.',
+      options: { choices: [
+        { text: 'Подписан', value: 'subscribed' },
+        { text: 'Отписался', value: 'unsubscribed' },
+        { text: 'Заблокирован', value: 'suppressed' },
+        { text: 'Недоставляемый', value: 'bounced' },
+      ] },
+    },
+    schema: { default_value: 'unsubscribed', is_indexed: true },
+  });
+  await ensureField('marketing_registry', 'consent_event_id', { type: 'uuid', meta: { interface: 'input', width: 'half', note: 'Событие MARKETING granted, на котором держится подписка. Без него адрес в аудиторию не попадает.' } });
+  await ensureField('marketing_registry', 'subscribed_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half' } });
+  await ensureField('marketing_registry', 'unsubscribed_at', { type: 'timestamp', meta: { interface: 'datetime', width: 'half' } });
+  await ensureField('marketing_registry', 'unsubscribe_reason', { type: 'string', meta: { interface: 'input', width: 'half', note: 'link, email_request, complaint, bounce, admin.' } });
+  await ensureField('marketing_registry', 'source', { type: 'string', meta: { interface: 'input', width: 'half' } });
+  await ensureField('marketing_registry', 'provider_contact_id', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Идентификатор контакта у провайдера рассылки. Провайдер заменяем.' } });
+  await ensureField('marketing_registry', 'updated_at', { type: 'timestamp', meta: { interface: 'datetime', special: ['date-updated'], readonly: true, width: 'half' } });
+
+  // ── admin_audit_log: кто и что смотрел в разделе комплаенса ──
+  //
+  // Доступ к доказательствам сам является действием, которое нужно уметь
+  // объяснить: кто открыл карточку субъекта, кто выгрузил журнал, кто
+  // поменял маркетинговый статус (HELP администратора, п. 7).
+  await ensureCollection('admin_audit_log', { icon: 'admin_panel_settings', note: 'Действия в разделе «Комплаенс». Только запись и чтение.' });
+  await ensureField('admin_audit_log', 'actor', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Роль и имя администратора.' }, schema: { is_indexed: true } });
+  await ensureField('admin_audit_log', 'role', { type: 'string', meta: { interface: 'input', width: 'half', note: 'compliance_admin или owner.' } });
+  await ensureField('admin_audit_log', 'action', { type: 'string', meta: { interface: 'input', width: 'half', note: 'view_log, view_evidence, export, set_marketing_status, record_withdrawal, build_audience.' }, schema: { is_indexed: true } });
+  await ensureField('admin_audit_log', 'target', { type: 'string', meta: { interface: 'input', width: 'half', note: 'Что именно: адрес субъекта, event_id, имя выгрузки.' } });
+  await ensureField('admin_audit_log', 'details', { type: 'json', meta: { interface: 'input-code', options: { language: 'json' }, note: 'Фильтры запроса и объём выгрузки.' } });
+  await ensureField('admin_audit_log', 'ip_address', { type: 'string', meta: { interface: 'input', width: 'half' }, schema: { max_length: 45 } });
+  await ensureField('admin_audit_log', 'created_at', { type: 'timestamp', meta: { interface: 'datetime', special: ['date-created'], readonly: true, width: 'half' }, schema: { is_indexed: true } });
+
   console.log('✓ schema ready');
 }
 
@@ -417,6 +538,16 @@ const APP_PERMS = [
   // Счётчики лимитов и кэш справочника: сайт читает, создаёт и обновляет
   // записи сам; delete — для уборки просроченных ключей.
   ['app_kv', 'create'], ['app_kv', 'read'], ['app_kv', 'update'], ['app_kv', 'delete'],
+  // Журнал согласий: create и read — и ничего больше. Права на update и
+  // delete здесь не появляются даже «временно, чтобы поправить опечатку»:
+  // возможность переписать событие обесценивает весь журнал как
+  // доказательство (ТЗ 16.09.2026, п. 3). Исправление — новая запись с
+  // corrects_event. Проверку держит tests/consent-schema.test.ts.
+  ['consent_audit_log', 'create'], ['consent_audit_log', 'read'],
+  // Реестр рассылок, наоборот, хранит текущее состояние: статус меняется
+  // при подписке и отписке. Delete нет — адрес остаётся в suppression.
+  ['marketing_registry', 'create'], ['marketing_registry', 'read'], ['marketing_registry', 'update'],
+  ['admin_audit_log', 'create'], ['admin_audit_log', 'read'],
   ['directus_files', 'read'],
 ];
 
