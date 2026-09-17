@@ -109,6 +109,35 @@ def contribution_html(rows: list[dict], width: int) -> str:
     return _page(body, width, 24 * len(rows) + 8)
 
 
+def review_label(exp: dict) -> str:
+    """Подпись справа на шкале: когда следующая проверка и есть ли она вообще.
+
+    Дата следующей проверки — не обязательное поле. Когда сегодня контрольная
+    дата, она уже не «следующая», а когда позади и последняя веха, следующей
+    нет вовсе: эксперимент ждёт вердикта, и его состояние показывает блок
+    «Контроль эксперимента». Отчёт за 16.09.2026 упал именно на этом — на
+    28-й день эксперимента от 19.08 дата стала пустой, а подпись резала её как
+    строку.
+    """
+    nxt = exp.get("next_review")
+    if nxt:
+        return f"проверка {nxt[8:10]}.{nxt[5:7]}"
+    return "проверка сегодня" if exp.get("control_date_today") else "вехи пройдены"
+
+
+def elapsed_label(exp: dict) -> str:
+    """Подпись слева от середины: сколько прошло от внедрения.
+
+    Минимальная экспозиция — семь дней, и пока она не набрана, счёт идёт к
+    ней. После — «из 7» превращает верную цифру в неверную фразу («прошло 28
+    из 7 дней»), поэтому остаётся сам срок.
+    """
+    days = exp.get("days_elapsed")
+    if days is None:
+        return "срок не измерен"
+    return f"прошло {days} из 7 дней" if days <= 7 else f"прошло {days} дней"
+
+
 def timeline_html(exp: dict, width: int) -> str:
     """Таймлайн эксперимента: внедрение, минимальная экспозиция, контрольная дата."""
     done = min(1.0, exp["days_elapsed"] / 7) if exp.get("days_elapsed") is not None else 0
@@ -121,8 +150,8 @@ def timeline_html(exp: dict, width: int) -> str:
         f"<div style='display:flex;justify-content:space-between;margin-top:6px;"
         f"font-size:11.5px;color:{MUTED};'>"
         f"<span>внедрение {exp['start'][8:10]}.{exp['start'][5:7]}</span>"
-        f"<span>прошло {exp['days_elapsed']} из 7 дней</span>"
-        f"<span>проверка {exp['next_review'][8:10]}.{exp['next_review'][5:7]}</span>"
+        f"<span>{elapsed_label(exp)}</span>"
+        f"<span>{review_label(exp)}</span>"
         f"</div></div>", width, 42)
 
 
@@ -205,9 +234,9 @@ def build(date: str, kpis: list[dict], drivers_rows: list[dict],
         charts["experiment"] = {
             "file": f"{date}-experiment.png", "mobile": f"{date}-experiment-mobile.png",
             "cid": "chart-experiment", "display_width": 610, "max_height": 50,
-            "alt": f"Ход эксперимента: {experiment['days_elapsed']} из 7 дней",
-            "fallback": f"Прошло {experiment['days_elapsed']} из 7 дней, "
-                        f"проверка {experiment['next_review']}."}
+            "alt": f"Ход эксперимента: {elapsed_label(experiment)}",
+            "fallback": f"{elapsed_label(experiment).capitalize()}, "
+                        f"{review_label(experiment)}."}
 
     render(jobs)
     return charts
