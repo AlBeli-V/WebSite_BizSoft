@@ -1,0 +1,650 @@
+{
+  "note": "Заготовка эксперимента для реестра ветки seo-data. Решение руководителя 16.09.2026 (кнопками): переделка страниц производителей и главной ведётся как один замер — база снята до выкатки, волны идут с контрольной группой. Статус planned и start: null оставить как есть: в running переводит seo-site-check по факту выката, он же фиксирует окна.",
+  "experiments": [
+    {
+      "id": "vendor-template-v2-wave-1",
+      "ticket": "VENDOR-T2-001",
+      "status": "planned",
+      "start": null,
+      "evaluation_kind": "impressions_growth",
+      "pages": [
+        "/vendors/gitlab",
+        "/vendors/recraft",
+        "/vendors/runway",
+        "/vendors/anthropic",
+        "/vendors/postman",
+        "/vendors/capture-one",
+        "/vendors/hailuo",
+        "/vendors/notion",
+        "/vendors/motion-array",
+        "/vendors/perplexity",
+        "/vendors/adobe",
+        "/vendors/descript",
+        "/vendors/apple",
+        "/vendors/docker",
+        "/vendors/freepik",
+        "/vendors/unity",
+        "/vendors/zoom",
+        "/vendors/kling-ai",
+        "/vendors/procreate",
+        "/vendors/gaea",
+        "/vendors/toon-boom",
+        "/vendors/figma",
+        "/vendors/deepl",
+        "/vendors/openrouter",
+        "/vendors/jetbrains",
+        "/vendors/grok",
+        "/vendors/foundry",
+        "/vendors/anydesk",
+        "/vendors/houdini",
+        "/vendors/sketch",
+        "/vendors/reallusion",
+        "/vendors/suno",
+        "/vendors/rizomuv",
+        "/vendors/midjourney",
+        "/vendors/topaz-labs",
+        "/vendors/photon",
+        "/vendors/wondershare",
+        "/vendors/fl-studio",
+        "/vendors/unreal-engine",
+        "/vendors/ableton",
+        "/vendors/binance",
+        "/vendors/browserstack",
+        "/vendors/perforce",
+        "/vendors/shutterstock",
+        "/vendors/krea"
+      ],
+      "changes": [
+        "Универсальный шаблон страницы производителя (VendorLanding, движок выкачен 16.09.2026, пилот — Adobe): состав блоков задаётся контентом вендора, а не разметкой под slug",
+        "Волна 1 — 45 кластеров производителей с показами, отобранных чередованием по убыванию экспозиции: так обе группы получают и крупные, и мелкие кластеры",
+        "Остальные страницы производителей остаются на прежнем шаблоне до вердикта — это контрольная группа, а не очередь"
+      ],
+      "not_changed": [
+        "Страницы контрольной группы: шаблон, тексты, сниппеты и перелинковка не трогаются до вердикта",
+        "Статьи блога и карточки товаров: их меняли 12–16.09.2026 отдельно, и в предмет этого замера они не входят"
+      ],
+      "hypothesis": "Единый шаблон с составом блоков от контента даёт странице производителя больше релевантного текста и внутренних связей, чем прежняя разметка под slug, и поднимает показы кластера в Яндексе и долю страниц в топ-10.",
+      "evaluation_note": "Метрика — показы кластера и доля страниц в топ-10, не CTR. На всей популяции производителей за две недели пришёлся 101 переход на 11 986 показов; такой выборкой различие CTR не измеряется — это и показали пять закрытых сниппетных опытов. Показы измеряются: у волны 6 345 за окно 02–16.09.2026, это в 16 раз больше, чем было у snippets-5-vendors.",
+      "baseline": {
+        "source": "Яндекс.Вебмастер, снимок 2026-09-16, окно 2026-09-02–2026-09-16 (14 дней); атрибуция запроса к производителю — cluster_of() из scripts/seo/money_queries.py",
+        "days": 14,
+        "wave": {
+          "clusters": 45,
+          "impressions": 6345,
+          "clicks": 79,
+          "queries": 813
+        },
+        "control": {
+          "clusters": 44,
+          "impressions": 5641,
+          "clicks": 22,
+          "queries": 831
+        },
+        "per_cluster": {
+          "gitlab": {
+            "impressions": 1341,
+            "clicks": 4,
+            "queries": 93,
+            "avg_position": 7.46
+          },
+          "framer": {
+            "impressions": 1323,
+            "clicks": 0,
+            "queries": 64,
+            "avg_position": 6.68
+          },
+          "recraft": {
+            "impressions": 1319,
+            "clicks": 0,
+            "queries": 128,
+            "avg_position": 8.49
+          },
+          "atlassian": {
+            "impressions": 934,
+            "clicks": 0,
+            "queries": 98,
+            "avg_position": 7.63
+          },
+          "runway": {
+            "impressions": 698,
+            "clicks": 0,
+            "queries": 59,
+            "avg_position": 8.83
+          },
+          "envato": {
+            "impressions": 667,
+            "clicks": 0,
+            "queries": 84,
+            "avg_position": 6.9
+          },
+          "anthropic": {
+            "impressions": 432,
+            "clicks": 10,
+            "queries": 61,
+            "avg_position": 6.49
+          },
+          "coreldraw": {
+            "impressions": 379,
+            "clicks": 3,
+            "queries": 72,
+            "avg_position": 6.39
+          },
+          "postman": {
+            "impressions": 364,
+            "clicks": 0,
+            "queries": 39,
+            "avg_position": 5.17
+          },
+          "box": {
+            "impressions": 302,
+            "clicks": 1,
+            "queries": 54,
+            "avg_position": 6.3
+          },
+          "capture-one": {
+            "impressions": 301,
+            "clicks": 0,
+            "queries": 45,
+            "avg_position": 6.59
+          },
+          "windsurf": {
+            "impressions": 267,
+            "clicks": 0,
+            "queries": 32,
+            "avg_position": 7.45
+          },
+          "hailuo": {
+            "impressions": 232,
+            "clicks": 0,
+            "queries": 34,
+            "avg_position": 8.53
+          },
+          "leonardo-ai": {
+            "impressions": 231,
+            "clicks": 0,
+            "queries": 36,
+            "avg_position": 7.81
+          },
+          "notion": {
+            "impressions": 191,
+            "clicks": 0,
+            "queries": 19,
+            "avg_position": 5.58
+          },
+          "cloudflare": {
+            "impressions": 184,
+            "clicks": 0,
+            "queries": 46,
+            "avg_position": 6.29
+          },
+          "motion-array": {
+            "impressions": 180,
+            "clicks": 0,
+            "queries": 12,
+            "avg_position": 5.9
+          },
+          "github": {
+            "impressions": 175,
+            "clicks": 0,
+            "queries": 20,
+            "avg_position": 6.58
+          },
+          "perplexity": {
+            "impressions": 164,
+            "clicks": 1,
+            "queries": 20,
+            "avg_position": 6.68
+          },
+          "slack": {
+            "impressions": 164,
+            "clicks": 0,
+            "queries": 16,
+            "avg_position": 6.71
+          },
+          "adobe": {
+            "impressions": 162,
+            "clicks": 51,
+            "queries": 30,
+            "avg_position": 2.75
+          },
+          "artlist": {
+            "impressions": 147,
+            "clicks": 0,
+            "queries": 25,
+            "avg_position": 5.54
+          },
+          "descript": {
+            "impressions": 144,
+            "clicks": 0,
+            "queries": 15,
+            "avg_position": 5.59
+          },
+          "openai": {
+            "impressions": 115,
+            "clicks": 10,
+            "queries": 16,
+            "avg_position": 5.04
+          },
+          "apple": {
+            "impressions": 106,
+            "clicks": 2,
+            "queries": 25,
+            "avg_position": 8.48
+          },
+          "heygen": {
+            "impressions": 86,
+            "clicks": 0,
+            "queries": 14,
+            "avg_position": 5.71
+          },
+          "docker": {
+            "impressions": 84,
+            "clicks": 1,
+            "queries": 6,
+            "avg_position": 5.4
+          },
+          "airalo": {
+            "impressions": 76,
+            "clicks": 0,
+            "queries": 7,
+            "avg_position": 4.62
+          },
+          "freepik": {
+            "impressions": 74,
+            "clicks": 1,
+            "queries": 9,
+            "avg_position": 4.72
+          },
+          "dropbox": {
+            "impressions": 68,
+            "clicks": 0,
+            "queries": 17,
+            "avg_position": 8.38
+          },
+          "unity": {
+            "impressions": 63,
+            "clicks": 5,
+            "queries": 42,
+            "avg_position": 6.43
+          },
+          "depositphotos": {
+            "impressions": 60,
+            "clicks": 0,
+            "queries": 9,
+            "avg_position": 8.02
+          },
+          "zoom": {
+            "impressions": 58,
+            "clicks": 0,
+            "queries": 6,
+            "avg_position": 7.61
+          },
+          "discord": {
+            "impressions": 56,
+            "clicks": 0,
+            "queries": 26,
+            "avg_position": 8.91
+          },
+          "kling-ai": {
+            "impressions": 54,
+            "clicks": 2,
+            "queries": 13,
+            "avg_position": 6.69
+          },
+          "elevenlabs": {
+            "impressions": 52,
+            "clicks": 0,
+            "queries": 17,
+            "avg_position": 8.67
+          },
+          "procreate": {
+            "impressions": 51,
+            "clicks": 0,
+            "queries": 12,
+            "avg_position": 8.27
+          },
+          "cursor": {
+            "impressions": 48,
+            "clicks": 0,
+            "queries": 17,
+            "avg_position": 8.65
+          },
+          "gaea": {
+            "impressions": 41,
+            "clicks": 0,
+            "queries": 11,
+            "avg_position": 8.78
+          },
+          "clip-studio-paint": {
+            "impressions": 39,
+            "clicks": 1,
+            "queries": 28,
+            "avg_position": 9.77
+          },
+          "toon-boom": {
+            "impressions": 38,
+            "clicks": 0,
+            "queries": 10,
+            "avg_position": 7.08
+          },
+          "google": {
+            "impressions": 34,
+            "clicks": 0,
+            "queries": 8,
+            "avg_position": 5.94
+          },
+          "figma": {
+            "impressions": 31,
+            "clicks": 1,
+            "queries": 20,
+            "avg_position": 8.77
+          },
+          "marmoset": {
+            "impressions": 30,
+            "clicks": 0,
+            "queries": 11,
+            "avg_position": 7.7
+          },
+          "deepl": {
+            "impressions": 29,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 7.79
+          },
+          "spine": {
+            "impressions": 29,
+            "clicks": 2,
+            "queries": 17,
+            "avg_position": 7.73
+          },
+          "openrouter": {
+            "impressions": 28,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 3.42
+          },
+          "maxon": {
+            "impressions": 26,
+            "clicks": 0,
+            "queries": 14,
+            "avg_position": 4.77
+          },
+          "jetbrains": {
+            "impressions": 24,
+            "clicks": 0,
+            "queries": 16,
+            "avg_position": 8.21
+          },
+          "n8n": {
+            "impressions": 22,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 8.78
+          },
+          "grok": {
+            "impressions": 20,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 3.1
+          },
+          "zoho": {
+            "impressions": 20,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 4.85
+          },
+          "foundry": {
+            "impressions": 20,
+            "clicks": 0,
+            "queries": 15,
+            "avg_position": 9.05
+          },
+          "vegas": {
+            "impressions": 20,
+            "clicks": 2,
+            "queries": 13,
+            "avg_position": 8.8
+          },
+          "anydesk": {
+            "impressions": 19,
+            "clicks": 0,
+            "queries": 14,
+            "avg_position": 7.37
+          },
+          "cubase": {
+            "impressions": 17,
+            "clicks": 0,
+            "queries": 14,
+            "avg_position": 7.65
+          },
+          "houdini": {
+            "impressions": 16,
+            "clicks": 0,
+            "queries": 12,
+            "avg_position": 7.44
+          },
+          "sketchup": {
+            "impressions": 12,
+            "clicks": 2,
+            "queries": 8,
+            "avg_position": 6.83
+          },
+          "sketch": {
+            "impressions": 9,
+            "clicks": 0,
+            "queries": 5,
+            "avg_position": 7.33
+          },
+          "marvelous-designer": {
+            "impressions": 9,
+            "clicks": 0,
+            "queries": 8,
+            "avg_position": 6.11
+          },
+          "reallusion": {
+            "impressions": 9,
+            "clicks": 1,
+            "queries": 7,
+            "avg_position": 3.56
+          },
+          "lovable": {
+            "impressions": 8,
+            "clicks": 0,
+            "queries": 5,
+            "avg_position": 10.0
+          },
+          "suno": {
+            "impressions": 6,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 8.17
+          },
+          "kimi": {
+            "impressions": 6,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 10.83
+          },
+          "rizomuv": {
+            "impressions": 6,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 4.0
+          },
+          "canva": {
+            "impressions": 6,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 5.17
+          },
+          "midjourney": {
+            "impressions": 5,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 7.6
+          },
+          "acronis": {
+            "impressions": 5,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 10.2
+          },
+          "topaz-labs": {
+            "impressions": 5,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 8.8
+          },
+          "solidworks": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 4.75
+          },
+          "photon": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 6.25
+          },
+          "lansweeper": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 4.75
+          },
+          "wondershare": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 10.75
+          },
+          "fmod": {
+            "impressions": 4,
+            "clicks": 0,
+            "queries": 4,
+            "avg_position": 4.75
+          },
+          "fl-studio": {
+            "impressions": 3,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 12.33
+          },
+          "microsoft": {
+            "impressions": 3,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 15.33
+          },
+          "unreal-engine": {
+            "impressions": 3,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 6.33
+          },
+          "wwise": {
+            "impressions": 3,
+            "clicks": 0,
+            "queries": 3,
+            "avg_position": 8.0
+          },
+          "ableton": {
+            "impressions": 2,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 11.0
+          },
+          "autodesk": {
+            "impressions": 2,
+            "clicks": 0,
+            "queries": 2,
+            "avg_position": 7.0
+          },
+          "binance": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 15.0
+          },
+          "speedtree": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 7.0
+          },
+          "browserstack": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 10.0
+          },
+          "higgsfield": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 8.0
+          },
+          "perforce": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 5.0
+          },
+          "telestream": {
+            "impressions": 1,
+            "clicks": 1,
+            "queries": 1,
+            "avg_position": 2.0
+          },
+          "shutterstock": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 5.0
+          },
+          "izotope": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 5.0
+          },
+          "krea": {
+            "impressions": 1,
+            "clicks": 0,
+            "queries": 1,
+            "avg_position": 3.0
+          }
+        },
+        "exposure_gate": "453.2 показа в день на волну при минимуме 3,6 — порог пройден с запасом на порядок",
+        "silent_clusters": [
+          "astute-graphics",
+          "avid",
+          "bitdefender",
+          "blackmagic",
+          "boris-fx",
+          "capcut",
+          "epidemic-sound",
+          "lumion",
+          "miro",
+          "monotype",
+          "native-instruments",
+          "parallels",
+          "principle",
+          "rive",
+          "sentry",
+          "teamviewer",
+          "think-cell",
+          "tryhackme",
+          "winrar",
+          "wordpress",
+          "zeplin"
+        ]
+      },
+      "success_metric": "Показы кластеров волны за фиксированное окно после выкатки против того же окна контрольной группы. Вывод «подтверждён» — когда прирост волны опережает прирост контроля; обе группы читаются в одном окне, поэтому сезон и общий тренд сайта вычитаются сами.",
+      "control_group": "44 кластеров производителей на прежнем шаблоне: 5641 показов и 831 запросов за то же окно против 6345 показов и 813 запросов у волны. Группы сопоставимы по экспозиции; по переходам нет, поэтому CTR между ними не сравнивается.",
+      "source": "решение руководителя 16.09.2026 (кнопки): база снята сейчас, переделка идёт волнами с контролем",
+      "wave_plan": "Волна 2 — контрольная группа, но только после вердикта по волне 1. 21 производитель без показов вовсе в волны не входит: у них нечего мерить, и переделка им делается вне замера."
+    }
+  ]
+}

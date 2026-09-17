@@ -27,6 +27,7 @@
 - `structured-data.md` — микроразметка
 - `webmcp.md` — WebMCP
 - `webvisor-masking.md` — поля форм с ПДн: класс ym-disable-keys
+- `consent-audit.md` — согласия: журнал доказательств, реестр рассылок, правовые документы
 - `unique-meta.md` — уникальные title и description
 - `snippet-experiments.md` — сниппет-эксперименты только на страницах с показами
 - `serp-single-source.md` — SERP: один сбор, все потребители

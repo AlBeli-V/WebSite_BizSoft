@@ -116,28 +116,6 @@ export function logoBuffer(file: string): Buffer {
   return buf;
 }
 
-/**
- * Начертание водяного знака с диска. Кэш: полос на листе две, файл один.
- * Файла нет — возвращаем null, и знак набирается жирным шрифтом документа.
- */
-const bandCache = new Map<string, Buffer | null>();
-export function bandFontBuffer(file: string): Buffer | null {
-  if (!bandCache.has(file)) {
-    try {
-      bandCache.set(file, readFileSync(resolveAsset(`public/brand/fonts/${file}`)));
-    } catch (e) {
-      console.error(`шрифт водяного знака ${file} не найден, берём шрифт документа`, e);
-      bandCache.set(file, null);
-    }
-  }
-  return bandCache.get(file) ?? null;
-}
-
-/** Файл начертания знака для драйвера картинки; null — файла нет. */
-export function bandFontPath(file: string): string | null {
-  return bandFontBuffer(file) ? resolveAsset(`public/brand/fonts/${file}`) : null;
-}
-
 /** Измеритель на pdfkit: оба формата считают раскладку им, поэтому не расходятся. */
 export function pdfMeasure(): Measure {
   // Поле у пробного документа роли не играет: раскладка рисует по
@@ -145,26 +123,13 @@ export function pdfMeasure(): Measure {
   const probe = new PDFDocument({ size: 'A4', margin: PAGE.margin.left });
   probe.registerFont('r', FONT_REGULAR);
   probe.registerFont('b', FONT_BOLD);
-  const registered = new Set<string>();
-  const pick = (size: number, bold?: boolean, fontFile?: string) => {
-    let name = bold ? 'b' : 'r';
-    if (fontFile) {
-      const buf = bandFontBuffer(fontFile);
-      if (buf) {
-        name = `f:${fontFile}`;
-        if (!registered.has(name)) { probe.registerFont(name, buf); registered.add(name); }
-      }
-    }
-    return probe.font(name).fontSize(size);
-  };
+  const pick = (size: number, bold?: boolean) =>
+    probe.font(bold ? 'b' : 'r').fontSize(size);
   return {
     height: (text, size, width, bold) => { pick(size, bold); return probe.heightOfString(text, { width }); },
-    width: (text, size, bold, fontFile) => { pick(size, bold, fontFile); return probe.widthOfString(text); },
+    width: (text, size, bold) => { pick(size, bold); return probe.widthOfString(text); },
   };
 }
-
-/** Какие начертания знака уже зарегистрированы в документе. */
-const bandFonts = new WeakMap<PDFKit.PDFDocument, Set<string>>();
 
 function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
   if (p.kind === 'image') {
@@ -220,14 +185,9 @@ function draw(doc: PDFKit.PDFDocument, p: Primitive): void {
 
     // Слой 4 — надпись снизу вверх, прижатая к своему замку. Разрядка
     // задаётся characterSpacing: она делает строку ритмичной, не увеличивая
-    // кегль, и одинаково считается в обоих форматах.
-    // Надпись набирается своим шрифтом; регистрируем его один раз на документ.
-    const bandBuf = bandFontBuffer(p.fontFile);
-    const bandName = `w:${p.fontFile}`;
-    if (bandBuf && !bandFonts.has(doc)) bandFonts.set(doc, new Set());
-    const reg = bandFonts.get(doc);
-    if (bandBuf && reg && !reg.has(bandName)) { doc.registerFont(bandName, bandBuf); reg.add(bandName); }
-    doc.font(bandBuf ? bandName : 'b').fontSize(p.size).fillColor(p.color).fillOpacity(p.textOpacity);
+    // кегль, и одинаково считается в обоих форматах. Шрифт — документный:
+    // вторая гарнитура на листе читается как чужая вставка (16.09.2026).
+    doc.font('b').fontSize(p.size).fillColor(p.color).fillOpacity(p.textOpacity);
     doc.save();
     doc.rotate(-90, { origin: [p.cx, p.textCy] });
     const tw = doc.widthOfString(p.text, { characterSpacing: p.spacing });
