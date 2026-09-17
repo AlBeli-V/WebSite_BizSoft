@@ -1,13 +1,19 @@
 ---
 /**
- * Рендер правового документа: название, реквизиты редакции и текст.
+ * Рендер правового документа: название, дата редакции и текст.
  *
- * Реквизиты редакции стоят под заголовком, а не в подвале страницы: дата,
- * номер версии и контрольный хэш — это то, чем документ предъявляется, и
- * человек, которого попросили «прислать редакцию, которую я подписывал»,
- * должен видеть их сразу.
+ * Дата стоит под заголовком: именно ею документ датируется и именно её
+ * называют, когда просят «прислать редакцию, которая действовала тогда-то».
+ *
+ * Номер версии и контрольный хэш на странице не показываются (ТЗ
+ * 16.09.2026, п. 6). Посетителю они ничего не объясняют, а документ,
+ * который предъявляется как обязательство, рядом с ними читается как
+ * техническая выгрузка. Внутренний слой не изменился: версия и SHA-256
+ * по-прежнему пишутся в журнал согласий, а архив редакций открывается по
+ * адресу с версией.
  */
 import type { LegalDocContent } from '../lib/legal-doc';
+import { legalDateRu } from '../lib/legal-doc';
 import type { LegalDocMeta } from '../lib/legal';
 
 interface Props {
@@ -18,8 +24,7 @@ interface Props {
 }
 const { meta, content, archivedVersion } = Astro.props;
 const version = archivedVersion || meta.version;
-const revision = meta.revisions.find((r) => r.version === version) || meta;
-const dateRu = version.split('-').reverse().join('.');
+const dateRu = legalDateRu(version);
 ---
 <article class="legal-doc prose-bizsoft">
   <h1>{content.title}</h1>
@@ -27,15 +32,11 @@ const dateRu = version.split('-').reverse().join('.');
 
   {archivedVersion && (
     <p class="ld-archived" role="note">
-      Архивная редакция. Действующая — <a href={meta.url}>редакция от {meta.version.split('-').reverse().join('.')}</a>.
+      Архивная редакция. Действующая — <a href={meta.url}>редакция от {legalDateRu(meta.version)}</a>.
     </p>
   )}
 
-  <dl class="ld-meta">
-    <div><dt>Редакция</dt><dd>{dateRu}</dd></div>
-    <div><dt>Версия</dt><dd><code>{version}</code></dd></div>
-    <div><dt>SHA-256</dt><dd><code class="ld-hash">{revision.sha256}</code></dd></div>
-  </dl>
+  <p class="ld-meta">Редакция от {dateRu}</p>
 
   {content.blocks.map((b) => {
     if (b.kind === 'heading') return <h2>{b.text}</h2>;
@@ -58,10 +59,9 @@ const dateRu = version.split('-').reverse().join('.');
         {[...meta.revisions].reverse().map((r) => (
           <li>
             <a href={r.version === meta.version ? meta.url : `${meta.url}/${r.version}`}>
-              Редакция от {r.version.split('-').reverse().join('.')}
+              Редакция от {legalDateRu(r.version)}
             </a>
             {r.version === meta.version && <span class="ld-current"> — действующая</span>}
-            <code class="ld-hash-small">{r.sha256.slice(0, 16)}…</code>
           </li>
         ))}
       </ul>
@@ -85,23 +85,13 @@ const dateRu = version.split('-').reverse().join('.');
   }
   .ld-archived a { color: var(--color-accent); }
 
-  /* Реквизиты редакции — служебная строка, а не часть текста документа:
-     отсюда мелкий кегль и приглушённые подписи. */
+  /* Дата редакции — служебная строка, а не часть текста документа: отсюда
+     мелкий кегль и приглушённый цвет. */
   .ld-meta {
-    display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem;
-    margin: 0 0 1.8rem; padding: 0.8rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-elevated);
-    font-size: 0.82rem;
+    margin: 0 0 1.8rem;
+    color: var(--color-text-dim);
+    font-size: 0.85rem;
   }
-  .ld-meta > div { display: flex; gap: 0.45rem; align-items: baseline; min-width: 0; }
-  .ld-meta dt { color: var(--color-text-dim); margin: 0; }
-  .ld-meta dd { margin: 0; color: var(--color-text); }
-  .ld-meta code { font-size: 0.78rem; }
-  /* Хэш длиннее экрана телефона — рвём его по любому символу, а не
-     прокручиваем блок внутри себя (docs/rules/kpi-kit.md). */
-  .ld-hash { word-break: break-all; }
 
   .legal-doc h2 { font-size: clamp(1.1rem, 2.2vw, 1.3rem); margin: 1.8rem 0 0.6rem; }
   .legal-doc p { margin: 0 0 0.9rem; line-height: 1.65; }
@@ -124,5 +114,4 @@ const dateRu = version.split('-').reverse().join('.');
   .ld-revisions li { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: baseline; }
   .ld-revisions a { color: var(--color-accent); }
   .ld-current { color: var(--color-text-dim); font-size: 0.85rem; }
-  .ld-hash-small { font-size: 0.72rem; color: var(--color-text-dim); }
 </style>

@@ -52,16 +52,46 @@ export function totpAt(secretBase32: string, counter: number): string {
   return String(code % 10 ** DIGITS).padStart(DIGITS, '0');
 }
 
-/** Проверить код с окном ±1 шаг. Сравнение постоянного времени. */
+/**
+ * Похож ли секрет на base32.
+ *
+ * Отдельная проверка нужна там, где решается «настроен контур или нет»:
+ * секрет с посторонним символом — это не «неверный код», а неработающая
+ * настройка, и сказать об этом надо прямо. В base32 нет цифр 0, 1, 8 и 9 —
+ * именно на них чаще всего и спотыкаются, перенося ключ руками.
+ */
+export function isValidBase32(secret: string): boolean {
+  const clean = String(secret || '').toUpperCase().replace(/[\s=-]/g, '');
+  return clean.length > 0 && /^[A-Z2-7]+$/.test(clean);
+}
+
+/**
+ * Проверить код с окном ±1 шаг. Сравнение постоянного времени.
+ *
+ * Испорченный секрет возвращает false, а не исключение. Раньше `base32Decode`
+ * бросал наружу, вызов шёл до блока try обработчика, и вместо понятного
+ * «неверный код» раздел отвечал 500. Формат секрета проверяет
+ * `ops-consent-setup` на шаге check, но полагаться на то, что в окружении
+ * лежит только проверенное значение, нельзя: сюда приходит и то, что
+ * записали руками.
+ */
 export function verifyTotp(secretBase32: string, code: string, now = Date.now()): boolean {
   const typed = String(code || '').replace(/\s/g, '');
-  if (!/^\d{6}$/.test(typed) || !secretBase32) return false;
+  if (!/^\d{6}$/.test(typed) || !isValidBase32(secretBase32)) return false;
   const counter = Math.floor(now / 1000 / STEP_SEC);
-  for (const shift of [-1, 0, 1]) {
-    const expected = totpAt(secretBase32, counter + shift);
-    const a = Buffer.from(expected);
-    const b = Buffer.from(typed);
-    if (a.length === b.length && timingSafeEqual(a, b)) return true;
+  try {
+    for (const shift of [-1, 0, 1]) {
+      const expected = totpAt(secretBase32, counter + shift);
+      const a = Buffer.from(expected);
+      const b = Buffer.from(typed);
+      if (a.length === b.length && timingSafeEqual(a, b)) return true;
+    }
+  } catch (e) {
+    // Сюда попадаем только при секрете, который не разобрать. Молчать нельзя:
+    // снаружи это выглядит как «код не подходит», и человек будет вводить его
+    // заново, пока кто-нибудь не заглянет в журнал приложения.
+    console.error('totp: секрет не разобран — проверьте COMPLIANCE_TOTP_SECRET', e);
+    return false;
   }
   return false;
 }

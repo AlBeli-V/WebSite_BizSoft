@@ -11,7 +11,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import LegalDocument from '../../components/LegalDocument.astro';
-import { LEGAL_MANIFEST, LEGAL_DOC_IDS, legalContent, legalDoc } from '../../lib/legal';
+import { LEGAL_MANIFEST, LEGAL_DOC_IDS, legalContent, legalDoc, legalDateRu } from '../../lib/legal';
 import type { LegalDocId } from '../../lib/legal-doc';
 
 export function getStaticPaths() {
@@ -23,7 +23,7 @@ if (!LEGAL_MANIFEST[doc]) return Astro.redirect('/404');
 
 const meta = legalDoc(doc);
 const content = legalContent(doc);
-const dateRu = meta.version.split('-').reverse().join('.');
+const dateRu = legalDateRu(meta.version);
 const description = `${meta.title} — редакция от ${dateRu}. Оператор BIZSoft (ИП Беляев А. В.), 152-ФЗ.`;
 ---
 <BaseLayout title={meta.title} description={description} canonical={meta.url}>
