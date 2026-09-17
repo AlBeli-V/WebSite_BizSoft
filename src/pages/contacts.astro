@@ -24,7 +24,6 @@ import { seller, workingHours } from '../config/site';
       <div class="info card">
         <div class="row"><span>Телефон</span><a href={`tel:${seller.phoneHref}`}>{seller.phone}</a></div>
         <div class="row"><span>E-mail</span><a href={`mailto:${seller.email}`}>{seller.email}</a></div>
-        <div class="row"><span>Почта для заявок и КП</span><a href={`mailto:${seller.salesEmail}`}>{seller.salesEmail}</a></div>
         <div class="row"><span>Режим работы</span><span>{workingHours.label}</span></div>
         <div class="row"><span>Адрес</span><span>{seller.address}</span></div>
         <div class="row"><span>Продавец</span><span>{seller.shortName}</span></div>
