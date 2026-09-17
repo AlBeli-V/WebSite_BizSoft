@@ -21,7 +21,7 @@ import { formatRub } from './pricing';
 import { amountPhrase, moneyFmt, singleVatRate, vatOfItems } from './rub-words';
 import { salutation } from './salutation';
 import {
-  buyerLines, continuationLine, footerLines, headMetaLines, HEAD_SUBTITLE, itemSpec,
+  buyerBlock, continuationLine, footerLines, headMetaLines, HEAD_SUBTITLE, itemSpec,
   MARK_FILE, PRELIMINARY_NOTE, quoteConditions, quoteIntro, sellerContactLines,
   signatureContactLines, signer, VAT_PERCENT, type QuoteData,
 } from './quote-layout';
@@ -138,9 +138,25 @@ export async function generateQuoteDocx(data: QuoteData): Promise<Buffer> {
   ];
 
   // ── Кому и обращение ───────────────────────────────────────────────────
+  // Подпись и заказчик — одна строка, остальное под ней с тем же отступом
+  // (композиция руководителя 16.09.2026). Висячий отступ держит «Кому:» у
+  // поля, а текст — на общей вертикали.
+  const buyer = buyerBlock(data);
+  const BUYER_INDENT = 700;
   const addressee = [
-    line('Кому:', { bold: true, size: 10, color: DARK, before: 160 }),
-    ...buyerLines(data).map((t) => line(t, { size: 9 })),
+    new Paragraph({
+      spacing: { before: 160, after: 40 },
+      indent: { left: BUYER_INDENT, hanging: BUYER_INDENT },
+      children: [
+        new TextRun({ text: 'Кому:\t', bold: true, color: DARK, size: 20, font: FONT }),
+        new TextRun({ text: buyer.head, color: BODY, size: 18, font: FONT }),
+      ],
+    }),
+    ...buyer.lines.map((t: string) => new Paragraph({
+      spacing: { after: 40 },
+      indent: { left: BUYER_INDENT },
+      children: [new TextRun({ text: t, color: BODY, size: 18, font: FONT })],
+    })),
     line(salutation(data.contactName), { bold: true, size: 11, color: DARK,
       align: AlignmentType.CENTER, before: 160, after: 120 }),
     line(quoteIntro(data.buyerCompany), { size: 9.5, after: 120, align: AlignmentType.JUSTIFIED }),
