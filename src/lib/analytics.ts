@@ -272,20 +272,84 @@ type Ym = (id: number, action: string, goal?: string, params?: Record<string, un
 type Gtag = (command: string, event: string, params?: Record<string, unknown>) => void;
 
 /**
- * Отправить цель. Безопасна до загрузки счётчика и при отключённой аналитике:
- * счётчик Метрики буферизует вызовы, а отсутствие gtag просто пропускается.
+ * Имена параметров, которых в аналитике не бывает никогда.
+ *
+ * Список закрытый и проверяется тестом: в параметр цели персональные данные
+ * попадают не злым умыслом, а тем, что удобно — «передадим заодно почту,
+ * пригодится». Один раз попав в счётчик, они оттуда не удаляются
+ * (документ 05, п. 3: в Google Analytics не уходят поля форм, ФИО, e-mail,
+ * телефон, ИНН).
+ */
+const PII_KEYS = new Set([
+  'email', 'e_mail', 'mail', 'phone', 'tel', 'telephone', 'inn', 'name',
+  'fio', 'first_name', 'last_name', 'company', 'company_name', 'organization',
+  'message', 'comment', 'address', 'user_id', 'client_email',
+]);
+
+/** Почта, телефон и длинные номера в любом текстовом значении. */
+const EMAIL_RE = /[\w.+-]+@[\w-]+\.[\w.-]+/g;
+const PHONE_RE = /(?:\+?\d[\s()-]?){10,15}/g;
+const LONG_DIGITS_RE = /\b\d{10,}\b/g;
+
+function scrubText(value: string): string {
+  return value
+    .replace(EMAIL_RE, '[email]')
+    .replace(PHONE_RE, '[phone]')
+    .replace(LONG_DIGITS_RE, '[number]')
+    .slice(0, 200);
+}
+
+/**
+ * Очистить параметры цели от персональных данных.
+ *
+ * Два рубежа: имена полей из закрытого списка выбрасываются целиком, а в
+ * оставшихся строках маскируются почта, телефон и длинные номера. Второй
+ * рубеж нужен потому, что текст приходит и в безобидные на вид параметры —
+ * например, `reason` цели `lead_error` содержит сообщение сервера, а оно
+ * может процитировать введённый адрес.
+ *
+ * Экспортируется ради теста: проверка «в аналитику не уходят ПДн» должна
+ * смотреть на ту же функцию, которой пользуется код, а не на её описание.
+ */
+export function sanitizeGoalParams(params: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(params)) {
+    if (PII_KEYS.has(key.toLowerCase())) continue;
+    if (typeof value === 'string') {
+      out[key] = scrubText(value);
+      continue;
+    }
+    if (typeof value === 'number' || typeof value === 'boolean' || value === null) {
+      out[key] = value;
+      continue;
+    }
+    // Вложенные объекты и массивы в параметрах целей не нужны, а проверить
+    // их состав нечем: отбрасываем целиком.
+  }
+  return out;
+}
+
+/**
+ * Отправить цель.
+ *
+ * Безопасна и до загрузки счётчика, и при отсутствующем согласии: пока
+ * человек не разрешил аналитику, функций `ym` и `gtag` в окне нет вовсе
+ * (см. Analytics.astro), и вызов молча пропускается. Именно так выглядит
+ * «не загружать необязательные теги до выбора пользователя» со стороны
+ * прикладного кода — ни одной ветки с проверкой согласия в компонентах.
  */
 export function trackGoal(name: string, params: Record<string, unknown> = {}): void {
   if (typeof window === 'undefined') return;
   const w = window as unknown as { ym?: Ym; gtag?: Gtag };
+  const safe = sanitizeGoalParams(params);
   try {
-    if (typeof w.ym === 'function') w.ym(Number(METRIKA_ID), 'reachGoal', name, params);
+    if (typeof w.ym === 'function') w.ym(Number(METRIKA_ID), 'reachGoal', name, safe);
     // В GA4 уходит рекомендованное имя, если оно есть: под стандартные имена
     // он сам строит отчёты. Наше имя при этом сохраняется параметром, иначе
     // generate_lead от формы и от скачивания КП слились бы в одно число.
     if (typeof w.gtag === 'function') {
       const spec = GOALS[name];
-      w.gtag('event', spec ? spec.ga4 : name, spec ? { ...params, bz_goal: name } : params);
+      w.gtag('event', spec ? spec.ga4 : name, spec ? { ...safe, bz_goal: name } : safe);
     }
   } catch {
     // Аналитика не должна ломать сценарий пользователя: заявка уже отправлена.

@@ -1,0 +1,497 @@
+---
+export const prerender = false;
+/**
+ * «Комплаенс → Согласия и рассылки» — рабочее место по 152-ФЗ.
+ *
+ * Три вкладки: аудиторский журнал, рассылочный реестр, экспорты и запросы.
+ * Страница ничего не знает о данных — она только рисует форму доступа и
+ * ходит в /api/admin/compliance. Проверка второго фактора, роли и запись в
+ * журнал действий живут на сервере: интерфейс, который сам решает, что
+ * показать, обходится открытием исходного кода страницы.
+ *
+ * Доступ: токен роли + код из приложения-аутентификатора. Токен и код в
+ * браузере не сохраняются — ни в localStorage, ни в cookie. Это неудобно
+ * (код вводится заново после перезагрузки) и сделано намеренно: на общем
+ * компьютере сохранённый ключ к журналу ПДн стоит дороже, чем удобство.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdminTabs from '../../components/AdminTabs.astro';
+import { CONSENT_TYPES, CONSENT_ACTIONS, MARKETING_STATUSES } from '../../config/legal';
+
+const TYPE_LABEL: Record<string, string> = {
+  personal_data: 'Персональные данные',
+  marketing: 'Реклама и рассылка',
+  yandex_analytics: 'Яндекс.Метрика',
+  google_analytics: 'Google Analytics',
+};
+const ACTION_LABEL: Record<string, string> = {
+  granted: 'Дано',
+  withdrawn: 'Отозвано',
+  denied: 'Отказано',
+  renewed: 'Подтверждено заново',
+};
+const STATUS_LABEL: Record<string, string> = {
+  subscribed: 'Подписан',
+  unsubscribed: 'Отписался',
+  suppressed: 'Заблокирован',
+  bounced: 'Недоставляемый',
+};
+const dict = { TYPE_LABEL, ACTION_LABEL, STATUS_LABEL };
+---
+<BaseLayout title="Комплаенс — согласия и рассылки" description="Служебная страница" noindex={true}>
+  <div class="container-page section cmp">
+    <AdminTabs active="compliance" />
+
+    <h1>Согласия и рассылки</h1>
+    <p class="cmp-lead">
+      Журнал доказательств по 152-ФЗ и реестр разрешений на рекламную рассылку.
+      Записи журнала не редактируются и не удаляются: ошибка исправляется новым корректирующим событием.
+      Каждый просмотр и выгрузка фиксируются в журнале действий.
+      Порядок работы — в <a href="/admin/help">справке администратора</a>.
+    </p>
+
+    <form class="cmp-auth card" data-auth>
+      {/* Подписи под полями: три источника здесь разные, и без пояснения
+          экран читается как «три части одного токена, который кто-то выдаёт»
+          (вопрос руководителя 16.09.2026). */}
+      <label><span>Токен роли</span>
+        <input type="password" data-token autocomplete="current-password" placeholder="COMPLIANCE_*_TOKEN" required />
+        <small>Значение секрета <code>COMPLIANCE_OWNER_TOKEN</code> или <code>COMPLIANCE_ADMIN_TOKEN</code> — оно и определяет роль.</small>
+      </label>
+      <label><span>Код из приложения</span>
+        <input type="text" data-otp inputmode="numeric" pattern="[0-9]{6}" placeholder="000000" autocomplete="one-time-code" required />
+        <small>Шесть цифр из приложения-аутентификатора, меняются каждые 30 секунд.</small>
+      </label>
+      <label><span>Кто работает</span>
+        <input type="text" data-actor placeholder="Фамилия и имя" autocomplete="name" required />
+        <small>Не секрет: имя печатается руками и попадает в журнал действий.</small>
+      </label>
+      <button type="submit" class="btn btn-primary">Открыть раздел</button>
+      <p class="cmp-auth-note">Токен и код не сохраняются в браузере: после перезагрузки страницы вход повторяется.</p>
+      <p class="cmp-status" data-auth-status role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="cmp-body" data-body hidden>
+      <p class="cmp-role" data-role></p>
+
+      <nav class="cmp-tabs" role="tablist">
+        <button type="button" class="cmp-tab is-on" data-tab="journal" role="tab" aria-selected="true">Аудиторский журнал</button>
+        <button type="button" class="cmp-tab" data-tab="registry" role="tab" aria-selected="false">Рассылочный реестр</button>
+        <button type="button" class="cmp-tab" data-tab="exports" role="tab" aria-selected="false">Экспорты и запросы</button>
+      </nav>
+
+      {/* ── Вкладка 1 ── */}
+      <section class="cmp-pane" data-pane="journal">
+        <form class="cmp-filters card" data-journal-filters>
+          <label><span>С даты</span><input type="date" name="date_from" /></label>
+          <label><span>По дату</span><input type="date" name="date_to" /></label>
+          <label><span>E-mail</span><input type="text" name="email" autocomplete="off" /></label>
+          <label><span>Телефон</span><input type="text" name="phone" autocomplete="off" /></label>
+          <label><span>Компания</span><input type="text" name="company" autocomplete="off" /></label>
+          <label><span>Источник</span><input type="text" name="source" placeholder="lead-form, quote, cookie-banner" /></label>
+          <label><span>Тип согласия</span>
+            <select name="consent_type">
+              <option value="">любой</option>
+              {CONSENT_TYPES.map((t) => <option value={t}>{TYPE_LABEL[t]}</option>)}
+            </select>
+          </label>
+          <label><span>Действие</span>
+            <select name="consent_action">
+              <option value="">любое</option>
+              {CONSENT_ACTIONS.map((a) => <option value={a}>{ACTION_LABEL[a]}</option>)}
+            </select>
+          </label>
+          <label><span>Bitrix ID</span><input type="text" name="bitrix_lead_id" autocomplete="off" /></label>
+          <div class="cmp-filter-actions">
+            <button type="submit" class="btn btn-primary btn-sm">Показать</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-journal-export>Выгрузить CSV</button>
+          </div>
+        </form>
+        <p class="cmp-status" data-journal-status role="status" aria-live="polite"></p>
+        <div class="cmp-table-wrap"><table class="cmp-table" data-journal-table hidden></table></div>
+      </section>
+
+      {/* ── Вкладка 2 ── */}
+      <section class="cmp-pane" data-pane="registry" hidden>
+        <form class="cmp-filters card" data-registry-filters>
+          <label><span>Статус</span>
+            <select name="status">
+              <option value="">любой</option>
+              {MARKETING_STATUSES.map((s) => <option value={s}>{STATUS_LABEL[s]}</option>)}
+            </select>
+          </label>
+          <label><span>E-mail</span><input type="text" name="email" autocomplete="off" /></label>
+          <div class="cmp-filter-actions">
+            <button type="submit" class="btn btn-primary btn-sm">Показать</button>
+          </div>
+        </form>
+
+        <form class="cmp-op card" data-withdrawal-form>
+          <h3>Зафиксировать отзыв, пришедший письмом</h3>
+          <p class="cmp-op-note">
+            Создаёт событие marketing/withdrawn и переводит адрес в <code>unsubscribed</code>.
+            Ручное удаление записи не предусмотрено.
+          </p>
+          <div class="cmp-op-row">
+            <label><span>E-mail</span><input type="email" name="email" required /></label>
+            <label><span>Ссылка или ID обращения</span><input type="text" name="reference" placeholder="письмо от 16.09, тема …" /></label>
+            <button type="submit" class="btn btn-primary btn-sm">Зафиксировать отзыв</button>
+          </div>
+        </form>
+
+        <p class="cmp-status" data-registry-status role="status" aria-live="polite"></p>
+        <div class="cmp-table-wrap"><table class="cmp-table" data-registry-table hidden></table></div>
+      </section>
+
+      {/* ── Вкладка 3 ── */}
+      <section class="cmp-pane" data-pane="exports" hidden>
+        <div class="cmp-op card">
+          <h3>Карточка доказательства</h3>
+          <p class="cmp-op-note">
+            Вся хронология согласий субъекта: текст, который он видел, версия и SHA-256 документа,
+            ссылка на архивную редакцию и текущий статус рассылки. Страницу можно распечатать в PDF.
+          </p>
+          <form class="cmp-op-row" data-evidence-form>
+            <label><span>E-mail субъекта</span><input type="email" name="email" required /></label>
+            <button type="submit" class="btn btn-primary btn-sm">Собрать карточку</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-evidence-print hidden>Печать / PDF</button>
+          </form>
+          <p class="cmp-status" data-evidence-status role="status" aria-live="polite"></p>
+          <div class="cmp-evidence" data-evidence hidden></div>
+        </div>
+
+        <div class="cmp-op card">
+          <h3>Разрешённая аудитория рассылки</h3>
+          <p class="cmp-op-note">
+            Только <code>subscribed</code> с действующим <code>consent_event_id</code>, с дедупликацией.
+            Контакты Bitrix24 без события согласия в выгрузку не попадают никогда.
+          </p>
+          <button type="button" class="btn btn-primary btn-sm" data-audience>Сформировать CSV</button>
+        </div>
+
+        <div class="cmp-op card">
+          <h3>Журнал действий администраторов</h3>
+          <p class="cmp-op-note">Кто, когда и что смотрел или выгружал.</p>
+          <button type="button" class="btn btn-ghost btn-sm" data-admin-log>Показать</button>
+          <div class="cmp-table-wrap"><table class="cmp-table" data-admin-log-table hidden></table></div>
+        </div>
+
+        <p class="cmp-status" data-exports-status role="status" aria-live="polite"></p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+  .cmp h1 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.5rem; }
+  .cmp-lead { color: var(--color-text-muted); font-size: 0.9rem; max-width: 80ch; line-height: 1.6; margin-bottom: 1.5rem; }
+  .cmp-lead a { color: var(--color-accent); }
+
+  /* Поля выровнены по верху, а не по низу: у каждого своя подпись-пояснение,
+     и при выравнивании по низу сами поля вставали на разной высоте. Отступ у
+     кнопки повторяет высоту строки подписи — иначе она всплывает к заголовкам. */
+  .cmp-auth { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: flex-start; padding: 1.2rem; }
+  .cmp-auth label { flex: 1 1 15rem; max-width: 22rem; }
+  .cmp-auth > button[type='submit'] { margin-top: 1.4rem; }
+  .cmp-auth label small {
+    font-weight: 400; font-size: 0.74rem; color: var(--color-text-dim); line-height: 1.45;
+  }
+  .cmp-auth label small code { font-size: 0.72rem; word-break: break-word; }
+  .cmp-auth label, .cmp-filters label, .cmp-op-row label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem; font-weight: 600; min-width: 0; }
+  .cmp-auth input, .cmp-filters input, .cmp-filters select, .cmp-op-row input {
+    background: var(--color-bg-elevated); border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm); padding: 0.5rem 0.6rem; color: var(--color-text);
+    font: inherit; font-size: 0.9rem; font-weight: 400; min-width: 0; box-sizing: border-box;
+  }
+  .cmp-auth-note, .cmp-op-note { flex-basis: 100%; margin: 0; font-size: 0.78rem; color: var(--color-text-dim); line-height: 1.5; }
+  .cmp-status { margin: 0.7rem 0; font-size: 0.86rem; }
+  .cmp-status.ok { color: var(--color-success); }
+  .cmp-status.err { color: var(--color-danger); }
+
+  .cmp-role { font-size: 0.82rem; color: var(--color-text-dim); margin: 0 0 1rem; }
+
+  .cmp-tabs { display: flex; gap: 0.25rem; border-bottom: 1px solid var(--color-border); overflow-x: auto; margin-bottom: 1.3rem; }
+  .cmp-tab {
+    background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px;
+    padding: 0.6rem 1rem; font: inherit; font-size: 0.9rem; font-weight: 600;
+    color: var(--color-text-dim); cursor: pointer; white-space: nowrap;
+  }
+  .cmp-tab.is-on { color: var(--color-accent); border-bottom-color: var(--color-accent); }
+
+  .cmp-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 0.8rem; padding: 1.1rem; align-items: end; }
+  .cmp-filter-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  .cmp-op { padding: 1.1rem; margin-top: 1.1rem; }
+  .cmp-op h3 { font-size: 1rem; margin: 0 0 0.35rem; }
+  .cmp-op-row { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: end; margin-top: 0.7rem; }
+  .cmp-op-row label { flex: 1 1 14rem; }
+
+  .cmp-table-wrap { overflow-x: auto; margin-top: 0.8rem; }
+  .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+  .cmp-table th, .cmp-table td { border: 1px solid var(--color-border); padding: 0.4rem 0.5rem; text-align: left; vertical-align: top; }
+  .cmp-table th { background: var(--color-bg-elevated); font-weight: 700; white-space: nowrap; }
+  /* Идентификаторы событий длинные: даём им перенос по любому символу и
+     мелкий кегль. Своего моноширинного семейства не заводим — шрифт в
+     проекте один (docs/rules/typography.md). */
+  .cmp-table td.mono { font-size: 0.72rem; letter-spacing: 0.02em; word-break: break-all; }
+
+  .cmp-evidence { margin-top: 1rem; font-size: 0.84rem; }
+  .cmp-ev-event { border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0.8rem 0.9rem; margin-bottom: 0.7rem; }
+  .cmp-ev-head { font-weight: 700; margin-bottom: 0.4rem; }
+  .cmp-ev-grid { display: grid; grid-template-columns: max-content 1fr; gap: 0.2rem 0.8rem; }
+  .cmp-ev-grid dt { color: var(--color-text-dim); }
+  .cmp-ev-grid dd { margin: 0; word-break: break-word; }
+  .cmp-ev-grid code { font-size: 0.74rem; word-break: break-all; }
+
+  @media print {
+    .cmp-auth, .cmp-tabs, .cmp-filters, .cmp-op-row, .cmp-lead { display: none; }
+  }
+</style>
+
+<script define:vars={{ dict }}>
+  // Ключи доступа живут только в памяти вкладки: после перезагрузки вход
+  // повторяется. См. комментарий в шапке страницы.
+  let auth = null;
+
+  const $ = (sel) => document.querySelector(sel);
+  const say = (el, text, cls = '') => { el.textContent = text; el.className = `cmp-status ${cls}`; };
+  const esc = (v) => String(v ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const dt = (v) => (v ? new Date(v).toLocaleString('ru-RU') : '—');
+
+  async function call(op, extra = {}) {
+    if (!auth) throw new Error('Раздел не открыт.');
+    const res = await fetch('/api/admin/compliance', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-compliance-token': auth.token,
+        'x-compliance-otp': auth.otp,
+        // Имя оператора кодируется процентами: заголовок HTTP — это байты
+        // ISO-8859-1, и `fetch` бросает TypeError на любой кириллической
+        // букве ещё до отправки запроса. То есть «Алексей Беляев» в поле
+        // «Кто работает» не давал войти вообще, с любым паролем и кодом
+        // (разбор 16.09.2026). Сервер раскодирует обратно.
+        'x-compliance-actor': encodeURIComponent(auth.actor),
+      },
+      body: JSON.stringify({ op, ...extra }),
+    });
+    const type = res.headers.get('content-type') || '';
+    if (type.includes('text/csv')) {
+      if (!res.ok) throw new Error('Не удалось сформировать выгрузку.');
+      return { csv: await res.text(), filename: (res.headers.get('content-disposition') || '').match(/filename="([^"]+)"/)?.[1] || 'export.csv' };
+    }
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(out.error || 'Ошибка запроса.');
+    return out;
+  }
+
+  function download(csv, filename) {
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
+
+  function filtersOf(form) {
+    return Object.fromEntries(
+      Array.from(new FormData(form).entries()).filter(([, v]) => String(v).trim() !== ''),
+    );
+  }
+
+  // ── Вход ────────────────────────────────────────────────────────────────
+  const authForm = $('[data-auth]');
+  const authStatus = $('[data-auth-status]');
+  authForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    auth = {
+      token: $('[data-token]').value.trim(),
+      otp: $('[data-otp]').value.trim(),
+      actor: $('[data-actor]').value.trim(),
+    };
+    say(authStatus, 'Проверяем…');
+    try {
+      const out = await call('journal', { filters: {} });
+      $('[data-body]').hidden = false;
+      $('[data-role]').textContent = out.role === 'owner'
+        ? 'Роль: владелец — доступны технические реквизиты, выгрузки и смена статусов.'
+        : 'Роль: комплаенс-администратор — IP и user-agent скрыты, выгрузки недоступны.';
+      say(authStatus, 'Раздел открыт.', 'ok');
+      renderJournal(out.rows);
+      // Код действует 30 секунд; поле очищаем, чтобы его не отправили повторно
+      // из формы — сам ключ остаётся в памяти до перезагрузки.
+      $('[data-otp]').value = '';
+    } catch (err) {
+      auth = null;
+      // TypeError здесь означает, что запрос не ушёл вовсе: браузер отказался
+      // собрать его сам. Сырой текст такого исключения по-английски и про
+      // кодовые точки — не то, что должен читать человек на входе.
+      const message = err instanceof TypeError
+        ? 'Не удалось отправить запрос. Обновите страницу и повторите; если повторяется — сообщите разработчику.'
+        : err.message;
+      say(authStatus, message, 'err');
+    }
+  });
+
+  // ── Вкладки ─────────────────────────────────────────────────────────────
+  document.querySelectorAll('[data-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-tab]').forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-selected', String(on));
+      });
+      document.querySelectorAll('[data-pane]').forEach((p) => {
+        p.hidden = p.dataset.pane !== btn.dataset.tab;
+      });
+    });
+  });
+
+  // ── Журнал ──────────────────────────────────────────────────────────────
+  const journalStatus = $('[data-journal-status]');
+  function renderJournal(rows) {
+    const table = $('[data-journal-table]');
+    if (!rows.length) {
+      table.hidden = true;
+      say(journalStatus, 'По этим условиям записей нет.');
+      return;
+    }
+    table.hidden = false;
+    table.innerHTML =
+      '<thead><tr><th>Время</th><th>Тип</th><th>Действие</th><th>Субъект</th><th>Источник</th><th>Документ</th><th>Событие</th></tr></thead><tbody>'
+      + rows.map((r) => `<tr>
+          <td>${esc(dt(r.submitted_at))}</td>
+          <td>${esc(dict.TYPE_LABEL[r.consent_type] || r.consent_type)}</td>
+          <td>${esc(dict.ACTION_LABEL[r.consent_action] || r.consent_action)}</td>
+          <td>${esc(r.email || r.subject_id || '—')}${r.company ? `<br><span class="cmp-dim">${esc(r.company)}</span>` : ''}</td>
+          <td>${esc(r.source || '—')}<br><span class="cmp-dim">${esc(r.source_action || '')}</span></td>
+          <td>${esc(r.document_version || '—')}<br><code class="cmp-dim">${esc(String(r.document_sha256 || '').slice(0, 16))}…</code></td>
+          <td class="mono">${esc(r.event_id)}</td>
+        </tr>`).join('')
+      + '</tbody>';
+    say(journalStatus, `Записей: ${rows.length}.`, 'ok');
+  }
+
+  $('[data-journal-filters]')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    say(journalStatus, 'Ищем…');
+    try {
+      const out = await call('journal', { filters: filtersOf(e.target) });
+      renderJournal(out.rows);
+    } catch (err) { say(journalStatus, err.message, 'err'); }
+  });
+
+  $('[data-journal-export]')?.addEventListener('click', async () => {
+    say(journalStatus, 'Готовим выгрузку…');
+    try {
+      const out = await call('export_journal', { filters: filtersOf($('[data-journal-filters]')) });
+      download(out.csv, out.filename);
+      say(journalStatus, 'Выгрузка сформирована. Факт экспорта записан в журнал действий.', 'ok');
+    } catch (err) { say(journalStatus, err.message, 'err'); }
+  });
+
+  // ── Реестр ──────────────────────────────────────────────────────────────
+  const registryStatus = $('[data-registry-status]');
+  $('[data-registry-filters]')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    say(registryStatus, 'Ищем…');
+    try {
+      const out = await call('registry', { filters: filtersOf(e.target) });
+      const table = $('[data-registry-table]');
+      if (!out.rows.length) { table.hidden = true; say(registryStatus, 'Записей нет.'); return; }
+      table.hidden = false;
+      table.innerHTML =
+        '<thead><tr><th>E-mail</th><th>Статус</th><th>Согласие</th><th>Подписан</th><th>Отписался</th><th>Причина</th><th>Источник</th></tr></thead><tbody>'
+        + out.rows.map((r) => `<tr>
+            <td>${esc(r.email_normalized)}</td>
+            <td>${esc(dict.STATUS_LABEL[r.status] || r.status)}</td>
+            <td class="mono">${esc(r.consent_event_id || '—')}</td>
+            <td>${esc(dt(r.subscribed_at))}</td>
+            <td>${esc(dt(r.unsubscribed_at))}</td>
+            <td>${esc(r.unsubscribe_reason || '—')}</td>
+            <td>${esc(r.source || '—')}</td>
+          </tr>`).join('')
+        + '</tbody>';
+      say(registryStatus, `Записей: ${out.rows.length}.`, 'ok');
+    } catch (err) { say(registryStatus, err.message, 'err'); }
+  });
+
+  $('[data-withdrawal-form]')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    say(registryStatus, 'Фиксируем отзыв…');
+    try {
+      const out = await call('record_withdrawal', { email: data.email, reference: data.reference });
+      say(registryStatus, `Отзыв зафиксирован, событие ${out.event_id}. Адрес переведён в unsubscribed.`, 'ok');
+      e.target.reset();
+    } catch (err) { say(registryStatus, err.message, 'err'); }
+  });
+
+  // ── Экспорты ────────────────────────────────────────────────────────────
+  const exportsStatus = $('[data-exports-status]');
+  const evidenceStatus = $('[data-evidence-status]');
+
+  $('[data-evidence-form]')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = new FormData(e.target).get('email');
+    say(evidenceStatus, 'Собираем…');
+    try {
+      const card = await call('evidence', { email });
+      const box = $('[data-evidence]');
+      box.hidden = false;
+      const reg = card.registry;
+      box.innerHTML =
+        `<p><b>Субъект:</b> ${esc(card.email)} · <code>${esc(card.subject_id)}</code></p>`
+        + `<p><b>Рассылка:</b> ${reg ? `${esc(dict.STATUS_LABEL[reg.status] || reg.status)}, событие <code>${esc(reg.consent_event_id || '—')}</code>` : 'записи в реестре нет'}</p>`
+        + (card.events.length
+          ? card.events.map((ev) => `<div class="cmp-ev-event">
+              <div class="cmp-ev-head">${esc(dict.TYPE_LABEL[ev.consent_type] || ev.consent_type)} — ${esc(dict.ACTION_LABEL[ev.consent_action] || ev.consent_action)}, ${esc(dt(ev.submitted_at))}</div>
+              <dl class="cmp-ev-grid">
+                <dt>Событие</dt><dd><code>${esc(ev.event_id)}</code></dd>
+                <dt>Текст согласия</dt><dd>${esc(ev.consent_text_snapshot || '—')}</dd>
+                <dt>Документ</dt><dd>${ev.document_url ? `<a href="${esc(ev.document_url)}" target="_blank" rel="noopener">${esc(ev.document_title)}</a>` : '—'} · версия ${esc(ev.document_version || '—')}</dd>
+                <dt>SHA-256</dt><dd><code>${esc(ev.document_sha256 || '—')}</code></dd>
+                <dt>Страница</dt><dd>${esc(ev.page_url || '—')}</dd>
+                <dt>Форма</dt><dd>${esc(ev.form_id || '—')} · ${esc(ev.source_action || '—')}</dd>
+                <dt>Request ID</dt><dd><code>${esc(ev.request_id || '—')}</code></dd>
+                <dt>CRM</dt><dd>Directus ${esc(ev.lead_id || '—')} · Bitrix24 ${esc(ev.bitrix_lead_id || '—')}</dd>
+                <dt>IP / браузер</dt><dd>${ev.ip_address || ev.user_agent ? `${esc(ev.ip_address || '—')} · ${esc(ev.user_agent || '—')}` : 'скрыто для этой роли'}</dd>
+                ${ev.corrects_event ? `<dt>Исправляет</dt><dd><code>${esc(ev.corrects_event)}</code></dd>` : ''}
+              </dl>
+            </div>`).join('')
+          : '<p>Событий по этому адресу нет.</p>');
+      $('[data-evidence-print]').hidden = false;
+      say(evidenceStatus, `Событий: ${card.events.length}. Просмотр записан в журнал действий.`, 'ok');
+    } catch (err) { say(evidenceStatus, err.message, 'err'); }
+  });
+
+  $('[data-evidence-print]')?.addEventListener('click', () => window.print());
+
+  $('[data-audience]')?.addEventListener('click', async () => {
+    say(exportsStatus, 'Формируем аудиторию…');
+    try {
+      const out = await call('audience');
+      download(out.csv, out.filename);
+      say(exportsStatus, 'Аудитория сформирована: только subscribed с действующим согласием.', 'ok');
+    } catch (err) { say(exportsStatus, err.message, 'err'); }
+  });
+
+  $('[data-admin-log]')?.addEventListener('click', async () => {
+    say(exportsStatus, 'Загружаем…');
+    try {
+      const out = await call('admin_log');
+      const table = $('[data-admin-log-table]');
+      table.hidden = false;
+      table.innerHTML =
+        '<thead><tr><th>Время</th><th>Кто</th><th>Роль</th><th>Действие</th><th>Объект</th><th>IP</th></tr></thead><tbody>'
+        + out.rows.map((r) => `<tr>
+            <td>${esc(dt(r.created_at))}</td><td>${esc(r.actor)}</td><td>${esc(r.role)}</td>
+            <td>${esc(r.action)}</td><td>${esc(r.target || '—')}</td><td>${esc(r.ip_address || '—')}</td>
+          </tr>`).join('')
+        + '</tbody>';
+      say(exportsStatus, `Записей: ${out.rows.length}.`, 'ok');
+    } catch (err) { say(exportsStatus, err.message, 'err'); }
+  });
+</script>

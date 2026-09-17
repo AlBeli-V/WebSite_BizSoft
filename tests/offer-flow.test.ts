@@ -278,3 +278,21 @@ describe('письмо клиенту', () => {
   });
 });
 
+
+describe('тема письма', () => {
+  const vendors = offerVendorGroups(
+    offerProductLinks(data.items, catalog, 'https://biz-soft.pro'), 'https://biz-soft.pro');
+
+  it('называет дату и производителей состава, а не номер', () => {
+    // Номер КП заказчику ни о чём не говорит: в списке писем он узнаёт
+    // предложение по дате и маркам (решение руководителя 16.09.2026).
+    const mail = buildCustomerQuoteEmail({ data, pdfName: 'x.pdf', pdfSize: 1, vendors });
+    expect(mail.subject).toBe('Предварительное КП BIZSoft от 15.09.2026 на поставку Adobe / Figma');
+    expect(mail.subject).not.toContain(data.quoteNo);
+  });
+
+  it('без состава тема остаётся осмысленной', () => {
+    const mail = buildCustomerQuoteEmail({ data, pdfName: 'x.pdf', pdfSize: 1, vendors: [] });
+    expect(mail.subject).toBe('Предварительное КП BIZSoft от 15.09.2026');
+  });
+});
