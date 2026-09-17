@@ -7,7 +7,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { totpAt, verifyTotp, base32Decode } from '../src/lib/totp';
+import { totpAt, verifyTotp, base32Decode, isValidBase32 } from '../src/lib/totp';
 
 const ROOT = resolve(__dirname, '..');
 const read = (rel: string) => readFileSync(resolve(ROOT, rel), 'utf8');
@@ -154,9 +154,43 @@ describe('второй фактор', () => {
     expect(() => base32Decode('1!')).toThrow();
   });
 
-  it('код совпадает с эталоном RFC 6238 для секрета 12345678901234567890', () => {
-    // Секрет «12345678901234567890» в base32; шаг 59 с → счётчик 1.
-    expect(totpAt('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', 1)).toBe('287082');
+  it('коды совпадают со всеми эталонами RFC 6238 — значит, Google Authenticator подойдёт', () => {
+    // Приложение B стандарта, секрет «12345678901234567890» в base32.
+    // Совпадение по всем меткам времени и означает совместимость с любым
+    // аутентификатором: Google Authenticator, Яндекс Ключ и прочие считают
+    // код по этому же алгоритму — HMAC-SHA1, шаг 30 секунд, шесть цифр.
+    // Одного вектора для этого мало: он не отличил бы, скажем, ошибку в
+    // переносе счётчика через границу 32 бит.
+    const SEED = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
+    const VECTORS: [number, string][] = [
+      [59, '287082'],
+      [1111111109, '081804'],
+      [1111111111, '050471'],
+      [1234567890, '005924'],
+      [2000000000, '279037'],
+    ];
+    for (const [unixTime, expected] of VECTORS) {
+      expect(totpAt(SEED, Math.floor(unixTime / 30)), `T=${unixTime}`).toBe(expected);
+    }
+  });
+
+  it('испорченный секрет возвращает false, а не роняет обработчик', () => {
+    // Проверка доступа вызывается ДО блока try обработчика: исключение
+    // отсюда отвечало бы 500 вместо понятного сообщения.
+    for (const bad of ['НЕ-BASE32', 'ABCD0189', 'JBSWY3DP!', '   ', 'a b c']) {
+      expect(() => verifyTotp(bad, '123456'), bad).not.toThrow();
+      expect(verifyTotp(bad, '123456'), bad).toBe(false);
+    }
+  });
+
+  it('алфавит base32 распознаётся: нет 0, 1, 8 и 9', () => {
+    expect(isValidBase32('JBSWY3DPEHPK3PXP')).toBe(true);
+    // Регистр, пробелы и разделители при переносе руками — не ошибка.
+    expect(isValidBase32('jbswy3dp ehpk-3pxp')).toBe(true);
+    expect(isValidBase32('JBSWY3DP====')).toBe(true);
+    for (const bad of ['ABCD0', 'ABCD1', 'ABCD8', 'ABCD9', 'ABCD!', 'ЖЖЖЖ', '', '   ']) {
+      expect(isValidBase32(bad), bad).toBe(false);
+    }
   });
 });
 
@@ -165,8 +199,15 @@ describe('роли и права раздела комплаенса', () => {
   const api = read('src/pages/api/admin/compliance.ts');
 
   it('раздел не открывается вовсе, если второй фактор не настроен', () => {
-    expect(auth).toMatch(/totpSecret\(\)\.length >= 16/);
+    expect(auth).toMatch(/secret\.length >= 16/);
     expect(auth).toContain('Раздел не настроен');
+  });
+
+  it('негодный формат ключа — это «не настроено», а не «неверный код»', () => {
+    // Ключ с посторонним символом не даст сойтись ни одному коду. Без этой
+    // проверки раздел выглядел бы настроенным, а войти в него было бы нельзя.
+    expect(auth).toContain('isValidBase32(secret)');
+    expect(auth).toContain('не в формате base32');
   });
 
   it('оба фактора обязательны', () => {
@@ -292,5 +333,105 @@ describe('заявка не принимается без записи согл�
     expect(b24).toContain('B24_UF_CONSENT_EVENT');
     // Портал прямо назван зеркалом, а не источником доказательства.
     expect(b24).toContain('не портал');
+  });
+});
+
+describe('имя оператора и заголовок доступа', () => {
+  const page = readFileSync(resolve(__dirname, '..', 'src/pages/admin/compliance.astro'), 'utf8');
+
+  it('имя кодируется перед отправкой заголовком', () => {
+    // Заголовок HTTP переносит байты ISO-8859-1. `fetch` бросает TypeError на
+    // первой же кириллической букве — и запрос не уходит вовсе. То есть
+    // «Алексей Беляев» в поле «Кто работает» не давал войти ни с каким
+    // паролем и кодом (разбор 16.09.2026). Проверка статическая, но точная:
+    // сырое значение в заголовке — это в точности тот дефект.
+    expect(page).toContain("'x-compliance-actor': encodeURIComponent(auth.actor)");
+    expect(page, 'сырое имя в заголовок не ставится')
+      .not.toMatch(/'x-compliance-actor':\s*auth\.actor/);
+  });
+
+  it('сервер раскодирует имя и терпит незакодированное', () => {
+    const src = readFileSync(resolve(__dirname, '..', 'src/lib/compliance-auth.ts'), 'utf8');
+    expect(src).toContain('decodeActor');
+    expect(src).toContain('decodeURIComponent');
+    // Испорченная процентная последовательность не должна ронять проверку.
+    const fn = src.slice(src.indexOf('function decodeActor'));
+    expect(fn).toContain('catch');
+  });
+
+  it('кириллица переживает круг «закодировать — раскодировать»', () => {
+    const name = 'Алексей Беляев';
+    const encoded = encodeURIComponent(name);
+    // Заголовок после кодирования обязан быть чистым ASCII, иначе браузер
+    // откажется собирать запрос.
+    expect(encoded).toMatch(/^[\x20-\x7e]+$/);
+    expect(decodeURIComponent(encoded)).toBe(name);
+    // Латинское имя с пробелом проходит раскодирование без изменений —
+    // значит, старые клиенты не ломаются.
+    expect(decodeURIComponent('Belyaev Alexey')).toBe('Belyaev Alexey');
+  });
+});
+
+describe('заведение секретов: пароль вместо команды', () => {
+  const help = readFileSync(resolve(__dirname, '..', 'src/pages/admin/help.astro'), 'utf8');
+  const setup = readFileSync(resolve(__dirname, '..', '.github/workflows/ops-consent-setup.yml'), 'utf8');
+
+  it('ключ второго фактора генерируется в браузере и никуда не уходит', () => {
+    // Терминал был тем шагом, на котором заведение контура и вставало
+    // (16.09.2026). Кнопка его снимает, но только при условии, что значение
+    // не покидает машину администратора: ни запроса, ни хранилища.
+    const script = help.slice(help.indexOf('<script>'));
+    expect(script).toContain('crypto.getRandomValues');
+    expect(script).toContain('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567');
+    expect(script, 'ключ не отправляется на сервер').not.toMatch(/\bfetch\s*\(/);
+    expect(script, 'ключ не сохраняется в браузере').not.toMatch(/localStorage|sessionStorage|indexedDB/);
+  });
+
+  it('в алфавите ключа нет цифр, на которых спотыкаются при переносе', () => {
+    const m = /const ALPHABET = '([A-Z2-7]+)'/.exec(help);
+    expect(m, 'алфавит base32 задан строкой').toBeTruthy();
+    const alphabet = m![1];
+    expect(alphabet).toHaveLength(32);
+    for (const digit of ['0', '1', '8', '9']) expect(alphabet).not.toContain(digit);
+  });
+
+  it('check ловит пароль с символами, которые не доедут до сервера', () => {
+    // Значение пишется в astro.env строкой ИМЯ=значение без кавычек, поэтому
+    // кавычка, пробел или решётка обрезали бы его молча, а раздел ответил бы
+    // «неверный токен» — причину по интерфейсу не восстановить.
+    expect(setup).toContain('check_alphabet');
+    expect(setup).toContain("grep -qE '^[A-Za-z0-9._-]+$'");
+    for (const name of ['COMPLIANCE_OWNER_TOKEN', 'COMPLIANCE_ADMIN_TOKEN', 'UNSUBSCRIBE_SECRET']) {
+      expect(setup, `${name}: алфавит должен проверяться`).toContain(`check_alphabet ${name}`);
+    }
+  });
+
+  it('пароль роли генерируется в том же наборе, что проверяет check', () => {
+    // Кнопка появилась после двух подряд неудачных прогонов проверки:
+    // переключатель «спецсимволы» в менеджере паролей находят не сразу.
+    // Набор кнопки обязан быть подмножеством того, что пропускает check_alphabet.
+    const m = /const PWD_ALPHABET = '([^']+)'/.exec(help);
+    expect(m, 'алфавит пароля задан строкой').toBeTruthy();
+    const alphabet = m![1];
+    expect(alphabet).toMatch(/^[A-Za-z0-9._-]+$/);
+    expect(alphabet.length).toBe(62);
+    expect(new Set(alphabet).size, 'без повторов').toBe(alphabet.length);
+  });
+
+  it('выборка символа пароля не перекошена в начало алфавита', () => {
+    // `% 62` от случайного байта сделал бы первые два символа заметно
+    // вероятнее остальных. Отбрасывание хвоста диапазона это снимает.
+    const script = help.slice(help.indexOf('<script>'));
+    expect(script).toContain('256 - (256 % PWD_ALPHABET.length)');
+    expect(script).toMatch(/if \(b >= limit\) continue/);
+  });
+
+  it('пароли из безопасного набора проходят проверку приложения', () => {
+    // Ровно то, что менеджер паролей выдаёт с выключенными спецсимволами.
+    const samples = ['Xk9.pQ2_mR7-vT4wZ', 'abcdefghijklmnop', 'A1b2C3d4E5f6G7h8'];
+    for (const value of samples) {
+      expect(value.length).toBeGreaterThanOrEqual(16);
+      expect(value).toMatch(/^[A-Za-z0-9._-]+$/);
+    }
   });
 });

@@ -21,7 +21,6 @@ export interface SellerDetails {
   phone: string;
   phoneHref: string;
   email: string;
-  salesEmail: string;
   inn: string;
   ogrnip: string;
   okpo: string;
@@ -48,8 +47,7 @@ export const seller: SellerDetails = {
   address: '115569, Москва, Каширское шоссе 80К1',
   phone: '+7 (964) 716-11-11',
   phoneHref: '+79647161111',
-  email: 'AVBelyaev@biz-soft.pro',
-  salesEmail: 'hello@biz-soft.pro',
+  email: 'hello@biz-soft.pro',
   inn: '507202054051',
   ogrnip: '322774600665109',
   okpo: '2019116499',
@@ -81,7 +79,7 @@ export const expert = {
   tagline: 'Основатель BIZSoft, ведёт поставки зарубежного ПО российским юрлицам с 2022 года.',
   /** Развёрнуто — для страницы автора. */
   bio: 'Основатель BIZSoft. Занимается закупкой и оплатой зарубежного программного обеспечения и SaaS-сервисов для российских юридических лиц: подбор тарифа, договор, счёт в рублях, оплата вендору и закрывающие документы через ЭДО. Через эту практику проходят подписки на AI-сервисы, инструменты разработки, дизайн-ПО и корпоративные лицензии — материалы сайта пишутся из неё, а не из пересказов.',
-  email: 'AVBelyaev@biz-soft.pro',
+  email: 'hello@biz-soft.pro',
 } as const;
 
 /**
@@ -169,7 +167,7 @@ export const site = {
 export const offerManager = {
   name: 'Алексей Беляев',
   role: 'Менеджер BIZSoft',
-  email: 'AVBelyaev@biz-soft.pro',
+  email: 'hello@biz-soft.pro',
   phone: '+7 (964) 716-11-11',
   phoneHref: '+79647161111',
   telegram: 'https://t.me/ALBE_RU',

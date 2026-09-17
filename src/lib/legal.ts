@@ -11,7 +11,7 @@ import manifestJson from '../legal/legal-manifest.json';
 import { parseLegalDoc, sha256, canonicalText, type LegalDocId, type LegalDocContent } from './legal-doc';
 
 export type { LegalDocId, LegalDocContent };
-export { LEGAL_DOC_IDS, legalUrl, parseLegalDoc, canonicalText } from './legal-doc';
+export { LEGAL_DOC_IDS, legalUrl, parseLegalDoc, canonicalText, legalDateRu, effectiveFrom } from './legal-doc';
 
 export interface LegalRevision {
   version: string;

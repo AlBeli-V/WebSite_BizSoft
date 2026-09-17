@@ -27,11 +27,7 @@ const year = 2026;
       <h3>Контакты</h3>
       <a href={`tel:${seller.phoneHref}`}>{seller.phone}</a>
       <a href={`mailto:${seller.email}`}>{seller.email}</a>
-      <a href={`mailto:${seller.salesEmail}`}>{seller.salesEmail}</a>
-      <p class="footer-req">{seller.shortName}</p>
-      <p class="footer-req">ИНН {seller.inn}</p>
-      <p class="footer-req">ОГРНИП {seller.ogrnip}</p>
-      <p class="footer-req">{seller.address}</p>
+      <a class="footer-req-link" href="/documents#requisites">Реквизиты</a>
     </div>
   </div>
 
@@ -49,8 +45,11 @@ const year = 2026;
     </ul>
   </div>
 
+  {/* Нижняя строка идентифицирует продавца коротко: полное имя ИП звучит
+      один раз в правовых документах, а адрес регистрации в подвале не
+      публикуется вовсе — для корреспонденции есть страница реквизитов. */}
   <div class="container-page footer-bottom">
-    <p>© {year} {seller.brand}. {seller.legalName}.</p>
+    <p>© {year} {seller.brand} · {seller.shortName} · ИНН {seller.inn} · ОГРНИП {seller.ogrnip}</p>
     <p>Сайт носит информационный характер и не является публичной офертой.</p>
   </div>
 </footer>
@@ -94,11 +93,10 @@ const year = 2026;
   .footer-col a:hover {
     color: var(--color-accent);
   }
-  .footer-req {
-    color: var(--color-text-dim);
-    font-size: 0.82rem;
-    margin: 0;
-  }
+  /* Ссылка на реквизиты живёт в колонке контактов, но читается как
+     служебная: продавец и его номера — на отдельной странице, а не
+     четырьмя строками мелким шрифтом в подвале. */
+  .footer-req-link { font-size: 0.86rem; }
   /* Правовой блок: подписи длинные, поэтому не колонка сетки, а строка
      ссылок во всю ширину — на телефоне она сворачивается сама. */
   .footer-legal {

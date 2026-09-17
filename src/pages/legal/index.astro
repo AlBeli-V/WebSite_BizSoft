@@ -8,25 +8,30 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { LEGAL_MANIFEST, LEGAL_DOC_IDS, legalContent } from '../../lib/legal';
-import { COOKIE_UI } from '../../config/legal';
+import { LEGAL_MANIFEST, LEGAL_DOC_IDS, legalDateRu } from '../../lib/legal';
+import { COOKIE_UI, LEGAL_CARD_SUMMARY } from '../../config/legal';
 
-const docs = LEGAL_DOC_IDS.map((id) => {
-  const meta = LEGAL_MANIFEST[id];
-  return { id, meta, subtitle: legalContent(id).subtitle, dateRu: meta.version.split('-').reverse().join('.') };
-});
+// Подпись карточки — не подзаголовок документа, а ответ на вопрос «что мне
+// это даёт»: человек выбирает из пяти документов, не открывая каждый.
+const docs = LEGAL_DOC_IDS.map((id) => ({
+  id,
+  meta: LEGAL_MANIFEST[id],
+  summary: LEGAL_CARD_SUMMARY[id],
+  dateRu: legalDateRu(LEGAL_MANIFEST[id].version),
+}));
 ---
 <BaseLayout
   title="Правовая информация"
-  description="Политика обработки персональных данных, согласия, политика cookies и условия использования сайта BIZSoft. Действующие редакции с датой и контрольным хэшем."
+  description="Политика обработки персональных данных, согласия, cookies и веб-аналитика, условия использования сайта BIZSoft. Действующие редакции с датой."
   canonical="/legal"
 >
   <div class="container-page section">
     <Breadcrumbs items={[{ name: 'Правовая информация', url: '/legal' }]} />
     <h1>Правовая информация</h1>
     <p class="lg-lead">
-      Действующие редакции документов. У каждой указаны дата, номер версии и контрольный хэш SHA-256 —
-      по нему редакцию можно сверить с тем текстом, который был показан в момент согласия.
+      Здесь размещены действующие документы BIZSoft, регулирующие обработку персональных данных,
+      использование файлов cookie и сервисов веб-аналитики, информационные и рекламные сообщения,
+      а также использование сайта.
     </p>
 
     {/* Заголовок второго уровня нужен не для красоты: без него на странице
@@ -37,8 +42,8 @@ const docs = LEGAL_DOC_IDS.map((id) => {
       {docs.map((d) => (
         <li class="lg-item">
           <a class="lg-title" href={d.meta.url}>{d.meta.title}</a>
-          {d.subtitle && <p class="lg-sub">{d.subtitle}</p>}
-          <p class="lg-rev">Редакция от {d.dateRu} · <code>{d.meta.sha256.slice(0, 16)}…</code></p>
+          <p class="lg-sub">{d.summary}</p>
+          <p class="lg-rev">Редакция от {d.dateRu}</p>
         </li>
       ))}
     </ul>
@@ -49,7 +54,7 @@ const docs = LEGAL_DOC_IDS.map((id) => {
       можно в любой момент — здесь или по ссылке «Настройки cookies» в подвале сайта.
     </p>
     <p class="lg-cookies">
-      <button type="button" class="btn btn-outline btn-sm" data-cookie-settings>{COOKIE_UI.footerLink}</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-cookie-settings>{COOKIE_UI.footerLink}</button>
     </p>
   </div>
 </BaseLayout>

@@ -10,7 +10,7 @@ import { describe, expect, it } from 'vitest';
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { canonicalText, parseLegalDoc, LEGAL_DOC_IDS } from '../src/lib/legal-doc';
+import { canonicalText, parseLegalDoc, LEGAL_DOC_IDS, legalDateRu, effectiveFrom } from '../src/lib/legal-doc';
 import manifest from '../src/legal/legal-manifest.json';
 
 const ROOT = resolve(__dirname, '..');
@@ -43,8 +43,20 @@ describe('реестр редакций', () => {
     expect(doc.sha256).toBe(doc.revisions.find((r) => r.version === doc.version)!.sha256);
   });
 
-  it.each(LEGAL_DOC_IDS)('%s: версия — дата редакции в ISO', (id) => {
-    for (const rev of DOCS[id].revisions) expect(rev.version).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  // Версия начинается с даты вступления редакции в силу. Хвост `-N` нужен
+  // для второй и последующих редакций того же дня: выпущенный текст не
+  // правится (иначе согласия, записанные утром, ссылались бы на исчезнувший
+  // документ), а имя файла с датой занято. Публично хвост не показывается —
+  // на странице стоит только дата.
+  it.each(LEGAL_DOC_IDS)('%s: версия начинается с даты редакции в ISO', (id) => {
+    for (const rev of DOCS[id].revisions) expect(rev.version).toMatch(/^\d{4}-\d{2}-\d{2}(-\d+)?$/);
+  });
+
+  it.each(LEGAL_DOC_IDS)('%s: дата редакции выводится словами, без версии и хэша', (id) => {
+    const doc = DOCS[id];
+    expect(legalDateRu(doc.version)).toMatch(/^\d{1,2} [а-я]+ \d{4} года$/);
+    // Повторная редакция того же дня датируется тем же днём.
+    expect(effectiveFrom(doc.version)).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
   it('на диске нет редакций мимо манифеста', () => {
@@ -82,14 +94,78 @@ describe('содержание документов', () => {
     }
   });
 
+  // Проверки держат суть, а не формулировку: текст документа переписывается
+  // редакциями, и привязка к точной фразе ломала бы набор на каждой правке,
+  // ничего при этом не гарантируя.
   it('согласие на рассылку прямо называет себя добровольным', () => {
     const text = read(DOCS['marketing-consent'].path);
-    expect(text).toMatch(/не является условием отправки заявки/);
+    expect(text).toMatch(/[Дд]обровольн/);
+    expect(text).toMatch(/не является условием/);
+    // Отказ от рекламы не должен стоить человеку ответа и документов.
+    expect(text).toMatch(/коммерческого предложения/);
   });
 
   it('политика cookies фиксирует, что аналитика выключена до выбора', () => {
     const text = read(DOCS.cookies.path);
-    expect(text).toMatch(/выключена до выбора пользователя/);
+    expect(text).toMatch(/[Вв]ыключен[аы]? до выбора/);
+    // Google Analytics сохраняется как отдельная управляемая категория.
+    expect(text).toContain('Google Analytics');
+    expect(text).toContain('Яндекс.Метрика');
+  });
+
+  it('публичные документы не раскрывают внутреннюю инфраструктуру', () => {
+    // ТЗ 16.09.2026 (уточнение), п. 4: названия хостинга, портала, почтового
+    // провайдера и внутренних таблиц пользователю ничего не объясняют, а
+    // злоумышленнику дают карту. Их место — во внутреннем реестре.
+    const forbidden = [
+      'Beget', 'Bitrix', 'REG.RU', 'webhook', 'API',
+      'consent_audit_log', 'marketing_registry', 'SHA-256', 'CRM',
+    ];
+    for (const id of LEGAL_DOC_IDS) {
+      const text = read(DOCS[id].path);
+      for (const word of forbidden) {
+        expect(text, `${id}: в публичном документе не место слову «${word}»`)
+          .not.toMatch(new RegExp(word.replace(/\./g, '\\.'), 'i'));
+      }
+    }
+  });
+
+  it('единый публичный контакт — hello@, личного адреса в документах нет', () => {
+    for (const id of LEGAL_DOC_IDS) {
+      const text = read(DOCS[id].path);
+      expect(text, `${id}: контакт оператора должен быть указан`).toContain('hello@biz-soft.pro');
+      expect(text, `${id}: личный адрес публичным контактом не публикуется`)
+        .not.toMatch(/avbelyaev@/i);
+    }
+  });
+
+  it('полное имя ИП звучит один раз, дальше — «Оператор»', () => {
+    // ТЗ, п. 2: идентификация нужна однажды; повтор полного имени в каждом
+    // разделе превращает документ в анкету.
+    const text = read(DOCS.privacy.path);
+    expect(text).toContain('далее — «Оператор»');
+    // Имя допустимо ровно там, где идентифицируют лицо: вводная фраза и
+    // реквизитный блок. Дальше по документу — только «Оператор».
+    const body = text.slice(text.indexOf('## 3.'));
+    expect(body, 'после раздела реквизитов полное имя не повторяется')
+      .not.toMatch(/Беляев/);
+    expect(body).toContain('Оператор');
+  });
+
+  it('в Политике все разделы ТЗ на месте', () => {
+    const parsed = parseLegalDoc(read(DOCS.privacy.path));
+    const headings = parsed.blocks.filter((b) => b.kind === 'heading');
+    expect(headings.length, 'структура Политики — 22 раздела (ТЗ, п. 8)').toBe(22);
+    for (const required of [
+      'Правовые основания', 'Локализация', 'Трансграничная передача',
+      'Права субъекта', 'Порядок обращения', 'Отзыв согласия',
+      'Сроки хранения', 'Меры защиты',
+    ]) {
+      expect(
+        headings.some((h) => h.kind === 'heading' && h.text.includes(required)),
+        `в Политике нет раздела «${required}»`,
+      ).toBe(true);
+    }
   });
 });
 

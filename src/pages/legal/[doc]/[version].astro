@@ -9,7 +9,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import LegalDocument from '../../../components/LegalDocument.astro';
-import { LEGAL_MANIFEST, LEGAL_DOC_IDS, legalContent, legalDoc } from '../../../lib/legal';
+import { LEGAL_MANIFEST, LEGAL_DOC_IDS, legalContent, legalDoc, legalDateRu } from '../../../lib/legal';
 import type { LegalDocId } from '../../../lib/legal-doc';
 
 export function getStaticPaths() {
@@ -29,7 +29,7 @@ if (version === meta.version) return Astro.redirect(meta.url, 301);
 if (!meta.revisions.some((r) => r.version === version)) return Astro.redirect('/404');
 
 const content = legalContent(doc, version);
-const dateRu = version.split('-').reverse().join('.');
+const dateRu = legalDateRu(version);
 ---
 <BaseLayout
   title={`${meta.title} — редакция от ${dateRu}`}
