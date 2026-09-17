@@ -145,8 +145,13 @@ function section(inner: string, topPad = 42): string {
 export function buildCustomerQuoteEmail(input: OfferEmailInput): RenderedEmail {
   const { data, pdfName } = input;
   const vendors = input.vendors ?? [];
-  const subject = `Коммерческое предложение № ${data.quoteNo} — BIZSoft`;
   const company = data.buyerCompany || 'вашей организации';
+  // Тема называет предмет, а не номер: в списке писем заказчик узнаёт
+  // предложение по дате и производителям, а номер ему ни о чём не говорит
+  // (формулировка руководителя 16.09.2026).
+  const vendorList = vendors.map((v) => v.vendor).filter(Boolean).join(' / ');
+  const subject = `Предварительное КП BIZSoft от ${data.date}`
+    + (vendorList ? ` на поставку ${vendorList}` : '');
   const mailCtx = {
     to: offerManager.email,
     managerName: offerManager.name.split(' ')[0] || offerManager.name,
@@ -226,9 +231,10 @@ export function buildCustomerQuoteEmail(input: OfferEmailInput): RenderedEmail {
     // ── Обращение ──
     + section(`<div style="font-family:${FONT};font-size:15px;line-height:24px;color:${BODY}">`
       + `<b style="color:${INK}">${esc(salutation(data.contactName))}</b><br><br>`
-      + `Благодарим Вас за обращение. Направляем предварительное коммерческое предложение по `
-      + `выбранным вами продуктам. Будем рады помочь с подбором и ответить на возникшие вопросы.`
-      + `</div>`, 26)
+      + `Благодарим Вас за интерес к нашей компании и обращение. В ответ на Ваш запрос `
+      + `направляем предварительное коммерческое предложение в интересах ${esc(company)} `
+      + `на выбранные Вами продукты и AI-сервисы. Будем рады помочь с уточнением выбора и `
+      + `ответить на возникшие вопросы.</div>`, 26)
     + `<tr><td class="pad" align="right" style="padding:14px 36px 0;font-family:${FONT};`
     + `font-size:14px;color:${BODY}"><i>Команда BIZSoft.</i></td></tr>`
 
@@ -284,8 +290,9 @@ export function buildCustomerQuoteEmail(input: OfferEmailInput): RenderedEmail {
   const text = [
     salutation(data.contactName),
     '',
-    `Благодарим Вас за обращение. Направляем предварительное коммерческое предложение `
-      + `№ ${data.quoteNo} в интересах ${company} — документ во вложении (${pdfName}).`,
+    `Благодарим Вас за интерес к нашей компании и обращение. В ответ на Ваш запрос `
+      + `направляем предварительное коммерческое предложение № ${data.quoteNo} в интересах `
+      + `${company} на выбранные Вами продукты и AI-сервисы — документ во вложении (${pdfName}).`,
     '',
     'СЛЕДУЮЩИЙ ШАГ',
     '— Запросить счёт или договор: ответным письмом',
