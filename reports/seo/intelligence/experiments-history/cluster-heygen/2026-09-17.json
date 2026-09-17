@@ -1,0 +1,42 @@
+{
+ "experiment_id": "cluster-heygen",
+ "ticket": "CONTENT-005",
+ "date": "2026-09-17",
+ "source": "yandex",
+ "evaluation_kind": "impressions_growth",
+ "windows": {
+  "experiment": {
+   "from": "2026-09-03",
+   "to": "2026-09-14",
+   "file": "2026-09-17",
+   "tainted": true
+  }
+ },
+ "metrics": {
+  "experiment": {
+   "impressions": 82,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 5.817073170731708,
+   "queries": 14
+  },
+  "baseline_registry": {
+   "impressions": 342,
+   "days": 28
+  }
+ },
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [
+  "окно захватывает день внедрения — рост слегка занижен"
+ ],
+ "statistical_result": null,
+ "summary_line": "показы кластера 7/день (окно 2026-09-03–2026-09-14) против 12/день baseline (342 за 28 дн.) — -44% · статья в топ-10: позиция 2 (замер 2026-09-17) · без критерия значимости (у показов нет модели испытаний)",
+ "confidence": "LOW",
+ "verdict": "INCONCLUSIVE",
+ "verdict_reason": "показы кластера снизились на -44% к baseline — без критерия значимости падение неотличимо от сезонного",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "продлить наблюдение и разобрать причины (сезонность, смена выдачи, каннибализация статьёй карточек)",
+ "recommended_targets": [],
+ "requires_owner_decision": false
+}

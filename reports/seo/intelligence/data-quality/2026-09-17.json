@@ -1,0 +1,365 @@
+{
+ "schema_version": "3.1.0",
+ "data_health": {
+  "status": "verified",
+  "reason": "охваты сопоставлены: KPI считаются по всему сайту",
+  "colour": "positive",
+  "detail": "Показы и клики Яндекса, показы Google, визиты Метрики и сессии GA4 считаются по всему сайту за окна равной длины. Выборка запросов используется только в разделе возможностей и на KPI не влияет."
+ },
+ "derived": {
+  "stale_sources": [
+   "yandex"
+  ],
+  "goals_missing": 0,
+  "goals_lagging": false
+ },
+ "measurement_map": [
+  {
+   "source": "Яндекс.Вебмастер",
+   "metric": "impressions",
+   "entity": "показ сайта в выдаче",
+   "scope": "весь сайт",
+   "period": "2026-09-08–2026-09-14",
+   "filters": "поиск Яндекса, регион не разделён",
+   "coverage": "все запросы хоста, ряды по дням (дневная витрина)",
+   "comparable_with": [
+    "Яндекс.Вебмастер · clicks"
+   ],
+   "difference_explanation": "Показы всего сайта по дням; окно равной длины строит отчёт. С показами Google не складываются: разные поисковые системы.",
+   "value": 7990.0,
+   "status": "ok"
+  },
+  {
+   "source": "Яндекс.Вебмастер",
+   "metric": "clicks",
+   "entity": "переход из выдачи",
+   "scope": "весь сайт",
+   "period": "2026-09-08–2026-09-14",
+   "filters": "поиск Яндекса",
+   "coverage": "все запросы хоста, ряды по дням (дневная витрина)",
+   "comparable_with": [
+    "Яндекс.Вебмастер · impressions"
+   ],
+   "difference_explanation": "Все переходы из выдачи Яндекса; сопоставимы с визитами Метрики по порядку величины, но визит и клик — разные события и напрямую не равны.",
+   "value": 57.0,
+   "status": "ok"
+  },
+  {
+   "source": "Google Search Console",
+   "metric": "impressions",
+   "entity": "показ страницы в выдаче",
+   "scope": "весь сайт",
+   "period": "2026-08-20–2026-09-14",
+   "filters": "web-поиск, ресурс sc-domain",
+   "coverage": "все страницы ресурса",
+   "comparable_with": [],
+   "difference_explanation": "Отдельная поисковая система: с числами Яндекса не складывается и не сравнивается.",
+   "value": 232,
+   "status": "ok"
+  },
+  {
+   "source": "Яндекс.Метрика",
+   "metric": "visits",
+   "entity": "визит из органического поиска",
+   "scope": "весь сайт",
+   "period": "2026-09-03–2026-09-16",
+   "filters": "источник трафика: органический",
+   "coverage": "все страницы сайта, все поисковые системы",
+   "comparable_with": [
+    "GA4 · sessions"
+   ],
+   "difference_explanation": "Визит объединяет действия пользователя с таймаутом 30 минут; охват — весь сайт и все поисковики, включая Google.",
+   "value": 59.0,
+   "status": "ok"
+  },
+  {
+   "source": "GA4",
+   "metric": "sessions",
+   "entity": "сессия из органического поиска",
+   "scope": "весь сайт",
+   "period": "2026-09-03–2026-09-16",
+   "filters": "канал: Organic Search без собственных визитов и переходов из Алисы",
+   "coverage": "все страницы сайта, все поисковые системы",
+   "comparable_with": [
+    "Яндекс.Метрика · visits"
+   ],
+   "difference_explanation": "Модель сессии GA4 отличается от модели визита Метрики (граница суток, источник, таймаут), поэтому небольшое расхождение — норма, а не ошибка.",
+   "value": 81,
+   "status": "ok"
+  },
+  {
+   "source": "Воронка сайта (Directus)",
+   "metric": "leads",
+   "entity": "обращение",
+   "scope": "заявки сайта",
+   "period": "2026-09-10–2026-09-16",
+   "filters": "мусор (status=spam) исключён",
+   "coverage": "все формы сайта и скачивания КП",
+   "comparable_with": [],
+   "difference_explanation": "Целевое событие Метрики фиксирует действие в браузере, заявка — запись в воронке; числа не равны и сведению не подлежат. Сделки и выручка не измеряются.",
+   "value": 6,
+   "status": "ok"
+  }
+ ],
+ "funnel": {
+  "available": true,
+  "complete": true,
+  "current": {
+   "from": "2026-09-08",
+   "to": "2026-09-14"
+  },
+  "previous": {
+   "from": "2026-09-01",
+   "to": "2026-09-07"
+  },
+  "lag_days": 3,
+  "missing_dates": [],
+  "rows": [
+   {
+    "source": "Яндекс.Вебмастер",
+    "metric": "impressions",
+    "label": "Показы в Яндексе",
+    "current": 7990.0,
+    "previous": 6540.0,
+    "delta": 1450.0,
+    "complete": true
+   },
+   {
+    "source": "Яндекс.Вебмастер",
+    "metric": "clicks",
+    "label": "Переходы из Яндекса",
+    "current": 57.0,
+    "previous": 62.0,
+    "delta": -5.0,
+    "complete": true
+   },
+   {
+    "source": "Google Search Console",
+    "metric": "impressions",
+    "label": "Показы в Google",
+    "current": 53,
+    "previous": 106,
+    "delta": -53,
+    "complete": true
+   },
+   {
+    "source": "Google Search Console",
+    "metric": "clicks",
+    "label": "Переходы из Google",
+    "current": 1,
+    "previous": 0,
+    "delta": 1,
+    "complete": true
+   },
+   {
+    "source": "Яндекс.Метрика",
+    "metric": "visits_organic",
+    "label": "Органические визиты",
+    "current": 43.0,
+    "previous": 16.0,
+    "delta": 27.0,
+    "complete": true
+   },
+   {
+    "source": "Яндекс.Метрика",
+    "metric": "goal_reaches_organic",
+    "label": "Целевые события органики",
+    "current": 134.0,
+    "previous": 26.0,
+    "delta": 108.0,
+    "complete": true
+   },
+   {
+    "source": "GA4",
+    "metric": "sessions_organic",
+    "label": "Органические сессии (без своих визитов)",
+    "current": 45.0,
+    "previous": 43.0,
+    "delta": 2.0,
+    "complete": true
+   },
+   {
+    "source": "GA4",
+    "metric": "key_events_organic",
+    "label": "Ключевые события органики",
+    "current": 5.0,
+    "previous": 3.0,
+    "delta": 2.0,
+    "complete": true
+   }
+  ],
+  "note": "Все строки — за одно окно с общим концом по самому медленному источнику; карточки письма считаются по свежему окну каждого источника, поэтому числа здесь и в карточках различаются датами, а не методикой."
+ },
+ "sample_ctr": {
+  "value": 0.008053382420616659,
+  "impressions": 13038,
+  "clicks": 105,
+  "scope": "все запросы хоста за окно источника",
+  "label": "CTR по запросам Вебмастера",
+  "caveat": "по всем 1851 запросам хоста за окно источника 2026-09-03–2026-09-14; окно витрины KPI другое"
+ },
+ "report_date": "2026-09-17",
+ "generated_at": "2026-09-17T10:15:17+00:00",
+ "status": "warning",
+ "counts": {
+  "critical": 0,
+  "warning": 2,
+  "info": 10
+ },
+ "incident_counts": {
+  "critical": 0,
+  "warning": 1,
+  "info": 1
+ },
+ "kind_counts": {
+  "incident": 2,
+  "limit": 3,
+  "rule": 7
+ },
+ "findings": [
+  {
+   "level": "info",
+   "code": "SOURCE_NOT_UPDATED",
+   "title": "Яндекс.Вебмастер: данные не обновились",
+   "detail": "Последняя дата события прежняя — 2026-09-14.",
+   "effect_on_report": "Значения повторяют предыдущий сбор; их совпадение с вчерашними не является новым наблюдением и не подаётся как новость.",
+   "source": "yandex",
+   "kind": "incident",
+   "since": null,
+   "lifted_when": null
+  },
+  {
+   "level": "info",
+   "code": "ROLLING_WINDOW_OVERLAP",
+   "title": "Окно запросов Вебмастера плавает вслед за задержкой источника",
+   "detail": "Окно выборки запросов 2026-09-03–2026-09-14 (12 дн.) пересекается с окном вчерашнего сбора на 12 дн.",
+   "effect_on_report": "KPI и дельты считаются по дневной витрине (окна равной длины встык). Выборка запросов используется только в разделе возможностей; её суммы день к дню не сравниваются.",
+   "source": null,
+   "kind": "rule",
+   "since": null,
+   "lifted_when": null
+  },
+  {
+   "level": "info",
+   "code": "WINDOW_LENGTH_MISMATCH",
+   "title": "Окна сравнения разной длины",
+   "detail": "Текущее окно 12 дн., предыдущее 13 дн. Задержка источника плавает, длина окна вслед за ней.",
+   "effect_on_report": "KPI считаются по витрине с окнами равной длины; разница длин касается только выборки запросов раздела возможностей.",
+   "source": null,
+   "kind": "rule",
+   "since": null,
+   "lifted_when": null
+  },
+  {
+   "level": "info",
+   "code": "YANDEX_SAMPLE_SCOPE",
+   "title": "Раздел возможностей считается по всем 1851 запросам Вебмастера",
+   "detail": "Показы 13038 и клики 105 — сумма по всем запросам хоста за окно источника 2026-09-03–2026-09-14; KPI письма — из дневной витрины за окна равной длины.",
+   "effect_on_report": "CTR по запросам публикуется как CTR за окно источника; с окном витрины и с другими поисковыми системами не смешивается.",
+   "source": null,
+   "kind": "rule",
+   "since": null,
+   "lifted_when": null
+  },
+  {
+   "level": "info",
+   "code": "PERIOD_MISMATCH",
+   "title": "Окна источников кончаются разными днями",
+   "detail": "Вебмастер до 2026-09-14, Метрика до 2026-09-16: задержка созревания у источников разная.",
+   "effect_on_report": "Карточки показателей считаются по свежему окну своего источника; воронка и сверки между источниками — по общему окну 2026-09-08–2026-09-14 (раздел «Карта измерений»).",
+   "source": null,
+   "kind": "rule",
+   "since": null,
+   "lifted_when": null
+  },
+  {
+   "level": "info",
+   "code": "SCOPE_QUERY_VS_PAGE",
+   "title": "Google: запросы и страницы считаются отдельно",
+   "detail": "Видимые запросы (55) покрывают 141 из 232 показов (61%); остальные показы Google относит к скрытым запросам. В топ-10 запросов: 1, страниц: 21 — это разные срезы с разным покрытием.",
+   "effect_on_report": "Число запросов и страниц в топ-10 между собой не сравнивается; позиции по запросам публикуются с долей покрытия показов.",
+   "source": null,
+   "kind": "rule",
+   "since": null,
+   "lifted_when": null
+  },
+  {
+   "level": "warning",
+   "code": "NO_CTR_MODEL",
+   "title": "Утверждённая CTR-модель отсутствует",
+   "detail": "Нет документированной кривой CTR по позициям для наших поисковиков и устройств.",
+   "effect_on_report": "Расчёт «ожидаемого CTR» и «потерянных кликов» не публикуется.",
+   "source": null,
+   "kind": "limit",
+   "since": null,
+   "lifted_when": "не менее 300 кликов по запросам Вебмастера за окно источника и утверждённая руководителем кривая"
+  },
+  {
+   "level": "info",
+   "code": "NO_CRM_REVENUE",
+   "title": "Сделки и выручка не измеряются",
+   "detail": "Воронка отдаёт заявки с каналом и составом запроса; стадии «выиграна/проиграна» и сумма сделки ведутся менеджером вручную.",
+   "effect_on_report": "Бизнес-результат публикуется на уровне обращений; выручка — «нет данных».",
+   "source": null,
+   "kind": "limit",
+   "since": "2026-09-01",
+   "lifted_when": "стадии сделок и суммы ведутся в воронке и выгружаются"
+  },
+  {
+   "level": "warning",
+   "code": "INDEXATION_COMMERCIAL_EXCLUDED",
+   "title": "Коммерческие страницы сняты из поиска без ожидаемой причины",
+   "detail": "370 адресов из sitemap: /catalog/ai, /catalog/ai/audio, /catalog/ai/code, /catalog/ai/enterprise, /catalog/ai/image и ещё 45. Статусы исключения — события за окно выборки 19.06–17.09, а не состояние на сегодня: LOW_QUALITY: 462, NOT_CANONICAL: 4, NO_INDEX: 3, REDIRECT_NOTSEARCHABLE: 3, HTTP_ERROR: 1, NOTHING_FOUND: 1. Сейчас Вебмастер числит исключёнными 869 адресов хоста.",
+   "effect_on_report": "Исключение этих страниц считается проблемой до разбора причины; остальные исключения — ожидаемые (переадресация, canonical, noindex, вне sitemap).",
+   "source": "yandex",
+   "kind": "incident",
+   "since": null,
+   "lifted_when": "в окне выборки не остаётся коммерческих страниц sitemap с неожиданным статусом"
+  },
+  {
+   "level": "info",
+   "code": "INDEXATION_UNCLASSIFIED",
+   "title": "Часть исключённых страниц без классификации",
+   "detail": "Выборка событий поиска покрыла 474 из 869 исключённых URL; остальные сняты раньше окна выборки (2026-06-19–2026-09-17).",
+   "effect_on_report": "Утверждения о причинах делаются только по разобранной части.",
+   "source": null,
+   "kind": "limit",
+   "since": "2026-08-19",
+   "lifted_when": "окно выборки событий покрывает все исключения"
+  },
+  {
+   "level": "info",
+   "code": "DEMAND_NOT_COMPARABLE_TO_VISIBILITY",
+   "title": "Спрос и наша видимость не сопоставляются напрямую",
+   "detail": "Спрос — показы в поиске Яндекса, последние 30 дней, регион Россия, соответствие broad. Наша видимость — запросы Вебмастера за окно источника и дневная витрина показов.",
+   "effect_on_report": "Доля голоса не рассчитывается; спрос используется как обоснование действий, а не как наш показатель.",
+   "source": null,
+   "kind": "rule",
+   "since": null,
+   "lifted_when": null
+  },
+  {
+   "level": "info",
+   "code": "INTERNAL_TRAFFIC_EXCLUDED",
+   "title": "Органика GA4 очищена от своих визитов и переходов из Алисы",
+   "detail": "переходы из Алисы и Нейро (alice.yandex.ru): 2 сессий — отдельный канал, не поиск. Очищенная органика: 81 сессий из 83.",
+   "effect_on_report": "Конверсия органического канала публикуется по очищенным сессиям; дневной ряд GA4 собран с тем же фильтром.",
+   "source": "ga4",
+   "kind": "rule",
+   "since": null,
+   "lifted_when": null
+  }
+ ],
+ "publication_rules": {
+  "allow_green_overall_status": false,
+  "allow_sitewide_ctr_claims": true,
+  "allow_expected_ctr_claims": false,
+  "allow_lead_wording": false,
+  "allow_market_demand_wording": true,
+  "allow_assortment_decisions": true,
+  "allow_absolute_delta": true,
+  "kpi_from_daily": true,
+  "allow_channel_conversion_claims": true,
+  "allow_conversion_wording": true
+ }
+}

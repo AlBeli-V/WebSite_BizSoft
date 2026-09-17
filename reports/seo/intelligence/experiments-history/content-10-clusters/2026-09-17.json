@@ -1,0 +1,53 @@
+{
+ "experiment_id": "content-10-clusters",
+ "ticket": "CONTENT-004",
+ "date": "2026-09-17",
+ "source": "yandex",
+ "evaluation_kind": "impressions_growth",
+ "windows": {
+  "experiment": {
+   "from": "2026-09-03",
+   "to": "2026-09-14",
+   "file": "2026-09-17",
+   "tainted": true
+  }
+ },
+ "metrics": {
+  "experiment": {
+   "impressions": 4179,
+   "clicks": 7,
+   "ctr": 0.0016750418760469012,
+   "avg_position": 7.379995214166068,
+   "queries": 430
+  },
+  "baseline_registry": {
+   "impressions": 609,
+   "days": 12
+  }
+ },
+ "matched_metrics": null,
+ "position_delta": null,
+ "sample_quality": [
+  "окно захватывает день внедрения — рост слегка занижен"
+ ],
+ "statistical_result": null,
+ "summary_line": "показы кластера 348/день (окно 2026-09-03–2026-09-14) против 51/день baseline (609 за 12 дн.) — +586% · в топ-10 6 из 6 замеренных страниц партии (позиции: kak-kupit-windsurf-iz-rossii-dlya-yurlica — 2, gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica — 1, oplata-descript-yuridicheskim-licom — 1, kak-poluchit-schet-i-zakryvayushchie-ot-atlassian — 1, kak-oplatit-box-business-iz-rossii — 1, kupit-leonardo-ai-yuridicheskim-licom — 2; замер 2026-09-17) · без критерия значимости (у показов нет модели испытаний)",
+ "confidence": "HIGH",
+ "verdict": "CONFIRMED",
+ "verdict_reason": "показы кластера выросли на +586% к baseline (51 → 348 показов/день), в топ-10 вошли 6 из 6 замеренных страниц партии",
+ "recommendation": "EXPAND",
+ "recommendation_detail": "перенести приём (статья под транзакционный интент + взаимная перелинковка с карточками) на следующие 10 кластеров, где условия оригинала выполнены целиком: сайт уже показывается по кластеру со средней позицией в топ-10 и есть карточки товара для перелинковки",
+ "recommended_targets": [
+  "/vendors/framer",
+  "/vendors/envato",
+  "/vendors/coreldraw",
+  "/vendors/slack",
+  "/vendors/github",
+  "/vendors/artlist",
+  "/vendors/airalo",
+  "/vendors/depositphotos",
+  "/vendors/openai",
+  "/vendors/marmoset"
+ ],
+ "requires_owner_decision": true
+}
