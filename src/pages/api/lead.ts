@@ -11,6 +11,7 @@ import { findParty } from '../../lib/dadata';
 import { buildManagerLeadEmail } from '../../lib/email/lead-manager';
 import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
 import { clientIp } from '../../lib/client-ip';
+import { intakeFormConsents } from '../../lib/consent-intake';
 
 function isEmail(v: unknown): v is string {
   return typeof v === 'string' && /.+@.+\..+/.test(v);
@@ -55,6 +56,34 @@ export const POST: APIRoute = async ({ request }) => {
   // человеку до конца часа.
   await countSubmission(ip);
 
+  // Согласия фиксируются ДО заявки и до зеркала в портале (ТЗ 16.09.2026,
+  // п. 3). Если журнал недоступен, обращение не принимается вовсе: контакт
+  // в работе без доказательства согласия — это и есть нарушение, ради
+  // предотвращения которого журнал заводился. Человеку при этом
+  // предлагается живой канал, а не «попробуйте позже в никуда».
+  let consent: Awaited<ReturnType<typeof intakeFormConsents>>;
+  try {
+    consent = await intakeFormConsents({
+      body,
+      subject: {
+        name: String(body.name || ''),
+        email: String(body.email || ''),
+        phone: String(body.phone || ''),
+        company: String(body.company || ''),
+      },
+      fallbackFormId: String(body.source || 'lead-form'),
+      purpose: 'Обработка обращения, подготовка ответа и КП',
+      ip,
+      userAgent: request.headers.get('user-agent') || undefined,
+    });
+  } catch (e) {
+    console.error('consent log failed', e);
+    return new Response(
+      JSON.stringify({ error: 'Не удалось зафиксировать согласие. Напишите нам на hello@biz-soft.pro или позвоните.' }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
+
   const payload = {
     name: String(body.name || '').slice(0, 200),
     company: String(body.company || '').slice(0, 200),
@@ -64,6 +93,12 @@ export const POST: APIRoute = async ({ request }) => {
     message: String(body.message || '').slice(0, 4000),
     product_ref: String(body.product_ref || '').slice(0, 300),
     consent: true,
+    // Ссылка на доказательство: по event_id карточка заявки поднимается в
+    // журнале согласий одним запросом. Сам журнал при этом остаётся
+    // источником истины — в заявке лежит только ссылка.
+    consent_event_id: consent.personalDataEventId,
+    marketing_consent: consent.marketingStatus === 'subscribed',
+    marketing_consent_event_id: consent.marketingEventId,
     // Идентификатор формы, а не канал трафика. Прежде поле называлось просто
     // `source`, и в письме менеджеру строка «Источник: pricing» читалась как
     // источник перехода. Канал теперь лежит отдельно, в last_touch_source.
@@ -102,6 +137,8 @@ export const POST: APIRoute = async ({ request }) => {
     formSource: payload.form_source,
     channel: attr.last_touch_source,
     productRef: payload.product_ref,
+    consentEventId: consent.personalDataEventId,
+    marketingStatus: consent.marketingStatus === 'subscribed' ? 'subscribed' : 'not_subscribed',
     utm: {
       utm_source: attr.utm_source,
       utm_medium: attr.utm_medium,
