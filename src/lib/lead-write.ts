@@ -11,11 +11,12 @@
  * список удобнее держать в одном месте.
  */
 import { createLead } from './directus';
-import { ATTRIBUTION_EXTRA_FIELDS, LEAD_ECONOMICS_FIELDS } from './quote-lead';
+import { ATTRIBUTION_EXTRA_FIELDS, LEAD_CONSENT_FIELDS, LEAD_ECONOMICS_FIELDS } from './quote-lead';
 
 const OPTIONAL_FIELDS: readonly string[] = [
   ...LEAD_ECONOMICS_FIELDS,
   ...ATTRIBUTION_EXTRA_FIELDS,
+  ...LEAD_CONSENT_FIELDS,
 ];
 
 export async function createLeadTolerant(record: Record<string, unknown>): Promise<string | number | null> {
