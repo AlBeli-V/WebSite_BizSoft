@@ -1,0 +1,53 @@
+---
+/**
+ * Архивная редакция документа: /legal/<документ>/<версия>.
+ *
+ * Нужна для одной операции — восстановить текст, SHA-256 которого записан в
+ * событии согласия (HELP администратора, п. 4). Из поиска закрыта: в выдаче
+ * должна быть действующая редакция, а не любая из бывших.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import LegalDocument from '../../../components/LegalDocument.astro';
+import { LEGAL_MANIFEST, LEGAL_DOC_IDS, legalContent, legalDoc, legalDateRu } from '../../../lib/legal';
+import type { LegalDocId } from '../../../lib/legal-doc';
+
+export function getStaticPaths() {
+  return LEGAL_DOC_IDS.flatMap((doc) =>
+    LEGAL_MANIFEST[doc].revisions.map((r) => ({ params: { doc, version: r.version } })),
+  );
+}
+
+const doc = Astro.params.doc as LegalDocId;
+const version = String(Astro.params.version);
+if (!LEGAL_MANIFEST[doc]) return Astro.redirect('/404');
+
+const meta = legalDoc(doc);
+// Действующая редакция живёт на постоянном адресе без версии: два адреса с
+// одним текстом — это дубль в индексе и сомнение, какой из них предъявлять.
+if (version === meta.version) return Astro.redirect(meta.url, 301);
+if (!meta.revisions.some((r) => r.version === version)) return Astro.redirect('/404');
+
+const content = legalContent(doc, version);
+const dateRu = legalDateRu(version);
+---
+<BaseLayout
+  title={`${meta.title} — редакция от ${dateRu}`}
+  description={`Архивная редакция документа «${meta.title}» от ${dateRu}.`}
+  noindex={true}
+>
+  <div class="container-page section">
+    <Breadcrumbs
+      items={[
+        { name: 'Правовая информация', url: '/legal' },
+        { name: meta.title, url: meta.url },
+        { name: `Редакция от ${dateRu}`, url: `${meta.url}/${version}` },
+      ]}
+    />
+    <LegalDocument meta={meta} content={content} archivedVersion={version} />
+  </div>
+</BaseLayout>
+
+<style>
+  .section { padding-top: 2rem; }
+</style>
