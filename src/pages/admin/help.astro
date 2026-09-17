@@ -16,6 +16,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdminTabs from '../../components/AdminTabs.astro';
 import { LEGAL_MANIFEST } from '../../lib/legal';
 import { seller } from '../../config/site';
+
+// Запасной путь для трёх паролей — командой в терминале, если менеджер
+// паролей под рукой не оказался. Живут строками, а не в разметке: в Astro
+// фигурная скобка открывает выражение, а в PowerShell их полно.
+// Ключ второго фактора командой не выдаётся — его делает кнопка на странице.
+const GEN_TOKEN_PS = `$b = New-Object byte[] 24
+[System.Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b)
+[Convert]::ToBase64String($b) -replace '\\+','-' -replace '/','_' -replace '=',''`;
+
+const GEN_TOKEN_SH = `openssl rand -base64 24 | tr '+/' '-_' | tr -d '='`;
+
 ---
 <BaseLayout title="Справка администратора — согласия и рассылки" description="Служебная страница" noindex={true}>
   <div class="container-page section help">
@@ -46,6 +57,7 @@ import { seller } from '../../config/site';
       Менеджер продаж в этот раздел не заходит вовсе: маркетинговый статус он видит в карточке заявки
       и в Bitrix24, а править доказательственную историю не может ни он, ни кто-либо ещё.
       Токен и код в браузере не сохраняются — после перезагрузки страницы вход повторяется.
+      Как создать эти четыре значения и внести их — раздел 10 ниже.
     </p>
 
     <h2>2. Вкладка «Аудиторский журнал»</h2>
@@ -159,7 +171,222 @@ import { seller } from '../../config/site';
       <li>Пароли и временные доступы к аккаунтам вендоров в журнал согласий не попадают никогда.</li>
     </ul>
 
-    <h2>10. Куда писать</h2>
+    <h2>10. Как завести секреты доступа</h2>
+    <p>
+      Эти четыре значения никто не выдаёт — вы создаёте их сами. Это не ключи от стороннего
+      сервиса, а пароли нашего собственного раздела, поэтому «где взять» = «сгенерировать».
+    </p>
+
+    <div class="help-table-wrap">
+      <table class="help-table">
+        <thead><tr><th>Секрет</th><th>Зачем</th><th>Формат</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>COMPLIANCE_OWNER_TOKEN</code></td>
+            <td>вход ролью владельца: журнал целиком с IP и user-agent, выгрузки, смена статусов</td>
+            <td>обычный пароль от 16 символов: латиница, цифры, <code>-</code> <code>_</code> <code>.</code></td>
+          </tr>
+          <tr>
+            <td><code>COMPLIANCE_ADMIN_TOKEN</code></td>
+            <td>вход ролью комплаенс-администратора: без технических реквизитов и без выгрузок</td>
+            <td>такой же пароль, <b>обязан отличаться</b> от первого</td>
+          </tr>
+          <tr>
+            <td><code>COMPLIANCE_TOTP_SECRET</code></td>
+            <td>второй фактор: из него приложение-аутентификатор считает шестизначный код</td>
+            <td>base32 (<code>A–Z</code> и <code>2–7</code>) — паролем быть не может, делается кнопкой в шаге 2</td>
+          </tr>
+          <tr>
+            <td><code>UNSUBSCRIBE_SECRET</code></td>
+            <td>подпись ссылок отписки в рекламных письмах</td>
+            <td>обычный пароль от 16 символов, тот же набор знаков</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Ключ второго фактора <b>один на весь раздел</b>: и владелец, и администратор вводят код
+      из одного и того же ключа. Различает их токен роли.
+    </p>
+
+    <h3>Что вводится в три поля на входе</h3>
+    <p>
+      Вход в «Комплаенс» спрашивает три вещи, и это <b>не три части одного токена</b>. Их
+      источники разные, и настраивается из них только первое.
+    </p>
+
+    <div class="help-table-wrap">
+      <table class="help-table">
+        <thead><tr><th>Поле на входе</th><th>Что туда вводить</th><th>Откуда берётся</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Токен роли</b></td>
+            <td>целиком значение <code>COMPLIANCE_OWNER_TOKEN</code> — или <code>COMPLIANCE_ADMIN_TOKEN</code>, если нужна роль без выгрузок</td>
+            <td>строка, которую вы создали на шаге 1 и сохранили в менеджере паролей. Именно она и решает, какая роль откроется</td>
+          </tr>
+          <tr>
+            <td><b>Код из приложения</b></td>
+            <td>шесть цифр, которые показывает приложение-аутентификатор <b>в эту минуту</b></td>
+            <td>приложение считает их само из <code>COMPLIANCE_TOTP_SECRET</code>. Код меняется каждые 30 секунд, нигде не хранится и заранее не известен</td>
+          </tr>
+          <tr>
+            <td><b>Кто работает</b></td>
+            <td>ваши фамилия и имя обычным текстом</td>
+            <td>вы печатаете их руками при каждом входе. Это <b>не секрет и не логин</b>: поле ничего не проверяет, строка просто попадает в журнал действий рядом с тем, что вы открыли</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Четвёртый секрет, <code>UNSUBSCRIBE_SECRET</code>, на входе не участвует вовсе — им
+      подписываются ссылки отписки в рекламных письмах. Вводить его никуда не нужно.
+    </p>
+    <p>
+      «Название» тоже нигде не задаётся как реквизит: так называется запись внутри
+      приложения-аутентификатора, чтобы отличать её от других кодов в списке. Подпись
+      произвольная, на вход она не влияет.
+    </p>
+
+    <h3>Шаг 1. Три пароля — из менеджера паролей, без терминала</h3>
+    <p>
+      Три из четырёх значений — это обычные длинные пароли. Никакого особого формата у них
+      нет: подойдёт любой, который вы придумаете сами или сгенерирует ваш менеджер паролей
+      (или сам браузер при сохранении). Заведите в менеджере три отдельные записи —
+      <code>COMPLIANCE_OWNER_TOKEN</code>, <code>COMPLIANCE_ADMIN_TOKEN</code> и
+      <code>UNSUBSCRIBE_SECRET</code>, — и пароли останутся на вашем компьютере под рукой.
+    </p>
+    <p>Три требования, все проверяются автоматически на шаге <code>check</code>:</p>
+    <ul>
+      <li><b>От 16 символов.</b> Практично — 24–32.</li>
+      <li>
+        <b>Только латинские буквы, цифры и знаки <code>-</code> <code>_</code>
+        <code>.</code></b> В генераторе менеджера паролей это переключатель
+        «спецсимволы» (Symbols, Special characters) — его надо выключить. Кавычки,
+        пробелы, <code>#</code>, <code>$</code>, <code>!</code>, <code>%</code> и
+        подобное не переживают дорогу до файла окружения сервера: значение обрежется,
+        а раздел ответит «неверный токен» без объяснения причины.
+      </li>
+      <li>
+        <b>Все три — разные.</b> Одинаковые токены ролей снимают разделение доступа,
+        а общий с ними ключ подписи означает, что один утёкший пароль открывает и
+        журнал персональных данных, и ссылки отписки.
+      </li>
+    </ul>
+
+    <p>
+      Не искать переключатель в менеджере паролей — нажмите кнопку трижды и разложите
+      значения по трём секретам. Набор символов здесь заведомо правильный.
+    </p>
+
+    <div class="gen" data-genpwd>
+      <button type="button" class="btn btn-ghost btn-sm" data-genpwd-run>Сгенерировать пароль</button>
+      <div class="gen-out" data-genpwd-out hidden>
+        <code class="gen-key" data-genpwd-key></code>
+        <button type="button" class="btn btn-ghost btn-sm" data-genpwd-copy>Скопировать</button>
+        <span class="gen-copied" data-genpwd-copied hidden>скопировано</span>
+      </div>
+      <p class="gen-note">
+        32 знака из латиницы и цифр. Пароль создаётся в вашем браузере и
+        <b>никуда не отправляется</b>. Каждое нажатие даёт новый — сохраняйте
+        предыдущий в менеджере паролей до того, как нажмёте снова.
+      </p>
+    </div>
+
+    <details class="help-fold">
+      <summary>Если привычнее командой, а не кнопкой</summary>
+      <p>Windows, PowerShell (Win+X → «Терминал»), выполнить трижды:</p>
+      <pre class="help-code"><code>{GEN_TOKEN_PS}</code></pre>
+      <p>macOS или Linux, «Терминал», тоже трижды:</p>
+      <pre class="help-code"><code>{GEN_TOKEN_SH}</code></pre>
+    </details>
+    <h3>Шаг 2. Ключ второго фактора — кнопкой ниже</h3>
+    <p>
+      Четвёртое значение паролем быть не может: приложение-аутентификатор принимает ключ
+      только в алфавите base32 — латинские буквы <code>A–Z</code> и цифры <code>2–7</code>,
+      без 0, 1, 8 и 9. Придумать такой руками нельзя, поэтому вот кнопка.
+    </p>
+
+    <div class="gen" data-gen>
+      <button type="button" class="btn btn-ghost btn-sm" data-gen-run>Сгенерировать ключ</button>
+      <div class="gen-out" data-gen-out hidden>
+        <code class="gen-key" data-gen-key></code>
+        <button type="button" class="btn btn-ghost btn-sm" data-gen-copy>Скопировать</button>
+        <span class="gen-copied" data-gen-copied hidden>скопировано</span>
+      </div>
+      <p class="gen-note">
+        Ключ создаётся прямо в вашем браузере средствами операционной системы и
+        <b>никуда не отправляется</b>: ни на сервер, ни в журнал. Обновите страницу — и он
+        исчезнет, поэтому сразу сохраните его в менеджере паролей.
+      </p>
+    </div>
+
+    <p>
+      Показан он группами по четыре знака — так его проще переписать в приложение без
+      ошибки. Пробелы при копировании не переносятся, и вводить их никуда не нужно.
+    </p>
+
+    <h3>Шаг 3. Завести ключ в приложении — до внесения в GitHub</h3>
+    <p>
+      Подойдёт Яндекс Ключ, Google Authenticator, Microsoft Authenticator, 2FAS, Aegis,
+      KeePassXC, Bitwarden — любое с поддержкой TOTP.
+    </p>
+    <ol>
+      <li>«Добавить аккаунт» → <b>«Ввести ключ вручную»</b> (сканировать нечего, кода нет).</li>
+      <li>Название: <code>BIZSoft Комплаенс</code>.</li>
+      <li>Ключ: строка из шага 2.</li>
+      <li>Тип: <b>по времени (TOTP)</b>, 6 цифр, 30 секунд — это умолчания, менять не нужно.</li>
+    </ol>
+    <p>
+      <b>Сохраните сам ключ в менеджере паролей.</b> GitHub не показывает значение секрета
+      после сохранения, и при смене телефона восстановить второй фактор будет нечем.
+    </p>
+
+    <h3>Шаг 4. Внести в GitHub</h3>
+    <p>
+      <a href="https://github.com/AlBeli-V/WebSite_BizSoft/settings/secrets/actions" target="_blank" rel="noopener">
+        Settings → Secrets and variables → Actions → Secrets
+      </a>, кнопка <b>New repository secret</b>. Для каждого: <b>Name</b> — имя посимвольно как
+      в таблице выше, <b>Secret</b> — значение, <b>Add secret</b>.
+    </p>
+
+    <h3>Шаг 5. Разложить по серверу</h3>
+    <ol>
+      <li>
+        <a href="https://github.com/AlBeli-V/WebSite_BizSoft/actions/workflows/ops-consent-setup.yml" target="_blank" rel="noopener">
+          ops-consent-setup
+        </a> → <b>Run workflow</b> → ветка <code>main</code> → <code>mode = check</code>.
+        Прогон ничего не меняет: скажет, что задано и какой длины, не печатая значений,
+        проверит, что токены ролей различаются и что ключ похож на base32. Итог — в issue #22.
+      </li>
+      <li>Если check зелёный — тот же воркфлоу с <code>mode = apply</code>: запишет значения на сервер и перезапустит приложение (около минуты).</li>
+    </ol>
+
+    <h3>Шаг 6. Проверить</h3>
+    <p>
+      Открыть <a href="/admin/compliance">«Комплаенс»</a>, ввести токен владельца, текущий код
+      из приложения и своё имя. Должен открыться журнал. «Раздел не настроен» — значения не
+      доехали, повторите <code>apply</code>.
+    </p>
+
+    <h3>Чего делать нельзя</h3>
+    <ul>
+      <li>
+        <b>Не вписывать значения в поля запуска воркфлоу.</b> Параметры <code>workflow_dispatch</code>
+        видны всем с доступом к репозиторию и остаются в истории Actions навсегда. По той же
+        причине секреты не пересылаются письмом через <code>ops-send-mail</code>: текст письма —
+        это параметр запуска.
+      </li>
+      <li><b>Не делать токены ролей одинаковыми</b> — это снимает разделение доступа, и check на этом падает.</li>
+      <li>
+        <b>Не менять <code>UNSUBSCRIBE_SECRET</code> без причины.</b> Смена обесценивает ссылки
+        отписки во всех уже отправленных письмах: человек попадёт на страницу с ручным вводом
+        адреса вместо готовой отписки.
+      </li>
+    </ul>
+
+    <h2>11. Куда писать</h2>
     <p>
       Обращения субъектов и запросы органов — <a href={`mailto:${seller.email}`}>{seller.email}</a>.
       Правовые документы сайта — <a href="/legal">раздел «Правовая информация»</a>.
@@ -182,4 +409,140 @@ import { seller } from '../../config/site';
   .help-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
   .help-table th, .help-table td { border: 1px solid var(--color-border); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
   .help-table th { background: var(--color-bg-elevated); font-weight: 700; }
+  .help h3 { font-size: 0.98rem; margin: 1.4rem 0 0.5rem; }
+  /* Команды: перенос по словам, чтобы длинная строка не прокручивала блок
+     внутри себя на телефоне (docs/rules/kpi-kit.md). */
+  .help-code {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 0.85rem;
+    margin: 0 0 1rem;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .help-code code { background: none; padding: 0; font-size: inherit; }
+
+  /* Блок генератора ключа второго фактора. Выделен рамкой: это единственное
+     место справки, где страница что-то создаёт, а не объясняет. */
+  .gen {
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-elevated);
+    padding: 1rem;
+    margin: 0 0 1rem;
+  }
+  .gen-out { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 0.9rem; }
+  /* Ключ длиннее экрана телефона — переносим его, а не прокручиваем блок
+     внутри себя (docs/rules/kpi-kit.md). */
+  .gen-key {
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    word-break: break-word;
+    flex: 1 1 18rem;
+    min-width: 0;
+  }
+  .gen-copied { font-size: 0.8rem; color: var(--color-success); }
+  .gen-note { margin: 0.9rem 0 0; font-size: 0.82rem; color: var(--color-text-dim); line-height: 1.55; }
+  .help-fold { margin: 0 0 1rem; font-size: 0.88rem; }
+  .help-fold summary { cursor: pointer; color: var(--color-text-muted); }
 </style>
+
+<script>
+  /**
+   * Генератор ключа второго фактора.
+   *
+   * Значение создаётся в браузере администратора через crypto.getRandomValues
+   * и никуда не уходит: ни запроса, ни записи в хранилище браузера. Граница
+   * доверия та же, что у самого раздела «Комплаенс», — обе страницы отдаёт
+   * один сервер по одному соединению, поэтому новых допущений кнопка не
+   * вносит, зато снимает шаг с терминалом, на котором всё и застревало.
+   *
+   * 20 байт — ровно 160 бит, то есть 32 знака base32 без дополнения.
+   */
+  const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+  function makeKey(): string {
+    const bytes = new Uint8Array(20);
+    crypto.getRandomValues(bytes);
+    let bits = '';
+    for (const b of bytes) bits += b.toString(2).padStart(8, '0');
+    let out = '';
+    for (let i = 0; i < bits.length; i += 5) out += ALPHABET[parseInt(bits.slice(i, i + 5), 2)];
+    return out;
+  }
+
+  /**
+   * Пароль роли в безопасном наборе символов.
+   *
+   * Латиница и цифры — тот же набор, что проверяет `check_alphabet` в
+   * ops-consent-setup. Кнопка появилась после двух подряд неудачных прогонов
+   * проверки (16.09.2026): переключатель «спецсимволы» в менеджере паролей
+   * находят не сразу, а пароль с ними не доезжает до файла окружения целиком.
+   * Требование, которое легче выполнить кнопкой, чем объяснить, объясняться
+   * не должно.
+   *
+   * Выборка через отбрасывание, а не остаток от деления: `% 62` сделал бы
+   * первые два символа алфавита чуть вероятнее остальных.
+   */
+  const PWD_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  function makePassword(length = 32): string {
+    const limit = 256 - (256 % PWD_ALPHABET.length);
+    let out = '';
+    while (out.length < length) {
+      const chunk = new Uint8Array(length);
+      crypto.getRandomValues(chunk);
+      for (const b of chunk) {
+        if (b >= limit) continue;
+        out += PWD_ALPHABET[b % PWD_ALPHABET.length];
+        if (out.length === length) break;
+      }
+    }
+    return out;
+  }
+
+  /** Общая обвязка: показать значение, скопировать, сказать о запрете буфера. */
+  function wireGenerator(
+    selector: string,
+    make: () => string,
+    format: (value: string) => string,
+  ): void {
+    const root = document.querySelector(selector);
+    if (!root) return;
+    const q = (suffix: string) => root.querySelector(`[${selector.slice(1, -1)}-${suffix}]`);
+    const out = q('out') as HTMLElement | null;
+    const keyEl = q('key') as HTMLElement | null;
+    const copied = q('copied') as HTMLElement | null;
+    if (!out || !keyEl || !copied) return;
+    let raw = '';
+
+    q('run')?.addEventListener('click', () => {
+      raw = make();
+      keyEl.textContent = format(raw);
+      out.hidden = false;
+      copied.hidden = true;
+    });
+
+    q('copy')?.addEventListener('click', async () => {
+      if (!raw) return;
+      try {
+        await navigator.clipboard.writeText(raw);
+        copied.textContent = 'скопировано';
+      } catch {
+        // Буфер закрыт настройками браузера — значение на экране, его можно
+        // выделить руками. Молчать здесь нельзя: человек решит, что скопировал.
+        copied.textContent = 'браузер запретил доступ к буферу — выделите значение и скопируйте вручную';
+      }
+      copied.hidden = false;
+    });
+  }
+
+  // Ключ второго фактора показываем группами по четыре знака: так его
+  // переписывают в приложение без ошибки. В буфер уходит строка без пробелов.
+  wireGenerator('[data-gen]', makeKey, (v) => (v.match(/.{1,4}/g) || []).join(' '));
+  // Пароль переписывать руками не нужно — он копируется, поэтому без групп.
+  wireGenerator('[data-genpwd]', makePassword, (v) => v);
+</script>
