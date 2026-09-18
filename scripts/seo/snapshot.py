@@ -435,7 +435,11 @@ def build_yandex(raw: dict | None, prev: dict | None, date: str) -> dict:
     in_top10 = [e for e in entities if e["average_position"] is not None
                 and e["average_position"] <= THRESHOLDS["top_position"]]
     summary = raw.get("summary", {})
-    sqi = summary.get("sqi")
+    # Ноль от API — это «ИКС не определён», а не индекс качества, равный нулю:
+    # кабинет на том же хосте пишет «Недостаточно данных для определения ИКС»
+    # (сверено 18.09.2026). Значение 0 в снимке прочиталось бы как измеренная
+    # оценка и однажды попало бы в отчёт худшей из возможных цифрой.
+    sqi = summary.get("sqi") or None
     return {
         "available": True,
         "source": source_meta(
