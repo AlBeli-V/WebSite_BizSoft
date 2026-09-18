@@ -1132,6 +1132,47 @@ def build_crm(date: str) -> dict:
     }
 
 
+CTR_CURVE = pathlib.Path("data/seo/ctr-curve.json")
+
+
+def build_ctr_model() -> dict:
+    """Состояние кривой CTR: посчитана ли, утверждена ли, чем ограничена.
+
+    Кривую считает scripts/seo/ctr_curve.py по непересекающимся окнам
+    Вебмастера и кладёт в реестр. Утверждение — отдельное решение
+    руководителя: кривая по своим данным описывает наш отклик, а не эталон,
+    и утверждать её до того, как названа причина низкой кликабельности,
+    значит закрепить аномалию как норму. Пока approved ложно, отчёт ведёт
+    себя как прежде — «потерянные клики» не публикуются, — но говорит, что
+    расчёт есть и чего ему недостаёт, вместо прежнего «кривой нет».
+    """
+    if not CTR_CURVE.exists():
+        return {"approved": False,
+                "note": "утверждённая CTR-кривая по позициям отсутствует; "
+                        "расчёт «потерянных кликов» не выполняется"}
+    try:
+        curve = json.loads(CTR_CURVE.read_text(encoding="utf-8"))
+    except ValueError as e:
+        return {"approved": False,
+                "note": f"реестр кривой CTR не читается: {e}"}
+    points = curve.get("points") or []
+    usable = [p for p in points if p.get("usable")]
+    coverage = curve.get("coverage") or {}
+    approved = bool(curve.get("approved"))
+    return {
+        "approved": approved,
+        "computed": True,
+        "coverage": coverage,
+        "buckets_total": len(points),
+        "buckets_usable": len(usable),
+        "curve": points if approved else None,
+        "note": ("кривая утверждена: расчёт недобора кликов ведётся по ней"
+                 if approved else
+                 "кривая посчитана по своим данным, но не утверждена; "
+                 "расчёт «потерянных кликов» не выполняется"),
+    }
+
+
 def build_technical(date: str) -> dict:
     """Блок PageSpeed. Любой сбой разбора — «данных нет», а не падение снимка.
 
@@ -1177,9 +1218,7 @@ def main() -> int:
         # замера не должен ломать снимок — блок сам возвращает состояние
         # «данных нет» с датой последнего удачного замера.
         "technical": build_technical(date),
-        "ctr_model": {"approved": False,
-                      "note": "утверждённая CTR-кривая по позициям отсутствует; "
-                              "расчёт «потерянных кликов» не выполняется"},
+        "ctr_model": build_ctr_model(),
     }
     out = OUT_DIR / f"{date}.json"
     out.write_text(json.dumps(snap, ensure_ascii=False, indent=1), encoding="utf-8")

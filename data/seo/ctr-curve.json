@@ -1,0 +1,143 @@
+{
+ "_смысл": "кривая «позиция → доля кликов» по собственным данным Вебмастера; пересобирается scripts/seo/ctr_curve.py из непересекающихся окон хранилища",
+ "_утверждение": "approved меняет руководитель правкой этого файла через PR. Пока false, snapshot держит модель CTR неутверждённой и недобор кликов не публикуется — правило report-integrity",
+ "_предостережение": "кривая описывает наш нынешний отклик, а не эталонный. Если отклик сайта аномально низок, утверждение кривой закрепит аномалию как норму и обнулит расчёт недобора. Утверждать имеет смысл после того, как названа причина низкой кликабельности",
+ "schema_version": "1.0.0",
+ "approved": false,
+ "source": "yandex_webmaster_popular_queries",
+ "windows": [
+  {
+   "from": "2026-07-19",
+   "to": "2026-08-15",
+   "source": "yandex-window-2026-07-19_2026-08-15.json",
+   "impressions": 2520
+  },
+  {
+   "from": "2026-08-21",
+   "to": "2026-09-01",
+   "source": "yandex-2026-09-04.json",
+   "impressions": 3871
+  },
+  {
+   "from": "2026-09-02",
+   "to": "2026-09-14",
+   "source": "yandex-2026-09-16.json",
+   "impressions": 13578
+  }
+ ],
+ "coverage": {
+  "from": "2026-07-19",
+  "to": "2026-09-14",
+  "windows": 3,
+  "slices_available": 40,
+  "impressions": 19969,
+  "clicks": 171,
+  "ctr": 0.00856
+ },
+ "method": {
+  "buckets": "средняя позиция запроса за окно источника",
+  "interval": "доля кликов и интервал Уилсона, доверие 95%",
+  "windows": "непересекающиеся окна с наибольшей суммой показов",
+  "limits": "средняя позиция сглаживает показы запроса по разным местам выдачи; корзина с одним крупным запросом описывает запрос, а не позицию",
+  "min_impressions": 500,
+  "max_share_of_top_query": 0.25
+ },
+ "points": [
+  {
+   "position": "1",
+   "impressions": 86,
+   "clicks": 60,
+   "queries": 34,
+   "ctr": 0.69767,
+   "ctr_low": 0.59388,
+   "ctr_high": 0.78457,
+   "top_query_share": 0.547,
+   "usable": false,
+   "unusable_reason": "мало показов; корзину определяет один запрос"
+  },
+  {
+   "position": "2",
+   "impressions": 374,
+   "clicks": 30,
+   "queries": 133,
+   "ctr": 0.08021,
+   "ctr_low": 0.05676,
+   "ctr_high": 0.1122,
+   "top_query_share": 0.123,
+   "usable": false,
+   "unusable_reason": "мало показов"
+  },
+  {
+   "position": "3",
+   "impressions": 1639,
+   "clicks": 32,
+   "queries": 246,
+   "ctr": 0.01952,
+   "ctr_low": 0.01386,
+   "ctr_high": 0.02743,
+   "top_query_share": 0.049,
+   "usable": true,
+   "unusable_reason": null
+  },
+  {
+   "position": "4–5",
+   "impressions": 3055,
+   "clicks": 16,
+   "queries": 528,
+   "ctr": 0.00524,
+   "ctr_low": 0.00323,
+   "ctr_high": 0.00849,
+   "top_query_share": 0.022,
+   "usable": true,
+   "unusable_reason": null
+  },
+  {
+   "position": "6–7",
+   "impressions": 5180,
+   "clicks": 15,
+   "queries": 680,
+   "ctr": 0.0029,
+   "ctr_low": 0.00176,
+   "ctr_high": 0.00477,
+   "top_query_share": 0.021,
+   "usable": true,
+   "unusable_reason": null
+  },
+  {
+   "position": "8–10",
+   "impressions": 8071,
+   "clicks": 16,
+   "queries": 1237,
+   "ctr": 0.00198,
+   "ctr_low": 0.00122,
+   "ctr_high": 0.00322,
+   "top_query_share": 0.074,
+   "usable": true,
+   "unusable_reason": null
+  },
+  {
+   "position": "11–20",
+   "impressions": 1489,
+   "clicks": 2,
+   "queries": 651,
+   "ctr": 0.00134,
+   "ctr_low": 0.00037,
+   "ctr_high": 0.00488,
+   "top_query_share": 0.048,
+   "usable": true,
+   "unusable_reason": null
+  },
+  {
+   "position": "21+",
+   "impressions": 75,
+   "clicks": 0,
+   "queries": 18,
+   "ctr": 0.0,
+   "ctr_low": 0.0,
+   "ctr_high": 0.04873,
+   "top_query_share": 0.747,
+   "usable": false,
+   "unusable_reason": "мало показов; корзину определяет один запрос"
+  }
+ ]
+}
