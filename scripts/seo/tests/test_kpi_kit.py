@@ -212,5 +212,24 @@ class TestEmail(unittest.TestCase):
         self.assertNotIn("<link", doc)
 
 
+class TestEmailTileBoxSizing(unittest.TestCase):
+    """Плитка письма сжимается и без внешних стилей.
+
+    Почтовые клиенты режут <style>, и тогда рамка и внутренние поля ложатся
+    поверх ширины 100%: плитка в 290px становится 298, пара таких не влезает
+    в ряд, письмо едет вбок. 17.09.2026 отчёт встал на этом гейте.
+    """
+
+    def test_плитка_несёт_box_sizing_инлайном(self):
+        html = kit.email_tile("Показ", "100", "шт", "+5", "up")
+        self.assertIn("box-sizing:border-box", html)
+
+    def test_box_sizing_стоит_у_таблицы_с_рамкой(self):
+        html = kit.email_tile("Показ", "100", "шт", None, None)
+        table = html[:html.index("<tr>")]
+        self.assertIn("border:1px solid", table)
+        self.assertIn("box-sizing:border-box", table)
+
+
 if __name__ == "__main__":
     unittest.main()
