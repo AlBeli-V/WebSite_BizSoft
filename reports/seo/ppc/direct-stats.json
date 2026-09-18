@@ -1,6 +1,6 @@
 {
  "schema_version": "1.0.0",
- "collected_at": "2026-09-18T08:09:51+00:00",
+ "collected_at": "2026-09-18T14:24:26+00:00",
  "date_from": "2026-08-28",
  "date_to": "2026-09-18",
  "groups": [
@@ -1500,12 +1500,120 @@
   },
   {
    "Date": "2026-09-18",
-   "CampaignId": "714166675",
-   "AdGroupId": "5795963981",
-   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793418349",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Impressions": 108,
+   "Clicks": 6,
+   "Cost": 118.14
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793418350",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Impressions": 27,
+   "Clicks": 2,
+   "Cost": 30.42
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793418351",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Impressions": 10,
+   "Clicks": 2,
+   "Cost": 40.79
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793785058",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Impressions": 34,
+   "Clicks": 5,
+   "Cost": 78.58
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "713927850",
+   "AdGroupId": "5793785067",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Impressions": 135,
+   "Clicks": 14,
+   "Cost": 265.63
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "713927850",
+   "AdGroupId": "5795229004",
+   "AdGroupName": "Зарубежное ПО для юрлица — счёт и закрывающие",
+   "Impressions": 7,
+   "Clicks": 1,
+   "Cost": 14.35
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "713927850",
+   "AdGroupId": "5795229097",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Impressions": 56,
+   "Clicks": 2,
+   "Cost": 39.11
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "713927850",
+   "AdGroupId": "5795229141",
+   "AdGroupName": "Descript — оплата на юрлицо",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "714166675",
+   "AdGroupId": "5795963979",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Impressions": 28,
+   "Clicks": 3,
+   "Cost": 67.93
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "714166675",
+   "AdGroupId": "5795963980",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Impressions": 51,
+   "Clicks": 3,
+   "Cost": 32.93
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "714166675",
+   "AdGroupId": "5795963981",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Impressions": 361,
+   "Clicks": 42,
+   "Cost": 461.81
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "714166675",
+   "AdGroupId": "5795963982",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Impressions": 26,
+   "Clicks": 5,
+   "Cost": 43.8
+  },
+  {
+   "Date": "2026-09-18",
+   "CampaignId": "714166677",
+   "AdGroupId": "5795963983",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Impressions": 13,
+   "Clicks": 1,
+   "Cost": 2.97
   }
  ],
  "queries": [
@@ -207807,8 +207915,4656 @@
   },
   {
    "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claud тарифный план",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude ai max 5x купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude ai купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude ai тарифы",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude fable 5.1 купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude max стоимость",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude opus 5 купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude pro купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude pro покупка из рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude верификацию пройти купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude как оплатить из россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 23.11
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude как пополнить креды",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude купить подписку в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude купить подписку на год в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude подписка",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude подписка funpay",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude подписка купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude стоимость подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude тарифы",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude условия тарифа team",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "claude цена подписки",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 24.33
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "fable 5 claude купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "rjvbccbz claude d hfpys cnhfyf",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "где купить подписку на claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "ии клод и курсор как компенсировать сотруднику эти затраты",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 19.07
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как выгодно купить подписку на claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как запустить клод через агрегатор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как купить максимальный claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как купить подписку клода",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude в россии в 2026 году",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить claude из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить из россии claude",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 21.55
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить клод в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплатить клод из рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как оплачивать claude из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как организациям оплачивать подписку клод",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как продлить claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "как работать с клод в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "клод оплата",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "клод подписка сколько стоит",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "комиссия claude для разных стран",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "корпоративная закупка claude рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить claude",
+   "Impressions": 4,
+   "Clicks": 1,
+   "Cost": 12.54
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить claude x20",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить верификацию claude",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить верификацию claude kyc",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить верификацию claude lyc",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку claude в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку клод",
+   "Impressions": 6,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку клод enterprise",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить подписку клод в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить проверка claude persona",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить токены claude",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "купить циферблат для наручных часов claude bernard",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "мтс оплатить claude",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплата claude через озон",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплата подписки claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "оплатить claude из россии мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "платить claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "платная подписка claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "подписка claude",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "подписка claude ai pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "подписка claude max x5",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "подписка claude купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "подписка на клод цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "подписки claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "пополнение claude console",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "пополнить claude через мтс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "при оплате подписки claude выбрать страну без налога",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 17.54
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "промт для клод для создания коммерческого предложения по вину для сети х5",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "скил клод для написания текстов для тревел агентства",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "сколько возвращают деньги за подписку claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "сколько стоит claude в разных странах",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "сколько стоит ии клод",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "сколько стоят доп токены в claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "стоимость годовой подписки клод",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "стоимость подписки claude max",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "тарифы claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "тарифы на claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude — подписки для компаний",
+   "Query": "цены на тарифы claude",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude ai gift code купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude ai подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code prices",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code pricing",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code team стоимость",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude code подписка",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude подписка",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 21.67
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude подписка по логину",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "claude тарифы",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "как оплачивать клод через код организации",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клауд код купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клод код купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "клод код сколько стоит",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 8.75
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "купить claude pro",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "купить подписку на claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "оплатить claude code как юридическое лицо",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписка claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписка claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "подписки claude code",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Claude Code — для команд разработки",
+   "Query": "сколько стоит claude code в германии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "запрещен ли миджорни в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "как в midjourney сделать коллаж из своих объектов",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 16.78
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "как зарегистрироваться в миджорни с почтой айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "как самому оплать миджерней",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "купить акк для midjourney",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "новый режим редактирования в миджорни",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "работает ли миджорни в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "стандартная подписка миджорней",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Midjourney — контрольная корзина",
+   "Query": "тарифы в midjourney",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 24.01
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor ai цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor ai цена подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor cache read учитываются при трате токенов в подписке",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor купить подписку",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "cursor цена подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "funpay купить cursor",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "как купить подписку курсор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "как отменить подписку cursor",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "купить cursor",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "купить cursor на 6 месяцев",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "купить cursor на год",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 20.66
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "купить подписку cursor",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "купить подписку курсор",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "оплата cursor ai",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "оплатить cursor ai",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 18.55
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "оплатить курсор из россии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "оплатить подписку cursor",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "сервис оплаты cursor",
+   "Impressions": 2,
+   "Clicks": 2,
+   "Cost": 25.62
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "сколько стоит подписка курсор",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 13.75
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "стоимость моделей в cursor",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "стоит ли покупать cursor",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Cursor — редактор для команд разработки",
+   "Query": "стоит ли покупать cursor рфик",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "acrobat licensing application",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat pro 2025 подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat pro купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat pro сколько стоит",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 21.18
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat pro скупить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat reader стоимость подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe acrobat майкрософт стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe animation купить",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 11.73
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe creative cloud for teams all apps лицензии education named license для академических организаций",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe creative cloud купить",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe creative cloud купить softline",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe creative cloud купить подписку на юр лицо",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe creative cloud сколько стоит подписка",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 15.9
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe illustrator лицензия",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 21.96
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe indesign 2025 лицензию вылетает окно",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe indesign купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop 2026 купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop куда вводить код лицензии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 19.71
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe photoshop купить лицензию в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe premiere pro сколько стоит",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe pro price",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 21.71
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe reader купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe купить лицензию навсегда",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe не лицензия как убрать",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe не смог проверить мой план подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe не удается проверить статус вашей подписки код ошибки 10000",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "adobe подписка купить",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 23.82
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "creative cloud",
+   "Impressions": 8,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "creative cloud adobe",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "indesign цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "pantone connect для creative cloud стоимость подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "photoshop купить подписку на юр лицо",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "photoshop лицензия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "premiere pro купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "ps photoshop купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "regbnm ljcneg r adobe",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "regbnm ljcneg r ajnjijg",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 20.4
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "this unlicensed adobe app has been disabled как исправить без лицензии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адоб афтер эффект купить лицензию",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адоб дистиллер стоимость",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адоб сколько генеративных баллов входит в подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адоб фотошоп купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "адобе акробат купить",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "акробат для пк стоимость",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "акробат лицензионный",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "акробат лицензия",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 16.54
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "акробат про цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "акробат ридер про подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "афтер эффектс купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "где купить афтер эффект",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "если подписка creative cloud только на два устройства могу ли я войти в photoshop fix на телефоне",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как купить adobe reader в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как купить photoshop в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как оплатить adobe photoshop и lightroom",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как оплатить адоб сейчас в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 21.6
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как оплатить из рф adobe icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как оплатить подписки lightroom в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как оплатить фотошоп в россии в 2026 году",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как отменить подписку adobe",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "как платить подписку adobe в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить adobe acrobat",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить адоб премьер про",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить адобе",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить адобе ридер",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить акробат ридер про",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить иллюстратор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить креатив клауд на год официальную версию",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить подписку creative cloud",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить фотошоп",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "купить фотошоп 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "лайтрум подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "лицензия на adobe acrobat",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 16.74
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "отключили адоб лицензии или нет",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка adobe",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка adobe acrobat",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка adobe acrobat mac os",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка adobe creative cloud",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 22.91
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка адоб на год сколько стоит",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "подписка лайтрум цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит adobe acrobat",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 19.83
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит adobe acrobat для физлица",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит адобе афтер эффект",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит адобе фотошоп в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит лицензия адоб",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит подписка в адоб премьер про",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит премьер про",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "сколько стоит фотошоп",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 11.59
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "стоимость адоб фотошоп",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "стоимость лицензий autodesk 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "тарифы adobe simplified offer pages",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фикс adobe лицензия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп 2025 купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп 2025 купить россия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп купить лицензионную версию",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп купить подписку",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп сколько стоит",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Adobe — подписки для юрлиц",
+   "Query": "фотошоп сколько стоит в россии на год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Зарубежное ПО для юрлица — счёт и закрывающие",
+   "Query": "в казахстане эдо",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Зарубежное ПО для юрлица — счёт и закрывающие",
+   "Query": "есть ли инвойс в белоруссии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Зарубежное ПО для юрлица — счёт и закрывающие",
+   "Query": "оплата в китай от юр лица",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Зарубежное ПО для юрлица — счёт и закрывающие",
+   "Query": "оплатить chatgpt business юр лицом в россии",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 14.35
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Зарубежное ПО для юрлица — счёт и закрывающие",
+   "Query": "программа для выставления счета казахстан",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "atlassian",
+   "Impressions": 7,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "atlassian confluence",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "atlassian jira",
+   "Impressions": 5,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "confluence",
+   "Impressions": 30,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "confluence программа",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "confluence сайт",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 16.71
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "confluens",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "конфлюенс",
+   "Impressions": 5,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "конфлюенс в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Atlassian — счёт и закрывающие для Confluence и Jira",
+   "Query": "разработка и доработка системы confluence стоимость часа",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 22.39
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Descript — оплата на юрлицо",
+   "Query": "sabydocs",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "apple gift card",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "apple gift card shop",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 32.84
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "apple gift card для россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "gift card",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "giftcard apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "где можно оплатить подарочную карту на апп стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "если я положу счет на apple id деньги но не буду привязывать свою карту в россии я смогу оплачивать подписку в приложении или нет",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "как купить подарочную карту apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "как пополнить аккаунт эпл подарочной картой",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "как приобрести цифровую подарочную карту appstore",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 16.51
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "купить валюту apple id",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 18.59
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "купить подарочную карту app store в яндексе",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "купить подарочную карту apple id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "купить подарочную карту apple телеграмм бот",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "лучшие криптокарты для оплаты apple id из рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "подарочная карта apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "подарочная карта apple id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "пополнение apple id подарочной картой",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "пополнить баланс эпл стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "пополнить эпл айди подарочная карта",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "приобрести подарочную карту app store",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "сервисы для пополнения эпл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочная карта Apple — купить для аккаунта России",
+   "Query": "сертификат эпл стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "app store пополнение",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "apple id пополнить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "единовременное пополнение аккаунта эппл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "игромир пополнение apple id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как поменять регион и пополнить apple id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как поменять регион и пополнить apple id через сбп",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как пополнить apple id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как пополнить apple id в россии инструкция",
+   "Impressions": 5,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как пополнить icloud в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как пополнить аккаунт apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как пополнить аккаунт apple в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как пополнить аккаунт apple в россии в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как пополнить баланс apple id в россии 2026",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 15.45
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "как пополнить счет apple id в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "купить гифт кард эпл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнение apple id",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнение ап стора",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнение счета эпл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить apple id",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить apple id в россии",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить apple id в россии в рублях",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить apple mts",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить аккаунт apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить аккаунт на апп",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить аккаунт эпл",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 4.65
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить апл id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить карту эпл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить российский apple id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить российский apple id купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить счет apple id",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить счет в appstore",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить счет в appstore купить",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 12.83
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить эпл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить эпл айди",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Пополнить Apple ID и баланс App Store — после 1 апреля",
+   "Query": "пополнить эпл стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "50 гб айклауд цена",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "apple id оплата 10",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "apple id пополнить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "apple itunes пополнение можно ли оплачивать apple store",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "apple music бесконечная подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "apple пополнить счет",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "appstore подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "appstore подписки в россии стоимость",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "crjkmrj cnjbn fqrkfel gk c d fvthbrt",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "icloud в россии стоимость подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "icloud как оплатить в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "icloud как оплатить в россии 2026",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "icloud купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "icloud оплата в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "icloud подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "icloud подписки",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "icloud с русскими прилодегиями екпить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "icloud+ подписка",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "rfr ggjgkybnm rhbgnjq g cnjht",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "rfr gjgjkybnm fqrkfel xthtp c th",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "rfr jgkfnbnm claude",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "rfr jgkfnbnm d appstor",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "rfr jgkfnbnm фззду шв шсдщгв d hjccbb",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "t банк оплата apple id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "айклауд в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "айклауд подписка на год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "виртуальная зарубежная карта для оплаты подписки apple id в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "где купить айклауд плюс",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "если оплатить icloud память на телефоне освобождается",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "закончилась подписка icloud как продлить с баланса",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "инструкция как оплатить эпл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как icloud оплатить на год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как в аппсторе приобрести платную подписку",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 8.92
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как в россии можно оплатить айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как в россии оплатить айклауд",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как добавить в способы оплаты аккаунт apple",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 5.06
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как добавить новый способ оплаты для icloud",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как добавить оплату в айклауде россия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить icloud хранилище в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить iclous",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить айклауд на год",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить айклауд рлюс в рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить айклауд хранилище в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 8.58
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить айклауд хранилище в россии 2026",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить в айклауд память на apple",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 13.12
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить место в айклауд в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 12.96
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить память в айклауде в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 6.94
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как купить память на айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как можно заплатить за эпл аккаунт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как можно купить память в айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как можно оплатить icloud в россии сейчас",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как можно оплатить подписку в 2026 году в эп стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как можно пополнять эпл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как обновить до айклауд плюс в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить apple id ru",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить apple id в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить apple store",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить apple store в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить icloud",
+   "Impressions": 4,
+   "Clicks": 1,
+   "Cost": 9.86
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить icloud в россии",
+   "Impressions": 4,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
    "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
    "Query": "как оплатить icloud в россии 2026",
+   "Impressions": 9,
+   "Clicks": 1,
+   "Cost": 8.26
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить icloud в россии с 1 апреля 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить icloud с баланса апл",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд",
+   "Impressions": 16,
+   "Clicks": 3,
+   "Cost": 36.75
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд 2026 году",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд в 2026",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд в 2026 году",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд в 2026 году в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд в россии",
+   "Impressions": 14,
+   "Clicks": 3,
+   "Cost": 36.49
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд в россии в 2026",
+   "Impressions": 26,
+   "Clicks": 2,
+   "Cost": 16.35
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд в россии в 2026 инструкция",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд не меняя регион",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить айклауд хранилище подарочной картой",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить аккаунт apple в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить в app store",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить казахский appstore из россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить отдельно айклауд не apple ine",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписки apple в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку apple tv в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку apple в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку icloud в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку icloud в россии 2026",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку апл в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку в апл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку через apple gallery в россии по номеру телефона",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку эпл",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 9.07
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку эпл 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить подписку эппл в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить покупки в app store в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить покупку в app store в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить приложение в app store в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить приложение в аппсторе в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 8.52
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить с российского apple id",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить хранилище айклауд",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 15.52
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить эпл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить эпл айди",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить эпл музыку в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить эпл счет в россии 2026 россия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплатить эпстор в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать apple music в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать apple в сентябре 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать icloud",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать icloud в россии 2026 другу с телефона",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать icloud в россии в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать в app store в россии в 2026 сентябрь",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать подписки в apple re",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать подписки в apple россии теперь",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать подписки с аккаунта apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оплачивать через апстор",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 15.37
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оформить подписку на icloud",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 10.31
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оформить подписку на апл мьюзик в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 18.2
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оформить подписку хранилища на icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как оформить подписку через эпл стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как подключить подписку icloud",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 7.55
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как положить деньги на апл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как положить деньги на счет эпл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пользоваться icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как поменять карту оплаты айклаудв",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить app store в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить apple id",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить apple id в россии в 2026",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 12.68
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить icloud",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 8.88
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить icloud в россии в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить айклауд в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить айклауд в россии в 2026",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 11.75
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить аккаунт apple",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 5.97
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить аккаунт apple в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить аккаунт apple в россии в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить аккаунт apple из россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить аккаунт эпл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить алсторе в рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить апл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить баланс apple в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить баланс апстор на 2.93 цента",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить с россии аккаунт апл",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить счет apple id в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить хранилище айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить эпл айди",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить эпл айди через подарочную карту инструкция",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить эпл в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить эпл на нужную сумму",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить эпл стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнить эппл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как пополнтьь подарочнчф счет эпл айди в россии",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 9.05
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как расширить айклауд платно",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как рф оплачивать апстори",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как с апл айди оплатить айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как сейчас купит айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как сейчас оплатить icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как сейчас оплатить айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как увеличить icloud",
+   "Impressions": 5,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как увеличить память а айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "как я могу оплатить сейчас apple подписку в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "карта для оплаты айклауд",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "купить icloud 200 гб",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "купить место айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "купить подписку на icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "можно ли в рф оплатить apple id не изменяя региона",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 9.67
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "можно ли как нибудь пополнить айпл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "можно ли каким телефоном оплатить айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "можно ли оплатить айклауд в россии",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 16.84
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "можно ли оплачивать рублями в россии в апп стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "можно ли сейчас оплатить айклауд в россии через t2",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "не могу купить подписку в айклауде",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "не могу купить подписку в айклауде как сделать",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 14.3
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "не могу оплатить подписку айклауд",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 10.64
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "немполучается пополнить эппл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "новые правила подписки айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "обновить баланс айклауд",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 5.2
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата apple id",
+   "Impressions": 5,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата apple подписки из рф",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата icloud в россии",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата айклауд в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата айклауда",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата гугл айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата гуру айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата за облако",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата подписки icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата покупки apple через mtc",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплата эпл айди в россии 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплатить 200гб icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплатить cloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплатить icloud",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплатить icloud в россии",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 16.4
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплатить айклауд",
+   "Impressions": 2,
+   "Clicks": 1,
+   "Cost": 20.75
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплатить айклауд в россии 2026",
+   "Impressions": 3,
+   "Clicks": 2,
+   "Cost": 21.83
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплатить апп стор без доплат",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 11.16
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "оплачивать айклауд",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 13.02
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "подарочная карта в апп стор российский аккаунт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "подарочную карту в эпп стор купить",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "подписка эпл мьюзик",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнение apple id",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнение apple id через спб",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнение айклауд в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнение айклауд россия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнение апл аккаунта в приложении газпромбанк",
+   "Impressions": 3,
+   "Clicks": 1,
+   "Cost": 4.49
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнение апп стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнения icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнить apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнить apple id",
+   "Impressions": 3,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнить icloud в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнить айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнить апп стор россия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнить кошелек icloud в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнить счет apple",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнить счет apple id 12",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополнить эпл айди",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 10.59
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "пополняем apple id сентябрь 2026",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 10.75
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "привяжите карту к apple id в разделе оплата и доставка и оплатите icloud+ нужно ли менять страну в учетной записи",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "приобрести подарочную карту app store",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "с какой карты можно оплачивать апл мьюзик",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "сертификат эпл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "сколько в россии стоит apple cloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "сколько стоит 512 гб памяти айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "сколько стоит апл облако в россии в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "сколько стоит подписка icloud в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "сколько стоит подписка icloud на 200 гб в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "сколько стоит российский icloud",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "сколько стоит эппл мьюзик подписка и ай клаус 50 гигов",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "стоимость icloud в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "стоимость айклауда",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "стоимость подписок apple в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "тарифы icloud 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "хранилище icloud доступно ли сейчас в россии",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "хранилище icloud доступно сейчас в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "цена icloud 2 тб в россии",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "цена icloud стоимость по странам",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "цены на айклауд",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "через какие сервисы можно пополнять апл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "через какой сервис оплатить приложения арр стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Оплата подписок Apple из России — iCloud+, Apple Music",
+   "Query": "что такое айклауд и зачем его пополнять",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "suve уникальные корпоративные сувениры",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "интересные корпоративные подарки на конференцирто",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "когда день секретаря в 2026",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "корпоративные подарки до 100 000",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "корпоративные подарки с нанесением логотипа кп татарстан",
+   "Impressions": 2,
+   "Clicks": 2,
+   "Cost": 15.29
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "корпоративные сувениры производство россия",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "новогодние подарки для коллег",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "новогодние подарки коллегам",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "оригинальные подарки партнерам",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 15.48
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "памятный подарок коллеги от коллектива",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарки на 23 февраля коллегам по работе профсоюзный дисконт",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарки на день рождения коллегам",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарки на новый год коллегам",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарки от коллег на 55",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарки работникам ко дню хлеба",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 7.88
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарок ко дню дорожника в офис",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарок коллеге",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарок корпоративный чтобы обыграть число 16",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарок на 50 лет женщине от коллег",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 5.15
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарок на день кадровика",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарок на новый год коллегам на год козы",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарок организации на юбилей от другой организации",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарочки коллегам",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "подарочки коллегам на 8 марта",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Подарочные карты сотрудникам — корпоративный заказ",
+   "Query": "сюрприз на 45 лет женщине от коллектива",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "купить apple gift card казахстан",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "купить подарочную карту аппле стор",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "оплатить эпл айди",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "подарочная карта айпл",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "подарочная карта эпл",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "подарочная карта эпл playerok",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "пополнение apple store",
+   "Impressions": 1,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "пополнить apple",
+   "Impressions": 2,
+   "Clicks": 0,
+   "Cost": 0.0
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "пополнить apple id",
+   "Impressions": 1,
+   "Clicks": 1,
+   "Cost": 2.97
+  },
+  {
+   "Date": "2026-09-18",
+   "AdGroupName": "Apple Gift Card — Турция и Казахстан",
+   "Query": "стоимость icloud в казахстане",
    "Impressions": 1,
    "Clicks": 0,
    "Cost": 0.0

@@ -34,10 +34,10 @@
         ],
         "metricValues": [
           {
-            "value": "808"
+            "value": "814"
           },
           {
-            "value": "751"
+            "value": "756"
           },
           {
             "value": "2"
@@ -70,13 +70,13 @@
         ],
         "metricValues": [
           {
-            "value": "89"
+            "value": "91"
           },
           {
-            "value": "70"
+            "value": "71"
           },
           {
-            "value": "13"
+            "value": "15"
           }
         ]
       },
@@ -119,24 +119,6 @@
       {
         "dimensionValues": [
           {
-            "value": "Unassigned"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "23"
-          },
-          {
-            "value": "21"
-          },
-          {
-            "value": "1"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
             "value": "Email"
           }
         ],
@@ -149,6 +131,24 @@
           },
           {
             "value": "1"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "Unassigned"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "4"
+          },
+          {
+            "value": "4"
+          },
+          {
+            "value": "0"
           }
         ]
       },
@@ -169,27 +169,9 @@
             "value": "0"
           }
         ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "Cross-network"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "3"
-          },
-          {
-            "value": "3"
-          },
-          {
-            "value": "0"
-          }
-        ]
       }
     ],
-    "rowCount": 9,
+    "rowCount": 8,
     "metadata": {
       "currencyCode": "RUB",
       "timeZone": "Europe/Moscow"
@@ -221,10 +203,25 @@
         ],
         "metricValues": [
           {
-            "value": "79"
+            "value": "80"
           },
           {
-            "value": "7"
+            "value": "8"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "metrika.yandex.ru"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "4"
+          },
+          {
+            "value": "1"
           }
         ]
       },
@@ -240,21 +237,6 @@
           },
           {
             "value": "1"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "metrika.yandex.ru"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "3"
-          },
-          {
-            "value": "0"
           }
         ]
       },
@@ -336,7 +318,7 @@
         ],
         "metricValues": [
           {
-            "value": "7"
+            "value": "8"
           },
           {
             "value": "0"
@@ -366,10 +348,10 @@
         ],
         "metricValues": [
           {
-            "value": "3"
+            "value": "4"
           },
           {
-            "value": "0"
+            "value": "1"
           }
         ]
       },
@@ -481,21 +463,6 @@
       {
         "dimensionValues": [
           {
-            "value": ""
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "1"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
             "value": "/blog/elevenlabs-tarify-oplata-dlya-yurlica"
           }
         ],
@@ -542,21 +509,6 @@
         "dimensionValues": [
           {
             "value": "/contacts"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "1"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "/product/chatgpt-business"
           }
         ],
         "metricValues": [
@@ -647,6 +599,21 @@
         "dimensionValues": [
           {
             "value": "/product/sketchup-go"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1"
+          },
+          {
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/product/spine-essential"
           }
         ],
         "metricValues": [
@@ -869,7 +836,7 @@
         ]
       }
     ],
-    "rowCount": 37,
+    "rowCount": 36,
     "metadata": {
       "currencyCode": "RUB",
       "timeZone": "Europe/Moscow"
@@ -916,7 +883,7 @@
         ],
         "metricValues": [
           {
-            "value": "7"
+            "value": "9"
           },
           {
             "value": "0"
@@ -946,10 +913,10 @@
         ],
         "metricValues": [
           {
-            "value": "3"
+            "value": "4"
           },
           {
-            "value": "0"
+            "value": "1"
           }
         ]
       },
@@ -1024,22 +991,7 @@
             "value": "2"
           },
           {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "/product/chatgpt-business"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "2"
-          },
-          {
-            "value": "0"
+            "value": "1"
           }
         ]
       },
@@ -1082,21 +1034,6 @@
         "metricValues": [
           {
             "value": "2"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": ""
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "1"
           },
           {
             "value": "0"
@@ -1181,6 +1118,21 @@
       {
         "dimensionValues": [
           {
+            "value": "/product/chatgpt-business"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1"
+          },
+          {
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
             "value": "/product/chatgpt-business-premium"
           }
         ],
@@ -1257,6 +1209,21 @@
         "dimensionValues": [
           {
             "value": "/product/sketchup-go"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "1"
+          },
+          {
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "/product/spine-essential"
           }
         ],
         "metricValues": [
