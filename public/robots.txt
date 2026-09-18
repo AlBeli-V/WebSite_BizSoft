@@ -1,7 +1,25 @@
 # BizSoft — biz-soft.pro
 # Разрешаем индексацию поисковикам и ИИ-краулерам. Закрываем служебные разделы.
+#
+# Агенты перечислены одной группой намеренно. По стандарту robots.txt робот
+# выбирает ОДНУ подходящую группу и применяет её целиком, а не складывает со
+# группой «*». Пока у Googlebot, YandexBot и ИИ-краулеров стояли собственные
+# группы с единственной строкой «Allow: /», запреты ниже на них не
+# распространялись вовсе: служебные разделы были открыты ровно тем роботам,
+# ради которых файл и писался (разбор индексации 18.09.2026).
 
 User-agent: *
+User-agent: Googlebot
+User-agent: YandexBot
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: PerplexityBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: OAI-SearchBot
+User-agent: Claude-SearchBot
+User-agent: Meta-ExternalAgent
+User-agent: Amazonbot
 Allow: /
 Disallow: /admin
 Disallow: /api
@@ -20,37 +38,13 @@ Disallow: /documents/
 
 # CSS/JS/изображения и публичные ассеты открыты (отдельных Disallow нет)
 
-User-agent: Googlebot
-Allow: /
-
-User-agent: YandexBot
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: Claude-SearchBot
-Allow: /
-
-User-agent: Meta-ExternalAgent
-Allow: /
-
-User-agent: Amazonbot
-Allow: /
+# Метки переходов и рекламные идентификаторы не меняют содержимое страницы.
+# Без этой директивы Яндекс заводит на каждую метку отдельный адрес: к
+# 15.09.2026 в индексе оказались пять копий страниц вендоров с «?etext=»,
+# четыре из них кабинет пометил NOT_CANONICAL, пятая осталась в выдаче
+# дублем. Canonical на странице уже без параметров (src/lib/seo.ts), но
+# Clean-param снимает дубль до обхода, а не после. Директива межсекционная:
+# её читает Яндекс, остальные роботы игнорируют.
+Clean-param: etext&ysclid&yclid&gclid&fbclid&utm_source&utm_medium&utm_campaign&utm_term&utm_content
 
 Sitemap: https://biz-soft.pro/sitemap.xml

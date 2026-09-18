@@ -27,6 +27,12 @@ def routes(**overrides):
     '/user', поэтому идут первыми.
     """
     base = {
+        # 'search-urls/popular' обязан стоять раньше 'popular': оба метода
+        # заканчиваются одним словом, а выигрывает первый совпавший ключ.
+        "search-urls/popular": FakeResponse(200, {
+            "urls": [{"url": "https://biz-soft.pro/product/chatgpt-business",
+                      "indicators": {"TOTAL_SHOWS": 40, "TOTAL_CLICKS": 2}}],
+            "count": 1, "date_from": "2026-08-11", "date_to": "2026-08-25"}),
         "summary": FakeResponse(200, {"searchable_pages_count": 50,
                                       "excluded_pages_count": 5, "sqi": 10}),
         "popular": FakeResponse(200, {
@@ -59,6 +65,8 @@ class TestCollectYandex(unittest.TestCase):
         self.assertNotIn("error", out)
         self.assertEqual(out["summary"]["searchable_pages_count"], 50)
         self.assertEqual(out["popular_queries"]["fetched"], 1)
+        self.assertEqual(out["popular_urls"]["fetched"], 1)
+        self.assertEqual(out["popular_urls"]["urls"][0]["indicators"]["TOTAL_SHOWS"], 40)
         self.assertIn("window", out)
 
     def test_requested_window_recorded_even_on_failure(self):
@@ -94,6 +102,22 @@ class TestCollectYandex(unittest.TestCase):
         # Период известен из запрошенного окна даже при сбое среза.
         self.assertEqual(block["source"]["current_period_start"], out["window"]["from"])
         self.assertEqual(block["source"]["current_period_end"], out["window"]["to"])
+
+    def test_popular_urls_failure_is_local(self):
+        """Сбой разреза по страницам не отменяет показы и клики по хосту."""
+        out = self.collect(**{"search-urls/popular": FakeResponse(500, text="boom")})
+        self.assertIn("HTTP 500", out["popular_urls"]["error"])
+        self.assertEqual(out["popular_urls"]["urls"], [])
+        self.assertEqual(out["popular_queries"]["fetched"], 1)
+        block = self.s.build_yandex(out, None, DATE)
+        self.assertTrue(block["available"])
+
+    def test_popular_urls_unexpected_shape_is_error_not_empty(self):
+        """Ответ без ключа urls — ошибка контракта, а не «показов не было»."""
+        out = self.collect(**{"search-urls/popular":
+                              FakeResponse(200, {"queries": [], "count": 0})})
+        self.assertIn("без ключа urls", out["popular_urls"]["error"])
+        self.assertEqual(out["popular_urls"]["urls"], [])
 
     def test_hosts_network_error(self):
         out = self.collect(**{"/hosts": FakeRequests.RequestException("conn reset")})
