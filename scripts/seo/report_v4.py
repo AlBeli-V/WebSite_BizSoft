@@ -1855,12 +1855,20 @@ def _audience_html(block: dict) -> str:
                     "<!--[if mso]></td></tr><tr><td width=\"50%\" valign=\"top\">"
                     "<![endif]-->")
         cells.append(
+            # box-sizing здесь инлайном, а не в <style>: почтовые клиенты
+            # режут внешние стили, и тогда padding ложится поверх max-width —
+            # плитка становится 306px вместо 290, пара плиток не влезает в
+            # ряд и письмо едет вбок (отчёт за 17.09.2026 встал на этом).
             f"{mso_open}<div style=\"display:inline-block;width:100%;"
-            f"max-width:290px;vertical-align:top;padding:{SP['s']}px;\">"
+            f"max-width:290px;vertical-align:top;padding:{SP['s']}px;"
+            f"box-sizing:border-box;\">"
             f"{_audience_tile(tile, devices)}</div>")
     cells.append("<!--[if mso]></td></tr></table><![endif]-->")
     return (f"<div style=\"font-size:15px;line-height:1.6;\">{block['headline']}</div>"
-            f"<div data-meta=\"1\" style=\"font-size:0;margin:-{SP['s']}px;"
+            # Отрицательное поле — только по вертикали. По горизонтали оно
+            # расширяло ряд плиток на 16px сверх родителя, и в почтовом
+            # клиенте без внешних стилей письмо уезжало вбок.
+            f"<div data-meta=\"1\" style=\"font-size:0;margin:-{SP['s']}px 0;"
             f"padding-top:{SP['s']}px;\">{''.join(cells)}</div>"
             f"{_audience_channel_table(block, devices)}"
             f"{_audience_domains_line(block)}")
@@ -1951,12 +1959,13 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         cells.append(
             f"{mso_open}"
             f"<div class=\"kpi\" style=\"display:inline-block;width:100%;"
-            f"max-width:290px;vertical-align:top;padding:{SP['s']}px;font-size:15px;\">"
+            f"max-width:290px;vertical-align:top;padding:{SP['s']}px;"
+            f"font-size:15px;box-sizing:border-box;\">"
             f"{_kpi_cell(k, charts, cid_mode)}</div>")
     cells.append("<!--[if mso]></td></tr></table><![endif]-->")
     rows.append(_section(
         "Показатели",
-        f"<div data-meta=\"1\" style=\"font-size:0;margin:-{SP['s']}px;\">"
+        f"<div data-meta=\"1\" style=\"font-size:0;margin:-{SP['s']}px 0;\">"
         f"{''.join(cells)}</div>"))
     rows.append(FIRST_SCREEN_MARKER)
 
@@ -2389,9 +2398,16 @@ def html_email(b: dict, charts: dict, cid_mode: bool) -> str:
         f"<!--[if mso]><table role=\"presentation\" width=\"680\" align=\"center\"><tr><td><![endif]-->"
         f"<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
         f"style=\"background:{T['background']};\"><tr>"
-        f"<td align=\"center\" style=\"padding:{SP['xl']}px {SP['m']}px;\">"
+        # Боковых полей у внешней ячейки нет: отступ от края даёт поле в 32px
+        # у самой рамки письма. Пока их было два, узкий экран считал ширину
+        # как «содержимое плюс оба поля» — рамка выходила за экран телефона,
+        # и отчёт за 17.09.2026 встал на гейте вёрстки.
+        f"<td align=\"center\" style=\"padding:{SP['xl']}px 0;\">"
         f"<table role=\"presentation\" class=\"wrap\" width=\"100%\" cellpadding=\"0\" "
-        f"cellspacing=\"0\" style=\"width:100%;max-width:680px;background:{T['surface']};"
+        # box-sizing инлайном: без внешних стилей поле в 32px ложится поверх
+        # ширины, и рамка письма становится шире экрана телефона.
+        f"cellspacing=\"0\" style=\"width:100%;max-width:680px;box-sizing:border-box;"
+        f"background:{T['surface']};"
         f"border-radius:16px;padding:{SP['xxl']}px;font-family:{FONT};"
         f"color:{T['text_primary']};\">"
         + "".join(rows) +
