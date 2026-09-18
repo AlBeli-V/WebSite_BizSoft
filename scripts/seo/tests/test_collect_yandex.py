@@ -103,6 +103,16 @@ class TestCollectYandex(unittest.TestCase):
         self.assertEqual(block["source"]["current_period_start"], out["window"]["from"])
         self.assertEqual(block["source"]["current_period_end"], out["window"]["to"])
 
+    def test_zero_sqi_is_absence_not_a_score(self):
+        """Ноль ИКС от API — «не определён», а не оценка качества в ноль."""
+        out = self.collect(summary=FakeResponse(200, {
+            "searchable_pages_count": 416, "excluded_pages_count": 869,
+            "sqi": 0}))
+        block = self.s.build_yandex(out, None, DATE)
+        self.assertIsNone(block["indexation"]["sqi"])
+        # Остальные поля сводки при этом читаются как обычно.
+        self.assertEqual(block["indexation"]["indexed_urls"], 416)
+
     def test_popular_urls_failure_is_local(self):
         """Сбой разреза по страницам не отменяет показы и клики по хосту."""
         out = self.collect(**{"search-urls/popular": FakeResponse(500, text="boom")})
