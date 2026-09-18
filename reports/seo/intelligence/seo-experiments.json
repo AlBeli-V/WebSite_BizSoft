@@ -191,7 +191,7 @@
       "id": "pages-exp-001-alternatives",
       "ticket": "PAGES-EXP-001",
       "start": "2026-08-30",
-      "status": "running",
+      "status": "closed",
       "pages": [
         "/alternatives/anydesk",
         "/alternatives/notion",
@@ -264,7 +264,9 @@
         }
       ],
       "next_review": "2026-09-27",
-      "next_review_note": "первые клики по launch_criteria (28-й день); показы пересчитать на окне, полностью накрывающем перелинковку IDX-001 (в проде с 08.09)"
+      "next_review_note": "первые клики по launch_criteria (28-й день); показы пересчитать на окне, полностью накрывающем перелинковку IDX-001 (в проде с 08.09)",
+      "end": "2026-09-18",
+      "closed_by": "CLOSE"
     },
     {
       "id": "snippets-3-gap-d",
@@ -473,7 +475,7 @@
       "id": "content-10-clusters",
       "ticket": "CONTENT-004",
       "start": "2026-09-03",
-      "status": "running",
+      "status": "closed",
       "pages": [
         "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
         "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
@@ -591,7 +593,9 @@
         },
         "experiment": null
       },
-      "windows_backfilled": "2026-09-04"
+      "windows_backfilled": "2026-09-04",
+      "end": "2026-09-18",
+      "closed_by": "EXPAND"
     },
     {
       "id": "snippets-2-price-intent",
@@ -927,7 +931,7 @@
       "id": "cluster-heygen",
       "ticket": "CONTENT-005",
       "start": "2026-09-03",
-      "status": "running",
+      "status": "closed",
       "evaluation_kind": "impressions_growth",
       "pages": [
         "/blog/kak-oplatit-heygen-dlya-yurlica",
@@ -968,7 +972,9 @@
         },
         "experiment": null
       },
-      "windows_backfilled": "2026-09-04"
+      "windows_backfilled": "2026-09-04",
+      "end": "2026-09-18",
+      "closed_by": "CLOSE"
     },
     {
       "id": "cluster-recraft",
