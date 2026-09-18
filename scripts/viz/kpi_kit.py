@@ -584,9 +584,14 @@ def email_tile(label: str, value: str, unit: str = "", delta: str | None = None,
     d = (f'<span style="font-size:14px;font-weight:bold;color:{colour};">{arrow}{esc(delta)}</span>'
          if delta else "")
     return (
+        # box-sizing инлайном: почтовые клиенты режут внешние стили, и тогда
+        # рамка и внутренние поля ложатся поверх ширины 100%. Плитка в 290px
+        # становится 298, пара таких не влезает в ряд, и письмо едет вбок —
+        # отчёт за 17.09.2026 встал на этом гейте.
         f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
         f'style="background:{LIGHT["surface"]};border:1px solid {LIGHT["hair"]};'
-        f'border-radius:12px;"><tr><td style="padding:14px 16px 12px;font-family:{EMAIL_FONT};">'
+        f'border-radius:12px;box-sizing:border-box;">'
+        f'<tr><td style="padding:14px 16px 12px;font-family:{EMAIL_FONT};">'
         f'<div data-meta="1" style="font-size:12.5px;font-weight:bold;color:{LIGHT["muted"]};">'
         f'{esc(label)}</div>'
         f'<div style="padding-top:4px;"><span style="font-size:28px;line-height:1.1;'
