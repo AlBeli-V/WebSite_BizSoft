@@ -1,6 +1,6 @@
 {
  "available": true,
- "date": "2026-09-17",
+ "date": "2026-09-18",
  "baseline": {
   "date": "2026-08-30",
   "balance_rub": 10000,
@@ -10,14 +10,14 @@
  "balance_estimate_rub": 15500.0,
  "spent_since_baseline": {
   "wordstat_rub": 17.94,
-  "serp_requests": 14312,
+  "serp_requests": 14962,
   "serp_cost_rub_each": 0.0254,
-  "serp_rub_estimate": 363.52,
-  "total_rub": 381.46
+  "serp_rub_estimate": 380.03,
+  "total_rub": 397.97
  },
- "week_spend_rub": 159.19,
- "daily_rate_rub": 22.74,
- "runway_days": 681.6,
+ "week_spend_rub": 160.59,
+ "daily_rate_rub": 22.94,
+ "runway_days": 675.6,
  "needs_topup": false,
  "billing_skus": [
   {
