@@ -131,6 +131,24 @@ try {
       asked.map((u) => u.replace(/\?.*/, '')).join(', ') || 'ни одного запроса');
     const ymType = await page.evaluate(() => typeof window.ym);
     report('до согласия очередь ym не создаётся', ymType === 'undefined', `typeof ym=${ymType}`);
+
+    // Спросить согласие мало — отказ должен быть виден, и виден без
+    // исполнения скриптов. Внешняя проверка 18.09.2026 прочитала страницу,
+    // нашла адреса счётчиков и не нашла отказа: плашка отдавалась с
+    // `hidden`, а кнопка называлась «Только необходимые». Соответствие,
+    // которое не читается со страницы, приходится доказывать вручную при
+    // каждой проверке (docs/rules/consent-audit.md, девятый запрет).
+    const banner = page.locator('[data-cookie-consent]');
+    report('до согласия плашка показана', await banner.isVisible());
+    const reject = page.locator('[data-cookie-necessary]');
+    const rejectText = ((await reject.textContent().catch(() => '')) || '').trim();
+    report('кнопка отказа видна и названа отказом',
+      (await reject.isVisible().catch(() => false)) && /отклонить|отказ/i.test(rejectText),
+      rejectText || 'кнопки нет');
+    const html = await page.content();
+    report('отказ читается в исходнике страницы',
+      /<div class="cc-root"(?![^>]*\bhidden\b)/.test(html) && /отклонить|отказ/i.test(html),
+      /\bhidden\b/.test(html.match(/<div class="cc-root"[^>]*>/)?.[0] || '') ? 'плашка отдана скрытой' : 'плашка отдана видимой');
     await ctx.close();
   }
 
