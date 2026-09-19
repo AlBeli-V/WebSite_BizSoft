@@ -7,19 +7,53 @@
  * Analytics не грузятся вовсе (ТЗ 16.09.2026, п. 7), и плашка — это не
  * информирование, а сам механизм согласия.
  *
- * Три равноправных ответа: принять все, только необходимые, настроить.
- * «Только необходимые» — такая же кнопка, как «Принять все», без визуальной
- * слабости: сделать отказ незаметнее согласия значит получить согласие,
- * которое не считается добровольным.
+ * Три равноправных ответа: принять все, отклонить аналитику, настроить.
+ * Отказ — такая же кнопка, как «Принять все», без визуальной слабости:
+ * сделать отказ незаметнее согласия значит получить согласие, которое не
+ * считается добровольным. По той же причине кнопка названа отказом прямо,
+ * а не только описывает его результат.
  *
  * Разметка отдаётся всем, а не только тем, у кого выбора ещё нет: страницы
  * статические и раздаются из кэша, поэтому решение о показе принимает
- * скрипт в браузере. Второй вход в тот же интерфейс — ссылка «Настройки
- * cookies» в подвале (документ 05, п. 5).
+ * браузер. Видимостью управляет атрибут `data-cookie-decided` на <html>, а
+ * не атрибут `hidden` на самой плашке: в исходнике страницы кнопка отказа
+ * должна читаться всегда (см. скрипт ниже). Второй вход в тот же интерфейс —
+ * ссылка «Настройки cookies» в подвале (документ 05, п. 5).
  */
 import { COOKIE_UI, LEGAL_LINKS } from '../config/legal';
+import { CONSENT_STORAGE_KEY, CONSENT_SCHEMA_VERSION } from '../lib/cookie-consent';
 ---
-<div class="cc-root" data-cookie-consent hidden>
+{/*
+  Решение о показе принимается до разметки плашки, а не после.
+
+  Раньше корневой блок отдавался с атрибутом `hidden`, и показывал его
+  скрипт. Для посетителя разницы нет, а для всякого, кто читает страницу
+  без исполнения скриптов, — есть: внешняя проверка 18.09.2026 увидела в
+  исходнике адреса счётчиков, не увидела кнопки отказа и выставила
+  критический риск. Механизм, который нельзя прочитать в HTML, приходится
+  доказывать вручную при каждой проверке.
+
+  Поэтому плашка стоит в разметке видимой, а прячет её этот скрипт —
+  синхронный и расположенный выше блока: браузер выполнит его раньше, чем
+  разберёт и нарисует сам блок, поэтому вернувшийся посетитель мелькания не
+  увидит. Атрибут ставится на <html>, чтобы правило стиля успело примениться
+  вместе с первой отрисовкой.
+*/}
+<script is:inline define:vars={{ storageKey: CONSENT_STORAGE_KEY, schemaVersion: CONSENT_SCHEMA_VERSION }}>
+  (function () {
+    try {
+      var raw = localStorage.getItem(storageKey);
+      if (!raw) return;
+      var p = JSON.parse(raw);
+      // Испорченная или устаревшая запись равносильна отсутствию выбора:
+      // спросим снова, а не сочтём молчание согласием.
+      if (p && p.v === schemaVersion) document.documentElement.setAttribute('data-cookie-decided', '');
+    } catch (e) {
+      /* хранилище недоступно — плашка останется видимой, и выбор спросят */
+    }
+  })();
+</script>
+<div class="cc-root" data-cookie-consent>
   <div class="cc-panel" role="dialog" aria-modal="false" aria-labelledby="cc-title" aria-describedby="cc-lead">
     <div class="cc-head">
       <h2 class="cc-title" id="cc-title">{COOKIE_UI.title}</h2>
@@ -59,7 +93,7 @@ import { COOKIE_UI, LEGAL_LINKS } from '../config/legal';
 
     <div class="cc-actions">
       <button type="button" class="cc-btn cc-btn-primary" data-cookie-accept-all>{COOKIE_UI.acceptAll}</button>
-      <button type="button" class="cc-btn" data-cookie-necessary>{COOKIE_UI.necessaryOnly}</button>
+      <button type="button" class="cc-btn" data-cookie-necessary aria-label={COOKIE_UI.necessaryOnlyHint}>{COOKIE_UI.necessaryOnly}</button>
       <button type="button" class="cc-btn cc-btn-ghost" data-cookie-open-settings aria-expanded="false">{COOKIE_UI.settings}</button>
       <button type="button" class="cc-btn cc-btn-primary" data-cookie-save hidden>{COOKIE_UI.save}</button>
     </div>
@@ -71,6 +105,10 @@ import { COOKIE_UI, LEGAL_LINKS } from '../config/legal';
 </div>
 
 <style>
+  /* Выбор уже сделан — плашки нет. Скрытие живёт в стиле, а не в атрибуте
+     разметки: в исходнике страницы кнопка отказа должна быть видна всегда. */
+  :global(html[data-cookie-decided]) .cc-root { display: none; }
+
   .cc-root {
     position: fixed;
     inset: auto 1rem 1rem;
@@ -167,8 +205,17 @@ import { COOKIE_UI, LEGAL_LINKS } from '../config/legal';
       }
     };
 
+    // Видимость плашки — один атрибут на <html>, тот же, что ставит
+    // синхронный скрипт выше. Второе состояние (`hidden` на самом блоке)
+    // здесь однажды разошлось бы с первым.
+    const setDecided = (decided: boolean) => {
+      const html = document.documentElement;
+      if (decided) html.setAttribute('data-cookie-decided', '');
+      else html.removeAttribute('data-cookie-decided');
+    };
+
     const open = (withSettings: boolean) => {
-      root.hidden = false;
+      setDecided(false);
       panel.hidden = !withSettings;
       saveBtn.hidden = !withSettings;
       settingsBtn.setAttribute('aria-expanded', String(withSettings));
@@ -179,7 +226,7 @@ import { COOKIE_UI, LEGAL_LINKS } from '../config/legal';
       // Плашка не исчезает мгновенно: человек должен увидеть, что его выбор
       // принят, — иначе непонятно, сработала кнопка или страница «моргнула».
       note.hidden = false;
-      setTimeout(() => { root.hidden = true; note.hidden = true; }, 1400);
+      setTimeout(() => { setDecided(true); note.hidden = true; }, 1400);
     };
 
     root.querySelector('[data-cookie-accept-all]')?.addEventListener('click', () => {
@@ -209,6 +256,8 @@ import { COOKIE_UI, LEGAL_LINKS } from '../config/legal';
     });
 
     const saved = readConsent();
+    // Плашку уже скрыл синхронный скрипт — здесь остаётся подставить выбор
+    // в тумблеры на случай, когда человек откроет настройки из подвала.
     if (saved) fillBoxes(saved);
     // Выбора ещё не было — спрашиваем. Молчание согласием не считается.
     else open(false);

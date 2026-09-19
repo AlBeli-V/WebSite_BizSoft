@@ -82,8 +82,17 @@ describe('интерфейс выбора', () => {
     expect(banner).toContain('data-cookie-necessary');
     expect(banner).toContain('data-cookie-open-settings');
     expect(COOKIE_UI.acceptAll).toBe('Принять все');
-    expect(COOKIE_UI.necessaryOnly).toBe('Только необходимые');
+    expect(COOKIE_UI.necessaryOnly).toBe('Отклонить аналитику');
     expect(COOKIE_UI.settings).toBe('Настроить');
+  });
+
+  it('кнопка называет отказ, а не только его результат', () => {
+    // Внешняя проверка 18.09.2026 нашла на странице адреса счётчиков и не
+    // нашла отказа: «Только необходимые» описывало результат верно, но слова
+    // отказа в нём не было. Оба корня — в подписи кнопки и в её описании.
+    expect(COOKIE_UI.necessaryOnly).toMatch(/отклонить/i);
+    expect(COOKIE_UI.necessaryOnlyHint).toMatch(/отказ/i);
+    expect(banner).toContain('aria-label={COOKIE_UI.necessaryOnlyHint}');
   });
 
   it('раздельные тумблеры Метрики и Google Analytics', () => {
@@ -110,6 +119,29 @@ describe('интерфейс выбора', () => {
     expect(button('data-cookie-accept-all')).toContain('cc-btn');
     expect(button('data-cookie-necessary')).toContain('cc-btn');
     expect(banner).toMatch(/\.cc-btn\s*\{[^}]*min-height/s);
+  });
+
+  it('плашка отдаётся видимой: отказ читается без исполнения скриптов', () => {
+    // Регрессия сюда возвращается одним словом `hidden` в разметке корня, и
+    // по поведению сайта она незаметна — заметна только внешней проверке,
+    // которая читает HTML и не исполняет скрипты.
+    const root = banner.match(/<div class="cc-root"[^>]*>/)?.[0] || '';
+    expect(root).toContain('data-cookie-consent');
+    expect(root).not.toMatch(/\bhidden\b/);
+    // Скрывает плашку стиль по атрибуту на <html> — и ставит его синхронный
+    // скрипт, стоящий выше блока, чтобы вернувшийся не увидел мелькания.
+    expect(banner).toMatch(/:global\(html\[data-cookie-decided\]\) \.cc-root \{ display: none; \}/);
+    const boot = banner.slice(0, banner.indexOf('<div class="cc-root"'));
+    expect(boot).toContain('is:inline');
+    expect(boot).toContain("setAttribute('data-cookie-decided'");
+    expect(boot).toContain('p.v === schemaVersion');
+  });
+
+  it('видимостью управляет один механизм, а не два', () => {
+    // `root.hidden` рядом с атрибутом на <html> означал бы два состояния
+    // одного и того же — однажды они разойдутся.
+    expect(banner).not.toContain('root.hidden');
+    expect(banner).toContain('const setDecided = (decided: boolean)');
   });
 
   it('вход в настройки есть в подвале и на странице правового раздела', () => {
