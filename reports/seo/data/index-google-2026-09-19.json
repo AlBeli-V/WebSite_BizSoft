@@ -3,6 +3,1456 @@
  "source": "google_url_inspection",
  "quota_per_run": 1000,
  "pages": {
+  "/blog/kak-kupit-perplexity-dlya-yurlica": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/product/vegas-suite-perp": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-05T00:28:12Z",
+   "google_canonical": "https://biz-soft.pro/product/vegas-suite-perp",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/windsurf-pro": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/product/windsurf-teams": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/product/winrar-license": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/product/wndr-filmora-annual": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-04T18:50:50Z",
+   "google_canonical": "https://biz-soft.pro/product/wndr-filmora-annual",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/wndr-filmora-team": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-04T23:58:30Z",
+   "google_canonical": "https://biz-soft.pro/product/wndr-filmora-team",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/wndr-filmora-xplat": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-06T20:23:36Z",
+   "google_canonical": "https://biz-soft.pro/product/wndr-filmora-xplat",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/wordpress-business": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/product/wordpress-commerce": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/product/wwise-platinum": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-09T16:50:15Z",
+   "google_canonical": "https://biz-soft.pro/product/wwise-platinum",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/wwise-premium": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-05T03:24:51Z",
+   "google_canonical": "https://biz-soft.pro/product/wwise-premium",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/wwise-pro": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-05T01:34:05Z",
+   "google_canonical": "https://biz-soft.pro/product/wwise-pro",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/xai-supergrok": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/product/xai-supergrok-heavy": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/product/zeplin-advanced": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-05T01:34:54Z",
+   "google_canonical": "https://biz-soft.pro/product/zeplin-advanced",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/zeplin-ent": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-22T04:12:44Z",
+   "google_canonical": "https://biz-soft.pro/product/zeplin-ent",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/zoom-wp-business": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-24T14:32:56Z",
+   "google_canonical": "https://biz-soft.pro/product/zoom-wp-business",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/zoom-wp-business-plus": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/product/zoom-wp-enterprise": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-06-29T10:06:44Z",
+   "google_canonical": "https://biz-soft.pro/product/zoom-wp-enterprise",
+   "inspected_at": "2026-09-19"
+  },
+  "/product/zoom-wp-pro": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-dlya-analitikov": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-dlya-biznesa": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-dlya-buhgalterii": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-dlya-dizainerov": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-dlya-marketinga": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-dlya-obrazovaniya": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-dlya-prodazh": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-dlya-razrabotchikov": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-dlya-yuristov": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/ai-servisy-dlya-biznesa": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/design-studios": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-25T23:59:55Z",
+   "google_canonical": "https://biz-soft.pro/solutions/design-studios",
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/inostrannoe-po-po-dogovoru": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/it-companies": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-14T22:24:00Z",
+   "google_canonical": "https://biz-soft.pro/solutions/it-companies",
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/marketing-agencies": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/po-dlya-razrabotki-igr": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/po-dlya-yurlic-po-schetu": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/podarochnye-karty-sotrudnikam": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/solutions/uchet-po-i-it-aktivov": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors": {
+   "coverage_state": "Excluded by ‘noindex’ tag",
+   "verdict": "NEUTRAL",
+   "indexing_state": "BLOCKED_BY_META_TAG",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-06-29T21:14:39Z",
+   "google_canonical": "https://biz-soft.pro/vendors",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/ableton": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/acronis": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/adobe": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-22T12:22:16Z",
+   "google_canonical": "https://biz-soft.pro/vendors/adobe",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/airalo": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/anthropic": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/anydesk": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/apple": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/artlist": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-13T15:12:16Z",
+   "google_canonical": "https://biz-soft.pro/vendors/artlist",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/astute-graphics": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-29T09:48:08Z",
+   "google_canonical": "https://biz-soft.pro/vendors/astute-graphics",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/atlassian": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/autodesk": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-02T11:57:26Z",
+   "google_canonical": "https://biz-soft.pro/vendors/autodesk",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/avid": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T16:53:32Z",
+   "google_canonical": "https://biz-soft.pro/vendors/avid",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/binance": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/bitdefender": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/blackmagic": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-08T15:35:45Z",
+   "google_canonical": "https://biz-soft.pro/vendors/blackmagic",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/boris-fx": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-02T00:04:09Z",
+   "google_canonical": "https://biz-soft.pro/vendors/boris-fx",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/box": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/browserstack": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/canva": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T15:38:44Z",
+   "google_canonical": "https://biz-soft.pro/vendors/canva",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/capcut": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/capture-one": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/clip-studio-paint": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-30T21:05:26Z",
+   "google_canonical": "https://biz-soft.pro/vendors/clip-studio-paint",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/cloudflare": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/coreldraw": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-02T00:04:14Z",
+   "google_canonical": "https://biz-soft.pro/vendors/coreldraw",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/cubase": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/cursor": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/deepl": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/depositphotos": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-04T23:07:30Z",
+   "google_canonical": "https://biz-soft.pro/vendors/depositphotos",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/descript": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-01T22:35:23Z",
+   "google_canonical": "https://biz-soft.pro/vendors/descript",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/discord": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/epidemic-sound": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-29T09:44:45Z",
+   "google_canonical": "https://biz-soft.pro/vendors/epidemic-sound",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/fl-studio": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/foundry": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T15:39:17Z",
+   "google_canonical": "https://biz-soft.pro/vendors/foundry",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/gamma": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-09T17:22:17Z",
+   "google_canonical": "https://biz-soft.pro/vendors/gamma",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/github": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/gitlab": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/google": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/grammarly": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/grok": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/hailuo": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/heygen": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-30T18:04:34Z",
+   "google_canonical": "https://biz-soft.pro/vendors/heygen",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/higgsfield": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/houdini": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T16:12:19Z",
+   "google_canonical": "https://biz-soft.pro/vendors/houdini",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/izotope": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/jasper": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/jetbrains": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-29T23:22:34Z",
+   "google_canonical": "https://biz-soft.pro/vendors/jetbrains",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/kimi": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/kling-ai": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/krea": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/lansweeper": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/leonardo-ai": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/lovable": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/lumion": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/marmoset": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-01T11:06:25Z",
+   "google_canonical": "https://biz-soft.pro/vendors/marmoset",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/marvelous-designer": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-13T23:24:10Z",
+   "google_canonical": "https://biz-soft.pro/vendors/marvelous-designer",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/maxon": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T15:03:22Z",
+   "google_canonical": "https://biz-soft.pro/vendors/maxon",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/microsoft": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/midjourney": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-30T18:33:57Z",
+   "google_canonical": "https://biz-soft.pro/vendors/midjourney",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/miro": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T15:19:45Z",
+   "google_canonical": "https://biz-soft.pro/vendors/miro",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/monotype": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-30T18:34:05Z",
+   "google_canonical": "https://biz-soft.pro/vendors/monotype",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/motion-array": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-01T00:39:40Z",
+   "google_canonical": "https://biz-soft.pro/vendors/motion-array",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/n8n": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/native-instruments": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-29T09:42:37Z",
+   "google_canonical": "https://biz-soft.pro/vendors/native-instruments",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/notion": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/openai": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T18:01:34Z",
+   "google_canonical": "https://biz-soft.pro/vendors/openai",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/openrouter": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/parallels": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/perforce": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-04T23:01:35Z",
+   "google_canonical": "https://biz-soft.pro/vendors/perforce",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/perplexity": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/photon": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T15:07:08Z",
+   "google_canonical": "https://biz-soft.pro/vendors/photon",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/postman": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/principle": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/procreate": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-29T17:49:36Z",
+   "google_canonical": "https://biz-soft.pro/vendors/procreate",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/reallusion": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T16:53:06Z",
+   "google_canonical": "https://biz-soft.pro/vendors/reallusion",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/recraft": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-15T12:23:22Z",
+   "google_canonical": "https://biz-soft.pro/vendors/recraft",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/rive": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-30T20:03:44Z",
+   "google_canonical": "https://biz-soft.pro/vendors/rive",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/rizomuv": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T14:42:41Z",
+   "google_canonical": "https://biz-soft.pro/vendors/rizomuv",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/runway": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-05T01:57:48Z",
+   "google_canonical": "https://biz-soft.pro/vendors/runway",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/sentry": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/shutterstock": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T14:48:42Z",
+   "google_canonical": "https://biz-soft.pro/vendors/shutterstock",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/sketch": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-07-04T22:59:59Z",
+   "google_canonical": "https://biz-soft.pro/vendors/sketch",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/sketchup": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/slack": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/solidworks": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/speedtree": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-17T00:49:31Z",
+   "google_canonical": "https://biz-soft.pro/vendors/speedtree",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/spine": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-13T23:03:48Z",
+   "google_canonical": "https://biz-soft.pro/vendors/spine",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/suno": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/teamviewer": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/telestream": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-16T17:23:06Z",
+   "google_canonical": "https://biz-soft.pro/vendors/telestream",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/think-cell": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/toon-boom": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/topaz-labs": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T14:37:02Z",
+   "google_canonical": "https://biz-soft.pro/vendors/topaz-labs",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/tryhackme": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/unity": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-09-10T12:20:17Z",
+   "google_canonical": "https://biz-soft.pro/vendors/unity",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/unreal-engine": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T15:06:30Z",
+   "google_canonical": "https://biz-soft.pro/vendors/unreal-engine",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/vegas": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-30T19:33:34Z",
+   "google_canonical": "https://biz-soft.pro/vendors/vegas",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/windsurf": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/winrar": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/wondershare": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T15:38:28Z",
+   "google_canonical": "https://biz-soft.pro/vendors/wondershare",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/wordpress": {
+   "coverage_state": "Discovered - currently not indexed",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/wwise": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-31T14:36:37Z",
+   "google_canonical": "https://biz-soft.pro/vendors/wwise",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/zeplin": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-29T09:40:59Z",
+   "google_canonical": "https://biz-soft.pro/vendors/zeplin",
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/zoho": {
+   "coverage_state": "URL is unknown to Google",
+   "verdict": "NEUTRAL",
+   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
+   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
+   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
+   "last_crawl": null,
+   "google_canonical": null,
+   "inspected_at": "2026-09-19"
+  },
+  "/vendors/zoom": {
+   "coverage_state": "Submitted and indexed",
+   "verdict": "PASS",
+   "indexing_state": "INDEXING_ALLOWED",
+   "robots_txt_state": "ALLOWED",
+   "page_fetch_state": "SUCCESSFUL",
+   "last_crawl": "2026-08-29T05:17:54Z",
+   "google_canonical": "https://biz-soft.pro/vendors/zoom",
+   "inspected_at": "2026-09-19"
+  },
   "/": {
    "coverage_state": "Submitted and indexed",
    "verdict": "PASS",
@@ -24,7 +1474,7 @@
    "inspected_at": "2026-09-19"
   },
   "/alternatives": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -214,7 +1664,7 @@
    "inspected_at": "2026-09-19"
   },
   "/blog/kak-kupit-github-copilot-dlya-yurlica": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -234,7 +1684,7 @@
    "inspected_at": "2026-09-19"
   },
   "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -334,7 +1784,7 @@
    "inspected_at": "2026-09-19"
   },
   "/blog/kak-poluchit-schet-i-zakryvayushchie-ot-atlassian": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -344,7 +1794,7 @@
    "inspected_at": "2026-09-19"
   },
   "/blog/kak-popolnit-app-store-v-rossii": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -484,7 +1934,7 @@
    "inspected_at": "2026-09-19"
   },
   "/blog/tag/gajd": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -514,7 +1964,7 @@
    "inspected_at": "2026-09-19"
   },
   "/blog/tag/podarochnye-karty": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -634,7 +2084,7 @@
    "inspected_at": "2026-09-19"
   },
   "/catalog/ai/marketing": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -724,7 +2174,7 @@
    "inspected_at": "2026-09-19"
   },
   "/catalog/endpoint": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -764,7 +2214,7 @@
    "inspected_at": "2026-09-19"
   },
   "/catalog/iam": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -834,7 +2284,7 @@
    "inspected_at": "2026-09-19"
   },
   "/catalog/training": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -914,7 +2364,7 @@
    "inspected_at": "2026-09-19"
   },
   "/compare/copilot-vs-gemini": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -934,7 +2384,7 @@
    "inspected_at": "2026-09-19"
   },
   "/compare/cursor-vs-windsurf": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1024,7 +2474,7 @@
    "inspected_at": "2026-09-19"
   },
   "/compare/notion-vs-chatgpt": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1034,7 +2484,7 @@
    "inspected_at": "2026-09-19"
   },
   "/compare/perplexity-vs-chatgpt": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1094,7 +2544,7 @@
    "inspected_at": "2026-09-19"
   },
   "/legal": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1214,7 +2664,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/acronis-cp-adv-vhost": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1254,7 +2704,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/acronis-cp-backup-adv-gws-5": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1264,7 +2714,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/acronis-cp-backup-adv-m365-5": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1274,7 +2724,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/acronis-cp-backup-adv-server": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1344,7 +2794,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/acronis-cp-standard-ws": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1404,7 +2854,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/adobe-animate": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1464,7 +2914,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/adobe-ff-enterprise": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1524,7 +2974,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/adobe-pr": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1654,7 +3104,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/anthropic-team-premium": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1884,7 +3334,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/box-business-plus": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1944,7 +3394,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/capcut-team": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -1954,7 +3404,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/capture-one-pro": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2004,7 +3454,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/chatgpt-business-premium": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2024,7 +3474,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/cloudflare-pro": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2044,7 +3494,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/confluence-standard": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2104,7 +3554,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/cursor-business": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2174,7 +3624,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/discord-nitro-gift-card": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2204,7 +3654,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/dropbox-advanced": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2394,7 +3844,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/fl-studio-fruity": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2454,7 +3904,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/fndry-mari": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2554,7 +4004,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/gaea-ent": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2894,7 +4344,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/jb-ai-pro": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -2954,7 +4404,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/jb-dotultimate-org": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3044,7 +4494,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/jb-rustrover-org": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3114,7 +4564,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/kling-premier": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3194,7 +4644,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/leonardo-artisan": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3214,7 +4664,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/lovable-business": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3284,7 +4734,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/maxon-redgiant-teams": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3374,7 +4824,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3384,7 +4834,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-admanager-plus-professional-1-domain": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3474,7 +4924,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-assetexplorer-250-it-assets": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3484,7 +4934,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-browser-security-plus-professional-50-computers-and-single-user-license": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3534,7 +4984,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-datasecurity-plus-professional-fileanalysis-2-tb": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3684,7 +5134,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-firewall-analyzer-enterprise-20-devices-pack-with-2-users": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3774,7 +5224,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-mobile-device-manager-plus-msp-professional-single-user-license-with-50-mobile-devices": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3844,7 +5294,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-network-configuration-manager-enterprise-250-devices-pack-with-2-users": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3914,7 +5364,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-opmanager-standard-10-devices-pack-with-2-users": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3924,7 +5374,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-oputils-management-250-used-switch-ports-in-spm-and-250-used-ip": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -3964,7 +5414,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-oputils-professional-every-additional-250-used-ip-addresses-in-ip": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4014,7 +5464,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-pam360-enterprise-multi-language-10-administrators-and-25-keys": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4054,7 +5504,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4134,7 +5584,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-patch-manager-plus-enterprise-10-servers-and-single-user-license": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4144,7 +5594,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-patch-manager-plus-professional-10-servers-and-single-user-license": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4154,7 +5604,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-ransomware-protection-plus-enterprise-10-servers": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4254,7 +5704,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-servicedesk-plus-msp-standard-10-technicians": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4274,7 +5724,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-servicedesk-plus-multi-language-enterprise-servicedesk-plus-multi-lan-2-technicians": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4314,7 +5764,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-sharepoint-manager-plus-professional-1-farm-m365-tenant": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4324,7 +5774,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-sharepoint-manager-plus-standard-1-farm-m365-tenant": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4354,7 +5804,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/me-supportcenter-plus-professional-2-support-representatives": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4684,7 +6134,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/n8n-starter": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4744,7 +6194,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/notion-enterprise": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4754,7 +6204,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/openai-api-balance": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4814,7 +6264,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/photon-ent": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4824,7 +6274,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/photon-fusion-100": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4844,7 +6294,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/photon-fusion-2000": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -4894,7 +6344,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/prfrc-p4-platform": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5014,7 +6464,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/rive-voyager": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5134,7 +6584,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/shutter-img-10": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5154,7 +6604,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/shutter-img-50": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5294,7 +6744,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/solidworks-design-standard": {
-   "coverage_state": "Discovered - currently not indexed",
+   "coverage_state": "URL is unknown to Google",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5314,7 +6764,7 @@
    "inspected_at": "2026-09-19"
   },
   "/product/solidworks-xdesign-quarterly": {
-   "coverage_state": "URL is unknown to Google",
+   "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
    "indexing_state": "INDEXING_STATE_UNSPECIFIED",
    "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
@@ -5643,787 +7093,6 @@
    "google_canonical": "https://biz-soft.pro/product/vegas-post-sub",
    "inspected_at": "2026-09-19"
   },
-  "/blog/kak-kupit-perplexity-dlya-yurlica": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/vegas-suite-perp": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-05T00:28:12Z",
-   "google_canonical": "https://biz-soft.pro/product/vegas-suite-perp",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/windsurf-pro": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/windsurf-teams": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/winrar-license": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/wndr-filmora-annual": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-04T18:50:50Z",
-   "google_canonical": "https://biz-soft.pro/product/wndr-filmora-annual",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/wndr-filmora-team": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-04T23:58:30Z",
-   "google_canonical": "https://biz-soft.pro/product/wndr-filmora-team",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/wndr-filmora-xplat": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-06T20:23:36Z",
-   "google_canonical": "https://biz-soft.pro/product/wndr-filmora-xplat",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/wordpress-business": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/wordpress-commerce": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/wwise-platinum": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-09T16:50:15Z",
-   "google_canonical": "https://biz-soft.pro/product/wwise-platinum",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/wwise-premium": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-05T03:24:51Z",
-   "google_canonical": "https://biz-soft.pro/product/wwise-premium",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/wwise-pro": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-05T01:34:05Z",
-   "google_canonical": "https://biz-soft.pro/product/wwise-pro",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/xai-supergrok": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/xai-supergrok-heavy": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/zeplin-advanced": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-05T01:34:54Z",
-   "google_canonical": "https://biz-soft.pro/product/zeplin-advanced",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/zeplin-ent": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-22T04:12:44Z",
-   "google_canonical": "https://biz-soft.pro/product/zeplin-ent",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/zoom-wp-business": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-24T14:32:56Z",
-   "google_canonical": "https://biz-soft.pro/product/zoom-wp-business",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/zoom-wp-business-plus": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/zoom-wp-enterprise": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-06-29T10:06:44Z",
-   "google_canonical": "https://biz-soft.pro/product/zoom-wp-enterprise",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/product/zoom-wp-pro": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-dlya-analitikov": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-dlya-biznesa": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-dlya-buhgalterii": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-dlya-dizainerov": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-dlya-marketinga": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-dlya-obrazovaniya": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-dlya-prodazh": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-dlya-razrabotchikov": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-dlya-yuristov": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/ai-servisy-dlya-biznesa": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/design-studios": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-25T23:59:55Z",
-   "google_canonical": "https://biz-soft.pro/solutions/design-studios",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/inostrannoe-po-po-dogovoru": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/it-companies": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-14T22:24:00Z",
-   "google_canonical": "https://biz-soft.pro/solutions/it-companies",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/marketing-agencies": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/po-dlya-razrabotki-igr": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/po-dlya-yurlic-po-schetu": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/podarochnye-karty-sotrudnikam": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/solutions/uchet-po-i-it-aktivov": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors": {
-   "coverage_state": "Excluded by ‘noindex’ tag",
-   "verdict": "NEUTRAL",
-   "indexing_state": "BLOCKED_BY_META_TAG",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-06-29T21:14:39Z",
-   "google_canonical": "https://biz-soft.pro/vendors",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/ableton": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/acronis": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/adobe": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-22T12:22:16Z",
-   "google_canonical": "https://biz-soft.pro/vendors/adobe",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/airalo": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/anthropic": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/anydesk": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/apple": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/artlist": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-13T15:12:16Z",
-   "google_canonical": "https://biz-soft.pro/vendors/artlist",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/astute-graphics": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-29T09:48:08Z",
-   "google_canonical": "https://biz-soft.pro/vendors/astute-graphics",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/atlassian": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/autodesk": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-02T11:57:26Z",
-   "google_canonical": "https://biz-soft.pro/vendors/autodesk",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/avid": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T16:53:32Z",
-   "google_canonical": "https://biz-soft.pro/vendors/avid",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/binance": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/bitdefender": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/blackmagic": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-08T15:35:45Z",
-   "google_canonical": "https://biz-soft.pro/vendors/blackmagic",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/boris-fx": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-02T00:04:09Z",
-   "google_canonical": "https://biz-soft.pro/vendors/boris-fx",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/box": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/browserstack": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/canva": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T15:38:44Z",
-   "google_canonical": "https://biz-soft.pro/vendors/canva",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/capcut": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/capture-one": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/clip-studio-paint": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-30T21:05:26Z",
-   "google_canonical": "https://biz-soft.pro/vendors/clip-studio-paint",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/cloudflare": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/coreldraw": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-02T00:04:14Z",
-   "google_canonical": "https://biz-soft.pro/vendors/coreldraw",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/cubase": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/cursor": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/deepl": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/depositphotos": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-04T23:07:30Z",
-   "google_canonical": "https://biz-soft.pro/vendors/depositphotos",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/descript": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-01T22:35:23Z",
-   "google_canonical": "https://biz-soft.pro/vendors/descript",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/discord": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
   "/vendors/docker": {
    "coverage_state": "Discovered - currently not indexed",
    "verdict": "NEUTRAL",
@@ -6468,17 +7137,6 @@
    "inspected_at": "2026-09-18",
    "stale_from": "2026-09-18"
   },
-  "/vendors/epidemic-sound": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-29T09:44:45Z",
-   "google_canonical": "https://biz-soft.pro/vendors/epidemic-sound",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
   "/vendors/figma": {
    "coverage_state": "Submitted and indexed",
    "verdict": "PASS",
@@ -6490,17 +7148,6 @@
    "inspected_at": "2026-09-18",
    "stale_from": "2026-09-18"
   },
-  "/vendors/fl-studio": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
   "/vendors/fmod": {
    "coverage_state": "Submitted and indexed",
    "verdict": "PASS",
@@ -6509,17 +7156,6 @@
    "page_fetch_state": "SUCCESSFUL",
    "last_crawl": "2026-08-31T15:08:32Z",
    "google_canonical": "https://biz-soft.pro/vendors/fmod",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/foundry": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T15:39:17Z",
-   "google_canonical": "https://biz-soft.pro/vendors/foundry",
    "inspected_at": "2026-09-18",
    "stale_from": "2026-09-18"
   },
@@ -6555,796 +7191,22 @@
    "google_canonical": "https://biz-soft.pro/vendors/gaea",
    "inspected_at": "2026-09-18",
    "stale_from": "2026-09-18"
-  },
-  "/vendors/gamma": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-09T17:22:17Z",
-   "google_canonical": "https://biz-soft.pro/vendors/gamma",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/github": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/gitlab": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/google": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/grammarly": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/grok": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/hailuo": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/heygen": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-30T18:04:34Z",
-   "google_canonical": "https://biz-soft.pro/vendors/heygen",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/higgsfield": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/houdini": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T16:12:19Z",
-   "google_canonical": "https://biz-soft.pro/vendors/houdini",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/izotope": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/jasper": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/jetbrains": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-29T23:22:34Z",
-   "google_canonical": "https://biz-soft.pro/vendors/jetbrains",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/kimi": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/kling-ai": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/krea": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/lansweeper": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/leonardo-ai": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/lovable": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/lumion": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/marmoset": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-01T11:06:25Z",
-   "google_canonical": "https://biz-soft.pro/vendors/marmoset",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/marvelous-designer": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-13T23:24:10Z",
-   "google_canonical": "https://biz-soft.pro/vendors/marvelous-designer",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/maxon": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T15:03:22Z",
-   "google_canonical": "https://biz-soft.pro/vendors/maxon",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/microsoft": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/midjourney": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-30T18:33:57Z",
-   "google_canonical": "https://biz-soft.pro/vendors/midjourney",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/miro": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T15:19:45Z",
-   "google_canonical": "https://biz-soft.pro/vendors/miro",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/monotype": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-30T18:34:05Z",
-   "google_canonical": "https://biz-soft.pro/vendors/monotype",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/motion-array": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-01T00:39:40Z",
-   "google_canonical": "https://biz-soft.pro/vendors/motion-array",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/n8n": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/native-instruments": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-29T09:42:37Z",
-   "google_canonical": "https://biz-soft.pro/vendors/native-instruments",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/notion": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/openai": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T18:01:34Z",
-   "google_canonical": "https://biz-soft.pro/vendors/openai",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/openrouter": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/parallels": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/perforce": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-04T23:01:35Z",
-   "google_canonical": "https://biz-soft.pro/vendors/perforce",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/perplexity": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/photon": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T15:07:08Z",
-   "google_canonical": "https://biz-soft.pro/vendors/photon",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/postman": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/principle": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/procreate": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-29T17:49:36Z",
-   "google_canonical": "https://biz-soft.pro/vendors/procreate",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/reallusion": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T16:53:06Z",
-   "google_canonical": "https://biz-soft.pro/vendors/reallusion",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/recraft": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-15T12:23:22Z",
-   "google_canonical": "https://biz-soft.pro/vendors/recraft",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/rive": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-30T20:03:44Z",
-   "google_canonical": "https://biz-soft.pro/vendors/rive",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/rizomuv": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T14:42:41Z",
-   "google_canonical": "https://biz-soft.pro/vendors/rizomuv",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/runway": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-05T01:57:48Z",
-   "google_canonical": "https://biz-soft.pro/vendors/runway",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/sentry": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/shutterstock": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T14:48:42Z",
-   "google_canonical": "https://biz-soft.pro/vendors/shutterstock",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/sketch": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-07-04T22:59:59Z",
-   "google_canonical": "https://biz-soft.pro/vendors/sketch",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/sketchup": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/slack": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/solidworks": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/speedtree": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-17T00:49:31Z",
-   "google_canonical": "https://biz-soft.pro/vendors/speedtree",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/spine": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-13T23:03:48Z",
-   "google_canonical": "https://biz-soft.pro/vendors/spine",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/suno": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/teamviewer": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/telestream": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-16T17:23:06Z",
-   "google_canonical": "https://biz-soft.pro/vendors/telestream",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/think-cell": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/toon-boom": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/topaz-labs": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T14:37:02Z",
-   "google_canonical": "https://biz-soft.pro/vendors/topaz-labs",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/tryhackme": {
-   "coverage_state": "URL is unknown to Google",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/unity": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-09-10T12:20:17Z",
-   "google_canonical": "https://biz-soft.pro/vendors/unity",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/unreal-engine": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T15:06:30Z",
-   "google_canonical": "https://biz-soft.pro/vendors/unreal-engine",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/vegas": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-30T19:33:34Z",
-   "google_canonical": "https://biz-soft.pro/vendors/vegas",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/windsurf": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/winrar": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/wondershare": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T15:38:28Z",
-   "google_canonical": "https://biz-soft.pro/vendors/wondershare",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/wordpress": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/wwise": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-31T14:36:37Z",
-   "google_canonical": "https://biz-soft.pro/vendors/wwise",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/zeplin": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-29T09:40:59Z",
-   "google_canonical": "https://biz-soft.pro/vendors/zeplin",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/zoho": {
-   "coverage_state": "Discovered - currently not indexed",
-   "verdict": "NEUTRAL",
-   "indexing_state": "INDEXING_STATE_UNSPECIFIED",
-   "robots_txt_state": "ROBOTS_TXT_STATE_UNSPECIFIED",
-   "page_fetch_state": "PAGE_FETCH_STATE_UNSPECIFIED",
-   "last_crawl": null,
-   "google_canonical": null,
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
-  },
-  "/vendors/zoom": {
-   "coverage_state": "Submitted and indexed",
-   "verdict": "PASS",
-   "indexing_state": "INDEXING_ALLOWED",
-   "robots_txt_state": "ALLOWED",
-   "page_fetch_state": "SUCCESSFUL",
-   "last_crawl": "2026-08-29T05:17:54Z",
-   "google_canonical": "https://biz-soft.pro/vendors/zoom",
-   "inspected_at": "2026-09-18",
-   "stale_from": "2026-09-18"
   }
  },
  "site_url": "sc-domain:biz-soft.pro",
- "inspected": 564,
- "inherited": 154,
+ "inspected": 709,
+ "inherited": 9,
  "without_status": 0,
  "errors": [
-  "/blog/kak-kupit-perplexity-dlya-yurlica: HTTP 500: {\n  \"error\": {\n    \"code\": 500,\n    \"message\": \"Internal error encountered.\",\n    \"status\": \"INTERNAL\"\n  }\n}\n",
-  "/product/vegas-suite-perp: HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Quota exceeded for sc-domain:biz-soft.pro.\",\n    \"status\": \"RESOURCE_EXHAUSTED\"\n  }\n}\n"
+  "/vendors/docker: ReadTimeout: HTTPSConnectionPool(host='searchconsole.googleapis.com', port=443): Read timed out. (read timeout=30)",
+  "/vendors/dropbox: ReadTimeout: HTTPSConnectionPool(host='searchconsole.googleapis.com', port=443): Read timed out. (read timeout=30)",
+  "/vendors/elevenlabs: ReadTimeout: HTTPSConnectionPool(host='searchconsole.googleapis.com', port=443): Read timed out. (read timeout=30)",
+  "/vendors/envato: ReadTimeout: HTTPSConnectionPool(host='searchconsole.googleapis.com', port=443): Read timed out. (read timeout=30)",
+  "/vendors/figma: ReadTimeout: HTTPSConnectionPool(host='searchconsole.googleapis.com', port=443): Read timed out. (read timeout=30)",
+  "/vendors/framer: HTTP 500: {\n  \"error\": {\n    \"code\": 500,\n    \"message\": \"Internal error encountered.\",\n    \"status\": \"INTERNAL\"\n  }\n}\n",
+  "/vendors/fmod: ReadTimeout: HTTPSConnectionPool(host='searchconsole.googleapis.com', port=443): Read timed out. (read timeout=30)",
+  "/vendors/freepik: ReadTimeout: HTTPSConnectionPool(host='searchconsole.googleapis.com', port=443): Read timed out. (read timeout=30)",
+  "/vendors/gaea: ReadTimeout: HTTPSConnectionPool(host='searchconsole.googleapis.com', port=443): Read timed out. (read timeout=30)"
  ],
  "inventory_date": "2026-09-19"
 }

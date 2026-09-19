@@ -360,13 +360,13 @@
   "/product/ue-realityscan",
   "/product/unity-ent",
   "/product/unity-pro",
-  "/product/vegas-edit-perp",
   "/product/vegas-edit-sub",
   "/product/windsurf-pro",
   "/product/windsurf-teams",
   "/product/winrar-license",
   "/product/wndr-filmora-team",
   "/product/wordpress-commerce",
+  "/product/xai-supergrok",
   "/product/xai-supergrok-heavy",
   "/product/zoom-wp-business",
   "/product/zoom-wp-business-plus",
@@ -374,6 +374,7 @@
   "/solutions",
   "/solutions/ai-dlya-prodazh",
   "/solutions/po-dlya-razrabotki-igr",
+  "/solutions/podarochnye-karty-sotrudnikam",
   "/solutions/uchet-po-i-it-aktivov",
   "/vendors",
   "/vendors/ableton",
@@ -492,9 +493,15 @@
   "/vendors/zoho",
   "/vendors/zoom"
  ],
- "in_search_count": 490,
- "in_search_fetched": 490,
+ "in_search_count": 491,
+ "in_search_fetched": 491,
  "excluded": {
+  "/product/vegas-edit-perp": {
+   "status": "NO_INDEX",
+   "date": "2026-09-19",
+   "bad_http_status": null,
+   "target_url": null
+  },
   "/alternatives/canva": {
    "status": "LOW_QUALITY",
    "date": "2026-09-15",
@@ -939,12 +946,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/xai-supergrok": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/vendors/adobe?etext=2202.I5EmsuMYExjKVrXihVmZ0-OP6Ite5JIjkON0y-Sp7DSczKhD81SvWHKXqdgwy7Fdc3Jyc2hnenhkZmp3enFpeA.68f85ec87847d208120cf1f3ebcb3a0314307276": {
    "status": "NOT_CANONICAL",
    "date": "2026-09-15",
@@ -1377,7 +1378,19 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/dropbox-advanced": {
+  "/product/eleven-pro": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-09",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/eleven-scale": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-09",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/eleven-starter": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1833,13 +1846,19 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/ms-office-proplus-2024": {
+  "/product/ni-komplete-sel": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/mvls-ent-linux": {
+  "/product/ni-komplete-std": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-09",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/ni-komplete-ult": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -2229,7 +2248,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/deposit-unl-month": {
+  "/product/krea-business": {
    "status": "LOW_QUALITY",
    "date": "2026-09-07",
    "bad_http_status": null,
@@ -2416,6 +2435,6 @@
    "target_url": null
   }
  },
- "events_count": 1998,
- "events_fetched": 1959
+ "events_count": 2001,
+ "events_fetched": 1962
 }
