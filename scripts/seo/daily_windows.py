@@ -12,6 +12,14 @@ SAMPLE_CHURN к нему неприменимы по построению.
 (у Яндекса свежие даты сначала лежат нулями), поэтому их окна заканчиваются
 на T−3; аналитика полна уже за вчера — T−1.
 
+Горизонт: если витрина знает границу зрелости, названную самим источником
+(поле `horizon`, его пишет collect_daily), окно кончается не позже её. Лаг
+остаётся страховкой на случай, когда источник границу не сообщает. Окно
+сдвигается назад целиком, вместе с предыдущим: длина и стык сохраняются,
+сравниваются по-прежнему два полных периода. Без этого в окно попадал
+незрелый день с нулём и давал падение, которого не было (18.09.2026:
+горизонт Вебмастера — 14.09 при лаге до 15.09).
+
 Окно публикуется только целиком: если в ряду нет хотя бы одного дня окна,
 блок помечается incomplete с перечнем дыр, и потребитель обязан не считать
 дельту, а не «дозаполнить нулями».
@@ -48,6 +56,22 @@ def _dates(start: dt.date, days: int) -> list[str]:
     return [(start + dt.timedelta(days=i)).isoformat() for i in range(days)]
 
 
+def window_end(report_date: str, lag: int, horizon: str | None) -> dt.date:
+    """Последний день текущего окна: не позже T минус лаг и не позже горизонта.
+
+    Горизонт из будущего игнорируется: источник не может знать больше, чем
+    успел посчитать, и такая дата означала бы испорченную витрину, а не более
+    свежие данные. Нечитаемая дата — тоже повод вернуться к лагу.
+    """
+    end = dt.date.fromisoformat(report_date) - dt.timedelta(days=lag)
+    if horizon:
+        try:
+            return min(end, dt.date.fromisoformat(horizon))
+        except ValueError:
+            return end
+    return end
+
+
 def load_series(source: str, base_dir: pathlib.Path | None = None) -> dict | None:
     path = (base_dir or DAILY_DIR) / f'{source}.json'
     if not path.exists():
@@ -59,7 +83,8 @@ def load_series(source: str, base_dir: pathlib.Path | None = None) -> dict | Non
 
 
 def build_source(report_date: str, source: str, store: dict | None,
-                 lag: int | None = None, metrics: tuple | None = None) -> dict:
+                 lag: int | None = None, metrics: tuple | None = None,
+                 end_override: dt.date | None = None) -> dict:
     """Окна одного источника: {available, complete, windows, missing_dates}.
 
     lag — переопределение лага созревания: общее окно воронки строится с
@@ -85,7 +110,11 @@ def build_source(report_date: str, source: str, store: dict | None,
 
     lag = LAG_DAYS[source] if lag is None else lag
     metrics = METRICS[source] if metrics is None else tuple(metrics)
-    end = dt.date.fromisoformat(report_date) - dt.timedelta(days=lag)
+    horizon = store.get('horizon')
+    # end_override — конец общего окна воронки: он уже учёл горизонты всех
+    # источников, и подрезать его горизонтом одного значило бы снова развести
+    # источники по разным неделям.
+    end = end_override or window_end(report_date, lag, horizon)
     cur_start = end - dt.timedelta(days=WINDOW_DAYS - 1)
     prev_start = cur_start - dt.timedelta(days=WINDOW_DAYS)
     cur_dates = _dates(cur_start, WINDOW_DAYS)
@@ -118,6 +147,7 @@ def build_source(report_date: str, source: str, store: dict | None,
         'complete': not missing,
         'missing_dates': sorted(missing),
         'lag_days': lag,
+        'horizon': horizon,
         'window_days': WINDOW_DAYS,
         'updated_at': store.get('updated_at'),
         'windows': windows,
@@ -136,12 +166,19 @@ def build_aligned(report_date: str, stores: dict[str, dict | None]) -> dict:
     разных недель.
     """
     lag = max(LAG_DAYS.values())
-    end = dt.date.fromisoformat(report_date) - dt.timedelta(days=lag)
+    # Конец общего окна обрезает не только самый медленный лаг, но и самый
+    # ранний горизонт: иначе у одного источника в общем окне окажется
+    # незрелый день, и переходы «показы → клики → визиты» посчитаются по
+    # разным неделям.
+    horizons = [(st or {}).get('horizon') for st in stores.values()]
+    end = min([window_end(report_date, lag, None),
+               *(window_end(report_date, lag, h) for h in horizons if h)])
     cur_start = end - dt.timedelta(days=WINDOW_DAYS - 1)
     prev_start = cur_start - dt.timedelta(days=WINDOW_DAYS)
     sources, missing = {}, set()
     for source in METRICS:
-        blk = build_source(report_date, source, stores.get(source), lag=lag)
+        blk = build_source(report_date, source, stores.get(source), lag=lag,
+                           end_override=end)
         sources[source] = blk
         if not blk.get('available'):
             missing.add(f'{source}: витрина не заполнена')
