@@ -449,7 +449,7 @@ def window_for(store: dict, expected: tuple = ()) -> tuple[dt.date, dt.date]:
 
 
 def save_store(name: str, store: dict, scope: str, fresh: dict | None,
-               error: str | None) -> None:
+               error: str | None, horizon: str | None = None) -> None:
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')
     store['source'] = name
     store['scope'] = scope
@@ -459,6 +459,10 @@ def save_store(name: str, store: dict, scope: str, fresh: dict | None,
     else:
         store['series'] = merge_series(store.get('series'), fresh or {})
         store['updated_at'] = now
+        # Горизонт обновляется только когда источник его назвал: неудачный
+        # опрос не должен стирать границу, по которой строится окно.
+        if horizon:
+            store['horizon'] = horizon
         store.pop('last_error', None)
         store.pop('last_error_at', None)
     DAILY_DIR.mkdir(parents=True, exist_ok=True)
@@ -510,6 +514,46 @@ def fetch_yandex(date_from: dt.date, date_to: dt.date):
             continue
         series.update(parse_yandex_device_history(data, device))
     return series, None
+
+
+def yandex_horizon() -> str | None:
+    """Последняя дата, за которую Вебмастер считает данные полными.
+
+    Метод /search-queries/all/history отдаёт точки и за незрелые дни, но со
+    значением 0: отличить «показов не было» от «день ещё не посчитан» внутри
+    этого ряда нельзя. Границу зрелости называет сам API в другом методе —
+    `date_to` популярных запросов. На 18.09.2026 она равнялась 14.09 при
+    фиксированном лаге в 3 дня, из-за чего в недельное окно отчёта попадал
+    день с нулём и давал падение видимости на 8%, которого не было.
+
+    Горизонт плавает (за 15–18.09.2026 он был 12, 14, 14 и 14 сентября),
+    поэтому никакой постоянный лаг его не заменяет. Сбой этого вызова не
+    ошибка сбора: витрина останется без горизонта и окна вернутся к лагу.
+    """
+    token = os.environ.get('YANDEX_WEBMASTER_TOKEN')
+    if not token:
+        return None
+    headers = {'Authorization': f'OAuth {token}'}
+    api = 'https://api.webmaster.yandex.net/v4/user'
+    user, err = base.api_json(api, headers=headers)
+    if err or 'user_id' not in (user or {}):
+        return None
+    uid = user['user_id']
+    hosts, err = base.api_json(f'{api}/{uid}/hosts', headers=headers)
+    if err:
+        return None
+    match = [h for h in hosts.get('hosts', []) if base.SITE in h.get('host_id', '')]
+    if not match:
+        return None
+    data, err = base.api_json(
+        f'{api}/{uid}/hosts/{match[0]["host_id"]}/search-queries/popular/',
+        headers=headers,
+        params={'order_by': 'TOTAL_SHOWS', 'query_indicator': ['TOTAL_SHOWS'],
+                'limit': 1})
+    if err or not isinstance(data, dict):
+        return None
+    horizon = str(data.get('date_to') or '')[:10]
+    return horizon or None
 
 
 def fetch_gsc(date_from: dt.date, date_to: dt.date):
@@ -716,6 +760,10 @@ SOURCES = (
     ('ga4', fetch_ga4, 'GA4_PROPERTY_ID', 'site'),
 )
 
+# Источники, умеющие назвать собственную границу зрелости данных. Для
+# остальных окна строятся по фиксированному лагу (daily_windows.LAG_DAYS).
+HORIZON = {'yandex': yandex_horizon}
+
 # Ряды, которые витрина источника обязана содержать. Нет хотя бы одного —
 # прогон забирает историю целиком (см. window_for), а не хвост: так разрез,
 # заведённый позже витрины, дозаполняется задним числом.
@@ -740,7 +788,15 @@ def main() -> int:
                 series, err = fn(date_from, date_to)
             except Exception as e:  # noqa: BLE001 — ошибка источника не валит остальные
                 series, err = None, f'{type(e).__name__}: {e}'
-        save_store(name, store, scope, series, err)
+        # Горизонт опрашивается только при удачном сборе: при сбое ряд не
+        # обновился, и прежняя граница остаётся верной для прежних данных.
+        horizon = None
+        if not err and name in HORIZON:
+            try:
+                horizon = HORIZON[name]()
+            except Exception as e:  # noqa: BLE001 — горизонт не обязателен
+                print(f'daily/{name}: горизонт не определён: {type(e).__name__}: {e}')
+        save_store(name, store, scope, series, err, horizon)
         if err:
             ok = False
             print(f'daily/{name}: ошибка: {err}')
