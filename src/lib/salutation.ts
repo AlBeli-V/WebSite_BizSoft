@@ -79,13 +79,49 @@ const KNOWN_NAMES = new Set([
 
 export type Gender = 'male' | 'female' | 'unknown';
 
-/** Разобрать поле имени на слова, отбросив явно не-имена. */
+/** Инициалы в любом регистре — нужны, чтобы «а.в.» стало «А.В.», а не «А.в.». */
+const INITIALS_ANY = /^(?:[А-ЯЁA-Zа-яёa-z]\.){1,3}$/;
+
+/**
+ * Регистр слова в имени.
+ *
+ * В форме заявки набирают как придётся: «беляев алексей», «БЕЛЯЕВ АЛЕКСЕЙ»,
+ * «Беляев алексей». В коммерческое предложение и в обращение письма это
+ * уходило дословно, и документ выглядел небрежно (замечание руководителя
+ * 19.09.2026).
+ *
+ * Правим только очевидное: слово целиком строчными или целиком прописными
+ * приводим к прописной первой букве. Смешанный регистр не трогаем — его
+ * набрали намеренно, и «МакДональд» после приведения стал бы «Макдональд».
+ * Составные фамилии и имена через дефис получают прописную в каждой части:
+ * «петров-водкин» → «Петров-Водкин».
+ */
+export function capitalizeName(word: string): string {
+  if (INITIALS_ANY.test(word)) return word.toUpperCase();
+  const hasUpper = /[А-ЯЁA-Z]/.test(word);
+  const hasLower = /[а-яёa-z]/.test(word);
+  if (hasUpper && hasLower) return word;
+  return word
+    .split(/([-\u2019'])/)
+    .map((part) => (/^[-\u2019']$/.test(part)
+      ? part
+      : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()))
+    .join('');
+}
+
+/**
+ * Разобрать поле имени на слова, отбросив явно не-имена.
+ *
+ * Регистр приводится здесь, на входе: дальше поле разбирают и склеивают
+ * несколько функций, и починка в каждой из них рано или поздно разъехалась бы.
+ */
 export function nameParts(raw: string): string[] {
   return (raw || '')
     .replace(/[«»"'()]/g, ' ')
     .split(/[\s,]+/)
     .map((w) => w.trim())
-    .filter((w) => w.length > 1 && !NOT_A_NAME.test(w) && /[А-Яа-яЁёA-Za-z]/.test(w));
+    .filter((w) => w.length > 1 && !NOT_A_NAME.test(w) && /[А-Яа-яЁёA-Za-z]/.test(w))
+    .map(capitalizeName);
 }
 
 export function detectGender(raw: string): Gender {
