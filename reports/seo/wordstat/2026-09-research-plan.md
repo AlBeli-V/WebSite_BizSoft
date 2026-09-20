@@ -4,20 +4,20 @@
 
 ## Что уже известно
 
-- фраз в базе семантики: 24 956
-- из них коммерческих: 2 800
-- кластеров: 160, без страницы на сайте: 7
+- фраз в базе семантики: 24 964
+- из них коммерческих: 2 807
+- кластеров: 163, без страницы на сайте: 7
 - спрос непокрытых кластеров: 33 873 показов в месяц
-- уровни мониторинга: A — 51, B — 34, C — 75
+- уровни мониторинга: A — 51, B — 34, C — 78
 
 ## Что планируется
 
 | Метод | Вызовов | Стоимость |
 |---|---|---|
-| getTop | 108 | 2.16 ₽ |
+| getTop | 107 | 2.14 ₽ |
 | getDynamics | 3 | 0.06 ₽ |
 | getRegionsDistribution | 28 | 1.40 ₽ |
-| **Итого** | **139** | **3.62 ₽** |
+| **Итого** | **138** | **3.60 ₽** |
 
 ## Бюджет и квота
 
@@ -51,16 +51,16 @@
 | 15 | getTop | brevo купить | vendor_expansion | 0.6 | 16.8 |
 | 16 | getTop | klaviyo купить | vendor_expansion | 0.6 | 16.8 |
 | 17 | getTop | camtasia купить | vendor_expansion | 0.6 | 16.8 |
-| 18 | getTop | semrush купить | vendor_expansion | 0.6 | 16.8 |
-| 19 | getTop | serpstat купить | vendor_expansion | 0.6 | 16.8 |
-| 20 | getTop | moz купить | vendor_expansion | 0.6 | 16.8 |
-| 21 | getTop | pika labs купить | vendor_expansion | 0.6 | 16.8 |
-| 22 | getTop | webflow купить | vendor_expansion | 0.6 | 16.8 |
-| 23 | getTop | squarespace купить | vendor_expansion | 0.6 | 16.8 |
-| 24 | getTop | softr купить | vendor_expansion | 0.6 | 16.8 |
-| 25 | getTop | retool купить | vendor_expansion | 0.6 | 16.8 |
-| 26 | getTop | datadog купить | vendor_expansion | 0.6 | 16.8 |
-| 27 | getTop | new relic купить | vendor_expansion | 0.6 | 16.8 |
-| 28 | getTop | grafana купить | vendor_expansion | 0.6 | 16.8 |
-| 29 | getTop | netlify купить | vendor_expansion | 0.6 | 16.8 |
-| 30 | getTop | heroku купить | vendor_expansion | 0.6 | 16.8 |
+| 18 | getTop | serpstat купить | vendor_expansion | 0.6 | 16.8 |
+| 19 | getTop | moz купить | vendor_expansion | 0.6 | 16.8 |
+| 20 | getTop | pika labs купить | vendor_expansion | 0.6 | 16.8 |
+| 21 | getTop | webflow купить | vendor_expansion | 0.6 | 16.8 |
+| 22 | getTop | squarespace купить | vendor_expansion | 0.6 | 16.8 |
+| 23 | getTop | softr купить | vendor_expansion | 0.6 | 16.8 |
+| 24 | getTop | retool купить | vendor_expansion | 0.6 | 16.8 |
+| 25 | getTop | datadog купить | vendor_expansion | 0.6 | 16.8 |
+| 26 | getTop | new relic купить | vendor_expansion | 0.6 | 16.8 |
+| 27 | getTop | grafana купить | vendor_expansion | 0.6 | 16.8 |
+| 28 | getTop | netlify купить | vendor_expansion | 0.6 | 16.8 |
+| 29 | getTop | heroku купить | vendor_expansion | 0.6 | 16.8 |
+| 30 | getTop | supabase купить | vendor_expansion | 0.6 | 16.8 |
