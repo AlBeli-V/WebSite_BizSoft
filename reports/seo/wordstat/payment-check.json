@@ -20,7 +20,7 @@
   "has_prices": true,
   "url": "https://www.atlassian.com/software/jira/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "confluence": {
@@ -43,7 +43,7 @@
   "has_prices": true,
   "url": "https://www.atlassian.com/software/confluence/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "asana": {
@@ -62,7 +62,7 @@
   "has_prices": true,
   "url": "https://asana.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "monday.com": {
@@ -88,7 +88,7 @@
   "has_prices": true,
   "url": "https://monday.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "clickup": {
@@ -109,7 +109,7 @@
   "has_prices": true,
   "url": "https://clickup.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "trello": {
@@ -129,7 +129,7 @@
   "has_prices": true,
   "url": "https://trello.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "airtable": {
@@ -148,7 +148,7 @@
   "has_prices": true,
   "url": "https://airtable.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "smartsheet": {
@@ -168,9 +168,9 @@
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://smartsheet.com/pricing",
+  "url": "https://www.smartsheet.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "basecamp": {
@@ -182,9 +182,9 @@
   "buy_markers": [],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://basecamp.com/pricing",
+  "url": "https://www.basecamp.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "hubspot": {
@@ -201,7 +201,7 @@
   "has_prices": true,
   "url": "https://www.hubspot.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "salesforce": {
@@ -219,7 +219,7 @@
   "has_prices": true,
   "url": "https://www.salesforce.com/editions-pricing/overview/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "pipedrive": {
@@ -241,7 +241,7 @@
   "has_prices": true,
   "url": "https://www.pipedrive.com/en/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "freshdesk": {
@@ -251,6 +251,7 @@
    "american express",
    "credit card",
    "mastercard",
+   "stripe",
    "visa"
   ],
   "buy_markers": [
@@ -264,9 +265,9 @@
    "get a demo"
   ],
   "has_prices": true,
-  "url": "https://freshdesk.com/pricing",
+  "url": "https://www.freshdesk.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "zendesk": {
@@ -291,27 +292,30 @@
   "has_prices": true,
   "url": "https://www.zendesk.com/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "intercom": {
   "verdict": "card",
   "note": "найдены признаки самостоятельной оплаты картой",
   "card_markers": [
-   "credit card"
+   "credit card",
+   "stripe"
   ],
   "buy_markers": [
    "get started",
+   "purchase",
    "start free trial"
   ],
   "sales_markers": [
    "contact sales",
-   "get a demo"
+   "get a demo",
+   "talk to sales"
   ],
   "has_prices": true,
   "url": "https://www.intercom.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "mailchimp": {
@@ -336,7 +340,7 @@
   "has_prices": true,
   "url": "https://mailchimp.com/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "sendgrid": {
@@ -350,9 +354,9 @@
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://sendgrid.com/pricing",
+  "url": "https://www.sendgrid.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "twilio": {
@@ -361,14 +365,16 @@
   "card_markers": [
    "credit card"
   ],
-  "buy_markers": [],
+  "buy_markers": [
+   "get started"
+  ],
   "sales_markers": [
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://twilio.com/pricing",
+  "url": "https://www.twilio.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "klaviyo": {
@@ -387,9 +393,9 @@
    "talk to sales"
   ],
   "has_prices": true,
-  "url": "https://klaviyo.com/pricing",
+  "url": "https://www.klaviyo.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "affinity designer": {
@@ -405,9 +411,9 @@
    "contact sales"
   ],
   "has_prices": false,
-  "url": "https://affinitydesigner.com/pricing",
+  "url": "https://www.affinitydesigner.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "affinity photo": {
@@ -423,9 +429,9 @@
    "contact sales"
   ],
   "has_prices": false,
-  "url": "https://affinityphoto.com/pricing",
+  "url": "https://www.affinityphoto.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "camtasia": {
@@ -438,9 +444,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://camtasia.com/pricing",
+  "url": "https://www.camtasia.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "screaming frog": {
@@ -457,9 +463,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://screamingfrog.com/pricing",
+  "url": "https://www.screamingfrog.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "ahrefs": {
@@ -478,9 +484,9 @@
    "talk to sales"
   ],
   "has_prices": true,
-  "url": "https://ahrefs.com/pricing",
+  "url": "https://www.ahrefs.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "semrush": {
@@ -503,9 +509,9 @@
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://semrush.com/pricing",
+  "url": "https://www.semrush.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "similarweb": {
@@ -525,9 +531,9 @@
    "contact us for pricing"
   ],
   "has_prices": true,
-  "url": "https://similarweb.com/pricing",
+  "url": "https://www.similarweb.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "moz": {
@@ -545,9 +551,9 @@
    "book a demo"
   ],
   "has_prices": true,
-  "url": "https://moz.com/pricing",
+  "url": "https://www.moz.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "chatgpt plus": {
@@ -567,7 +573,7 @@
   "has_prices": true,
   "url": "https://openai.com/chatgpt/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "claude": {
@@ -586,7 +592,7 @@
   "has_prices": true,
   "url": "https://www.anthropic.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "replit": {
@@ -605,7 +611,7 @@
   "has_prices": true,
   "url": "https://replit.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "udio": {
@@ -620,9 +626,9 @@
   "buy_markers": [],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://udio.com/pricing",
+  "url": "https://www.udio.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "synthesia": {
@@ -643,7 +649,7 @@
   "has_prices": true,
   "url": "https://www.synthesia.io/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "webflow": {
@@ -665,7 +671,7 @@
   "has_prices": true,
   "url": "https://webflow.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "wix": {
@@ -686,9 +692,9 @@
    "book a demo"
   ],
   "has_prices": true,
-  "url": "https://wix.com/pricing",
+  "url": "https://www.wix.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "squarespace": {
@@ -707,9 +713,9 @@
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://squarespace.com/pricing",
+  "url": "https://www.squarespace.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "shopify": {
@@ -735,7 +741,7 @@
   "has_prices": true,
   "url": "https://www.shopify.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "elementor": {
@@ -752,9 +758,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://elementor.com/pricing",
+  "url": "https://www.elementor.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "softr": {
@@ -771,9 +777,9 @@
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://softr.com/pricing",
+  "url": "https://www.softr.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "glide": {
@@ -787,9 +793,9 @@
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://glide.com/plans",
+  "url": "https://www.glide.com/plans",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "retool": {
@@ -807,9 +813,9 @@
    "book a demo"
   ],
   "has_prices": true,
-  "url": "https://retool.com/pricing",
+  "url": "https://www.retool.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "visual studio": {
@@ -823,9 +829,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://visualstudio.com/pricing",
+  "url": "https://www.visualstudio.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "datadog": {
@@ -847,7 +853,7 @@
   "has_prices": true,
   "url": "https://www.datadoghq.com/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "new relic": {
@@ -864,9 +870,9 @@
    "request pricing"
   ],
   "has_prices": true,
-  "url": "https://newrelic.com/pricing",
+  "url": "https://www.newrelic.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "grafana": {
@@ -880,9 +886,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://grafana.com/pricing",
+  "url": "https://www.grafana.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "aws": {
@@ -894,9 +900,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://aws.com/pricing",
+  "url": "https://www.aws.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "digitalocean": {
@@ -918,7 +924,7 @@
   "has_prices": true,
   "url": "https://www.digitalocean.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "vercel": {
@@ -938,7 +944,7 @@
   "has_prices": true,
   "url": "https://vercel.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "netlify": {
@@ -950,13 +956,11 @@
   "buy_markers": [
    "get started"
   ],
-  "sales_markers": [
-   "contact sales"
-  ],
+  "sales_markers": [],
   "has_prices": true,
   "url": "https://www.netlify.com/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "heroku": {
@@ -969,9 +973,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://heroku.com/pricing",
+  "url": "https://www.heroku.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "supabase": {
@@ -985,7 +989,7 @@
   "has_prices": true,
   "url": "https://supabase.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "firebase": {
@@ -1000,9 +1004,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://firebase.com/pricing",
+  "url": "https://www.firebase.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "1password": {
@@ -1021,7 +1025,7 @@
   "has_prices": true,
   "url": "https://1password.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "lastpass": {
@@ -1039,9 +1043,9 @@
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://lastpass.com/pricing",
+  "url": "https://www.lastpass.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "power bi": {
@@ -1053,9 +1057,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://powerbi.com/plans",
+  "url": "https://www.powerbi.com/plans",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "looker": {
@@ -1070,9 +1074,9 @@
    "request a quote"
   ],
   "has_prices": true,
-  "url": "https://looker.com/pricing",
+  "url": "https://www.looker.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "amplitude": {
@@ -1091,7 +1095,7 @@
   "has_prices": true,
   "url": "https://amplitude.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "mixpanel": {
@@ -1101,7 +1105,8 @@
    "credit card"
   ],
   "buy_markers": [
-   "get started"
+   "get started",
+   "purchase"
   ],
   "sales_markers": [
    "book a demo",
@@ -1110,7 +1115,7 @@
   "has_prices": true,
   "url": "https://mixpanel.com/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "hotjar": {
@@ -1131,7 +1136,7 @@
   "has_prices": true,
   "url": "https://www.hotjar.com/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "fullstory": {
@@ -1148,9 +1153,9 @@
    "request pricing"
   ],
   "has_prices": true,
-  "url": "https://fullstory.com/pricing",
+  "url": "https://www.fullstory.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "optimizely": {
@@ -1162,9 +1167,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://optimizely.com/pricing",
+  "url": "https://www.optimizely.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "vwo": {
@@ -1183,9 +1188,9 @@
    "talk to sales"
   ],
   "has_prices": true,
-  "url": "https://vwo.com/pricing",
+  "url": "https://www.vwo.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "labview": {
@@ -1205,9 +1210,9 @@
    "request a quote"
   ],
   "has_prices": true,
-  "url": "https://labview.com/pricing",
+  "url": "https://www.labview.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "zbrush": {
@@ -1222,9 +1227,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://zbrush.com/pricing",
+  "url": "https://www.zbrush.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "keyshot": {
@@ -1244,9 +1249,9 @@
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://keyshot.com/pricing",
+  "url": "https://www.keyshot.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "vray": {
@@ -1260,9 +1265,9 @@
    "contact sales"
   ],
   "has_prices": true,
-  "url": "https://vray.com/pricing",
+  "url": "https://www.vray.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "corona renderer": {
@@ -1281,7 +1286,7 @@
   "has_prices": true,
   "url": "https://coronarenderer.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "spotify": {
@@ -1295,7 +1300,7 @@
   "has_prices": true,
   "url": "https://www.spotify.com/premium/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "youtube premium": {
@@ -1309,7 +1314,7 @@
   "has_prices": true,
   "url": "https://www.youtube.com/premium",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "flaticon": {
@@ -1324,9 +1329,9 @@
   ],
   "sales_markers": [],
   "has_prices": true,
-  "url": "https://flaticon.com/pricing",
+  "url": "https://www.flaticon.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "storyblocks": {
@@ -1341,9 +1346,9 @@
    "talk to sales"
   ],
   "has_prices": true,
-  "url": "https://storyblocks.com/pricing",
+  "url": "https://www.storyblocks.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "grammarly": {
@@ -1362,7 +1367,7 @@
   "has_prices": true,
   "url": "https://www.grammarly.com/plans",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "activecampaign": {
@@ -1382,9 +1387,9 @@
    "talk to sales"
   ],
   "has_prices": true,
-  "url": "https://activecampaign.com/pricing",
+  "url": "https://www.activecampaign.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "linear": {
@@ -1400,7 +1405,7 @@
   "has_prices": true,
   "url": "https://linear.app/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "brevo": {
@@ -1421,7 +1426,7 @@
   "has_prices": true,
   "url": "https://www.brevo.com/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "filmora": {
@@ -1454,7 +1459,7 @@
   "has_prices": true,
   "url": "https://serpstat.com/pay/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "gemini": {
@@ -1643,7 +1648,7 @@
   "has_prices": true,
   "url": "https://cinema4d.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "maya": {
@@ -1754,7 +1759,7 @@
   "has_prices": true,
   "url": "https://fireflies.ai/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "webflow cms": {
@@ -1776,7 +1781,7 @@
   "has_prices": true,
   "url": "https://webflow.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "protopie": {
@@ -1798,7 +1803,7 @@
   "has_prices": true,
   "url": "https://www.protopie.io/pricing",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "salesforce marketing cloud": {
@@ -1813,7 +1818,7 @@
   "has_prices": true,
   "url": "https://www.salesforce.com/marketing/pricing/",
   "http_status": 200,
-  "checked_at": "2026-08-20",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "marketo": {
@@ -1994,15 +1999,21 @@
   "kind": "ai"
  },
  "devin ai": {
-  "verdict": "unreachable",
-  "note": "страница тарифов не открылась",
-  "url": "https://devin.ai/pricing",
-  "http_status": null,
+  "verdict": "likely_card",
+  "note": "есть цены и кнопки покупки, платёжная система не опознана",
   "card_markers": [],
-  "buy_markers": [],
-  "sales_markers": [],
-  "has_prices": false,
-  "checked_at": "2026-09-15",
+  "buy_markers": [
+   "get started",
+   "purchase",
+   "select plan"
+  ],
+  "sales_markers": [
+   "get a demo"
+  ],
+  "has_prices": true,
+  "url": "https://devin.ai/pricing",
+  "http_status": 200,
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "manus ai": {
@@ -2014,7 +2025,7 @@
   "has_prices": false,
   "url": "https://www.manusai.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-09-15",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "mistral ai": {
@@ -2022,13 +2033,11 @@
   "note": "признаков оплаты на странице не найдено",
   "card_markers": [],
   "buy_markers": [],
-  "sales_markers": [
-   "contact sales"
-  ],
+  "sales_markers": [],
   "has_prices": true,
   "url": "https://mistral.ai/pricing",
   "http_status": 200,
-  "checked_at": "2026-09-15",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "zapier": {
@@ -2074,7 +2083,7 @@
   "buy_markers": [],
   "sales_markers": [],
   "has_prices": false,
-  "checked_at": "2026-09-15",
+  "checked_at": "2026-09-20",
   "kind": "ai"
  },
  "d5 render": {
@@ -2086,7 +2095,7 @@
   "has_prices": false,
   "url": "https://www.d5render.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-09-15",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "vectorworks": {
@@ -2098,7 +2107,7 @@
   "has_prices": true,
   "url": "https://www.vectorworks.com/pricing",
   "http_status": 200,
-  "checked_at": "2026-09-15",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "luminar neo": {
@@ -2110,7 +2119,7 @@
   "buy_markers": [],
   "sales_markers": [],
   "has_prices": false,
-  "checked_at": "2026-09-15",
+  "checked_at": "2026-09-20",
   "kind": "classic"
  },
  "sublime text": {
