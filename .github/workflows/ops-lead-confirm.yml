@@ -33,6 +33,10 @@ on:
         description: "Идентификатор заявки; задан — ищем по нему, а не по почте"
         required: false
         default: ""
+      to:
+        description: "Куда слать копию в режиме test; пусто — MANAGER_EMAIL сервера"
+        required: false
+        default: "avbelyaev@biz-soft.pro"
       mode:
         description: "test — копия менеджеру для проверки; client — письмо заказчику"
         required: true
@@ -78,13 +82,14 @@ jobs:
         env:
           IN_EMAIL: ${{ inputs.email }}
           IN_LEAD_ID: ${{ inputs.lead_id }}
+          IN_TO: ${{ inputs.to }}
           IN_MODE: ${{ inputs.mode }}
           IN_DRY: ${{ inputs.dry_run }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: IN_EMAIL,IN_LEAD_ID,IN_MODE,IN_DRY
+          envs: IN_EMAIL,IN_LEAD_ID,IN_TO,IN_MODE,IN_DRY
           script: |
             set -e
             T=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
@@ -95,12 +100,14 @@ jobs:
 
             # Тело собирает python: адрес приходит от человека, а ручная
             # склейка JSON ломается на кавычках.
-            IN_EMAIL="$IN_EMAIL" IN_LEAD_ID="$IN_LEAD_ID" IN_MODE="$IN_MODE" IN_DRY="$IN_DRY" \
+            IN_EMAIL="$IN_EMAIL" IN_LEAD_ID="$IN_LEAD_ID" IN_TO="$IN_TO" \
+            IN_MODE="$IN_MODE" IN_DRY="$IN_DRY" \
             python3 - > /tmp/lead-confirm-body.json <<'PY'
             import json, os
             print(json.dumps({
                 'email': os.environ.get('IN_EMAIL', '').strip(),
                 'lead_id': os.environ.get('IN_LEAD_ID', '').strip(),
+                'to': os.environ.get('IN_TO', '').strip(),
                 'mode': os.environ.get('IN_MODE', 'test').strip() or 'test',
                 'dry_run': os.environ.get('IN_DRY', 'true') == 'true',
             }, ensure_ascii=False))

@@ -49,6 +49,13 @@ interface Body {
    * почте. `client` — письмо заказчику на адрес из заявки.
    */
   mode?: 'test' | 'client';
+  /**
+   * Куда слать проверочную копию. Пусто — `MANAGER_EMAIL` сервера; на проде
+   * это общий ящик, а письма руководителю положено слать на его личный
+   * адрес (docs/rules/mail-recipient.md), поэтому адрес задаётся явно.
+   * В режиме `client` вход игнорируется: там адресат — заказчик из заявки.
+   */
+  to?: string;
   /** true — показать состав и ничего не отправлять. */
   dry_run?: boolean;
   /** Приписка в теме для режима `client`; пусто — без приписки. */
@@ -133,7 +140,8 @@ export const POST: APIRoute = async ({ request }) => {
     } : undefined,
   });
 
-  const to = mode === 'client' ? customerEmail : managerEmail;
+  const wantedTo = String(body.to || '').trim();
+  const to = mode === 'client' ? customerEmail : (wantedTo || managerEmail);
   // Приписка в теме: в проверочной копии — всегда, заказчику — только если
   // её задали явно. Врать о дате письмо не должно, а объяснять задержку —
   // работа человека, не темы письма.

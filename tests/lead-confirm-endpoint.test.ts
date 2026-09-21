@@ -93,6 +93,19 @@ describe('режимы отправки', () => {
     expect(mail.html).toContain('Уважаемый Иван Иванович!');
   });
 
+  it('явный адрес перекрывает MANAGER_EMAIL сервера', async () => {
+    // На проде MANAGER_EMAIL — общий ящик, а письма руководителю положено
+    // слать на личный адрес (docs/rules/mail-recipient.md).
+    const d = await call({ to: 'avbelyaev@biz-soft.pro', dry_run: false });
+    expect(d.to).toBe('avbelyaev@biz-soft.pro');
+    expect((sendMail.mock.calls[0][0] as { to: string }).to).toBe('avbelyaev@biz-soft.pro');
+  });
+
+  it('в режиме client явный адрес игнорируется — письмо идёт заказчику', async () => {
+    const d = await call({ mode: 'client', to: 'avbelyaev@biz-soft.pro', dry_run: false });
+    expect(d.to).toBe('fresh@example.ru');
+  });
+
   it('client шлёт заказчику и не приписывает ничего к теме', async () => {
     const d = await call({ mode: 'client', dry_run: false });
     expect(d.to).toBe('fresh@example.ru');
