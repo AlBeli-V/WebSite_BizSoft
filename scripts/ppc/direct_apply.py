@@ -277,6 +277,17 @@ def mode_tune(spec: dict, token: str) -> None:
     sync_negatives(camp_id, spec, token)
 
 
+def normalize_minus(phrase: str) -> str:
+    """Минус-фраза так, как её хранит кабинет: без фиксаторов формы.
+
+    Директ возвращает многословные фразы со своими знаками «!» («!как
+    !пользоваться»), и посимвольное сравнение всегда видело расхождение:
+    каждый прогон tune переписывал одни и те же 148 слов и докладывал о
+    несуществующих изменениях.
+    """
+    return " ".join(w.lstrip("!+").lower() for w in phrase.split() if w.strip("!+"))
+
+
 def sync_negatives(camp_id: int, spec: dict, token: str) -> None:
     """Минус-слова кампании приводятся к списку из спецификации.
 
@@ -292,14 +303,16 @@ def sync_negatives(camp_id: int, spec: dict, token: str) -> None:
         "SelectionCriteria": {"Ids": [camp_id]},
         "FieldNames": ["Id", "NegativeKeywords"]}, token).get("Campaigns") or [{}])[0]
         .get("NegativeKeywords") or {}).get("Items") or []
-    if sorted(have) == sorted(want):
+    if {normalize_minus(w) for w in have} == {normalize_minus(w) for w in want}:
         print(f"  минус-слова: {len(want)}, совпадают со спецификацией")
         return
     check_add_results("Campaigns.update(минус-слова)", call("campaigns", "update", {
         "Campaigns": [{"Id": camp_id, "NegativeKeywords": {"Items": want}}]},
         token), key="UpdateResults")
-    added = sorted(set(want) - set(have))
-    removed = sorted(set(have) - set(want))
+    have_norm = {normalize_minus(w): w for w in have}
+    want_norm = {normalize_minus(w): w for w in want}
+    added = sorted(want_norm[k] for k in want_norm.keys() - have_norm.keys())
+    removed = sorted(have_norm[k] for k in have_norm.keys() - want_norm.keys())
     print(f"  минус-слова: было {len(have)}, стало {len(want)}")
     if added:
         print(f"    добавлены ({len(added)}): {', '.join(added)}")
