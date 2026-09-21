@@ -34,7 +34,13 @@ import { site } from '../../../config/site';
 const LATE_PREFIX = '(отправлено с задержкой)';
 
 interface Body {
-  /** Почта заказчика, чью заявку подтверждаем. */
+  /**
+   * Почта заказчика, чью заявку подтверждаем. Пусто и без `lead_id` —
+   * берётся самая свежая заявка: адрес заказчика лежит в базе и в руках у
+   * оператора прогона его нет, а требовать то, чего он не знает, значит
+   * закрыть операцию совсем. Сухой прогон по умолчанию показывает, кого
+   * нашли, — ошибиться адресатом молча нельзя.
+   */
   email?: string;
   /** Идентификатор заявки; задан — ищем по нему, а не по почте. */
   lead_id?: string | number;
@@ -72,17 +78,19 @@ export const POST: APIRoute = async ({ request }) => {
 
   const wantedEmail = String(body.email || '').trim().toLowerCase();
   const wantedId = String(body.lead_id ?? '').trim();
-  if (!wantedEmail && !wantedId) return json({ error: 'нужен email или lead_id' }, 422);
-
   const mode = body.mode === 'client' ? 'client' : 'test';
   const dryRun = body.dry_run !== false;
 
   // Заявки читаются пачкой и фильтруются здесь: отдельного чтения по полю в
   // слое Directus нет, а заводить его ради одноразовой операции незачем.
+  // Заявки приходят свежими сверху (`sort: -created_at`), поэтому «без
+  // параметров» — это первая в списке.
   const leads = await getLeads(500) as unknown as Record<string, unknown>[];
-  const lead = leads.find((l) => (wantedId
-    ? String(l.id ?? '') === wantedId
-    : String(l.email || '').toLowerCase() === wantedEmail));
+  const lead = wantedId
+    ? leads.find((l) => String(l.id ?? '') === wantedId)
+    : wantedEmail
+      ? leads.find((l) => String(l.email || '').toLowerCase() === wantedEmail)
+      : leads[0];
   if (!lead) return json({ error: 'заявка не найдена' }, 404);
 
   const customerEmail = String(lead.email || '').trim();
@@ -134,6 +142,8 @@ export const POST: APIRoute = async ({ request }) => {
 
   const result = {
     ok: true,
+    /** Как выбрали заявку: по запросу или «самая свежая». */
+    picked: wantedId ? 'по id' : wantedEmail ? 'по адресу' : 'самая свежая',
     lead_id: lead.id ?? null,
     company: lead.company || '',
     client_email: customerEmail,

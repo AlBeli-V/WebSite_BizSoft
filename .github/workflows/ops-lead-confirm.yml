@@ -26,7 +26,7 @@ on:
   workflow_dispatch:
     inputs:
       email:
-        description: "Почта заказчика, чью заявку подтвердить"
+        description: "Почта заказчика; пусто и без lead_id — самая свежая заявка"
         required: false
         default: ""
       lead_id:
@@ -123,7 +123,7 @@ jobs:
             if code != '200' or not d.get('ok'):
                 print('ошибка:', d.get('error') or d)
                 sys.exit(1)
-            print(f"заявка {d['lead_id']} от {d['date']} · {d['company']}")
+            print(f"заявка {d['lead_id']} от {d['date']} · {d['company']} (выбор: {d.get('picked', '—')})")
             print(f"адрес заказчика: {d['client_email']}")
             print(f"режим: {'письмо заказчику' if d['mode'] == 'client' else 'копия менеджеру'}")
             print(f"тема: {d['subject']}")
