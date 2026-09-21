@@ -48,8 +48,12 @@ jobs:
           fi
       # Локальный action journal-post лежит в репозитории — без checkout
       # раннер его не находит, и запись в журнал падает (см. прогон #41
-      # ops-yandex-recrawl 03.09.2026).
-      - uses: actions/checkout@v4
+      # ops-yandex-recrawl 03.09.2026). always() — потому что шаг журнала
+      # тоже always(): иначе при падении шага выше checkout пропускается,
+      # и запись в журнал снова не проходит (сторож scripts/ci/check-workflow-journal.py).
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
 
       - name: Send mail
         id: run
