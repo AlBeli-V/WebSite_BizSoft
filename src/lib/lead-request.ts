@@ -23,6 +23,7 @@
  * адреса берутся только по найденному в каталоге слагу.
  */
 import { VENDORS } from '../data/vendors';
+import { isVariant } from './catalog';
 import { parseSku } from './sku';
 import { searchProducts } from './product-search';
 import type { Product } from './types';
@@ -195,7 +196,17 @@ function findAlternative(products: Product[], matched: Product): Product | undef
  * (для письма менеджеру). Пустой разбор — штатный исход, а не сбой:
  * заявка из общей формы часто не называет продукт вовсе.
  */
-export function identifyRequest(products: Product[], source: LeadRequestSource): LeadRequestReview {
+export function identifyRequest(all: Product[], source: LeadRequestSource): LeadRequestReview {
+  // Из письма нельзя вести только туда, где страницы нет: вариант-номинал
+  // подарочной карты отдаёт 301 на родителя. Снятые с витрины сюда не
+  // доходят — каталог читается фильтром status=published.
+  //
+  // `productNoindex` здесь намеренно не применяется. Он закрывает от
+  // поисковиков индивидуальные планы (все, кроме TryHackMe) — но письмо не
+  // поисковик, страница жива и по ней покупают. Фильтруя по нему, мы
+  // отрезали бы ровно те личные лицензии, за которыми человек и пришёл:
+  // заявка 21.09.2026 просила именно личный план.
+  const products = all.filter((p) => !isVariant(p));
   const text = `${source.productRef || ''} ${source.message || ''}`.trim();
   const review: LeadRequestReview = {
     request: {},
@@ -258,6 +269,11 @@ export function identifyRequest(products: Product[], source: LeadRequestSource):
       review.notes.push(`Позиции ${vendor} в каталоге: `
         + review.candidates.map((p) => p.name).join(', ') + '.');
     }
+  }
+
+  const inText = (source.message || '').match(/(\d{1,4})\s*[- ]?х?\s*(?:лиценз|подписк|мест|польз|шт)/i);
+  if (qty && inText && inText[1] !== qty) {
+    review.notes.push(`Количество в поле формы (${qty}) и в тексте (${inText[1]}) расходятся.`);
   }
 
   if (review.hasQuestion) {

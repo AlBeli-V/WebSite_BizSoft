@@ -7,7 +7,9 @@
  * КП с ценами и обещаниями срока.
  */
 import { describe, expect, it } from 'vitest';
-import { buildCustomerLeadEmail, refParts } from '../src/lib/email/lead-customer';
+import {
+  buildCustomerLeadEmail, clampMessage, MESSAGE_LIMIT, refParts,
+} from '../src/lib/email/lead-customer';
 
 const lead = {
   name: 'Иванов Иван Иванович',
@@ -150,5 +152,26 @@ describe('количество из строки формы', () => {
   it('без явного request количество берётся из строки формы', () => {
     const mail = buildCustomerLeadEmail({ lead });
     expect(mail.text).toContain('Количество: 3');
+  });
+});
+
+describe('длинное сообщение', () => {
+  // Поле формы принимает до 4 000 знаков. Цитата нужна для сверки, а не
+  // для повторной публикации всего текста: письмо на несколько экранов
+  // читать никто не станет.
+  const long = `${'слово '.repeat(900)}конец`;
+  const mail = buildCustomerLeadEmail({ lead: { ...lead, message: long } });
+
+  it('цитата обрывается по границе слова и помечается многоточием', () => {
+    const clamped = clampMessage(long);
+    expect(clamped.length).toBeLessThanOrEqual(MESSAGE_LIMIT + 1);
+    expect(clamped.endsWith('…')).toBe(true);
+    expect(clamped).not.toMatch(/сло…$/);
+    expect(mail.html).toContain('…');
+    expect(mail.html).not.toContain(long);
+  });
+
+  it('короткое сообщение не трогается', () => {
+    expect(clampMessage('Нужен счёт.')).toBe('Нужен счёт.');
   });
 });

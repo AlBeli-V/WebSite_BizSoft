@@ -84,6 +84,40 @@ describe('однозначное совпадение', () => {
   });
 });
 
+describe('на что письмо не ведёт', () => {
+  const withNoise: Product[] = [
+    ...CATALOG,
+    // Вариант-номинал подарочной карты: его страница отдаёт 301 на родителя.
+    product({ slug: 'jetbrains-gift-50', sku: 'JB-GFT-CARD-UNI-PERP-CARD-50',
+      name: 'JetBrains подарочная карта 50', vendor: 'JetBrains', parent_sku: 'JB-GFT-CARD-UNI-PERP-CARD' }),
+  ];
+
+  it('вариант подарочной карты в разбор не попадает', () => {
+    const r = identifyRequest(withNoise, { message: 'JetBrains подарочная карта 50' });
+    expect(r.request.matched).toBeUndefined();
+  });
+
+  it('личный план ведётся в письмо, хотя закрыт от поисковиков', () => {
+    // productNoindex закрывает индивидуальные планы от индексации, но
+    // письмо не поисковик: страница жива, и это ровно то, за чем пришли.
+    const r = identifyRequest(withNoise, {
+      message: 'Нужен Adobe Creative Cloud Pro (все приложения), 1 лицензия.',
+    });
+    expect(r.request.matched?.slug).toBe('adobe-cc-pro');
+    expect(r.request.plan).toBe('individual');
+  });
+});
+
+describe('расхождения — менеджеру', () => {
+  it('количество в поле и в тексте не совпало', () => {
+    const r = identifyRequest(CATALOG, {
+      productRef: 'количество: 3', message: 'Нужно 10 лицензий Perplexity.',
+    });
+    expect(r.request.qty).toBe('3');
+    expect(r.notes.join(' ')).toContain('расходятся');
+  });
+});
+
 describe('границы разбора', () => {
   it('без производителя разбор пуст, но это не сбой', () => {
     const r = identifyRequest(CATALOG, { message: 'Здравствуйте, нужен счёт на оплату.' });

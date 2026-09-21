@@ -125,7 +125,22 @@ function row(key: string, valueHtml: string): string {
 function quote(text: string): string {
   return `<div style="font-family:${FONT};font-size:14px;line-height:21px;color:${BODY};`
     + `border-left:2px solid ${RULE};padding:2px 0 2px 12px">`
-    + esc(text).replace(/\r?\n/g, '<br>') + `</div>`;
+    + esc(clampMessage(text)).replace(/\r?\n/g, '<br>') + `</div>`;
+}
+
+/**
+ * Предел цитаты. Поле сообщения принимает до 4 000 знаков, и такое письмо
+ * растянулось бы на несколько экранов: цитата нужна для сверки, а полный
+ * текст у человека и так есть — он его писал. Обрыв делается по границе
+ * слова, чтобы цитата не заканчивалась половиной слова.
+ */
+export const MESSAGE_LIMIT = 1200;
+
+export function clampMessage(text: string): string {
+  if (text.length <= MESSAGE_LIMIT) return text;
+  const cut = text.slice(0, MESSAGE_LIMIT);
+  const stop = Math.max(cut.lastIndexOf(' '), cut.lastIndexOf('\n'));
+  return `${cut.slice(0, stop > MESSAGE_LIMIT - 120 ? stop : MESSAGE_LIMIT).trimEnd()}…`;
 }
 
 /**
@@ -248,7 +263,7 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
       ...(product ? [`Продукт: ${product}`] : []),
       ...(req.plan ? [`Тип лицензии: ${PLAN_WORD[req.plan]}`] : []),
       ...(qty ? [`Количество: ${qty}`] : []),
-      ...(lead.message ? ['Текст сообщения:', lead.message] : []),
+      ...(lead.message ? ['Текст сообщения:', clampMessage(lead.message)] : []),
       'Заметили неточность — ответьте на это письмо, поправим до расчёта.',
     ] : []),
     '',
