@@ -34,7 +34,7 @@ import { salutation } from '../salutation';
 import { withEmailUtm } from '../offer-content';
 import {
   banner, BODY, closeLetter, confidentialFooter, esc, FONT, INK, letterTitle,
-  MUTED, openLetter, RULE, section, sectionHead, signature, stepRow,
+  MUTED, openLetter, ORANGE, RULE, section, sectionHead, signature, stepRow,
   type RenderedEmail,
 } from './client-shell';
 
@@ -66,6 +66,12 @@ export interface CustomerLeadEmailInput {
    * Поля необязательные: строки, которых нет в данных, в письме не
    * рисуются, а не показываются пустыми.
    */
+  /**
+   * В обращении есть прямой вопрос. Письмо тогда говорит, что ответит
+   * человек: фирменное подтверждение приходит через секунды после отправки
+   * и без этой строки читается как ответ, которым оно не является.
+   */
+  hasQuestion?: boolean;
   request?: {
     /** Производитель: «Adobe», «JetBrains». */
     vendor?: string;
@@ -226,6 +232,13 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
       + `border-top:1px solid ${RULE};padding-top:12px;margin-top:4px">`
       + `Заметили неточность — ответьте на это письмо, поправим до расчёта.</div>`) : '')
 
+    // ── Вопрос в обращении ──
+    + (input.hasQuestion ? section(
+      `<div style="font-family:${FONT};font-size:14px;line-height:21px;color:${BODY};`
+      + `border-left:3px solid ${ORANGE};padding:10px 0 10px 14px">`
+      + `<b style="color:${INK}">На вопрос из обращения ответит менеджер</b> — отдельным `
+      + `письмом. Это подтверждение отправлено автоматически и ответом не является.</div>`, 26) : '')
+
     // ── Что дальше ──
     + section(sectionHead('Что дальше')
       + `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">`
@@ -256,6 +269,9 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
     salutation(lead.name),
     '',
     intro,
+    ...(input.hasQuestion ? ['',
+      'На вопрос из обращения ответит менеджер — отдельным письмом. '
+        + 'Это подтверждение отправлено автоматически и ответом не является.'] : []),
     ...(details ? [
       '',
       'ВАШЕ ОБРАЩЕНИЕ',

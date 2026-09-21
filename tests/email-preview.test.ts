@@ -55,7 +55,7 @@ const demo = {
  * смотрят письмо на составе настоящего обращения, не заводя его в код;
  * файл с персональными данными в репозиторий не кладётся.
  */
-function previewInput(): typeof demo {
+function previewInput(): typeof demo & { hasQuestion?: boolean } {
   const file = process.env.EMAIL_PREVIEW_LEAD;
   if (!file) return demo;
   const own = JSON.parse(readFileSync(file, 'utf8'));
@@ -65,6 +65,7 @@ function previewInput(): typeof demo {
   return {
     lead: { ...demo.lead, ...(own.lead ?? own) },
     request: own.request ?? demo.request,
+    hasQuestion: own.hasQuestion,
   };
 }
 

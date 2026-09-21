@@ -22,8 +22,9 @@
  * данные и за периметр не уходит; ни одной ссылки из самого текста —
  * адреса берутся только по найденному в каталоге слагу.
  */
-import { VENDORS } from '../data/vendors';
+import { VENDORS, vendorByName } from '../data/vendors';
 import { isVariant } from './catalog';
+import type { LeadCartItem } from './quote-lead';
 import { parseSku } from './sku';
 import { searchProducts } from './product-search';
 import type { Product } from './types';
@@ -43,6 +44,11 @@ export interface LeadRequestSource {
   productRef?: string;
   /** Текст обращения. */
   message?: string;
+  /**
+   * Состав подборки на момент обращения. Главный источник: артикулы уже
+   * названы самим покупателем, и гадать по тексту поверх них незачем.
+   */
+  cart?: LeadCartItem[];
 }
 
 export interface IdentifiedRequest {
@@ -178,6 +184,19 @@ function strictMatches(products: Product[], phrase: string): Product[] {
   });
 }
 
+/**
+ * Позиция подборки в каталоге. Совпадение по артикулу, а не по названию:
+ * название клиент видел на витрине, но в письмо должно попасть то, что
+ * каталог отдаёт сейчас — цена, план и страница берутся из карточки.
+ */
+function pickFromCart(products: Product[], cart?: LeadCartItem[]): Product | undefined {
+  for (const item of cart || []) {
+    const found = products.find((p) => p.sku && item.sku && p.sku === item.sku);
+    if (found) return found;
+  }
+  return undefined;
+}
+
 /** Другой план того же продукта: тот же вендор и код продукта, иной ПЛАН. */
 function findAlternative(products: Product[], matched: Product): Product | undefined {
   const base = parseSku(matched.sku || '');
@@ -217,6 +236,28 @@ export function identifyRequest(all: Product[], source: LeadRequestSource): Lead
   };
   const qty = detectQty(source);
   if (qty) review.request.qty = qty;
+
+  // Источник первый: подборка. Позиция из неё не нуждается в разборе —
+  // покупатель положил её сам, артикул точный.
+  const picked = pickFromCart(products, source.cart);
+  if (picked) {
+    review.request.vendor = picked.vendor || detectVendor(text);
+    review.request.product = picked.name;
+    review.request.matched = picked;
+    review.request.plan = planOf(picked);
+    review.request.alternative = findAlternative(products, picked);
+    if (!review.request.qty) {
+      const line = (source.cart || []).find((i) => i.sku === picked.sku);
+      if (line?.qty) review.request.qty = String(line.qty);
+    }
+    if ((source.cart || []).length > 1) {
+      review.notes.push(`В подборке ${source.cart!.length} позиции — письмо называет первую.`);
+    }
+    if (review.hasQuestion) {
+      review.notes.push('В обращении есть прямой вопрос — нужен ответ человека.');
+    }
+    return review;
+  }
 
   const vendor = detectVendor(text);
   if (!vendor) {
@@ -280,4 +321,25 @@ export function identifyRequest(all: Product[], source: LeadRequestSource): Lead
     review.notes.push('В обращении есть прямой вопрос — нужен ответ человека.');
   }
   return review;
+}
+
+/**
+ * Ссылки письма по результату разбора: страница позиции, другой её план и
+ * раздел производителя. Собираются здесь, а не в обработчике заявки, чтобы
+ * адрес страницы строился в одном месте и проверялся тестом.
+ */
+export function leadLinks(review: LeadRequestReview, siteUrl: string): {
+  product?: { name: string; url: string };
+  alternative?: { name: string; url: string };
+  catalog?: { name: string; url: string };
+} {
+  const { matched, alternative } = review.request;
+  const vendor = matched ? vendorByName(matched.vendor) : undefined;
+  return {
+    ...(matched?.slug ? { product: { name: matched.name, url: `${siteUrl}/product/${matched.slug}` } } : {}),
+    ...(alternative?.slug
+      ? { alternative: { name: alternative.name, url: `${siteUrl}/product/${alternative.slug}` } }
+      : {}),
+    ...(vendor ? { catalog: { name: `Каталог ${vendor.vendor}`, url: `${siteUrl}/vendors/${vendor.slug}` } } : {}),
+  };
 }
