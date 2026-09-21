@@ -422,6 +422,13 @@ export function vendorBySlug(slug: string): VendorEntry | undefined {
   return VENDORS.find((v) => v.slug === slug);
 }
 
+/** Марка по названию из каталога: поле `vendor` товара — точное имя реестра. */
+export function vendorByName(name?: string | null): VendorEntry | undefined {
+  if (!name) return undefined;
+  const n = name.trim().toLowerCase();
+  return VENDORS.find((v) => v.vendor.toLowerCase() === n);
+}
+
 /** Аудитория/копирайт по домену. */
 export const DOMAIN_AUDIENCE: Record<VendorDomain, string> = {
   design: 'дизайн-студий, брендинговых и рекламных агентств, продуктовых команд',
