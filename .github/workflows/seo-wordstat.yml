@@ -41,7 +41,7 @@ on:
         required: true
         default: "daily"
         type: choice
-        options: [dry-run, full, pilot, daily, benchmark, payments, probe-dynamics, momentum, regions]
+        options: [dry-run, full, pilot, daily, benchmark, payments, probe-dynamics, momentum, regions, corporate]
       max_calls:
         description: "Потолок вызовов за прогон"
         required: false
@@ -125,6 +125,12 @@ jobs:
             probe-dynamics) python3 scripts/seo/wordstat/probe_dynamics.py ;;
             momentum)  python3 scripts/seo/wordstat/momentum.py ;;
             regions)   python3 scripts/seo/wordstat/region_demand.py ;;
+            # Целевой замер корпоративного спроса (решение руководителя
+            # 21.09.2026). Планировщик обычного сбора до этих форм не
+            # доходит: он оптимизирует прирост числа фраз, а у крупных
+            # вендоров новизна нулевая. Здесь вопрос другой — есть ли спрос
+            # по форме, которой к нам приходят заявки.
+            corporate) python3 scripts/seo/wordstat/corporate_demand.py ;;
           esac
           # Сбой отчёта не прячется: данные прогона всё равно уходят в push
           # (шаг ниже), а прогон краснеет последним шагом.
