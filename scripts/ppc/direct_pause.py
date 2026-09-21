@@ -30,7 +30,10 @@ import urllib.error
 import urllib.request
 
 API = "https://api.direct.yandex.com/json/v5/"
-CAMPAIGN_NAME = "bs-test-2026-09"
+# Имя по умолчанию — кампания первого эксперимента. Любая другая задаётся
+# вторым аргументом: 21.09.2026 понадобилось остановить bs-ai-business-2026-09,
+# и жёсткое имя в коде означало бы правку скрипта ради одной остановки.
+DEFAULT_CAMPAIGN = "bs-test-2026-09"
 # Состояния, из которых остановка имеет смысл. Кампания на модерации или
 # уже в архиве в паузу не переводится — это другой разговор, и молча
 # «починить» его нельзя.
@@ -91,9 +94,10 @@ def main() -> None:
     if not token:
         raise SystemExit("DIRECT_TOKEN не задан")
     mode = sys.argv[1] if len(sys.argv) > 1 else "dry-run"
+    campaign_name = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_CAMPAIGN
     if mode not in ("dry-run", "apply"):
         raise SystemExit(f"неизвестный режим: {mode}")
-    print(f"Режим: {mode}")
+    print(f"Режим: {mode}; кампания: {campaign_name}")
 
     camps = call("campaigns", "get",
                  {"SelectionCriteria": {},
@@ -101,12 +105,12 @@ def main() -> None:
                  token).get("Campaigns", [])
     print("\n== Кампании кабинета ==")
     for c in camps:
-        mark = "→ " if c.get("Name") == CAMPAIGN_NAME else "  "
+        mark = "→ " if c.get("Name") == campaign_name else "  "
         print(f"{mark}{c.get('Id')} «{c.get('Name')}» {c.get('State')}/{c.get('Status')}")
 
-    camp = pick(camps, CAMPAIGN_NAME)
+    camp = pick(camps, campaign_name)
     cid = camp["Id"]
-    print(f"\n== План ==\n  «{CAMPAIGN_NAME}» ({cid}): {camp.get('State')} → SUSPENDED")
+    print(f"\n== План ==\n  «{campaign_name}» ({cid}): {camp.get('State')} → SUSPENDED")
     print("  ставки, фразы, минус-слова, автотаргетинг и структура не меняются")
 
     if mode != "apply":

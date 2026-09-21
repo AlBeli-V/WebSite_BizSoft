@@ -27,6 +27,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
+from collections import Counter
 
 API = "https://api.direct.yandex.com/json/v5/"
 
@@ -272,6 +273,36 @@ def mode_tune(spec: dict, token: str) -> None:
                       key="UpdateResults")
     print(f"кампания {camp_id} обновлена: счётчик Метрики {counter}, разметка yclid "
           f"включена, мониторинг сайта включён, StartDate {spec['campaign']['start_date']}")
+    apply_campaign_settings(camp_id, spec, token)
+
+
+def apply_campaign_settings(camp_id: int, spec: dict, token: str) -> None:
+    """Настройки кампании из спецификации: settings_on и settings_off.
+
+    Кабинет заводит новую кампанию с включёнными помощниками — среди них
+    ALTERNATIVE_TEXTS_ENABLED (Директ пишет свои варианты текста вместо
+    наших) и ENABLE_AREA_OF_INTEREST_TARGETING (показы тем, кто в наш
+    регион только собирается). Решение 21.09.2026 — платить только за
+    заданные фразы и заданную географию, поэтому такие помощники
+    выключаются поимённо через спецификацию.
+
+    Каждая опция идёт своим вызовом и мягко: неизвестную кабинету опцию он
+    отвергает вместе со всем запросом, а терять из-за разведки уже
+    применённый счётчик нельзя. Отказ пишется в журнал как отказ —
+    настройка, которой кабинет не знает, не считается применённой.
+    """
+    camp = spec.get("campaign") or {}
+    wanted = ([(o, "YES") for o in camp.get("settings_on") or []]
+              + [(o, "NO") for o in camp.get("settings_off") or []])
+    if not wanted:
+        return
+    for option, value in wanted:
+        ok, why = call_soft("campaigns", "update", {"Campaigns": [{
+            "Id": camp_id,
+            "TextCampaign": {"Settings": [{"Option": option, "Value": value}]},
+        }]}, token, "UpdateResults")
+        print(f"  настройка {option}={value}: "
+              + ("применена" if ok else f"кабинетом не принята — {why}"))
 
 
 def mode_audit(spec: dict, token: str) -> None:
@@ -304,7 +335,6 @@ def mode_audit(spec: dict, token: str) -> None:
         "SelectionCriteria": {"CampaignIds": [camp_id]},
         "FieldNames": ["Id", "AdGroupId", "State", "Status", "StatusClarification"],
     }, token).get("Ads", [])
-    from collections import Counter
     print(f"  объявлений: {len(ads)}; статусы: "
           + ", ".join(f"{k}={v}" for k, v in Counter(a["Status"] for a in ads).items())
           + "; состояния: "
@@ -322,11 +352,19 @@ def mode_audit(spec: dict, token: str) -> None:
           + ", ".join(f"{k}={v}" for k, v in Counter(k_['Status'] for k_ in kws).items()))
 
 
-# Полное отключение: условие ---autotargeting останавливается целиком.
 # Решение руководителя 21.09.2026 — платим только за строгие совпадения
 # заданных фраз. Даже EXACT-режим оставляет Директу право подбирать
 # «похожие» запросы, а разбор трёх недель показал, чем это кончается:
 # 24% расхода ушло на классы C и D, то есть на розницу и смежные услуги.
+#
+# Совсем выключить автотаргетинг кабинет не даёт: keywords.suspend на
+# условии ---autotargeting отвечает кодом 8305 «Автотаргетинг не может быть
+# остановлен» (прогон 21.09.2026, кампания bs-catalog-2026-09). Поэтому
+# режим «off» — это лестница попыток от самой строгой к самой мягкой:
+# остановить условие, обнулить все категории, оставить одни точные
+# совпадения. Применяется первая, которую Директ принял, и в журнал
+# пишется, какая именно: обещать «автотаргетинг выключен», когда выключены
+# только четыре категории из пяти, нельзя.
 AUTOTARGETING_OFF = "suspend"
 
 EXACT_ONLY = [
@@ -336,6 +374,8 @@ EXACT_ONLY = [
     {"Category": "BROADER", "Value": "NO"},
     {"Category": "ACCESSORY", "Value": "NO"},
 ]
+
+ALL_OFF = [{"Category": c["Category"], "Value": "NO"} for c in EXACT_ONLY]
 
 
 def mode_extend(spec: dict, token: str, apply: bool) -> None:
@@ -499,26 +539,147 @@ def mode_extend(spec: dict, token: str, apply: bool) -> None:
           f"прохождения по расписанию пн–пт 9:00–19:00 МСК")
 
 
+def mode_finish(spec: dict, token: str) -> None:
+    """Доводка уже созданной кампании: автотаргетинг и модерация объявлений.
+
+    Прогон apply может оборваться между созданием объявлений и двумя
+    последними шагами. 21.09.2026 так и вышло: Директ отказался
+    останавливать автотаргетинг (код 8305), прогон упал, и 28 объявлений
+    кампании bs-catalog-2026-09 остались черновиками. Повторный apply в
+    такой кампании не поможет — он видит наполненную кампанию и честно
+    отказывается плодить дубль. Отсюда отдельный режим: он ничего не
+    создаёт, а доводит то, что уже заведено, и потому идемпотентен.
+
+    Порядок шагов не случаен: сначала гасится автоподбор запросов и лишь
+    потом объявления уходят на модерацию — иначе показы могли бы начаться
+    раньше, чем кампания станет такой, какой её задумали.
+    """
+    name = spec["campaign"]["name"]
+    camp_id = find_campaign(token, name)
+    if camp_id is None:
+        raise SystemExit(f"кампания «{name}» не найдена — сначала apply")
+    print(f"кампания «{name}»: Id {camp_id}")
+
+    auto = [k["Id"] for k in call("keywords", "get", {
+        "SelectionCriteria": {"CampaignIds": [camp_id]},
+        "FieldNames": ["Id", "Keyword"]}, token).get("Keywords", [])
+        if k["Keyword"] == "---autotargeting"]
+    if auto:
+        apply_autotargeting(auto, spec, token)
+    else:
+        print("  ! условий автотаргетинга в кампании нет — проверить вручную")
+
+    ads = call("ads", "get", {
+        "SelectionCriteria": {"CampaignIds": [camp_id]},
+        "FieldNames": ["Id", "Status"]}, token).get("Ads", [])
+    by_status = Counter(a.get("Status", "?") for a in ads)
+    print(f"объявлений: {len(ads)}; статусы: "
+          + ", ".join(f"{k}={v}" for k, v in sorted(by_status.items())))
+    draft = [a["Id"] for a in ads if a.get("Status") == "DRAFT"]
+    if draft:
+        check_add_results("ads.moderate", call("ads", "moderate", {
+            "SelectionCriteria": {"Ids": draft}}, token), key="ModerateResults")
+        print(f"ГОТОВО: на модерацию отправлено объявлений {len(draft)}")
+    else:
+        print("ГОТОВО: черновиков нет — отправлять на модерацию нечего")
+
+
+def call_soft(service: str, method: str, params: dict, token: str,
+              key: str) -> tuple[bool, str]:
+    """Вызов, который не валит прогон: возвращает (принято, пояснение).
+
+    Нужен там, где отказ кабинета — не поломка, а ответ на вопрос «так
+    можно?». Ошибка метода и ошибка отдельного элемента ответа выглядят
+    для вызывающего одинаково: не принято, вот причина.
+    """
+    try:
+        res = call(service, method, params, token)
+    except SystemExit as e:  # call() сообщает об отказе API именно так
+        return False, str(e)
+    errs = []
+    for i, r in enumerate(res.get(key, [])):
+        if r.get("Errors"):
+            e0 = r["Errors"][0]
+            errs.append(f"[{i}] код {e0.get('Code')} {e0.get('Message')} "
+                        f"{e0.get('Details') or ''}".strip())
+    if errs:
+        return False, "; ".join(errs[:3])
+    return True, ""
+
+
+def autotargeting_state(ids: list[int], token: str) -> str:
+    """Фактическое состояние условий — строкой для журнала.
+
+    Категории кабинет отдаёт не всегда; «прочитать нечем» — это не
+    «не применилось», поэтому так и пишется.
+    """
+    try:
+        kws = call("keywords", "get", {
+            "SelectionCriteria": {"Ids": ids},
+            "FieldNames": ["Id", "State", "AutotargetingCategories"]}, token).get("Keywords", [])
+    except SystemExit as e:
+        return f"прочитать не удалось ({e})"
+    if not kws:
+        return "условий не видно"
+    states = Counter(k.get("State", "?") for k in kws)
+    on = Counter()
+    read = 0
+    for k in kws:
+        cats = k.get("AutotargetingCategories") or []
+        if not cats:
+            continue
+        read += 1
+        for c in cats:
+            if isinstance(c, dict) and c.get("Value") == "YES":
+                on[c.get("Category")] += 1
+    cats_note = (", ".join(f"{c}×{n}" for c, n in sorted(on.items())) or "ни одной")
+    if not read:
+        cats_note = "категории кабинет не отдал"
+    return (", ".join(f"{s}={n}" for s, n in sorted(states.items()))
+            + f"; включённые категории: {cats_note}")
+
+
 def apply_autotargeting(ids: list[int], spec: dict, token: str) -> None:
-    """Режим автотаргетинга новых групп: «off» останавливает его совсем.
+    """Режим автотаргетинга новых групп: «off» гасит его как можно сильнее.
 
     Спецификация без явного указания получает прежнее поведение —
-    EXACT-only. Полное отключение задаётся полем campaign.autotargeting.
+    EXACT-only. Режим «off» идёт по лестнице попыток (см. ALL_OFF выше):
+    останавливаем условие, не вышло — обнуляем категории, не вышло —
+    оставляем одни точные совпадения. Молча принять отказ нельзя: если
+    кабинет не принял ни одной попытки, прогон останавливается.
     """
     mode = (spec.get("campaign") or {}).get("autotargeting", "exact")
-    if mode == "off":
-        check_add_results("keywords.suspend(автотаргетинг)", call("keywords", "suspend", {
-            "SelectionCriteria": {"Ids": ids}}, token), key="SuspendResults")
-        print(f"  автотаргетинг отключён полностью: условий {len(ids)}")
+    if mode != "off":
+        check_add_results("keywords.update(автотаргетинг)", call("keywords", "update", {
+            "Keywords": [{"Id": i, "AutotargetingCategories": EXACT_ONLY} for i in ids]},
+            token), key="UpdateResults")
+        print(f"  автотаргетинг ограничен точными совпадениями: условий {len(ids)}")
         return
-    check_add_results("keywords.update(автотаргетинг)", call("keywords", "update", {
-        "Keywords": [{"Id": i, "AutotargetingCategories": EXACT_ONLY} for i in ids]},
-        token), key="UpdateResults")
-    print(f"  автотаргетинг ограничен точными совпадениями: условий {len(ids)}")
+
+    ladder = [
+        ("условие остановлено целиком", "keywords", "suspend",
+         {"SelectionCriteria": {"Ids": ids}}, "SuspendResults"),
+        ("все категории обнулены", "keywords", "update",
+         {"Keywords": [{"Id": i, "AutotargetingCategories": ALL_OFF} for i in ids]},
+         "UpdateResults"),
+        ("оставлены одни точные совпадения", "keywords", "update",
+         {"Keywords": [{"Id": i, "AutotargetingCategories": EXACT_ONLY} for i in ids]},
+         "UpdateResults"),
+    ]
+    for label, service, method, params, key in ladder:
+        ok, why = call_soft(service, method, params, token, key)
+        if ok:
+            print(f"  автотаргетинг погашен: {label}; условий {len(ids)}")
+            print(f"  факт по кабинету: {autotargeting_state(ids, token)}")
+            return
+        print(f"  попытка «{label}» кабинетом не принята: {why}")
+    raise SystemExit(
+        f"автотаргетинг погасить не удалось ни одним способом: условий {len(ids)} "
+        f"— кампания остаётся с автоподбором запросов, показы запускать нельзя")
 
 
 def main() -> None:
-    modes = ("dry-run", "apply", "tune", "audit")
+    modes = ("dry-run", "apply", "tune", "audit", "finish")
     if len(sys.argv) != 3 or sys.argv[2] not in modes:
         raise SystemExit(f"использование: direct_apply.py <spec.json> <{'|'.join(modes)}>")
     spec = json.load(open(sys.argv[1], encoding="utf-8"))
@@ -537,9 +698,8 @@ def main() -> None:
     if mode == "audit":
         mode_audit(spec, token)
         return
-
-    if spec.get("plan_kind", "create_campaign") == "extend_campaign":
-        mode_extend(spec, token, apply=(mode == "apply"))
+    if mode == "finish":
+        mode_finish(spec, token)
         return
 
     if spec.get("plan_kind", "create_campaign") == "extend_campaign":

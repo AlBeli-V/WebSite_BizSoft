@@ -19,7 +19,7 @@
 # наборов; какие значения понимает конкретное действие, — то же самое, что
 # было в соответствующем файле (см. комментарий над блоком шагов этого
 # действия ниже):
-#   apply      — dry-run | apply | tune | audit
+#   apply      — dry-run | apply | tune | audit | finish
 #   ceiling/expand/improve/negatives/pause/refine/resume/sitelinks/tighten — dry-run | apply
 #   sitelinks  — дополнительно rollback (откат эксперимента)
 # Для check и stats mode не используется вовсе — как и раньше.
@@ -44,16 +44,16 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; channels — расход рекламы против визитов по каналам, только чтение; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; pause — остановить кампанию bs-test-2026-09 целиком; schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; autotargeting-audit — разведка категорий автотаргетинга, только чтение; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
+        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; channels — расход рекламы против визитов по каналам, только чтение; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; pause — остановить кампанию целиком (имя — во входе spec, по умолчанию bs-test-2026-09); schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; autotargeting-audit — разведка категорий автотаргетинга, только чтение; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
         required: true
         type: choice
         options: ["apple-negatives", "apply", "autotargeting", "autotargeting-audit", "ceiling", "channels", "check", "expand", "improve", "negatives", "pause", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
       mode:
-        description: "Для apple-negatives/apply/autotargeting/ceiling/expand/improve/negatives/pause/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
+        description: "Для apple-negatives/apply/autotargeting/ceiling/expand/improve/negatives/pause/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit/finish — только apply; rollback — только sitelinks. Не используется для check и stats"
         required: false
         default: "dry-run"
         type: choice
-        options: ["dry-run", "apply", "tune", "audit", "rollback"]
+        options: ["dry-run", "apply", "tune", "audit", "finish", "rollback"]
       spec:
         description: "Только для action=apply: файл спецификации в seo-data (round1-spec.json | round2-spec.json | round3-spec.json | round3-regions-spec.json | round4-spec.json | round5-spec.json). Для action=channels — период «дата-с дата-по»"
         required: false
@@ -98,7 +98,9 @@ jobs:
       # mode=dry-run — собрать payload'ы и проверить лимиты, записи в API
       # нет; mode=apply — создать кампанию, группы, фразы, объявления и
       # отправить объявления на модерацию; tune — счётчик/разметка/
-      # мониторинг/StartDate; audit — сверка состояния.
+      # мониторинг/StartDate и настройки кампании из спецификации;
+      # audit — сверка состояния; finish — доводка уже созданной кампании
+      # (автотаргетинг и модерация объявлений) после оборвавшегося apply.
       - name: Fetch spec from seo-data
         if: env.ACTION == 'apply'
         env:
@@ -421,9 +423,12 @@ jobs:
         env:
           DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
           MODE: ${{ inputs.mode }}
+          CAMPAIGN: ${{ inputs.spec }}
         run: |
           set -o pipefail
-          python3 scripts/ppc/direct_pause.py "$MODE" 2>&1 | tee /tmp/direct-pause.log
+          # Вход spec переиспользуется как имя кампании: отдельного входа под
+          # него нет, а лимит workflow_dispatch в 10 входов уже выбран.
+          python3 scripts/ppc/direct_pause.py "$MODE" $CAMPAIGN 2>&1 | tee /tmp/direct-pause.log
 
       - name: Save log for issue
         if: always() && env.ACTION == 'pause'

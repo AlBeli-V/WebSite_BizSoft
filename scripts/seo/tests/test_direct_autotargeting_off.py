@@ -4,9 +4,12 @@
 Даже EXACT-режим оставляет Директу право подбирать похожие запросы, а
 разбор трёх недель показал цену этого права — 24% расхода на классы C и D.
 
-Проверяется, что режим читается из спецификации, что умолчание не меняет
-прежнее поведение и что отключение идёт через остановку условия, а не
-через обнуление категорий: обнулить все категории Директ не позволяет.
+Первая редакция гасила автотаргетинг остановкой условия и считала этот
+путь единственным. Прогон 21.09.2026 по кампании bs-catalog-2026-09 ответил
+кодом 8305 «Автотаргетинг не может быть остановлен»: кампания осталась
+наполненной, но прогон упал, не дойдя до модерации объявлений. Поэтому
+режим «off» — лестница попыток от строгой к мягкой, а обещание в журнале
+соответствует тому, что кабинет принял.
 """
 
 import pathlib
@@ -23,8 +26,8 @@ class AutotargetingTest(unittest.TestCase):
     def test_режим_берётся_из_спецификации(self):
         self.assertIn('spec.get("campaign") or {}).get("autotargeting", "exact")', SRC)
 
-    def test_отключение_через_остановку_условия(self):
-        self.assertIn('call("keywords", "suspend"', SRC)
+    def test_лестница_начинается_с_остановки_условия(self):
+        self.assertIn('"keywords", "suspend"', SRC)
 
     def test_умолчание_прежнее(self):
         # Спецификации без поля продолжают работать в режиме EXACT-only.
@@ -34,9 +37,87 @@ class AutotargetingTest(unittest.TestCase):
         yes = [c for c in direct_apply.EXACT_ONLY if c["Value"] == "YES"]
         self.assertEqual([c["Category"] for c in yes], ["EXACT"])
 
-    def test_автотаргетинг_гасится_и_при_создании_кампании(self):
-        # Раньше ветка создания кампании режим не задавала вовсе.
-        self.assertEqual(SRC.count("apply_autotargeting("), 3)
+    def test_all_off_не_оставляет_ни_одной_категории(self):
+        self.assertEqual(len(direct_apply.ALL_OFF), len(direct_apply.EXACT_ONLY))
+        self.assertEqual([c["Value"] for c in direct_apply.ALL_OFF],
+                         ["NO"] * len(direct_apply.ALL_OFF))
+
+    def test_автотаргетинг_гасится_во_всех_ветках(self):
+        # Создание кампании, добавление групп в существующую и доводка.
+        self.assertEqual(SRC.count("apply_autotargeting("), 4)
+
+
+class LadderTest(unittest.TestCase):
+    """Лестница попыток: применяется первая принятая, отказ не молчит."""
+
+    def setUp(self):
+        self.calls = []
+        self.spec = {"campaign": {"autotargeting": "off"}}
+        self.orig_soft = direct_apply.call_soft
+        self.orig_state = direct_apply.autotargeting_state
+        direct_apply.autotargeting_state = lambda ids, token: "проверка отключена в тесте"
+
+    def tearDown(self):
+        direct_apply.call_soft = self.orig_soft
+        direct_apply.autotargeting_state = self.orig_state
+
+    def _run(self, verdicts):
+        """verdicts — ответы кабинета по порядку попыток."""
+        answers = list(verdicts)
+
+        def fake(service, method, params, token, key):
+            self.calls.append((service, method, params))
+            return answers.pop(0)
+
+        direct_apply.call_soft = fake
+        direct_apply.apply_autotargeting([1, 2], self.spec, "t")
+
+    def test_принятая_остановка_дальше_не_идёт(self):
+        self._run([(True, "")])
+        self.assertEqual(len(self.calls), 1)
+        self.assertEqual(self.calls[0][1], "suspend")
+
+    def test_отказ_8305_ведёт_к_обнулению_категорий(self):
+        self._run([(False, "код 8305 Автотаргетинг не может быть остановлен"), (True, "")])
+        self.assertEqual([c[1] for c in self.calls], ["suspend", "update"])
+        sent = self.calls[1][2]["Keywords"][0]["AutotargetingCategories"]
+        self.assertEqual([c["Value"] for c in sent], ["NO"] * 5)
+
+    def test_последняя_ступень_оставляет_точные_совпадения(self):
+        self._run([(False, "нельзя"), (False, "нельзя"), (True, "")])
+        sent = self.calls[2][2]["Keywords"][0]["AutotargetingCategories"]
+        self.assertEqual(sent, direct_apply.EXACT_ONLY)
+
+    def test_полный_отказ_останавливает_прогон(self):
+        with self.assertRaises(SystemExit) as e:
+            self._run([(False, "нельзя"), (False, "нельзя"), (False, "нельзя")])
+        # Показы с неуправляемым автоподбором запускать нельзя — и об этом
+        # должно быть сказано прямо, а не «применено частично».
+        self.assertIn("показы запускать нельзя", str(e.exception))
+
+
+class CampaignSettingsTest(unittest.TestCase):
+    """Помощники кабинета выключаются поимённо и по одному."""
+
+    def setUp(self):
+        self.calls = []
+        self.orig = direct_apply.call_soft
+        direct_apply.call_soft = lambda s, m, p, t, k: (self.calls.append((s, m, p)), (True, ""))[1]
+
+    def tearDown(self):
+        direct_apply.call_soft = self.orig
+
+    def test_каждая_опция_идёт_своим_вызовом(self):
+        direct_apply.apply_campaign_settings(7, {"campaign": {
+            "settings_off": ["ALTERNATIVE_TEXTS_ENABLED", "ENABLE_AREA_OF_INTEREST_TARGETING"],
+            "settings_on": ["ENABLE_SITE_MONITORING"]}}, "t")
+        self.assertEqual(len(self.calls), 3)
+        values = [c[2]["Campaigns"][0]["TextCampaign"]["Settings"][0] for c in self.calls]
+        self.assertEqual([v["Value"] for v in values], ["YES", "NO", "NO"])
+
+    def test_без_поля_ничего_не_трогается(self):
+        direct_apply.apply_campaign_settings(7, {"campaign": {}}, "t")
+        self.assertEqual(self.calls, [])
 
 
 if __name__ == "__main__":
