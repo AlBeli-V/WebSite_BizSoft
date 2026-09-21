@@ -1,0 +1,1329 @@
+{
+ "schema_version": "1.0.0",
+ "generated_for": "2026-09-21",
+ "as_of_google": "2026-09-21",
+ "as_of_yandex": "2026-09-21",
+ "method": "кластер = вендор из ядра SERP-watch; факты — из среза Google (xmlriver, Россия) и Яндекса (Search API, Москва), состояние страницы — из index_coverage.py. Тип страницы выводится из преобладающего интента кластера, а не назначается статьёй по умолчанию.",
+ "index_source": "reports/seo/data/index-google-*.json",
+ "hubs": [
+  {
+   "hub": "ai-subscriptions",
+   "title": "AI-подписки для бизнеса",
+   "pillar": "/solutions/ai-servisy-dlya-biznesa",
+   "pillar_status": "есть",
+   "spokes": [
+    "vendor",
+    "product",
+    "pricing",
+    "comparison",
+    "purchase_guide"
+   ],
+   "queries": 79,
+   "gap_queries": 33,
+   "b2b_queries": 17,
+   "weakness_avg": 27.7,
+   "clusters": [
+    "recraft",
+    "anthropic",
+    "perplexity",
+    "leonardo-ai",
+    "openai",
+    "openrouter",
+    "freepik",
+    "grok",
+    "heygen",
+    "suno",
+    "kling-ai",
+    "gamma",
+    "elevenlabs"
+   ]
+  },
+  {
+   "hub": "cross-cutting",
+   "title": "Оплата зарубежного ПО юрлицом (сквозной хаб)",
+   "pillar": "/solutions/po-dlya-yurlic-po-schetu",
+   "pillar_status": "есть",
+   "spokes": [
+    "payment_guide",
+    "legal_guide",
+    "procurement_guide",
+    "comparison"
+   ],
+   "queries": 70,
+   "gap_queries": 33,
+   "b2b_queries": 16,
+   "weakness_avg": 31.7,
+   "clusters": [
+    "_cross"
+   ]
+  },
+  {
+   "hub": "dev-tools",
+   "title": "Инструменты разработки",
+   "pillar": "/solutions/ai-dlya-razrabotchikov",
+   "pillar_status": "есть",
+   "spokes": [
+    "vendor",
+    "product",
+    "comparison",
+    "purchase_guide",
+    "procurement_guide"
+   ],
+   "queries": 81,
+   "gap_queries": 29,
+   "b2b_queries": 6,
+   "weakness_avg": 19.7,
+   "clusters": [
+    "gitlab",
+    "windsurf",
+    "postman",
+    "atlassian",
+    "github",
+    "docker",
+    "n8n",
+    "cursor"
+   ]
+  },
+  {
+   "hub": "design-software",
+   "title": "ПО для дизайна и графики",
+   "pillar": "/solutions/design-studios",
+   "pillar_status": "есть, но отраслевая — нужен товарный пилар",
+   "spokes": [
+    "vendor",
+    "product",
+    "pricing",
+    "alternatives",
+    "purchase_guide"
+   ],
+   "queries": 81,
+   "gap_queries": 27,
+   "b2b_queries": 5,
+   "weakness_avg": 27.1,
+   "clusters": [
+    "framer",
+    "envato",
+    "coreldraw",
+    "capture-one",
+    "adobe",
+    "depositphotos",
+    "figma",
+    "miro",
+    "canva"
+   ]
+  },
+  {
+   "hub": "productivity-collab",
+   "title": "Совместная работа и продуктивность",
+   "pillar": "/catalog/collaboration",
+   "pillar_status": "есть, пилара под корпоративные подписки нет",
+   "spokes": [
+    "vendor",
+    "product",
+    "comparison",
+    "procurement_guide"
+   ],
+   "queries": 26,
+   "gap_queries": 13,
+   "b2b_queries": 5,
+   "weakness_avg": 27.7,
+   "clusters": [
+    "slack",
+    "notion",
+    "box",
+    "dropbox",
+    "google"
+   ]
+  },
+  {
+   "hub": "video-creative",
+   "title": "Видео, звук и креатив",
+   "pillar": "/catalog/media",
+   "pillar_status": "есть",
+   "spokes": [
+    "vendor",
+    "product",
+    "pricing",
+    "purchase_guide"
+   ],
+   "queries": 26,
+   "gap_queries": 6,
+   "b2b_queries": 2,
+   "weakness_avg": 30.7,
+   "clusters": [
+    "motion-array",
+    "descript",
+    "unity",
+    "maxon",
+    "runway",
+    "artlist"
+   ]
+  },
+  {
+   "hub": "gift-cards",
+   "title": "Подарочные карты и пополнение баланса",
+   "pillar": "/solutions/podarochnye-karty-sotrudnikam",
+   "pillar_status": "есть",
+   "spokes": [
+    "product",
+    "purchase_guide",
+    "legal_guide"
+   ],
+   "queries": 7,
+   "gap_queries": 1,
+   "b2b_queries": 0,
+   "weakness_avg": 37.9,
+   "clusters": [
+    "apple"
+   ]
+  },
+  {
+   "hub": "infrastructure-security",
+   "title": "Инфраструктура и безопасность",
+   "pillar": "/catalog/security",
+   "pillar_status": "есть",
+   "spokes": [
+    "vendor",
+    "product",
+    "procurement_guide"
+   ],
+   "queries": 4,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 24.5,
+   "clusters": [
+    "cloudflare",
+    "anydesk"
+   ]
+  }
+ ],
+ "clusters": [
+  {
+   "cluster": "_cross",
+   "hub": "cross-cutting",
+   "queries": 70,
+   "gap_queries": 33,
+   "b2b_queries": 16,
+   "weakness_avg": 31.7,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/blog/kak-oplatit-box-business-iz-rossii",
+   "google_index_state": "URL is unknown to Google",
+   "diagnosis": "ранжирующая страница вне индекса Google (URL is unknown to Google)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "UGC": 70,
+    "OTHER": 42,
+    "INTERMEDIARY": 42,
+    "MARKETPLACE": 30,
+    "MEDIA": 19,
+    "RESELLER": 3,
+    "OFFICIAL": 2,
+    "FORUM": 2
+   },
+   "opportunity": 12.85,
+   "gap_sample": [
+    "оплата box для юридических лиц из россии dtf.ru/bestrate/5264349-oplata-box-rossiya-sposoby-oplaty",
+    "оплата box по счету из россии dtf.ru/bestrate/5264349-oplata-box-rossiya-sposoby-oplaty",
+    "как оплатить box в рублях dtf.ru/bestrate/5264349-oplata-box-rossiya-sposoby-oplaty",
+    "как оплатить box из россии",
+    "оплата box в рублях dtf.ru/bestrate/5264349-oplata-box-rossiya-sposoby-oplaty",
+    "оплата box по счету из россии",
+    "как оплатить тариф box из россии",
+    "сервисы оплаты box из россии dtf.ru/bestrate/5264349-oplata-box-rossiya-sposoby-oplaty"
+   ]
+  },
+  {
+   "cluster": "framer",
+   "hub": "design-software",
+   "queries": 35,
+   "gap_queries": 13,
+   "b2b_queries": 1,
+   "weakness_avg": 30.2,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/blog/kak-oplatit-framer-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "UGC": 43,
+    "INTERMEDIARY": 25,
+    "RESELLER": 14,
+    "MARKETPLACE": 9,
+    "MEDIA": 7,
+    "OTHER": 3,
+    "FORUM": 2,
+    "OFFICIAL": 2
+   },
+   "opportunity": 4.04,
+   "gap_sample": [
+    "framer оплата с российского счета",
+    "framer подписка из рф гайд",
+    "framer купить подписку россия",
+    "framer оплата рублями",
+    "как купить framer pro в россии",
+    "framer pro оплата из россии",
+    "framer оформить подписку россия",
+    "framer домен оплата рф"
+   ]
+  },
+  {
+   "cluster": "gitlab",
+   "hub": "dev-tools",
+   "queries": 35,
+   "gap_queries": 13,
+   "b2b_queries": 0,
+   "weakness_avg": 24.9,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/blog/gitlab-godovaya-podpiska-iz-rossii-dlya-yurlica",
+   "google_index_state": "URL is unknown to Google",
+   "diagnosis": "ранжирующая страница вне индекса Google (URL is unknown to Google)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "INTERMEDIARY": 48,
+    "UGC": 44,
+    "RESELLER": 6,
+    "OTHER": 5,
+    "OFFICIAL": 1,
+    "FORUM": 1
+   },
+   "opportunity": 3.24,
+   "gap_sample": [
+    "gitlab оформить подписку россия",
+    "gitlab подписка из рф гайд",
+    "gitlab оплата помощь рф",
+    "gitlab оплатить подписку россия",
+    "гитлаб подписка рф",
+    "gitlab premium оплата из россии",
+    "gitlab годовая подписка из россии",
+    "gitlab тариф россия"
+   ]
+  },
+  {
+   "cluster": "recraft",
+   "hub": "ai-subscriptions",
+   "queries": 40,
+   "gap_queries": 12,
+   "b2b_queries": 3,
+   "weakness_avg": 24.3,
+   "dominant_intent": "PRICING",
+   "recommended_page_type": "PRICING",
+   "ranking_page_yandex": "/blog/kak-kupit-recraft-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "UGC": 35,
+    "INTERMEDIARY": 33,
+    "OTHER": 23,
+    "MARKETPLACE": 10,
+    "OFFICIAL": 8,
+    "MEDIA": 6,
+    "RESELLER": 5
+   },
+   "opportunity": 3.13,
+   "gap_sample": [
+    "корпоративная оплата recraft",
+    "оплатить recraft pro рублями",
+    "как купить recraft без иностранной карты",
+    "как оплатить recraft pro в россии",
+    "recraft pro оплата",
+    "официальная оплата recraft",
+    "recraft счет на оплату",
+    "recraft по договору купить"
+   ]
+  },
+  {
+   "cluster": "anthropic",
+   "hub": "ai-subscriptions",
+   "queries": 9,
+   "gap_queries": 6,
+   "b2b_queries": 2,
+   "weakness_avg": 30.4,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": "/vendors/anthropic",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "MARKETPLACE": 13,
+    "OTHER": 8,
+    "UGC": 3,
+    "MEDIA": 2,
+    "INTERMEDIARY": 1
+   },
+   "opportunity": 2.23,
+   "gap_sample": [
+    "купить claude code юридическим лицом",
+    "купить подписку claude team",
+    "купить claude enterprise",
+    "купить claude ai юридическим лицом",
+    "claude team plan купить",
+    "claude team купить"
+   ]
+  },
+  {
+   "cluster": "slack",
+   "hub": "productivity-collab",
+   "queries": 9,
+   "gap_queries": 7,
+   "b2b_queries": 2,
+   "weakness_avg": 23.2,
+   "dominant_intent": "B2B_LEGAL",
+   "recommended_page_type": "PROCUREMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/slack",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "UGC": 12,
+    "OTHER": 9,
+    "INTERMEDIARY": 5,
+    "OFFICIAL": 1
+   },
+   "opportunity": 1.98,
+   "gap_sample": [
+    "корпоративные тарифы slack для бизнеса из рф",
+    "как купить slack в россии",
+    "slack оформить подписку россия",
+    "slack годовая подписка из россии",
+    "slack месячная подписка россия",
+    "slack для бизнеса оплата рф",
+    "slack business plus оплата рф"
+   ]
+  },
+  {
+   "cluster": "perplexity",
+   "hub": "ai-subscriptions",
+   "queries": 4,
+   "gap_queries": 3,
+   "b2b_queries": 2,
+   "weakness_avg": 30.8,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": "/vendors/perplexity",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "MARKETPLACE": 5,
+    "OFFICIAL": 2,
+    "MEDIA": 2,
+    "UGC": 2,
+    "RESELLER": 1
+   },
+   "opportunity": 1.39,
+   "gap_sample": [
+    "perplexity enterprise купить",
+    "оплата chatgpt/perplexity для юрлица с договором и актом",
+    "купить perplexity max юридическим лицом"
+   ]
+  },
+  {
+   "cluster": "leonardo-ai",
+   "hub": "ai-subscriptions",
+   "queries": 7,
+   "gap_queries": 3,
+   "b2b_queries": 2,
+   "weakness_avg": 29.6,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/leonardo-ai",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "UGC": 8,
+    "INTERMEDIARY": 4,
+    "MEDIA": 4,
+    "MARKETPLACE": 3,
+    "OTHER": 1,
+    "OFFICIAL": 1
+   },
+   "opportunity": 1.14,
+   "gap_sample": [
+    "leonardo apprentice оплата из россии",
+    "купить leonardo ai юридическим лицом",
+    "leonardo maestro оплата россия"
+   ]
+  },
+  {
+   "cluster": "envato",
+   "hub": "design-software",
+   "queries": 20,
+   "gap_queries": 4,
+   "b2b_queries": 1,
+   "weakness_avg": 25.9,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/envato",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: PAYMENT_GUIDE",
+   "google_top3_classes": {
+    "INTERMEDIARY": 30,
+    "UGC": 23,
+    "MARKETPLACE": 6,
+    "MEDIA": 1
+   },
+   "opportunity": 1.09,
+   "gap_sample": [
+    "envato elements оплата рублями",
+    "купить envato elements юридическим лицом",
+    "envato elements тариф россия",
+    "envato elements гайд оплата"
+   ]
+  },
+  {
+   "cluster": "notion",
+   "hub": "productivity-collab",
+   "queries": 6,
+   "gap_queries": 3,
+   "b2b_queries": 1,
+   "weakness_avg": 30.7,
+   "dominant_intent": "PRICING",
+   "recommended_page_type": "PRICING",
+   "ranking_page_yandex": "/vendors/notion",
+   "google_index_state": "URL is unknown to Google",
+   "diagnosis": "ранжирующая страница вне индекса Google (URL is unknown to Google)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "OTHER": 4,
+    "MARKETPLACE": 4,
+    "UGC": 3,
+    "RESELLER": 3,
+    "MEDIA": 1,
+    "OFFICIAL": 1,
+    "INTERMEDIARY": 1,
+    "FORUM": 1
+   },
+   "opportunity": 1.07,
+   "gap_sample": [
+    "notion business купить",
+    "купить notion ai юридическим лицом",
+    "notion тарифы"
+   ]
+  },
+  {
+   "cluster": "coreldraw",
+   "hub": "design-software",
+   "queries": 5,
+   "gap_queries": 5,
+   "b2b_queries": 0,
+   "weakness_avg": 21.2,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/coreldraw",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: PAYMENT_GUIDE",
+   "google_top3_classes": {
+    "RESELLER": 6,
+    "MARKETPLACE": 3,
+    "OTHER": 3,
+    "INTERMEDIARY": 2,
+    "UGC": 1
+   },
+   "opportunity": 1.06,
+   "gap_sample": [
+    "coreldraw купить аккаунт",
+    "оплата корел дро для россиян",
+    "оплата coreldraw из россии",
+    "оплата coreldraw",
+    "оплата корел дро из россии"
+   ]
+  },
+  {
+   "cluster": "windsurf",
+   "hub": "dev-tools",
+   "queries": 3,
+   "gap_queries": 2,
+   "b2b_queries": 1,
+   "weakness_avg": 39.0,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": "/blog/kak-kupit-windsurf-iz-rossii-dlya-yurlica",
+   "google_index_state": "URL is unknown to Google",
+   "diagnosis": "ранжирующая страница вне индекса Google (URL is unknown to Google)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "MARKETPLACE": 6,
+    "INTERMEDIARY": 2,
+    "UGC": 1
+   },
+   "opportunity": 1.04,
+   "gap_sample": [
+    "оплата windsurf юридическим лицом",
+    "windsurf ai купить"
+   ]
+  },
+  {
+   "cluster": "box",
+   "hub": "productivity-collab",
+   "queries": 4,
+   "gap_queries": 3,
+   "b2b_queries": 0,
+   "weakness_avg": 33.8,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/blog/kak-oplatit-box-business-iz-rossii",
+   "google_index_state": "URL is unknown to Google",
+   "diagnosis": "ранжирующая страница вне индекса Google (URL is unknown to Google)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "OTHER": 8,
+    "UGC": 3,
+    "INTERMEDIARY": 1
+   },
+   "opportunity": 1.01,
+   "gap_sample": [
+    "как оплатить box business из россии",
+    "оплата бокс из россии московская область",
+    "оплата бокс для россиян"
+   ]
+  },
+  {
+   "cluster": "postman",
+   "hub": "dev-tools",
+   "queries": 6,
+   "gap_queries": 4,
+   "b2b_queries": 1,
+   "weakness_avg": 21.7,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/blog/kak-oplatit-postman-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "UGC": 11,
+    "RESELLER": 5,
+    "INTERMEDIARY": 2
+   },
+   "opportunity": 1.01,
+   "gap_sample": [
+    "оплатить подписку postman",
+    "купить подписку postman",
+    "продление подписки postman из россии",
+    "оплата postman юридическим лицом"
+   ]
+  },
+  {
+   "cluster": "openai",
+   "hub": "ai-subscriptions",
+   "queries": 4,
+   "gap_queries": 3,
+   "b2b_queries": 3,
+   "weakness_avg": 18.5,
+   "dominant_intent": "B2B_LEGAL",
+   "recommended_page_type": "PROCUREMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/openai",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: PROCUREMENT_GUIDE",
+   "google_top3_classes": {
+    "RESELLER": 4,
+    "MEDIA": 2,
+    "OTHER": 2,
+    "OFFICIAL": 2,
+    "MARKETPLACE": 1,
+    "UGC": 1
+   },
+   "opportunity": 0.97,
+   "gap_sample": [
+    "купить chatgpt pro юридическим лицом",
+    "покупка лицензий chatgpt business стандартное рабочее место в казахстане цена",
+    "chatgpt business с оплатой по счету для юридических лиц"
+   ]
+  },
+  {
+   "cluster": "openrouter",
+   "hub": "ai-subscriptions",
+   "queries": 1,
+   "gap_queries": 1,
+   "b2b_queries": 1,
+   "weakness_avg": 42.0,
+   "dominant_intent": "B2B_LEGAL",
+   "recommended_page_type": "PROCUREMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/openrouter",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "INTERMEDIARY": 1,
+    "MEDIA": 1,
+    "OTHER": 1
+   },
+   "opportunity": 0.84,
+   "gap_sample": [
+    "оплата openrouter юридическим лицом"
+   ]
+  },
+  {
+   "cluster": "freepik",
+   "hub": "ai-subscriptions",
+   "queries": 1,
+   "gap_queries": 1,
+   "b2b_queries": 1,
+   "weakness_avg": 40.0,
+   "dominant_intent": "B2B_LEGAL",
+   "recommended_page_type": "PROCUREMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/freepik",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: PROCUREMENT_GUIDE",
+   "google_top3_classes": {
+    "MEDIA": 2,
+    "INTERMEDIARY": 1
+   },
+   "opportunity": 0.8,
+   "gap_sample": [
+    "оплата magnific ai юридическим лицом"
+   ]
+  },
+  {
+   "cluster": "atlassian",
+   "hub": "dev-tools",
+   "queries": 29,
+   "gap_queries": 6,
+   "b2b_queries": 2,
+   "weakness_avg": 10.1,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/atlassian",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "OFFICIAL": 35,
+    "UGC": 26,
+    "INTERMEDIARY": 24,
+    "MEDIA": 1,
+    "OTHER": 1
+   },
+   "opportunity": 0.65,
+   "gap_sample": [
+    "как получить счет и закрывающие от atlassian",
+    "jira standard оплата рф",
+    "jira premium оплата из россии",
+    "jira оформить подписку россия",
+    "оплатить confluence",
+    "корпоративные лицензии atlassian"
+   ]
+  },
+  {
+   "cluster": "capture-one",
+   "hub": "design-software",
+   "queries": 8,
+   "gap_queries": 2,
+   "b2b_queries": 0,
+   "weakness_avg": 32.2,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/capture-one",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "UGC": 12,
+    "INTERMEDIARY": 6,
+    "MARKETPLACE": 5,
+    "FORUM": 1
+   },
+   "opportunity": 0.64,
+   "gap_sample": [
+    "как оплатить capture one",
+    "оплата capture one"
+   ]
+  },
+  {
+   "cluster": "github",
+   "hub": "dev-tools",
+   "queries": 4,
+   "gap_queries": 2,
+   "b2b_queries": 1,
+   "weakness_avg": 25.2,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": "/blog/kak-kupit-github-copilot-dlya-yurlica",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "UGC": 5,
+    "OTHER": 2,
+    "OFFICIAL": 2,
+    "MARKETPLACE": 1,
+    "RESELLER": 1,
+    "MEDIA": 1
+   },
+   "opportunity": 0.63,
+   "gap_sample": [
+    "github copilot business оплата из россии",
+    "github business купить"
+   ]
+  },
+  {
+   "cluster": "motion-array",
+   "hub": "video-creative",
+   "queries": 3,
+   "gap_queries": 2,
+   "b2b_queries": 1,
+   "weakness_avg": 21.0,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/motion-array",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: PAYMENT_GUIDE",
+   "google_top3_classes": {
+    "INTERMEDIARY": 4,
+    "UGC": 3,
+    "MARKETPLACE": 1,
+    "RESELLER": 1
+   },
+   "opportunity": 0.56,
+   "gap_sample": [
+    "оплата motion array юридическим лицом",
+    "купить подписку motion array"
+   ]
+  },
+  {
+   "cluster": "grok",
+   "hub": "ai-subscriptions",
+   "queries": 1,
+   "gap_queries": 1,
+   "b2b_queries": 1,
+   "weakness_avg": 26.0,
+   "dominant_intent": "B2B_LEGAL",
+   "recommended_page_type": "PROCUREMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/grok",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "MEDIA": 2,
+    "OTHER": 1
+   },
+   "opportunity": 0.52,
+   "gap_sample": [
+    "grok для бизнеса купить"
+   ]
+  },
+  {
+   "cluster": "heygen",
+   "hub": "ai-subscriptions",
+   "queries": 1,
+   "gap_queries": 1,
+   "b2b_queries": 1,
+   "weakness_avg": 24.0,
+   "dominant_intent": "B2B_LEGAL",
+   "recommended_page_type": "PROCUREMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/heygen",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: PROCUREMENT_GUIDE",
+   "google_top3_classes": {
+    "MARKETPLACE": 1,
+    "RESELLER": 1,
+    "UGC": 1
+   },
+   "opportunity": 0.48,
+   "gap_sample": [
+    "купить heygen юридическим лицом"
+   ]
+  },
+  {
+   "cluster": "suno",
+   "hub": "ai-subscriptions",
+   "queries": 5,
+   "gap_queries": 1,
+   "b2b_queries": 1,
+   "weakness_avg": 39.0,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": "/vendors/suno",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "MARKETPLACE": 8,
+    "OTHER": 5,
+    "MEDIA": 1,
+    "INTERMEDIARY": 1
+   },
+   "opportunity": 0.47,
+   "gap_sample": [
+    "купить suno ai юридическим лицом"
+   ]
+  },
+  {
+   "cluster": "apple",
+   "hub": "gift-cards",
+   "queries": 7,
+   "gap_queries": 1,
+   "b2b_queries": 0,
+   "weakness_avg": 37.9,
+   "dominant_intent": "HOW_TO",
+   "recommended_page_type": "PURCHASE_GUIDE",
+   "ranking_page_yandex": "/blog/apple-prekratila-priem-platezhey-v-rossii-kak-prodlit-podpiski",
+   "google_index_state": "URL is unknown to Google",
+   "diagnosis": "ранжирующая страница вне индекса Google (URL is unknown to Google)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "MEDIA": 8,
+    "UGC": 6,
+    "OTHER": 5,
+    "OFFICIAL": 2
+   },
+   "opportunity": 0.38,
+   "gap_sample": [
+    "как обновить подписку icloud+ 2026"
+   ]
+  },
+  {
+   "cluster": "docker",
+   "hub": "dev-tools",
+   "queries": 2,
+   "gap_queries": 2,
+   "b2b_queries": 0,
+   "weakness_avg": 16.0,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/docker",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "INTERMEDIARY": 2,
+    "OTHER": 1,
+    "REFERENCE": 1,
+    "FORUM": 1,
+    "OFFICIAL": 1
+   },
+   "opportunity": 0.32,
+   "gap_sample": [
+    "оплата docker",
+    "docker лицензия"
+   ]
+  },
+  {
+   "cluster": "descript",
+   "hub": "video-creative",
+   "queries": 3,
+   "gap_queries": 1,
+   "b2b_queries": 0,
+   "weakness_avg": 30.3,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/descript",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: PAYMENT_GUIDE",
+   "google_top3_classes": {
+    "OTHER": 6,
+    "UGC": 1,
+    "RESELLER": 1,
+    "MARKETPLACE": 1
+   },
+   "opportunity": 0.3,
+   "gap_sample": [
+    "купить подписку descript"
+   ]
+  },
+  {
+   "cluster": "kling-ai",
+   "hub": "ai-subscriptions",
+   "queries": 4,
+   "gap_queries": 1,
+   "b2b_queries": 0,
+   "weakness_avg": 29.8,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": "/vendors/kling-ai",
+   "google_index_state": "Discovered - currently not indexed",
+   "diagnosis": "ранжирующая страница вне индекса Google (Discovered - currently not indexed)",
+   "action": "индексация: внутренние ссылки с индексируемых страниц + запрос обхода",
+   "google_top3_classes": {
+    "MARKETPLACE": 7,
+    "MEDIA": 2,
+    "OFFICIAL": 2,
+    "OTHER": 1
+   },
+   "opportunity": 0.3,
+   "gap_sample": [
+    "купить kling ai юридичеким лицом"
+   ]
+  },
+  {
+   "cluster": "unity",
+   "hub": "video-creative",
+   "queries": 2,
+   "gap_queries": 2,
+   "b2b_queries": 0,
+   "weakness_avg": 13.0,
+   "dominant_intent": "PRICING",
+   "recommended_page_type": "PRICING",
+   "ranking_page_yandex": "/vendors/unity",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: PRICING",
+   "google_top3_classes": {
+    "OFFICIAL": 3,
+    "FORUM": 2,
+    "MEDIA": 1
+   },
+   "opportunity": 0.26,
+   "gap_sample": [
+    "стоимость лицензии unity",
+    "unity стоимость"
+   ]
+  },
+  {
+   "cluster": "adobe",
+   "hub": "design-software",
+   "queries": 8,
+   "gap_queries": 1,
+   "b2b_queries": 3,
+   "weakness_avg": 16.1,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": "/vendors/adobe",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: COMMERCIAL_LANDING",
+   "google_top3_classes": {
+    "OFFICIAL": 7,
+    "RESELLER": 7,
+    "MARKETPLACE": 7,
+    "OTHER": 2,
+    "UGC": 1
+   },
+   "opportunity": 0.22,
+   "gap_sample": [
+    "adobe купить для компании"
+   ]
+  },
+  {
+   "cluster": "depositphotos",
+   "hub": "design-software",
+   "queries": 2,
+   "gap_queries": 2,
+   "b2b_queries": 0,
+   "weakness_avg": 9.0,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": "/vendors/depositphotos",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: PAYMENT_GUIDE",
+   "google_top3_classes": {
+    "OFFICIAL": 3,
+    "FORUM": 1,
+    "INTERMEDIARY": 1,
+    "OTHER": 1
+   },
+   "opportunity": 0.18,
+   "gap_sample": [
+    "оплата depositphotos",
+    "оплата depositphotos из россии"
+   ]
+  },
+  {
+   "cluster": "maxon",
+   "hub": "video-creative",
+   "queries": 1,
+   "gap_queries": 1,
+   "b2b_queries": 0,
+   "weakness_avg": 8.0,
+   "dominant_intent": "GENERIC",
+   "recommended_page_type": "VENDOR",
+   "ranking_page_yandex": "/vendors/maxon",
+   "google_index_state": "Submitted and indexed",
+   "diagnosis": "страница в индексе, проигрывает выдаче",
+   "action": "документ сильнее топ-3: VENDOR",
+   "google_top3_classes": {
+    "RESELLER": 2,
+    "OTHER": 1
+   },
+   "opportunity": 0.08,
+   "gap_sample": [
+    "maxon лицензия"
+   ]
+  },
+  {
+   "cluster": "runway",
+   "hub": "video-creative",
+   "queries": 14,
+   "gap_queries": 0,
+   "b2b_queries": 1,
+   "weakness_avg": 36.7,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "UGC": 20,
+    "MEDIA": 13,
+    "INTERMEDIARY": 4,
+    "MARKETPLACE": 2,
+    "OTHER": 2,
+    "RESELLER": 1
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "n8n",
+   "hub": "dev-tools",
+   "queries": 1,
+   "gap_queries": 0,
+   "b2b_queries": 1,
+   "weakness_avg": 25.0,
+   "dominant_intent": "B2B_LEGAL",
+   "recommended_page_type": "PROCUREMENT_GUIDE",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "UGC": 2,
+    "INTERMEDIARY": 1
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "dropbox",
+   "hub": "productivity-collab",
+   "queries": 3,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 14.3,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "MARKETPLACE": 4,
+    "OFFICIAL": 2,
+    "OTHER": 1,
+    "INTERMEDIARY": 1,
+    "UGC": 1
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "cloudflare",
+   "hub": "infrastructure-security",
+   "queries": 2,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 23.5,
+   "dominant_intent": "HOW_TO",
+   "recommended_page_type": "PURCHASE_GUIDE",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "UGC": 3,
+    "OFFICIAL": 2,
+    "RESELLER": 1
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "gamma",
+   "hub": "ai-subscriptions",
+   "queries": 1,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 32.0,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "MEDIA": 2,
+    "OTHER": 1
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "artlist",
+   "hub": "video-creative",
+   "queries": 3,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 32.3,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "UGC": 5,
+    "MARKETPLACE": 4
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "google",
+   "hub": "productivity-collab",
+   "queries": 4,
+   "gap_queries": 0,
+   "b2b_queries": 2,
+   "weakness_avg": 37.2,
+   "dominant_intent": "B2B_LEGAL",
+   "recommended_page_type": "PROCUREMENT_GUIDE",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "MARKETPLACE": 6,
+    "UGC": 2,
+    "OTHER": 2,
+    "MEDIA": 2
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "elevenlabs",
+   "hub": "ai-subscriptions",
+   "queries": 1,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 58.0,
+   "dominant_intent": "PRICING",
+   "recommended_page_type": "PRICING",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "MEDIA": 3
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "figma",
+   "hub": "design-software",
+   "queries": 1,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 30.0,
+   "dominant_intent": "PAY",
+   "recommended_page_type": "PAYMENT_GUIDE",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "MEDIA": 1,
+    "RESELLER": 1,
+    "UGC": 1
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "cursor",
+   "hub": "dev-tools",
+   "queries": 1,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 28.0,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "MARKETPLACE": 2,
+    "OTHER": 1
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "anydesk",
+   "hub": "infrastructure-security",
+   "queries": 2,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 25.5,
+   "dominant_intent": "BUY",
+   "recommended_page_type": "COMMERCIAL_LANDING",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "OFFICIAL": 2,
+    "OTHER": 2,
+    "RESELLER": 1,
+    "FORUM": 1
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "miro",
+   "hub": "design-software",
+   "queries": 1,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 40.0,
+   "dominant_intent": "ALTERNATIVES",
+   "recommended_page_type": "ALTERNATIVES",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "OTHER": 3
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  },
+  {
+   "cluster": "canva",
+   "hub": "design-software",
+   "queries": 1,
+   "gap_queries": 0,
+   "b2b_queries": 0,
+   "weakness_avg": 38.0,
+   "dominant_intent": "ALTERNATIVES",
+   "recommended_page_type": "ALTERNATIVES",
+   "ranking_page_yandex": null,
+   "google_index_state": "не измерялась",
+   "diagnosis": "разрыва нет",
+   "action": "наблюдение",
+   "google_top3_classes": {
+    "OTHER": 2,
+    "MEDIA": 1
+   },
+   "opportunity": 0.0,
+   "gap_sample": []
+  }
+ ]
+}
