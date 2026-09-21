@@ -3,12 +3,13 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { defaultLeadOwner } from '../../config/site';
 import { createLeadTolerant } from '../../lib/lead-write';
-import { sendMail, managerEmail } from '../../lib/mailer';
+import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
 import { attributionFields } from '../../lib/quote-lead';
 import { mirrorLeadAndLink } from '../../lib/bitrix24';
 import { verifyCompany } from '../../lib/inn';
 import { findParty } from '../../lib/dadata';
 import { buildManagerLeadEmail } from '../../lib/email/lead-manager';
+import { buildCustomerLeadEmail } from '../../lib/email/lead-customer';
 import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
 import { clientIp } from '../../lib/client-ip';
 import { intakeFormConsents } from '../../lib/consent-intake';
@@ -147,6 +148,38 @@ export const POST: APIRoute = async ({ request }) => {
       utm_term: attr.utm_term,
     },
   }).catch((e) => console.error('b24 mirror failed', e));
+
+  // Подтверждение заказчику: обращение принято, вот что мы получили и что
+  // будет дальше. До 21.09.2026 письма не было вовсе — человек оставлял
+  // реквизиты и не получал в почту ни строки, а надпись на экране жила до
+  // закрытия вкладки (docs/rules/lead-confirmation-email.md).
+  //
+  // Фоном и с проглоченной ошибкой: заявка уже сохранена, и сбой SMTP не
+  // должен превращаться в отказ на экране у человека, чьё обращение принято.
+  // Письмо себе (ниже) отправляется отдельно — падение одного канала не
+  // гасит другой.
+  (async () => {
+    const mail = buildCustomerLeadEmail({
+      lead: {
+        name: payload.name,
+        company: payload.company,
+        inn: payload.inn,
+        email: payload.email,
+        phone: payload.phone,
+        message: payload.message,
+        product_ref: payload.product_ref,
+        date: new Date().toLocaleDateString('ru-RU'),
+      },
+    });
+    await sendMail({
+      from: salesFrom,
+      to: payload.email,
+      replyTo: managerEmail,
+      subject: mail.subject,
+      text: mail.text,
+      html: mail.html,
+    });
+  })().catch((e) => console.error('lead customer mail failed', e));
 
   // Уведомление менеджеру: фирменное HTML-письмо с источником перехода,
   // сверкой ИНН с ЕГРЮЛ и карточкой организации. Собирается в фоне и не
