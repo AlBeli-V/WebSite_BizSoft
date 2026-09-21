@@ -13,14 +13,14 @@
 # все шаги теперь в одной job и выбираются условием if: env.ACTION == '...'
 # по общему входу action. Это рекламный кабинет, поведение не менялось.
 #
-# Вход mode — общий для action=apply/ceiling/expand/improve/negatives/refine/resume/
+# Вход mode — общий для action=apply/ceiling/expand/improve/negatives/pause/refine/resume/
 # sitelinks/tighten (седьмой вход отдельным файлом на каждое действие не
 # завести — лимит inputs). Список options — объединение всех прежних
 # наборов; какие значения понимает конкретное действие, — то же самое, что
 # было в соответствующем файле (см. комментарий над блоком шагов этого
 # действия ниже):
 #   apply      — dry-run | apply | tune | audit
-#   ceiling/expand/improve/negatives/refine/resume/sitelinks/tighten — dry-run | apply
+#   ceiling/expand/improve/negatives/pause/refine/resume/sitelinks/tighten — dry-run | apply
 #   sitelinks  — дополнительно rollback (откат эксперимента)
 # Для check и stats mode не используется вовсе — как и раньше.
 #
@@ -44,12 +44,12 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; autotargeting-audit — разведка категорий автотаргетинга, только чтение; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
+        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; pause — остановить кампанию bs-test-2026-09 целиком; schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; autotargeting-audit — разведка категорий автотаргетинга, только чтение; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
         required: true
         type: choice
-        options: ["apple-negatives", "apply", "autotargeting", "autotargeting-audit", "ceiling", "check", "expand", "improve", "negatives", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
+        options: ["apple-negatives", "apply", "autotargeting", "autotargeting-audit", "ceiling", "check", "expand", "improve", "negatives", "pause", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
       mode:
-        description: "Для apple-negatives/apply/autotargeting/ceiling/expand/improve/negatives/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
+        description: "Для apple-negatives/apply/autotargeting/ceiling/expand/improve/negatives/pause/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
         required: false
         default: "dry-run"
         type: choice
@@ -368,6 +368,38 @@ jobs:
           title: "ops-direct ceiling (mode=${{ inputs.mode }})"
           outcome: ${{ steps.run_ceiling.outcome }}
           body-file: /tmp/direct-ceiling.log
+      # ==================== action=pause ====================
+      # Остановка кампании целиком (решение руководителя 21.09.2026).
+      # Две полные недели с исправленными посадочными пройдены: 348 визитов,
+      # 68 показов формы, ноль начатых заполнений и ноль заявок, 7911 ₽ с
+      # 07.09 при ориентире около 10 000 ₽. Финансовое правило эксперимента
+      # предписывает при нуле заявок не наращивать бюджет, а останавливать
+      # кампанию и пересобирать предложение. Обоснование —
+      # reports/marketing/lead-funnel-week2-2026-09-21.md.
+      # Останавливается ровно bs-test-2026-09; кампании Apple работают.
+      - name: Pause
+        if: env.ACTION == 'pause'
+        id: run_pause
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -o pipefail
+          python3 scripts/ppc/direct_pause.py "$MODE" 2>&1 | tee /tmp/direct-pause.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'pause'
+        run: |
+          [ -f /tmp/direct-pause.log ] || echo "(лог не создан)" > /tmp/direct-pause.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'pause'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-direct pause (mode=${{ inputs.mode }})"
+          outcome: ${{ steps.run_pause.outcome }}
+          body-file: /tmp/direct-pause.log
+
       # ==================== action=resume ====================
       # Возврат групп Claude и Claude Code в работу (решение руководителя
       # 09.09.2026): стоп-правило раунда 2 остановило их по критерию
