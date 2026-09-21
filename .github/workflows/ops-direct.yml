@@ -13,14 +13,14 @@
 # все шаги теперь в одной job и выбираются условием if: env.ACTION == '...'
 # по общему входу action. Это рекламный кабинет, поведение не менялось.
 #
-# Вход mode — общий для action=apply/ceiling/expand/improve/negatives/refine/resume/
+# Вход mode — общий для action=apply/ceiling/expand/improve/negatives/pause/refine/resume/
 # sitelinks/tighten (седьмой вход отдельным файлом на каждое действие не
 # завести — лимит inputs). Список options — объединение всех прежних
 # наборов; какие значения понимает конкретное действие, — то же самое, что
 # было в соответствующем файле (см. комментарий над блоком шагов этого
 # действия ниже):
-#   apply      — dry-run | apply | tune | audit
-#   ceiling/expand/improve/negatives/refine/resume/sitelinks/tighten — dry-run | apply
+#   apply      — dry-run | apply | tune | audit | finish
+#   ceiling/expand/improve/negatives/pause/refine/resume/sitelinks/tighten — dry-run | apply
 #   sitelinks  — дополнительно rollback (откат эксперимента)
 # Для check и stats mode не используется вовсе — как и раньше.
 #
@@ -44,18 +44,18 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; autotargeting-audit — разведка категорий автотаргетинга, только чтение; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
+        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; channels — расход рекламы против визитов по каналам, только чтение; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; pause — остановить кампанию целиком (имя — во входе spec, по умолчанию bs-test-2026-09); schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; autotargeting-audit — разведка категорий автотаргетинга, только чтение; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
         required: true
         type: choice
-        options: ["apple-negatives", "apply", "autotargeting", "autotargeting-audit", "ceiling", "check", "expand", "improve", "negatives", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
+        options: ["apple-negatives", "apply", "autotargeting", "autotargeting-audit", "ceiling", "channels", "check", "expand", "improve", "negatives", "pause", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
       mode:
-        description: "Для apple-negatives/apply/autotargeting/ceiling/expand/improve/negatives/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
+        description: "Для apple-negatives/apply/autotargeting/ceiling/expand/improve/negatives/pause/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit/finish — только apply; rollback — только sitelinks. Не используется для check и stats"
         required: false
         default: "dry-run"
         type: choice
-        options: ["dry-run", "apply", "tune", "audit", "rollback"]
+        options: ["dry-run", "apply", "tune", "audit", "finish", "rollback"]
       spec:
-        description: "Только для action=apply: файл спецификации в seo-data (round1-spec.json | round2-spec.json | round3-spec.json | round3-regions-spec.json)"
+        description: "Только для action=apply: файл спецификации в seo-data (round1-spec.json | round2-spec.json | round3-spec.json | round3-regions-spec.json | round4-spec.json | round5-spec.json | round6-spec.json). Для action=channels — период «дата-с дата-по»"
         required: false
         default: "round1-spec.json"
   schedule:
@@ -98,14 +98,16 @@ jobs:
       # mode=dry-run — собрать payload'ы и проверить лимиты, записи в API
       # нет; mode=apply — создать кампанию, группы, фразы, объявления и
       # отправить объявления на модерацию; tune — счётчик/разметка/
-      # мониторинг/StartDate; audit — сверка состояния.
+      # мониторинг/StartDate и настройки кампании из спецификации;
+      # audit — сверка состояния; finish — доводка уже созданной кампании
+      # (автотаргетинг и модерация объявлений) после оборвавшегося apply.
       - name: Fetch spec from seo-data
         if: env.ACTION == 'apply'
         env:
           SPEC: ${{ inputs.spec }}
         run: |
           case "${SPEC:-round1-spec.json}" in
-            round1-spec.json|round2-spec.json|round3-spec.json|round3-regions-spec.json) ;;
+            round1-spec.json|round2-spec.json|round3-spec.json|round3-regions-spec.json|round4-spec.json|round5-spec.json|round6-spec.json) ;;
             *) echo "недопустимое имя спецификации: $SPEC"; exit 1 ;;
           esac
           git fetch --depth=1 origin seo-data
@@ -368,6 +370,79 @@ jobs:
           title: "ops-direct ceiling (mode=${{ inputs.mode }})"
           outcome: ${{ steps.run_ceiling.outcome }}
           body-file: /tmp/direct-ceiling.log
+      # ==================== action=channels ====================
+      # Расход рекламы рядом с визитами по каналам (запрос руководителя
+      # 21.09.2026: сколько стоила реклама и что она дала против поиска без
+      # неё). Только чтение: отчёт Директа и разрез Метрики по
+      # ym:s:lastTrafficSource. Заявки сюда не подмешиваются — их источник
+      # берут из витрины reports/seo/data/leads-<дата>.json ветки seo-data,
+      # где у каждой заявки восстановлен путь посетителя.
+      # Период задаётся входом spec как «дата-с дата-по»; пусто — с первого
+      # дня рекламы по вчерашний день.
+      - name: Channels
+        if: env.ACTION == 'channels'
+        id: run_channels
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          RANGE: ${{ inputs.spec }}
+        run: |
+          set -o pipefail
+          case "$RANGE" in
+            *[0-9]-[0-9]*\ *[0-9]-[0-9]*) ;;
+            *) RANGE="" ;;
+          esac
+          python3 scripts/ppc/channel_report.py $RANGE 2>&1 | tee /tmp/direct-channels.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'channels'
+        run: |
+          [ -f /tmp/direct-channels.log ] || echo "(лог не создан)" > /tmp/direct-channels.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'channels'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-direct channels"
+          outcome: ${{ steps.run_channels.outcome }}
+          body-file: /tmp/direct-channels.log
+
+      # ==================== action=pause ====================
+      # Остановка кампании целиком (решение руководителя 21.09.2026).
+      # Две полные недели с исправленными посадочными пройдены: 348 визитов,
+      # 68 показов формы, ноль начатых заполнений и ноль заявок, 7911 ₽ с
+      # 07.09 при ориентире около 10 000 ₽. Финансовое правило эксперимента
+      # предписывает при нуле заявок не наращивать бюджет, а останавливать
+      # кампанию и пересобирать предложение. Обоснование —
+      # reports/marketing/lead-funnel-week2-2026-09-21.md.
+      # Останавливается ровно bs-test-2026-09; кампании Apple работают.
+      - name: Pause
+        if: env.ACTION == 'pause'
+        id: run_pause
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          MODE: ${{ inputs.mode }}
+          CAMPAIGN: ${{ inputs.spec }}
+        run: |
+          set -o pipefail
+          # Вход spec переиспользуется как имя кампании: отдельного входа под
+          # него нет, а лимит workflow_dispatch в 10 входов уже выбран.
+          python3 scripts/ppc/direct_pause.py "$MODE" $CAMPAIGN 2>&1 | tee /tmp/direct-pause.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'pause'
+        run: |
+          [ -f /tmp/direct-pause.log ] || echo "(лог не создан)" > /tmp/direct-pause.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'pause'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-direct pause (mode=${{ inputs.mode }})"
+          outcome: ${{ steps.run_pause.outcome }}
+          body-file: /tmp/direct-pause.log
+
       # ==================== action=resume ====================
       # Возврат групп Claude и Claude Code в работу (решение руководителя
       # 09.09.2026): стоп-правило раунда 2 остановило их по критерию
