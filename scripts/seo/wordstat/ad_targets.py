@@ -147,40 +147,80 @@ def webmaster_positions(path: pathlib.Path | None) -> dict[str, float]:
     return out
 
 
-def classify(row: dict, serp: dict, webmaster: dict, min_frequency: int) -> tuple[bool, str, float | None]:
-    """Годится ли фраза в рекламу. Возвращает (годится, причина, позиция)."""
+def classify(row: dict, serp: dict, webmaster: dict, min_frequency: int,
+             catalog=None, intent: str = "b2b") -> tuple[bool, str, float | None]:
+    """Годится ли фраза в рекламу. Возвращает (годится, причина, позиция).
+
+    Четвёртое условие появилось 21.09.2026: позиция должна быть ЗАМЕРЕНА.
+    Раньше «мы не смотрели» и «смотрели, нас там нет» давали один и тот же
+    исход — фраза проходила как свободная. Так правило «только вне первой
+    тройки» применялось к одному проценту спроса, а за остальные 99% мы
+    рисковали платить за собственный трафик. Незамеренное теперь уходит
+    в очередь замера (serp_queue), а не в рекламу.
+    """
     phrase = row["phrase"].strip().lower()
-    if not is_b2b(phrase):
-        return False, "нет корпоративного признака", None
+    # Два признака интента, и выбор между ними — решение о том, за что платим.
+    # b2b — формулировки, по которым приходили заявки: их мало, но они точны.
+    # commercial — весь покупательский спрос с привязкой к карточке: «под
+    # остальные ищем коммерческий спрос, даже если его мало» (решение
+    # руководителя 21.09.2026). Второй режим без привязки к каталогу и без
+    # замера позиции не работает — иначе это возврат к слепым показам.
+    if intent == "b2b":
+        if not is_b2b(phrase):
+            return False, "нет корпоративного признака", None
+    elif (row.get("commercial_intent_score") or 0) < 0.5:
+        return False, "нет покупательского интента", None
     if RETAIL.search(phrase):
         return False, "розничный или пиратский интент", None
     if (row.get("wordstat_frequency") or 0) < min_frequency:
         return False, f"спрос ниже {min_frequency} в месяц", None
-    pos = serp.get(phrase)
-    if pos is None and phrase in serp:
-        pos = None  # снимали и не нашли — значит нас в топе нет
+    if catalog is not None:
+        m = catalog.match(row["phrase"])
+        if m["kind"] == "none":
+            return False, f"нечего продавать: {m['why']}", None
     wm = webmaster.get(phrase)
+    if phrase not in serp and wm is None:
+        return False, "позиция не замерена — фраза в очереди замера", None
+    pos = serp.get(phrase)
     best = min([p for p in (pos, wm) if p], default=None)
     if best is not None and best <= TOP_DEPTH:
         return False, f"мы забираем этот трафик сами, позиция {best:.1f}", best
-    return True, "спрос есть, органики нет", best
+    return True, "спрос есть, замер сделан, органики нет", best
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--min-frequency", type=int, default=30)
+    ap.add_argument("--intent", choices=("b2b", "commercial"), default="b2b",
+                    help="b2b — корпоративные формулировки; commercial — весь "
+                         "покупательский спрос с привязкой к карточке")
     ap.add_argument("--serp", default=None)
     args = ap.parse_args()
 
     rows = load_universe(UNIVERSE)
     corporate = load_corporate(CORPORATE)
+    catalog = None
+    try:
+        import catalog_match
+        catalog = catalog_match.Catalog()
+        print(f"Каталог: {len(catalog.cards)} карточек на витрине")
+    except SystemExit as e:
+        print(f"Каталог недоступен ({e}) — привязка к товарам не проверяется")
     if corporate:
         # Фразы замера идут первыми: при совпадении побеждает свежая частота.
         seen = {r["phrase"].strip().lower() for r in corporate}
         rows = corporate + [r for r in rows if r["phrase"].strip().lower() not in seen]
     serp_path = pathlib.Path(args.serp) if args.serp else latest(SERP_DIR, "*-serp.jsonl")
     wm_path = latest(WEBMASTER_DIR, "yandex-2026-*.json")
-    serp = serp_positions(serp_path)
+    # Позиции собираются со всего архива срезов, а не с последнего файла:
+    # ядро дня — 650 запросов, а замер очереди мог пройти неделю назад, и
+    # выбрасывать его значило бы замерять повторно за деньги.
+    serp = {}
+    if args.serp:
+        serp = serp_positions(serp_path)
+    else:
+        for path in sorted(SERP_DIR.glob("*-serp.jsonl")):
+            serp.update(serp_positions(path))
     webmaster = webmaster_positions(wm_path)
     print(f"База семантики: {len(rows)} фраз (целевой замер: {len(corporate)})")
     print(f"Срез выдачи: {serp_path.name if serp_path else 'нет'} ({len(serp)} запросов)")
@@ -188,15 +228,20 @@ def main() -> None:
 
     picked, skipped = [], {}
     for row in rows:
-        ok, why, pos = classify(row, serp, webmaster, args.min_frequency)
+        ok, why, pos = classify(row, serp, webmaster, args.min_frequency,
+                                catalog, args.intent)
         if ok:
+            m = catalog.match(row["phrase"]) if catalog else {}
             picked.append({
                 "phrase": row["phrase"],
                 "frequency": row.get("wordstat_frequency") or 0,
-                "vendor": row.get("vendor"),
+                "vendor": m.get("vendor") or row.get("vendor"),
                 "category": row.get("category"),
-                "url": row.get("mapped_url"),
-                "page_exists": bool(row.get("page_exists")),
+                # Посадочная — карточка, на которую фраза села, а не страница
+                # вендора из базы: база маппит на вендора вообще всё.
+                "url": m.get("url") or row.get("mapped_url"),
+                "match": m.get("kind"),
+                "page_exists": bool(m.get("url") or row.get("page_exists")),
                 "position": pos,
             })
         else:
@@ -230,6 +275,7 @@ def main() -> None:
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(json.dumps({
         "generated_for": "рекламные группы по корпоративному спросу",
+        "intent": args.intent,
         "min_frequency": args.min_frequency,
         "serp_source": serp_path.name if serp_path else None,
         "webmaster_source": wm_path.name if wm_path else None,

@@ -44,10 +44,20 @@ class B2BTest(unittest.TestCase):
 
 
 class ClassifyTest(unittest.TestCase):
-    def test_берёт_фразу_без_нашей_выдачи(self):
-        ok, why, pos = A.classify(phrase("оплата descript юридическим лицом"), {}, {}, 30)
+    def test_берёт_фразу_где_замер_есть_а_нас_в_выдаче_нет(self):
+        # Срез фразу видел (ключ есть, позиции нет) — значит мы там не стоим.
+        ok, why, pos = A.classify(
+            phrase("оплата descript юридическим лицом"),
+            {"оплата descript юридическим лицом": None}, {}, 30)
         self.assertTrue(ok)
         self.assertIsNone(pos)
+
+    def test_незамеренная_фраза_в_рекламу_не_идёт(self):
+        # Раньше «не смотрели» и «смотрели, нас нет» давали один исход, и
+        # правило «только вне первой тройки» работало на 1% спроса.
+        ok, why, pos = A.classify(phrase("оплата descript юридическим лицом"), {}, {}, 30)
+        self.assertFalse(ok)
+        self.assertIn("не замерена", why)
 
     def test_не_берёт_там_где_мы_в_топе(self):
         # Платить за трафик, который и так наш, — то, ради чего затеян отбор.
