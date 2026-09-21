@@ -65,8 +65,14 @@ def load_vendors(path: pathlib.Path = VENDORS_TS) -> dict[str, str]:
     """{slug: имя вендора} из реестра сайта."""
     src = path.read_text(encoding="utf-8")
     out = {}
-    for slug, vendor in re.findall(r"slug:\s*'([^']+)',\s*vendor:\s*'([^']+)'", src):
-        out[slug] = vendor
+    # Поля в записи идут в разном порядке, поэтому читается запись целиком,
+    # а не пара «slug, vendor» подряд: жёсткий порядок терял Freepik и Zoho,
+    # и фразы этих брендов уходили в поиск по всему каталогу.
+    for chunk in re.findall(r"\{[^{}]*slug:[^{}]*\}", src, re.S):
+        slug = re.search(r"slug:\s*'([^']+)'", chunk)
+        vendor = re.search(r"vendor:\s*'([^']+)'", chunk)
+        if slug and vendor:
+            out[slug.group(1)] = vendor.group(1)
     return out
 
 
@@ -202,6 +208,18 @@ class Catalog:
                 extra.update(syns)
         return words | extra
 
+    def vendor_names(self, vslug: str) -> list[str]:
+        """Как бренд может быть написан в запросе.
+
+        Имя в реестре бывает составным: «Magnific (Freepik)». Человек ищет
+        одну из частей, а не всю запись целиком, поэтому скобки разбираются,
+        и слаг тоже идёт в дело.
+        """
+        raw = (self.vendors.get(vslug) or vslug).lower()
+        parts = [p.strip(" ()") for p in re.split(r"[()]", raw) if p.strip(" ()")]
+        parts.append(vslug.replace("-", " "))
+        return [p for p in dict.fromkeys(parts) if p]
+
     def vendor_of_phrase(self, phrase: str) -> str | None:
         """Какому вендору принадлежит фраза; сначала алиасы, затем имена реестра."""
         low = phrase.lower()
@@ -210,10 +228,10 @@ class Catalog:
             for n in names:
                 if n in low:
                     hits.append((len(n), vslug))
-        for vslug, vendor in self.vendors.items():
-            v = vendor.lower()
-            if v in low:
-                hits.append((len(v), vslug))
+        for vslug in self.vendors:
+            for name in self.vendor_names(vslug):
+                if name in low:
+                    hits.append((len(name), vslug))
         # Вендоры, которых нет в реестре сайта, но чьи карточки на витрине есть.
         for vslug in self._by_vendor:
             if vslug not in self.vendors and vslug in low:
