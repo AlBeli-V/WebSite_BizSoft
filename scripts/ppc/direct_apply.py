@@ -274,6 +274,37 @@ def mode_tune(spec: dict, token: str) -> None:
     print(f"кампания {camp_id} обновлена: счётчик Метрики {counter}, разметка yclid "
           f"включена, мониторинг сайта включён, StartDate {spec['campaign']['start_date']}")
     apply_campaign_settings(camp_id, spec, token)
+    sync_negatives(camp_id, spec, token)
+
+
+def sync_negatives(camp_id: int, spec: dict, token: str) -> None:
+    """Минус-слова кампании приводятся к списку из спецификации.
+
+    Список задаётся при создании кампании, но после создания он живёт
+    своей жизнью: пополнить его иначе, чем заново создав кампанию, было
+    нечем. Директ заменяет набор целиком, поэтому спецификация здесь —
+    источник истины, а не добавка к тому, что в кабинете.
+    """
+    want = (spec.get("campaign") or {}).get("negative_keywords")
+    if not want:
+        return
+    have = ((call("campaigns", "get", {
+        "SelectionCriteria": {"Ids": [camp_id]},
+        "FieldNames": ["Id", "NegativeKeywords"]}, token).get("Campaigns") or [{}])[0]
+        .get("NegativeKeywords") or {}).get("Items") or []
+    if sorted(have) == sorted(want):
+        print(f"  минус-слова: {len(want)}, совпадают со спецификацией")
+        return
+    check_add_results("Campaigns.update(минус-слова)", call("campaigns", "update", {
+        "Campaigns": [{"Id": camp_id, "NegativeKeywords": {"Items": want}}]},
+        token), key="UpdateResults")
+    added = sorted(set(want) - set(have))
+    removed = sorted(set(have) - set(want))
+    print(f"  минус-слова: было {len(have)}, стало {len(want)}")
+    if added:
+        print(f"    добавлены ({len(added)}): {', '.join(added)}")
+    if removed:
+        print(f"    сняты ({len(removed)}): {', '.join(removed)}")
 
 
 def apply_campaign_settings(camp_id: int, spec: dict, token: str) -> None:

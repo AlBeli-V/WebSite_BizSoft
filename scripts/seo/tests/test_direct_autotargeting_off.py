@@ -120,5 +120,48 @@ class CampaignSettingsTest(unittest.TestCase):
         self.assertEqual(self.calls, [])
 
 
+class NegativesSyncTest(unittest.TestCase):
+    """Минус-слова кампании приводятся к спецификации, а не дополняются вслепую."""
+
+    def setUp(self):
+        self.sent = []
+        self.have = []
+        self.orig_call = direct_apply.call
+        self.orig_check = direct_apply.check_add_results
+
+        def fake_call(service, method, params, token):
+            if (service, method) == ("campaigns", "get"):
+                return {"Campaigns": [{"Id": 7, "NegativeKeywords": {"Items": self.have}}]}
+            self.sent.append((service, method, params))
+            return {"UpdateResults": [{"Id": 7}]}
+
+        direct_apply.call = fake_call
+        direct_apply.check_add_results = lambda *a, **k: []
+
+    def tearDown(self):
+        direct_apply.call = self.orig_call
+        direct_apply.check_add_results = self.orig_check
+
+    def test_совпадающий_список_не_трогается(self):
+        self.have = ["бесплатно", "торрент"]
+        direct_apply.sync_negatives(7, {"campaign": {
+            "negative_keywords": ["торрент", "бесплатно"]}}, "t")
+        self.assertEqual(self.sent, [])
+
+    def test_расхождение_приводится_к_спецификации(self):
+        self.have = ["бесплатно"]
+        direct_apply.sync_negatives(7, {"campaign": {
+            "negative_keywords": ["бесплатно", "студент"]}}, "t")
+        self.assertEqual(len(self.sent), 1)
+        self.assertEqual(self.sent[0][2]["Campaigns"][0]["NegativeKeywords"]["Items"],
+                         ["бесплатно", "студент"])
+
+    def test_пустой_список_в_спецификации_ничего_не_снимает(self):
+        # Спецификация без поля не повод стереть минус-слова кабинета.
+        self.have = ["бесплатно"]
+        direct_apply.sync_negatives(7, {"campaign": {}}, "t")
+        self.assertEqual(self.sent, [])
+
+
 if __name__ == "__main__":
     unittest.main()
