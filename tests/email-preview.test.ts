@@ -59,9 +59,12 @@ function previewInput(): typeof demo {
   const file = process.env.EMAIL_PREVIEW_LEAD;
   if (!file) return demo;
   const own = JSON.parse(readFileSync(file, 'utf8'));
+  // `request` заменяется целиком, а не подмешивается к демонстрационному:
+  // иначе в предпросмотр настоящей заявки протекли бы чужие продукт, план и
+  // ссылки — и письмо показало бы то, чего в обращении не было.
   return {
     lead: { ...demo.lead, ...(own.lead ?? own) },
-    request: { ...demo.request, ...(own.request ?? {}) },
+    request: own.request ?? demo.request,
   };
 }
 
