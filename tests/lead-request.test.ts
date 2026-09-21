@@ -40,11 +40,14 @@ describe('настоящая заявка 21.09.2026', () => {
     expect(review.request.vendor).toBe('Perplexity');
   });
 
-  it('продукт НЕ подтверждён: Personal Pro в каталоге нет', () => {
-    expect(review.request.product).toBeUndefined();
+  it('позиция названа клиентом, но каталогом не подтверждена', () => {
+    // Письмо показывает слова человека — это сверка, а не подтверждение
+    // заказа. Подтверждение нужно для ссылок, и его здесь нет.
+    expect(review.request.product).toBe('Personal PRO');
+    expect(review.request.plan).toBe('individual');
     expect(review.request.matched).toBeUndefined();
     // Именно здесь нестрогий поиск подставил бы Enterprise Pro.
-    expect(review.request.plan).toBeUndefined();
+    expect(review.request.alternative).toBeUndefined();
   });
 
   it('менеджеру уходит разбор: чего нет и что есть рядом', () => {
@@ -130,7 +133,9 @@ describe('границы разбора', () => {
     // Подставить любую из них значило бы решить за клиента.
     const r = identifyRequest(CATALOG, { message: 'Интересует Adobe Creative Cloud Pro.' });
     expect(r.request.vendor).toBe('Adobe');
-    expect(r.request.product).toBeUndefined();
+    // Название клиента показать можно, а вот карточку выбрать за него — нет.
+    expect(r.request.product).toBe('Creative Cloud Pro');
+    expect(r.request.matched).toBeUndefined();
     expect(r.notes.join(' ')).toContain('точная не определена');
   });
 
@@ -138,6 +143,7 @@ describe('границы разбора', () => {
     const r = identifyRequest(CATALOG, { message: 'Интересует Perplexity для отдела.' });
     expect(r.request.vendor).toBe('Perplexity');
     expect(r.request.product).toBeUndefined();
+    expect(r.request.matched).toBeUndefined();
     expect(r.candidates.length).toBe(2);
   });
 

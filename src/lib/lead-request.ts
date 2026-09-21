@@ -136,6 +136,15 @@ export function productPhrase(text: string, vendor: string): string | undefined 
   return [vendor, ...tail].join(' ');
 }
 
+/**
+ * Название продукта без имени марки: в письме марка уже стоит строкой выше,
+ * и «Perplexity Perplexity Personal PRO» читалось бы как опечатка.
+ */
+export function withoutVendor(phrase: string, vendor: string): string {
+  const cut = phrase.replace(new RegExp(`^${vendor.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*`, 'iu'), '');
+  return cut.trim() || phrase;
+}
+
 /** Срок из текста: «на 6 месяцев», «на год», «12 мес». */
 export function detectTerm(text: string): RequestTerm | undefined {
   const hay = norm(text);
@@ -148,6 +157,22 @@ export function detectTerm(text: string): RequestTerm | undefined {
   if (/(^|[^\p{L}])(на\s+год|годов(ая|ую|ой)|12\s*мес)([^\p{L}]|$)/u.test(hay)) {
     return { months: 12, label: '1 год' };
   }
+  return undefined;
+}
+
+/**
+ * Тип лицензии по словам обращения.
+ *
+ * Это не догадка по названию, а чтение того, что человек написал: «Personal
+ * PRO» и «для команд» — различитель плана, который вендоры ставят в имя
+ * тарифа сами. Подтверждённая позиция каталога всё равно главнее: там тип
+ * берётся из сегмента ПЛАН артикула.
+ */
+export function detectPlanWords(text: string): RequestPlan | undefined {
+  const hay = norm(text);
+  const has = (re: string) => new RegExp(`(^|[^\\p{L}])(${re})`, 'u').test(hay);
+  if (has('personal|individual|индивидуальн|персональн|личн')) return 'individual';
+  if (has('team|business|enterprise|командн|корпоративн|для команд')) return 'team';
   return undefined;
 }
 
@@ -244,7 +269,7 @@ export function identifyRequest(all: Product[], source: LeadRequestSource): Lead
     review.request.vendor = picked.vendor || detectVendor(text);
     review.request.product = picked.name;
     review.request.matched = picked;
-    review.request.plan = planOf(picked);
+    review.request.plan = planOf(picked) || detectPlanWords(text);
     review.request.alternative = findAlternative(products, picked);
     if (!review.request.qty) {
       const line = (source.cart || []).find((i) => i.sku === picked.sku);
@@ -287,7 +312,7 @@ export function identifyRequest(all: Product[], source: LeadRequestSource): Lead
     const matched = matches[0];
     review.request.product = matched.name;
     review.request.matched = matched;
-    review.request.plan = planOf(matched);
+    review.request.plan = planOf(matched) || detectPlanWords(text);
     review.request.alternative = findAlternative(products, matched);
 
     // Срок клиента против срока позиции: «на 6 месяцев» при годовой
@@ -300,8 +325,12 @@ export function identifyRequest(all: Product[], source: LeadRequestSource): Lead
       review.notes.push('В обращении назван личный план, найденная позиция — командная.');
     }
   } else {
-    // Вендор есть, позиция не подтверждена: заказчику ничего не показываем,
-    // менеджеру отдаём близкие варианты списком.
+    // Позиция в каталоге не подтверждена — но клиент назвал её сам, и блок
+    // «Ваше обращение» показывает именно его слова: это сверка того, что мы
+    // поняли, а не подтверждение заказа. Подтверждение нужно для ссылок —
+    // их без найденной карточки не будет (решение руководителя 21.09.2026).
+    if (phrase !== vendor) review.request.product = withoutVendor(phrase, vendor);
+    review.request.plan = detectPlanWords(text);
     review.candidates = strictMatches(products, vendor).slice(0, 5);
     review.notes.push(matches.length
       ? `Обращению отвечают ${matches.length} позиции — точная не определена: «${phrase}».`

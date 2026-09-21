@@ -219,6 +219,7 @@ export const POST: APIRoute = async ({ request }) => {
       review: review ? {
         vendor: review.request.vendor,
         product: review.request.product,
+        matched: Boolean(review.request.matched),
         qty: review.request.qty,
         term: review.term?.label,
         notes: review.notes,

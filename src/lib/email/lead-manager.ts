@@ -54,6 +54,8 @@ export interface ManagerLeadEmailInput {
   review?: {
     vendor?: string;
     product?: string;
+    /** Позиция найдена в каталоге. Иначе название — только слова клиента. */
+    matched?: boolean;
     qty?: string;
     term?: string;
     notes: string[];
@@ -90,8 +92,13 @@ export function buildManagerLeadEmail(input: ManagerLeadEmailInput): RenderedEma
   const review = input.review;
   const reviewRows = review ? [
     ...(review.vendor ? [kvRow('Производитель', `<b>${escapeHtml(review.vendor)}</b>`)] : []),
+    // Названное клиентом и найденное в каталоге — разные вещи, и менеджер
+    // обязан видеть разницу: по первому нельзя выставить счёт.
     ...(review.product
-      ? [kvRow('Позиция', `<b>${escapeHtml(review.product)}</b>`)]
+      ? [kvRow('Позиция', `<b>${escapeHtml(review.product)}</b>`
+        + (review.matched
+          ? ''
+          : ` <span style="color:${EMAIL_COLOR.warn};">· названа клиентом, в каталоге не найдена</span>`))]
       : [kvRow('Позиция', `<span style="color:${EMAIL_COLOR.warn};">не опознана</span>`)]),
     ...(review.qty ? [kvRow('Количество', escapeHtml(review.qty))] : []),
     ...(review.term ? [kvRow('Запрошенный срок', escapeHtml(review.term))] : []),
@@ -158,7 +165,9 @@ export function buildManagerLeadEmail(input: ManagerLeadEmailInput): RenderedEma
     ...(review && (reviewRows || review.notes.length) ? [
       'Разбор обращения:',
       `Производитель: ${review.vendor || '—'}`,
-      `Позиция: ${review.product || 'не опознана'}`,
+      `Позиция: ${review.product
+        ? `${review.product}${review.matched ? '' : ' (названа клиентом, в каталоге не найдена)'}`
+        : 'не опознана'}`,
       ...(review.qty ? [`Количество: ${review.qty}`] : []),
       ...(review.term ? [`Запрошенный срок: ${review.term}`] : []),
       ...(review.candidates.length ? [`Есть в каталоге: ${review.candidates.join(', ')}`] : []),

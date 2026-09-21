@@ -62,8 +62,8 @@ describe('письмо заказчику о заявке', () => {
     expect(mail.html).toContain('Creative Cloud Pro');
     expect(mail.html).toContain('Командная');
     // Порядок строк — от общего к частному, он же согласован руководителем.
-    const order = ['Производитель', 'Продукт', 'Тип лицензии', 'Количество', 'Текст сообщения']
-      .map((k) => mail.html.indexOf(k));
+    const order = ['Производитель', 'Продукт', 'Тип лицензии', 'Количество',
+      'Дословно из обращения'].map((k) => mail.html.indexOf(k));
     expect(order).toEqual([...order].sort((a, b) => a - b));
     expect(order.every((i) => i > 0)).toBe(true);
     // Сообщение — дословно и с сохранением переноса строки.
@@ -122,7 +122,7 @@ describe('заявка без опознанной позиции', () => {
     expect(bare.html).not.toContain('Производитель');
     expect(bare.html).not.toContain('Тип лицензии');
     expect(bare.html).not.toContain('Количество');
-    expect(bare.html).not.toContain('Текст сообщения');
+    expect(bare.html).not.toContain('Дословно из обращения');
     expect(bare.html).not.toContain('Ваше обращение');
   });
 

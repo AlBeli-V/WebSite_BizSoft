@@ -119,7 +119,10 @@ describe('подборка доезжает до заявки и до письм
     await settle();
     const mail = managerMail();
     expect(mail?.html).toContain('Разбор обращения');
-    expect(mail?.html).toContain('не опознана');
+    // Название клиента показано, но помечено как неподтверждённое: по нему
+    // нельзя выставить счёт.
+    expect(mail?.html).toContain('Personal PRO');
+    expect(mail?.html).toContain('в каталоге не найдена');
     expect(mail?.html).toContain('Perplexity Enterprise Pro');
   });
 

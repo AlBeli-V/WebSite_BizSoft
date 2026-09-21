@@ -41,6 +41,9 @@ import {
 /** Метка кампании в ссылках письма: переходы отсюда видны отдельно от КП. */
 const UTM_CAMPAIGN = 'lead_confirmation';
 
+/** Подложка прямой речи: тёплый тон фирменной пары, а не серый по умолчанию. */
+const QUOTE_BG = '#FFF7F3';
+
 /** Позиция каталога, названная в письме: подпись и адрес страницы. */
 export interface LeadLink {
   name: string;
@@ -109,29 +112,46 @@ const PLAN_WORD: Record<LeadPlan, string> = {
   universal: 'Универсальная',
 };
 
-/** Строка блока обращения: подпись слева, значение справа. */
+/**
+ * Строка предмета обращения: подпись мелким капсом слева, значение крупно
+ * справа. Капс и разрядка — тот же приём, что у заголовков разделов: строки
+ * читаются как позиции спецификации, а не как переписка.
+ */
 function row(key: string, valueHtml: string): string {
   return `<tr>`
-    + `<td width="150" valign="top" style="font-family:${FONT};font-size:13px;line-height:20px;`
-    + `color:${MUTED};padding:9px 14px 9px 0">${esc(key)}</td>`
-    + `<td valign="top" style="font-family:${FONT};font-size:14px;line-height:20px;`
-    + `color:${INK};padding:9px 0">${valueHtml}</td>`
+    + `<td width="150" valign="top" style="font-family:${FONT};font-size:11px;line-height:20px;`
+    + `letter-spacing:.08em;text-transform:uppercase;color:${MUTED};padding:11px 14px 11px 0">`
+    + `${esc(key)}</td>`
+    + `<td valign="top" style="font-family:${FONT};font-size:15px;line-height:20px;`
+    + `color:${INK};padding:10px 0">${valueHtml}</td>`
     + `</tr>`;
 }
 
 /**
- * Сообщение клиента — цитатой, дословно и с сохранением переносов.
+ * Сообщение клиента — прямой речью.
+ *
+ * Не строка таблицы, а отдельный блок: это единственное место письма, где
+ * говорит сам заказчик, и оно должно читаться его голосом. Кавычка-ёлочка
+ * набрана текстом крупно и акцентом, текст — курсивом на светлой подложке с
+ * акцентной полосой. Картинок здесь нет намеренно: кавычка обязана
+ * нарисоваться и при выключенной загрузке изображений.
  *
  * Текст пришёл из публичной формы, поэтому экранируется целиком, и только
  * потом в него подставляются `<br>` — иначе разметка из поля «сообщение»
- * доехала бы до почтового клиента получателя как разметка. Цитата
- * набирается полосой слева, а не кавычками: в почте кавычки теряются среди
- * кавычек самого текста.
+ * доехала бы до почтового клиента получателя как разметка.
  */
-function quote(text: string): string {
-  return `<div style="font-family:${FONT};font-size:14px;line-height:21px;color:${BODY};`
-    + `border-left:2px solid ${RULE};padding:2px 0 2px 12px">`
-    + esc(clampMessage(text)).replace(/\r?\n/g, '<br>') + `</div>`;
+function speech(text: string): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" `
+    + `style="background:${QUOTE_BG};border-left:3px solid ${ORANGE}">`
+    + `<tr>`
+    + `<td width="34" valign="top" style="font-family:Georgia,'Times New Roman',serif;`
+    + `font-size:34px;line-height:34px;color:${ORANGE};padding:14px 0 0 14px">&#171;</td>`
+    + `<td valign="top" style="font-family:${FONT};font-size:14.5px;line-height:23px;`
+    + `color:${BODY};font-style:italic;padding:16px 18px 16px 4px">`
+    + esc(clampMessage(text)).replace(/\r?\n/g, '<br>')
+    + `<span style="font-family:Georgia,'Times New Roman',serif;font-style:normal;`
+    + `color:${ORANGE}">&#187;</span></td>`
+    + `</tr></table>`;
 }
 
 /**
@@ -193,10 +213,9 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
   // лицензия, сколько и что человек написал своими словами.
   const details = [
     ...(req.vendor ? [row('Производитель', `<b>${esc(req.vendor)}</b>`)] : []),
-    ...(product ? [row('Продукт', esc(product))] : []),
+    ...(product ? [row('Продукт', `<b>${esc(product)}</b>`)] : []),
     ...(req.plan ? [row('Тип лицензии', esc(PLAN_WORD[req.plan]))] : []),
     ...(qty ? [row('Количество', esc(qty))] : []),
-    ...(lead.message ? [row('Текст сообщения', quote(lead.message))] : []),
   ].join('');
 
   // Подборка по теме запроса. Показывается только тем, чью позицию мы
@@ -223,13 +242,20 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
     // ── Предмет обращения ──
     // Состав возвращается заказчику дословно: так он видит, что дошло, и
     // сразу замечает расхождение — до того, как менеджер посчитает не то.
-    + (details ? section(sectionHead('Ваше обращение')
-      + `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" `
-      + `style="border-top:1px solid ${RULE}">`
-      + details
-      + `</table>`
+    + (details || lead.message ? section(sectionHead('Ваше обращение')
+      + (details
+        ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" `
+          + `style="border-top:1px solid ${RULE};border-bottom:1px solid ${RULE}">`
+          + details
+          + `</table>`
+        : '')
+      + (lead.message
+        ? `<div style="font-family:${FONT};font-size:11px;line-height:18px;letter-spacing:.08em;`
+          + `text-transform:uppercase;color:${MUTED};padding:18px 0 8px">Дословно из обращения</div>`
+          + speech(lead.message)
+        : '')
       + `<div style="font-family:${FONT};font-size:12.5px;line-height:18px;color:${MUTED};`
-      + `border-top:1px solid ${RULE};padding-top:12px;margin-top:4px">`
+      + `padding-top:14px">`
       + `Заметили неточность — ответьте на это письмо, поправим до расчёта.</div>`) : '')
 
     // ── Вопрос в обращении ──
@@ -272,14 +298,14 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
     ...(input.hasQuestion ? ['',
       'На вопрос из обращения ответит менеджер — отдельным письмом. '
         + 'Это подтверждение отправлено автоматически и ответом не является.'] : []),
-    ...(details ? [
+    ...(details || lead.message ? [
       '',
       'ВАШЕ ОБРАЩЕНИЕ',
       ...(req.vendor ? [`Производитель: ${req.vendor}`] : []),
       ...(product ? [`Продукт: ${product}`] : []),
       ...(req.plan ? [`Тип лицензии: ${PLAN_WORD[req.plan]}`] : []),
       ...(qty ? [`Количество: ${qty}`] : []),
-      ...(lead.message ? ['Текст сообщения:', clampMessage(lead.message)] : []),
+      ...(lead.message ? ['Дословно из обращения:', `«${clampMessage(lead.message)}»`] : []),
       'Заметили неточность — ответьте на это письмо, поправим до расчёта.',
     ] : []),
     '',
