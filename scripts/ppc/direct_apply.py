@@ -322,6 +322,13 @@ def mode_audit(spec: dict, token: str) -> None:
           + ", ".join(f"{k}={v}" for k, v in Counter(k_['Status'] for k_ in kws).items()))
 
 
+# Полное отключение: условие ---autotargeting останавливается целиком.
+# Решение руководителя 21.09.2026 — платим только за строгие совпадения
+# заданных фраз. Даже EXACT-режим оставляет Директу право подбирать
+# «похожие» запросы, а разбор трёх недель показал, чем это кончается:
+# 24% расхода ушло на классы C и D, то есть на розницу и смежные услуги.
+AUTOTARGETING_OFF = "suspend"
+
 EXACT_ONLY = [
     {"Category": "EXACT", "Value": "YES"},
     {"Category": "ALTERNATIVE", "Value": "NO"},
@@ -482,9 +489,7 @@ def mode_extend(spec: dict, token: str, apply: bool) -> None:
             "FieldNames": ["Id", "Keyword"]}, token).get("Keywords", [])
         auto = [k["Id"] for k in kws if k["Keyword"] == "---autotargeting"]
         if auto:
-            check_add_results("keywords.update(автотаргетинг)", call("keywords", "update", {
-                "Keywords": [{"Id": i, "AutotargetingCategories": EXACT_ONLY} for i in auto]},
-                token), key="UpdateResults")
+            apply_autotargeting(auto, spec, token)
         else:
             print("  ! автотаргетинг новой группы не найден — проверить вручную")
         print(f"группа «{g['title']}» создана: Id {gid}")
@@ -492,6 +497,24 @@ def mode_extend(spec: dict, token: str, apply: bool) -> None:
     print(f"ГОТОВО: остановлено объявлений {len(to_suspend)}, создано групп {len(fresh)}; "
           f"новые объявления отправлены на модерацию, показы начнутся после её "
           f"прохождения по расписанию пн–пт 9:00–19:00 МСК")
+
+
+def apply_autotargeting(ids: list[int], spec: dict, token: str) -> None:
+    """Режим автотаргетинга новых групп: «off» останавливает его совсем.
+
+    Спецификация без явного указания получает прежнее поведение —
+    EXACT-only. Полное отключение задаётся полем campaign.autotargeting.
+    """
+    mode = (spec.get("campaign") or {}).get("autotargeting", "exact")
+    if mode == "off":
+        check_add_results("keywords.suspend(автотаргетинг)", call("keywords", "suspend", {
+            "SelectionCriteria": {"Ids": ids}}, token), key="SuspendResults")
+        print(f"  автотаргетинг отключён полностью: условий {len(ids)}")
+        return
+    check_add_results("keywords.update(автотаргетинг)", call("keywords", "update", {
+        "Keywords": [{"Id": i, "AutotargetingCategories": EXACT_ONLY} for i in ids]},
+        token), key="UpdateResults")
+    print(f"  автотаргетинг ограничен точными совпадениями: условий {len(ids)}")
 
 
 def main() -> None:
@@ -584,6 +607,18 @@ def main() -> None:
 
     ad_ids = check_add_results("Ads", call("ads", "add", build_ads(spec, group_ids), token))
     print(f"объявлений добавлено: {len(ad_ids)}")
+
+    # Автотаргетинг Директ заводит в новой группе сам. Пока его режим не
+    # задан, группа показывается по «похожим» запросам — на этом прошлая
+    # кампания потеряла 24% расхода.
+    auto = [k["Id"] for k in call("keywords", "get", {
+        "SelectionCriteria": {"AdGroupIds": group_ids},
+        "FieldNames": ["Id", "Keyword"]}, token).get("Keywords", [])
+        if k["Keyword"] == "---autotargeting"]
+    if auto:
+        apply_autotargeting(auto, spec, token)
+    else:
+        print("  ! автотаргетинг новых групп не найден — проверить вручную")
 
     call("ads", "moderate", {"SelectionCriteria": {"Ids": ad_ids}}, token)
     print("объявления отправлены на модерацию")
