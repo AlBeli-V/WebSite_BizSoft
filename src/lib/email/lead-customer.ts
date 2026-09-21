@@ -147,17 +147,25 @@ function row(key: string, valueHtml: string): string {
  * доехала бы до почтового клиента получателя как разметка.
  */
 function speech(text: string): string {
+  const mark = (glyph: string) =>
+    `<span style="font-family:Georgia,'Times New Roman',serif;font-size:34px;`
+    + `line-height:34px;color:${ORANGE}">${glyph}</span>`;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" `
     + `style="background:${QUOTE_BG};border-left:3px solid ${ORANGE}">`
     + `<tr>`
-    + `<td width="34" valign="top" style="font-family:Georgia,'Times New Roman',serif;`
-    + `font-size:34px;line-height:34px;color:${ORANGE};padding:14px 0 0 14px">&#171;</td>`
+    + `<td width="34" valign="top" style="padding:14px 0 0 14px">${mark('&#171;')}</td>`
     + `<td valign="top" style="font-family:${FONT};font-size:14.5px;line-height:23px;`
-    + `color:${BODY};font-style:italic;padding:16px 18px 16px 4px">`
+    + `color:${BODY};font-style:italic;padding:16px 18px 0 4px">`
     + esc(clampMessage(text)).replace(/\r?\n/g, '<br>')
-    + `<span style="font-family:Georgia,'Times New Roman',serif;font-style:normal;`
-    + `color:${ORANGE}">&#187;</span></td>`
-    + `</tr></table>`;
+    + `</td>`
+    + `</tr>`
+    // Закрывающая кавычка — отдельной строкой справа, тем же кеглем, что и
+    // открывающая: разнокалиберная пара читается как опечатка вёрстки.
+    + `<tr>`
+    + `<td style="font-size:0;line-height:0">&nbsp;</td>`
+    + `<td align="right" style="padding:0 18px 10px 0">${mark('&#187;')}</td>`
+    + `</tr>`
+    + `</table>`;
 }
 
 /**
