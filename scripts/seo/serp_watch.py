@@ -51,6 +51,11 @@ POLL_INTERVAL_S = 20
 # полное коммерческое ядро по Москве + топ ядра по Санкт-Петербургу.
 MONTHLY_CAP = 20000
 DAILY_CAP = 700           # ~500 ядро Мск + 150 СПб + запас на ручные пробы
+# Отдельный бюджет на очередь замера позиций (serp_queue): она идёт сверх
+# ядра и только после него, поэтому дневной потолок ядра не трогает.
+# Месячный потолок общий и остаётся последним словом — 630 фраз очереди по
+# ночному тарифу стоят 16 ₽, и ради них ядро урезать незачем.
+QUEUE_DAILY_CAP = 700
 REGION_MSK = "213"
 REGION_SPB = "2"
 SPB_TOP = 150             # сколько верхних запросов ядра дублируется по СПб
@@ -207,7 +212,7 @@ def collect_deferred(session, key: str, date: dt.date,
     return ok, failed
 
 
-def run(date_s: str, tasks: list[dict]) -> dict:
+def run(date_s: str, tasks: list[dict], budget_extra: int = 0) -> dict:
     import requests
 
     key = os.environ.get("WORDSTAT_API_KEY", "").strip()
@@ -216,7 +221,7 @@ def run(date_s: str, tasks: list[dict]) -> dict:
     date = dt.date.fromisoformat(date_s)
     spent = month_spent(date)
     today = day_spent(date)
-    budget = min(DAILY_CAP - today, MONTHLY_CAP - spent)
+    budget = min(DAILY_CAP + budget_extra - today, MONTHLY_CAP - spent)
     if budget <= 0:
         reason = (f"месячный потолок {MONTHLY_CAP} запросов исчерпан "
                   f"({spent} израсходовано)"
@@ -236,6 +241,7 @@ def run(date_s: str, tasks: list[dict]) -> dict:
         ok, failed = collect_deferred(session, key, date, todo, writer)
     return {"date": date_s, "requested": len(todo), "ok": ok,
             "failed": failed, "skipped_over_budget": skipped,
+            "queries": [t["query"] for t in todo],
             "spent_month": spent + len(todo), "cap_month": MONTHLY_CAP,
             "mode": "deferred-night",
             "out": str(out_path)}
@@ -259,7 +265,25 @@ def main() -> int:
     if not core:
         print("watchlist пуст — собирать нечего")
         return 1
-    res = run(date_s, build_tasks(core))
+    # Очередь замера позиций идёт последней: при нехватке бюджета страдает
+    # она, а не ежедневный срез ядра.
+    import serp_queue
+    batch = []
+    try:
+        # Очередь пересобирается каждым прогоном: каталог меняется, и фраза,
+        # которую вчера нечем было закрыть, сегодня может иметь карточку.
+        built = serp_queue.build()
+        print(f"очередь замера позиций: {len(built.get('pending') or [])} фраз")
+        batch = serp_queue.take(QUEUE_DAILY_CAP)
+    except (OSError, ValueError, SystemExit) as e:
+        print(f"очередь замера недоступна ({e}) — идём только по ядру")
+    tasks = build_tasks(core) + [{"query": q, "region": REGION_MSK} for q in batch]
+    res = run(date_s, tasks, budget_extra=len(batch))
+    done = res.pop("queries", [])
+    if batch and not res.get("error"):
+        moved = serp_queue.mark_done(done, date_s)
+        res["queue_measured"] = moved
+        res["queue_left"] = len(serp_queue.load_queue().get("pending") or [])
     print(json.dumps(res, ensure_ascii=False, indent=1))
     return 1 if res.get("error") or res.get("failed") == res.get("requested") \
         else 0
