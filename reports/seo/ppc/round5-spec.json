@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "spec_version": "round5-2026-09-21",
+  "spec_version": "round5-2026-09-21b",
   "date": "2026-09-21",
   "plan_kind": "campaign",
   "status": "planned",
@@ -147,7 +147,9 @@
       "бонус",
       "кэшбэк"
     ],
-    "negative_note": "99 минус-слов шести классов: розница и пиратство, то, что мы не продаём как товар (аккаунты, доступ в складчину), обучение и обзоры, чужое и замены, нерелевантные намерения, ценовой шум. Каждое проверено на непересечение со словами наших фраз"
+    "negative_note": "99 минус-слов шести классов: розница и пиратство, то, что мы не продаём как товар (аккаунты, доступ в складчину), обучение и обзоры, чужое и замены, нерелевантные намерения, ценовой шум. Каждое проверено на непересечение со словами наших фраз",
+    "autotargeting": "off",
+    "autotargeting_note": "Полное отключение (решение руководителя 21.09.2026): платим только за строгие совпадения заданных фраз. Даже EXACT-режим оставляет Директу право подбирать «похожие» запросы — в прошлой кампании классы C и D взяли 24% расхода."
   },
   "groups": [
     {
@@ -161,24 +163,29 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "adobe купить",
-          "wordstat_exact": 3887
+          "keyword": "\"adobe купить\"",
+          "wordstat_exact": 3887,
+          "match": "фиксированный состав слов"
         },
         {
-          "keyword": "adobe подписка",
-          "wordstat_exact": 1979
+          "keyword": "\"adobe подписка\"",
+          "wordstat_exact": 1979,
+          "match": "фиксированный состав слов"
         },
         {
-          "keyword": "лицензия adobe",
-          "wordstat_exact": 1403
+          "keyword": "\"лицензия adobe\"",
+          "wordstat_exact": 1403,
+          "match": "фиксированный состав слов"
         },
         {
-          "keyword": "adobe pro купить",
-          "wordstat_exact": 811
+          "keyword": "\"adobe pro купить\"",
+          "wordstat_exact": 811,
+          "match": "фиксированный состав слов"
         },
         {
-          "keyword": "adobe photoshop купить",
-          "wordstat_exact": 683
+          "keyword": "\"adobe photoshop купить\"",
+          "wordstat_exact": 683,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -206,16 +213,19 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "suno подписка",
-          "wordstat_exact": 3002
+          "keyword": "\"suno подписка\"",
+          "wordstat_exact": 3002,
+          "match": "фиксированный состав слов"
         },
         {
-          "keyword": "оплатить suno",
-          "wordstat_exact": 2131
+          "keyword": "\"оплатить suno\"",
+          "wordstat_exact": 2131,
+          "match": "фиксированный состав слов"
         },
         {
-          "keyword": "suno купить",
-          "wordstat_exact": 1576
+          "keyword": "\"suno купить\"",
+          "wordstat_exact": 1576,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -243,12 +253,14 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "купить cursor",
-          "wordstat_exact": 1719
+          "keyword": "\"купить cursor\"",
+          "wordstat_exact": 1719,
+          "match": "фиксированный состав слов"
         },
         {
-          "keyword": "cursor тарифы",
-          "wordstat_exact": 278
+          "keyword": "\"cursor тарифы\"",
+          "wordstat_exact": 278,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -276,12 +288,14 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "anydesk купить",
-          "wordstat_exact": 358
+          "keyword": "\"anydesk купить\"",
+          "wordstat_exact": 358,
+          "match": "фиксированный состав слов"
         },
         {
-          "keyword": "anydesk купить лицензию",
-          "wordstat_exact": 174
+          "keyword": "\"anydesk купить лицензию\"",
+          "wordstat_exact": 174,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -309,8 +323,9 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "notion купить",
-          "wordstat_exact": 272
+          "keyword": "\"notion купить\"",
+          "wordstat_exact": 272,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -338,8 +353,9 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "jetbrains купить",
-          "wordstat_exact": 128
+          "keyword": "\"jetbrains купить\"",
+          "wordstat_exact": 128,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -367,8 +383,9 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "hailuo ai подписка",
-          "wordstat_exact": 98
+          "keyword": "\"hailuo ai подписка\"",
+          "wordstat_exact": 98,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -396,8 +413,9 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "procreate цена",
-          "wordstat_exact": 96
+          "keyword": "\"procreate цена\"",
+          "wordstat_exact": 96,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -425,12 +443,14 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "heygen тарифы",
-          "wordstat_exact": 38
+          "keyword": "\"heygen тарифы\"",
+          "wordstat_exact": 38,
+          "match": "фиксированный состав слов"
         },
         {
-          "keyword": "как оплатить heygen из россии",
-          "wordstat_exact": 35
+          "keyword": "\"как оплатить heygen из россии\"",
+          "wordstat_exact": 35,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -458,8 +478,9 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "unity pro купить",
-          "wordstat_exact": 58
+          "keyword": "\"unity pro купить\"",
+          "wordstat_exact": 58,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -487,8 +508,9 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "artlist подписка",
-          "wordstat_exact": 47
+          "keyword": "\"artlist подписка\"",
+          "wordstat_exact": 47,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -516,8 +538,9 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "dropbox купить",
-          "wordstat_exact": 34
+          "keyword": "\"dropbox купить\"",
+          "wordstat_exact": 34,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -545,8 +568,9 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "coreldraw подписка",
-          "wordstat_exact": 33
+          "keyword": "\"coreldraw подписка\"",
+          "wordstat_exact": 33,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
@@ -574,8 +598,9 @@
       "stop_rule": "3000 ₽ расхода по группе без обращения — остановка группы",
       "keywords": [
         {
-          "keyword": "elevenlabs тарифы",
-          "wordstat_exact": 32
+          "keyword": "\"elevenlabs тарифы\"",
+          "wordstat_exact": 32,
+          "match": "фиксированный состав слов"
         }
       ],
       "minus_words": [],
