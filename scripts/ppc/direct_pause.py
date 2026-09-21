@@ -97,6 +97,13 @@ def main() -> None:
     campaign_name = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_CAMPAIGN
     if mode not in ("dry-run", "apply"):
         raise SystemExit(f"неизвестный режим: {mode}")
+    # ops-direct передаёт имя кампании входом spec, у которого своё
+    # умолчание — имя файла спецификации. Сказать об этом прямо дешевле,
+    # чем разбирать потом «кампания round1-spec.json не найдена».
+    if campaign_name.endswith(".json"):
+        raise SystemExit(
+            f"во входе spec осталось имя файла спецификации ({campaign_name}) — "
+            f"для остановки укажите там имя кампании")
     print(f"Режим: {mode}; кампания: {campaign_name}")
 
     camps = call("campaigns", "get",
