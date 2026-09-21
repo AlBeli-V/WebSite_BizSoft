@@ -11,14 +11,20 @@
  *
  * Чем это письмо не является. Это не коммерческое предложение: ни цен, ни
  * сумм, ни сроков поставки в нём нет — их называет КП (`quote-customer.ts`)
- * после расчёта. Здесь только то, что мы уже знаем наверняка: что получено,
- * от кого, когда и что будет дальше. Обещания срока ответа письмо даёт ровно
- * то же, что дала страница в момент отправки, — «ответим в рабочее время»:
- * два разных обещания об одном обращении хуже, чем одно скромное.
+ * после расчёта.
+ *
+ * Композиция утверждена руководителем 21.09.2026 (редакция 2). Смысл
+ * правок: письмо перестало пересказывать заказчику наши намерения («мы
+ * изучим задачу, подберём продукты, вернёмся с ответом») и стало отвечать
+ * на единственный вопрос человека — что именно у нас лежит по его запросу.
+ * Отсюда состав: подтверждение одним абзацем, предмет обращения от общего к
+ * частному (производитель → продукт → тип лицензии → количество → дословная
+ * цитата сообщения), два действия и подборка позиций по теме запроса.
  *
  * Адрес получателя не подтверждён — его ввели в публичную форму. Поэтому
- * письмо не несёт ничего, кроме введённых в эту же форму данных, и
- * заканчивается строкой для того, кто обращения не оставлял.
+ * письмо не несёт ничего, кроме введённых в эту же форму данных и позиций
+ * нашего же каталога, и заканчивается строкой для того, кто обращения не
+ * оставлял.
  *
  * Оформление общее с письмом о КП (`client-shell.ts`): два письма подряд на
  * один адрес обязаны читаться как два письма одной компании.
@@ -35,6 +41,12 @@ import {
 /** Метка кампании в ссылках письма: переходы отсюда видны отдельно от КП. */
 const UTM_CAMPAIGN = 'lead_confirmation';
 
+/** Позиция каталога, названная в письме: подпись и адрес страницы. */
+export interface LeadLink {
+  name: string;
+  url: string;
+}
+
 export interface CustomerLeadEmailInput {
   lead: {
     name: string;
@@ -48,9 +60,50 @@ export interface CustomerLeadEmailInput {
     /** Дата приёма обращения, дд.мм.гггг. */
     date: string;
   };
+  /**
+   * Предмет обращения, когда позиция опознана: заявка с карточки товара
+   * знает производителя, продукт и тип плана, заявка из общей формы — нет.
+   * Поля необязательные: строки, которых нет в данных, в письме не
+   * рисуются, а не показываются пустыми.
+   */
+  request?: {
+    /** Производитель: «Adobe», «JetBrains». */
+    vendor?: string;
+    /** Название подписки или сервиса: «Creative Cloud Pro». */
+    product?: string;
+    /**
+     * Тип лицензии — из сегмента `ПЛАН` артикула (`src/lib/plan-type.ts`),
+     * то есть данные, а не догадка по названию: TEAM → командная, IND →
+     * индивидуальная, UNI → деления нет.
+     */
+    plan?: LeadPlan;
+    qty?: number | string;
+    /** Страницы каталога, названные в письме. */
+    links?: {
+      /** Страница запрошенной позиции. */
+      product?: LeadLink;
+      /** Другой план того же продукта — командный против личного и наоборот. */
+      alternative?: LeadLink;
+      /** Раздел каталога, куда входит позиция. */
+      catalog?: LeadLink;
+    };
+  };
 }
 
-/** Строка карточки обращения: подпись слева, значение справа. */
+export type LeadPlan = 'team' | 'individual' | 'universal';
+
+/**
+ * Тип лицензии словами. Свой словарь, а не `PLAN_SHORT` карточки: там
+ * значения согласованы со словом «план» («Командный»), а в письме строка
+ * называется «Тип лицензии» — и «Командный лицензия» не читается.
+ */
+const PLAN_WORD: Record<LeadPlan, string> = {
+  team: 'Командная',
+  individual: 'Индивидуальная',
+  universal: 'Универсальная',
+};
+
+/** Строка блока обращения: подпись слева, значение справа. */
 function row(key: string, valueHtml: string): string {
   return `<tr>`
     + `<td width="150" valign="top" style="font-family:${FONT};font-size:13px;line-height:20px;`
@@ -61,81 +114,117 @@ function row(key: string, valueHtml: string): string {
 }
 
 /**
- * Сообщение клиента в письме: перенос строки остаётся переносом.
+ * Сообщение клиента — цитатой, дословно и с сохранением переносов.
  *
  * Текст пришёл из публичной формы, поэтому экранируется целиком, и только
  * потом в него подставляются `<br>` — иначе разметка из поля «сообщение»
- * доехала бы до почтового клиента получателя как разметка.
+ * доехала бы до почтового клиента получателя как разметка. Цитата
+ * набирается полосой слева, а не кавычками: в почте кавычки теряются среди
+ * кавычек самого текста.
  */
-function quotedMessage(text: string): string {
-  return esc(text).replace(/\r?\n/g, '<br>');
+function quote(text: string): string {
+  return `<div style="font-family:${FONT};font-size:14px;line-height:21px;color:${BODY};`
+    + `border-left:2px solid ${RULE};padding:2px 0 2px 12px">`
+    + esc(text).replace(/\r?\n/g, '<br>') + `</div>`;
+}
+
+/**
+ * Количество из свободной строки формы.
+ *
+ * Поле `product_ref` посетитель не заполняет — его собирает страница, и на
+ * карточке товара оно приходит как «количество: 3». Разбирать эту строку
+ * приходится здесь: пока в заявке нет отдельного поля, число мест иначе
+ * потеряется в письме, хотя человек его указал.
+ */
+export function refParts(ref: string): { qty?: string; rest?: string } {
+  const m = ref.match(/кол(?:ичество|-во)\s*:?\s*(\d+)/i);
+  const rest = (m ? ref.replace(m[0], '') : ref).replace(/^[\s,;·—-]+|[\s,;·—-]+$/g, '');
+  return { qty: m?.[1], rest: rest || undefined };
 }
 
 export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedEmail {
   const { lead } = input;
-  const company = lead.company.trim() || 'вашей организации';
+  const req = input.request ?? {};
+  const company = lead.company.trim();
   // Тема называет предмет и дату: в списке писем обращение узнаётся без
   // открытия, а номера у заявки для клиента нет — он ему ни о чём не говорит.
   const subject = `Обращение принято — BIZSoft, ${lead.date}`;
 
-  const replyHref = `mailto:${offerManager.email}`
-    + `?subject=${encodeURIComponent(`Дополнение к обращению от ${lead.date} — ${company}`)}`;
-  const docsHref = withEmailUtm(`${site.url}${offerDocs.contract.path}`, 'documents', UTM_CAMPAIGN);
-  const howHref = withEmailUtm(`${site.url}/how-we-work`, 'how-we-work', UTM_CAMPAIGN);
-  const catalogHref = withEmailUtm(`${site.url}/catalog`, 'catalog', UTM_CAMPAIGN);
+  const parts = refParts(lead.product_ref || '');
+  const qty = req.qty !== undefined && req.qty !== '' ? String(req.qty) : parts.qty;
+  const product = req.product || parts.rest;
+  const links = req.links ?? {};
 
-  const steps = [
-    stepRow('01', 'Дополнить обращение ответным письмом', replyHref),
-    stepRow('02', 'Скачать образец договора', docsHref, '&#8595;'),
-    stepRow('03', 'Как проходит поставка', howHref),
-    stepRow('04', 'Каталог продуктов и AI-сервисов', catalogHref),
+  const replyHref = `mailto:${offerManager.email}`
+    + `?subject=${encodeURIComponent(`Дополнение к обращению от ${lead.date}`
+      + (company ? ` — ${company}` : ''))}`;
+  const docsHref = withEmailUtm(`${site.url}${offerDocs.contract.path}`, 'documents', UTM_CAMPAIGN);
+  const link = (l: LeadLink, tag: string) => withEmailUtm(l.url, tag, UTM_CAMPAIGN);
+
+  // Первая строка абзаца собирается из того, что известно наверняка: дата
+  // приёма и организация из формы. Организации в заявке может не быть —
+  // тогда предложение просто кончается на «в BIZSoft».
+  const intro = `Благодарим Вас за обращение от ${lead.date} в BIZSoft`
+    + (company ? ` от компании ${company}` : '')
+    + `. Подтверждаем, что Ваш запрос получен и передан менеджеру.`;
+
+  // Порядок строк — от общего к частному: чей продукт, какой продукт, какая
+  // лицензия, сколько и что человек написал своими словами.
+  const details = [
+    ...(req.vendor ? [row('Производитель', `<b>${esc(req.vendor)}</b>`)] : []),
+    ...(product ? [row('Продукт', esc(product))] : []),
+    ...(req.plan ? [row('Тип лицензии', esc(PLAN_WORD[req.plan]))] : []),
+    ...(qty ? [row('Количество', esc(qty))] : []),
+    ...(lead.message ? [row('Текст сообщения', quote(lead.message))] : []),
   ].join('');
 
-  const details = [
-    row('Получено', `${esc(lead.date)}`),
-    row('Организация', `<b>${esc(lead.company)}</b>`
-      + (lead.inn ? `<br><span style="color:${MUTED};font-size:13px">ИНН ${esc(lead.inn)}</span>` : '')),
-    ...(lead.product_ref ? [row('Запрос по позиции', esc(lead.product_ref))] : []),
-    ...(lead.message ? [row('Ваше сообщение',
-      `<span style="color:${BODY}">${quotedMessage(lead.message)}</span>`)] : []),
-    row('Для связи с вами', [esc(lead.phone), esc(lead.email)].filter(Boolean)
-      .join(`<br>`)),
+  // Подборка по теме запроса. Показывается только тем, чью позицию мы
+  // опознали: три строки-заглушки «посмотрите каталог» у человека, который
+  // уже назвал продукт, — это шум, а не помощь.
+  const interest = [
+    ...(links.product ? [stepRow('01', links.product.name, link(links.product, 'product'))] : []),
+    ...(links.alternative
+      ? [stepRow('02', links.alternative.name, link(links.alternative, 'alternative'))] : []),
+    ...(links.catalog ? [stepRow(links.product || links.alternative ? '03' : '01',
+      links.catalog.name, link(links.catalog, 'catalog'))] : []),
   ].join('');
 
   const html = openLetter(subject,
     `Мы получили ваше обращение от ${lead.date}. Ответим в рабочее время.`)
     + banner()
-    + letterTitle('Обращение принято', `в интересах ${company}`)
+    + letterTitle('Обращение принято')
 
     // ── Обращение ──
     + section(`<div style="font-family:${FONT};font-size:15px;line-height:24px;color:${BODY}">`
       + `<b style="color:${INK}">${esc(salutation(lead.name))}</b><br><br>`
-      + `Благодарим Вас за обращение в BIZSoft. Подтверждаем: Ваш запрос получен и передан `
-      + `менеджеру. Мы изучим задачу, подберём продукты и вернёмся с ответом в рабочее время; `
-      + `при необходимости уточнить состав или количество — позвоним или напишем. `
-      + `Расчёт и предварительное коммерческое предложение придут отдельным письмом.</div>`, 26)
-    + `<tr><td class="pad" align="right" style="padding:14px 36px 0;font-family:${FONT};`
-    + `font-size:14px;color:${BODY}"><i>Команда BIZSoft.</i></td></tr>`
+      + `${esc(intro)}</div>`, 26)
 
-    // ── Что мы получили ──
-    // Состав обращения возвращается заказчику дословно: так он видит, что
-    // дошло, и сразу замечает опечатку в телефоне или ИНН — до того, как
-    // менеджер потратит день на дозвон по неверному номеру.
-    + section(sectionHead('Ваше обращение')
+    // ── Предмет обращения ──
+    // Состав возвращается заказчику дословно: так он видит, что дошло, и
+    // сразу замечает расхождение — до того, как менеджер посчитает не то.
+    + (details ? section(sectionHead('Ваше обращение')
       + `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" `
       + `style="border-top:1px solid ${RULE}">`
       + details
       + `</table>`
       + `<div style="font-family:${FONT};font-size:12.5px;line-height:18px;color:${MUTED};`
       + `border-top:1px solid ${RULE};padding-top:12px;margin-top:4px">`
-      + `Заметили неточность — ответьте на это письмо, поправим до расчёта.</div>`)
+      + `Заметили неточность — ответьте на это письмо, поправим до расчёта.</div>`) : '')
 
     // ── Что дальше ──
     + section(sectionHead('Что дальше')
       + `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">`
-      + steps
+      + stepRow('01', 'Дополнить обращение ответным письмом', replyHref)
+      + stepRow('02', 'Скачать образец договора', docsHref, '&#8595;')
       + `<tr><td style="border-top:1px solid ${RULE};font-size:0;line-height:0">&nbsp;</td></tr>`
       + `</table>`)
+
+    // ── Вас может заинтересовать ──
+    + (interest ? section(sectionHead('Вас может заинтересовать')
+      + `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">`
+      + interest
+      + `<tr><td style="border-top:1px solid ${RULE};font-size:0;line-height:0">&nbsp;</td></tr>`
+      + `</table>`) : '')
 
     + signature()
     + confidentialFooter(
@@ -147,29 +236,32 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
     + closeLetter();
 
   // Текстовая версия — то же содержимое без вёрстки: часть клиентов
-  // показывает именно её, и потерять в ней состав обращения нельзя.
+  // показывает именно её, и потерять в ней предмет обращения нельзя.
   const text = [
     salutation(lead.name),
     '',
-    'Благодарим Вас за обращение в BIZSoft. Подтверждаем: Ваш запрос получен и передан '
-      + 'менеджеру. Мы изучим задачу, подберём продукты и вернёмся с ответом в рабочее время. '
-      + 'Расчёт и предварительное коммерческое предложение придут отдельным письмом.',
-    '',
-    'ВАШЕ ОБРАЩЕНИЕ',
-    `Получено: ${lead.date}`,
-    `Организация: ${lead.company}${lead.inn ? ` (ИНН ${lead.inn})` : ''}`,
-    ...(lead.product_ref ? [`Запрос по позиции: ${lead.product_ref}`] : []),
-    ...(lead.message ? ['Ваше сообщение:', lead.message] : []),
-    `Для связи с вами: ${[lead.phone, lead.email].filter(Boolean).join(' · ')}`,
-    'Заметили неточность — ответьте на это письмо, поправим до расчёта.',
+    intro,
+    ...(details ? [
+      '',
+      'ВАШЕ ОБРАЩЕНИЕ',
+      ...(req.vendor ? [`Производитель: ${req.vendor}`] : []),
+      ...(product ? [`Продукт: ${product}`] : []),
+      ...(req.plan ? [`Тип лицензии: ${PLAN_WORD[req.plan]}`] : []),
+      ...(qty ? [`Количество: ${qty}`] : []),
+      ...(lead.message ? ['Текст сообщения:', lead.message] : []),
+      'Заметили неточность — ответьте на это письмо, поправим до расчёта.',
+    ] : []),
     '',
     'ЧТО ДАЛЬШЕ',
     '— Дополнить обращение: ответным письмом',
     `— Образец договора: ${site.url}${offerDocs.contract.path}`,
-    `— Как проходит поставка: ${site.url}/how-we-work`,
-    `— Каталог: ${site.url}/catalog`,
-    '',
-    'Команда BIZSoft.',
+    ...(interest ? [
+      '',
+      'ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ',
+      ...(links.product ? [`— ${links.product.name}: ${links.product.url}`] : []),
+      ...(links.alternative ? [`— ${links.alternative.name}: ${links.alternative.url}`] : []),
+      ...(links.catalog ? [`— ${links.catalog.name}: ${links.catalog.url}`] : []),
+    ] : []),
     '',
     offerManager.name,
     `${offerManager.phone} · ${offerManager.email} · ${site.url}`,

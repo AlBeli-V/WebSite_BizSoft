@@ -163,13 +163,20 @@ export function banner(): string {
 
 /**
  * Заголовок письма: оранжевая черта, назначение прописными, адресат.
+ *
+ * Адресат необязателен: в подтверждении заявки заказчик и так знает, о чьём
+ * обращении речь, и строка «в интересах <организация>» там лишняя (решение
+ * руководителя 21.09.2026). В КП она остаётся — документ выпускается в
+ * интересах юрлица, и это часть его адресации.
  */
-export function letterTitle(kind: string, forWhom: string): string {
+export function letterTitle(kind: string, forWhom = ''): string {
   return section(`<div style="width:32px;height:2px;background:${ORANGE};font-size:0;line-height:0">&nbsp;</div>`
     + `<div style="font-family:${FONT};font-size:15px;font-weight:700;letter-spacing:.06em;`
     + `text-transform:uppercase;color:${INK};padding-top:12px">${esc(kind)}</div>`
-    + `<div style="font-family:${FONT};font-size:14px;color:${MUTED};padding-top:3px">`
-    + `${esc(forWhom)}</div>`, 30);
+    + (forWhom
+      ? `<div style="font-family:${FONT};font-size:14px;color:${MUTED};padding-top:3px">`
+        + `${esc(forWhom)}</div>`
+      : ''), 30);
 }
 
 /**

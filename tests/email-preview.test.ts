@@ -21,42 +21,60 @@ import { buildCustomerQuoteEmail } from '../src/lib/email/quote-customer';
 const OUT = process.env.EMAIL_PREVIEW_DIR || 'out/email-preview';
 
 /** Данные показа — вымышленные: настоящая заявка в предпросмотр не берётся. */
-const demoLead = {
-  name: 'Иванов Иван Иванович',
-  company: 'ООО «Ромашка»',
-  inn: '7701234567',
-  email: 'ivanov@example.ru',
-  phone: '+7 916 000-00-00',
-  message: 'Добрый день! Нужен расчёт на три рабочих места и счёт на юрлицо.\n'
-    + 'Продление действующих лицензий, оплата по безналу.',
-  product_ref: 'количество: 3',
-  date: '21.09.2026',
+const demo = {
+  lead: {
+    name: 'Иванов Иван Иванович',
+    company: 'ООО «Ромашка»',
+    inn: '7701234567',
+    email: 'ivanov@example.ru',
+    phone: '+7 916 000-00-00',
+    message: 'Добрый день! Нужен расчёт на три рабочих места и счёт на юрлицо.\n'
+      + 'Продление действующих лицензий, оплата по безналу.',
+    product_ref: 'количество: 3',
+    date: '21.09.2026',
+  },
+  request: {
+    vendor: 'Adobe',
+    product: 'Creative Cloud Pro',
+    plan: 'team' as const,
+    qty: 3,
+    links: {
+      product: { name: 'Adobe Creative Cloud Pro', url: 'https://biz-soft.pro/product/adobe-cc-pro' },
+      alternative: { name: 'Adobe Creative Cloud Standard', url: 'https://biz-soft.pro/product/adobe-cc-std' },
+      catalog: { name: 'Каталог Adobe', url: 'https://biz-soft.pro/vendors/adobe' },
+    },
+  },
 };
 
 /**
- * Поля заявки можно подменить своим файлом:
+ * Состав обращения можно подменить своим файлом:
  *
  *   EMAIL_PREVIEW=1 EMAIL_PREVIEW_LEAD=my-lead.json npx vitest run …
  *
- * Так смотрят письмо на составе настоящего обращения, не заводя его в код.
- * Файл с персональными данными в репозиторий не кладётся.
+ * Файл повторяет вход шаблона: `lead` и необязательный `request`. Так
+ * смотрят письмо на составе настоящего обращения, не заводя его в код;
+ * файл с персональными данными в репозиторий не кладётся.
  */
-function previewLead(): typeof demoLead {
+function previewInput(): typeof demo {
   const file = process.env.EMAIL_PREVIEW_LEAD;
-  if (!file) return demoLead;
-  return { ...demoLead, ...JSON.parse(readFileSync(file, 'utf8')) };
+  if (!file) return demo;
+  const own = JSON.parse(readFileSync(file, 'utf8'));
+  return {
+    lead: { ...demo.lead, ...(own.lead ?? own) },
+    request: { ...demo.request, ...(own.request ?? {}) },
+  };
 }
 
 describe.runIf(process.env.EMAIL_PREVIEW === '1')('предпросмотр писем', () => {
   it('собирает HTML писем заказчику в out/email-preview', () => {
     mkdirSync(OUT, { recursive: true });
     const letters: Record<string, string> = {
-      'lead-customer.html': buildCustomerLeadEmail({ lead: previewLead() }).html,
+      'lead-customer.html': buildCustomerLeadEmail(previewInput()).html,
       'quote-customer.html': buildCustomerQuoteEmail({
         data: {
           quoteNo: 'BZ-20260921-0001', date: '21.09.2026', validUntil: '28.09.2026',
-          buyerCompany: demoLead.company, buyerInn: demoLead.inn,
-          contactName: demoLead.name, email: demoLead.email, phone: demoLead.phone,
+          buyerCompany: demo.lead.company, buyerInn: demo.lead.inn,
+          contactName: demo.lead.name, email: demo.lead.email, phone: demo.lead.phone,
           items: [{ sku: 'ADBE-LIC-CCALL-TEAM-12M-SEAT', name: 'Creative Cloud для команд', qty: 3, price: 95000, sum: 285000 }],
           total: 285000,
         },
