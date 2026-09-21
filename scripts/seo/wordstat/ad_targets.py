@@ -37,6 +37,10 @@ import pathlib
 import re
 
 UNIVERSE = pathlib.Path("reports/seo/wordstat/semantic-universe.jsonl")
+# Целевой замер корпоративного спроса живёт отдельным файлом: в общую базу
+# он не пишется, чтобы не заводить кластер на каждую фразу вида
+# «оплата <вендор> юридическим лицом» (см. corporate_demand.py).
+CORPORATE = pathlib.Path("reports/seo/wordstat/corporate-demand.json")
 SERP_DIR = pathlib.Path("reports/seo/serp")
 WEBMASTER_DIR = pathlib.Path("reports/seo/data")
 OUT_JSON = pathlib.Path("reports/seo/wordstat/ad-targets.json")
@@ -85,6 +89,21 @@ def load_universe(path: pathlib.Path) -> list[dict]:
     if not path.exists():
         raise SystemExit(f"нет базы семантики {path} — сначала data_sync.sh pull")
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def load_corporate(path: pathlib.Path) -> list[dict]:
+    """Фразы целевого замера в том же виде, что строки базы семантики."""
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return [{
+        "phrase": r["phrase"],
+        "wordstat_frequency": r.get("frequency") or 0,
+        "vendor": r.get("vendor"),
+        "category": r.get("category"),
+        "mapped_url": r.get("url"),
+        "page_exists": bool(r.get("url")),
+    } for r in (data.get("phrases") or [])]
 
 
 def latest(path: pathlib.Path, pattern: str) -> pathlib.Path | None:
@@ -154,11 +173,16 @@ def main() -> None:
     args = ap.parse_args()
 
     rows = load_universe(UNIVERSE)
+    corporate = load_corporate(CORPORATE)
+    if corporate:
+        # Фразы замера идут первыми: при совпадении побеждает свежая частота.
+        seen = {r["phrase"].strip().lower() for r in corporate}
+        rows = corporate + [r for r in rows if r["phrase"].strip().lower() not in seen]
     serp_path = pathlib.Path(args.serp) if args.serp else latest(SERP_DIR, "*-serp.jsonl")
     wm_path = latest(WEBMASTER_DIR, "yandex-2026-*.json")
     serp = serp_positions(serp_path)
     webmaster = webmaster_positions(wm_path)
-    print(f"База семантики: {len(rows)} фраз")
+    print(f"База семантики: {len(rows)} фраз (целевой замер: {len(corporate)})")
     print(f"Срез выдачи: {serp_path.name if serp_path else 'нет'} ({len(serp)} запросов)")
     print(f"Запросы Вебмастера: {wm_path.name if wm_path else 'нет'} ({len(webmaster)} с позицией)")
 

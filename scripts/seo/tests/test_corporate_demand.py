@@ -41,5 +41,26 @@ class VendorsTest(unittest.TestCase):
             self.assertTrue(v.get("slug"), v)
 
 
+class WiringTest(unittest.TestCase):
+    """Проверка сборки прогона без единого вызова в сеть.
+
+    Холостой режим выходит раньше, чем скрипт открывает базу семантики, и
+    первый боевой прогон упал именно там: у Universe нет метода load(),
+    база читается конструктором. Тест повторяет тот же путь.
+    """
+
+    def test_база_и_индекс_вендоров_открываются(self):
+        import universe as U
+        vendors = D.site_vendors() + D.bespoke_landings()
+        index = D.vendor_index(vendors)
+        # Непустоты базы тест не требует: файл живёт в ветке seo-data и
+        # появляется в рабочем каталоге только после data_sync pull.
+        uni = U.Universe(vendors=index)
+        self.assertIsInstance(len(uni), int)
+        self.assertTrue(callable(getattr(uni, "observe", None)))
+        self.assertTrue(callable(getattr(uni, "save", None)))
+        self.assertFalse(hasattr(uni, "load"), "метода load() у базы нет")
+
+
 if __name__ == "__main__":
     unittest.main()
