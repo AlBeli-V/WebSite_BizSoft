@@ -87,10 +87,16 @@ export interface CustomerLeadEmailInput {
      */
     plan?: LeadPlan;
     qty?: number | string;
+    /**
+     * Подтверждённые позиции подборки. Одна — строки «Продукт» и
+     * «Количество» идут раздельно; несколько — письмо называет их
+     * перечислением, и сводить заявку к первой нельзя.
+     */
+    items?: { name: string; plan?: LeadPlan; qty?: string }[];
     /** Страницы каталога, названные в письме. */
     links?: {
-      /** Страница запрошенной позиции. */
-      product?: LeadLink;
+      /** Страницы подтверждённых позиций. */
+      products?: LeadLink[];
       /** Другой план того же продукта — командный против личного и наоборот. */
       alternative?: LeadLink;
       /** Раздел каталога, куда входит позиция. */
@@ -211,22 +217,44 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
 
   // Порядок строк — от общего к частному: чей продукт, какой продукт, какая
   // лицензия, сколько и что человек написал своими словами.
+  // Подборка из нескольких строк называется перечислением: каждая позиция
+  // своей строкой, под ней — тип лицензии и количество. Сводить такую заявку
+  // к одной позиции значило бы потерять остальные.
+  const many = (req.items?.length ?? 0) > 1;
+  const listHtml = many ? req.items!.map((i) =>
+    `<div style="padding:2px 0 8px">`
+    + `<b>${esc(i.name)}</b>`
+    + (i.plan || i.qty
+      ? `<br><span style="color:${MUTED};font-size:13px">`
+        + [i.plan ? PLAN_WORD[i.plan] : '', i.qty ? `${i.qty} шт.` : '']
+          .filter(Boolean).map(esc).join(' · ')
+        + `</span>`
+      : '')
+    + `</div>`).join('') : '';
+
   const details = [
-    ...(req.vendor ? [row('Производитель', `<b>${esc(req.vendor)}</b>`)] : []),
-    ...(product ? [row('Продукт', `<b>${esc(product)}</b>`)] : []),
-    ...(req.plan ? [row('Тип лицензии', esc(PLAN_WORD[req.plan]))] : []),
-    ...(qty ? [row('Количество', esc(qty))] : []),
+    ...(req.vendor && !many ? [row('Производитель', `<b>${esc(req.vendor)}</b>`)] : []),
+    ...(many
+      ? [row('Позиции', listHtml)]
+      : [
+        ...(product ? [row('Продукт', `<b>${esc(product)}</b>`)] : []),
+        ...(req.plan ? [row('Тип лицензии', esc(PLAN_WORD[req.plan]))] : []),
+        ...(qty ? [row('Количество', esc(qty))] : []),
+      ]),
   ].join('');
 
   // Подборка по теме запроса. Показывается только тем, чью позицию мы
   // опознали: три строки-заглушки «посмотрите каталог» у человека, который
   // уже назвал продукт, — это шум, а не помощь.
+  const marker = (n: number) => String(n).padStart(2, '0');
   const interest = [
-    ...(links.product ? [stepRow('01', links.product.name, link(links.product, 'product'))] : []),
+    ...(links.products || []).map((l, i) => stepRow(marker(i + 1), l.name, link(l, 'product'))),
     ...(links.alternative
-      ? [stepRow('02', links.alternative.name, link(links.alternative, 'alternative'))] : []),
-    ...(links.catalog ? [stepRow(links.product || links.alternative ? '03' : '01',
-      links.catalog.name, link(links.catalog, 'catalog'))] : []),
+      ? [stepRow(marker((links.products?.length || 0) + 1), links.alternative.name,
+        link(links.alternative, 'alternative'))] : []),
+    ...(links.catalog
+      ? [stepRow(marker((links.products?.length || 0) + (links.alternative ? 1 : 0) + 1),
+        links.catalog.name, link(links.catalog, 'catalog'))] : []),
   ].join('');
 
   const html = openLetter(subject,
@@ -301,10 +329,18 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
     ...(details || lead.message ? [
       '',
       'ВАШЕ ОБРАЩЕНИЕ',
-      ...(req.vendor ? [`Производитель: ${req.vendor}`] : []),
-      ...(product ? [`Продукт: ${product}`] : []),
-      ...(req.plan ? [`Тип лицензии: ${PLAN_WORD[req.plan]}`] : []),
-      ...(qty ? [`Количество: ${qty}`] : []),
+      ...(req.vendor && !many ? [`Производитель: ${req.vendor}`] : []),
+      ...(many
+        ? ['Позиции:', ...req.items!.map((i) => `  ${i.name}`
+          + (i.plan || i.qty
+            ? ` (${[i.plan ? PLAN_WORD[i.plan] : '', i.qty ? `${i.qty} шт.` : '']
+              .filter(Boolean).join(', ')})`
+            : ''))]
+        : [
+          ...(product ? [`Продукт: ${product}`] : []),
+          ...(req.plan ? [`Тип лицензии: ${PLAN_WORD[req.plan]}`] : []),
+          ...(qty ? [`Количество: ${qty}`] : []),
+        ]),
       ...(lead.message ? ['Дословно из обращения:', `«${clampMessage(lead.message)}»`] : []),
       'Заметили неточность — ответьте на это письмо, поправим до расчёта.',
     ] : []),
@@ -315,13 +351,13 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
     ...(interest ? [
       '',
       'ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ',
-      ...(links.product ? [`— ${links.product.name}: ${links.product.url}`] : []),
+      ...(links.products || []).map((l) => `— ${l.name}: ${l.url}`),
       ...(links.alternative ? [`— ${links.alternative.name}: ${links.alternative.url}`] : []),
       ...(links.catalog ? [`— ${links.catalog.name}: ${links.catalog.url}`] : []),
     ] : []),
     '',
     offerManager.name,
-    `${offerManager.phone} · ${offerManager.email} · ${site.url}`,
+    `${offerManager.phone} · ${offerManager.signatureEmail} · ${site.url}`,
     '',
     'Письмо отправлено автоматически: адрес указан в форме на '
       + `${site.domain} ${lead.date}. Если обращение оставляли не Вы — ответьте на это `

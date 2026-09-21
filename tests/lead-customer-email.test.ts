@@ -28,7 +28,7 @@ const request = {
   plan: 'team' as const,
   qty: 3,
   links: {
-    product: { name: 'Adobe Creative Cloud Pro', url: 'https://biz-soft.pro/product/adobe-cc-pro' },
+    products: [{ name: 'Adobe Creative Cloud Pro', url: 'https://biz-soft.pro/product/adobe-cc-pro' }],
     alternative: { name: 'Adobe Creative Cloud Standard', url: 'https://biz-soft.pro/product/adobe-cc-std' },
     catalog: { name: 'Каталог Adobe', url: 'https://biz-soft.pro/vendors/adobe' },
   },
@@ -72,8 +72,8 @@ describe('письмо заказчику о заявке', () => {
   });
 
   it('подборка по теме запроса: сам план, альтернатива, каталог', () => {
-    const { product, alternative, catalog } = request.links;
-    for (const url of [product.url, alternative.url, catalog.url]) {
+    const { products, alternative, catalog } = request.links;
+    for (const url of [products[0].url, alternative.url, catalog.url]) {
       expect(mail.html).toContain(url);
       expect(mail.text).toContain(url);
     }

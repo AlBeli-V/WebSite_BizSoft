@@ -51,6 +51,13 @@ export interface LeadRequestSource {
   cart?: LeadCartItem[];
 }
 
+/** Подтверждённая позиция: карточка каталога и запрошенное количество. */
+export interface RequestItem {
+  product: Product;
+  qty?: string;
+  plan?: RequestPlan;
+}
+
 export interface IdentifiedRequest {
   /** Производитель — только если он есть в нашем реестре. */
   vendor?: string;
@@ -62,6 +69,12 @@ export interface IdentifiedRequest {
   qty?: string;
   /** Найденная позиция — источник ссылок письма. */
   matched?: Product;
+  /**
+   * Все подтверждённые позиции. Подборка из нескольких строк называется
+   * перечислением: человек положил их сам, и сводить заявку к первой
+   * значило бы потерять остальные (решение руководителя 21.09.2026).
+   */
+  items?: RequestItem[];
   /** Другой план того же продукта: командный против личного. */
   alternative?: Product;
 }
@@ -210,16 +223,22 @@ function strictMatches(products: Product[], phrase: string): Product[] {
 }
 
 /**
- * Позиция подборки в каталоге. Совпадение по артикулу, а не по названию:
+ * Позиции подборки в каталоге. Совпадение по артикулу, а не по названию:
  * название клиент видел на витрине, но в письмо должно попасть то, что
- * каталог отдаёт сейчас — цена, план и страница берутся из карточки.
+ * каталог отдаёт сейчас — план и страница берутся из карточки. Позиция,
+ * которой в каталоге уже нет, из письма выпадает: битая ссылка хуже
+ * пропуска.
  */
-function pickFromCart(products: Product[], cart?: LeadCartItem[]): Product | undefined {
-  for (const item of cart || []) {
-    const found = products.find((p) => p.sku && item.sku && p.sku === item.sku);
-    if (found) return found;
-  }
-  return undefined;
+function pickFromCart(products: Product[], cart?: LeadCartItem[]): RequestItem[] {
+  return (cart || []).flatMap((item) => {
+    const found = item.sku ? products.find((p) => p.sku === item.sku) : undefined;
+    if (!found) return [];
+    return [{
+      product: found,
+      qty: item.qty ? String(item.qty) : undefined,
+      plan: planOf(found),
+    }];
+  });
 }
 
 /** Другой план того же продукта: тот же вендор и код продукта, иной ПЛАН. */
@@ -265,19 +284,17 @@ export function identifyRequest(all: Product[], source: LeadRequestSource): Lead
   // Источник первый: подборка. Позиция из неё не нуждается в разборе —
   // покупатель положил её сам, артикул точный.
   const picked = pickFromCart(products, source.cart);
-  if (picked) {
-    review.request.vendor = picked.vendor || detectVendor(text);
-    review.request.product = picked.name;
-    review.request.matched = picked;
-    review.request.plan = planOf(picked) || detectPlanWords(text);
-    review.request.alternative = findAlternative(products, picked);
-    if (!review.request.qty) {
-      const line = (source.cart || []).find((i) => i.sku === picked.sku);
-      if (line?.qty) review.request.qty = String(line.qty);
-    }
-    if ((source.cart || []).length > 1) {
-      review.notes.push(`В подборке ${source.cart!.length} позиции — письмо называет первую.`);
-    }
+  if (picked.length) {
+    const first = picked[0].product;
+    review.request.vendor = first.vendor || detectVendor(text);
+    review.request.product = first.name;
+    review.request.matched = first;
+    review.request.items = picked;
+    review.request.plan = picked[0].plan || detectPlanWords(text);
+    // Другой план предлагается только когда позиция одна: к подборке из
+    // нескольких строк такая замена не относится ни к одной из них.
+    if (picked.length === 1) review.request.alternative = findAlternative(products, first);
+    if (!review.request.qty && picked[0].qty) review.request.qty = picked[0].qty;
     if (review.hasQuestion) {
       review.notes.push('В обращении есть прямой вопрос — нужен ответ человека.');
     }
@@ -313,6 +330,7 @@ export function identifyRequest(all: Product[], source: LeadRequestSource): Lead
     review.request.product = matched.name;
     review.request.matched = matched;
     review.request.plan = planOf(matched) || detectPlanWords(text);
+    review.request.items = [{ product: matched, qty, plan: planOf(matched) }];
     review.request.alternative = findAlternative(products, matched);
 
     // Срок клиента против срока позиции: «на 6 месяцев» при годовой
@@ -358,14 +376,20 @@ export function identifyRequest(all: Product[], source: LeadRequestSource): Lead
  * адрес страницы строился в одном месте и проверялся тестом.
  */
 export function leadLinks(review: LeadRequestReview, siteUrl: string): {
-  product?: { name: string; url: string };
+  products?: { name: string; url: string }[];
   alternative?: { name: string; url: string };
   catalog?: { name: string; url: string };
 } {
-  const { matched, alternative } = review.request;
-  const vendor = matched ? vendorByName(matched.vendor) : undefined;
+  const { items, matched, alternative } = review.request;
+  // Больше пяти строк подборки в письмо не идут: дальше это уже не подсказка,
+  // а второй экземпляр корзины. Полный состав менеджер видит в заявке.
+  const list = (items?.length ? items.map((i) => i.product) : matched ? [matched] : [])
+    .filter((p) => p.slug).slice(0, 5);
+  const vendor = list.length ? vendorByName(list[0].vendor) : undefined;
   return {
-    ...(matched?.slug ? { product: { name: matched.name, url: `${siteUrl}/product/${matched.slug}` } } : {}),
+    ...(list.length
+      ? { products: list.map((p) => ({ name: p.name, url: `${siteUrl}/product/${p.slug}` })) }
+      : {}),
     ...(alternative?.slug
       ? { alternative: { name: alternative.name, url: `${siteUrl}/product/${alternative.slug}` } }
       : {}),

@@ -196,7 +196,15 @@ export const POST: APIRoute = async ({ request }) => {
         date: new Date().toLocaleDateString('ru-RU'),
       },
       hasQuestion: review?.hasQuestion,
-      request: review ? { ...review.request, links: leadLinks(review, site.url) } : undefined,
+      // Письмо получает названия позиций, а не карточки каталога: ссылки
+      // собраны отдельно, и класть в шаблон весь товар незачем.
+      request: review ? {
+        ...review.request,
+        items: review.request.items?.map((i) => ({
+          name: i.product.name, plan: i.plan, qty: i.qty,
+        })),
+        links: leadLinks(review, site.url),
+      } : undefined,
     });
     await sendMail({
       from: salesFrom,

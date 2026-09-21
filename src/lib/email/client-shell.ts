@@ -196,7 +196,7 @@ export function signature(): string {
     + `<div style="font-weight:700;color:${INK};font-size:16px;line-height:22px;`
     + `padding-bottom:10px">${esc(offerManager.name)}</div>`
     + `<table role="presentation" cellpadding="0" cellspacing="0" border="0">`
-    + contactRow('g-mail', offerManager.email, `mailto:${offerManager.email}`)
+    + contactRow('g-mail', offerManager.signatureEmail, `mailto:${offerManager.signatureEmail}`)
     + contactRow('g-phone', offerManager.phone, `tel:${offerManager.phoneHref}`)
     + contactRow('g-tg', 'Telegram', offerManager.telegram)
     + contactRow('g-wa', 'WhatsApp', `https://wa.me/${offerManager.phoneHref.replace('+', '')}`)

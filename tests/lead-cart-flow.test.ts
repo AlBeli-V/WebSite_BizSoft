@@ -126,6 +126,49 @@ describe('подборка доезжает до заявки и до письм
     expect(mail?.html).toContain('Perplexity Enterprise Pro');
   });
 
+  it('несколько позиций подборки названы перечислением', async () => {
+    await post({
+      cart: [
+        { sku: 'ADBE-LIC-CCPRO-TEAM-1Y-USER', name: 'Adobe CC Pro для команд', qty: 3 },
+        { sku: 'PPLX-LIC-ENTPRO-TEAM-1Y-USER', name: 'Perplexity Enterprise Pro', qty: 5 },
+      ],
+    });
+    await settle();
+    const mail = customerMail();
+    // Обе позиции, у каждой свой тип лицензии и количество.
+    expect(mail?.html).toContain('Adobe Creative Cloud Pro для команд (все приложения)');
+    expect(mail?.html).toContain('Perplexity Enterprise Pro');
+    expect(mail?.html).toContain('Командная · 3 шт.');
+    expect(mail?.html).toContain('Командная · 5 шт.');
+    // Ссылки — на каждую позицию.
+    expect(mail?.html).toContain('/product/adobe-cc-pro-team');
+    expect(mail?.html).toContain('/product/perplexity-enterprise-pro');
+    // Другой план к подборке из нескольких строк не предлагается: замена
+    // относилась бы к одной из позиций, а к какой — письмо не знает.
+    expect(mail?.html).not.toContain('/product/adobe-cc-pro?');
+  });
+
+  it('позиция подборки, снятая из каталога, в письмо не попадает', async () => {
+    await post({
+      cart: [
+        { sku: 'НЕТ-ТАКОГО-АРТИКУЛА', name: 'Снятая позиция', qty: 1 },
+        { sku: 'PPLX-LIC-ENTPRO-TEAM-1Y-USER', name: 'Perplexity Enterprise Pro', qty: 2 },
+      ],
+    });
+    await settle();
+    const mail = customerMail();
+    expect(mail?.html).toContain('Perplexity Enterprise Pro');
+    expect(mail?.html).not.toContain('Снятая позиция');
+  });
+
+  it('подпись письма называет личную почту менеджера, а не общий ящик', async () => {
+    await post({});
+    await settle();
+    const mail = customerMail();
+    expect(mail?.html).toContain('mailto:avbelyaev@biz-soft.pro');
+    expect(mail?.text).toContain('avbelyaev@biz-soft.pro');
+  });
+
   it('вопрос в обращении отмечен в письме заказчику', async () => {
     await post({ message: 'Возможна ли оплата по счёту-оферте?' });
     await settle();

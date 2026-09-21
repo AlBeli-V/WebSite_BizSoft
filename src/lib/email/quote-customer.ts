@@ -158,7 +158,7 @@ export function buildCustomerQuoteEmail(input: OfferEmailInput): RenderedEmail {
     'Команда BIZSoft.',
     '',
     offerManager.name,
-    `${offerManager.phone} · ${offerManager.email} · ${site.url}`,
+    `${offerManager.phone} · ${offerManager.signatureEmail} · ${site.url}`,
     '',
     'Конфиденциально. Настоящее сообщение и приложения к нему содержат сведения '
       + 'конфиденциального характера и предназначены исключительно указанному адресату.',
