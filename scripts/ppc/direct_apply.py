@@ -526,10 +526,27 @@ def main() -> None:
     existing = call("campaigns", "get",
                     {"SelectionCriteria": {}, "FieldNames": ["Id", "Name", "State"]}, token)
     name = spec["campaign"]["name"]
+    existing_id = None
     for c in existing.get("Campaigns") or []:
         print(f"  существующая кампания: {c['Id']} «{c['Name']}» {c['State']}")
         if c["Name"] == name:
-            raise SystemExit(f"кампания «{name}» уже существует (Id {c['Id']}) — дубль не создаю")
+            existing_id = c["Id"]
+
+    # Кампания с таким именем уже есть. Дубль не создаём никогда, но пустую
+    # кампанию дозаполняем: прогон может упасть между созданием кампании и
+    # добавлением групп (21.09.2026 так и вышло — кампания 714629311
+    # осталась без единой группы), и без этой ветки её нельзя ни достроить,
+    # ни пересоздать под тем же именем.
+    if existing_id is not None:
+        groups = call("adgroups", "get", {
+            "SelectionCriteria": {"CampaignIds": [existing_id]},
+            "FieldNames": ["Id"],
+        }, token)
+        if groups.get("AdGroups"):
+            raise SystemExit(
+                f"кампания «{name}» уже существует (Id {existing_id}) и наполнена "
+                f"({len(groups['AdGroups'])} групп) — дубль не создаю")
+        print(f"кампания «{name}» уже создана (Id {existing_id}), но пуста — дозаполняю")
 
     camp_payload = build_campaign(spec)
     if mode == "dry-run":
@@ -547,8 +564,12 @@ def main() -> None:
         print("dry-run завершён: лимиты текстов проверены, в API запись не выполнялась")
         return
 
-    camp_id = check_add_results("Campaigns", call("campaigns", "add", camp_payload, token))[0]
-    print(f"кампания создана: Id {camp_id}")
+    if existing_id is None:
+        camp_id = check_add_results("Campaigns", call("campaigns", "add", camp_payload, token))[0]
+        print(f"кампания создана: Id {camp_id}")
+    else:
+        camp_id = existing_id
+        print(f"кампания уже была создана: Id {camp_id}")
 
     mods = build_bid_modifiers(spec, camp_id)
     if mods["BidModifiers"]:

@@ -35,5 +35,24 @@ class GroupsTest(unittest.TestCase):
         self.assertEqual(g["RegionIds"], [225])
 
 
+class ResumeTest(unittest.TestCase):
+    """Повторное применение спецификации после обрыва.
+
+    21.09.2026 прогон создал кампанию и упал на добавлении групп. Старая
+    защита от дубля отказывала по одному имени, и достроить кампанию было
+    нечем: ни дозаполнить, ни пересоздать под тем же именем. Теперь отказ
+    только для наполненной кампании — признак проверяется в коде.
+    """
+
+    def test_отказ_только_для_наполненной_кампании(self):
+        src = pathlib.Path(__file__).resolve().parents[2] / "ppc" / "direct_apply.py"
+        text = src.read_text(encoding="utf-8")
+        self.assertIn("и наполнена", text)
+        self.assertIn("но пуста — дозаполняю", text)
+        # Проверка числа групп идёт до отказа, а не после.
+        self.assertLess(text.index('"SelectionCriteria": {"CampaignIds": [existing_id]}'),
+                        text.index("уже существует (Id {existing_id}) и наполнена"))
+
+
 if __name__ == "__main__":
     unittest.main()
