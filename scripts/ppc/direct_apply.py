@@ -332,8 +332,36 @@ def apply_campaign_settings(camp_id: int, spec: dict, token: str) -> None:
             "Id": camp_id,
             "TextCampaign": {"Settings": [{"Option": option, "Value": value}]},
         }]}, token, "UpdateResults")
-        print(f"  настройка {option}={value}: "
-              + ("применена" if ok else f"кабинетом не принята — {why}"))
+        if not ok:
+            print(f"  настройка {option}={value}: кабинетом не принята — {why}")
+            continue
+        # Принятый вызов — ещё не применённая настройка. 21.09.2026 Директ
+        # ответил успехом на ENABLE_AREA_OF_INTEREST_TARGETING=NO, а в
+        # кабинете она осталась включённой. Пишем в журнал то, что есть.
+        fact = campaign_settings(camp_id, token)
+        if fact is None:
+            print(f"  настройка {option}={value}: вызов принят, "
+                  f"проверить фактическое состояние не удалось")
+        elif fact.get(option) == value:
+            print(f"  настройка {option}={value}: применена")
+        else:
+            print(f"  настройка {option}={value}: вызов принят, но кабинет "
+                  f"оставил {option}={fact.get(option, 'неизвестно')}")
+
+
+def campaign_settings(camp_id: int, token: str) -> dict[str, str] | None:
+    """Фактические настройки кампании: {опция: YES|NO}; None — прочитать не вышло."""
+    try:
+        camps = call("campaigns", "get", {
+            "SelectionCriteria": {"Ids": [camp_id]},
+            "FieldNames": ["Id"],
+            "TextCampaignFieldNames": ["Settings"]}, token).get("Campaigns") or []
+    except SystemExit:
+        return None
+    if not camps:
+        return None
+    items = ((camps[0].get("TextCampaign") or {}).get("Settings") or [])
+    return {i["Option"]: i.get("Value") for i in items if i.get("Option")}
 
 
 def mode_audit(spec: dict, token: str) -> None:
