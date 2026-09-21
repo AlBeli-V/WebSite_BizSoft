@@ -97,15 +97,33 @@ class LadderTest(unittest.TestCase):
 
 
 class CampaignSettingsTest(unittest.TestCase):
-    """Помощники кабинета выключаются поимённо и по одному."""
+    """Помощники кабинета выключаются поимённо, по одному и с проверкой факта."""
 
     def setUp(self):
         self.calls = []
+        self.fact = {}
         self.orig = direct_apply.call_soft
+        self.orig_fact = direct_apply.campaign_settings
         direct_apply.call_soft = lambda s, m, p, t, k: (self.calls.append((s, m, p)), (True, ""))[1]
+        direct_apply.campaign_settings = lambda cid, token: self.fact
 
     def tearDown(self):
         direct_apply.call_soft = self.orig
+        direct_apply.campaign_settings = self.orig_fact
+
+    def test_принятый_вызов_без_изменения_не_считается_применённым(self):
+        # 21.09.2026 Директ ответил успехом на выключение расширенного
+        # геотаргетинга, а в кабинете тот остался включённым.
+        import io
+        import contextlib
+        self.fact = {"ENABLE_AREA_OF_INTEREST_TARGETING": "YES"}
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            direct_apply.apply_campaign_settings(7, {"campaign": {
+                "settings_off": ["ENABLE_AREA_OF_INTEREST_TARGETING"]}}, "t")
+        out = buf.getvalue()
+        self.assertIn("кабинет оставил", out)
+        self.assertNotIn("применена", out)
 
     def test_каждая_опция_идёт_своим_вызовом(self):
         direct_apply.apply_campaign_settings(7, {"campaign": {
