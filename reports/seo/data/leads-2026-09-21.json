@@ -1,6 +1,6 @@
 {
  "date": "2026-09-21",
- "collected_at": "2026-09-21T09:07:23+00:00",
+ "collected_at": "2026-09-21T19:44:50+00:00",
  "source": "directus:leads",
  "leads_available": true,
  "leads": [
@@ -574,6 +574,39 @@
     "steps": [
      {
       "date": "2026-09-18",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "id": 37,
+   "created_at": "2026-09-21T15:30:33.529Z",
+   "company": "АО \"Эксар\"",
+   "inn": "7704792651",
+   "form_source": "contacts",
+   "source": "contacts",
+   "product_ref": "количество: 3",
+   "status": "new",
+   "ym_client_id": "1789629186787935228",
+   "journey": {
+    "available": true,
+    "visits": 2,
+    "first_visit": "2026-09-17",
+    "last_visit": "2026-09-21",
+    "steps": [
+     {
+      "date": "2026-09-17",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-21",
       "source": "direct",
       "engine": "",
       "landing": "/",
