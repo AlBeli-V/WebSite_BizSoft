@@ -1,0 +1,1335 @@
+{
+  "schema_version": 1,
+  "spec_version": "round6-2026-09-21",
+  "date": "2026-09-21",
+  "plan_kind": "extend_campaign",
+  "status": "ready",
+  "provenance": {
+    "targets": "reports/seo/wordstat/ad-targets.json",
+    "intent": "commercial",
+    "min_frequency": 30,
+    "serp_source": "2026-09-21-serp.jsonl",
+    "webmaster_source": "yandex-2026-09-21.json"
+  },
+  "rationale": "Расширение кампании на коммерческий спрос, привязанный к карточкам каталога. Каждая фраза прошла четыре условия: покупательский интент, спрос от порога, есть что продать и позиция замерена, а мы не в первой тройке. Бюджет не меняется — «максимум кликов» распределит показы сам.",
+  "campaign": {
+    "name": "bs-catalog-2026-09",
+    "action": "существующая кампания; раунд 6 добавляет группы",
+    "autotargeting": "off"
+  },
+  "pause": [],
+  "keep": [],
+  "dropped": [],
+  "groups": [
+    {
+      "id": "r6-gemini-workspace-enterprise",
+      "title": "Google Workspace — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/gemini-workspace-enterprise",
+      "why": "3 фраз, 8078 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"gemini купить\"",
+          "wordstat_frequency": 5300,
+          "our_position": null
+        },
+        {
+          "keyword": "\"gemini pro купить\"",
+          "wordstat_frequency": 1442,
+          "our_position": null
+        },
+        {
+          "keyword": "\"купить подписку gemini\"",
+          "wordstat_frequency": 1336,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Google Workspace для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Google Workspace на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Google Workspace в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Google Workspace из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-suno",
+      "title": "Suno — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/suno",
+      "why": "2 фраз, 1606 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"suno купить подписку\"",
+          "wordstat_frequency": 982,
+          "our_position": null
+        },
+        {
+          "keyword": "\"suno оплата\"",
+          "wordstat_frequency": 624,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Suno для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Suno на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Suno в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Suno из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-autodesk",
+      "title": "Autodesk — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/autodesk",
+      "why": "2 фраз, 1364 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"лицензия autodesk\"",
+          "wordstat_frequency": 1015,
+          "our_position": null
+        },
+        {
+          "keyword": "\"autodesk купить\"",
+          "wordstat_frequency": 349,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Autodesk для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Autodesk на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Autodesk в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Autodesk из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-runway",
+      "title": "Runway — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/runway",
+      "why": "3 фраз, 1219 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"runway купить\"",
+          "wordstat_frequency": 951,
+          "our_position": null
+        },
+        {
+          "keyword": "\"runway подписка\"",
+          "wordstat_frequency": 192,
+          "our_position": null
+        },
+        {
+          "keyword": "\"runway купить подписку\"",
+          "wordstat_frequency": 76,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Runway для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Runway на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Runway в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Runway из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-bmd-resolve-studio",
+      "title": "DaVinci Resolve Studio — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/bmd-resolve-studio",
+      "why": "9 фраз, 1182 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"davinci resolve купить\"",
+          "wordstat_frequency": 531,
+          "our_position": null
+        },
+        {
+          "keyword": "\"davinci resolve studio купить\"",
+          "wordstat_frequency": 252,
+          "our_position": null
+        },
+        {
+          "keyword": "\"davinci resolve лицензия\"",
+          "wordstat_frequency": 120,
+          "our_position": null
+        },
+        {
+          "keyword": "\"davinci resolve license\"",
+          "wordstat_frequency": 58,
+          "our_position": null
+        },
+        {
+          "keyword": "\"davinci resolve 21 купить\"",
+          "wordstat_frequency": 49,
+          "our_position": null
+        },
+        {
+          "keyword": "\"davinci resolve studio лицензия\"",
+          "wordstat_frequency": 48,
+          "our_position": null
+        },
+        {
+          "keyword": "\"davinci resolve купить лицензию\"",
+          "wordstat_frequency": 47,
+          "our_position": null
+        },
+        {
+          "keyword": "\"davinci resolve studio 21 купить\"",
+          "wordstat_frequency": 39,
+          "our_position": null
+        },
+        {
+          "keyword": "\"davinci resolve купить в россии\"",
+          "wordstat_frequency": 38,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "DaVinci Resolve Studio для юрлиц",
+          "title2": "Счёт и НДС",
+          "text": "DaVinci Resolve Studio на организацию: счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "DaVinci Resolve Studio купить",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем DaVinci Resolve Studio на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-google",
+      "title": "Google — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/google",
+      "why": "1 фраз, 1035 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"google ai купить\"",
+          "wordstat_frequency": 1035,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Google для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Google на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Google в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Google из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-adobe",
+      "title": "Adobe — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/adobe",
+      "why": "2 фраз, 1000 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"купить подписку adobe\"",
+          "wordstat_frequency": 509,
+          "our_position": null
+        },
+        {
+          "keyword": "\"adobe cloud купить\"",
+          "wordstat_frequency": 491,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Adobe для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Adobe на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Adobe в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Adobe из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-openai",
+      "title": "OpenAI — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/openai",
+      "why": "2 фраз, 959 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"openai купить\"",
+          "wordstat_frequency": 523,
+          "our_position": null
+        },
+        {
+          "keyword": "\"подписка openai\"",
+          "wordstat_frequency": 436,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "OpenAI для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "OpenAI на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить OpenAI в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем OpenAI из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-procreate",
+      "title": "Procreate — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/procreate",
+      "why": "3 фраз, 905 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"купить procreate\"",
+          "wordstat_frequency": 823,
+          "our_position": null
+        },
+        {
+          "keyword": "\"procreate подписка\"",
+          "wordstat_frequency": 42,
+          "our_position": null
+        },
+        {
+          "keyword": "\"procreate стоимость\"",
+          "wordstat_frequency": 40,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Procreate для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Procreate на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Procreate в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Procreate из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-spine",
+      "title": "Spine — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/spine",
+      "why": "2 фраз, 848 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"spine купить\"",
+          "wordstat_frequency": 749,
+          "our_position": null
+        },
+        {
+          "keyword": "\"spine цена\"",
+          "wordstat_frequency": 99,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Spine для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Spine на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Spine в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Spine из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-clip-studio-paint",
+      "title": "Clip Studio Paint — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/clip-studio-paint",
+      "why": "7 фраз, 834 запросов в месяц; лучшая наша позиция — 10",
+      "keywords": [
+        {
+          "keyword": "\"clip studio paint купить\"",
+          "wordstat_frequency": 417,
+          "our_position": null
+        },
+        {
+          "keyword": "\"подписка clip studio paint\"",
+          "wordstat_frequency": 121,
+          "our_position": 12.0
+        },
+        {
+          "keyword": "\"clip studio paint лицензия\"",
+          "wordstat_frequency": 93,
+          "our_position": null
+        },
+        {
+          "keyword": "\"clip studio paint ex купить\"",
+          "wordstat_frequency": 58,
+          "our_position": null
+        },
+        {
+          "keyword": "\"купить подписку clip studio paint\"",
+          "wordstat_frequency": 54,
+          "our_position": null
+        },
+        {
+          "keyword": "\"оплатить clip studio paint\"",
+          "wordstat_frequency": 51,
+          "our_position": null
+        },
+        {
+          "keyword": "\"clip studio paint купить лицензию\"",
+          "wordstat_frequency": 40,
+          "our_position": 10.5
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Clip Studio Paint для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Clip Studio Paint на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Clip Studio Paint в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Clip Studio Paint из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-midjourney",
+      "title": "Midjourney — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/midjourney",
+      "why": "7 фраз, 801 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"midjourney подписка\"",
+          "wordstat_frequency": 380,
+          "our_position": null
+        },
+        {
+          "keyword": "\"midjourney купить\"",
+          "wordstat_frequency": 165,
+          "our_position": null
+        },
+        {
+          "keyword": "\"midjourney купить подписку\"",
+          "wordstat_frequency": 96,
+          "our_position": null
+        },
+        {
+          "keyword": "\"midjourney оплата\"",
+          "wordstat_frequency": 45,
+          "our_position": null
+        },
+        {
+          "keyword": "\"midjourney тарифы\"",
+          "wordstat_frequency": 41,
+          "our_position": null
+        },
+        {
+          "keyword": "\"midjourney оплатить подписку\"",
+          "wordstat_frequency": 40,
+          "our_position": null
+        },
+        {
+          "keyword": "\"midjourney стоимость\"",
+          "wordstat_frequency": 34,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Midjourney для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Midjourney на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Midjourney в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Midjourney из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-canva",
+      "title": "Canva — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/canva",
+      "why": "5 фраз, 687 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"canva подписка\"",
+          "wordstat_frequency": 337,
+          "our_position": null
+        },
+        {
+          "keyword": "\"купить canva\"",
+          "wordstat_frequency": 204,
+          "our_position": null
+        },
+        {
+          "keyword": "\"canva купить подписку\"",
+          "wordstat_frequency": 78,
+          "our_position": null
+        },
+        {
+          "keyword": "\"canva оплата\"",
+          "wordstat_frequency": 34,
+          "our_position": null
+        },
+        {
+          "keyword": "\"canva тарифы\"",
+          "wordstat_frequency": 34,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Canva для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Canva на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Canva в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Canva из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-rive",
+      "title": "Rive — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/rive",
+      "why": "1 фраз, 675 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"rive купить\"",
+          "wordstat_frequency": 675,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Rive для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Rive на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Rive в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Rive из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-coreldraw",
+      "title": "CorelDRAW — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/coreldraw",
+      "why": "3 фраз, 642 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"coreldraw купить\"",
+          "wordstat_frequency": 371,
+          "our_position": null
+        },
+        {
+          "keyword": "\"coreldraw лицензия\"",
+          "wordstat_frequency": 206,
+          "our_position": null
+        },
+        {
+          "keyword": "\"coreldraw лицензия купить\"",
+          "wordstat_frequency": 65,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "CorelDRAW для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "CorelDRAW на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить CorelDRAW в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем CorelDRAW из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-adobe-acro-pro-team",
+      "title": "Adobe Acrobat Pro — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/adobe-acro-pro-team",
+      "why": "1 фраз, 574 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"adobe acrobat купить\"",
+          "wordstat_frequency": 574,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Adobe Acrobat Pro для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Adobe Acrobat Pro на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Adobe Acrobat Pro в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Adobe Acrobat Pro из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-adobe-cc-pro-team",
+      "title": "Adobe Creative Cloud Pro — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/adobe-cc-pro-team",
+      "why": "1 фраз, 487 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"adobe creative купить\"",
+          "wordstat_frequency": 487,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Adobe Creative Cloud Pro для юрлиц",
+          "title2": "Счёт и НДС",
+          "text": "Adobe Creative Cloud Pro на организацию: счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Adobe Creative Cloud Pro купить",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Adobe Creative Cloud Pro на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-adobe-pr",
+      "title": "Adobe Premiere Pro — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/adobe-pr",
+      "why": "1 фраз, 471 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"adobe premiere купить\"",
+          "wordstat_frequency": 471,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Adobe Premiere Pro для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Adobe Premiere Pro на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Adobe Premiere Pro в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Adobe Premiere Pro из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-avid",
+      "title": "Avid — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/avid",
+      "why": "2 фраз, 456 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"avid купить\"",
+          "wordstat_frequency": 411,
+          "our_position": null
+        },
+        {
+          "keyword": "\"avid цена\"",
+          "wordstat_frequency": 45,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Avid для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Avid на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Avid в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Avid из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-wondershare",
+      "title": "Wondershare — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/wondershare",
+      "why": "3 фраз, 439 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"wondershare подписка\"",
+          "wordstat_frequency": 239,
+          "our_position": null
+        },
+        {
+          "keyword": "\"wondershare купить\"",
+          "wordstat_frequency": 148,
+          "our_position": null
+        },
+        {
+          "keyword": "\"лицензия wondershare\"",
+          "wordstat_frequency": 52,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Wondershare для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Wondershare на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Wondershare в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Wondershare из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-foundry",
+      "title": "Foundry — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/foundry",
+      "why": "1 фраз, 380 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"foundry купить\"",
+          "wordstat_frequency": 380,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Foundry для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Foundry на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Foundry в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Foundry из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-elevenlabs",
+      "title": "ElevenLabs — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/elevenlabs",
+      "why": "3 фраз, 346 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"подписка elevenlabs\"",
+          "wordstat_frequency": 148,
+          "our_position": null
+        },
+        {
+          "keyword": "\"купить elevenlabs\"",
+          "wordstat_frequency": 131,
+          "our_position": null
+        },
+        {
+          "keyword": "\"elevenlabs подписка купить\"",
+          "wordstat_frequency": 67,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "ElevenLabs для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "ElevenLabs на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить ElevenLabs в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем ElevenLabs из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-kling-ai",
+      "title": "Kling AI — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/kling-ai",
+      "why": "1 фраз, 342 запросов в месяц; лучшая наша позиция — 8",
+      "keywords": [
+        {
+          "keyword": "\"kling ai купить\"",
+          "wordstat_frequency": 342,
+          "our_position": 8.11111111111111
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Kling AI для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Kling AI на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Kling AI в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Kling AI из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-heygen",
+      "title": "HeyGen — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/heygen",
+      "why": "2 фраз, 304 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"heygen подписка\"",
+          "wordstat_frequency": 180,
+          "our_position": null
+        },
+        {
+          "keyword": "\"heygen оплатить\"",
+          "wordstat_frequency": 124,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "HeyGen для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "HeyGen на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить HeyGen в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем HeyGen из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-unity",
+      "title": "Unity — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/unity",
+      "why": "1 фраз, 301 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"unity лицензия\"",
+          "wordstat_frequency": 301,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Unity для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Unity на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Unity в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Unity из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-freepik",
+      "title": "Magnific — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/freepik",
+      "why": "5 фраз, 253 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"подписка freepik\"",
+          "wordstat_frequency": 77,
+          "our_position": null
+        },
+        {
+          "keyword": "\"freepik купить\"",
+          "wordstat_frequency": 73,
+          "our_position": null
+        },
+        {
+          "keyword": "\"оплатить freepik\"",
+          "wordstat_frequency": 40,
+          "our_position": null
+        },
+        {
+          "keyword": "\"freepik купить подписку\"",
+          "wordstat_frequency": 33,
+          "our_position": null
+        },
+        {
+          "keyword": "\"лицензии freepik\"",
+          "wordstat_frequency": 30,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Magnific для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Magnific на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Magnific в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Magnific из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-cloudflare",
+      "title": "Cloudflare — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/cloudflare",
+      "why": "1 фраз, 203 запросов в месяц; лучшая наша позиция — 8",
+      "keywords": [
+        {
+          "keyword": "\"cloudflare купить\"",
+          "wordstat_frequency": 203,
+          "our_position": 7.545454545454546
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Cloudflare для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Cloudflare на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Cloudflare в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Cloudflare из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-shutterstock",
+      "title": "Shutterstock — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/shutterstock",
+      "why": "3 фраз, 195 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"shutterstock лицензия\"",
+          "wordstat_frequency": 92,
+          "our_position": null
+        },
+        {
+          "keyword": "\"купить shutterstock\"",
+          "wordstat_frequency": 73,
+          "our_position": null
+        },
+        {
+          "keyword": "\"shutterstock подписка\"",
+          "wordstat_frequency": 30,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Shutterstock для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Shutterstock на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Shutterstock в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Shutterstock из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-openrouter",
+      "title": "OpenRouter — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/openrouter",
+      "why": "1 фраз, 187 запросов в месяц; лучшая наша позиция — 9",
+      "keywords": [
+        {
+          "keyword": "\"openrouter купить\"",
+          "wordstat_frequency": 187,
+          "our_position": 9.0
+        }
+      ],
+      "ads": [
+        {
+          "title1": "OpenRouter для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "OpenRouter на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить OpenRouter в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем OpenRouter из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-recraft",
+      "title": "Recraft — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/recraft",
+      "why": "3 фраз, 163 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"recraft подписка\"",
+          "wordstat_frequency": 66,
+          "our_position": null
+        },
+        {
+          "keyword": "\"recraft купить\"",
+          "wordstat_frequency": 63,
+          "our_position": null
+        },
+        {
+          "keyword": "\"recraft купить подписку\"",
+          "wordstat_frequency": 34,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Recraft для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Recraft на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Recraft в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Recraft из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-maxon",
+      "title": "Maxon — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/maxon",
+      "why": "1 фраз, 159 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"maxon купить\"",
+          "wordstat_frequency": 159,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Maxon для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Maxon на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Maxon в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Maxon из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-cdr-gs-biz",
+      "title": "CorelDRAW Graphics Suite — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/cdr-gs-biz",
+      "why": "3 фраз, 125 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"coreldraw graphics купить\"",
+          "wordstat_frequency": 44,
+          "our_position": null
+        },
+        {
+          "keyword": "\"coreldraw suite купить\"",
+          "wordstat_frequency": 41,
+          "our_position": null
+        },
+        {
+          "keyword": "\"coreldraw graphics suite купить\"",
+          "wordstat_frequency": 40,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "CorelDRAW Graphics Suite для юрлиц",
+          "title2": "Счёт и НДС",
+          "text": "CorelDRAW Graphics Suite на организацию: счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "CorelDRAW Graphics Suite купить",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем CorelDRAW Graphics Suite на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-miro",
+      "title": "Miro — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/miro",
+      "why": "2 фраз, 124 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"miro подписка\"",
+          "wordstat_frequency": 67,
+          "our_position": null
+        },
+        {
+          "keyword": "\"miro цены\"",
+          "wordstat_frequency": 57,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Miro для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Miro на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Miro в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Miro из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-epidemic-sound",
+      "title": "Epidemic Sound — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/epidemic-sound",
+      "why": "2 фраз, 105 запросов в месяц; лучшая наша позиция — 9",
+      "keywords": [
+        {
+          "keyword": "\"epidemic sound купить\"",
+          "wordstat_frequency": 57,
+          "our_position": 9
+        },
+        {
+          "keyword": "\"epidemic sound купить подписку\"",
+          "wordstat_frequency": 48,
+          "our_position": 12.0
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Epidemic Sound для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Epidemic Sound на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Epidemic Sound в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Epidemic Sound из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-envato",
+      "title": "Envato — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/envato",
+      "why": "2 фраз, 98 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"подписка envato\"",
+          "wordstat_frequency": 54,
+          "our_position": null
+        },
+        {
+          "keyword": "\"envato купить\"",
+          "wordstat_frequency": 44,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Envato для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Envato на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Envato в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Envato из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-wndr-filmora-annual",
+      "title": "Wondershare Filmora — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/wndr-filmora-annual",
+      "why": "2 фраз, 88 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"wondershare filmora купить\"",
+          "wordstat_frequency": 49,
+          "our_position": null
+        },
+        {
+          "keyword": "\"wondershare filmora подписка\"",
+          "wordstat_frequency": 39,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Wondershare Filmora для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Wondershare Filmora на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Wondershare Filmora в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Wondershare Filmora из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-anthropic-enterprise",
+      "title": "Claude Enterprise — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/anthropic-enterprise",
+      "why": "1 фраз, 63 запросов в месяц; лучшая наша позиция — 6",
+      "keywords": [
+        {
+          "keyword": "\"claude team купить\"",
+          "wordstat_frequency": 63,
+          "our_position": 6.184210526315789
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Claude Enterprise для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Claude Enterprise на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Claude Enterprise в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Claude Enterprise из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-avid-pt-artist",
+      "title": "Avid Pro Tools Artist — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/avid-pt-artist",
+      "why": "1 фраз, 52 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"avid pro tools купить\"",
+          "wordstat_frequency": 52,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Avid Pro Tools Artist для юрлиц",
+          "title2": "Счёт и НДС",
+          "text": "Avid Pro Tools Artist на организацию: счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Avid Pro Tools Artist купить",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Avid Pro Tools Artist на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-capture-one",
+      "title": "Capture One — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/capture-one",
+      "why": "1 фраз, 50 запросов в месяц; лучшая наша позиция — 8",
+      "keywords": [
+        {
+          "keyword": "\"capture one подписка\"",
+          "wordstat_frequency": 50,
+          "our_position": 8
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Capture One для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Capture One на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Capture One в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Capture One из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    },
+    {
+      "id": "r6-figma-prof-collab",
+      "title": "Figma Professional, Collab seat — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/product/figma-prof-collab",
+      "why": "1 фраз, 46 запросов в месяц; лучшая наша позиция — 50",
+      "keywords": [
+        {
+          "keyword": "\"figma professional купить\"",
+          "wordstat_frequency": 46,
+          "our_position": 50.0
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Figma Professional, Collab seat",
+          "title2": "Счёт юрлицу",
+          "text": "Figma Professional, Collab seat на юрлицо: счёт, акты, НДС."
+        },
+        {
+          "title1": "Figma Professional, Collab seat купить",
+          "title2": "Счёт юрлицу",
+          "text": "Оплачиваем Figma Professional, Collab seat на юрлицо."
+        }
+      ]
+    },
+    {
+      "id": "r6-artlist",
+      "title": "Artlist — покупка на юрлицо",
+      "landing": "https://biz-soft.pro/vendors/artlist",
+      "why": "1 фраз, 39 запросов в месяц; нас нет в выдаче ни по одной",
+      "keywords": [
+        {
+          "keyword": "\"artlist купить\"",
+          "wordstat_frequency": 39,
+          "our_position": null
+        }
+      ],
+      "ads": [
+        {
+          "title1": "Artlist для юрлиц",
+          "title2": "Договор и счёт",
+          "text": "Artlist на организацию: лицензия, счёт, акты, НДС. Подберём тариф."
+        },
+        {
+          "title1": "Купить Artlist в России",
+          "title2": "Оплата от юрлица",
+          "text": "Оплачиваем Artlist из России на ваше юрлицо. Закрывающие документы."
+        }
+      ]
+    }
+  ]
+}
