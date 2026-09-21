@@ -36,7 +36,6 @@ import budget as budget_mod  # noqa: E402
 import client as client_mod  # noqa: E402
 import config  # noqa: E402
 import discovery as D  # noqa: E402
-import universe as U  # noqa: E402
 
 OUT = pathlib.Path("reports/seo/wordstat/corporate-demand.json")
 # Формы взяты из запросов Вебмастера, по которым к нам приходили заявки.
@@ -69,9 +68,12 @@ def main() -> int:
         print("  …")
         return 0
 
-    uni = U.Universe()
-    uni.load()
-    index = D.vendor_index(vendors)
+    # Результат кладётся в свой файл, а не в общую базу семантики. Проба
+    # показала, почему: кластер там определяется по совпадению с якорем
+    # вендора, и фраза «оплата capture one юридическим лицом» заводит
+    # собственный кластер вместо capture-one. Триста таких записей засорили
+    # бы семантику SEO-контура ради задачи рекламы. Отбор целей читает оба
+    # источника сам.
     budget = budget_mod.BudgetController(cfg, today=date)
     client = client_mod.WordstatClient(budget, cfg)
 
@@ -92,18 +94,9 @@ def main() -> int:
                     continue
                 found.append({"phrase": text, "frequency": freq, "form": form,
                               "vendor": vendor["vendor"], "slug": vendor["slug"],
+                              "category": vendor.get("category"),
                               "url": vendor.get("url")})
-                try:
-                    uni.observe(phrase=text, frequency=freq, date=date, source_seed=phrase,
-                                region=cfg["collection"]["region_id"],
-                                period="последние 30 дней", method="getTop",
-                                cost_rub=0.0, vendors=index,
-                                vendor=vendor.get("vendor"), category=vendor.get("category"),
-                                source=res.get("source", "api"))
-                except Exception as e:  # noqa: BLE001
-                    print(f"  (фраза «{text}» не легла в базу: {e})")
 
-    uni.save()
     found.sort(key=lambda r: -r["frequency"])
     by_vendor: dict[str, int] = {}
     for r in found:
