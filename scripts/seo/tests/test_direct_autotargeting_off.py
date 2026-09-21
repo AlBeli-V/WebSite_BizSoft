@@ -166,6 +166,13 @@ class NegativesSyncTest(unittest.TestCase):
             "negative_keywords": ["торрент", "бесплатно"]}}, "t")
         self.assertEqual(self.sent, [])
 
+    def test_фиксаторы_формы_кабинета_не_считаются_расхождением(self):
+        # Директ хранит «как пользоваться» как «!как !пользоваться».
+        self.have = ["!как !пользоваться", "бесплатно"]
+        direct_apply.sync_negatives(7, {"campaign": {
+            "negative_keywords": ["как пользоваться", "бесплатно"]}}, "t")
+        self.assertEqual(self.sent, [])
+
     def test_расхождение_приводится_к_спецификации(self):
         self.have = ["бесплатно"]
         direct_apply.sync_negatives(7, {"campaign": {
