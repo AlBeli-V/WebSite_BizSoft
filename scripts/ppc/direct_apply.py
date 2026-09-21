@@ -164,17 +164,25 @@ def build_bid_modifiers(spec: dict, campaign_id: int) -> dict:
 
 
 def build_groups(spec: dict, campaign_id: int) -> dict:
-    return {
-        "AdGroups": [
-            {
-                "Name": g["title"],
-                "CampaignId": campaign_id,
-                "RegionIds": [225],
-                "NegativeKeywords": {"Items": g["minus_words"]},
-            }
-            for g in spec["groups"]
-        ]
-    }
+    """Группы объявлений. Пустой список минусов в запрос не попадает.
+
+    Директ отвергает AdGroups.NegativeKeywords.Items с нулём элементов
+    (код 8000), и спецификация без групповых минусов роняла прогон уже
+    после создания кампании — 21.09.2026 так появилась кампания 714629311
+    без единой группы. Минусы кампании при этом действуют на все её
+    группы, поэтому групповой список честно необязателен.
+    """
+    groups = []
+    for g in spec["groups"]:
+        item = {
+            "Name": g["title"],
+            "CampaignId": campaign_id,
+            "RegionIds": [225],
+        }
+        if g.get("minus_words"):
+            item["NegativeKeywords"] = {"Items": g["minus_words"]}
+        groups.append(item)
+    return {"AdGroups": groups}
 
 
 def build_keywords(spec: dict, group_ids: list[int]) -> dict:
