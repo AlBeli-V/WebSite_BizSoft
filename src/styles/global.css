@@ -495,6 +495,54 @@
   .prose-bizsoft th {
     background: var(--color-bg-elevated);
   }
+
+  /* Переход к покупке внутри статьи. Ссылку-абзац на карточку товара
+     собирает в этот блок remark-plugin (scripts/marketing/remark-product-cards.mjs).
+     Блок обведён, а не залит: заливка одна на странице и принадлежит
+     главному призыву, как и в карточке товара. Цены здесь нет намеренно —
+     статья собирается заранее, а цена считается по курсу на момент запроса. */
+  .prose-bizsoft .product-cta {
+    display: block;
+    margin: 1.6rem 0;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg-elevated);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .prose-bizsoft .product-cta:hover,
+  .prose-bizsoft .product-cta:focus-visible {
+    border-color: var(--color-accent);
+    transform: translateY(-1px);
+  }
+  .prose-bizsoft .product-cta__label {
+    display: block;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .prose-bizsoft .product-cta__name {
+    display: block;
+    margin-top: 0.25rem;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    line-height: 1.3;
+    color: var(--color-text);
+  }
+  .prose-bizsoft .product-cta__go {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.92rem;
+    color: var(--color-accent);
+  }
+  /* Стрелка в псевдоэлементе: в разметке её нет, поэтому она не попадает
+     ни в выдачу, ни в текст, скопированный читателем. */
+  .prose-bizsoft .product-cta__go::after {
+    content: ' →';
+  }
 }
 
 /* Герой в две колонки (вариант A): текст слева + инфографика шагов справа.

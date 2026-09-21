@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
+import remarkProductCards from './scripts/marketing/remark-product-cards.mjs';
 
 // Гибридный режим: контентные страницы — статика (SSG),
 // каталог/карточки/корзина/API — SSR (помечаются `export const prerender = false`).
@@ -13,6 +14,12 @@ export default defineConfig({
   // отдаёт статику (about/index.html → /about). Редирект слеша делает nginx.
   trailingSlash: 'never',
   adapter: node({ mode: 'standalone' }),
+  markdown: {
+    // Переход к покупке прямо из текста статьи: ссылка на карточку, стоящая
+    // отдельным абзацем, собирается в оформленный блок. Ссылка внутри
+    // предложения остаётся ссылкой — см. заголовок плагина.
+    remarkPlugins: [remarkProductCards],
+  },
   build: {
     // Весь CSS страницы — инлайном в <head>. При assetsInlineLimit: 0 (ниже)
     // режим 'auto' не инлайнил ни одного файла, и главная тянула 15 отдельных

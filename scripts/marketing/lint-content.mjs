@@ -42,6 +42,25 @@ const CLICKBAIT = ['шок', 'вся правда', 'никто не знает'
 const LIMITS = { minChars: 5000, maxChars: 9000, maxLinks: 2 };
 
 /**
+ * Пороги живости текста. Это не вкусовые числа: они сняты с корпуса блога
+ * (34 статьи) так, чтобы обычный материал проходил, а выбросы ловились.
+ *
+ * Доля строк-списков: медиана корпуса 22%. Выше трети — текст перестаёт
+ * объяснять и начинает раскладывать по пунктам; это первое, по чему читатель
+ * узнаёт машинное письмо. Тире: медиана 2,8 на 1000 знаков; выше пяти —
+ * характерная для модели манера соединять тире всё подряд вместо союзов и
+ * точек. «Не X, а Y»: приём хороший, но на третьем повторе виден шаблон.
+ */
+const STYLE = {
+  bulletShareWarn: 0.25,
+  bulletShareError: 0.35,
+  dashPer1000: 5,
+  notButMax: 3,
+  listItemsMax: 7,
+  sameOpenerMax: 2,
+};
+
+/**
  * Потолок ссылок зависит от объёма: правило «не более двух» писалось для
  * материалов ленты. В лонгриде на 20 000 знаков две ссылки — недобор, но
  * плотность выше одной на ~5 000 знаков снова читается как размещение.
@@ -132,6 +151,67 @@ function lint(file) {
     errors.push(`цены в тексте: ${[...new Set(prices)].join(', ')} — называем принцип расчёта, не цифры`);
   } else if (prices) {
     notes.push(`модельные суммы (${new Set(prices).size} шт.) — проверка цен отключена директивой lint: calc-model`);
+  }
+
+  // Живость текста: ловим то, по чему материал читается как машинный.
+  // Считаем по разметке, а не по plain: списки и абзацы видны только в ней.
+  const lines = body.split('\n');
+  const bulletLines = lines.filter((l) => /^\s*([-*]|\d+\.)\s+\S/.test(l)).length;
+  const contentLines = lines.filter((l) => l.trim() && !/^#{1,6}\s/.test(l)).length;
+  const bulletShare = contentLines ? bulletLines / contentLines : 0;
+  if (bulletShare >= STYLE.bulletShareError) {
+    errors.push(`списками набрано ${Math.round(bulletShare * 100)}% строк — текст раскладывает вместо того, чтобы объяснять`);
+  } else if (bulletShare >= STYLE.bulletShareWarn) {
+    warnings.push(`списками набрано ${Math.round(bulletShare * 100)}% строк — проверьте, не заменяет ли список рассуждение`);
+  }
+
+  // Длинный список: после седьмого пункта читатель перестаёт различать их
+  // между собой, а перечисление всё равно требует вывода под ним.
+  let run = 0;
+  let longestRun = 0;
+  for (const l of lines) {
+    if (/^\s*([-*]|\d+\.)\s+\S/.test(l)) {
+      run += 1;
+      longestRun = Math.max(longestRun, run);
+    } else if (l.trim()) run = 0;
+  }
+  if (longestRun > STYLE.listItemsMax) {
+    warnings.push(`список из ${longestRun} пунктов подряд — разбейте или сверните в абзац`);
+  }
+
+  // Список сразу после заголовка, без вводной фразы: признак того, что раздел
+  // не написан, а собран.
+  for (let i = 1; i < lines.length; i += 1) {
+    if (/^#{2,3}\s/.test(lines[i - 1] || '') && /^\s*([-*]|\d+\.)\s+\S/.test(lines[i + 1] || '')) {
+      warnings.push(`раздел «${lines[i - 1].replace(/^#+\s*/, '').slice(0, 40)}» начинается со списка без вводной фразы`);
+    }
+  }
+
+  const dashes = (text.match(/[—–]/g) || []).length;
+  const dashDensity = chars ? (dashes / chars) * 1000 : 0;
+  if (dashDensity > STYLE.dashPer1000) {
+    warnings.push(`тире ${dashes} на ${chars} знаков (${dashDensity.toFixed(1)} на 1000) — часть замените союзом или точкой`);
+  }
+
+  const notBut = (text.match(/\bне\s+[^.,;:!?]{1,40},\s*а\s+\S/gi) || []).length;
+  if (notBut > STYLE.notButMax) {
+    warnings.push(`конструкций «не X, а Y»: ${notBut} — на третьем повторе виден шаблон`);
+  }
+
+  // Одинаковое начало абзацев подряд — самый заметный признак генерации.
+  const paras = body.split(/\n{2,}/).map((p) => plain(p).trim())
+    .filter((p) => p && !/^#{1,6}\s/.test(p) && !/^\s*([-*]|\d+\.)\s/.test(p));
+  let same = 1;
+  for (let i = 1; i < paras.length; i += 1) {
+    const a = (paras[i - 1].split(/\s+/)[0] || '').toLowerCase();
+    const b = (paras[i].split(/\s+/)[0] || '').toLowerCase();
+    if (a && a === b) {
+      same += 1;
+      if (same > STYLE.sameOpenerMax) {
+        warnings.push(`${same} абзаца подряд начинаются со слова «${paras[i].split(/\s+/)[0]}»`);
+        same = 1;
+      }
+    } else same = 1;
   }
 
   // Структурные признаки
