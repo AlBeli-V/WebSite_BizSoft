@@ -1,0 +1,90 @@
+{
+ "date": "2026-09-22",
+ "passed": true,
+ "checks": [
+  {
+   "check": "kpi_fully_attributed",
+   "ok": true,
+   "detail": "показателей без источника, периода или достоверности: нет"
+  },
+  {
+   "check": "kpi_values_match_snapshot",
+   "ok": true,
+   "detail": "расхождений со снимком: нет"
+  },
+  {
+   "check": "signals_have_baseline",
+   "ok": true,
+   "detail": "сигналов без базы сравнения: нет"
+  },
+  {
+   "check": "cause_backed_by_entities",
+   "ok": true,
+   "detail": "адресов-драйверов перечислено: 3"
+  },
+  {
+   "check": "verdict_respects_exposure",
+   "ok": true,
+   "detail": "преждевременных вердиктов: нет"
+  },
+  {
+   "check": "combined_treatment_declared",
+   "ok": true,
+   "detail": "без оговорки о совместности: нет"
+  },
+  {
+   "check": "no_fake_market_demand",
+   "ok": true,
+   "detail": "источники доказательств: ['our_impressions', 'market_demand', 'our_impressions']; спрос измерен: True"
+  },
+  {
+   "check": "health_matches_findings",
+   "ok": true,
+   "detail": "статус verified, критических находок 0"
+  },
+  {
+   "check": "conditional_rendering",
+   "ok": true,
+   "detail": "скрыто пустых разделов: ['журнал']"
+  },
+  {
+   "check": "no_zero_for_missing",
+   "ok": true,
+   "detail": "нулей вместо «нет данных»: нет"
+  },
+  {
+   "check": "leads_channel_basis_named",
+   "ok": true,
+   "detail": "заявок без канала или основания: нет"
+  },
+  {
+   "check": "leads_count_matches_snapshot",
+   "ok": true,
+   "detail": "в снимке 1, в письме 1"
+  },
+  {
+   "check": "audience_matches_kpi",
+   "ok": true,
+   "detail": "Яндекс: блок 5322, карточка 5322"
+  },
+  {
+   "check": "audience_internally_consistent",
+   "ok": true,
+   "detail": "суммы каналов и устройств сходятся с итогом"
+  },
+  {
+   "check": "audience_matches_control_series",
+   "ok": true,
+   "detail": "Яндекс: разрез 351, ряд visits_all 351, расхождение +0.0%"
+  },
+  {
+   "check": "audience_device_coverage",
+   "ok": true,
+   "detail": "разбивка по устройствам покрывает показы"
+  }
+ ],
+ "counts": {
+  "total": 16,
+  "failed": 0
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "experiment_id": "money-a2-generic-documents",
+ "ticket": "MONEY-A2",
+ "date": "2026-09-22",
+ "source": "yandex",
+ "evaluation_kind": "ctr",
+ "windows": {
+  "baseline": {
+   "from": "2026-08-08",
+   "to": "2026-09-04",
+   "file": "2026-09-09",
+   "fixed": true
+  },
+  "experiment": {
+   "from": "2026-09-08",
+   "to": "2026-09-20",
+   "file": "2026-09-22",
+   "tainted": true,
+   "fixed": false
+  }
+ },
+ "metrics": {
+  "baseline": {
+   "impressions": 585,
+   "clicks": 8,
+   "ctr": 0.013675213675213675,
+   "avg_position": 6.4683760683760685,
+   "queries": 139
+  },
+  "experiment": {
+   "impressions": 866,
+   "clicks": 3,
+   "ctr": 0.003464203233256351,
+   "avg_position": 6.941108545034642,
+   "queries": 114
+  },
+  "days": {
+   "baseline": 28,
+   "experiment": 13
+  }
+ },
+ "matched_metrics": {
+  "baseline": {
+   "impressions": 385,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 6.376623376623376,
+   "queries": 30
+  },
+  "experiment": {
+   "impressions": 518,
+   "clicks": 0,
+   "ctr": 0.0,
+   "avg_position": 6.754826254826255,
+   "queries": 30
+  },
+  "queries": 30
+ },
+ "position_delta": -0.37820287820287835,
+ "sample_quality": [
+  "окно эксперимента захватывает день внедрения — часть показов могла увидеть старый вариант",
+  "окно после внедрения пока скользящее (короче фиксированного baseline): сравнение предварительное до выгрузки полного окна к 2026-10-09",
+  "порог экспозиции адаптирован под ёмкость кластера (270/500 вместо 500/500): окно источника скользящее, и больший объём кластер не наберёт; надёжно различим только рост CTR от ×2.6"
+ ],
+ "statistical_result": {
+  "baseline_ctr": 0.0,
+  "experiment_ctr": 0.0,
+  "absolute_uplift": 0.0,
+  "relative_uplift": null,
+  "z": 0.0,
+  "p_value": 1.0,
+  "sample_sizes": {
+   "baseline": 385,
+   "experiment": 518
+  },
+  "min_detectable_relative_uplift": null
+ },
+ "summary_line": null,
+ "confidence": "LOW",
+ "verdict": "INCONCLUSIVE",
+ "verdict_reason": "различие CTR статистически неразличимо (p=1.000 при пороге 0.05)",
+ "recommendation": "EXTEND",
+ "recommendation_detail": "оставить как есть и продлить наблюдение до следующей вехи; если и она не даст вывода — NEW_TEST с более контрастной формулой",
+ "recommended_targets": [],
+ "requires_owner_decision": false,
+ "per_page": [],
+ "effective_gate": {
+  "baseline": 270,
+  "experiment": 500,
+  "adapted": true
+ }
+}
