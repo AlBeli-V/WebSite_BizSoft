@@ -237,6 +237,10 @@ async function buildSchema() {
   await ensureField('leads', 'phone', { type: 'string', meta: { interface: 'input' } });
   await ensureField('leads', 'message', { type: 'text', meta: { interface: 'input-multiline' } });
   await ensureField('leads', 'product_ref', { type: 'string', meta: { interface: 'input' } });
+  // Состав подборки на момент обращения: артикул, название и количество
+  // каждой позиции. Кладётся формой из корзины покупателя — по нему
+  // менеджер видит предмет заявки без разбора свободного текста.
+  await ensureField('leads', 'cart_items', { type: 'text', meta: { interface: 'input-multiline', note: 'Состав подборки на момент обращения (JSON): артикул, название, количество.' } });
   await ensureField('leads', 'consent', { type: 'boolean', meta: { interface: 'boolean' }, schema: { default_value: false } });
   await ensureField('leads', 'source', { type: 'string', meta: { interface: 'input' } });
   // Реквизиты и номер КП: заявка из скачивания предложения приходит уже с ними.
