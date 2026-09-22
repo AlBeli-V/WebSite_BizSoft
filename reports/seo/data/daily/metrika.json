@@ -1,4 +1,6 @@
 {
+ "last_error": "stat(organic by date): HTTP 400: {\"errors\":[{\"error_type\":\"query_error\",\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}],\"code\":400,\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}",
+ "last_error_at": "2026-09-22T06:03:23+00:00",
  "scope": "site",
  "series": {
   "goal_reaches_organic": {

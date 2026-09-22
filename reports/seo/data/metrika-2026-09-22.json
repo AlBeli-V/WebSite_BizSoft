@@ -1,0 +1,1074 @@
+{
+  "date": "2026-09-22",
+  "counter": "110206070",
+  "window": {
+    "from": "2026-09-08",
+    "to": "2026-09-21"
+  },
+  "goals": [
+    {
+      "id": 574981210,
+      "name": "Автоцель: поиск по сайту",
+      "type": "search",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "search",
+          "url": "q,text,query,search"
+        }
+      ]
+    },
+    {
+      "id": 584800925,
+      "name": "Автоцель: заполнил контактные данные",
+      "type": "contact_data",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": []
+    },
+    {
+      "id": 584800926,
+      "name": "Автоцель: отправил контактные данные",
+      "type": "contact_data_sent",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": []
+    },
+    {
+      "id": 584800927,
+      "name": "Автоцель: отправка формы",
+      "type": "form",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [],
+      "price_locations": []
+    },
+    {
+      "id": 600411326,
+      "name": "Автоцель: переход в мессенджер",
+      "type": "messenger",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "messenger",
+          "url": "all_messengers"
+        }
+      ]
+    },
+    {
+      "id": 600455503,
+      "name": "Отправлена заявка с формы",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "lead_sent"
+        }
+      ]
+    },
+    {
+      "id": 600455504,
+      "name": "Скачано коммерческое предложение — назвали организацию и ИНН",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "quote_pdf"
+        }
+      ]
+    },
+    {
+      "id": 600455505,
+      "name": "Клик по телефону",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_phone"
+        }
+      ]
+    },
+    {
+      "id": 600455506,
+      "name": "Клик по адресу почты",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_email"
+        }
+      ]
+    },
+    {
+      "id": 600455507,
+      "name": "Переход в мессенджер",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_messenger"
+        }
+      ]
+    },
+    {
+      "id": 600455508,
+      "name": "Товар добавлен в подборку",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "add_to_cart"
+        }
+      ]
+    },
+    {
+      "id": 600455509,
+      "name": "Товар убран из подборки",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "remove_from_cart"
+        }
+      ]
+    },
+    {
+      "id": 600455511,
+      "name": "Открыта подборка",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "view_cart"
+        }
+      ]
+    },
+    {
+      "id": 600455528,
+      "name": "Начато заполнение формы КП",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "begin_checkout"
+        }
+      ]
+    },
+    {
+      "id": 600455529,
+      "name": "Начато заполнение формы заявки",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "form_start"
+        }
+      ]
+    },
+    {
+      "id": 600455546,
+      "name": "Организация выбрана из справочника, реквизиты подставлены",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "company_autofill"
+        }
+      ]
+    },
+    {
+      "id": 600455547,
+      "name": "Открыта карточка товара",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "view_product"
+        }
+      ]
+    },
+    {
+      "id": 600455548,
+      "name": "Открыт лендинг производителя",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "view_vendor_landing"
+        }
+      ]
+    },
+    {
+      "id": 600455549,
+      "name": "Открыта страница назначения ПО",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "view_solution"
+        }
+      ]
+    },
+    {
+      "id": 600455550,
+      "name": "Воспользовались поиском по каталогу",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "search_used"
+        }
+      ]
+    },
+    {
+      "id": 600455551,
+      "name": "Поиск не дал результатов — спрос есть, товара нет",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "search_no_results"
+        }
+      ]
+    },
+    {
+      "id": 600455552,
+      "name": "Заявка не отправилась из-за ошибки",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "lead_error"
+        }
+      ]
+    },
+    {
+      "id": 600455553,
+      "name": "КП не сформировалось из-за ошибки",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "quote_error"
+        }
+      ]
+    },
+    {
+      "id": 603134154,
+      "name": "Автоцель: клик по email",
+      "type": "email",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": []
+    },
+    {
+      "id": 609796529,
+      "name": "Форма заявки открыта: модальная — по кнопке, инлайн — показана на экране",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "form_open"
+        }
+      ]
+    },
+    {
+      "id": 609796531,
+      "name": "Клик по кнопке «Получить расчёт и КП» на лендинге",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_get_quote"
+        }
+      ]
+    },
+    {
+      "id": 609796533,
+      "name": "Переход по связанной ссылке лендинга",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_related_link"
+        }
+      ]
+    },
+    {
+      "id": 609796534,
+      "name": "Переход в карточку товара с лендинга",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_product_card"
+        }
+      ]
+    },
+    {
+      "id": 609796561,
+      "name": "Переход к тарифам на самой странице",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_choose_plan"
+        }
+      ]
+    },
+    {
+      "id": 609796569,
+      "name": "Нажата кнопка «уточнить цену» — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_clarify_price"
+        }
+      ]
+    },
+    {
+      "id": 609796570,
+      "name": "Нажата кнопка запроса счёта — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_request_invoice"
+        }
+      ]
+    },
+    {
+      "id": 609796571,
+      "name": "Нажата кнопка продления подписки — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_renew"
+        }
+      ]
+    },
+    {
+      "id": 609796572,
+      "name": "Нажата покупка тарифа на организацию — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_buy_org"
+        }
+      ]
+    },
+    {
+      "id": 609796574,
+      "name": "Переход к подборщику лицензий на странице",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_pick_licenses"
+        }
+      ]
+    },
+    {
+      "id": 609796575,
+      "name": "Переход в каталог из блока плагинов",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_plugins_catalog"
+        }
+      ]
+    },
+    {
+      "id": 609796576,
+      "name": "Раскрыта категория плагинов",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "expand_plugins_category"
+        }
+      ]
+    },
+    {
+      "id": 609796577,
+      "name": "Шаг подборщика тарифа пройден",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "quiz_step"
+        }
+      ]
+    },
+    {
+      "id": 609796578,
+      "name": "Подборщик тарифа доведён до конца — открывает форму вопроса",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "quiz_complete"
+        }
+      ]
+    },
+    {
+      "id": 609796579,
+      "name": "Таблица сравнения приложений показана на экране",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "click_compare_app"
+        }
+      ]
+    },
+    {
+      "id": 609796580,
+      "name": "Таблица сравнения тарифов показана на экране",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "open_comparison_table"
+        }
+      ]
+    },
+    {
+      "id": 611351971,
+      "name": "Автоцель: начало оформления заказа",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "regexp",
+          "url": "^ym\\-begin\\-checkout(?:\\-[0-9]+)?$"
+        }
+      ]
+    },
+    {
+      "id": 611441701,
+      "name": "Автоцель: отправка формы заявки",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "regexp",
+          "url": "^ym\\-submit\\-lead(?:\\-[0-9]+|form)?$"
+        }
+      ]
+    },
+    {
+      "id": 611866716,
+      "name": "Сетка тарифов показана на экране лендинга",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "view_tariffs"
+        }
+      ]
+    },
+    {
+      "id": 611866717,
+      "name": "Раскрыт вопрос в блоке частых вопросов",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "faq_expand"
+        }
+      ]
+    },
+    {
+      "id": 611866718,
+      "name": "Сетка тарифов вендора показана на экране",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendor_tariff_view"
+        }
+      ]
+    },
+    {
+      "id": 611866719,
+      "name": "Выбрана ситуация в подборщике лендинга вендора",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendor_selector_step"
+        }
+      ]
+    },
+    {
+      "id": 611866721,
+      "name": "Тариф добавлен в подборку с лендинга вендора",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendor_cart_add"
+        }
+      ]
+    },
+    {
+      "id": 611866722,
+      "name": "Запрошен расчёт по конкретному тарифу — тариф подставлен в форму",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendor_quote_request"
+        }
+      ]
+    },
+    {
+      "id": 611866723,
+      "name": "КП по подборке сформировано — в составе есть позиции вендора",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendor_kp_download"
+        }
+      ]
+    },
+    {
+      "id": 611866725,
+      "name": "Раскрыт вопрос FAQ на лендинге вендора",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendor_faq_expand"
+        }
+      ]
+    },
+    {
+      "id": 611866726,
+      "name": "Поиск по производителям на /vendors",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendors_search"
+        }
+      ]
+    },
+    {
+      "id": 611866727,
+      "name": "Выбран фильтр по назначению или порядок показа на /vendors",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendors_filter_click"
+        }
+      ]
+    },
+    {
+      "id": 611866729,
+      "name": "Переход на страницу производителя из каталога производителей",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendors_card_click"
+        }
+      ]
+    },
+    {
+      "id": 611866730,
+      "name": "Производитель отмечен «в подбор» на /vendors",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendors_multiselect_add"
+        }
+      ]
+    },
+    {
+      "id": 611866731,
+      "name": "Запрошен общий расчёт по нескольким отмеченным производителям",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "vendors_multiselect_submit"
+        }
+      ]
+    },
+    {
+      "id": 612198770,
+      "name": "Первое осмысленное действие в карточке товара — счётчик, прикидка на команду, вопрос, описание",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "product_interaction"
+        }
+      ]
+    },
+    {
+      "id": 612198869,
+      "name": "Запрос введён в строку поиска на хабе каталога",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "catalog_search"
+        }
+      ]
+    },
+    {
+      "id": 612198953,
+      "name": "Выбор происхождения ПО на хабе каталога — зарубежное или отечественное",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "catalog_origin_click"
+        }
+      ]
+    },
+    {
+      "id": 612199095,
+      "name": "Переход в раздел каталога с хаба",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "catalog_category_click"
+        }
+      ]
+    },
+    {
+      "id": 612199174,
+      "name": "Переход в ветку AI-раздела с хаба каталога",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "catalog_ai_subcategory_click"
+        }
+      ]
+    },
+    {
+      "id": 612199252,
+      "name": "Переход в карточку товара прямо с хаба каталога — без промежуточного списка",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "catalog_product_click"
+        }
+      ]
+    },
+    {
+      "id": 612199364,
+      "name": "Назван вендор или продукт, которого нет в каталоге, — открыта форма подбора",
+      "type": "action",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "user",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [
+        {
+          "type": "exact",
+          "url": "catalog_request_missing"
+        }
+      ]
+    },
+    {
+      "id": 612881305,
+      "name": "Автоцель: клик по номеру телефона",
+      "type": "phone",
+      "default_price": 0.0,
+      "is_retargeting": 0,
+      "goal_source": "auto",
+      "is_favorite": 0,
+      "status": "Active",
+      "labels": [],
+      "conditions": [],
+      "hide_phone_number": false
+    }
+  ],
+  "traffic_sources": {
+    "error": "HTTP 400: {\"errors\":[{\"error_type\":\"query_error\",\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}],\"code\":400,\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}"
+  },
+  "organic_by_engine": {
+    "error": "HTTP 400: {\"errors\":[{\"error_type\":\"query_error\",\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}],\"code\":400,\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}"
+  },
+  "organic_landing_pages": {
+    "error": "HTTP 400: {\"errors\":[{\"error_type\":\"query_error\",\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}],\"code\":400,\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}"
+  },
+  "organic_goal_reaches": {
+    "error": "HTTP 400: {\"errors\":[{\"error_type\":\"query_error\",\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}],\"code\":400,\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}"
+  },
+  "organic_goal_users": {
+    "error": "HTTP 400: {\"errors\":[{\"error_type\":\"query_error\",\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}],\"code\":400,\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}"
+  },
+  "direct_attribution": {
+    "error": "HTTP 400: {\"errors\":[{\"error_type\":\"query_error\",\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}],\"code\":400,\"message\":\"Query is too complicated. Please reduce the date interval or sampling.\"}"
+  }
+}
