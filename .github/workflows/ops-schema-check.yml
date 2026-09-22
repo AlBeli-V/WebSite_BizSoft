@@ -1,4 +1,4 @@
-# Проверка структурированных данных Schema.org на проде.
+# Проверка прод-слоя поиска: структурированные данные Schema.org и robots.txt.
 #
 # Гоняет scripts/seo/check-structured-data.mjs по списку URL против
 # https://biz-soft.pro с раннера GitHub (у сессии Claude egress к проду
@@ -78,6 +78,27 @@ jobs:
           fi
           echo "run=$run" >> "$GITHUB_OUTPUT"
 
+      # robots.txt на сайте сверяется с файлом в репозитории. Правка в git и
+      # файл на проде — разные вещи: между ними деплой, который мог не дойти,
+      # а без директивы Clean-param Яндекс снова заводит отдельный адрес на
+      # каждую метку «?etext=» (письма Вебмастера 15 и 22.09.2026). Заодно
+      # прогоняется локальный разбор файла: группы User-agent, служебные
+      # запреты, перечень незначащих параметров из data/seo/url-params.json.
+      # continue-on-error — чтобы расхождение robots не отменило проверку
+      # разметки; в журнал и в статус прогона оно доходит шагами ниже.
+      - name: Check robots.txt
+        id: robots
+        if: steps.guard.outputs.run == 'yes'
+        continue-on-error: true
+        run: |
+          rc=0
+          {
+            echo 'result<<ROBOTS_EOF'
+            node scripts/seo/robots-sync.mjs --check --base https://biz-soft.pro || rc=$?
+            echo 'ROBOTS_EOF'
+          } >> "$GITHUB_OUTPUT"
+          exit $rc
+
       - name: Check structured data
         id: run
         if: steps.guard.outputs.run == 'yes'
@@ -105,9 +126,21 @@ jobs:
       # когда проверка нашла нарушения. Ручной запуск отчитывается всегда —
       # оператор запускал проверку затем, чтобы увидеть её результат.
       - name: Post to issue
-        if: always() && (steps.run.outcome == 'failure' || github.event_name == 'workflow_dispatch')
+        if: always() && (steps.run.outcome == 'failure' || steps.robots.outcome == 'failure' || github.event_name == 'workflow_dispatch')
         uses: ./.github/actions/journal-post
         with:
           title: "ops-schema-check"
-          outcome: ${{ steps.run.outcome }}
-          body: ${{ steps.run.outputs.result }}
+          outcome: ${{ (steps.run.outcome == 'failure' || steps.robots.outcome == 'failure') && 'failure' || steps.run.outcome }}
+          body: |
+            robots.txt:
+            ${{ steps.robots.outputs.result }}
+
+            Разметка:
+            ${{ steps.run.outputs.result }}
+
+      # Расхождение robots.txt красит прогон: выше шаг пропущен
+      # continue-on-error ради того, чтобы разметка проверилась и попала в
+      # журнал, а не ради зелёного статуса при незакрытых дублях.
+      - name: Fail on robots mismatch
+        if: always() && steps.robots.outcome == 'failure'
+        run: exit 1

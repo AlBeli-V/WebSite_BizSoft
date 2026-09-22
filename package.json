@@ -24,7 +24,9 @@
     "directus:schema": "node scripts/directus-setup.mjs",
     "ai:cards": "node scripts/build-vendor-cards.mjs scripts/ai-catalog-cards.json out/ai-cards.xlsx",
     "ai:import": "node scripts/import-cards.mjs out/ai-cards.xlsx",
-    "check:serp-reference": "node scripts/ci/serp-reference-check.mjs"
+    "check:serp-reference": "node scripts/ci/serp-reference-check.mjs",
+    "robots:sync": "node scripts/seo/robots-sync.mjs --write",
+    "check:robots": "node scripts/seo/robots-sync.mjs --check"
   },
   "dependencies": {
     "@astrojs/node": "^9.1.3",

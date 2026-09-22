@@ -24,6 +24,7 @@
 - `catalog.md` — каталог и привязки
 - `vendor-template.md` — универсальный шаблон страницы производителя
 - `sitemap-indexing.md` — новые страницы → sitemap → индексация
+- `url-params.md` — GET-параметры в реестре, Clean-param собирается из него
 - `structured-data.md` — микроразметка
 - `webmcp.md` — WebMCP
 - `webvisor-masking.md` — поля форм с ПДн: класс ym-disable-keys

@@ -362,6 +362,17 @@
   адресно (`urls`, 10 000 в сутки, Яндекс + Bing); `ops-yandex-recrawl`
   (150 в сутки) — приоритетным страницам партиями в окно 00:30–00:40 МСК,
   до ночного `seo-recrawl-sweep`. Отчёты — в issue #22.
+- **GET-параметры — в реестре, `Clean-param` собирается из него** (`docs/rules/url-params.md`).
+  Метка перехода (`etext`, `utm_*`, `*clid`, `erid`, `from`) заводится записью в
+  `data/seo/url-params.json`, блок в `public/robots.txt` собирает `pnpm robots:sync`
+  (руками между маркерами не писать). Параметр, меняющий содержимое (`q`, `sku`,
+  `t`), идёт в раздел `meaningful` с указанием, чем закрыт дубль (noindex,
+  canonical, Disallow), и в `Clean-param` не попадает никогда. Новый
+  `searchParams.get()` вне `/api` без записи в реестре роняет тест. Метки
+  снимаются `Clean-param` и canonical, а не 301 (редирект убьёт атрибуцию) и не
+  `Disallow: /*?` (робот тогда не увидит canonical). Проверки —
+  `tests/robots.test.ts`, `pnpm check:robots`; прод сверяет недельный
+  `ops-schema-check`.
 - **Микроразметка** (`docs/rules/structured-data.md`). Только штатный слой
   (`src/lib/seo.ts`, Breadcrumbs/FAQ/JsonLd, microdata карточки); один тип —
   один раз на страницу; один идентификатор (`@id` JSON-LD, `itemid`

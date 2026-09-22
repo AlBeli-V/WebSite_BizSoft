@@ -1,0 +1,34 @@
+{
+  "_note": "Реестр GET-параметров сайта. Незначащие уходят в Clean-param robots.txt (сборка — scripts/seo/robots-sync.mjs, сторож — tests/robots.test.ts). Значащие меняют содержимое страницы и в Clean-param не попадают никогда. Правило — docs/rules/url-params.md.",
+  "insignificant": [
+    { "name": "etext", "note": "автометка перехода из сервисов Яндекса (поиск, почта, карты)" },
+    { "name": "ysclid", "note": "автометка Яндекс.Бизнеса и поисковых переходов" },
+    { "name": "yclid", "note": "автометка Яндекс.Директа" },
+    { "name": "ymclid", "note": "автометка Яндекс.Маркета" },
+    { "name": "yadclid", "note": "автометка рекламной сети Яндекса" },
+    { "name": "_openstat", "note": "метка Openstat, её ставит Директ при включённой разметке" },
+    { "name": "gclid", "note": "автометка Google Ads" },
+    { "name": "gbraid", "note": "автометка Google Ads для переходов из приложений iOS" },
+    { "name": "wbraid", "note": "автометка Google Ads для переходов из веба на iOS" },
+    { "name": "dclid", "note": "автометка медийной сети Google" },
+    { "name": "msclkid", "note": "автометка Microsoft Ads (Bing)" },
+    { "name": "fbclid", "note": "автометка перехода из соцсетей Meta" },
+    { "name": "igshid", "note": "автометка перехода из Instagram" },
+    { "name": "twclid", "note": "автометка перехода из X (Twitter)" },
+    { "name": "ttclid", "note": "автометка перехода из TikTok" },
+    { "name": "from", "note": "метка места перехода у внешних площадок (VK, Дзен) и пример Яндекса из письма 22.09.2026" },
+    { "name": "erid", "note": "идентификатор рекламной маркировки в ссылке креатива" },
+    { "name": "utm_source", "note": "разметка кампаний: источник" },
+    { "name": "utm_medium", "note": "разметка кампаний: тип трафика" },
+    { "name": "utm_campaign", "note": "разметка кампаний: кампания" },
+    { "name": "utm_term", "note": "разметка кампаний: фраза" },
+    { "name": "utm_content", "note": "разметка кампаний: объявление" },
+    { "name": "utm_id", "note": "разметка кампаний: идентификатор кампании" },
+    { "name": "utm_referrer", "note": "разметка кампаний: адрес источника перехода" }
+  ],
+  "meaningful": [
+    { "name": "q", "where": "/catalog", "note": "поиск по каталогу: содержимое другое, страница результатов отдаётся noindex" },
+    { "name": "sku", "where": "/product/<slug>", "note": "выбор номинала подарочной карты: содержимое другое, canonical ведёт на родителя" },
+    { "name": "t", "where": "/unsubscribe", "note": "одноразовый токен отписки, раздел закрыт Disallow" }
+  ]
+}

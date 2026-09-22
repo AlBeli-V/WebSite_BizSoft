@@ -42,9 +42,16 @@ Disallow: /documents/
 # Без этой директивы Яндекс заводит на каждую метку отдельный адрес: к
 # 15.09.2026 в индексе оказались пять копий страниц вендоров с «?etext=»,
 # четыре из них кабинет пометил NOT_CANONICAL, пятая осталась в выдаче
-# дублем. Canonical на странице уже без параметров (src/lib/seo.ts), но
+# дублем, а 22.09.2026 письмо Вебмастера принесло те же дубли по блогу и
+# вендорам. Canonical на странице уже без параметров (src/lib/seo.ts), но
 # Clean-param снимает дубль до обхода, а не после. Директива межсекционная:
 # её читает Яндекс, остальные роботы игнорируют.
-Clean-param: etext&ysclid&yclid&gclid&fbclid&utm_source&utm_medium&utm_campaign&utm_term&utm_content
+#
+# Перечень ведётся в data/seo/url-params.json (там же примечание к каждой
+# метке и список значащих параметров, которым сюда нельзя). Блок ниже
+# собирает «pnpm robots:sync», сторожит tests/robots.test.ts.
+# clean-param:begin — собирает scripts/seo/robots-sync.mjs, руками не править
+Clean-param: etext&ysclid&yclid&ymclid&yadclid&_openstat&gclid&gbraid&wbraid&dclid&msclkid&fbclid&igshid&twclid&ttclid&from&erid&utm_source&utm_medium&utm_campaign&utm_term&utm_content&utm_id&utm_referrer
+# clean-param:end
 
 Sitemap: https://biz-soft.pro/sitemap.xml
