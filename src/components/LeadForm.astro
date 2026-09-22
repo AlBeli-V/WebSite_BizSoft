@@ -173,6 +173,7 @@ const messagePlaceholder = compact
   import { requireConsent, readConsent, lockConsent, unlockConsent, markConsentSubmitting } from '@/lib/consent-controls';
   import { attributionPayload } from '@/lib/attribution';
   import { maskAllPhones } from '../lib/phone-mask';
+  import { readCart } from '@/lib/cart-client';
   maskAllPhones();
 
   document.querySelectorAll('[data-lead-form]').forEach((el) => {
@@ -265,10 +266,17 @@ const messagePlaceholder = compact
       try {
         const data = Object.fromEntries(new FormData(form).entries());
         const attribution = await attributionPayload();
+        // Состав подборки уходит вместе с заявкой: человек, написавший нам
+        // из корзины, уже назвал позиции артикулами — разбирать после этого
+        // свободный текст значило бы гадать поверх точных данных.
+        const cart = readCart().map((i) => ({ sku: i.sku, name: i.name, qty: i.qty }));
         const res = await fetch('/api/lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...data, source: form.dataset.source, attribution, ...readConsent(form) }),
+          body: JSON.stringify({
+            ...data, source: form.dataset.source, attribution, ...readConsent(form),
+            ...(cart.length ? { cart } : {}),
+          }),
         });
         if (!res.ok) {
           let msg = 'Не удалось отправить. Проверьте поля и попробуйте снова.';

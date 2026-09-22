@@ -20,6 +20,7 @@ YANDEX_METRIKA_COUNTER_ID; без них (или при ошибке API) печ
 
 from __future__ import annotations
 
+import datetime as dt
 import json
 import os
 import sys
@@ -207,11 +208,63 @@ def metrika_get(path: str, params: dict, token: str) -> dict:
             f"Метрика HTTP {e.code} на {path}: {e.read().decode('utf-8')[:300]}")
 
 
+# Фактическая точность последнего успешного ответа Метрики. Нужна отчёту:
+# цифра, посчитанная по выборке, и цифра, посчитанная по всем визитам, —
+# разные утверждения, и читатель должен видеть, какое перед ним.
+LAST_ACCURACY = "full"
+ACCURACY_LADDER = ("full", "medium", "low")
+# Окна запроса: весь период кампании, затем две недели, затем неделя.
+# Метрика на отказ отвечает подсказкой «reduce the date interval or
+# sampling» — и на 22.09.2026 одного семплирования уже не хватало:
+# счётчик вырос, и запрос с фильтром по метке не проходил даже на низкой
+# точности. Сначала пробуем сохранить период, и только потом режем окно.
+LAST_WINDOW: int | None = None
+WINDOW_LADDER: tuple[int | None, ...] = (None, 14, 7)
+
+
 def metrika_stat(counter: str, token: str, **params) -> dict:
-    base = {"ids": counter, "date1": CAMPAIGN_START, "date2": "today",
-            "accuracy": "full"}
+    """Запрос к Метрике с понижением точности при отказе.
+
+    Замер 22.09.2026: на периоде в три с лишним недели Метрика начала
+    отвечать «Query is too complicated» на запросы с accuracy=full, и
+    из-за этого молча пропадали все её разделы отчёта — визиты кампании,
+    конверсии, поведение посадочных. Отказ приходит кодом 400 с
+    query_error, то есть от повтора того же запроса ничего не изменится;
+    единственный штатный выход — считать по выборке.
+
+    Точность понижается только при этом отказе и только на шаг за раз,
+    а выбранное значение запоминается, чтобы разделы могли о нём сказать.
+    """
+    global LAST_ACCURACY, LAST_WINDOW
+    base = {"ids": counter, "date1": CAMPAIGN_START, "date2": "today"}
     base.update(params)
-    return metrika_get("stat/v1/data", base, token)
+    last_error: RuntimeError | None = None
+    for days in WINDOW_LADDER:
+        date1 = base["date1"] if days is None else (
+            dt.date.today() - dt.timedelta(days=days - 1)).isoformat()
+        for accuracy in ACCURACY_LADDER:
+            try:
+                data = metrika_get("stat/v1/data",
+                                   dict(base, date1=date1, accuracy=accuracy), token)
+            except RuntimeError as e:
+                if "query_error" not in str(e):
+                    raise
+                last_error = e
+                continue
+            LAST_ACCURACY = accuracy
+            LAST_WINDOW = days
+            return data
+    raise last_error if last_error else RuntimeError("Метрика: запрос не выполнен")
+
+
+def accuracy_note() -> str:
+    """Приписка о том, как посчитано: пустая при полном периоде и точности."""
+    parts = []
+    if LAST_WINDOW is not None:
+        parts.append(f"окно {LAST_WINDOW} дн.")
+    if LAST_ACCURACY != "full":
+        parts.append(f"по выборке, точность {LAST_ACCURACY}")
+    return f" ({'; '.join(parts)})" if parts else ""
 
 
 def metrika_site_pulse() -> None:
@@ -264,7 +317,8 @@ def metrika_sections(campaign_name: str) -> None:
         visits = int((data.get("totals") or [0])[0])
         if visits:
             flt = cand
-            print(f"  визитов: {visits} (фильтр {cand.split('==')[0]})")
+            print(f"  визитов: {visits} (фильтр {cand.split('==')[0]})"
+                  + accuracy_note())
             break
     if flt is None:
         print("  визиты кампании не найдены ни по UTM, ни по атрибуции — разделы Метрики пропущены")
