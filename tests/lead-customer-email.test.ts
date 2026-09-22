@@ -8,7 +8,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import {
-  buildCustomerLeadEmail, clampMessage, MESSAGE_LIMIT, refParts,
+  buildCustomerLeadEmail, clampMessage, leadSubject, MESSAGE_LIMIT, refParts,
 } from '../src/lib/email/lead-customer';
 
 const lead = {
@@ -40,7 +40,9 @@ describe('письмо заказчику о заявке', () => {
   it('есть и HTML, и текстовый двойник', () => {
     expect(mail.html).toContain('<!doctype html>');
     expect(mail.text).toContain('ВАШЕ ОБРАЩЕНИЕ');
-    expect(mail.subject).toBe('Обращение принято — BIZSoft, 21.09.2026');
+    // Позиция каталогом не подтверждена (items нет) — тема берёт марку и
+    // название из слов клиента, через слеш.
+    expect(mail.subject).toBe('BIZSoft ЗАПРОС ПОЛУЧЕН — 21.09.2026 — Adobe / Creative Cloud Pro');
   });
 
   it('обращение по имени, а не по всему полю ФИО', () => {
@@ -173,5 +175,47 @@ describe('длинное сообщение', () => {
 
   it('короткое сообщение не трогается', () => {
     expect(clampMessage('Нужен счёт.')).toBe('Нужен счёт.');
+  });
+});
+
+describe('тема письма', () => {
+  // Тема читается в списке писем: марка и запрошенное должны стоять в ней,
+  // а пустых разделителей и слова «не определено» там быть не должно.
+  it('марка и продукт — через слеш', () => {
+    expect(leadSubject({ date: '22.09.2026', vendor: 'Perplexity', product: 'Personal PRO' }))
+      .toBe('BIZSoft ЗАПРОС ПОЛУЧЕН — 22.09.2026 — Perplexity / Personal PRO');
+  });
+
+  it('позиции подборки перечисляются, марка в теме не дублируется', () => {
+    expect(leadSubject({
+      date: '22.09.2026',
+      vendor: 'Adobe',
+      items: ['Adobe Creative Cloud Pro для команд', 'Perplexity Enterprise Pro'],
+    })).toBe('BIZSoft ЗАПРОС ПОЛУЧЕН — 22.09.2026 — '
+      + 'Adobe Creative Cloud Pro для команд, Perplexity Enterprise Pro');
+  });
+
+  it('длинная подборка сокращается счётом остатка', () => {
+    const subject = leadSubject({
+      date: '22.09.2026',
+      items: ['Позиция А', 'Позиция Б', 'Позиция В', 'Позиция Г', 'Позиция Д'],
+    });
+    expect(subject).toContain('Позиция А, Позиция Б, Позиция В и ещё 2');
+    expect(subject).not.toContain('Позиция Г');
+  });
+
+  it('очень длинный хвост обрезается многоточием', () => {
+    const subject = leadSubject({ date: '22.09.2026', product: 'П'.repeat(200) });
+    expect(subject.length).toBeLessThan(140);
+    expect(subject.endsWith('…')).toBe(true);
+  });
+
+  it('опознан только производитель — тема кончается им', () => {
+    expect(leadSubject({ date: '22.09.2026', vendor: 'JetBrains' }))
+      .toBe('BIZSoft ЗАПРОС ПОЛУЧЕН — 22.09.2026 — JetBrains');
+  });
+
+  it('ничего не опознано — тема кончается датой, без пустого разделителя', () => {
+    expect(leadSubject({ date: '22.09.2026' })).toBe('BIZSoft ЗАПРОС ПОЛУЧЕН — 22.09.2026');
   });
 });

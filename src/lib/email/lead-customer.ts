@@ -197,13 +197,57 @@ export function refParts(ref: string): { qty?: string; rest?: string } {
   return { qty: m?.[1], rest: rest || undefined };
 }
 
+/**
+ * Сколько позиций называет тема. Дальше строка перестаёт читаться в списке
+ * писем: почтовые клиенты показывают 60–80 знаков, остальное обрезают сами —
+ * и лучше обрежем мы, оставив осмысленный хвост «и ещё N».
+ */
+const SUBJECT_ITEMS = 3;
+
+/** Предел хвоста темы: марка и позиции вместе. */
+const SUBJECT_TAIL_LIMIT = 90;
+
+export interface LeadSubjectInput {
+  /** Дата приёма обращения, дд.мм.гггг. */
+  date: string;
+  /** Производитель, если опознан. */
+  vendor?: string;
+  /** Название запрошенного — из каталога или из слов клиента. */
+  product?: string;
+  /** Подтверждённые позиции подборки: их названия уже содержат марку. */
+  items?: string[];
+}
+
+/**
+ * Тема письма: «BIZSoft ЗАПРОС ПОЛУЧЕН — 22.09.2026 — Perplexity / Personal PRO».
+ *
+ * Хвост собирается из того, что известно: несколько позиций перечисляются
+ * (их названия каталога уже несут марку, поэтому она не дублируется), одна
+ * пара «марка / продукт» пишется через слеш, а когда не опознано ничего —
+ * тема кончается датой. Пустых разделителей и слова «не определено» в теме
+ * не бывает: клиент читает её в списке писем, а не в отчёте.
+ */
+export function leadSubject(input: LeadSubjectInput): string {
+  const head = `BIZSoft ЗАПРОС ПОЛУЧЕН — ${input.date}`;
+  const items = (input.items || []).map((n) => n.trim()).filter(Boolean);
+
+  let tail = '';
+  if (items.length) {
+    const shown = items.slice(0, SUBJECT_ITEMS).join(', ');
+    const rest = items.length - SUBJECT_ITEMS;
+    tail = rest > 0 ? `${shown} и ещё ${rest}` : shown;
+  } else {
+    tail = [input.vendor?.trim(), input.product?.trim()].filter(Boolean).join(' / ');
+  }
+
+  if (tail.length > SUBJECT_TAIL_LIMIT) tail = `${tail.slice(0, SUBJECT_TAIL_LIMIT - 1).trimEnd()}…`;
+  return tail ? `${head} — ${tail}` : head;
+}
+
 export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedEmail {
   const { lead } = input;
   const req = input.request ?? {};
   const company = lead.company.trim();
-  // Тема называет предмет и дату: в списке писем обращение узнаётся без
-  // открытия, а номера у заявки для клиента нет — он ему ни о чём не говорит.
-  const subject = `Обращение принято — BIZSoft, ${lead.date}`;
 
   const parts = refParts(lead.product_ref || '');
   const qty = req.qty !== undefined && req.qty !== '' ? String(req.qty) : parts.qty;
@@ -254,6 +298,16 @@ export function buildCustomerLeadEmail(input: CustomerLeadEmailInput): RenderedE
   // Подборка по теме запроса. Показывается только тем, чью позицию мы
   // опознали: три строки-заглушки «посмотрите каталог» у человека, который
   // уже назвал продукт, — это шум, а не помощь.
+  // Тема письма называет марку и запрошенное — по ней обращение узнаётся в
+  // списке писем без открытия, а номера у заявки для клиента нет: он ему ни
+  // о чём не говорит (формулировка руководителя 22.09.2026).
+  const subject = leadSubject({
+    date: lead.date,
+    vendor: req.vendor,
+    product,
+    items: req.items?.map((i) => i.name),
+  });
+
   const marker = (n: number) => String(n).padStart(2, '0');
   const interest = [
     ...(links.products || []).map((l, i) => stepRow(marker(i + 1), l.name, link(l, 'product'))),
