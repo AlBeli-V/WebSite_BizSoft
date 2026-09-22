@@ -166,12 +166,17 @@ export function vendorLegal(vendor?: string | null): string {
  * продукта, и её карточка дублирует командную. У TryHackMe наоборот: личные
  * Premium и MAX — основной товар вендора, командный тариф всего один, и
  * дублировать личным карточкам нечего (решение руководителя 15.09.2026).
+ * У Perplexity (решение руководителя 22.09.2026) личные Pro и Max — не
+ * младшая ступень Enterprise Pro, а другой продукт: без консоли организации,
+ * единого входа и поиска по внутренним файлам, с собственными текстами и
+ * метой. Дублировать командным карточкам им нечем, а запросы «Perplexity Pro
+ * купить» и «Perplexity Max цена» без этих страниц не ловятся вовсе.
  *
  * Код вендора — из `data/catalog/sku-vendors.json`. Список пополняется
  * только решением руководителя: каждая запись — страницы, которые сайт
  * предъявляет поиску.
  */
-const IND_INDEXABLE_VENDORS = new Set(['THM']);
+const IND_INDEXABLE_VENDORS = new Set(['THM', 'PPLX']);
 
 export function productNoindex(sku?: string | null): boolean {
   const p = parseSku(sku);

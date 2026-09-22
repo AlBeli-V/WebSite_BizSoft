@@ -1,0 +1,150 @@
+# Подтверждение по уже принятой заявке — задним числом.
+#
+# Зачем. Контур подтверждения заведён 21.09.2026, а заявки до него остались
+# без письма: человек оставил ФИО, ИНН и телефон и не получил в почту ни
+# строки. Лучше написать с задержкой, чем не написать вовсе (решение
+# руководителя 21.09.2026).
+#
+# Что НЕ делает: не заводит заявку, не меняет её стадию, не пишет событий и
+# не зеркалит в Bitrix24. Берёт заявку из Directus, собирает то же письмо,
+# что уходит из /api/lead, и отправляет.
+#
+# Режимы: test — копия письма менеджеру (проверка в боевой почте, в теме
+# приписка «(отправлено с задержкой)»); client — письмо заказчику на адрес
+# из заявки. Сначала всегда dry_run=true: он показывает адрес, дату и состав
+# разбора и ничего не отправляет.
+#
+# Как работает: эндпоинт /api/admin/lead-confirm закрыт токеном
+# ADMIN_TOOLS_TOKEN из /opt/bizsoft/astro.env, поэтому вызов делается
+# изнутри сервера по SSH.
+#
+# Секреты: SSH_HOST / SSH_USER / SSH_KEY (ops/secrets/registry.json).
+
+name: ops-lead-confirm
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: "Почта заказчика; пусто и без lead_id — самая свежая заявка"
+        required: false
+        default: ""
+      lead_id:
+        description: "Идентификатор заявки; задан — ищем по нему, а не по почте"
+        required: false
+        default: ""
+      to:
+        description: "Куда слать копию в режиме test; пусто — MANAGER_EMAIL сервера"
+        required: false
+        default: "avbelyaev@biz-soft.pro"
+      mode:
+        description: "test — копия менеджеру для проверки; client — письмо заказчику"
+        required: true
+        default: "test"
+        type: choice
+        options: ["test", "client"]
+      dry_run:
+        description: "true — показать состав и ничего не отправлять"
+        required: true
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ops-lead-confirm
+  cancel-in-progress: false
+
+jobs:
+  confirm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Guard - only default branch
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "Запуск разрешён только с ветки main. Текущий ref: ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      # always(): локальные action'ы — файлы репозитория, без checkout запись
+      # в журнал в упавшем прогоне их не найдёт.
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
+      - name: Send confirmation from server
+        id: run
+        uses: ./.github/actions/ssh-run
+        env:
+          IN_EMAIL: ${{ inputs.email }}
+          IN_LEAD_ID: ${{ inputs.lead_id }}
+          IN_TO: ${{ inputs.to }}
+          IN_MODE: ${{ inputs.mode }}
+          IN_DRY: ${{ inputs.dry_run }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: IN_EMAIL,IN_LEAD_ID,IN_TO,IN_MODE,IN_DRY
+          script: |
+            set -e
+            T=$(sed -n 's/^ADMIN_TOOLS_TOKEN=//p' /opt/bizsoft/astro.env | tr -d '"\r')
+            if [ -z "$T" ]; then
+              echo "ADMIN_TOOLS_TOKEN не задан на сервере — отправка невозможна"
+              exit 1
+            fi
+
+            # Тело собирает python: адрес приходит от человека, а ручная
+            # склейка JSON ломается на кавычках.
+            IN_EMAIL="$IN_EMAIL" IN_LEAD_ID="$IN_LEAD_ID" IN_TO="$IN_TO" \
+            IN_MODE="$IN_MODE" IN_DRY="$IN_DRY" \
+            python3 - > /tmp/lead-confirm-body.json <<'PY'
+            import json, os
+            print(json.dumps({
+                'email': os.environ.get('IN_EMAIL', '').strip(),
+                'lead_id': os.environ.get('IN_LEAD_ID', '').strip(),
+                'to': os.environ.get('IN_TO', '').strip(),
+                'mode': os.environ.get('IN_MODE', 'test').strip() or 'test',
+                'dry_run': os.environ.get('IN_DRY', 'true') == 'true',
+            }, ensure_ascii=False))
+            PY
+
+            CODE=$(curl -sS --max-time 120 -o /tmp/lead-confirm.json -w '%{http_code}' \
+              -X POST http://127.0.0.1:3000/api/admin/lead-confirm \
+              -H "x-admin-token: $T" -H 'Content-Type: application/json' \
+              --data-binary @/tmp/lead-confirm-body.json)
+            echo "POST /api/admin/lead-confirm → HTTP $CODE"
+
+            python3 - "$CODE" <<'PY'
+            import json, sys
+            code = sys.argv[1]
+            try:
+                d = json.load(open('/tmp/lead-confirm.json'))
+            except Exception as e:
+                print(f'ответ не разобран: {e}')
+                sys.exit(1)
+            if code != '200' or not d.get('ok'):
+                print('ошибка:', d.get('error') or d)
+                sys.exit(1)
+            print(f"заявка {d['lead_id']} от {d['date']} · {d['company']} (выбор: {d.get('picked', '—')})")
+            print(f"адрес заказчика: {d['client_email']}")
+            print(f"режим: {'письмо заказчику' if d['mode'] == 'client' else 'копия менеджеру'}")
+            print(f"тема: {d['subject']}")
+            print(f"разбор: производитель «{d['vendor'] or '—'}» · позиция «{d['product'] or '—'}»"
+                  f" · подтверждённых позиций: {d['positions']}")
+            for n in d['notes']:
+                print(f'  ! {n}')
+            print(('отправлено на ' + d['to']) if d.get('sent') else 'сухой прогон: письмо не отправлялось')
+            PY
+
+      - name: Post results to journal (issue #22)
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-lead-confirm"
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}

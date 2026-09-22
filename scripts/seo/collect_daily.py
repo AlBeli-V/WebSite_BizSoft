@@ -174,6 +174,30 @@ def device_class(value: str) -> str:
     return DEVICE_ALIAS.get(str(value or '').strip().lower(), 'other')
 
 
+# Страна визита. Решение 21.09.2026: расширенный географический таргетинг в
+# Директе оставлен включённым, потому что покупатель зарубежного ПО часто
+# ищет под VPN, и Яндекс не всегда узнаёт в нём россиянина. Цена ошибки
+# несимметрична — лишний показ стоит клик, пропущенный показ стоит заявку, —
+# но проверить её можно только фактом: идут ли из-за рубежа обращения или
+# только расход. Отсюда разрез «страна × канал» в витрине.
+HOME_COUNTRY_ID = '225'          # Россия в геобазе Яндекса
+HOME_COUNTRY_NAMES = ('россия',)
+GEO_ZONES = ('home', 'abroad')
+
+
+def geo_metrics(prefix: str = 'visits') -> list[str]:
+    """Имена рядов «канал × зона»: визиты из России и из-за рубежа."""
+    return [f'{prefix}_{ch}_geo_{zone}' for ch in CHANNELS for zone in GEO_ZONES]
+
+
+def is_home_country(dim: dict) -> bool:
+    """Россия ли это. Идентификатор надёжнее названия, название — запасной путь."""
+    if str((dim or {}).get('id') or '').strip() == HOME_COUNTRY_ID:
+        return True
+    name = str((dim or {}).get('name') or '').strip().lower()
+    return name in HOME_COUNTRY_NAMES
+
+
 def channel_metrics(prefix: str) -> list[str]:
     """Полный набор имён рядов «канал × устройство» для источника."""
     return [f'{prefix}_{ch}_{dev}' for ch in CHANNELS for dev in DEVICES]
@@ -332,6 +356,39 @@ def parse_metrika_channel_rows(payload: dict, classes: dict,
         except (TypeError, ValueError):
             continue
         out[metric][date] = out[metric].get(date, 0) + value
+    return out
+
+
+def parse_metrika_country_rows(payload: dict) -> dict:
+    """Визиты в разрезе «дата × страна × канал».
+
+    Даёт два уровня: свод «Россия против заграницы» по каждому каналу — он
+    обязателен и потому дозаполняется задним числом, — и ряд на каждую
+    зарубежную страну, заведённый по факту её появления, как это сделано с
+    доменами переходов.
+    """
+    out: dict = {m: {} for m in geo_metrics()}
+    for row in payload.get('data', []):
+        dims = row.get('dimensions') or []
+        metrics = row.get('metrics') or []
+        if len(dims) < 3 or not metrics:
+            continue
+        date = str((dims[0] or {}).get('name') or '')[:10]
+        if not date:
+            continue
+        try:
+            value = float(metrics[0] or 0)
+        except (TypeError, ValueError):
+            continue
+        home = is_home_country(dims[1])
+        channel = METRIKA_CHANNEL.get(_dim_key(dims[2]).lower(), 'other')
+        metric = f'visits_{channel}_geo_{"home" if home else "abroad"}'
+        out[metric][date] = out[metric].get(date, 0) + value
+        if not home:
+            country = str((dims[1] or {}).get('name') or '').strip().lower() or 'не определена'
+            key = f'visits_abroad|{country}'
+            out.setdefault(key, {})
+            out[key][date] = out[key].get(date, 0) + value
     return out
 
 
@@ -672,6 +729,15 @@ def fetch_metrika_channels(stat: str, headers: dict, common: dict):
             series[metric][day] = series[metric].get(day, 0) + value
     # Домены тем же ответом: отдельного запроса они не стоят.
     series.update(parse_referral_domains(referral))
+    countries, err = _metrika_paged(stat, headers, {
+        **common, 'metrics': 'ym:s:visits',
+        'dimensions': 'ym:s:date,ym:s:regionCountry,ym:s:lastTrafficSource'})
+    if err:
+        # Разрез по странам необязателен для каналов: без него витрина
+        # остаётся верной, поэтому сбой сообщается, но не отменяет остальное.
+        print(f'daily/metrika: разрез «страна × канал» не собран: {err}')
+    else:
+        series.update(parse_metrika_country_rows(countries))
     return series, None
 
 
@@ -771,7 +837,8 @@ EXPECTED = {
     'yandex': ('impressions', 'clicks', *device_metrics('impressions', 'clicks')),
     'gsc': ('impressions', 'clicks', 'position',
             *device_metrics('impressions', 'clicks')),
-    'metrika': (*METRIKA_METRICS, *METRIKA_ALL_METRICS, *channel_metrics('visits')),
+    'metrika': (*METRIKA_METRICS, *METRIKA_ALL_METRICS,
+                *channel_metrics('visits'), *geo_metrics()),
     'ga4': (*GA4_METRICS, *channel_metrics('sessions')),
 }
 
