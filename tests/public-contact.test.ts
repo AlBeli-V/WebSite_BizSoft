@@ -7,6 +7,12 @@
  * переписки, и попав в подвал или в правовой документ, начинает собирать
  * спам и внешние обращения мимо общего ящика.
  *
+ * Граница проходит по публикации, а не по упоминанию. Страница, правовой
+ * документ, разметка и robots — публикация: адрес там виден любому, включая
+ * сборщиков. Письмо конкретному адресату публикацией не является, и в
+ * подписи под именем менеджера с 21.09.2026 стоит его личный адрес
+ * (решение руководителя): заказчик отвечает человеку, а не в приёмную.
+ *
  * Второе: названия хостинга, портала и почтового провайдера пользователю
  * ничего не объясняют, а злоумышленнику дают карту инфраструктуры. Их место
  * во внутреннем реестре, а не в публичном тексте (ТЗ 16.09.2026, уточнение,
@@ -31,7 +37,16 @@ const PUBLIC_EMAIL = 'hello@biz-soft.pro';
  * `mailer.ts` — умолчание для MANAGER_EMAIL, адреса получателя заявок и
  * копий КП. Это не публикация контакта, а маршрут доставки внутрь.
  */
-const INTERNAL_ALLOWED = new Set(['src/lib/mailer.ts']);
+const INTERNAL_ALLOWED = new Set([
+  'src/lib/mailer.ts',
+  // Подпись писем заказчику: адрес уходит адресату, а не на страницу.
+  'src/config/site.ts',
+  'src/lib/email/client-shell.ts',
+  'src/lib/email/lead-customer.ts',
+  'src/lib/email/quote-customer.ts',
+  // Повтор подтверждения задним числом: письмо тому же адресату.
+  'src/pages/api/admin/lead-confirm.ts',
+]);
 
 /**
  * Действующие редакции правовых документов.
@@ -69,9 +84,16 @@ describe('единый публичный контакт', () => {
     expect(seller).not.toHaveProperty('salesEmail');
   });
 
-  it('публичный автор и подпись менеджера — тот же адрес', () => {
+  it('публичный автор и ящик отправителя — общий адрес', () => {
     expect(expert.email).toBe(PUBLIC_EMAIL);
     expect(offerManager.email).toBe(PUBLIC_EMAIL);
+  });
+
+  it('в подписи письма — личный адрес менеджера, а не приёмная', () => {
+    // Решение руководителя 21.09.2026: под именем в подписи стоит человек.
+    // Общий ящик при этом остаётся отправителем и адресом заготовок mailto.
+    expect(offerManager.signatureEmail).toBe('avbelyaev@biz-soft.pro');
+    expect(offerManager.signatureEmail).not.toBe(offerManager.email);
   });
 
   it('личного адреса нет нигде в публичном контуре', () => {
@@ -80,6 +102,15 @@ describe('единый публичный контакт', () => {
       return /avbelyaev@biz-soft\.pro/i.test(readFileSync(resolve(ROOT, rel), 'utf8'));
     });
     expect(offenders, `публичный контакт — только ${PUBLIC_EMAIL}`).toEqual([]);
+  });
+
+  it('на страницах сайта личного адреса нет и в исключениях', () => {
+    // Исключения выше — почтовый слой. Страница остаётся публикацией: если
+    // личный адрес однажды переедет в .astro, тест обязан это поймать.
+    const pages = FILES.filter((rel) => rel.startsWith('src/pages/') && rel.endsWith('.astro'));
+    const offenders = pages.filter((rel) =>
+      /avbelyaev@biz-soft\.pro/i.test(readFileSync(resolve(ROOT, rel), 'utf8')));
+    expect(offenders).toEqual([]);
   });
 });
 
