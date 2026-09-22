@@ -193,6 +193,12 @@ describe('карточка читает сегменты нового артик
     // личный план — основной товар, а не младший вариант командного.
     expect(productNoindex('THM-LIC-PREMIUM-IND-1Y-USER')).toBe(false);
     expect(productNoindex('THM-LIC-MAX-IND-1Y-USER')).toBe(false);
+    // То же у Perplexity (решение руководителя 22.09.2026): личные Pro и Max —
+    // отдельный продукт без консоли организации, а не младшая ступень
+    // командного Enterprise Pro.
+    expect(productNoindex('PPLX-LIC-PRO-IND-1Y-USER')).toBe(false);
+    expect(productNoindex('PPLX-LIC-MAX-IND-1Y-USER')).toBe(false);
+    expect(productNoindex('PPLX-LIC-ENTPRO-TEAM-1Y-USER')).toBe(false);
     expect(productNoindex('ZOHO-LIC-ADAUDITSTD-TEAM-PERP-PACK-2DC')).toBe(true);
     expect(productNoindex('ZOHO-LIC-ADAUDITSTD-TEAM-1Y-PACK-2DC')).toBe(false);
     expect(productNoindex('WPC-LIC-BUSINESS-UNI-1Y-ORG-RENEWAL')).toBe(true);
