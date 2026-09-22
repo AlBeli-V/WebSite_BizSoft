@@ -29,10 +29,11 @@ export interface OfferVendorGroup {
 }
 
 /** Метки кампании ставятся только на переходе «письмо → сайт». */
-export function withEmailUtm(url: string, content: string): string {
+export function withEmailUtm(url: string, content: string,
+  campaign = 'commercial_offer'): string {
   const sep = url.includes('?') ? '&' : '?';
   return `${url}${sep}utm_source=bizsoft_email&utm_medium=email`
-    + `&utm_campaign=commercial_offer&utm_content=${encodeURIComponent(content)}`;
+    + `&utm_campaign=${encodeURIComponent(campaign)}&utm_content=${encodeURIComponent(content)}`;
 }
 
 /**
