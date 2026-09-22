@@ -1,6 +1,18 @@
 # Отправка письма с прод-сервера через настроенный SMTP (реквизиты берутся из
 # /opt/bizsoft/astro.env, в лог не попадают). Используется для постановки задач
 # и уведомлений команде. Результат — в журнал-issue #22.
+#
+# Письмо может быть и фирменным HTML: вход `html_base64` принимает готовую
+# разметку, собранную шаблоном сайта (`EMAIL_PREVIEW=1 npx vitest run
+# tests/email-preview.test.ts` кладёт её в out/email-preview). Именно base64,
+# а не разметка как есть: HTML письма несёт кавычки, апострофы, `$`, обратные
+# слэши и переводы строк — всё, что ломается по дороге через ввод workflow и
+# оболочку удалённого сеанса. base64 проходит этот путь без единой правки, и
+# получатель видит ровно ту вёрстку, которую показали до отправки.
+#
+# Текст (`body`) остаётся обязательным и при HTML: он уходит второй частью
+# письма. Почтовики, показывающие text/plain, и читалки для незрячих берут
+# именно его — письмо без текстового двойника доходит к ним пустым.
 name: ops-send-mail
 on:
   workflow_dispatch:
@@ -13,8 +25,12 @@ on:
         description: 'Тема письма'
         required: true
       body:
-        description: 'Текст письма (\n — перенос строки)'
+        description: 'Текст письма (\n — перенос строки). При HTML — текстовый двойник'
         required: true
+      html_base64:
+        description: 'HTML-тело письма в base64 (необязательно)'
+        required: false
+        default: ''
 permissions:
   # checkout читает репозиторий токеном GITHUB_TOKEN: при явном permissions
   # без contents раннер получает «Repository not found» (прогон #204 ops-probe).
@@ -32,22 +48,28 @@ jobs:
           fi
       # Локальный action journal-post лежит в репозитории — без checkout
       # раннер его не находит, и запись в журнал падает (см. прогон #41
-      # ops-yandex-recrawl 03.09.2026).
-      - uses: actions/checkout@v4
+      # ops-yandex-recrawl 03.09.2026). always() — потому что шаг журнала
+      # тоже always(): иначе при падении шага выше checkout пропускается,
+      # и запись в журнал снова не проходит (сторож scripts/ci/check-workflow-journal.py).
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
 
       - name: Send mail
         id: run
-        uses: appleboy/ssh-action@v1
+        # Через ssh-run, а не appleboy напрямую: иначе вывод сбоя не доходит
+        # до журнала и запись выходит «✗ (нет вывода)» (docs/rules/report-integrity.md).
+        uses: ./.github/actions/ssh-run
         env:
           P_TO: ${{ inputs.to }}
           P_SUBJECT: ${{ inputs.subject }}
           P_BODY: ${{ inputs.body }}
+          P_HTML_B64: ${{ inputs.html_base64 }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: P_TO,P_SUBJECT,P_BODY
-          capture_stdout: true
+          envs: P_TO,P_SUBJECT,P_BODY,P_HTML_B64
           script: |
             set -e
             ENVF=/opt/bizsoft/astro.env
@@ -56,7 +78,7 @@ jobs:
               export "$k=$v"
             done
             python3 - <<'PYEOF'
-            import os, smtplib, ssl
+            import base64, binascii, os, smtplib, ssl
             from email.message import EmailMessage
             host = os.environ.get('SMTP_HOST', '')
             if not host:
@@ -70,6 +92,19 @@ jobs:
             msg['To'] = os.environ['P_TO']
             msg['Subject'] = os.environ['P_SUBJECT']
             msg.set_content(os.environ['P_BODY'].replace('\\n', '\n'))
+            # HTML — второй частью того же письма (multipart/alternative):
+            # почтовик показывает вёрстку, а текст остаётся запасным видом.
+            # Битую base64 глушить нельзя: молча ушедшее письмо без вёрстки
+            # выглядит как успех, хотя показали не то, что собрали.
+            raw = (os.environ.get('P_HTML_B64') or '').strip()
+            if raw:
+                try:
+                    html = base64.b64decode(raw, validate=True).decode('utf-8')
+                except (binascii.Error, ValueError, UnicodeDecodeError) as e:
+                    print(f'html_base64 не разобран ({e}) — письмо не отправлено')
+                    raise SystemExit(1)
+                msg.add_alternative(html, subtype='html')
+                print(f'HTML-часть: {len(html)} символов')
             print(f"SMTP {host}:{port} secure={secure} user={'задан' if user else '—'}")
             print(f"от: {sender}\nкому: {msg['To']}\nтема: {msg['Subject']}")
             ctx = ssl.create_default_context()
@@ -87,16 +122,11 @@ jobs:
                 srv.send_message(msg)
             print('письмо отправлено')
             PYEOF
-      # Локальному action нужен репозиторий в рабочей копии. if: always() —
-      # потому что шаг журнала тоже always(): без этого при падении основного
-      # шага checkout пропускается, и запись в журнал снова не проходит.
-      - name: Checkout for journal action
-        if: always()
-        uses: actions/checkout@v4
+
       - name: Post to issue
         if: always()
         uses: ./.github/actions/journal-post
         with:
           title: "ops-send-mail"
-          outcome: ${{ steps.run.outcome }}
-          body: ${{ steps.run.outputs.stdout }}
+          outcome: ${{ steps.run.outputs.outcome }}
+          body-file: ${{ steps.run.outputs.body-file }}
