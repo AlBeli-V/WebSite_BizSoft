@@ -22,6 +22,8 @@
 //                                      // для карточки, которая уже живёт в
 //                                      // Directus под «интеграционным» sku;
 //                                      // upsert идёт по нему, слаг не меняется
+//           "slug": "perplexity-pro",  // необяз.: адрес новой карточки; без него
+//                                      // новая позиция получает слаг из артикула
 //           "markup_coeff": 1.85,      // необяз.: свой коэффициент вместо общего
 //           "sort": 1310,              // необяз.: свой sort вместо сквозного
 //           "name": "Canva Teams",
@@ -47,6 +49,12 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 const HEADERS = [
   'sku', 'sku_kind', 'sku_product', 'sku_plan', 'sku_term', 'sku_unit', 'sku_variant',
+  // slug — адрес карточки. Без него новая позиция получает адрес из артикула
+  // (pplx-lic-pro-ind-1y-user), и расходится всё, что адресует карточку слагом:
+  // семейства content_modules, очередь выкладки, переобход (правило
+  // docs/rules/catalog.md, разбор 14.09.2026). У существующей позиции импорт
+  // строку со слагом игнорирует — смена адреса идёт через ops-rename-product.
+  'slug',
   'name', 'vendor', 'origin', 'category', 'license_type',
   'short_description', 'description', 'keywords',
   'base_price_usd', 'base_price_eur', 'peg_currency', 'markup_coeff', 'price_locked',
@@ -173,6 +181,7 @@ for (const v of input.vendors) {
       sku,
       sku_kind: p.sku_kind || '', sku_product: p.sku_product || '', sku_plan: p.sku_plan || '',
       sku_term: p.sku_term || '', sku_unit: p.sku_unit || '', sku_variant: p.sku_variant || '',
+      slug: p.slug || '',
       name: p.name,
       vendor: v.vendor,
       origin: 'Иностранное',
