@@ -118,6 +118,41 @@ export const LEAD_CONSENT_FIELDS = [
   'consent_event_id', 'marketing_consent', 'marketing_consent_event_id',
 ] as const;
 
+/**
+ * Состав подборки на момент обращения.
+ *
+ * Разбор 21.09.2026: посетитель прошёл / → /cart → /contacts, в корзине
+ * лежали точные артикулы, а в заявку уходила одна строка «количество: 3».
+ * Точный состав — источник надёжнее любого разбора текста, и терять его,
+ * когда он уже собран у клиента в браузере, незачем.
+ */
+export const LEAD_REQUEST_FIELDS = ['cart_items'] as const;
+
+/** Позиция подборки, как её кладёт форма: без цен и сумм — их считает сервер. */
+export interface LeadCartItem {
+  sku: string;
+  name: string;
+  qty: number;
+}
+
+/**
+ * Разбор поля заявки: состав приходит из браузера, то есть снаружи.
+ * Отсюда потолки — на длину строк и на число позиций; всё лишнее
+ * отбрасывается молча, потому что заявку это ронять не должно.
+ */
+export function cartItems(v: unknown): LeadCartItem[] {
+  if (!Array.isArray(v)) return [];
+  return v.slice(0, 50).flatMap((raw) => {
+    if (!raw || typeof raw !== 'object') return [];
+    const o = raw as Record<string, unknown>;
+    const sku = typeof o.sku === 'string' ? o.sku.slice(0, 80) : '';
+    const name = typeof o.name === 'string' ? o.name.slice(0, 200) : '';
+    if (!sku && !name) return [];
+    const qty = Number(o.qty);
+    return [{ sku, name, qty: Number.isFinite(qty) && qty > 0 ? Math.floor(qty) : 1 }];
+  });
+}
+
 export const ATTRIBUTION_EXTRA_FIELDS = [
   'first_touch_referrer', 'last_touch_referrer', 'visit_path',
 ] as const;
