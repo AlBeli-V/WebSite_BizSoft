@@ -85,6 +85,14 @@ const PRODUCTS = [
   // рендерится только от двух позиций с ценой, и без него смоук не видел ни
   // структуру заголовков героя, ни сами карточки.
   product({ id: 109, name: 'Claude Team', sku: 'INT-AI-CLAUDE', vendor: 'Anthropic', slug: 'anthropic-team' }),
+  // Линейка Perplexity: два личных плана и два командных. Нужна, чтобы стенд
+  // видел разделы линейки (`groups` в scripts/content/perplexity.json) — до
+  // 22.09.2026 ни один вендор заглушки их не заводил, и подача «личные планы
+  // отдельно от командных» проверялась только на проде.
+  product({ id: 140, name: 'Perplexity Pro', sku: 'PPLX-LIC-PRO-IND-1Y-USER', vendor: 'Perplexity', slug: 'perplexity-pro', price: 46174, sort: 1436 }),
+  product({ id: 141, name: 'Perplexity Max', sku: 'PPLX-LIC-MAX-IND-1Y-USER', vendor: 'Perplexity', slug: 'perplexity-max', price: 427114, sort: 1438 }),
+  product({ id: 142, name: 'Perplexity Enterprise Pro', sku: 'PPLX-LIC-ENTPRO-TEAM-1Y-USER', vendor: 'Perplexity', slug: 'perplexity-enterprise-pro', price: 78497, sort: 1440 }),
+  product({ id: 143, name: 'Perplexity Enterprise Max', sku: 'PPLX-LIC-ENTMAX-TEAM-1Y-USER', vendor: 'Perplexity', slug: 'perplexity-enterprise-max', price: 625705, sort: 1450 }),
   // Вторая привязка: товар лежит в «Дизайне», а показывается ещё и в «Сайтах
   // и хостинге» (реестр cross-listing.json). Без него раздел web пуст — так
   // смоук видит и сам механизм, и то, что он не задваивает товар в своём
