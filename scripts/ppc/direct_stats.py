@@ -20,6 +20,7 @@ YANDEX_METRIKA_COUNTER_ID; без них (или при ошибке API) печ
 
 from __future__ import annotations
 
+import datetime as dt
 import json
 import os
 import sys
@@ -212,6 +213,13 @@ def metrika_get(path: str, params: dict, token: str) -> dict:
 # разные утверждения, и читатель должен видеть, какое перед ним.
 LAST_ACCURACY = "full"
 ACCURACY_LADDER = ("full", "medium", "low")
+# Окна запроса: весь период кампании, затем две недели, затем неделя.
+# Метрика на отказ отвечает подсказкой «reduce the date interval or
+# sampling» — и на 22.09.2026 одного семплирования уже не хватало:
+# счётчик вырос, и запрос с фильтром по метке не проходил даже на низкой
+# точности. Сначала пробуем сохранить период, и только потом режем окно.
+LAST_WINDOW: int | None = None
+WINDOW_LADDER: tuple[int | None, ...] = (None, 14, 7)
 
 
 def metrika_stat(counter: str, token: str, **params) -> dict:
@@ -227,28 +235,36 @@ def metrika_stat(counter: str, token: str, **params) -> dict:
     Точность понижается только при этом отказе и только на шаг за раз,
     а выбранное значение запоминается, чтобы разделы могли о нём сказать.
     """
-    global LAST_ACCURACY
+    global LAST_ACCURACY, LAST_WINDOW
     base = {"ids": counter, "date1": CAMPAIGN_START, "date2": "today"}
     base.update(params)
     last_error: RuntimeError | None = None
-    for accuracy in ACCURACY_LADDER:
-        try:
-            data = metrika_get("stat/v1/data", dict(base, accuracy=accuracy), token)
-        except RuntimeError as e:
-            if "query_error" not in str(e):
-                raise
-            last_error = e
-            continue
-        LAST_ACCURACY = accuracy
-        return data
+    for days in WINDOW_LADDER:
+        date1 = base["date1"] if days is None else (
+            dt.date.today() - dt.timedelta(days=days - 1)).isoformat()
+        for accuracy in ACCURACY_LADDER:
+            try:
+                data = metrika_get("stat/v1/data",
+                                   dict(base, date1=date1, accuracy=accuracy), token)
+            except RuntimeError as e:
+                if "query_error" not in str(e):
+                    raise
+                last_error = e
+                continue
+            LAST_ACCURACY = accuracy
+            LAST_WINDOW = days
+            return data
     raise last_error if last_error else RuntimeError("Метрика: запрос не выполнен")
 
 
 def accuracy_note() -> str:
-    """Приписка о точности — пустая, когда считано по всем визитам."""
-    if LAST_ACCURACY == "full":
-        return ""
-    return f" (по выборке, точность {LAST_ACCURACY})"
+    """Приписка о том, как посчитано: пустая при полном периоде и точности."""
+    parts = []
+    if LAST_WINDOW is not None:
+        parts.append(f"окно {LAST_WINDOW} дн.")
+    if LAST_ACCURACY != "full":
+        parts.append(f"по выборке, точность {LAST_ACCURACY}")
+    return f" ({'; '.join(parts)})" if parts else ""
 
 
 def metrika_site_pulse() -> None:
