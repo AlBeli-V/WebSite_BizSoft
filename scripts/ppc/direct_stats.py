@@ -207,11 +207,48 @@ def metrika_get(path: str, params: dict, token: str) -> dict:
             f"Метрика HTTP {e.code} на {path}: {e.read().decode('utf-8')[:300]}")
 
 
+# Фактическая точность последнего успешного ответа Метрики. Нужна отчёту:
+# цифра, посчитанная по выборке, и цифра, посчитанная по всем визитам, —
+# разные утверждения, и читатель должен видеть, какое перед ним.
+LAST_ACCURACY = "full"
+ACCURACY_LADDER = ("full", "medium", "low")
+
+
 def metrika_stat(counter: str, token: str, **params) -> dict:
-    base = {"ids": counter, "date1": CAMPAIGN_START, "date2": "today",
-            "accuracy": "full"}
+    """Запрос к Метрике с понижением точности при отказе.
+
+    Замер 22.09.2026: на периоде в три с лишним недели Метрика начала
+    отвечать «Query is too complicated» на запросы с accuracy=full, и
+    из-за этого молча пропадали все её разделы отчёта — визиты кампании,
+    конверсии, поведение посадочных. Отказ приходит кодом 400 с
+    query_error, то есть от повтора того же запроса ничего не изменится;
+    единственный штатный выход — считать по выборке.
+
+    Точность понижается только при этом отказе и только на шаг за раз,
+    а выбранное значение запоминается, чтобы разделы могли о нём сказать.
+    """
+    global LAST_ACCURACY
+    base = {"ids": counter, "date1": CAMPAIGN_START, "date2": "today"}
     base.update(params)
-    return metrika_get("stat/v1/data", base, token)
+    last_error: RuntimeError | None = None
+    for accuracy in ACCURACY_LADDER:
+        try:
+            data = metrika_get("stat/v1/data", dict(base, accuracy=accuracy), token)
+        except RuntimeError as e:
+            if "query_error" not in str(e):
+                raise
+            last_error = e
+            continue
+        LAST_ACCURACY = accuracy
+        return data
+    raise last_error if last_error else RuntimeError("Метрика: запрос не выполнен")
+
+
+def accuracy_note() -> str:
+    """Приписка о точности — пустая, когда считано по всем визитам."""
+    if LAST_ACCURACY == "full":
+        return ""
+    return f" (по выборке, точность {LAST_ACCURACY})"
 
 
 def metrika_site_pulse() -> None:
@@ -264,7 +301,8 @@ def metrika_sections(campaign_name: str) -> None:
         visits = int((data.get("totals") or [0])[0])
         if visits:
             flt = cand
-            print(f"  визитов: {visits} (фильтр {cand.split('==')[0]})")
+            print(f"  визитов: {visits} (фильтр {cand.split('==')[0]})"
+                  + accuracy_note())
             break
     if flt is None:
         print("  визиты кампании не найдены ни по UTM, ни по атрибуции — разделы Метрики пропущены")
