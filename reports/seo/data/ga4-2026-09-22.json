@@ -34,13 +34,31 @@
         ],
         "metricValues": [
           {
-            "value": "697"
+            "value": "710"
           },
           {
-            "value": "647"
+            "value": "659"
           },
           {
             "value": "1"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "Paid Other"
+          }
+        ],
+        "metricValues": [
+          {
+            "value": "73"
+          },
+          {
+            "value": "66"
+          },
+          {
+            "value": "0"
           }
         ]
       },
@@ -59,24 +77,6 @@
           },
           {
             "value": "13"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "Paid Other"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "71"
-          },
-          {
-            "value": "64"
-          },
-          {
-            "value": "0"
           }
         ]
       },
@@ -119,42 +119,6 @@
       {
         "dimensionValues": [
           {
-            "value": "Unassigned"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "16"
-          },
-          {
-            "value": "16"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "Cross-network"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "11"
-          },
-          {
-            "value": "11"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
             "value": "Email"
           }
         ],
@@ -178,6 +142,24 @@
         ],
         "metricValues": [
           {
+            "value": "4"
+          },
+          {
+            "value": "4"
+          },
+          {
+            "value": "0"
+          }
+        ]
+      },
+      {
+        "dimensionValues": [
+          {
+            "value": "Unassigned"
+          }
+        ],
+        "metricValues": [
+          {
             "value": "3"
           },
           {
@@ -189,7 +171,7 @@
         ]
       }
     ],
-    "rowCount": 9,
+    "rowCount": 8,
     "metadata": {
       "currencyCode": "RUB",
       "timeZone": "Europe/Moscow"
@@ -351,7 +333,7 @@
         ],
         "metricValues": [
           {
-            "value": "7"
+            "value": "8"
           },
           {
             "value": "0"
@@ -472,21 +454,6 @@
         "metricValues": [
           {
             "value": "2"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": ""
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "1"
           },
           {
             "value": "0"
@@ -824,7 +791,7 @@
         ]
       }
     ],
-    "rowCount": 33,
+    "rowCount": 32,
     "metadata": {
       "currencyCode": "RUB",
       "timeZone": "Europe/Moscow"
@@ -871,7 +838,7 @@
         ],
         "metricValues": [
           {
-            "value": "8"
+            "value": "9"
           },
           {
             "value": "0"
@@ -911,7 +878,7 @@
       {
         "dimensionValues": [
           {
-            "value": "/vendors/anthropic"
+            "value": "/catalog"
           }
         ],
         "metricValues": [
@@ -926,12 +893,12 @@
       {
         "dimensionValues": [
           {
-            "value": "/catalog"
+            "value": "/vendors/anthropic"
           }
         ],
         "metricValues": [
           {
-            "value": "2"
+            "value": "3"
           },
           {
             "value": "1"
@@ -1016,21 +983,6 @@
       {
         "dimensionValues": [
           {
-            "value": ""
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "1"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
             "value": "/blog/apple-prekratila-priem-platezhey-v-rossii-kak-prodlit-podpiski"
           }
         ],
@@ -1092,21 +1044,6 @@
         "dimensionValues": [
           {
             "value": "/contacts"
-          }
-        ],
-        "metricValues": [
-          {
-            "value": "1"
-          },
-          {
-            "value": "0"
-          }
-        ]
-      },
-      {
-        "dimensionValues": [
-          {
-            "value": "/product/anthropic-team-premium"
           }
         ],
         "metricValues": [
@@ -1419,7 +1356,7 @@
         ]
       }
     ],
-    "rowCount": 38,
+    "rowCount": 36,
     "metadata": {
       "currencyCode": "RUB",
       "timeZone": "Europe/Moscow"
