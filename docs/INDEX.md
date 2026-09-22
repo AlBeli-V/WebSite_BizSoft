@@ -111,6 +111,13 @@ TypeScript strict · Vitest · Python 3 (контуры SEO/разведки/р�
   `ops-lead-source-mail` + `scripts/ops/lead_source_enrich.py`; правило и
   границы — `docs/rules/lead-source.md`. Признаки перехода внешних площадок
   ведутся в `data/marketing/platform-accounts.json` (`referrer_match`).
+- **Письма заказчику** (подтверждение заявки и КП) — общий слой
+  `src/lib/email/client-shell.ts`, шаблоны `lead-customer.ts` и
+  `quote-customer.ts`, отправка из `src/pages/api/lead.ts` и
+  `src/pages/api/quote.ts`; правила — `docs/rules/lead-confirmation-email.md`,
+  `docs/rules/offer-email.md`. Предпросмотр — `EMAIL_PREVIEW=1 npx vitest run
+  tests/email-preview.test.ts` → `out/email-preview/`; отправка себе —
+  `ops-send-mail` входом `html_base64`.
 - **Заявка в Bitrix24** — зеркало `src/lib/bitrix24.ts`, вызовы из
   `src/pages/api/lead.ts` и `src/pages/api/quote.ts`, проверка и установка
   вебхука — `ops-b24-setup`; правило и границы — `docs/rules/crm-mirror.md`.

@@ -45,6 +45,22 @@ export interface ManagerLeadEmailInput {
   subjectOverride?: string;
   /** Плашка в начале письма: зачем оно пришло второй раз. */
   notice?: string;
+  /**
+   * Разбор обращения по каталогу (`src/lib/lead-request.ts`): что удалось
+   * опознать и что требует человека. Заказчику из этого блока не
+   * показывается ничего — письмо-подтверждение молчит обо всём, в чём
+   * разбор не уверен, а решать расхождения человеку.
+   */
+  review?: {
+    vendor?: string;
+    product?: string;
+    /** Позиция найдена в каталоге. Иначе название — только слова клиента. */
+    matched?: boolean;
+    qty?: string;
+    term?: string;
+    notes: string[];
+    candidates: string[];
+  } | null;
 }
 
 export function buildManagerLeadEmail(input: ManagerLeadEmailInput): RenderedEmail {
@@ -70,6 +86,31 @@ export function buildManagerLeadEmail(input: ManagerLeadEmailInput): RenderedEma
       + ` <span style="color:${EMAIL_COLOR.muted};">(указано клиентом)</span>`
     : `<b>${escapeHtml(party?.name || lead.company)}</b>`;
 
+  // Разбор обращения: опознанное и то, что требует человека. Блок
+  // появляется, только когда есть что сказать, — пустая рамка «разбор:
+  // ничего» занимала бы место в письме, которое читают с телефона.
+  const review = input.review;
+  const reviewRows = review ? [
+    ...(review.vendor ? [kvRow('Производитель', `<b>${escapeHtml(review.vendor)}</b>`)] : []),
+    // Названное клиентом и найденное в каталоге — разные вещи, и менеджер
+    // обязан видеть разницу: по первому нельзя выставить счёт.
+    ...(review.product
+      ? [kvRow('Позиция', `<b>${escapeHtml(review.product)}</b>`
+        + (review.matched
+          ? ''
+          : ` <span style="color:${EMAIL_COLOR.warn};">· названа клиентом, в каталоге не найдена</span>`))]
+      : [kvRow('Позиция', `<span style="color:${EMAIL_COLOR.warn};">не опознана</span>`)]),
+    ...(review.qty ? [kvRow('Количество', escapeHtml(review.qty))] : []),
+    ...(review.term ? [kvRow('Запрошенный срок', escapeHtml(review.term))] : []),
+    ...(review.candidates.length
+      ? [kvRow('Есть в каталоге', escapeHtml(review.candidates.join(', ')))] : []),
+  ].join('') : '';
+  const reviewHtml = review && (reviewRows || review.notes.length)
+    ? heading('Разбор обращения')
+      + card(`<table role="presentation" cellpadding="0" cellspacing="0">${reviewRows}</table>`)
+      + review.notes.map((n) => note(escapeHtml(n))).join('')
+    : '';
+
   const siteGuess = siteFromEmail(lead.email);
   const siteHtml = siteGuess.url
     ? `<a href="${siteGuess.url}" style="color:${EMAIL_COLOR.accent};text-decoration:none;">${escapeHtml(siteGuess.label)}</a>`
@@ -94,6 +135,7 @@ export function buildManagerLeadEmail(input: ManagerLeadEmailInput): RenderedEma
       + ` · получена ${escapeHtml(lead.date)}.`)
     + (input.notice ? note(escapeHtml(input.notice)) : '')
     + warnHtml
+    + reviewHtml
     + heading('Источник обращения')
     + card(`<table role="presentation" cellpadding="0" cellspacing="0">${
       attributionRows(attribution, enrichment)}</table>`)
@@ -120,6 +162,18 @@ export function buildManagerLeadEmail(input: ManagerLeadEmailInput): RenderedEma
     ...(input.notice ? ['', input.notice] : []),
     ...warnings.map((w) => `⚠ ${w}`),
     '',
+    ...(review && (reviewRows || review.notes.length) ? [
+      'Разбор обращения:',
+      `Производитель: ${review.vendor || '—'}`,
+      `Позиция: ${review.product
+        ? `${review.product}${review.matched ? '' : ' (названа клиентом, в каталоге не найдена)'}`
+        : 'не опознана'}`,
+      ...(review.qty ? [`Количество: ${review.qty}`] : []),
+      ...(review.term ? [`Запрошенный срок: ${review.term}`] : []),
+      ...(review.candidates.length ? [`Есть в каталоге: ${review.candidates.join(', ')}`] : []),
+      ...review.notes.map((n) => `! ${n}`),
+      '',
+    ] : []),
     'Источник обращения:',
     ...attributionLines(attribution, enrichment),
     '',
