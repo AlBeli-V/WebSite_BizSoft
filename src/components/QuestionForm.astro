@@ -106,6 +106,7 @@ const { source = 'question' } = Astro.props as { source?: string };
   import { requireConsent, readConsent, lockConsent, unlockConsent, markConsentSubmitting, resetConsent } from '@/lib/consent-controls';
   import { attributionPayload } from '@/lib/attribution';
   import { maskAllPhones } from '../lib/phone-mask';
+  import { readCart } from '@/lib/cart-client';
   maskAllPhones();
 
   const dialog = document.querySelector('[data-question-dialog]') as HTMLDialogElement | null;
@@ -181,10 +182,16 @@ const { source = 'question' } = Astro.props as { source?: string };
       try {
         const data = Object.fromEntries(new FormData(form).entries());
         const attribution = await attributionPayload();
+        // Подборка идёт с обращением и отсюда: вопрос «а это подойдёт?»
+        // задают ровно про то, что уже отложено.
+        const cart = readCart().map((i) => ({ sku: i.sku, name: i.name, qty: i.qty }));
         const res = await fetch('/api/lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...data, attribution, ...readConsent(form) }),
+          body: JSON.stringify({
+            ...data, attribution, ...readConsent(form),
+            ...(cart.length ? { cart } : {}),
+          }),
         });
         if (!res.ok) {
           let msg = 'Не удалось отправить. Проверьте поля и попробуйте снова.';
