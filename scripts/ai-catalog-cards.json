@@ -123,13 +123,53 @@
       "category": "ai-text",
       "products": [
         {
+          "sku": "PPLX-LIC-PRO-IND-1Y-USER",
+          "slug": "perplexity-pro",
+          "sort": 1436,
+          "name": "Perplexity Pro",
+          "license_type": "individual",
+          "base_price": 292.8,
+          "currency": "USD",
+          "vat_included": true,
+          "billing_note_ru": "за лицензию в год",
+          "price_on_request": false,
+          "short_desc_ru": "Личная годовая подписка Perplexity Pro: ответы со ссылками на источники и доступ к передовым моделям для одного специалиста. Оформляется на компанию по счёту, аккаунт закреплён за сотрудником.",
+          "features_ru": [
+            "Ответы с проверяемыми источниками",
+            "Доступ к передовым моделям",
+            "Загрузка и разбор файлов",
+            "Личный аккаунт одного специалиста",
+            "Годовая предоплата, оформление на юрлицо"
+          ]
+        },
+        {
+          "sku": "PPLX-LIC-MAX-IND-1Y-USER",
+          "slug": "perplexity-max",
+          "sort": 1438,
+          "name": "Perplexity Max",
+          "license_type": "individual",
+          "base_price": 2708.4,
+          "currency": "USD",
+          "vat_included": true,
+          "billing_note_ru": "за лицензию в год",
+          "price_on_request": false,
+          "short_desc_ru": "Старшая личная подписка Perplexity Max на год: всё из Pro плюс расширенный доступ к передовым моделям и инструментам для одного специалиста, который работает с поиском ежедневно.",
+          "features_ru": [
+            "Всё из Perplexity Pro",
+            "Расширенный доступ к передовым моделям",
+            "Расширенные лимиты работы",
+            "Личный аккаунт одного специалиста",
+            "Годовая предоплата, оформление на юрлицо"
+          ]
+        },
+        {
           "sku": "PPLX-LIC-ENTPRO-TEAM-1Y-USER",
           "key": "ENTERPRISE-PRO",
           "name": "Perplexity Enterprise Pro",
           "license_type": "org",
-          "base_price": 400,
+          "base_price": 497.76,
           "currency": "USD",
-          "vat_included": false,
+          "vat_included": true,
           "billing_note_ru": "за место в год",
           "price_on_request": false,
           "short_desc_ru": "Корпоративный ответный AI-поисковик Perplexity для команд: ответы с проверяемыми источниками, работа с внутренними файлами, SSO, SOC 2, SCIM и настраиваемое хранение. Данные компании не используются для обучения моделей.",
@@ -140,24 +180,31 @@
             "SCIM-провижининг (от 50 мест)",
             "Журналы аудита и настраиваемое хранение",
             "Данные не используются для обучения моделей"
-          ]
+          ],
+          "slug": "perplexity-enterprise-pro"
         },
         {
           "sku": "PPLX-LIC-ENTMAX-TEAM-1Y-USER",
           "key": "ENTERPRISE-MAX",
           "name": "Perplexity Enterprise Max",
           "license_type": "org",
-          "price_on_request": true,
-          "billing_note_ru": "по запросу, крупные команды (250+ мест)",
-          "short_desc_ru": "Старший корпоративный тариф Perplexity для крупных организаций: расширенные лимиты, приоритетный доступ к моделям и индивидуальные условия для команд от 250 мест.",
+          "billing_note_ru": "за место в год",
+          "short_desc_ru": "Старший командный тариф Perplexity: всё из Enterprise Pro, расширенные лимиты работы, приоритетный доступ к передовым моделям и выделенная поддержка вендора.",
           "features_ru": [
             "Всё из Enterprise Pro",
             "Расширенные лимиты и приоритетный доступ к моделям",
-            "Индивидуальные условия для команд 250+ мест",
-            "Выделенная поддержка"
-          ]
+            "Выделенная поддержка вендора",
+            "Единое рабочее пространство организации",
+            "Данные не используются для обучения моделей"
+          ],
+          "slug": "perplexity-enterprise-max",
+          "price_on_request": false,
+          "base_price": 3967.44,
+          "currency": "USD",
+          "vat_included": true
         }
-      ]
+      ],
+      "_note": "Себестоимость года = цена вендора за место в месяц × 1,22 (НДС поставщика) × 12; витрина = себестоимость × 1,9 × курс USD ЦБ. Закупка на 22.09.2026: Enterprise Pro 34 $, Enterprise Max 271 $, Pro 20 $, Max 185 $ за место в месяц при годовой оплате (данные руководителя). Месячные планы не продаём — на витрине только годовые."
     },
     {
       "vendor": "GitHub",

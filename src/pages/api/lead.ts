@@ -3,12 +3,16 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { defaultLeadOwner } from '../../config/site';
 import { createLeadTolerant } from '../../lib/lead-write';
-import { sendMail, managerEmail } from '../../lib/mailer';
-import { attributionFields } from '../../lib/quote-lead';
+import { sendMail, managerEmail, salesFrom } from '../../lib/mailer';
+import { attributionFields, cartItems } from '../../lib/quote-lead';
 import { mirrorLeadAndLink } from '../../lib/bitrix24';
 import { verifyCompany } from '../../lib/inn';
 import { findParty } from '../../lib/dadata';
 import { buildManagerLeadEmail } from '../../lib/email/lead-manager';
+import { buildCustomerLeadEmail } from '../../lib/email/lead-customer';
+import { identifyRequest, leadLinks, type LeadRequestReview } from '../../lib/lead-request';
+import { getProducts } from '../../lib/directus';
+import { site } from '../../config/site';
 import { guardSubmission, guardResponse, countSubmission } from '../../lib/form-guard';
 import { clientIp } from '../../lib/client-ip';
 import { intakeFormConsents } from '../../lib/consent-intake';
@@ -84,6 +88,8 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  const cart = cartItems(body.cart);
+
   const payload = {
     name: String(body.name || '').slice(0, 200),
     company: String(body.company || '').slice(0, 200),
@@ -92,6 +98,10 @@ export const POST: APIRoute = async ({ request }) => {
     phone: String(body.phone || '').slice(0, 50),
     message: String(body.message || '').slice(0, 4000),
     product_ref: String(body.product_ref || '').slice(0, 300),
+    // Состав подборки на момент обращения: точные артикулы вместо разбора
+    // свободного текста. Поле необязательное (lead-write.ts): пока на проде
+    // не выполнен ops-directus-schema, заявка запишется и без него.
+    cart_items: cart.length ? JSON.stringify(cart) : '',
     consent: true,
     // Ссылка на доказательство: по event_id карточка заявки поднимается в
     // журнале согласий одним запросом. Сам журнал при этом остаётся
@@ -148,13 +158,81 @@ export const POST: APIRoute = async ({ request }) => {
     },
   }).catch((e) => console.error('b24 mirror failed', e));
 
+  // Разбор обращения по каталогу — один на оба письма. Каталог читается с
+  // кэшем, но это всё равно внешний вызов: его отказ не должен отменять ни
+  // письмо заказчику, ни письмо менеджеру, поэтому пустой разбор здесь
+  // штатный исход (docs/rules/lead-confirmation-email.md).
+  const reviewPromise: Promise<LeadRequestReview | null> = getProducts()
+    .then((products) => identifyRequest(products, {
+      productRef: payload.product_ref,
+      message: payload.message,
+      cart,
+    }))
+    .catch((e) => {
+      console.error('lead request review failed', e);
+      return null;
+    });
+
+  // Подтверждение заказчику: обращение принято, вот что мы получили и что
+  // будет дальше. До 21.09.2026 письма не было вовсе — человек оставлял
+  // реквизиты и не получал в почту ни строки, а надпись на экране жила до
+  // закрытия вкладки (docs/rules/lead-confirmation-email.md).
+  //
+  // Фоном и с проглоченной ошибкой: заявка уже сохранена, и сбой SMTP не
+  // должен превращаться в отказ на экране у человека, чьё обращение принято.
+  // Письмо себе (ниже) отправляется отдельно — падение одного канала не
+  // гасит другой.
+  (async () => {
+    const review = await reviewPromise;
+    const mail = buildCustomerLeadEmail({
+      lead: {
+        name: payload.name,
+        company: payload.company,
+        inn: payload.inn,
+        email: payload.email,
+        phone: payload.phone,
+        message: payload.message,
+        product_ref: payload.product_ref,
+        date: new Date().toLocaleDateString('ru-RU'),
+      },
+      hasQuestion: review?.hasQuestion,
+      // Письмо получает названия позиций, а не карточки каталога: ссылки
+      // собраны отдельно, и класть в шаблон весь товар незачем.
+      request: review ? {
+        ...review.request,
+        items: review.request.items?.map((i) => ({
+          name: i.product.name, plan: i.plan, qty: i.qty,
+        })),
+        links: leadLinks(review, site.url),
+      } : undefined,
+    });
+    await sendMail({
+      from: salesFrom,
+      to: payload.email,
+      replyTo: managerEmail,
+      subject: mail.subject,
+      text: mail.text,
+      html: mail.html,
+    });
+  })().catch((e) => console.error('lead customer mail failed', e));
+
   // Уведомление менеджеру: фирменное HTML-письмо с источником перехода,
   // сверкой ИНН с ЕГРЮЛ и карточкой организации. Собирается в фоне и не
   // блокирует ответ клиенту: сверка ходит во внешний справочник.
   (async () => {
     const innCheck = await verifyCompany(payload.inn, payload.company);
     const party = innCheck.valid ? await findParty(payload.inn).catch(() => null) : null;
+    const review = await reviewPromise;
     const mail = buildManagerLeadEmail({
+      review: review ? {
+        vendor: review.request.vendor,
+        product: review.request.product,
+        matched: Boolean(review.request.matched),
+        qty: review.request.qty,
+        term: review.term?.label,
+        notes: review.notes,
+        candidates: review.candidates.map((p) => p.name),
+      } : null,
       lead: {
         name: payload.name,
         company: payload.company,

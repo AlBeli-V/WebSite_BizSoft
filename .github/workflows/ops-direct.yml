@@ -19,7 +19,7 @@
 # наборов; какие значения понимает конкретное действие, — то же самое, что
 # было в соответствующем файле (см. комментарий над блоком шагов этого
 # действия ниже):
-#   apply      — dry-run | apply | tune | audit
+#   apply      — dry-run | apply | tune | audit | finish
 #   ceiling/expand/improve/negatives/pause/refine/resume/sitelinks/tighten — dry-run | apply
 #   sitelinks  — дополнительно rollback (откат эксперимента)
 # Для check и stats mode не используется вовсе — как и раньше.
@@ -44,18 +44,18 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; pause — остановить кампанию bs-test-2026-09 целиком; schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; autotargeting-audit — разведка категорий автотаргетинга, только чтение; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
+        description: "apply — создать/применить кампанию по спецификации; ceiling — потолок цены клика; channels — расход рекламы против визитов по каналам, только чтение; check — доступ к кабинету (+ статистика); autotargeting/expand/improve/negatives/refine/resume/sitelinks/tighten — точечные правки кампании bs-test-2026-09; pause — остановить кампанию целиком (имя — во входе spec, по умолчанию bs-test-2026-09); schedule — расписание показов кампаний Apple; apple-negatives — минус-слова кампаний Apple; autotargeting-audit — разведка категорий автотаргетинга, только чтение; metrika-probe — какие запросы принимает Метрика, только чтение; stats — статистика кампаний bs-* (тестовая и подарочные карты Apple)"
         required: true
         type: choice
-        options: ["apple-negatives", "apply", "autotargeting", "autotargeting-audit", "ceiling", "check", "expand", "improve", "negatives", "pause", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
+        options: ["apple-negatives", "apply", "autotargeting", "autotargeting-audit", "ceiling", "channels", "check", "expand", "improve", "metrika-probe", "negatives", "pause", "refine", "resume", "schedule", "sitelinks", "stats", "tighten"]
       mode:
-        description: "Для apple-negatives/apply/autotargeting/ceiling/expand/improve/negatives/pause/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit — только apply; rollback — только sitelinks. Не используется для check и stats"
+        description: "Для apple-negatives/apply/autotargeting/ceiling/expand/improve/negatives/pause/refine/resume/schedule/sitelinks/tighten: dry-run — план без записи; apply — применить; tune/audit/finish — только apply; rollback — только sitelinks. Не используется для check и stats"
         required: false
         default: "dry-run"
         type: choice
-        options: ["dry-run", "apply", "tune", "audit", "rollback"]
+        options: ["dry-run", "apply", "tune", "audit", "finish", "rollback"]
       spec:
-        description: "Только для action=apply: файл спецификации в seo-data (round1-spec.json | round2-spec.json | round3-spec.json | round3-regions-spec.json)"
+        description: "Только для action=apply: файл спецификации в seo-data (round1-spec.json | round2-spec.json | round3-spec.json | round3-regions-spec.json | round4-spec.json | round5-spec.json | round6-spec.json). Для action=channels — период «дата-с дата-по»"
         required: false
         default: "round1-spec.json"
   schedule:
@@ -98,14 +98,16 @@ jobs:
       # mode=dry-run — собрать payload'ы и проверить лимиты, записи в API
       # нет; mode=apply — создать кампанию, группы, фразы, объявления и
       # отправить объявления на модерацию; tune — счётчик/разметка/
-      # мониторинг/StartDate; audit — сверка состояния.
+      # мониторинг/StartDate и настройки кампании из спецификации;
+      # audit — сверка состояния; finish — доводка уже созданной кампании
+      # (автотаргетинг и модерация объявлений) после оборвавшегося apply.
       - name: Fetch spec from seo-data
         if: env.ACTION == 'apply'
         env:
           SPEC: ${{ inputs.spec }}
         run: |
           case "${SPEC:-round1-spec.json}" in
-            round1-spec.json|round2-spec.json|round3-spec.json|round3-regions-spec.json) ;;
+            round1-spec.json|round2-spec.json|round3-spec.json|round3-regions-spec.json|round4-spec.json|round5-spec.json|round6-spec.json) ;;
             *) echo "недопустимое имя спецификации: $SPEC"; exit 1 ;;
           esac
           git fetch --depth=1 origin seo-data
@@ -368,6 +370,44 @@ jobs:
           title: "ops-direct ceiling (mode=${{ inputs.mode }})"
           outcome: ${{ steps.run_ceiling.outcome }}
           body-file: /tmp/direct-ceiling.log
+      # ==================== action=channels ====================
+      # Расход рекламы рядом с визитами по каналам (запрос руководителя
+      # 21.09.2026: сколько стоила реклама и что она дала против поиска без
+      # неё). Только чтение: отчёт Директа и разрез Метрики по
+      # ym:s:lastTrafficSource. Заявки сюда не подмешиваются — их источник
+      # берут из витрины reports/seo/data/leads-<дата>.json ветки seo-data,
+      # где у каждой заявки восстановлен путь посетителя.
+      # Период задаётся входом spec как «дата-с дата-по»; пусто — с первого
+      # дня рекламы по вчерашний день.
+      - name: Channels
+        if: env.ACTION == 'channels'
+        id: run_channels
+        env:
+          DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          RANGE: ${{ inputs.spec }}
+        run: |
+          set -o pipefail
+          case "$RANGE" in
+            *[0-9]-[0-9]*\ *[0-9]-[0-9]*) ;;
+            *) RANGE="" ;;
+          esac
+          python3 scripts/ppc/channel_report.py $RANGE 2>&1 | tee /tmp/direct-channels.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'channels'
+        run: |
+          [ -f /tmp/direct-channels.log ] || echo "(лог не создан)" > /tmp/direct-channels.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'channels'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-direct channels"
+          outcome: ${{ steps.run_channels.outcome }}
+          body-file: /tmp/direct-channels.log
+
       # ==================== action=pause ====================
       # Остановка кампании целиком (решение руководителя 21.09.2026).
       # Две полные недели с исправленными посадочными пройдены: 348 визитов,
@@ -383,9 +423,12 @@ jobs:
         env:
           DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
           MODE: ${{ inputs.mode }}
+          CAMPAIGN: ${{ inputs.spec }}
         run: |
           set -o pipefail
-          python3 scripts/ppc/direct_pause.py "$MODE" 2>&1 | tee /tmp/direct-pause.log
+          # Вход spec переиспользуется как имя кампании: отдельного входа под
+          # него нет, а лимит workflow_dispatch в 10 входов уже выбран.
+          python3 scripts/ppc/direct_pause.py "$MODE" $CAMPAIGN 2>&1 | tee /tmp/direct-pause.log
 
       - name: Save log for issue
         if: always() && env.ACTION == 'pause'
@@ -616,6 +659,39 @@ jobs:
           title: "ops-direct stats (mode=${{ inputs.mode }})"
           outcome: ${{ steps.run_stats.outcome }}
           body-file: /tmp/direct-stats.log
+
+      # ==================== action=metrika-probe ====================
+      # Разведка: какие запросы к Метрике проходят, а какие она отклоняет.
+      # С 22.09.2026 разделы Метрики в отчёте Директа исчезли — запросы с
+      # фильтром по кампании возвращают 400 «Query is too complicated».
+      # Понижение точности и сокращение окна отказ не сняли, поэтому
+      # причину ищем замером: по одному различию за раз. Только чтение,
+      # в кабинете и счётчике ничего не меняет.
+      - name: Metrika probe
+        if: env.ACTION == 'metrika-probe'
+        id: run_metrika_probe
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          YANDEX_METRIKA_COUNTER_ID: ${{ secrets.YANDEX_METRIKA_COUNTER_ID }}
+          CAMPAIGN: ${{ inputs.spec }}
+        run: |
+          set -o pipefail
+          name="$CAMPAIGN"
+          case "$name" in *.json|"") name="bs-catalog-2026-09" ;; esac
+          python3 scripts/ppc/metrika_probe.py "$name" 2>&1 | tee /tmp/metrika-probe.log
+
+      - name: Save log for issue
+        if: always() && env.ACTION == 'metrika-probe'
+        run: |
+          [ -f /tmp/metrika-probe.log ] || echo "(лог не создан)" > /tmp/metrika-probe.log
+
+      - name: Post to issue
+        if: always() && env.ACTION == 'metrika-probe'
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-direct metrika-probe"
+          outcome: ${{ steps.run_metrika_probe.outcome }}
+          body-file: /tmp/metrika-probe.log
       # ==================== action=autotargeting ====================
       # Выравнивание автотаргетинга кампании по режиму EXACT-only
       # (поручение владельца 04.09.2026). Раунд 2 завёл четыре группы,
