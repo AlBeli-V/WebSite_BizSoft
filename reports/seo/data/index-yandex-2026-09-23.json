@@ -66,27 +66,52 @@
   "/cases",
   "/catalog",
   "/catalog/ai",
+  "/catalog/ai/audio",
+  "/catalog/ai/code",
+  "/catalog/ai/enterprise",
+  "/catalog/ai/image",
+  "/catalog/ai/marketing",
+  "/catalog/ai/office",
   "/catalog/ai/video",
   "/catalog/architecture",
+  "/catalog/collaboration",
   "/catalog/database",
   "/catalog/design",
   "/catalog/development",
+  "/catalog/endpoint",
+  "/catalog/engineering",
+  "/catalog/gift-cards",
   "/catalog/helpdesk",
+  "/catalog/iam",
   "/catalog/media",
+  "/catalog/monitoring",
   "/catalog/office",
+  "/catalog/pm",
+  "/catalog/security",
+  "/catalog/system",
   "/catalog/training",
+  "/catalog/vcs",
   "/compare",
+  "/compare/chatgpt-vs-claude",
+  "/compare/chatgpt-vs-grok",
+  "/compare/claude-vs-gemini",
   "/compare/copilot-vs-gemini",
   "/compare/cursor-vs-copilot",
+  "/compare/cursor-vs-windsurf",
+  "/compare/elevenlabs-vs-descript",
   "/compare/firefly-vs-canva",
   "/compare/fl-studio-vs-ableton",
   "/compare/gamma-vs-canva",
+  "/compare/grammarly-vs-jasper",
+  "/compare/midjourney-vs-firefly",
   "/compare/midjourney-vs-recraft",
+  "/compare/runway-vs-heygen",
   "/contacts",
   "/documents",
   "/faq",
   "/how-we-work",
   "/legal",
+  "/legal/cookies",
   "/legal/marketing-consent",
   "/legal/personal-data-consent",
   "/legal/privacy",
@@ -95,147 +120,298 @@
   "/product/ableton-live-intro",
   "/product/ableton-live-standard",
   "/product/ableton-live-suite",
+  "/product/acronis-cp-adv-3vm",
   "/product/acronis-cp-adv-server",
+  "/product/acronis-cp-adv-vhost",
+  "/product/acronis-cp-adv-ws",
+  "/product/acronis-cp-backup-adv-email-5",
+  "/product/acronis-cp-backup-adv-gws-5",
+  "/product/acronis-cp-backup-adv-m365-5",
+  "/product/acronis-cp-backup-adv-server",
+  "/product/acronis-cp-backup-adv-vhost",
+  "/product/acronis-cp-backup-adv-ws",
+  "/product/acronis-cp-standard-3vm",
+  "/product/acronis-cp-standard-server",
   "/product/acronis-cp-standard-vhost",
   "/product/acronis-cp-standard-win-ess",
+  "/product/acronis-cp-standard-ws",
   "/product/adobe-acro-pro-team",
+  "/product/adobe-acro-std",
   "/product/adobe-acro-studio",
   "/product/adobe-ae",
   "/product/adobe-ai",
+  "/product/adobe-animate",
+  "/product/adobe-audition",
   "/product/adobe-cc-pro-team",
+  "/product/adobe-cc-std",
+  "/product/adobe-dw",
   "/product/adobe-express-team",
+  "/product/adobe-ff-enterprise",
+  "/product/adobe-ff-teams",
   "/product/adobe-id",
+  "/product/adobe-incopy",
   "/product/adobe-lr",
   "/product/adobe-photo",
   "/product/adobe-pr",
+  "/product/adobe-ps",
   "/product/adobe-single-team",
+  "/product/adobe-stock-10",
+  "/product/adobe-substance-team",
+  "/product/adsk-3dsmax",
+  "/product/adsk-maya",
+  "/product/adsk-mecoll",
+  "/product/adsk-motionbuilder",
+  "/product/adsk-mudbox",
   "/product/ai-code-assistant-team",
   "/product/ai-image-business",
   "/product/ai-text-team",
   "/product/airalo-gift-card",
+  "/product/anthropic-enterprise",
   "/product/anthropic-team",
   "/product/anthropic-team-premium",
+  "/product/anydesk-advanced",
+  "/product/anydesk-namespace",
   "/product/anydesk-standard",
   "/product/app-store-itunes-gift-card",
-  "/product/artlst-social",
+  "/product/app-store-itunes-gift-card?etext=2202.3zvBseMet7Ea2TWa0SzFgPfmnN-M455UR7jL3xDj8VTzCMZ-8xZ8hhpKyW_b0BNvVkaUHoVRMZrN5pyAsEfDSmdxcGdsdGtub2dkcnJvYWE.0e2f579c283c6137983077c0adae2fff7fc0c4e6",
+  "/product/app-store-itunes-gift-card?etext=2202.5YEYWBMJVS2bPMavUjflfw-aBegQXgBzwiQFoHCkt66Tpkab12_eWFRfV22cT9KacGxhZXBhcHVvc3ZjenRkbw.6d5bf274b281b72442cea6c3af05098429a62d33",
+  "/product/app-store-itunes-gift-card?etext=2202.7X4WM7Z9Vhs4cygP4fDeuwQ90otg7Ds1CwESGD2dWXh-FWeK5euye-DPNhvAL4t9S_RPG2tPTg0h49woU_vKjnpqbGRubWtma3p0bmpsdWk.b9f5f6ea9e7c6ed986c9df69f8a14e5ee200aa96",
+  "/product/app-store-itunes-gift-card?etext=2202.7jMnw8neZTJs81lcDbnuAQfjcaNyKf4QSWRk3iFNDABTO-Elqt9d1UBiWSxGF-YcaW1pcWJhcWRiemN5YnVndQ.89554febdf54dc479c1b9df1eb6815d0c9c17bf5",
+  "/product/app-store-itunes-gift-card?etext=2202.9cQ77rOWp9skMKvr39Xfz-RFQBfUJVQwlJGpBt73LSh8SytIr_kwBp5NI8kw-5yfc3Vid2l1Ym1qbHl3Zm5kcA.3acb0378829a8c5aa0d3a9999806b34ecdc9dc7c",
+  "/product/app-store-itunes-gift-card?etext=2202.BKiENybZ0Vk5PL6uvk3N1ev0GAOmTMQ7taZ6Z6U1xKoubHX-fxItGTdNVk7_pmvSM7Ae1z0RudCtDOjCwEXipWtybmlxYW1ldW9zc254dnU.6ddd900329e8f6f857392b7a56cabf657d872967",
+  "/product/app-store-itunes-gift-card?etext=2202.BzdUntqtQVrCkRQ3KMrY0db1griePmHoQYI_NXpfboMaD0wpHtbG37o73vEQQe-EwukxttnT6C42vrkckgJdv2RfcMwNPUf30VNhCyHoAo1iamxqd3NyaG1zcXF5dmdk.2c8c621648d707c772f84b54c1e4df59aa765d99",
+  "/product/app-store-itunes-gift-card?etext=2202.Dow5nnFJkUr4cKttaLdTmD_jwDklNN8GvdPUsl_S1iB1VNq6FLfWQXLx75fQUcv69JcUQV97g89M3c9VrhSEB3Vqd2Jod3dxcHNuZXhhZ3k.6eeb7111172df9de2ae1a0b58841decf9335649c",
+  "/product/app-store-itunes-gift-card?etext=2202.E_Uwe-95WM706h4YwM9O08jS8ZUntnctOwAp-8UXBNBxdXlmamRwYmJwc2xoem9q.90b3c3873739557df4b16c126bf6382e26367d4e",
+  "/product/app-store-itunes-gift-card?etext=2202.FKEzDOdZH9ElHZVlpBlsfedAVgKGk8niIS3T9UVke1clKTheuYrsOwHvEADOwvFKk_wWAX_8-3HhOue9OdiSKmFqb2dmaGRkbWltempzb2s.9cd7a89e977b0f68ccad5da4f651fbf79599b7fa",
+  "/product/app-store-itunes-gift-card?etext=2202.IGOGzIlx4n02dGV-s7A3LGYe82aJOneXYNnnFO6Zawncu7x37-XapYuKJRmb0KK-dGR2YWxjbHRuZmdjb3p1eA.fff8d7c88ac8940f8aebb09052d3b20ce37559ca",
+  "/product/app-store-itunes-gift-card?etext=2202.KSpqYXsqrMjxy5eODWtVQDY-M135rmgz4rNHQ3xyxAnhM8s61lfMrn35hvoxJLEHYj3j10xnJnXMnn1Hh8gt9mNmcWNqeHJna3dwdHJmcmE.7664b08815a5d3192133f27e20e7db25f2bf4e6d",
+  "/product/app-store-itunes-gift-card?etext=2202.NOU6LTq5ETmYHqO4P89Rb0vHcPkOZDaYr2kP_5Hz9bQdZMCNk9nmNuc4aaN3hEGo31Ce1OPlaj9ekyKNFNgOhGthaG1oZHl5Z25hYWVmaXM.ef8dfc37ff79c1b42016595f4d8d1232b2659ef3",
+  "/product/app-store-itunes-gift-card?etext=2202.NoDIjUVgTvMflDzbdE1t0EEEixGFxPrq5IEqmrFn4RhwbXBlY2lpdWxqc2pmdXhv.d520485f1c87a440ac5eaa39593ebda69bc581ae",
+  "/product/app-store-itunes-gift-card?etext=2202.UWYEoOoFwMOLizbbS_Ex2MszETt1W6gR1t8NI_V7djxya3V3dnR5amZtdmZnZnF2.5930e36dbec49874df6de257255d5b179d40637e",
+  "/product/app-store-itunes-gift-card?etext=2202.VVXcJ9CKDdXQliqyABtU3Pd-qQTBmNifVJvlr-vm_2p0cmJ2cmRwdmNtZW5tcXVx.3cddc2e93ab6f6c3e07650c6faf4c44956967b9b",
+  "/product/app-store-itunes-gift-card?etext=2202.bJxcy-c_VbOxwwz4y0UOZvcx8GGaOmbfQG08XL-GFIlsdnhlaWt6cW12dGN5bG1w.31b0bb2af14aceabe669920e0048fcf176821671",
+  "/product/app-store-itunes-gift-card?etext=2202.byo42aC8JZsc5xTzDKVuVJFahHE365hxQhVKOIhQ4oRzcXNnZGlnY3B4anhra29j.a82ba3a9f0c65e4b706b8aa043f7307af3808b44",
+  "/product/app-store-itunes-gift-card?etext=2202.d_ree2IUvcWp3QNbE0gM2j3j6n-KKmwZHtVruLrH-p86PBCab0OsLzbRnZ5bZiY4a2R1d3JpdWFtd2VodW91eA.3514e33b2642fada93579a73232b693e0d1ff0a9",
+  "/product/app-store-itunes-gift-card?etext=2202.e07BhDRjhWLtK-d10MJD-X-YJY8RoIMTZ70g6ZyjukkMVOUw9aDYmleRXPn1doKDanpxaGx4YXF2eHp2ZXNrdA.ebe9e6d4ff9110709388f6c1176110bbcae865a4",
+  "/product/app-store-itunes-gift-card?etext=2202.kBrdWXB7K48vs9M0Rgsao510Snvn8hlibVfSyjkfxTc9ciaJX6xlrqF7BL1gqu65n7eVO7tZY3rgtpJGj_WVEQJ5ZHE5runHC0cnEu_oFRhiZWJxcHlveWt0bW91ZGt3.b5ab3e3741fe2101287838bd3ac876c461862a61",
+  "/product/app-store-itunes-gift-card?etext=2202.o8a2P1du1ACMJCSDthwr5sMP_g3YbU58RNd51WaCXWVvbmpkbmVpeWtyYnRva2po.01c40ebc10b0286e4987239b0af85aea47dad493",
+  "/product/app-store-itunes-gift-card?etext=2202.qYZLKWz7ssj-KElhRDpYh2plZXppb3p2cGNqdXN2eGU.4d839ca64553e84af362cf04dc916c4e9aaeb549",
+  "/product/app-store-itunes-gift-card?etext=2202.rKNZc4f2fc5WScNhfADFIvqaSvT20VutUpcNfarv3EL3J4Ayt4SHGTIhXORZoOKmLXYgNZDGMvTcq9JQ1Z6yaUoDECG74AQjFbWRQri4LvxndHN6aWZ0cmRrZXpmZHFv.321964f9d09ad622ba0ed584aabb8566243a052c",
+  "/product/app-store-itunes-gift-card?etext=2202.sbWyrJm-K0XEwtI5KO1eyLey5Si9oDwGwcOc1lrWYis4yV4In1iM2O3y-vHYbmG8Y2puZml6Y3l2cHhybXdkYg.d62f728900d5ff54b33c6a590069df26015d5c84",
+  "/product/app-store-itunes-gift-card?etext=2202.smtpP_JbwHorMkpUi-4IPcIUR8fAQs_Q7PK6A5wKCPlhtDqzLMaQg-j5PDeUdfMMamRscnFxdHhlaXN0Y3lxbg.6055f7c37839e8f7061a30b28ad77291b465227f",
+  "/product/app-store-itunes-gift-card?etext=2202.uSXRSdLxXMeGdzMgPW-KgmKUHkgA4ZcTVO1KNkLWc090aWx1Z2ZhbHlob2R6b3Bi.ce88ae0f9a2f79081e282e1664b49cbe8f4e98b8",
+  "/product/app-store-itunes-gift-card?etext=2202.xraKGIux1ygJl_pajC0yn_ptjZCz6wyHt2xyqabjgGJ3eGlxbHNleWV6cGpndmx3.1947e542d04abe4e44b7dfe77e096f926519b47f",
   "/product/artlst-teams",
   "/product/astute-bundle",
+  "/product/avid-mc-sub",
+  "/product/avid-mc-ult",
+  "/product/avid-pt-artist",
+  "/product/avid-pt-studio",
   "/product/binance-btc-gift-card",
+  "/product/binance-usdc-gift-card",
   "/product/binance-usdt-gift-card",
+  "/product/bitdefender-gravityzone-business",
+  "/product/bitdefender-gravityzone-premium",
   "/product/bitdefender-premium-security-family",
+  "/product/bitdefender-premium-security-ind",
   "/product/bitdefender-total-security-family",
+  "/product/bitdefender-total-security-ind",
   "/product/bitdefender-ultimate-security-ind",
+  "/product/bmd-resolve-studio",
+  "/product/boris-continuum-sub",
   "/product/boris-mocha-sub",
+  "/product/boris-sapphire-sub",
+  "/product/boris-suite-sub",
   "/product/box-business",
+  "/product/box-business-plus",
   "/product/browserstack-live-team",
   "/product/browserstack-live-team-pro",
+  "/product/canva-business",
+  "/product/canva-ent",
+  "/product/canva-pro",
   "/product/capcut-pro",
   "/product/capcut-team",
   "/product/capture-one-pro",
   "/product/cdr-gs-biz",
+  "/product/cdr-gs-sub",
+  "/product/cdr-painter-sub",
   "/product/chatgpt-business",
+  "/product/chatgpt-business-premium",
+  "/product/cloudflare-business",
   "/product/cloudflare-pro",
   "/product/confluence-premium",
   "/product/confluence-standard",
+  "/product/csp-ex-sub",
+  "/product/csp-pro-sub",
   "/product/cubase-artist",
   "/product/cubase-elements",
   "/product/cubase-pro",
   "/product/cursor-business",
+  "/product/cursor-business-premium",
+  "/product/cursor-enterprise",
+  "/product/deepl-advanced",
+  "/product/deepl-business",
   "/product/deepl-starter",
+  "/product/deposit-pack-100",
+  "/product/deposit-unl-month",
+  "/product/deposit-unl-year",
   "/product/design-collab-team",
   "/product/discord-nitro-gift-card",
   "/product/docker-business",
   "/product/docker-pro",
   "/product/docker-team",
+  "/product/dropbox-advanced",
   "/product/dropbox-standard",
+  "/product/dscrpt-business",
+  "/product/dscrpt-ent",
+  "/product/eleven-ent",
+  "/product/eleven-pro",
+  "/product/eleven-scale",
   "/product/envato-core",
+  "/product/envato-team-core",
+  "/product/epsnd-commercial",
+  "/product/epsnd-personal",
   "/product/figma-ent-collab",
+  "/product/figma-ent-dev",
   "/product/figma-ent-full",
+  "/product/figma-org-collab",
+  "/product/figma-org-dev",
   "/product/figma-org-full",
   "/product/figma-prof-collab",
+  "/product/figma-prof-dev",
   "/product/figma-prof-full",
   "/product/fl-studio-all-plugins",
   "/product/fl-studio-fruity",
   "/product/fl-studio-producer",
   "/product/fl-studio-signature",
+  "/product/fmod-basic",
+  "/product/fmod-indie",
   "/product/fmod-premium",
+  "/product/fndry-katana-team",
+  "/product/fndry-mari",
+  "/product/fndry-nuke",
+  "/product/fndry-nuke-indie",
+  "/product/fndry-nuke-studio",
   "/product/fndry-nukex",
   "/product/framer-basic",
+  "/product/framer-ent",
   "/product/framer-pro",
+  "/product/framer-scale",
+  "/product/freepik-premium",
   "/product/freepik-premium-plus",
+  "/product/gaea-ent",
   "/product/gaea-pro",
   "/product/gamma-business",
   "/product/gamma-pro",
+  "/product/gemini-workspace-enterprise",
+  "/product/gemini-workspace-standard",
   "/product/ghcopilot-business",
   "/product/ghcopilot-enterprise",
   "/product/gitlab-premium-saas",
   "/product/gitlab-premium-self-managed",
+  "/product/grammarly-business",
   "/product/grammarly-enterprise",
   "/product/graphics-pro-yearly",
   "/product/hailuo-master",
+  "/product/hailuo-max",
   "/product/hailuo-pro",
   "/product/hailuo-standard",
   "/product/heygen-business",
   "/product/heygen-ent",
   "/product/heygen-pro",
   "/product/higgsfield-pro",
+  "/product/hou-core",
+  "/product/hou-engine-ws",
   "/product/hou-fx",
   "/product/hou-indie",
   "/product/int-design-figma",
   "/product/int-dev-jetbrains",
+  "/product/int-eng-autocad",
   "/product/int-office-m365",
   "/product/izotope-neutron",
   "/product/izotope-ozone-advanced",
   "/product/izotope-ozone-standard",
+  "/product/izotope-rx-standard",
+  "/product/jasper-business",
   "/product/jasper-pro",
+  "/product/jb-ai-free",
   "/product/jb-ai-pro",
   "/product/jb-ai-ultimate",
   "/product/jb-all-pack-org",
   "/product/jb-clion-org",
+  "/product/jb-datagrip-org",
+  "/product/jb-datalore",
   "/product/jb-dotultimate-org",
   "/product/jb-goland-org",
+  "/product/jb-idea-ult-org",
   "/product/jb-phpstorm-org",
   "/product/jb-pycharm-pro-org",
+  "/product/jb-qodana",
   "/product/jb-resharper-org",
   "/product/jb-rider-org",
   "/product/jb-rubymine-org",
   "/product/jb-rustrover-org",
+  "/product/jb-teamcity",
   "/product/jb-webstorm-org",
+  "/product/jb-youtrack",
+  "/product/jira-premium",
   "/product/jira-standard",
   "/product/kimi-subscription",
   "/product/kling-premier",
   "/product/kling-pro",
   "/product/kling-standard",
+  "/product/krea-business",
   "/product/krea-pro",
+  "/product/lansweeper-pro-2000-9000-devices",
   "/product/lansweeper-starter-2000-devices",
+  "/product/leonardo-apprentice",
   "/product/leonardo-artisan",
   "/product/leonardo-maestro",
+  "/product/lovable-business",
   "/product/lumion-pro",
   "/product/lumion-pro-floating",
   "/product/lumion-view",
-  "/product/manageengine-servicedesk-professional-5",
   "/product/manageengine-servicedesk-standard-10",
   "/product/maxon-c4d-teams",
   "/product/maxon-one-teams",
   "/product/maxon-redgiant-teams",
   "/product/maxon-redshift-teams",
   "/product/maxon-zbrush-teams",
-  "/product/me-ad360",
-  "/product/me-adselfservice-plus",
+  "/product/me-endpoint-central-enterprise-distributed-enterprise-10-servers-and-single-user-license",
+  "/product/me-endpoint-central-professional-10-servers-and-single-user-license",
+  "/product/me-endpoint-central-security-10-servers-and-single-user-license",
   "/product/me-endpoint-central-uem-10-servers-and-single-user-license",
-  "/product/me-eventlog-analyzer",
   "/product/me-exchange-reporter-plus-professional-100-mailboxes",
   "/product/me-key-manager-plus-25-keys-perp",
-  "/product/me-log360",
-  "/product/me-oputils-management-250-used-switch-ports-in-spm-and-250-used-ip",
-  "/product/me-oputils-management-every-additional-250-used-ip-addresses-in-ip",
-  "/product/me-oputils-professional-250-used-switch-ports-in-spm-and-250-used-ip",
-  "/product/me-oputils-professional-every-additional-250-used-ip-addresses-in-ip",
-  "/product/me-recoverymanager-plus",
+  "/product/me-malware-protection-plus-enterprise-10-servers-perp",
+  "/product/me-pam360-enterprise-10-administrators-and-25-keys",
+  "/product/me-pam360-enterprise-multi-language-10-administrators-and-25-keys",
+  "/product/me-pam360-msp-enterprise-10-administrators-and-25-keys",
+  "/product/me-pam360-msp-enterprise-multi-language-10-administrators-and-25-keys",
+  "/product/me-password-manager-pro-enterprise-10-administrators-and-10-keys",
+  "/product/me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys",
+  "/product/me-patch-connect-plus-enterprise-250-computers-perp",
+  "/product/me-ransomware-protection-plus-enterprise-10-servers-perp",
   "/product/me-remote-access-plus-professional-25-computers-and-5-users",
+  "/product/me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license-perp",
+  "/product/miro-business",
+  "/product/miro-starter",
+  "/product/mj-mega",
+  "/product/mj-pro",
+  "/product/mj-standard",
   "/product/moarr-team",
   "/product/mono-ind",
+  "/product/mono-ind-pro",
+  "/product/mono-myfonts",
+  "/product/mono-team",
+  "/product/mrmst-tb-sub-studio",
   "/product/mrmst-tb5-studio",
+  "/product/ms-office-hb-2021-mac",
+  "/product/ms-office-hb-2021-win",
+  "/product/ms-office-hb-2024-mac",
+  "/product/ms-office-hb-2024-win",
+  "/product/ms-office-proplus-2021",
+  "/product/ms-office-proplus-2024",
   "/product/ms-project-pro-2024",
   "/product/ms-visio-pro-2019",
   "/product/ms-visio-pro-2024",
@@ -243,43 +419,69 @@
   "/product/ms-visual-studio-pro-2019",
   "/product/ms-visual-studio-pro-2022",
   "/product/ms-windows-11-pro",
+  "/product/mscopilot-m365",
+  "/product/mvls-ent-linux",
   "/product/mvls-ent-y",
+  "/product/mvls-personal-m",
+  "/product/mvls-personal-y",
   "/product/n8n-pro",
   "/product/n8n-starter",
+  "/product/ni-komplete-sel",
+  "/product/ni-komplete-std",
+  "/product/ni-komplete-ult",
   "/product/ni-rx-adv",
   "/product/notion-business",
   "/product/notion-enterprise",
   "/product/openai-api-balance",
   "/product/openai-enterprise",
-  "/product/openai-pro",
   "/product/openrouter-balance",
+  "/product/parallels-desktop-business",
   "/product/perplexity-enterprise-max",
   "/product/perplexity-enterprise-pro",
   "/product/photon-ent",
   "/product/photon-fusion-100",
+  "/product/photon-fusion-1000",
   "/product/photon-fusion-2000",
+  "/product/photon-fusion-500",
   "/product/postman-enterprise",
   "/product/postman-teams",
   "/product/prfrc-p4-cloud",
   "/product/prfrc-p4-platform",
+  "/product/prfrc-p4-scale",
   "/product/principle-license",
   "/product/principle-updates",
+  "/product/procr-dreams",
+  "/product/procr-ipad",
   "/product/recraft-ent",
   "/product/recraft-pro",
   "/product/recraft-team",
   "/product/rive-cadet",
+  "/product/rive-ent",
+  "/product/rive-voyager",
+  "/product/rizom-rs-sub",
+  "/product/rizom-vs-sub",
   "/product/rlsn-cc5",
   "/product/rlsn-iclone8",
   "/product/rlsn-suite365",
   "/product/runway-ent",
+  "/product/runway-max",
+  "/product/runway-pro",
+  "/product/runway-standard",
   "/product/sentry-business",
   "/product/sentry-team",
+  "/product/shutter-img-10",
+  "/product/shutter-img-350",
+  "/product/shutter-img-50",
+  "/product/sketch-mac",
+  "/product/sketch-pro",
   "/product/sketch-standard",
   "/product/sketchup-go",
   "/product/sketchup-pro",
   "/product/sketchup-pro-civil",
   "/product/sketchup-pro-scan",
+  "/product/slack-business-plus",
   "/product/slack-pro",
+  "/product/solidworks-design-premium",
   "/product/solidworks-design-premium-device",
   "/product/solidworks-design-professional",
   "/product/solidworks-design-professional-device",
@@ -287,18 +489,34 @@
   "/product/solidworks-design-standard-device",
   "/product/solidworks-xdesign-quarterly",
   "/product/solidworks-xdesign-yearly",
+  "/product/spdtr-ent",
+  "/product/spdtr-indie",
+  "/product/spdtr-pro-fl",
+  "/product/spdtr-pro-nl",
   "/product/spine-essential",
   "/product/spine-pro",
   "/product/suno-premier",
   "/product/suno-pro",
+  "/product/teamviewer-business",
   "/product/teamviewer-corporate",
+  "/product/teamviewer-premium",
   "/product/teamviewer-remote-access",
   "/product/think-cell-suite",
+  "/product/tlstr-screenflow",
+  "/product/tlstr-vantage",
+  "/product/tlstr-wirecast-pro",
+  "/product/tlstr-wirecast-studio",
   "/product/toonboom-harmony-advanced",
+  "/product/toonboom-harmony-premium",
+  "/product/topaz-gigapixel",
   "/product/topaz-photo",
   "/product/topaz-studio",
+  "/product/topaz-video",
+  "/product/tryhackme-business-5-seats",
   "/product/tryhackme-max",
+  "/product/tryhackme-premium",
   "/product/ue-realityscan",
+  "/product/ue-sub",
   "/product/unity-ent",
   "/product/unity-pro",
   "/product/vegas-edit-sub",
@@ -308,17 +526,37 @@
   "/product/windsurf-pro",
   "/product/windsurf-teams",
   "/product/winrar-license",
+  "/product/wndr-filmora-annual",
+  "/product/wndr-filmora-team",
+  "/product/wndr-filmora-xplat",
+  "/product/wordpress-business",
   "/product/wordpress-commerce",
+  "/product/wwise-platinum",
+  "/product/wwise-premium",
+  "/product/wwise-pro",
   "/product/xai-supergrok",
+  "/product/xai-supergrok-heavy",
+  "/product/zeplin-advanced",
+  "/product/zeplin-ent",
+  "/product/zoom-wp-business",
+  "/product/zoom-wp-business-plus",
   "/product/zoom-wp-pro",
   "/solutions",
   "/solutions/ai-dlya-prodazh",
+  "/solutions/po-dlya-razrabotki-igr",
   "/solutions/podarochnye-karty-sotrudnikam",
   "/solutions/uchet-po-i-it-aktivov",
   "/vendors",
   "/vendors/ableton",
   "/vendors/acronis",
   "/vendors/adobe",
+  "/vendors/adobe?etext=2202.0qVP6cEL0lep64gX4rBqTUso7t5_8jdjXwQW8umfRFOg0JgfCR4JHOkTqTdUyeRcGeeYC5UEo0Egx_Q6Ef8e0HZsc3pxeWZnaHJ0cmJianY.cd167c14d5362da15e783ecb0774037a84f3a2dc",
+  "/vendors/adobe?etext=2202.C6XqFLuLhqVy80zFmdNeo_oQktPZKdHlY09s5ug_-tiEHQhZyRAcsJ26xZj6jFYZdXhoamJzbmlpbW5xd213Zg.f7b4448f753847ff0239e1fba3287f36eb66cecb",
+  "/vendors/adobe?etext=2202.Ci3ty1suQYGC8tKu4v58V36E4czOq5PFuA9yEdIl0nVUWsxpPoFd8_4xZ4ndv1fUc3N0bGZmb3FnZXJmdW5wcQ.2612e0fbe495250f3af586b72921cc89115bccb7",
+  "/vendors/adobe?etext=2202.TboRu-iU2IpvmaEuOz43cXkMhOtcAwweK5R3llLRBBRbs-58Hc9ekgRX1KKti6lYZmxxaGNlaGZvbnhmemloeA.93b910e455fbbfc048e3d925321e2842fd26d9d1",
+  "/vendors/adobe?etext=2202.gU_kN8enmJltc0znsei-TwxMCeBk6HPYLNk8myg8YdcBt5g1VzQ53pNz8par-_5PeHJtaWtzem9idWZybXd3dw.58c1cdf20285939fdcae3b9dea9d54792d0564cd",
+  "/vendors/adobe?etext=2202.qmbgBOhagZWqiKp8TCyg4cfA812V3Z6qW8DW2BQLozzK_C8UyWfe4VMOtTDjeA_YeWx5dHZkamRta3plam1ucA.b3e2edb50d0c76df797a5e3fd90a202eb76bd3e5",
+  "/vendors/adobe?etext=2202.x_CrIQmezGprS5npZGomLYzzKFasXpxUmVyJAzZHckvfecPX6CF90IgC9cuey_YEZHF3a3dtZXRwdGZ4aGlkZg.87f3ed2a1270ece91cc0e986ce92fa364eff81bc",
   "/vendors/airalo",
   "/vendors/anthropic",
   "/vendors/anthropic?etext=2202.4elJqfLrzNI_wcYLaqYRhgdZgSm1bRzGsEM-7angtqh0cXpscWN6dmdtaWp5aXZk.118bd5d68c598ae873975769f79df9ca9be30083",
@@ -370,6 +608,7 @@
   "/vendors/higgsfield",
   "/vendors/houdini",
   "/vendors/izotope",
+  "/vendors/jasper",
   "/vendors/jetbrains",
   "/vendors/kimi",
   "/vendors/kling-ai",
@@ -377,12 +616,14 @@
   "/vendors/lansweeper",
   "/vendors/leonardo-ai",
   "/vendors/lovable",
+  "/vendors/lumion",
   "/vendors/manageengine",
   "/vendors/marmoset",
   "/vendors/marvelous-designer",
   "/vendors/maxon",
   "/vendors/microsoft",
   "/vendors/midjourney",
+  "/vendors/midjourney?etext=2202.EugcprZWfcKUOCoHERJAiQjIOSfObZQUHsXr14O2ucijzxWery1UFDCoLGIezJ2QbeneFnxbq1E4Ep-MGRKESXScNigA3Vwf11-cPeKgLod6cmd6eGtkYnpxY2NjYmx0.6cf81dffef98f8fae65845eb6e7d6bb4e20c663d",
   "/vendors/miro",
   "/vendors/monotype",
   "/vendors/motion-array",
@@ -412,6 +653,7 @@
   "/vendors/speedtree",
   "/vendors/spine",
   "/vendors/suno",
+  "/vendors/teamviewer",
   "/vendors/telestream",
   "/vendors/think-cell",
   "/vendors/toon-boom",
@@ -429,43 +671,25 @@
   "/vendors/zoho",
   "/vendors/zoom"
  ],
- "in_search_count": 421,
- "in_search_fetched": 421,
+ "in_search_count": 665,
+ "in_search_fetched": 665,
  "excluded": {
-  "/compare/cursor-vs-windsurf": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
+  "/product/artlst-social": {
+   "status": "NO_INDEX",
+   "date": "2026-09-23",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/acronis-cp-adv-3vm": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
+  "/product/manageengine-servicedesk-professional-5": {
+   "status": "HTTP_ERROR",
+   "date": "2026-09-23",
+   "bad_http_status": 404,
    "target_url": null
   },
-  "/product/acronis-cp-adv-vhost": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-standard-3vm": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-standard-server": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-standard-ws": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
+  "/product/openai-pro": {
+   "status": "HTTP_ERROR",
+   "date": "2026-09-23",
+   "bad_http_status": 404,
    "target_url": null
   },
   "/product/adobe-acro-pro": {
@@ -486,18 +710,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/anthropic-enterprise": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/anydesk-namespace": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/anydesk-solo": {
    "status": "NO_INDEX",
    "date": "2026-09-20",
@@ -510,20 +722,8 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/binance-usdc-gift-card": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/bitdefender-ultimate-security-family": {
    "status": "NO_INDEX",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/chatgpt-business-premium": {
-   "status": "LOW_QUALITY",
    "date": "2026-09-20",
    "bad_http_status": null,
    "target_url": null
@@ -534,26 +734,8 @@
    "bad_http_status": 404,
    "target_url": null
   },
-  "/product/cursor-enterprise": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/dropbox-plus": {
    "status": "NO_INDEX",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/gemini-workspace-standard": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/hailuo-max": {
-   "status": "LOW_QUALITY",
    "date": "2026-09-20",
    "bad_http_status": null,
    "target_url": null
@@ -563,18 +745,6 @@
    "date": "2026-09-20",
    "bad_http_status": null,
    "target_url": "https://biz-soft.pro/product/heygen-pro"
-  },
-  "/product/lansweeper-pro-2000-9000-devices": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/leonardo-apprentice": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
   },
   "/product/lovable-pro": {
    "status": "NO_INDEX",
@@ -602,12 +772,6 @@
   },
   "/product/moarr-everything": {
    "status": "NO_INDEX",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mscopilot-m365": {
-   "status": "LOW_QUALITY",
    "date": "2026-09-20",
    "bad_http_status": null,
    "target_url": null
@@ -642,42 +806,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/teamviewer-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/xai-supergrok-heavy": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/solutions/po-dlya-razrabotki-igr": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/vendors/jasper": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/vendors/lumion": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/vendors/teamviewer": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-20",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/vegas-edit-perp": {
    "status": "NO_INDEX",
    "date": "2026-09-19",
@@ -690,109 +818,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/catalog/ai/code": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/ai/image": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/ai/office": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/catalog/ai/text": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/endpoint": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/engineering": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/monitoring": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/pm": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/vcs": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-adv-ws": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-backup-adv-email-5": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-backup-adv-gws-5": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/avid-pt-studio": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/bmd-resolve-studio": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/cursor-business-premium": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/deepl-advanced": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/deepl-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fndry-nuke-studio": {
    "status": "LOW_QUALITY",
    "date": "2026-09-15",
    "bad_http_status": null,
@@ -888,18 +914,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/me-endpoint-central-professional-10-servers-and-single-user-license": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/me-endpoint-central-security-10-servers-and-single-user-license": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/me-endpoint-dlp-plus-professional-100-workstations": {
    "status": "LOW_QUALITY",
    "date": "2026-09-15",
@@ -966,19 +980,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/me-password-manager-pro-enterprise-10-administrators-and-10-keys": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/me-password-manager-pro-enterprise-10-administrators-and-10-keys-perp": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/me-password-manager-pro-msp-enterprise-10-administrators-and-10-keys": {
    "status": "LOW_QUALITY",
    "date": "2026-09-15",
    "bad_http_status": null,
@@ -1056,48 +1058,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/ms-office-hb-2021-mac": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ms-office-hb-2021-win": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ms-office-hb-2024-mac": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ms-office-hb-2024-win": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ms-office-proplus-2021": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mvls-personal-y": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/tlstr-wirecast-studio": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/vendors/adobe?etext=2202.I5EmsuMYExjKVrXihVmZ0-OP6Ite5JIjkON0y-Sp7DSczKhD81SvWHKXqdgwy7Fdc3Jyc2hnenhkZmp3enFpeA.68f85ec87847d208120cf1f3ebcb3a0314307276": {
    "status": "NOT_CANONICAL",
    "date": "2026-09-15",
@@ -1128,30 +1088,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/acronis-cp-backup-adv-server": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-10",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-backup-adv-vhost": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-10",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/acronis-cp-backup-adv-ws": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-10",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/anydesk-advanced": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-10",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/me-admanager-plus-msp-helpdesk-technicians-1-helpdesk-technicians": {
    "status": "LOW_QUALITY",
    "date": "2026-09-10",
@@ -1170,67 +1106,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/catalog/ai/audio": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/ai/enterprise": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/ai/marketing": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/collaboration": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/iam": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/security": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/catalog/system": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/catalog/web": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-acro-std": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-animate": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-audition": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1242,139 +1118,13 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/adobe-cc-std": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-dw": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-ff-enterprise": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-ff-teams": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-incopy": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-ps": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-stock-10": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adobe-substance-team": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adsk-3dsmax": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adsk-maya": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adsk-mecoll": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adsk-motionbuilder": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/adsk-mudbox": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/avid-mc-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/avid-mc-ult": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/avid-pt-artist": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/avid-pt-ult-perp": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/bitdefender-gravityzone-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/bitdefender-gravityzone-premium": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/bitdefender-premium-security-ind": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/bitdefender-total-security-ind": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/boris-continuum-perp": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/boris-continuum-sub": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1392,67 +1142,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/boris-sapphire-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/boris-suite-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/box-business-plus": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/canva-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/canva-ent": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/canva-pro": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/cdr-gs-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/cdr-painter-perp": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/cdr-painter-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/cloudflare-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/csp-ex-sub": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1464,67 +1154,13 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/csp-pro-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/deposit-pack-100": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/deposit-unl-year": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/dropbox-advanced": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/dscrpt-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/dscrpt-creator": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/dscrpt-ent": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/eleven-creator": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/eleven-ent": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/eleven-pro": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/eleven-scale": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1542,121 +1178,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/envato-team-core": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/epsnd-commercial": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/epsnd-personal": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/figma-ent-dev": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/figma-org-collab": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/figma-org-dev": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/figma-prof-dev": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fmod-basic": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fmod-indie": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fndry-katana-team": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fndry-mari": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fndry-nuke": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/fndry-nuke-indie": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/framer-ent": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/framer-scale": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/freepik-premium": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/gaea-ent": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/gaea-indie": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/hou-core": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/hou-engine-ws": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -1667,78 +1189,6 @@
    "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": "https://biz-soft.pro/product/miro-business"
-  },
-  "/product/int-eng-autocad": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/izotope-rx-standard": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jasper-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jb-ai-free": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jb-datagrip-org": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jb-datalore": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jb-idea-ult-org": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jb-qodana": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jb-teamcity": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jb-youtrack": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/jira-premium": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/lovable-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
   },
   "/product/maxon-redgiant": {
    "status": "LOW_QUALITY",
@@ -1944,103 +1394,13 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/miro-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/miro-starter": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mj-mega": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mj-pro": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mj-standard": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mono-ind-pro": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mono-myfonts": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mono-team": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/mrmst-tb-sub-ind": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/mrmst-tb-sub-studio": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/mrmst-tb5-ind": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ms-office-proplus-2024": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mvls-ent-linux": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/mvls-personal-m": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ni-komplete-sel": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ni-komplete-std": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ni-komplete-ult": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -2070,55 +1430,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/parallels-desktop-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/photon-fusion-1000": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/photon-fusion-500": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/prfrc-p4-scale": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/procr-dreams": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/procr-ipad": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/recraft-advanced": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/rive-ent": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/rive-voyager": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -2130,211 +1442,13 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/rizom-rs-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/rizom-vs-perp": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/rizom-vs-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/runway-max": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/runway-pro": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/runway-standard": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/shutter-img-10": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/shutter-img-350": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/shutter-img-50": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/sketch-mac": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/sketch-pro": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/slack-business-plus": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/solidworks-design-premium": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/spdtr-ent": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/spdtr-indie": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/spdtr-pro-fl": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/spdtr-pro-nl": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/teamviewer-premium": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/tlstr-screenflow": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/tlstr-vantage": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/tlstr-wirecast-pro": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/toonboom-harmony-premium": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/topaz-gigapixel": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/topaz-video": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/ue-sub": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/wndr-filmora-annual": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/wndr-filmora-perp-win": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/wndr-filmora-team": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/wndr-filmora-xplat": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/wordpress-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/wwise-platinum": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/wwise-premium": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/wwise-pro": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/zeplin-advanced": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/zeplin-ent": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
    "bad_http_status": null,
@@ -2370,18 +1484,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/zoom-wp-business": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/zoom-wp-business-plus": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/solutions/ai-dlya-razrabotchikov": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
@@ -2412,25 +1514,7 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/compare/claude-vs-gemini": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-07",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/compare/perplexity-vs-chatgpt": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-07",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/deposit-unl-month": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-07",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/krea-business": {
    "status": "LOW_QUALITY",
    "date": "2026-09-07",
    "bad_http_status": null,
@@ -2484,31 +1568,13 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/compare/chatgpt-vs-claude": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-06",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/compare/chatgpt-vs-gemini": {
    "status": "LOW_QUALITY",
    "date": "2026-09-06",
    "bad_http_status": null,
    "target_url": null
   },
-  "/compare/midjourney-vs-firefly": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-06",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/compare/notion-vs-chatgpt": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-06",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/compare/runway-vs-heygen": {
    "status": "LOW_QUALITY",
    "date": "2026-09-06",
    "bad_http_status": null,
@@ -2533,12 +1599,6 @@
    "target_url": null
   },
   "/product/me-oputils-management-every-additional-250-used-ports-in-switch-po-perp": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-06",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/me-pam360-enterprise-10-administrators-and-25-keys": {
    "status": "LOW_QUALITY",
    "date": "2026-09-06",
    "bad_http_status": null,
@@ -2629,6 +1689,6 @@
    "target_url": null
   }
  },
- "events_count": 2013,
- "events_fetched": 2013
+ "events_count": 2263,
+ "events_fetched": 2261
 }
