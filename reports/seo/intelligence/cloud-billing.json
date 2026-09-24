@@ -1,6 +1,6 @@
 {
- "fetched_at": "2026-09-23T01:48:25+00:00",
- "date": "2026-09-23",
+ "fetched_at": "2026-09-24T00:57:55+00:00",
+ "date": "2026-09-24",
  "account_id": "dn2wankgmou5ygwbjvgl",
  "account_name": "account-558",
  "currency": "RUB",
@@ -17,6 +17,12 @@
    "name": "Retrieving data from the Wordstat API (GetRegionsDistribution)",
    "unit": "1k*request",
    "price_rub": 50.0
+  },
+  {
+   "id": "dn2hndpvdqj7zmn2gnqx",
+   "name": "Generative Models. Start Subscription",
+   "unit": "user",
+   "price_rub": 1190.0
   },
   {
    "id": "dn2iwfpcocjyvohg6v2t",
@@ -37,10 +43,28 @@
    "price_rub": 0.00254
   },
   {
+   "id": "dn2kdweyt7vdgefwpujj",
+   "name": "Generative Models. Go X15 Subscription",
+   "unit": "user",
+   "price_rub": 11490.0
+  },
+  {
    "id": "dn2mrng7mplxybehwpa2",
    "name": "Daytime deferred text requests",
    "unit": "1k*request",
    "price_rub": 30.5
+  },
+  {
+   "id": "dn2nmlwtxeapu7ducxrn",
+   "name": "Generative Models. Go Subscription",
+   "unit": "user",
+   "price_rub": 2490.0
+  },
+  {
+   "id": "dn2tqvjdoszvgp54qfh6",
+   "name": "Generative Models. Go X5 Subscription",
+   "unit": "user",
+   "price_rub": 5490.0
   },
   {
    "id": "dn2tziigzjmvmz7jva4n",
