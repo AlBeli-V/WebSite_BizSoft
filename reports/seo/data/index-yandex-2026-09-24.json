@@ -66,7 +66,6 @@
   "/cases",
   "/catalog",
   "/catalog/ai",
-  "/catalog/ai/audio",
   "/catalog/ai/code",
   "/catalog/ai/enterprise",
   "/catalog/ai/image",
@@ -183,7 +182,6 @@
   "/product/app-store-itunes-gift-card?etext=2202.Dow5nnFJkUr4cKttaLdTmD_jwDklNN8GvdPUsl_S1iB1VNq6FLfWQXLx75fQUcv69JcUQV97g89M3c9VrhSEB3Vqd2Jod3dxcHNuZXhhZ3k.6eeb7111172df9de2ae1a0b58841decf9335649c",
   "/product/app-store-itunes-gift-card?etext=2202.E_Uwe-95WM706h4YwM9O08jS8ZUntnctOwAp-8UXBNBxdXlmamRwYmJwc2xoem9q.90b3c3873739557df4b16c126bf6382e26367d4e",
   "/product/app-store-itunes-gift-card?etext=2202.FKEzDOdZH9ElHZVlpBlsfedAVgKGk8niIS3T9UVke1clKTheuYrsOwHvEADOwvFKk_wWAX_8-3HhOue9OdiSKmFqb2dmaGRkbWltempzb2s.9cd7a89e977b0f68ccad5da4f651fbf79599b7fa",
-  "/product/app-store-itunes-gift-card?etext=2202.IGOGzIlx4n02dGV-s7A3LGYe82aJOneXYNnnFO6Zawncu7x37-XapYuKJRmb0KK-dGR2YWxjbHRuZmdjb3p1eA.fff8d7c88ac8940f8aebb09052d3b20ce37559ca",
   "/product/app-store-itunes-gift-card?etext=2202.KSpqYXsqrMjxy5eODWtVQDY-M135rmgz4rNHQ3xyxAnhM8s61lfMrn35hvoxJLEHYj3j10xnJnXMnn1Hh8gt9mNmcWNqeHJna3dwdHJmcmE.7664b08815a5d3192133f27e20e7db25f2bf4e6d",
   "/product/app-store-itunes-gift-card?etext=2202.NOU6LTq5ETmYHqO4P89Rb0vHcPkOZDaYr2kP_5Hz9bQdZMCNk9nmNuc4aaN3hEGo31Ce1OPlaj9ekyKNFNgOhGthaG1oZHl5Z25hYWVmaXM.ef8dfc37ff79c1b42016595f4d8d1232b2659ef3",
   "/product/app-store-itunes-gift-card?etext=2202.NoDIjUVgTvMflDzbdE1t0EEEixGFxPrq5IEqmrFn4RhwbXBlY2lpdWxqc2pmdXhv.d520485f1c87a440ac5eaa39593ebda69bc581ae",
@@ -671,9 +669,21 @@
   "/vendors/zoho",
   "/vendors/zoom"
  ],
- "in_search_count": 665,
- "in_search_fetched": 665,
+ "in_search_count": 663,
+ "in_search_fetched": 663,
  "excluded": {
+  "/catalog/ai/audio": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-24",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/app-store-itunes-gift-card?etext=2202.IGOGzIlx4n02dGV-s7A3LGYe82aJOneXYNnnFO6Zawncu7x37-XapYuKJRmb0KK-dGR2YWxjbHRuZmdjb3p1eA.fff8d7c88ac8940f8aebb09052d3b20ce37559ca": {
+   "status": "CLEAN_PARAMS",
+   "date": "2026-09-24",
+   "bad_http_status": null,
+   "target_url": null
+  },
   "/product/artlst-social": {
    "status": "NO_INDEX",
    "date": "2026-09-23",
@@ -1689,6 +1699,6 @@
    "target_url": null
   }
  },
- "events_count": 2263,
- "events_fetched": 2261
+ "events_count": 2265,
+ "events_fetched": 2263
 }
