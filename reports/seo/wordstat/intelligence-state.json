@@ -1,6 +1,6 @@
 {
  "date": "2026-09-24",
- "generated_at": "2026-09-24T06:11:50+00:00",
+ "generated_at": "2026-09-24T07:45:58+00:00",
  "measured_at": "2026-09-20",
  "universe": {
   "phrases": 24964,
@@ -17,7 +17,7 @@
   "levels": {
    "page": 0.964,
    "indexed": 0.8585,
-   "top10": 0.7776,
+   "top10": 0.7765,
    "clicks": 0.001,
    "conversion_measured": null,
    "qualified_leads": null
@@ -57,10 +57,10 @@
   "AI-сервисы": {
    "demand": 84562,
    "covered": 84562,
-   "top10": 48026,
+   "top10": 48424,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.568,
+   "top10_coverage": 0.573,
    "click_coverage": 0.0
   },
   "Офисное ПО": {
@@ -84,10 +84,10 @@
   "Дизайн и графика": {
    "demand": 38883,
    "covered": 38883,
-   "top10": 4961,
+   "top10": 4947,
    "clicks": 989,
    "page_coverage": 1.0,
-   "top10_coverage": 0.128,
+   "top10_coverage": 0.127,
    "click_coverage": 0.025
   },
   "Звук, видео и медиа": {
@@ -102,10 +102,10 @@
   "Средства разработки": {
    "demand": 10957,
    "covered": 10957,
-   "top10": 10814,
+   "top10": 9373,
    "clicks": 0,
    "page_coverage": 1.0,
-   "top10_coverage": 0.987,
+   "top10_coverage": 0.855,
    "click_coverage": 0.0
   },
   "Системное ПО": {
@@ -187,12 +187,12 @@
   "C": 78
  },
  "gaps_by_class": {
-  "GAP-C": 7,
+  "GAP-C": 6,
   "GAP-D": 26,
   "GAP-E": 1,
   "GAP-G": 1,
   "GAP-H": 24,
-  "GAP-N": 21
+  "GAP-N": 22
  },
  "uncovered_top": [
   {
@@ -223,8 +223,8 @@
    "url": "/vendors/apple",
    "page_exists": true,
    "indexed": true,
-   "best_position": 9.62,
-   "impressions": 26,
+   "best_position": 9.58,
+   "impressions": 24,
    "clicks": 0,
    "ctr": 0.0,
    "trend": "stable",
@@ -256,8 +256,8 @@
     "оплата": 59945,
     "цены и тарифы": 40428
    },
-   "step": "Переписать сниппет /vendors/apple: 26 показов, 0 переходов",
-   "prompt": "У /vendors/apple позиция 9.62 по «apple купить» и 26 показов, но всего 0 переходов — люди видят нас в выдаче и не заходят. Перепиши title и description под коммерческий интент: оплата на юрлицо, счёт, договор, ЭДО. Ядро title не длиннее 65 символов, description до 160. Заведи как отдельный эксперимент со своей датой старта, контроль 2026-10-01. Важно: выкат на сайте не равен обновлению сниппета в выдаче — фиксируй их раздельно.",
+   "step": "Переписать сниппет /vendors/apple: 24 показов, 0 переходов",
+   "prompt": "У /vendors/apple позиция 9.58 по «apple купить» и 24 показов, но всего 0 переходов — люди видят нас в выдаче и не заходят. Перепиши title и description под коммерческий интент: оплата на юрлицо, счёт, договор, ЭДО. Ядро title не длиннее 65 символов, description до 160. Заведи как отдельный эксперимент со своей датой старта, контроль 2026-10-01. Важно: выкат на сайте не равен обновлению сниппета в выдаче — фиксируй их раздельно.",
    "success": "CTR по «apple купить» выше текущего при том же объёме показов к 2026-10-01",
    "check_on": "2026-10-01",
    "opportunity_score": 0.315,
@@ -401,8 +401,8 @@
    "url": "/vendors/anthropic",
    "page_exists": true,
    "indexed": true,
-   "best_position": 9.0,
-   "impressions": 6,
+   "best_position": 7.0,
+   "impressions": 8,
    "clicks": 0,
    "ctr": 0.0,
    "trend": "growing",
@@ -434,8 +434,8 @@
     "подписка и продление": 258,
     "прочее": 229
    },
-   "step": "Переписать сниппет /vendors/anthropic: 6 показов, 0 переходов",
-   "prompt": "У /vendors/anthropic позиция 9.0 по «claude купить» и 6 показов, но всего 0 переходов — люди видят нас в выдаче и не заходят. Перепиши title и description под коммерческий интент: оплата на юрлицо, счёт, договор, ЭДО. Ядро title не длиннее 65 символов, description до 160. Заведи как отдельный эксперимент со своей датой старта, контроль 2026-10-01. Важно: выкат на сайте не равен обновлению сниппета в выдаче — фиксируй их раздельно.",
+   "step": "Переписать сниппет /vendors/anthropic: 8 показов, 0 переходов",
+   "prompt": "У /vendors/anthropic позиция 7.0 по «claude купить» и 8 показов, но всего 0 переходов — люди видят нас в выдаче и не заходят. Перепиши title и description под коммерческий интент: оплата на юрлицо, счёт, договор, ЭДО. Ядро title не длиннее 65 символов, description до 160. Заведи как отдельный эксперимент со своей датой старта, контроль 2026-10-01. Важно: выкат на сайте не равен обновлению сниппета в выдаче — фиксируй их раздельно.",
    "success": "CTR по «claude купить» выше текущего при том же объёме показов к 2026-10-01",
    "check_on": "2026-10-01",
    "opportunity_score": 0.01646,
@@ -524,14 +524,14 @@
   "note": "Российские вендоры исключены: их лицензии продаются напрямую, услуга оплаты из-за рубежа к ним неприменима."
  },
  "efficiency": {
-  "calls_total": 13385,
+  "calls_total": 13455,
   "calls_paid": 349,
   "cost_month_rub": 7.07,
   "cost_today_rub": 0.0,
   "remaining_budget_rub": 5492.93,
   "forecast_month_end_rub": 8.84,
   "state": "open",
-  "cache_hit_rate": 0.9739,
+  "cache_hit_rate": 0.9741,
   "duplicate_rate": 0.7181,
   "unique_phrases": 1917,
   "new_commercial_phrases": 662,
@@ -539,7 +539,7 @@
   "cost_per_1000_unique_phrases_rub": 3.688,
   "cost_per_1000_commercial_phrases_rub": 10.68,
   "cost_per_new_cluster_rub": 0.7856,
-  "empty_response_rate": 0.3848
+  "empty_response_rate": 0.3854
  },
  "quota": {
   "requests_per_hour": 500,
@@ -555,7 +555,7 @@
   "coverage": {
    "page": 0.964,
    "indexed": 0.8585,
-   "top10": 0.7776
+   "top10": 0.7765
   },
   "lead_opportunity": {
    "cluster": "apple",
