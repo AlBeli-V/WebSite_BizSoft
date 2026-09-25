@@ -1,0 +1,572 @@
+{
+ "date": "2026-09-25",
+ "collected_at": "2026-09-25T06:23:43+00:00",
+ "source": "directus:leads",
+ "leads_available": true,
+ "leads": [
+  {
+   "id": 32,
+   "created_at": "2026-09-14T14:41:18.269Z",
+   "company": "7604352537",
+   "inn": "7604352537",
+   "form_source": "quote",
+   "source": "quote",
+   "product_ref": "Claude Team, Standard seat и ещё 1",
+   "amount": 730002,
+   "quote_no": "BZ-20260914-74242",
+   "status": "new",
+   "first_touch_source": "yandex.ru / referral",
+   "first_touch_ts": "2026-09-11T11:04:27.697Z",
+   "last_touch_source": "yandex.ru / referral",
+   "landing_path": "/",
+   "ym_client_id": "1789124668773719197",
+   "journey": {
+    "available": true,
+    "visits": 3,
+    "first_visit": "2026-09-11",
+    "last_visit": "2026-09-14",
+    "steps": [
+     {
+      "date": "2026-09-11",
+      "source": "organic",
+      "engine": "Yandex",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-14",
+      "source": "internal",
+      "engine": "",
+      "landing": "/contacts",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-14",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "id": 33,
+   "created_at": "2026-09-15T06:13:08.604Z",
+   "company": "БурСервис",
+   "inn": "1106013435",
+   "form_source": "quote",
+   "source": "quote",
+   "product_ref": "ChatGPT Business, Standard seat",
+   "amount": 170151,
+   "quote_no": "BZ-20260915-78227",
+   "status": "new",
+   "first_touch_source": "vc.ru / referral",
+   "first_touch_ts": "2026-09-01T07:37:16.913Z",
+   "last_touch_source": "vc.ru / referral",
+   "landing_path": "/",
+   "ym_client_id": "1782662828332324749",
+   "journey": {
+    "available": true,
+    "visits": 76,
+    "first_visit": "2026-06-28",
+    "last_visit": "2026-09-15",
+    "steps": [
+     {
+      "date": "2026-06-28",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-07-02",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-07-04",
+      "source": "internal",
+      "engine": "",
+      "landing": "/vendors/adobe",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-07-04",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-07-05",
+      "source": "internal",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-07-05",
+      "source": "internal",
+      "engine": "",
+      "landing": "/catalog/ai",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-07-05",
+      "source": "internal",
+      "engine": "",
+      "landing": "/vendors/adobe",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-07-05",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-07-06",
+      "source": "internal",
+      "engine": "",
+      "landing": "/catalog/ai",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-07-06",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-07-14",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-07-15",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-12",
+      "source": "direct",
+      "engine": "",
+      "landing": "/vendors/heygen",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-18",
+      "source": "internal",
+      "engine": "",
+      "landing": "/vendors/adobe",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-18",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 3.0
+     },
+     {
+      "date": "2026-08-19",
+      "source": "internal",
+      "engine": "",
+      "landing": "/product/sketchup-pro-civil",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-19",
+      "source": "internal",
+      "engine": "",
+      "landing": "/vendors",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-19",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-20",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-08-21",
+      "source": "internal",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-22",
+      "source": "internal",
+      "engine": "",
+      "landing": "/catalog/system",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-25",
+      "source": "internal",
+      "engine": "",
+      "landing": "/vendors/maxon",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-25",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 3.0
+     },
+     {
+      "date": "2026-08-26",
+      "source": "internal",
+      "engine": "",
+      "landing": "/catalog",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-26",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 3.0
+     },
+     {
+      "date": "2026-08-28",
+      "source": "internal",
+      "engine": "",
+      "landing": "/catalog",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-08-28",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-08-29",
+      "source": "internal",
+      "engine": "",
+      "landing": "/catalog",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-01",
+      "source": "referral",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-02",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 3.0
+     },
+     {
+      "date": "2026-09-02",
+      "source": "direct",
+      "engine": "",
+      "landing": "/blog",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-03",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-03",
+      "source": "direct",
+      "engine": "",
+      "landing": "/product/deposit-unl-month",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-10",
+      "source": "internal",
+      "engine": "",
+      "landing": "/",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-09-10",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-09-11",
+      "source": "internal",
+      "engine": "",
+      "landing": "/vendors/openai",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-11",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 3.0
+     },
+     {
+      "date": "2026-09-12",
+      "source": "internal",
+      "engine": "",
+      "landing": "/catalog",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-12",
+      "source": "internal",
+      "engine": "",
+      "landing": "/product/maxon-redgiant-teams",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-12",
+      "source": "internal",
+      "engine": "",
+      "landing": "/product/maxon-redshift-teams",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-12",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 3.0
+     },
+     {
+      "date": "2026-09-12",
+      "source": "direct",
+      "engine": "",
+      "landing": "/product/chatgpt-business",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-13",
+      "source": "internal",
+      "engine": "",
+      "landing": "/catalog",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-13",
+      "source": "internal",
+      "engine": "",
+      "landing": "/product/chatgpt-business",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-13",
+      "source": "internal",
+      "engine": "",
+      "landing": "/product/maxon-redgiant-teams",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-13",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-09-14",
+      "source": "internal",
+      "engine": "",
+      "landing": "/product/figma-prof-collab",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-14",
+      "source": "internal",
+      "engine": "",
+      "landing": "/vendors/perplexity",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-09-14",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 2.0
+     },
+     {
+      "date": "2026-09-15",
+      "source": "internal",
+      "engine": "",
+      "landing": "/cart",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-15",
+      "source": "internal",
+      "engine": "",
+      "landing": "/product/chatgpt-business-premium",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-15",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-15",
+      "source": "email",
+      "engine": "",
+      "landing": "/offer/m257UaOJTxWc9MPNeih4oXpRNxncCwBi",
+      "visits": 2.0
+     }
+    ]
+   }
+  },
+  {
+   "id": 34,
+   "created_at": "2026-09-15T09:26:53.940Z",
+   "company": "ООО \"ИТ МАТРИЦА\"",
+   "inn": "7724329635",
+   "form_source": "quote",
+   "source": "quote",
+   "product_ref": "Claude Team, Standard seat и ещё 9",
+   "amount": 1330434,
+   "quote_no": "BZ-20260915-29343",
+   "status": "new",
+   "first_touch_source": "dzen.ru / referral",
+   "first_touch_ts": "2026-09-02T09:43:53.501Z",
+   "last_touch_source": "dzen.ru / referral",
+   "landing_path": "/blog/kak-kupit-zarubezhnoe-po-dlya-yurlica"
+  },
+  {
+   "id": 35,
+   "created_at": "2026-09-15T11:36:58.843Z",
+   "company": "ООО НПО «Компания СИВИК»",
+   "inn": "5506057995",
+   "form_source": "product",
+   "source": "product",
+   "product_ref": "Artlist Music & SFX Pro (ARTL-LIC-PRO-IND-1Y-USER)",
+   "status": "new",
+   "first_touch_source": "alice.yandex.ru / referral",
+   "first_touch_ts": "2026-09-15T11:25:14.137Z",
+   "last_touch_source": "alice.yandex.ru / referral",
+   "landing_path": "/product/artlst-social",
+   "ym_client_id": "1789471515757624736",
+   "journey": {
+    "available": true,
+    "visits": 1,
+    "first_visit": "2026-09-15",
+    "last_visit": "2026-09-15",
+    "steps": [
+     {
+      "date": "2026-09-15",
+      "source": "referral",
+      "engine": "",
+      "landing": "/product/artlst-social",
+      "visits": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "id": 36,
+   "created_at": "2026-09-18T21:01:52.989Z",
+   "company": "ООО \"КВИЛ ТЕХНОЛОДЖИС\"",
+   "inn": "9709104430",
+   "form_source": "quote",
+   "source": "quote",
+   "product_ref": "Cursor Business и ещё 1",
+   "amount": 183449,
+   "quote_no": "BZ-20260918-19697",
+   "status": "new",
+   "ym_client_id": "1789764945199743597",
+   "journey": {
+    "available": true,
+    "visits": 1,
+    "first_visit": "2026-09-18",
+    "last_visit": "2026-09-18",
+    "steps": [
+     {
+      "date": "2026-09-18",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "id": 37,
+   "created_at": "2026-09-21T15:30:33.529Z",
+   "company": "АО \"Эксар\"",
+   "inn": "7704792651",
+   "form_source": "contacts",
+   "source": "contacts",
+   "product_ref": "количество: 3",
+   "status": "new",
+   "ym_client_id": "1789629186787935228",
+   "journey": {
+    "available": true,
+    "visits": 2,
+    "first_visit": "2026-09-17",
+    "last_visit": "2026-09-21",
+    "steps": [
+     {
+      "date": "2026-09-17",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     },
+     {
+      "date": "2026-09-21",
+      "source": "direct",
+      "engine": "",
+      "landing": "/",
+      "visits": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "id": 38,
+   "created_at": "2026-09-24T09:36:40.124Z",
+   "company": "ООО \"КТС\"",
+   "inn": "7816764606",
+   "form_source": "product",
+   "source": "product",
+   "product_ref": "Claude Team, Standard seat (ANTH-LIC-CLAUDETEAM-TEAM-1Y-USER-STD) — 2 рабочих места",
+   "status": "new"
+  }
+ ],
+ "metrika": {
+  "available": true,
+  "error": null,
+  "counter": "110206070"
+ }
+}
