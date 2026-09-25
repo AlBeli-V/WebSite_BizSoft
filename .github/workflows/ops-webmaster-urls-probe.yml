@@ -1,0 +1,66 @@
+# Замер: каким вызовом Вебмастер отдаёт показы и клики в разрезе URL.
+#
+# expires: 2026-10-10 — одноразовая диагностика. Когда вызов найден (или
+# установлено, что метода в API нет), workflow удаляется вместе со скриптом.
+#
+# Повод. Срез popular_urls заведён 18.09.2026 под разбор выпадения карточек из
+# поиска и не отдал ни одной строки: все прогоны с 18 по 24.09 возвращают
+# HTTP 404 RESOURCE_NOT_FOUND. Соседние методы того же хоста отвечают, значит
+# доступ в порядке и расходится сам вызов. Решение руководителя 24.09.2026
+# (кнопками): сначала замер, потом правка — гадать вслепую запрещает урок
+# отказа Метрики, где две правки наугад отказ не сняли.
+#
+# Скрипт перебирает вызовы по одному различию за раз и печатает ответ целиком.
+# Только чтение: ни сайт, ни кабинет не меняются.
+#
+# Ручной запуск — только с main (правило проекта о production-workflow).
+name: ops-webmaster-urls-probe
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard - only default branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Запуск разрешён только с ветки main (правило проекта)"
+          exit 1
+
+      # always() — шаг журнала ниже тоже always(): без этого при падении
+      # раннего шага checkout пропустится и запись в issue не пройдёт.
+      - name: Checkout
+        if: always()
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Probe Webmaster URL slices
+        id: run
+        env:
+          YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
+        run: |
+          pip install --quiet requests
+          rc=0
+          {
+            echo 'result<<PROBE_EOF'
+            python3 scripts/seo/webmaster_urls_probe.py 2>&1 || rc=$?
+            echo 'PROBE_EOF'
+          } >> "$GITHUB_OUTPUT"
+          exit $rc
+
+      - name: Post to issue
+        if: always()
+        uses: ./.github/actions/journal-post
+        with:
+          title: "ops-webmaster-urls-probe (показы и клики по URL)"
+          outcome: ${{ steps.run.outcome }}
+          body: ${{ steps.run.outputs.result }}
