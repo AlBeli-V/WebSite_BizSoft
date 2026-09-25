@@ -48,11 +48,6 @@ EXPECTED_GA_MEASUREMENT_ID = 'G-V9BK2D1431'
 PAGE_LIMIT = 100
 MAX_QUERIES = 2000
 
-# Популярные страницы Вебмастера — тот же постраничный обход, свой потолок.
-# Карта сайта держит около 720 адресов, показы получает меньшая часть; 2000
-# берётся с запасом на рост каталога и на адреса вне карты (метки, дубли).
-MAX_URLS = 2000
-
 # Пары «запрос × страница × день» GSC — сенсор для детекторов каннибализации
 # и query-page mismatch (этапы 0–1 Growth Engine). День в измерениях нужен
 # каннибализации: смена лидера по запросу видна только в дневном разрезе.
@@ -299,51 +294,29 @@ def fetch_popular_queries(headers: dict, uid, host_id: str,
             'count': (page or {}).get('count', len(queries))}
 
 
-def fetch_popular_urls(headers: dict, uid, host_id: str,
-                       date_from: dt.date, date_to: dt.date) -> dict:
-    """Популярные страницы хоста за окно — показы, клики и CTR в разрезе URL.
-
-    Зачем этот срез. До 18.09.2026 конвейер знал показы только по хосту
-    (`popular_queries`) — сумму по сайту. Разбор массового исключения карточек
-    09.09 и 15.09 (INDEX-002, INDEX-004) перебрал тексты, цену, вендора и дубли
-    и ни одним признаком выпавшие карточки от уцелевших не отделил. Последний
-    неразобранный признак — отклик страницы в выдаче, а он без разреза по URL
-    не считается: по хосту видно, что CTR на позициях 4–10 равен 0,22%, но не
-    видно, у каких именно страниц.
-
-    Форма ответа та же, что у популярных запросов: date_from/date_to/count/
-    fetched/urls, при сбое — error. Контракт метода подтверждается первым
-    боевым прогоном: если ответ придёт без ключа `urls`, срез сохраняет
-    ошибку с началом тела, а не пустой список, — пустой список здесь
-    неотличим от «показов не было» и дал бы честный на вид ноль.
-    """
-    params = {
-        'order_by': 'TOTAL_SHOWS',
-        'url_indicator': ['TOTAL_SHOWS', 'TOTAL_CLICKS'],
-        'date_from': date_from.isoformat(),
-        'date_to': date_to.isoformat(),
-        'limit': PAGE_LIMIT,
-    }
-    url = f'{WEBMASTER_API}/{uid}/hosts/{host_id}/search-urls/popular/'
-
-    urls, page, meta = [], None, {}
-    for offset in range(0, MAX_URLS, PAGE_LIMIT):
-        data, err = api_json(url, headers=headers, params={**params, 'offset': offset})
-        if err:
-            meta = meta or {'error': err}
-            break
-        if not isinstance(data, dict) or 'urls' not in data:
-            meta = meta or {'error': ('ответ без ключа urls: '
-                                      + json.dumps(data, ensure_ascii=False)[:500])}
-            break
-        page = data
-        chunk = page.get('urls') or []
-        meta = meta or {k: v for k, v in page.items() if k != 'urls'}
-        urls.extend(chunk)
-        if len(chunk) < PAGE_LIMIT or len(urls) >= (page.get('count') or 0):
-            break
-    return {**meta, 'urls': urls, 'fetched': len(urls),
-            'count': (page or {}).get('count', len(urls))}
+# Показов и кликов в разрезе URL в API Вебмастера нет — замер 25.09.2026.
+#
+# Срез popular_urls жил здесь с 18.09 под разбор выпадения карточек из поиска:
+# по хосту видно, что CTR на позициях 4–10 равен 0,22%, но не видно, у каких
+# именно страниц. Все прогоны отдавали HTTP 404 RESOURCE_NOT_FOUND, и увидеть
+# это было некому — потребителей у среза не появилось, а локальная ошибка
+# конвейер не роняет.
+#
+# Замер (ops-webmaster-urls-probe, журнал issue #22) перебрал вызовы по одному
+# различию за раз и закрыл вопрос. Путь `search-urls/popular/` отвечает 404 во
+# всех шести вариациях, включая вызов вовсе без параметров, — значит дело в
+# самом пути. То же у корня `search-urls`, у `all/popular` и `popular-urls`.
+# Три соседних метода отвечают, но показов по URL не отдаёт ни один:
+# `in-search/samples` — адрес, заголовок и дата обхода без метрик,
+# `in-search/history` — число страниц в поиске по датам,
+# `search-queries/all/history` — история по сайту целиком. Контроли (сводка,
+# популярные запросы, выборка событий) прошли, то есть токен и host_id
+# ни при чём.
+#
+# Отсюда граница, а не недоработка: отклик страницы в выдаче по Яндексу
+# автоматикой не берётся. В кабинете отчёт «Запросы → Страницы» есть, и если
+# признак понадобится разбору, его выгружают руками. Заводить вызов заново,
+# не имея нового метода в API, незачем.
 
 
 def collect_yandex() -> dict:
@@ -402,10 +375,6 @@ def collect_yandex() -> dict:
                                    'date_to': ev_to.isoformat()}
 
     result['popular_queries'] = fetch_popular_queries(
-        headers, uid, host_id, date_from, date_to)
-    # Разрез по страницам собирается тем же окном, что и по запросам: иначе
-    # суммы двух срезов одного файла не сойдутся и сравнивать их будет нельзя.
-    result['popular_urls'] = fetch_popular_urls(
         headers, uid, host_id, date_from, date_to)
     return result
 
