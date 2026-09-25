@@ -38,11 +38,7 @@ def probe(label: str, token: str, counter: str, **params) -> dict | None:
         data = get("stat/v1/data", full, token)
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8")
-        try:
-            msg = json.loads(body)["errors"][0]["message"]
-        except Exception:
-            msg = body[:200]
-        print(f"  ОТКАЗ {e.code} — {label}: {msg}")
+        print(f"  ОТКАЗ {e.code} — {label}: {body[:400]}")
         return None
     except Exception as e:  # сеть, таймаут
         print(f"  ОТКАЗ — {label}: {e}")
@@ -105,6 +101,49 @@ def main() -> None:
               metrics="ym:s:visits", filters=flt, date1=week)
         probe(f"{label}, вчера, low", token, counter, metrics="ym:s:visits",
               filters=flt, date1=yesterday, date2=yesterday, accuracy="low")
+
+    print("\n== Пустое окно до запуска счётчика ==")
+    # Решающее различие. Если запрос за день, в котором данных заведомо нет,
+    # отклонён так же, — дело не в объёме данных вообще, и подсказка про
+    # интервал и семплирование к причине не относится.
+    probe("один день 2020 года", token, counter,
+          metrics="ym:s:visits", date1="2020-01-01", date2="2020-01-01")
+
+    print("\n== Точность числом и предел строк ==")
+    probe("accuracy=1", token, counter, metrics="ym:s:visits", accuracy="1")
+    probe("accuracy=0.01", token, counter, metrics="ym:s:visits", accuracy="0.01")
+    probe("limit=1", token, counter, metrics="ym:s:visits", limit=1)
+
+    print("\n== Другая метрика и другая ручка ==")
+    probe("метрика ym:s:users", token, counter, metrics="ym:s:users")
+    try:
+        data = get("stat/v1/data/bytime",
+                   {"ids": counter, "metrics": "ym:s:visits",
+                    "date1": yesterday, "date2": yesterday}, token)
+        print(f"  прошёл — bytime за вчера: итоги {data.get('totals')}")
+    except urllib.error.HTTPError as e:
+        print(f"  ОТКАЗ {e.code} — bytime за вчера: {e.read().decode('utf-8')[:400]}")
+    except Exception as e:
+        print(f"  ОТКАЗ — bytime за вчера: {e}")
+
+    print("\n== Что вообще видит токен ==")
+    for path in ("management/v1/counters",
+                 f"management/v1/counter/{counter}/goals"):
+        try:
+            data = get(path, {}, token)
+        except urllib.error.HTTPError as e:
+            print(f"  ОТКАЗ {e.code} — {path}: {e.read().decode('utf-8')[:300]}")
+            continue
+        except Exception as e:
+            print(f"  ОТКАЗ — {path}: {e}")
+            continue
+        if "counters" in data:
+            print(f"  прошёл — {path}: счётчиков {len(data['counters'])}: "
+                  + ", ".join(f"{c.get('id')} {c.get('site')} "
+                              f"[{c.get('status')}, права {c.get('permission')}]"
+                              for c in data["counters"][:10]))
+        else:
+            print(f"  прошёл — {path}: целей {len(data.get('goals') or [])}")
 
     print("\n== Тяжёлые разрезы без фильтра ==")
     probe("посадочные, весь период", token, counter,
