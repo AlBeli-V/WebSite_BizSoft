@@ -27,12 +27,6 @@ def routes(**overrides):
     '/user', поэтому идут первыми.
     """
     base = {
-        # 'search-urls/popular' обязан стоять раньше 'popular': оба метода
-        # заканчиваются одним словом, а выигрывает первый совпавший ключ.
-        "search-urls/popular": FakeResponse(200, {
-            "urls": [{"url": "https://biz-soft.pro/product/chatgpt-business",
-                      "indicators": {"TOTAL_SHOWS": 40, "TOTAL_CLICKS": 2}}],
-            "count": 1, "date_from": "2026-08-11", "date_to": "2026-08-25"}),
         "summary": FakeResponse(200, {"searchable_pages_count": 50,
                                       "excluded_pages_count": 5, "sqi": 10}),
         "popular": FakeResponse(200, {
@@ -65,8 +59,6 @@ class TestCollectYandex(unittest.TestCase):
         self.assertNotIn("error", out)
         self.assertEqual(out["summary"]["searchable_pages_count"], 50)
         self.assertEqual(out["popular_queries"]["fetched"], 1)
-        self.assertEqual(out["popular_urls"]["fetched"], 1)
-        self.assertEqual(out["popular_urls"]["urls"][0]["indicators"]["TOTAL_SHOWS"], 40)
         self.assertIn("window", out)
 
     def test_requested_window_recorded_even_on_failure(self):
@@ -113,21 +105,24 @@ class TestCollectYandex(unittest.TestCase):
         # Остальные поля сводки при этом читаются как обычно.
         self.assertEqual(block["indexation"]["indexed_urls"], 416)
 
-    def test_popular_urls_failure_is_local(self):
-        """Сбой разреза по страницам не отменяет показы и клики по хосту."""
-        out = self.collect(**{"search-urls/popular": FakeResponse(500, text="boom")})
-        self.assertIn("HTTP 500", out["popular_urls"]["error"])
-        self.assertEqual(out["popular_urls"]["urls"], [])
-        self.assertEqual(out["popular_queries"]["fetched"], 1)
-        block = self.s.build_yandex(out, None, DATE)
-        self.assertTrue(block["available"])
+    def test_popular_urls_slice_is_not_reintroduced(self):
+        """Разреза показов по URL в сборщике нет: метода нет в API.
 
-    def test_popular_urls_unexpected_shape_is_error_not_empty(self):
-        """Ответ без ключа urls — ошибка контракта, а не «показов не было»."""
-        out = self.collect(**{"search-urls/popular":
-                              FakeResponse(200, {"queries": [], "count": 0})})
-        self.assertIn("без ключа urls", out["popular_urls"]["error"])
-        self.assertEqual(out["popular_urls"]["urls"], [])
+        Срез жил здесь с 18.09.2026 и все семь дней отдавал 404. Замер
+        25.09 (ops-webmaster-urls-probe) перебрал вызовы по одному различию
+        за раз: путь отвечает 404 даже без параметров, соседние методы
+        показов по URL не отдают. Сторож нужен затем, что ошибка была
+        локальной и тихой — вернувшийся вызов снова писал бы 404 в файл
+        каждый день, и заметить это было бы некому.
+        """
+        source = (pathlib.Path(__file__).resolve().parents[1] / "collect.py"
+                  ).read_text(encoding="utf-8")
+        self.assertNotIn("def fetch_popular_urls", source)
+        self.assertNotIn("result['popular_urls']", source)
+        # Маршрут среза снят и из заглушки: вернувшийся вызов упадёт на
+        # «нет маршрута» в любом тесте этого файла, не только в этом.
+        out = self.collect()
+        self.assertNotIn("popular_urls", out)
 
     def test_hosts_network_error(self):
         out = self.collect(**{"/hosts": FakeRequests.RequestException("conn reset")})
