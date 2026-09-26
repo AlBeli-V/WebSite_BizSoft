@@ -1,0 +1,743 @@
+{
+ "mode": "weekly",
+ "mode_label": "еженедельный",
+ "send_date": "2026-09-26",
+ "from": "2026-09-19",
+ "to": "2026-09-25",
+ "prev_from": "2026-09-12",
+ "prev_to": "2026-09-18",
+ "title_period": "за период 19.09 по 25.09.2026",
+ "subject": "BIZSoft Growth Intelligence — еженедельный за период 19.09 по 25.09.2026",
+ "metrics": {
+  "yandex_impressions": {
+   "label": "Яндекс, показы",
+   "total": 3870.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_clicks": {
+   "label": "Яндекс, клики",
+   "total": 15.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "gsc_impressions": {
+   "label": "Google, показы",
+   "total": 11.0,
+   "covered_days": 5,
+   "days": 7
+  },
+  "gsc_clicks": {
+   "label": "Google, клики",
+   "total": 0.0,
+   "covered_days": 5,
+   "days": 7
+  },
+  "visits_all": {
+   "label": "Визиты сайта, все",
+   "total": 209.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "visits_organic": {
+   "label": "Визиты, органика",
+   "total": 11.0,
+   "covered_days": 5,
+   "days": 7
+  },
+  "goals_organic": {
+   "label": "Достижения целей (органика)",
+   "total": 17.0,
+   "covered_days": 5,
+   "days": 7
+  },
+  "ga4_sessions": {
+   "label": "GA4, органические сессии",
+   "total": 12.0,
+   "covered_days": 5,
+   "days": 7
+  },
+  "yandex_ctr": {
+   "label": "Яндекс, CTR",
+   "total": 0.003875968992248062,
+   "covered_days": 7,
+   "days": 7,
+   "is_ratio": true
+  },
+  "_extremes": {
+   "yandex_clicks": {
+    "best": {
+     "date": "2026-09-23",
+     "value": 5.0
+    },
+    "worst": {
+     "date": "2026-09-19",
+     "value": 0.0
+    }
+   },
+   "goals": {
+    "best": {
+     "date": "2026-09-23",
+     "value": 11.0
+    },
+    "worst": {
+     "date": "2026-09-20",
+     "value": 0.0
+    }
+   }
+  }
+ },
+ "prev_metrics": {
+  "yandex_impressions": {
+   "label": "Яндекс, показы",
+   "total": 5535.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_clicks": {
+   "label": "Яндекс, клики",
+   "total": 34.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "gsc_impressions": {
+   "label": "Google, показы",
+   "total": 29.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "gsc_clicks": {
+   "label": "Google, клики",
+   "total": 1.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "visits_all": {
+   "label": "Визиты сайта, все",
+   "total": 1180.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "visits_organic": {
+   "label": "Визиты, органика",
+   "total": 26.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "goals_organic": {
+   "label": "Достижения целей (органика)",
+   "total": 89.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "ga4_sessions": {
+   "label": "GA4, органические сессии",
+   "total": 25.0,
+   "covered_days": 7,
+   "days": 7
+  },
+  "yandex_ctr": {
+   "label": "Яндекс, CTR",
+   "total": 0.006142728093947606,
+   "covered_days": 7,
+   "days": 7,
+   "is_ratio": true
+  },
+  "_extremes": {
+   "yandex_clicks": {
+    "best": {
+     "date": "2026-09-16",
+     "value": 12.0
+    },
+    "worst": {
+     "date": "2026-09-13",
+     "value": 2.0
+    }
+   },
+   "goals": {
+    "best": {
+     "date": "2026-09-14",
+     "value": 21.0
+    },
+    "worst": {
+     "date": "2026-09-18",
+     "value": 2.0
+    }
+   }
+  }
+ },
+ "ads": {
+  "available": true,
+  "campaign": "bs-test-2026-09",
+  "cost": 6095.52,
+  "clicks": 449,
+  "impressions": 8025,
+  "cpc": 13.575768374164811,
+  "groups": [
+   {
+    "name": "Оплата подписок Apple из России",
+    "imp": 2226,
+    "clicks": 148,
+    "cost": 1908.62,
+    "cpc": 12.89608108108108
+   },
+   {
+    "name": "Подарочная карта Apple",
+    "imp": 696,
+    "clicks": 60,
+    "cost": 1145.2800000000002,
+    "cpc": 19.088000000000005
+   },
+   {
+    "name": "Нейросети для бизнеса",
+    "imp": 1265,
+    "clicks": 92,
+    "cost": 975.5100000000001,
+    "cpc": 10.603369565217392
+   },
+   {
+    "name": "Apple Gift Card",
+    "imp": 477,
+    "clicks": 29,
+    "cost": 404.57000000000005,
+    "cpc": 13.950689655172415
+   },
+   {
+    "name": "Пополнить Apple ID и баланс App Store",
+    "imp": 333,
+    "clicks": 25,
+    "cost": 343.54,
+    "cpc": 13.7416
+   },
+   {
+    "name": "Подарочные карты сотрудникам",
+    "imp": 310,
+    "clicks": 22,
+    "cost": 286.91999999999996,
+    "cpc": 13.04181818181818
+   },
+   {
+    "name": "Google Workspace",
+    "imp": 304,
+    "clicks": 9,
+    "cost": 124.33,
+    "cpc": 13.814444444444444
+   },
+   {
+    "name": "Miro",
+    "imp": 536,
+    "clicks": 9,
+    "cost": 110.05000000000001,
+    "cpc": 12.22777777777778
+   },
+   {
+    "name": "ElevenLabs",
+    "imp": 268,
+    "clicks": 7,
+    "cost": 105.24000000000001,
+    "cpc": 15.034285714285716
+   },
+   {
+    "name": "Autodesk",
+    "imp": 256,
+    "clicks": 7,
+    "cost": 90.61000000000001,
+    "cpc": 12.944285714285716
+   },
+   {
+    "name": "ElevenLabs",
+    "imp": 169,
+    "clicks": 5,
+    "cost": 74.39,
+    "cpc": 14.878
+   },
+   {
+    "name": "Adobe",
+    "imp": 72,
+    "clicks": 6,
+    "cost": 70.87,
+    "cpc": 11.811666666666667
+   },
+   {
+    "name": "Adobe",
+    "imp": 37,
+    "clicks": 3,
+    "cost": 66.7,
+    "cpc": 22.233333333333334
+   },
+   {
+    "name": "AnyDesk",
+    "imp": 56,
+    "clicks": 3,
+    "cost": 41.17,
+    "cpc": 13.723333333333334
+   },
+   {
+    "name": "Shutterstock",
+    "imp": 165,
+    "clicks": 4,
+    "cost": 39.93,
+    "cpc": 9.9825
+   },
+   {
+    "name": "Clip Studio Paint",
+    "imp": 27,
+    "clicks": 2,
+    "cost": 35.48,
+    "cpc": 17.74
+   },
+   {
+    "name": "OpenRouter",
+    "imp": 231,
+    "clicks": 2,
+    "cost": 30.48,
+    "cpc": 15.24
+   },
+   {
+    "name": "Adobe Acrobat Pro",
+    "imp": 51,
+    "clicks": 2,
+    "cost": 26.63,
+    "cpc": 13.315
+   },
+   {
+    "name": "Atlassian",
+    "imp": 1,
+    "clicks": 1,
+    "cost": 26.61,
+    "cpc": 26.61
+   },
+   {
+    "name": "Suno",
+    "imp": 7,
+    "clicks": 1,
+    "cost": 24.44,
+    "cpc": 24.44
+   },
+   {
+    "name": "Cursor",
+    "imp": 15,
+    "clicks": 1,
+    "cost": 23.26,
+    "cpc": 23.26
+   },
+   {
+    "name": "Epidemic Sound",
+    "imp": 14,
+    "clicks": 2,
+    "cost": 22.42,
+    "cpc": 11.21
+   },
+   {
+    "name": "Claude Enterprise",
+    "imp": 9,
+    "clicks": 1,
+    "cost": 20.79,
+    "cpc": 20.79
+   },
+   {
+    "name": "Canva",
+    "imp": 32,
+    "clicks": 1,
+    "cost": 20.51,
+    "cpc": 20.51
+   },
+   {
+    "name": "CorelDRAW",
+    "imp": 9,
+    "clicks": 2,
+    "cost": 16.67,
+    "cpc": 8.335
+   },
+   {
+    "name": "Procreate",
+    "imp": 6,
+    "clicks": 1,
+    "cost": 15.55,
+    "cpc": 15.55
+   },
+   {
+    "name": "Kling AI",
+    "imp": 17,
+    "clicks": 1,
+    "cost": 13.87,
+    "cpc": 13.87
+   },
+   {
+    "name": "Wondershare",
+    "imp": 109,
+    "clicks": 1,
+    "cost": 11.33,
+    "cpc": 11.33
+   },
+   {
+    "name": "Recraft",
+    "imp": 3,
+    "clicks": 1,
+    "cost": 11.04,
+    "cpc": 11.04
+   },
+   {
+    "name": "JetBrains",
+    "imp": 64,
+    "clicks": 1,
+    "cost": 8.71,
+    "cpc": 8.71
+   },
+   {
+    "name": "Procreate",
+    "imp": 4,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "HeyGen",
+    "imp": 2,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Unity",
+    "imp": 2,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Dropbox",
+    "imp": 4,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "CorelDRAW",
+    "imp": 3,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "DaVinci Resolve Studio",
+    "imp": 8,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Google",
+    "imp": 7,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "OpenAI",
+    "imp": 20,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Rive",
+    "imp": 18,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Adobe Creative Cloud Pro",
+    "imp": 6,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Adobe Premiere Pro",
+    "imp": 7,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Unity",
+    "imp": 4,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Cloudflare",
+    "imp": 3,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Maxon",
+    "imp": 12,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "CorelDRAW Graphics Suite",
+    "imp": 2,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Envato",
+    "imp": 82,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Wondershare Filmora",
+    "imp": 20,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Notion",
+    "imp": 3,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Suno",
+    "imp": 3,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Runway",
+    "imp": 7,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Spine",
+    "imp": 3,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Midjourney",
+    "imp": 8,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Avid",
+    "imp": 5,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Magnific",
+    "imp": 6,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Figma Professional, Collab seat",
+    "imp": 6,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Foundry",
+    "imp": 3,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "HeyGen",
+    "imp": 1,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Capture One",
+    "imp": 3,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Hailuo AI",
+    "imp": 5,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Artlist",
+    "imp": 1,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   },
+   {
+    "name": "Artlist",
+    "imp": 2,
+    "clicks": 0,
+    "cost": 0.0,
+    "cpc": null
+   }
+  ]
+ },
+ "prev_ads": {
+  "available": true,
+  "campaign": "bs-test-2026-09",
+  "cost": 8643.01,
+  "clicks": 712,
+  "impressions": 13106,
+  "cpc": 12.139058988764045,
+  "groups": [
+   {
+    "name": "Оплата подписок Apple из России",
+    "imp": 7036,
+    "clicks": 347,
+    "cost": 2920.68,
+    "cpc": 8.416945244956771
+   },
+   {
+    "name": "Adobe",
+    "imp": 805,
+    "clicks": 81,
+    "cost": 1492.12,
+    "cpc": 18.421234567901234
+   },
+   {
+    "name": "Claude",
+    "imp": 775,
+    "clicks": 65,
+    "cost": 1224.56,
+    "cpc": 18.839384615384613
+   },
+   {
+    "name": "Apple Gift Card",
+    "imp": 726,
+    "clicks": 40,
+    "cost": 541.07,
+    "cpc": 13.526750000000002
+   },
+   {
+    "name": "Claude Code",
+    "imp": 242,
+    "clicks": 26,
+    "cost": 484.60999999999996,
+    "cpc": 18.638846153846153
+   },
+   {
+    "name": "Пополнить Apple ID и баланс App Store",
+    "imp": 846,
+    "clicks": 36,
+    "cost": 431.75,
+    "cpc": 11.993055555555555
+   },
+   {
+    "name": "Подарочные карты сотрудникам",
+    "imp": 642,
+    "clicks": 44,
+    "cost": 382.45,
+    "cpc": 8.692045454545454
+   },
+   {
+    "name": "Подарочная карта Apple",
+    "imp": 1029,
+    "clicks": 27,
+    "cost": 310.03999999999996,
+    "cpc": 11.482962962962961
+   },
+   {
+    "name": "Cursor",
+    "imp": 168,
+    "clicks": 16,
+    "cost": 289.78999999999996,
+    "cpc": 18.111874999999998
+   },
+   {
+    "name": "Midjourney",
+    "imp": 119,
+    "clicks": 14,
+    "cost": 283.71,
+    "cpc": 20.264999999999997
+   },
+   {
+    "name": "Atlassian",
+    "imp": 355,
+    "clicks": 9,
+    "cost": 155.88,
+    "cpc": 17.32
+   },
+   {
+    "name": "Зарубежное ПО для юрлица",
+    "imp": 43,
+    "clicks": 4,
+    "cost": 70.27,
+    "cpc": 17.5675
+   },
+   {
+    "name": "Box и Dropbox",
+    "imp": 43,
+    "clicks": 2,
+    "cost": 35.86,
+    "cpc": 17.93
+   },
+   {
+    "name": "Descript",
+    "imp": 277,
+    "clicks": 1,
+    "cost": 20.22,
+    "cpc": 20.22
+   }
+  ]
+ },
+ "indexation": {
+  "available": true,
+  "start": {
+   "indexed": 416,
+   "known": 1285
+  },
+  "end": {
+   "indexed": 661,
+   "known": 1561
+  },
+  "start_missing": false
+ },
+ "events": {
+  "experiment_verdicts": [
+   {
+    "ticket": "MONEY-A2",
+    "date": "2026-09-22",
+    "verdict": "INCONCLUSIVE",
+    "recommendation": "EXTEND"
+   }
+  ],
+  "ppc_decisions": []
+ },
+ "summary": "За период клики из Яндекса снизились (34 → 15, -56%); достижений целей 17 против 89 прошлым периодом; реклама: 6096 ₽ и 449 кликов.",
+ "attention": [
+  "Google, клики: данные за 5 из 7 дней — хвост периода дозреет у источника, цифры уточнятся",
+  "последние ~3 дня периода у Яндекс.Вебмастера и GSC дозревают задним числом — суммы по поиску могут вырасти при уточнении",
+  "показы Яндекса просели на 30% к прошлому периоду — смотреть страницы-детракторы в ежедневных отчётах"
+ ]
+}
