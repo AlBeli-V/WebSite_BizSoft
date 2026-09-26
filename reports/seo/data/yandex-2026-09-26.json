@@ -23,15 +23,145 @@
   "host_id": "https:biz-soft.pro:443",
   "summary": {
     "sqi": 10,
-    "excluded_pages_count": 900,
-    "searchable_pages_count": 661,
+    "excluded_pages_count": 893,
+    "searchable_pages_count": 664,
     "site_problems": {
       "RECOMMENDATION": 1
     }
   },
   "search_url_events": {
-    "count": 2265,
+    "count": 2276,
     "samples": [
+      {
+        "url": "https://biz-soft.pro/catalog/ai/code",
+        "title": "Программирование — AI-сервисы для бизнеса — BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-03T00:00:00.000+03:00",
+        "event": "REMOVED_FROM_SEARCH",
+        "excluded_url_status": "LOW_QUALITY",
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/catalog/ai/image",
+        "title": "Нейросети для изображений: Midjourney, Firefly, Recraft — BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-08T00:00:00.000+03:00",
+        "event": "REMOVED_FROM_SEARCH",
+        "excluded_url_status": "LOW_QUALITY",
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/catalog/ai/marketing",
+        "title": "Маркетинг — AI-сервисы для бизнеса — BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-13T00:00:00.000+03:00",
+        "event": "REMOVED_FROM_SEARCH",
+        "excluded_url_status": "LOW_QUALITY",
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/catalog/ai/office",
+        "title": "Офисная продуктивность — AI-сервисы для бизнеса — BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-04T00:00:00.000+03:00",
+        "event": "REMOVED_FROM_SEARCH",
+        "excluded_url_status": "LOW_QUALITY",
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/product/bitdefender-premium-security-ind",
+        "title": "Bitdefender Premium Security на 1 пользователя | BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-22T00:00:00.000+03:00",
+        "event": "REMOVED_FROM_SEARCH",
+        "excluded_url_status": "NO_INDEX",
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/product/me-endpoint-dlp-plus-professional-100-workstations",
+        "title": "Endpoint DLP Plus Professional, 100 станций | BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-16T00:00:00.000+03:00",
+        "event": "APPEARED_IN_SEARCH",
+        "excluded_url_status": null,
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/product/me-servicedesk-plus-enterprise-2-technicians",
+        "title": "ServiceDesk Plus Enterprise, 2 техника — подписка | BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-17T00:00:00.000+03:00",
+        "event": "APPEARED_IN_SEARCH",
+        "excluded_url_status": null,
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/product/perplexity-max",
+        "title": "Perplexity Max на год для юрлиц — счёт, договор, ЭДО — BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-22T00:00:00.000+03:00",
+        "event": "APPEARED_IN_SEARCH",
+        "excluded_url_status": null,
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/product/perplexity-pro",
+        "title": "Perplexity Pro на год для юрлиц — счёт, договор, ЭДО — BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-22T00:00:00.000+03:00",
+        "event": "APPEARED_IN_SEARCH",
+        "excluded_url_status": null,
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/product/recraft-advanced",
+        "title": "Recraft Advanced — подписка на год | BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-23T00:00:00.000+03:00",
+        "event": "APPEARED_IN_SEARCH",
+        "excluded_url_status": null,
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/solutions/ai-dlya-biznesa",
+        "title": "AI для бизнеса: ChatGPT, Copilot, Gemini по счёту — BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-22T00:00:00.000+03:00",
+        "event": "APPEARED_IN_SEARCH",
+        "excluded_url_status": null,
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/vendors/adobe?etext=2202.n8WXoTU3Twoo4FlBpSAXxqjZZSsv0zI_OPcgC1fMSJpqcGtvc2ZtbmpicG5sZWRu.31a923191b3c14cd2bd27a05c09d038506a646bb",
+        "title": "Оплата Adobe для юрлиц из России — счёт, договор, ЭДО | BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-17T00:00:00.000+03:00",
+        "event": "APPEARED_IN_SEARCH",
+        "excluded_url_status": null,
+        "bad_http_status": null,
+        "target_url": null
+      },
+      {
+        "url": "https://biz-soft.pro/vendors/midjourney?etext=2202.brTKlYFe-N9NN150jy89DW1jY21kcWhxcGZ1bHFkZGE.094c6d4983ad874c0904a8e1dc12f84927a94741",
+        "title": "Подписка Midjourney для юрлиц — счёт, договор, ЭДО | BIZSoft",
+        "event_date": "2026-09-26T00:00:00.000+03:00",
+        "last_access": "2026-09-15T00:00:00.000+03:00",
+        "event": "APPEARED_IN_SEARCH",
+        "excluded_url_status": null,
+        "bad_http_status": null,
+        "target_url": null
+      },
       {
         "url": "https://biz-soft.pro/catalog/ai/audio",
         "title": "Аудио — AI-сервисы для бизнеса — BIZSoft",
@@ -19901,136 +20031,6 @@
         "excluded_url_status": null,
         "bad_http_status": null,
         "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/adobe-ps",
-        "title": "Adobe Photoshop — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/adobe-single-team",
-        "title": "Adobe Creative Cloud — одно приложение для команд — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/adobe-substance",
-        "title": "Adobe Substance 3D Collection — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/adobe-substance-team",
-        "title": "Adobe Substance 3D для команд — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/adsk-3dsmax",
-        "title": "Autodesk 3ds Max — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/adsk-mecoll",
-        "title": "Autodesk Media & Entertainment Collection — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/adsk-motionbuilder",
-        "title": "Autodesk MotionBuilder — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/adsk-mudbox",
-        "title": "Autodesk Mudbox — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/artlst-pro",
-        "title": "Artlist Music & SFX Pro — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/artlst-social",
-        "title": "Artlist Music & SFX (Social) — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/artlst-teams",
-        "title": "Artlist Music & SFX Teams — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/astute-bundle",
-        "title": "Astute Graphics — полный набор плагинов — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
-      },
-      {
-        "url": "https://biz-soft.pro/product/avid-mc-perp",
-        "title": "Avid Media Composer (бессрочная) — BizSoft",
-        "event_date": "2026-07-13T00:00:00.000+03:00",
-        "last_access": "2026-07-08T00:00:00.000+03:00",
-        "event": "APPEARED_IN_SEARCH",
-        "excluded_url_status": null,
-        "bad_http_status": null,
-        "target_url": null
       }
     ],
     "fetched": 2000,
@@ -20038,7 +20038,7 @@
     "date_to": "2026-09-26"
   },
   "popular_queries": {
-    "count": 1240,
+    "count": 1235,
     "date_from": "2026-09-12",
     "date_to": "2026-09-23",
     "queries": [
@@ -28153,22 +28153,42 @@
         }
       },
       {
-        "query_id": "807ba337850060b1",
-        "query_text": "сколько стоит chatgpt business",
+        "query_id": "80364fd00b7e3fd4",
+        "query_text": "realityscan стоимость",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 14.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "8095955ccffc2d2b",
-        "query_text": "подписку на курсор можно покупать российским юр лицам",
+        "query_id": "80710cc785e8fe21",
+        "query_text": "procreate купить бизнес сбербанк",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 11.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "807477118e4b578f",
+        "query_text": "reallusion россия",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 3.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "814c940d0b29c1fe",
+        "query_text": "enterprise claude купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28193,22 +28213,22 @@
         }
       },
       {
-        "query_id": "8219f15dfe7d0ad6",
-        "query_text": "как возобновить подписку апл мьюзик",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "82466f8f6f26dccd",
         "query_text": "сколько стоит клип студио в рублях",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "827d385c7d8924c1",
+        "query_text": "reallusion character creator купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28223,32 +28243,12 @@
         }
       },
       {
-        "query_id": "84773e1073dd48a1",
-        "query_text": "как обновить подписку на icloud после истечения срока",
+        "query_id": "84eae874b57e26a5",
+        "query_text": "descript оплатить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "84d2ca3a46ff7ff3",
-        "query_text": "покупка лицензий chatgpt business premium рабочее место в казахстане цена",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "84de33e07c18935d",
-        "query_text": "подписка tryhackme купить",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28263,12 +28263,12 @@
         }
       },
       {
-        "query_id": "8538dc2374436a3f",
-        "query_text": "хейген подписка бизнес сколько кредитов дает подписка",
+        "query_id": "8538352daa4253d9",
+        "query_text": "docker business цена",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28279,6 +28279,16 @@
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 5.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "8574e8a50f892970",
+        "query_text": "products jetbrains all pack купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28303,6 +28313,16 @@
         }
       },
       {
+        "query_id": "85eb6b812def00df",
+        "query_text": "gitlab self-managed цена",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 4.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "86069e7a2caeb516",
         "query_text": "как ai выбрать инструмент для команды разработчиков",
         "indicators": {
@@ -28313,32 +28333,12 @@
         }
       },
       {
-        "query_id": "8618a3fde2425d49",
-        "query_text": "спайн купить лицензию",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "861dd220d70805c5",
         "query_text": "купить фаундри",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "86546f88df72d20f",
-        "query_text": "иностранной купить по vegas",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28363,56 +28363,6 @@
         }
       },
       {
-        "query_id": "886bcb6a9610f8bf",
-        "query_text": "как в рф осуществляется продление подписки на apple music?",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "8877098e567636be",
-        "query_text": "сколько стоит годовая подписка на клип студио пейнт на 2 устройство",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "890cd2a6ec60dfcb",
-        "query_text": "как купить клип студио в россии",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "8914978e00429ada",
-        "query_text": "что такое gaea",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "895f83c56cc113f8",
-        "query_text": "стоимость подписки работы анидеск",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "8a00003e50ebc090",
         "query_text": "купить unity pro",
         "indicators": {
@@ -28423,8 +28373,48 @@
         }
       },
       {
+        "query_id": "8a11305a1bd48173",
+        "query_text": "cursor для бухгалтерии",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "8a1dc09356ecb63d",
+        "query_text": "kling ai 330 кредитов цена в долларах",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "8aea5542ce4fc3bb",
+        "query_text": "leonardo ai купить п россии",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 11.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "8af6a9864944c4c2",
         "query_text": "jira оплатить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "8b54700efeb6572f",
+        "query_text": "professional figjam seats стоимость",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -28443,26 +28433,6 @@
         }
       },
       {
-        "query_id": "8bdada7aa247a5a8",
-        "query_text": "подарочная подписка нитро",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "8bf869061522e74e",
-        "query_text": "движок unity подпискс",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "8c639e4135e9cff8",
         "query_text": "zoom через юр лицо купить",
         "indicators": {
@@ -28473,12 +28443,22 @@
         }
       },
       {
-        "query_id": "8cf6b7be5945fcc0",
-        "query_text": "зарубежная по",
+        "query_id": "8cabcdd82784ba0a",
+        "query_text": "enterprise claude купить для перепродажи",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 11.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "8d0b9e1b6b8f6873",
+        "query_text": "manage engine endpoint central license купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28493,12 +28473,32 @@
         }
       },
       {
-        "query_id": "8d6730386b0c1228",
-        "query_text": "как возобновить подписку эпл мьюзик",
+        "query_id": "8e0edacfe8aff5fc",
+        "query_text": "chatgpt бизнес премиум",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
+          "AVG_SHOW_POSITION": 15.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "8e63bb8568fb53de",
+        "query_text": "dropbox plus тариф сколько стоит",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 14.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "8e90291a40ae4680",
+        "query_text": "sketch engine (полная подписка) стоимость",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28523,22 +28523,52 @@
         }
       },
       {
-        "query_id": "8efee98fda2f9cd3",
-        "query_text": "как оплатить айклауд через виртуальную карту klerk.ru/blogs/era2/699557",
+        "query_id": "8f1051c02b7fb20b",
+        "query_text": "descript оплата",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 15.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "9194dfaf4a81de6a",
-        "query_text": "в it сфере продажах какие закрывающие документы",
+        "query_id": "8f189c78714b328b",
+        "query_text": "mocha франчайзинг pro",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "8f597f86fae728dd",
+        "query_text": "foundry лицензия купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "90fb62cc54f8a15d",
+        "query_text": "jetbrains rider phpstorm goland pycharm datagrip clion rubymine rustrover resharper price per year",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 14.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "91880193e4be23e0",
+        "query_text": "runway standard vs pro",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28563,12 +28593,12 @@
         }
       },
       {
-        "query_id": "9294bf3c2a39a5fe",
-        "query_text": "подписка на решарпер",
+        "query_id": "91f961a5faecc7c0",
+        "query_text": "notion ai купить business plan",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28583,32 +28613,42 @@
         }
       },
       {
-        "query_id": "94d3dcd7acdc9a40",
-        "query_text": "сколько стоит ани деск на месяц",
+        "query_id": "93f177d770dc82ac",
+        "query_text": "epidemic sound купить подписку",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "9589d0e0c38b29df",
-        "query_text": "горячее коммерческое предложение программы coreldraw",
+        "query_id": "945600a906b0e435",
+        "query_text": "spine 2d подписка",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "95d6b4bc81c70fe6",
-        "query_text": "как оплатить из россии descript",
+        "query_id": "949c9ff46ec913aa",
+        "query_text": "lansweeper сколько стоит",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 4.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "95ce906fb8f8d174",
+        "query_text": "foundry цена",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28623,12 +28663,22 @@
         }
       },
       {
-        "query_id": "96390c1f52b3dfaf",
-        "query_text": "спайн дизайн",
+        "query_id": "9679f987bfdc65f2",
+        "query_text": "kling-russia.ru kling pro",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "968abc508f98aad3",
+        "query_text": "jetbrains pro",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28653,32 +28703,12 @@
         }
       },
       {
-        "query_id": "97cc2ff80eb84c33",
-        "query_text": "подписка клип студио сколько стоит",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "97f1e13aef30bf0a",
         "query_text": "способы оплаты runway dtf",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 20.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "98b43cb3332980fa",
-        "query_text": "сколько стоит компания анрил энджин чтоб ей пользоваться",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28713,6 +28743,26 @@
         }
       },
       {
+        "query_id": "99b4e22d62431800",
+        "query_text": "soft corporate technology motion array",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 3.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "99e87a4066f8ef2c",
+        "query_text": "think cell сколько подписка стоит",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 4.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "9a48299dcd8f0be2",
         "query_text": "купить foundry",
         "indicators": {
@@ -28723,12 +28773,12 @@
         }
       },
       {
-        "query_id": "9a4e5e9f7a921e3d",
-        "query_text": "как оплатить из корпоративный ai-доступ россии klerk",
+        "query_id": "9adc4572453e24af",
+        "query_text": "оплата подписки icloud после 1 апреля",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 8.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28743,26 +28793,6 @@
         }
       },
       {
-        "query_id": "9b58e169182fab94",
-        "query_text": "стоимость подписки slack pro",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "9b67148b47b710c9",
-        "query_text": "подписка tryhackmy",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "9be0017c3d285bed",
         "query_text": "github copilot оплата рублями",
         "indicators": {
@@ -28773,32 +28803,22 @@
         }
       },
       {
-        "query_id": "9cba864a32a79d49",
-        "query_text": "закрывающие документы на лицензию",
+        "query_id": "9bfb4cf536bfc7c2",
+        "query_text": "think cell стоимость лицензии",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 13.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "9cd0bf8774295037",
-        "query_text": "сколько стоит clip studio paint на планшете в рублях",
+        "query_id": "9e569a54b74a0ba3",
+        "query_text": "photon vr подписка на месяц",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "9d0356b1d3136d49",
-        "query_text": "как купить spine в россии",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28813,12 +28833,12 @@
         }
       },
       {
-        "query_id": "9e8813ca585db673",
-        "query_text": "как оплачивать подписку айклауд в россии пипл",
+        "query_id": "9e9f513dcec358e4",
+        "query_text": "think cell купить в россии",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28843,22 +28863,22 @@
         }
       },
       {
-        "query_id": "9fad056c666cc98e",
-        "query_text": "как купить anthropic для компании?",
+        "query_id": "9f2d2fae8225d945",
+        "query_text": "tryhackme buy",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "a019cd73687f74d8",
-        "query_text": "подписку купить postman",
+        "query_id": "a16c45d9fa054cba",
+        "query_text": "realitycapture цена подписки",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 2.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28873,18 +28893,8 @@
         }
       },
       {
-        "query_id": "a36c26079d00ddac",
-        "query_text": "подписка hailuo",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "a399d680d168b437",
-        "query_text": "стоимость houdini",
+        "query_id": "a1c40a42e9a091c9",
+        "query_text": "think-cell suite",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -28893,12 +28903,12 @@
         }
       },
       {
-        "query_id": "a4937152b62ea4ca",
-        "query_text": "дискорд подарочная карта баланс",
+        "query_id": "a36c26079d00ddac",
+        "query_text": "подписка hailuo",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
+          "AVG_SHOW_POSITION": 13.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28913,32 +28923,12 @@
         }
       },
       {
-        "query_id": "a53e70e2a834cb26",
-        "query_text": "стоимость gitlab для компаний",
+        "query_id": "a61082ab51e26eb0",
+        "query_text": "procreate dreams оплата из россии dtf.ru/bestrate/5250997-oplatit-procreate-v-rossii",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "a5a85cd04c587c01",
-        "query_text": "zoom через юр.лицо",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "a5c42217615e68a3",
-        "query_text": "цена скетчап го в кыргызстане",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -28953,42 +28943,12 @@
         }
       },
       {
-        "query_id": "a6ee21662df59826",
-        "query_text": "разработчики fmod российские?",
+        "query_id": "a735475420176f0a",
+        "query_text": "recraft.ai коммерческое использование",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "a70b3e71a8e63e9d",
-        "query_text": "адоб сайн лицензия цена",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "a732ff606aacde2f",
-        "query_text": "как выбрать ai инструмент для кдманды разработчиков raкетa pаy6-v1",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "a781100c25b5a2c2",
-        "query_text": "услуги рекламного агентства заключить договор shutterstock",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29003,22 +28963,12 @@
         }
       },
       {
-        "query_id": "a7ca82b564c60945",
-        "query_text": "возможно ли купить клип студио навсегда",
+        "query_id": "a7949209e4b487f1",
+        "query_text": "postman solo",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "a7cd43312c41f169",
-        "query_text": "подписка юнити ii",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29029,6 +28979,26 @@
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "a93bc5bb03cdeb06",
+        "query_text": "icloud+ до какого числа продлили в россии",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "a9523b42f8199f38",
+        "query_text": "motion array аккаунт купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29063,32 +29033,32 @@
         }
       },
       {
-        "query_id": "a98b4cb5039e7d91",
-        "query_text": "продлить подписку icloud из россии",
+        "query_id": "a9d622a40dd2fb6e",
+        "query_text": "n8n купить",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 13.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "aa663d8d3ff23bd6",
-        "query_text": "подписки figma organization",
+        "query_id": "a9d7139087525401",
+        "query_text": "rive анимация работает ли в россии",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "abb9147c8b87a6d1",
-        "query_text": "где купить программу character creator 5",
+        "query_id": "ab98e95adccb9b8a",
+        "query_text": "spine pro программа принимают ли платежи из россии",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29133,22 +29103,32 @@
         }
       },
       {
-        "query_id": "ae1c433eef784b04",
-        "query_text": "эпидемик купить подписку",
+        "query_id": "af183a66b7bb5c45",
+        "query_text": "icloud оплата 2026 россия",
         "indicators": {
-          "TOTAL_SHOWS": 1.0,
+          "TOTAL_SHOWS": 0.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
+          "AVG_SHOW_POSITION": null,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "ae2021fe62ed115b",
-        "query_text": "инструкция как оплатить runway ml из россии",
+        "query_id": "af4d81145e530a59",
+        "query_text": "jetbrains подписка цена",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "afeada0f96600462",
+        "query_text": "coreldraw лицензия бессрочная",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 18.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29173,78 +29153,18 @@
         }
       },
       {
-        "query_id": "b1196da7f5503a74",
-        "query_text": "разница в перплексити между про и enterprise pro",
+        "query_id": "b0eb07c382bb0695",
+        "query_text": "cubase elements 15 как купить лицензию",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "b1ef163c5800a5f5",
-        "query_text": "как оплатить подписку айклауд в россии klerk.ru/blogs/codetopshop/705457/",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "b30066d31e6a5a88",
-        "query_text": "тарифы atlassian",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "b3cd25efd21f442f",
-        "query_text": "дырокол для больших кругов",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 40.0,
+          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
         "query_id": "b4ec8937e6f92b81",
         "query_text": "фаундри купить",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "b6895bf971f642ab",
-        "query_text": "энидеск сколько стоит подписка",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "b6ba11a70b2b8d19",
-        "query_text": "как купить icloud в россии klerk.ru/blogs/era2/699557",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "b7330c2269b6fd44",
-        "query_text": "юнити про сколько стоит",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -29273,6 +29193,16 @@
         }
       },
       {
+        "query_id": "b7aa54e1ca75e6fa",
+        "query_text": "goland купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 14.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "b7f92cf55b3fef32",
         "query_text": "докер оплата",
         "indicators": {
@@ -29283,22 +29213,22 @@
         }
       },
       {
-        "query_id": "b86e9694c76061f0",
-        "query_text": "сколько стоит лицензия на toon boom harmony",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "b8ad82858b5a7101",
         "query_text": "как оплатить coreldraw из россии",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "b8e823ad3362b761",
+        "query_text": "gitlab оформить подписку и установить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29323,8 +29253,8 @@
         }
       },
       {
-        "query_id": "b9c40189e147d526",
-        "query_text": "стандартная подписка adobe",
+        "query_id": "bb2f7fd1c5f155db",
+        "query_text": "toon boom harmony сколько",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -29333,22 +29263,12 @@
         }
       },
       {
-        "query_id": "b9c86bfa5478ecfe",
-        "query_text": "бизнес adobe",
+        "query_id": "bb4ba3e56e474a07",
+        "query_text": "foundry сколько стоит в рублях",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "bb6f452995b0c1a1",
-        "query_text": "редшифт подписка для синема",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
+          "AVG_SHOW_POSITION": 8.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29393,12 +29313,42 @@
         }
       },
       {
+        "query_id": "bd31135edab3d794",
+        "query_text": "realitycapture / realityscan",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "bd711870434bafe6",
+        "query_text": "foundry в москве",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "bdf762aebbdd03e2",
         "query_text": "купить heygen лицом юридическим",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "bec26ebc2f96daab",
+        "query_text": "openrouter license",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29423,52 +29373,22 @@
         }
       },
       {
-        "query_id": "bf7df3bf28eac9a7",
-        "query_text": "как оплатить box без зарубежной карты dtf.ru/bestrate/5264349-oplata-box-rossiya-sposoby-oplaty",
+        "query_id": "c1806be4b054606b",
+        "query_text": "gitlab оплата россии из",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
+          "AVG_SHOW_POSITION": 8.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "c02bd333296fb35c",
-        "query_text": "что такое ваучер пополнения airalo",
+        "query_id": "c2d51aace9a03baa",
+        "query_text": "tryhackme купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "c249c9662939cec0",
-        "query_text": "чем отличается подарочная карта на нитро от подарочной ссылки",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "c2cd34bc6a48966c",
-        "query_text": "как оплатить adobe из россии",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "c637a7ee456964aa",
-        "query_text": "пополнить 10.000 тенге в апп стор",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
+          "AVG_SHOW_POSITION": 9.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29483,12 +29403,62 @@
         }
       },
       {
+        "query_id": "c672abef29aec67e",
+        "query_text": "procreate цена exnode",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "c7cbb6a388d895cc",
+        "query_text": "docker desktop лицензия",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 5.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "c7dd0cb5717df64b",
+        "query_text": "spine2d можно ли пользоваться бесплатно",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "ca9f58fe7ff1fe22",
+        "query_text": "rive для продажи авто",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "cad95f84ee3b904c",
         "query_text": "figma professional купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 50.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "cb76182999493cf7",
+        "query_text": "cursor для системных администраторов",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29503,62 +29473,22 @@
         }
       },
       {
-        "query_id": "cd19b41ce306f0d0",
-        "query_text": "гудини лицензия",
+        "query_id": "cbd0390b2fa61702",
+        "query_text": "depositphotos какое юридическое лицо",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 9.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "cd4350bf831218a7",
-        "query_text": "в москве оплата framer из россии",
+        "query_id": "cf0e3fe829234b81",
+        "query_text": "figma collab seat это",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "cd7a26cd3df33e29",
-        "query_text": "сб конвертация бизнес adobe",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 1.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "cec86149aecebca2",
-        "query_text": "сколько к maxon one можно подключить аккаунтов",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "ceed783783784544",
-        "query_text": "сколько нужно платить за unity",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "cf42c1830914dd4d",
-        "query_text": "как оплатить icloud в россии klerk.ru/blogs/era2/699557",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29573,52 +29503,12 @@
         }
       },
       {
-        "query_id": "d1f8cbabf45c2a20",
-        "query_text": "как купить ai hailuo россии из",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "d24500dcea5b42a9",
         "query_text": "клип студио подписка купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "d2f241bc8ce99bfa",
-        "query_text": "производители gamma pro компании",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "d2f723915e8c04b3",
-        "query_text": "как выбрать ai инструмент для команды разработчиков rакеtapa-y",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 1.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "d32bf144756c06d9",
-        "query_text": "зум тариф бизнес",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29633,12 +29523,22 @@
         }
       },
       {
-        "query_id": "d390f01c7a6180e9",
-        "query_text": "как оплатить подписку apple music pipl",
+        "query_id": "d3401c7955a1a0ca",
+        "query_text": "spine программа платная?",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 5.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "d42af384b8158d1c",
+        "query_text": "envato действует ли лицензия в россии?",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29663,6 +29563,26 @@
         }
       },
       {
+        "query_id": "d64765bf4f45a249",
+        "query_text": "lansweeper лицензия цена",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 11.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "d65e95ee313e564b",
+        "query_text": "redshift cinema subscription",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "d68a1d369efd75e8",
         "query_text": "подписки продление postman из россии",
         "indicators": {
@@ -29683,22 +29603,42 @@
         }
       },
       {
-        "query_id": "d954f5dd36fee835",
-        "query_text": "подписка на год клип студио пейнт скок стоит",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "d963a4eabb803c44",
-        "query_text": "сколько стоит rive",
+        "query_id": "d80dd32e82f0e499",
+        "query_text": "perforce какие есть ограничения",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 9.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "d8462314036fd6c9",
+        "query_text": "try hack me купить подписку",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "d8658d8ccda23194",
+        "query_text": "docker business",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 5.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "d8d28bd7647ba6d0",
+        "query_text": "solidworks можно ли закупать для организации в россии",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29713,12 +29653,22 @@
         }
       },
       {
-        "query_id": "da6d79f91741834e",
-        "query_text": "стоит билайн adobe корпоративная",
+        "query_id": "da445ff1c199f4a1",
+        "query_text": "spine buy это подписка или ?",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 3.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "da4aa4fd5d50ab85",
+        "query_text": "maxon one,",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29733,16 +29683,6 @@
         }
       },
       {
-        "query_id": "da9513341788a119",
-        "query_text": "как называется подписка клип студио бессрочная и с полным набором инструментов",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "db03c8662ba7068a",
         "query_text": "тарифы open ai gpt chatgpt business купить",
         "indicators": {
@@ -29753,62 +29693,22 @@
         }
       },
       {
-        "query_id": "de4405348727f84e",
-        "query_text": "как оплатить apple icloud рбк",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "de6ad93639f817bc",
-        "query_text": "тариф business chatgpt",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "de9070005e272b60",
-        "query_text": "как оформит deepl pro advanced",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "dfa44a6ae4f162ea",
-        "query_text": "как оплатить кредиты на runway",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "dfce871940de33e5",
-        "query_text": "сертифицированный разработчик контента reallusion",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "dff66536b1c8346f",
-        "query_text": "как оплатить box иностранной картой dtf.ru/bestrate/5264349-oplata-box-rossiya-sposoby-oplaty",
+        "query_id": "dbe5b228cf375a60",
+        "query_text": "notion business",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 11.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "df053ad6bd745cd4",
+        "query_text": "perforce p4v",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 38.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29823,62 +29723,22 @@
         }
       },
       {
-        "query_id": "e11ce6daf9d6d2b6",
-        "query_text": "что такое claude team",
+        "query_id": "e337a1b9632f8df3",
+        "query_text": "monotype corporation покупка лицензии в россии",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "e18f1b83dbfdddea",
-        "query_text": "youtrack server license",
+        "query_id": "e4908322fed12442",
+        "query_text": "maxon one 1 year individual",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "e231f11fa3bd7dce",
-        "query_text": "джира цена",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "e26e06498c002ea1",
-        "query_text": "бывают ли закрывающие документы на программное обеспечение",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "e27ac53b59e4e04d",
-        "query_text": "где можно продавать houdini digital assets",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "e37de24a757c6f4d",
-        "query_text": "сравнение notion team и enterprise для компаний r|aketapay★",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29893,18 +29753,38 @@
         }
       },
       {
-        "query_id": "e6fa7864e5dd90d2",
-        "query_text": "как оплатить icloud из россии klerk.ru/blogs/era2/699557",
+        "query_id": "e5344239a3f43e60",
+        "query_text": "clip studio подписка",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 13.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "e70701a444abf19a",
-        "query_text": "годовая подписка на адоб",
+        "query_id": "e546844a99f3439f",
+        "query_text": "cubase elements 15 как купить лицензию в россии",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "e69ac8a3a903a3bb",
+        "query_text": "organization dev seat) ашпьф",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "e6c4443a474b79b9",
+        "query_text": "postman на оплата подписки",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -29913,32 +29793,12 @@
         }
       },
       {
-        "query_id": "e71431c8113e43e9",
-        "query_text": "покупка домена на cloudflare из рф",
+        "query_id": "e7e1a7db95c36977",
+        "query_text": "maxon teams",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "e7526d7d89384bfb",
-        "query_text": "подписка sony vegas купить",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "e76be1b84fd90a70",
-        "query_text": "сколько стоит intellij idea",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
+          "AVG_SHOW_POSITION": 9.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29953,12 +29813,12 @@
         }
       },
       {
-        "query_id": "e92914c4c7ae1756",
-        "query_text": "аналоги miro docker",
+        "query_id": "e932eb443e8a3eae",
+        "query_text": "jetbrains купить лицензию",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -29973,22 +29833,22 @@
         }
       },
       {
-        "query_id": "e9f648ba2aa39b63",
-        "query_text": "анидеск цена подписки",
+        "query_id": "ea5cde0e679d2b29",
+        "query_text": "apple gift card казахстан",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
+          "AVG_SHOW_POSITION": 14.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "eaf5285391cf0808",
-        "query_text": "{как покупать музыку на артлист и получать документы}",
+        "query_id": "eab61d43efe9c383",
+        "query_text": "maxon universe что входит",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30003,18 +29863,28 @@
         }
       },
       {
-        "query_id": "ec5020dd5a6fbf6d",
-        "query_text": "сколько стоит год лицензии ton boom хармони в россии в 2026 году",
+        "query_id": "ebb140dab01d92a4",
+        "query_text": "lansweeper лицензия купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "ec85214a953cc5b3",
-        "query_text": "анидеск тарифы",
+        "query_id": "ec8f00f743306d84",
+        "query_text": "ide jetbrains goland купить лицензию рб",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "eccc3f43e4225c37",
+        "query_text": "intelly idea pro cost",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -30033,42 +29903,32 @@
         }
       },
       {
-        "query_id": "ed542b2d655bfd7c",
-        "query_text": "политика лицензирования maxon redshift",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "ed871862689c7fb5",
-        "query_text": "подписка slack на год для юр лиц стоимость",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "eec3a3c126f2b671",
-        "query_text": "подписка айклауд в россии",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "eedb6c8995e66da3",
         "query_text": "apple gift card kazakhstan пипл",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "ef5bcc1d4ab109c4",
+        "query_text": "motion array полписка",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 5.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "f0996382f6e00ea0",
+        "query_text": "notion enterprise купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30103,12 +29963,12 @@
         }
       },
       {
-        "query_id": "f1d19cc984a9c5ff",
-        "query_text": "подписку maxon one",
+        "query_id": "f2330a3c43222467",
+        "query_text": "jetbrains ai ultimate",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
+          "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30143,22 +30003,52 @@
         }
       },
       {
-        "query_id": "f594be71f73311f8",
-        "query_text": "тарифы rive",
+        "query_id": "f3b0f348e7a26df4",
+        "query_text": "postman как оплатить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "f6318a85a4a9d1a4",
-        "query_text": "продление лицензии на maxon redshift",
+        "query_id": "f4049c5509c80df1",
+        "query_text": "houdini программа купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "f645635afc9bd6cc",
+        "query_text": "toon boom harmony платная сколько",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "f69bdacac8391cdc",
+        "query_text": "perplexity enterprise pro как купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "f7e02770c7cb413a",
+        "query_text": "fully plus volume license for 50 devices",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30183,36 +30073,6 @@
         }
       },
       {
-        "query_id": "f85be2b4e80e4234",
-        "query_text": "анидеск лицензия на организацию купить",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "f876ed9f690e249d",
-        "query_text": "как купить программу spine в россии",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "f8ecf805562f2c56",
-        "query_text": "zoom тариф бизнес",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "f96e762102e46ab0",
         "query_text": "gitlab premium self-managed лицензия",
         "indicators": {
@@ -30220,6 +30080,16 @@
           "TOTAL_CLICKS": 1.0,
           "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": 5.0
+        }
+      },
+      {
+        "query_id": "f983eb7fcb0c261a",
+        "query_text": "openai api для бизнеса",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
         }
       },
       {
@@ -30243,16 +30113,6 @@
         }
       },
       {
-        "query_id": "fa98361c99189d6f",
-        "query_text": "инвентаризация ит-активов оборудования как заполняется и кем",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "fb91def1511d26bd",
         "query_text": "корпоративная подписка claude team",
         "indicators": {
@@ -30263,52 +30123,32 @@
         }
       },
       {
-        "query_id": "fbba5a06bed3ad4e",
-        "query_text": "как оплатить icloud в россии www.audit-it.ru/cblogs/era2ai/1137698.html",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "fc4757b52b4a08a4",
-        "query_text": "доступ collab в фигме это что",
+        "query_id": "fdfea19934f17d12",
+        "query_text": "notion купить мск",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 8.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "fcb6afd55110436f",
-        "query_text": "экземпляр программы для эвм tryhackme max annual производитель",
+        "query_id": "00007e0183bc116c",
+        "query_text": "maxon one кто вендор",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
+          "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "fd373b9f6f8eaad9",
-        "query_text": "как оплачивать айклауд в россии 2026 рбк",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "ffaed3740e7bc91c",
-        "query_text": "стоимость лицензии на анидеск",
+        "query_id": "000cfa742a3e26e9",
+        "query_text": "unity hub купить ключ",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30323,32 +30163,12 @@
         }
       },
       {
-        "query_id": "00fb8a14154889d5",
-        "query_text": "продление лицензии lansweeper pro (9 000 assets) что это",
+        "query_id": "02903aac9eb59732",
+        "query_text": "toon boom harmony как купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "016d2de661842d92",
-        "query_text": "как оплатить айклауд в россии",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "036289b68143407c",
-        "query_text": "зарубежных оплата сервисов юридических для лиц документы",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30363,22 +30183,32 @@
         }
       },
       {
-        "query_id": "03d3608aa2f1e708",
-        "query_text": "как оплатить подписку adobe из россии",
+        "query_id": "03bbbaf645425a3d",
+        "query_text": "jetbrains ai купить raket¤apay",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "03fd4d22dd78180d",
-        "query_text": "бессрочная подписка клип студио",
+        "query_id": "03f8d0cf16b25353",
+        "query_text": "jetbrains купить лицензию московская область",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
+          "AVG_SHOW_POSITION": 12.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "040e690af869ce43",
+        "query_text": "gitlab premium (1 year license)",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30403,16 +30233,6 @@
         }
       },
       {
-        "query_id": "045af47aec4c5331",
-        "query_text": "что такое оплата бокса",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "04fb0b254fdf4f10",
         "query_text": "купить подписку скетчап айпад",
         "indicators": {
@@ -30423,18 +30243,8 @@
         }
       },
       {
-        "query_id": "052c4380fdf4ca01",
-        "query_text": "скетчап подписка стоимость",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "0582a55e0f872cda",
-        "query_text": "сколько стоит boris fx в месяц в евро",
+        "query_id": "06170a53a409364b",
+        "query_text": "postman условия лицензии",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -30443,42 +30253,22 @@
         }
       },
       {
-        "query_id": "0671b37679ac6309",
-        "query_text": "юнити коммерческое предложение купить",
+        "query_id": "06c40ce6e337a769",
+        "query_text": "postman license",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 9.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "06daefe7d5d2b9d7",
-        "query_text": "стоимость хармони тун бум",
+        "query_id": "087fc7d64854e2fd",
+        "query_text": "slack корпоративные тарифы для бизнеса из рф",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "08afa35b326525c4",
-        "query_text": "как оплатить apple one в россии",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "09794d825b7c49ce",
-        "query_text": "как оплатить корпоративный ai-доступ мз россии klerk",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30493,12 +30283,32 @@
         }
       },
       {
-        "query_id": "0a97e50a4a664212",
-        "query_text": "что за компания wwise",
+        "query_id": "0a3f1824b56c5d31",
+        "query_text": "cursor ai поставщик",
+        "indicators": {
+          "TOTAL_SHOWS": 0.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": null,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "0a41e1ab05ec284d",
+        "query_text": "the try hack me на русском",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 4.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "0a6a73b95b749ef7",
+        "query_text": "https://tryhackme.com/onboarding",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30533,12 +30343,12 @@
         }
       },
       {
-        "query_id": "0bc9003b74d2b701",
-        "query_text": "как оплатить айклауд из россии 2026 klerk.ru/blogs/era2/699557",
+        "query_id": "0bd9244325ceb57c",
+        "query_text": "pro adobe корпоративной",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 8.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30573,32 +30383,32 @@
         }
       },
       {
+        "query_id": "0dd084f5026aea62",
+        "query_text": "marvelous designer enterprise",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 5.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "0e30ac69ce7cbff5",
+        "query_text": "claude team (premium plan)",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "0e6d9c0e471f8be5",
         "query_text": "сколько стоит unreal engine",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "0e8d5d5d8ed5db38",
-        "query_text": "сколько стоит unity",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "0eabdb12b3185002",
-        "query_text": "сколько стоит годовая коммерческая подписка анрил энжин",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30613,12 +30423,22 @@
         }
       },
       {
-        "query_id": "0fab094977502e91",
-        "query_text": "как купить clip studio paint в россии",
+        "query_id": "0f1d1c75eb585aa2",
+        "query_text": "pro купить zoom юридическим лицом",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "0fe50da93da42819",
+        "query_text": "data lore что это",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30633,12 +30453,12 @@
         }
       },
       {
-        "query_id": "1047a85131838371",
-        "query_text": "скачать для principle лицензия",
+        "query_id": "10c4632408011907",
+        "query_text": "docker pro из рф",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30653,6 +30473,56 @@
         }
       },
       {
+        "query_id": "11b81d301b48c14e",
+        "query_text": "phpstorm как купить fallback лицензия",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "1211feda6eaee238",
+        "query_text": "hailuo 20",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "127acb638ba9fac9",
+        "query_text": "купить подписку github copilot",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "12c60a0ceefe3529",
+        "query_text": "unity enterprise сколько стоит",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "13042fcb7cc4c3fb",
+        "query_text": "rfr regbnm frrfeyn d abuvf .h kbwj",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "135458af550bb96f",
         "query_text": "как подарить подписку capture one",
         "indicators": {
@@ -30663,32 +30533,12 @@
         }
       },
       {
-        "query_id": "138a74d95ad15aed",
-        "query_text": "подарочные карты apple перестали",
+        "query_id": "144e7100df7cbac4",
+        "query_text": "runway принципы оплаты , разъяснения",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "13fb9dadb9bc2858",
-        "query_text": "где на сайте в лк reallusion активировать купленную лицензию",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "1446021c7f42a4d2",
-        "query_text": "через какие российские сервисы можно оплатить hygen",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
+          "AVG_SHOW_POSITION": 8.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30699,26 +30549,6 @@
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "153966b22260ad67",
-        "query_text": "как оплатить подписку icloud из россии",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "156fb16344ebeb74",
-        "query_text": "есть ли бессрочная лицензия на clip studio",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30753,42 +30583,12 @@
         }
       },
       {
-        "query_id": "172d7ed590194bf6",
-        "query_text": "как оплатить apple icloud в россии 2026 рбк",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "1759b528c73613ad",
-        "query_text": "иклон для",
+        "query_id": "1803730fa0c5ec8d",
+        "query_text": "depositphotos как оплатить в 2026",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "1760ecbbf3f3cd25",
-        "query_text": "сейчас я могу покупать зарубежный софт для работы?",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "178def774954f36c",
-        "query_text": "подписка на tryhackme на все курсы или на один только",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30813,12 +30613,12 @@
         }
       },
       {
-        "query_id": "19188fa8f7f0173a",
-        "query_text": "у постмана есть подписка платная ?",
+        "query_id": "193f49658f3ac046",
+        "query_text": "houdini engine indie",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30833,6 +30633,16 @@
         }
       },
       {
+        "query_id": "1953ae5c522d24bc",
+        "query_text": "coreldraw оплата россиян для",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "198c33d5a506fa45",
         "query_text": "стоимость unity",
         "indicators": {
@@ -30843,32 +30653,72 @@
         }
       },
       {
-        "query_id": "19cbb7383f34be3e",
-        "query_text": "бизнес adobe в",
+        "query_id": "19917a3c67c1d25a",
+        "query_text": "jetbrains all products купить pack ключ",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "19dd7dd417a5e821",
-        "query_text": "цены юнити",
+        "query_id": "19ae6754943cddb3",
+        "query_text": "jetbrains rider купить в россии",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
+          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "1b61a43f2de67375",
-        "query_text": "продление лицензии lansweeper pro (9 000 assets)",
+        "query_id": "1a2361110730c85d",
+        "query_text": "unity fmod когда нужно оплачивать",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "1a2b740ae0c5cd35",
+        "query_text": "hailuo ai тарифы описание",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 11.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "1abe7346ac6d6b74",
+        "query_text": "tryhackme это",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "1b0a75acf9699ca4",
+        "query_text": "endpoint central 11 key",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "1ba04d0a648c1245",
+        "query_text": "spine тарифы",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30903,42 +30753,42 @@
         }
       },
       {
-        "query_id": "1ca0b9cfd4947ba9",
-        "query_text": "сколько стоит годовая коммерческая подписка анриал экшен",
+        "query_id": "1c6ff73efd633504",
+        "query_text": "hailuo купить аккаунт",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "1cac01ffbf66cfa1",
-        "query_text": "стоимость программ адопфотошот и иллюстратор",
+        "query_id": "1c9a2ea5265eacc2",
+        "query_text": "toon boom сколько стоит",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "1cc202bfcb29676a",
-        "query_text": "как взломать подписку maxon one",
+        "query_id": "1c9e92083b09ac7a",
+        "query_text": "adobe creative cloud – подписка на 1 год | все приложения 1 тб хранилища лицензия на ваш личный аккаунт.",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
+          "AVG_SHOW_POSITION": 14.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "1cdb3c3797803592",
-        "query_text": "как купить айклауд в россии рбк",
+        "query_id": "1cd5ef613bafc7ab",
+        "query_text": "sketchup go стоимость подписки",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -30953,52 +30803,12 @@
         }
       },
       {
-        "query_id": "1f7141a06cf42621",
-        "query_text": "экземпляр программы для эвм tryhackme max annual",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "2027277729a74d1a",
-        "query_text": "как оплатить гитлаб в рф",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "2031df7fd58b2e08",
-        "query_text": "как возобновится подписка apple one с подарочной карты?",
+        "query_id": "1eff5086166cdb63",
+        "query_text": "descript hobbyist купить плагин",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 9.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "2035dd52fcc34493",
-        "query_text": "как оплатить icloud www.audit-it.ru/cblogs/era2ai/1137698.html",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "21624c1eca8ba88d",
-        "query_text": "подписка юнити ii цена",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31013,12 +30823,12 @@
         }
       },
       {
-        "query_id": "22200011e614e8ce",
-        "query_text": "анидеск стоимость лицензии для организации",
+        "query_id": "224814d1e32a4661",
+        "query_text": "marvelous designer купить лицензию",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31033,12 +30843,12 @@
         }
       },
       {
-        "query_id": "23026db3b6e1212e",
-        "query_text": "как ai выбрать инструмент для команды разработчиков rаke4taрay-2019",
+        "query_id": "22e3717f9b1c9427",
+        "query_text": "maxon cinema 4d купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31053,32 +30863,22 @@
         }
       },
       {
-        "query_id": "23bfb44b02833c70",
-        "query_text": "юнити стоимость",
+        "query_id": "254fc8197d31db65",
+        "query_text": "spine 2d анимация заказать",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "256babc35e8e80c9",
-        "query_text": "как купить подписку айклауд pikabu.ru/story/kak_oplatit_ayklaud_iz_rossii_v_2026_godu_esli_zakonchilos_mesto_v_khranilishche_14233641",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "25ca762bc961f9eb",
-        "query_text": "zoom workplace pro стоимость",
+        "query_id": "25b9dfc02df87a4d",
+        "query_text": "sdpent",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31093,52 +30893,22 @@
         }
       },
       {
-        "query_id": "267d3deacb05ba65",
-        "query_text": "юнити оплатить за год",
+        "query_id": "26a3707343e8f69a",
+        "query_text": "redshift cinema 4d купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "2684e5251f201e11",
-        "query_text": "скачать права на artlist",
+        "query_id": "292c5aede2fde072",
+        "query_text": "toon boom price",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "27e449c1b728e24f",
-        "query_text": "иностранной оплата подписки для бизнеса",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "28bac4d62a0c8804",
-        "query_text": "гудини программа сколько стоит",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "28c1988010946075",
-        "query_text": "фигма профессионал сколько человек может редактировать full seat",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
+          "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31173,32 +30943,22 @@
         }
       },
       {
-        "query_id": "29ff33d8932f0d80",
-        "query_text": "возможно ли сейчас в россии купить и установить coreldraw",
+        "query_id": "2a60964f1cd5bba1",
+        "query_text": "standard seat в рабочем пространстве чатгпт business.",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 3.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "2b4d535fb7d09cb9",
+        "query_text": "topaz подписка",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 13.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "2a377235bc898e8a",
-        "query_text": "как оплатить корпоративный ai-доступ из россии klerk в москве",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "2b6ecd291bdbadca",
-        "query_text": "тариф zoom workplace business минимальные требования",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31223,32 +30983,12 @@
         }
       },
       {
-        "query_id": "2c37dbd569dff6d5",
-        "query_text": "скетчап на айпад стоимость",
+        "query_id": "2c4694462bcf7ee5",
+        "query_text": "photon fusion что это",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "2c5c5d6d452a6574",
-        "query_text": "как в россии оплатить постман",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "2c6fd16e26613ea8",
-        "query_text": "как оплатить box business из россии пипл",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31263,16 +31003,6 @@
         }
       },
       {
-        "query_id": "2dc67cfc44a55f77",
-        "query_text": "единая подписка для 3d, motion design и vfx",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "2df4014bf929efe0",
         "query_text": "slack standard оплата из россии",
         "indicators": {
@@ -31283,22 +31013,22 @@
         }
       },
       {
-        "query_id": "2e47c3ceed9fdf42",
-        "query_text": "шаблон express купить",
+        "query_id": "2ee78fdf1fda2362",
+        "query_text": "glpi, snipe-it",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "2e7146fd34e93769",
-        "query_text": "zoom workplace business купить",
+        "query_id": "2eee25c7cb8d58b0",
+        "query_text": "unity pro service",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31309,6 +31039,16 @@
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 11.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "2f35d984087f407c",
+        "query_text": "claude team standard seat",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31333,36 +31073,6 @@
         }
       },
       {
-        "query_id": "2f82798ab0091585",
-        "query_text": "подписка sony vegas 23 безлимитная",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "2fc2a0d367baa604",
-        "query_text": "zoho manageengine это",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "30464749ce44a72c",
-        "query_text": "гитлаб сколько стоит",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "3097892ee22db5aa",
         "query_text": "софт биз",
         "indicators": {
@@ -31373,22 +31083,42 @@
         }
       },
       {
-        "query_id": "3158bcec2c4566fe",
-        "query_text": "продление подписки capture из one россии",
+        "query_id": "30d458ce7ac2efbc",
+        "query_text": "marmoset tool bag",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
+          "AVG_SHOW_POSITION": 13.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "31ebba6b2c7260bd",
-        "query_text": "стоимость клип студио",
+        "query_id": "30d52f689898ab12",
+        "query_text": "tryhackme сертификаты",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "31fbabe7b86664f6",
+        "query_text": "motion array 942723",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "322f0d0789b1bad6",
+        "query_text": "tryhackme купить подписку",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31413,26 +31143,6 @@
         }
       },
       {
-        "query_id": "34419c32c141610e",
-        "query_text": "сколько стоит capture one в месяц и год",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "34d9030da22f536e",
-        "query_text": "гудини сайдфх сколько стоит лицензия",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "35f8c7ce6f59131c",
         "query_text": "как принять подарок нитро в россии",
         "indicators": {
@@ -31453,6 +31163,16 @@
         }
       },
       {
+        "query_id": "37326891a6ed846d",
+        "query_text": "lansweeper учет лицензий на по которое не устанавливается",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "373ba6db8234dc4d",
         "query_text": "photoshop купить подписку на юр лицо",
         "indicators": {
@@ -31463,32 +31183,12 @@
         }
       },
       {
-        "query_id": "3932457c10e4baf5",
-        "query_text": "где в reallusion активировать купленную лицензию",
+        "query_id": "37d529536765f6c7",
+        "query_text": "jetbrains ultimate license",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "397e47d557e0d2c2",
-        "query_text": "сайт монотайп бывший майфонтс",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "3a0e1046dfab1b8e",
-        "query_text": "продление подписки россии postman из",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
+          "AVG_SHOW_POSITION": 8.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31503,8 +31203,18 @@
         }
       },
       {
-        "query_id": "3a4412a476650dce",
-        "query_text": "что входит в подписку бизнес chatgpt",
+        "query_id": "3a8cd9fd0fa982c0",
+        "query_text": "kling ai подписка rucrazystore.com/product/kling-ai-podpiska-standard-pro-premier-ultra-30-dney",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "3ae6a17f78e198e3",
+        "query_text": "kling тарифы www.klerk.ru",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -31513,22 +31223,12 @@
         }
       },
       {
-        "query_id": "3ad507153c9d9741",
-        "query_text": "фигма купить",
+        "query_id": "3b17832f3c8b3322",
+        "query_text": "creative cloud standard на creative cloud pro hfpybwf d rjkbxtcndt njrtyjd ,fkkj d bb adobr",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 48.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "3b3a2fb9b3ad07a3",
-        "query_text": "сколько стоит годовая подписка на клипстудио ios",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 16.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31543,22 +31243,22 @@
         }
       },
       {
-        "query_id": "3bd09138c9a1d363",
-        "query_text": "zoom базовый тариф условия для компаний",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "3c14fd6703c6d3f4",
         "query_text": "unreal engine для коммерческой разработки сколько нужно платить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 9.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "3cc8e38b1afb297e",
+        "query_text": "elevenlabs starter / creator / pro / scale / business отличия",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31583,28 +31283,28 @@
         }
       },
       {
-        "query_id": "3e420aac2cbde492",
-        "query_text": "цены на подписку slack для бизнеса",
+        "query_id": "3d546e9cce34879a",
+        "query_text": "notion ai buisness",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "3e66b61fdf01e32a",
-        "query_text": "тип лицензии клип студио",
+        "query_id": "3dd8dff860fb97fc",
+        "query_text": "tryhackme подписка",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 8.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "3fb96381b37a8075",
-        "query_text": "сервис perplexity enterprise pro",
+        "query_id": "3e4ef24fe81d37f5",
+        "query_text": "solidworks design standart",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -31613,8 +31313,8 @@
         }
       },
       {
-        "query_id": "410b3c8102591e9c",
-        "query_text": "ии кредиты в filmora wondershare при windows новосибирск",
+        "query_id": "3e5562408641aaa2",
+        "query_text": "m ad60 soft",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -31623,12 +31323,52 @@
         }
       },
       {
-        "query_id": "416a922228dd3bdd",
-        "query_text": "форма pro adobe бизнес",
+        "query_id": "3ee219e1fbb66e40",
+        "query_text": "gitlab premium цена",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "3f1f886f22037c36",
+        "query_text": "hailuo ai подписка",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 13.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "3f8cb613db6de24a",
+        "query_text": "tryhackmy оплата",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 13.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "3f942218f2701c31",
+        "query_text": "figma enterprise",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "41e195d318b4dc44",
+        "query_text": "perforce плюсы и минусы, юридический статус и режим работы онлайн или оффлайн",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31639,26 +31379,6 @@
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "42e8e73091388555",
-        "query_text": "шуттерсток коммерческая лицензия купить",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "4326142a126be6cd",
-        "query_text": "графический pro",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31683,16 +31403,6 @@
         }
       },
       {
-        "query_id": "43c8e40540b752b6",
-        "query_text": "что мне даёт подписка jetbrain goland",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "43f8f526a897e71e",
         "query_text": "как купить unreal engine",
         "indicators": {
@@ -31703,12 +31413,22 @@
         }
       },
       {
-        "query_id": "4494a7c2eb130127",
-        "query_text": "в чем разница в клип студи pro и ex",
+        "query_id": "44757e2ca966545e",
+        "query_text": "figma dev professional full купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 23.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "448dccaef94ce2d4",
+        "query_text": "enterprise фигма подписка купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 13.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31733,32 +31453,12 @@
         }
       },
       {
-        "query_id": "457a655e8932fa60",
-        "query_text": "базовый adobe",
+        "query_id": "4678f7ae78ea609c",
+        "query_text": "jetbrains all products pack",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "464970d8d56ad747",
-        "query_text": "как оплатить подписку apple one рбк",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "466f7f19413d69bd",
-        "query_text": "сколько стоит ежегодная подписка на клип студио пейнт",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
+          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31783,6 +31483,16 @@
         }
       },
       {
+        "query_id": "472398fae7e3e999",
+        "query_text": "tryhackme tarif",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 5.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "475755d1b2a54532",
         "query_text": "unity цена россия",
         "indicators": {
@@ -31790,36 +31500,6 @@
           "TOTAL_CLICKS": 1.0,
           "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": 5.0
-        }
-      },
-      {
-        "query_id": "47d82317bfc65053",
-        "query_text": "зум workplace business в месяц стоимость",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "4822e858a1c6639e",
-        "query_text": "юнити сколько стоит подписка",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "483e3ca395bcd319",
-        "query_text": "подписка slack на год для юр лиц",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
-          "AVG_CLICK_POSITION": null
         }
       },
       {
@@ -31843,22 +31523,22 @@
         }
       },
       {
-        "query_id": "49198bf20629fe30",
-        "query_text": "юнити движок аренда",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "498fb882c789d96b",
-        "query_text": "как cloudflare оплатить pro для личного сайта из россии dtf",
+        "query_id": "4973c896a6453502",
+        "query_text": "hailuo standard",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "497e58c981e2957e",
+        "query_text": "cursor корпоративный",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31883,8 +31563,18 @@
         }
       },
       {
-        "query_id": "4a903e74f4b91ca1",
-        "query_text": "значок гудини",
+        "query_id": "4a6286de56887ac5",
+        "query_text": "postman оплата или подписки",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 11.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "4abe03a57f0dee08",
+        "query_text": "pro enterprise max formula",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -31893,32 +31583,32 @@
         }
       },
       {
-        "query_id": "4b97f3da997eece0",
-        "query_text": "фаундри заказ",
+        "query_id": "4afebc9cfd6f5334",
+        "query_text": "lovable pro что это",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "4bea9147cde3f8ff",
-        "query_text": "в чем отличие клинг стандарт от клинг премьер",
+        "query_id": "4bfdc0962f54efbf",
+        "query_text": "procreate бизнес на как",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 2.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "4c38044868610cf3",
-        "query_text": "как выбрать ai инструмент для команды разработчиков r₥акeтараy",
+        "query_id": "4ca0e74eb58b42c7",
+        "query_text": "recraft pro для россиян",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31933,12 +31623,42 @@
         }
       },
       {
-        "query_id": "4f2189eef5eb7b9f",
-        "query_text": "как оплатить icloud 2026 рбк",
+        "query_id": "4dd2fcbd86559974",
+        "query_text": "jira оплатить плати по миру",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 11.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "4ddc0fe10271cc17",
+        "query_text": "elevenlabs тарифы 2026 creator pro сколько символов цена в месяц",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 2.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "4df58da5df796319",
+        "query_text": "hailuo ai купить кредиты",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "4e9576ea74b5a042",
+        "query_text": "think cell сколько подписка стоит на месяц",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31953,12 +31673,22 @@
         }
       },
       {
-        "query_id": "4fa6320adb14a37c",
-        "query_text": "как ооо покупать международные подписки",
+        "query_id": "4fe4a88c34bca4be",
+        "query_text": "postman для чего подписка",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "50ad1a900ccb3321",
+        "query_text": "sketchup go совместная подписка",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -31973,118 +31703,18 @@
         }
       },
       {
-        "query_id": "518d48c61ef30e39",
-        "query_text": "как купить icloud хранилище в россии 2026",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "521b1c69d3f4eabc",
-        "query_text": "сервер лицензия для ultimate intellij",
+        "query_id": "53c0c9d1627dbf88",
+        "query_text": "data lore что это аналоги",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 13.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "5271a58933240030",
-        "query_text": "как оплатить shutterstock для юрлиц",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "52ca738b734f4391",
-        "query_text": "подписка фаундри",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "532ed98c4d028a44",
-        "query_text": "шаттерсток юр.лицо",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "541259cd7fa72fb8",
-        "query_text": "рабочие способы оплаты box 2026",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "543b33da3c875cef",
-        "query_text": "сколько стоит iclone 8",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 1.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "54594e45b25dc130",
-        "query_text": "как оплатить корпоративный ai-доступ из россии klerk московская область",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "545f109f340f114c",
-        "query_text": "зум workplace business стоимость",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "54cc417957372891",
-        "query_text": "стоимость лицензий для приложений для команд",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "561de43853a44ccc",
-        "query_text": "энидеск сколько стоит лицензия",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "564173beb5364e53",
-        "query_text": "работает ли оплата box в россии 2026 dtf.ru/bestrate/5264349-oplata-box-rossiya-sposoby-oplaty",
+        "query_id": "552bb3c8939bd66f",
+        "query_text": "jetbrain all products pack",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -32113,22 +31743,22 @@
         }
       },
       {
+        "query_id": "586903acbcceac5b",
+        "query_text": "cursor business как давать инвайты",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 13.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "58ab2b689e9d5539",
         "query_text": "купить лицензию unity",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "597229c0c63fe082",
-        "query_text": "что значит через воркшоп? оплата elevenlabs.",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32143,22 +31773,12 @@
         }
       },
       {
-        "query_id": "59cf4d8574d2efc0",
-        "query_text": "как оплатить подписку apple oplatim.services/services-apple/",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "59e20f9d1f9a8f6a",
-        "query_text": "zoom workplace pro что входит",
+        "query_id": "5a880197e016e2f8",
+        "query_text": "runway standard | на ваш аккаун",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
+          "AVG_SHOW_POSITION": 13.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32173,12 +31793,32 @@
         }
       },
       {
-        "query_id": "5bcb7c4c5a99e2b3",
-        "query_text": "как оплатить descript",
+        "query_id": "5b678bc143bb0e50",
+        "query_text": "depositphotos (bizsoft)",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
+          "AVG_SHOW_POSITION": 1.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "5bfb63ebeab8d816",
+        "query_text": "google workspace купить подписку россия",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "5c242e6ae11ce646",
+        "query_text": "toon boom harmony где купить",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32213,22 +31853,12 @@
         }
       },
       {
-        "query_id": "5e67b10640b65269",
-        "query_text": "что значит лицензия артлист",
+        "query_id": "5e18b24a75be571d",
+        "query_text": "spine 2d стоимость",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "5eaae98b2cacbd12",
-        "query_text": "тарифы гитлаб",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32243,32 +31873,12 @@
         }
       },
       {
-        "query_id": "5f686c169d142f3a",
-        "query_text": "сколько стоит boris fx в месяц в евро для ае",
+        "query_id": "5fc6dafa4070f64e",
+        "query_text": "realityscan в россии",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "5f8ae1fbf4dfd2f8",
-        "query_text": "эпл продлевает подписку icloud после 1 апреля",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "5f95429b53ef834a",
-        "query_text": "дропбокс сколько стоит",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 4.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32283,12 +31893,12 @@
         }
       },
       {
-        "query_id": "611c4abd1e3211af",
-        "query_text": "в москве оплата capture one юридическим лицом",
+        "query_id": "6111a9d2114c583e",
+        "query_text": "think-cell купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 3.0,
+          "AVG_SHOW_POSITION": 27.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32303,16 +31913,6 @@
         }
       },
       {
-        "query_id": "614fe3274ef3939f",
-        "query_text": "юнити получить лицензию",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "61d395d636a7d042",
         "query_text": "unity pro подписка",
         "indicators": {
@@ -32323,12 +31923,42 @@
         }
       },
       {
-        "query_id": "623fd49fed66ee04",
-        "query_text": "если перестал с апреля месяца оплачивать icloud плюс и сейчас через несколько месяцев оплатить",
+        "query_id": "62396a080ebd7698",
+        "query_text": "motion array оформить подписку",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 5.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "624e9b9a6fe59bf9",
+        "query_text": "dotultimate",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "625c97ada6596ed7",
+        "query_text": "professional figjam seats",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 4.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "626c16b65b372b99",
+        "query_text": "runway, тариф max",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32383,8 +32013,18 @@
         }
       },
       {
-        "query_id": "64274c5d2840cd4b",
-        "query_text": "анреал энджин 5 в россии есть платная лицензия",
+        "query_id": "646d72472a621e5c",
+        "query_text": "glpi и snipe-it",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "64f83650cf726f8e",
+        "query_text": "recraft ai айдентика www.klerk.ru",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -32393,22 +32033,12 @@
         }
       },
       {
-        "query_id": "6464e5d5bdbf8e8b",
-        "query_text": "как можно оплатить icloud в россии сейчас www.drive2.ru/b/743635723944495376/",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "64f532a811d5c1db",
-        "query_text": "стоимость гудини",
+        "query_id": "65124a9c534a9840",
+        "query_text": "photon fusion starter",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32423,12 +32053,42 @@
         }
       },
       {
-        "query_id": "669a46c6a65e8e6c",
-        "query_text": "как купить программу spine живя в россии?",
+        "query_id": "65ee26c180cb0140",
+        "query_text": "artlist музыка",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "6746c1a3b66794a3",
+        "query_text": "openrouter купить юр лицу",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 3.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "68211d4630cb4324",
+        "query_text": "perplexity enterprise минимальное число мест",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "68ea3c66ef2afe0a",
+        "query_text": "docker license",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32443,16 +32103,6 @@
         }
       },
       {
-        "query_id": "68ee98d702c6ded4",
-        "query_text": "в москве capture one для россиян оплата",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "69553e711206869e",
         "query_text": "collab seat figma",
         "indicators": {
@@ -32463,22 +32113,32 @@
         }
       },
       {
-        "query_id": "696d65e9ea464f57",
-        "query_text": "для решения каких задач используется команда adobe бесплатна ли она",
+        "query_id": "695de8fe95398451",
+        "query_text": "kling ai premier кто производитель",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 6.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "6a950eb17282f315",
-        "query_text": "если закончилась подписка айклауд как обновить платеж с ап",
+        "query_id": "69fe9e044446494f",
+        "query_text": "solidworks можно ли закупать для организации",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 3.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "6a9412925175124f",
+        "query_text": "runway standard оплата из россии dtf.ru/bestrate/5256329-oplata-runway-ml-v-rossii",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 10.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32493,12 +32153,22 @@
         }
       },
       {
-        "query_id": "6bb21cc5c860d60e",
-        "query_text": "подписка клип студио",
+        "query_id": "6b8b370845eccf4d",
+        "query_text": "glpi и snipe it что лучше для учета сотрудников и нескольких организаций",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
+          "AVG_SHOW_POSITION": 10.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "6c198080b060a4c4",
+        "query_text": "spine аимоваи юр лица",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32513,18 +32183,38 @@
         }
       },
       {
-        "query_id": "6d1d0c51a80e99b1",
-        "query_text": "как оплатить подписку icloud dzen.ru/a/amy1x3esxgfyssli",
+        "query_id": "6cb273e8bc43eee9",
+        "query_text": "creative cloud подписка на 1 год",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "6da8de93876f995a",
-        "query_text": "стоимость годовой подписки sketchup",
+        "query_id": "6da04e8e684de211",
+        "query_text": "rive анимация заказать",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "6e35c847d3c2d150",
+        "query_text": "openai business pricing",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "6e5dcb4c341e0a79",
+        "query_text": "postman корпоративный аккаунт",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -32533,32 +32223,32 @@
         }
       },
       {
-        "query_id": "6e9593412fcd3324",
-        "query_text": "claude team премиум место купить",
+        "query_id": "6edd7a7c636ad518",
+        "query_text": "unity pro сколько стоит в месяц",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "6ef9bfd2198452ce",
-        "query_text": "workplace pro лимит по пользователям на конференции",
+        "query_id": "6ee565ab5d5eb29f",
+        "query_text": "izotope ozone advanced 12 что входит",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 9.0,
+          "AVG_SHOW_POSITION": 5.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "6f3d8193c0693c81",
-        "query_text": "пополнение api open ai c счета компании",
+        "query_id": "6f649f3b8f92c5df",
+        "query_text": "rider лицензия",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 11.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32573,8 +32263,28 @@
         }
       },
       {
-        "query_id": "70b4983b398acdca",
-        "query_text": "вегас про подписка цена",
+        "query_id": "6f8f9ff68f479271",
+        "query_text": "notion ai business версия",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 6.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "6fd57581dee2c97b",
+        "query_text": "jira оплата для российского ооо",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 8.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "71a8d7bd7f3f9d08",
+        "query_text": "redshift (teams license) - annual",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -32583,42 +32293,12 @@
         }
       },
       {
-        "query_id": "714d29ee734ce17e",
-        "query_text": "подписка adobe creative cloud на 1 месяц 100гб - для россии 2 пользователя",
+        "query_id": "721915458f6dbf8f",
+        "query_text": "spine 2d можно ли купить в россии 2026",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 5.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "716b2f46e4dd2226",
-        "query_text": "как оплатить корпоративный ai-доступ из klerk россии",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "71b2c4fc8b8d9904",
-        "query_text": "как возобновить подписку apple после пополнения баланса",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "7226ff59400f7a0e",
-        "query_text": "во вкладке «по и лицензии» как правильно?",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 13.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32633,12 +32313,12 @@
         }
       },
       {
-        "query_id": "7452c1ce0d1f79ce",
-        "query_text": "способы оплатить icloud из россии",
+        "query_id": "727949c48f55d1a0",
+        "query_text": "sketch купить",
         "indicators": {
-          "TOTAL_SHOWS": 0.0,
+          "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
+          "AVG_SHOW_POSITION": 2.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32653,26 +32333,6 @@
         }
       },
       {
-        "query_id": "756124024bdc9d73",
-        "query_text": "работает ли tryhackme в россии",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "75b3d20275b375d0",
-        "query_text": "иллюстратор цена",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "75e304b39d4ab75d",
         "query_text": "jgkfnf coreldraw bp hjccbb",
         "indicators": {
@@ -32683,12 +32343,22 @@
         }
       },
       {
-        "query_id": "77fe336fe8959a58",
-        "query_text": "как оплатить подписку coreldraw в россии",
+        "query_id": "76064c8ebf274603",
+        "query_text": "perforce p4",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 11.0,
+          "AVG_SHOW_POSITION": 7.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "780fea5c7094cd67",
+        "query_text": "sketch up подписка",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32703,8 +32373,18 @@
         }
       },
       {
-        "query_id": "79eca6c0930fd5d1",
-        "query_text": "подписку купить descript",
+        "query_id": "79802312622915d8",
+        "query_text": "marvelous designer платно?",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 3.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "7a17177f39e48cdd",
+        "query_text": "jb купить rider",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
@@ -32723,22 +32403,22 @@
         }
       },
       {
-        "query_id": "7b528f63256396a7",
-        "query_text": "сколько бывает кредитов в elevenlabs",
+        "query_id": "7adb9561764b27f5",
+        "query_text": "figma купить",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 10.0,
+          "AVG_SHOW_POSITION": 48.0,
           "AVG_CLICK_POSITION": null
         }
       },
       {
-        "query_id": "7b6b4fbc7d5b629f",
-        "query_text": "как купить домен на cloudflare в рф",
+        "query_id": "7b6a824632acb020",
+        "query_text": "perforce helix core бесплатная ли",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 6.0,
+          "AVG_SHOW_POSITION": 3.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32753,12 +32433,32 @@
         }
       },
       {
-        "query_id": "7c86d7b9626f3dc1",
-        "query_text": "тум бум хармони купить",
+        "query_id": "7bcdaf79efae3f7e",
+        "query_text": "ozone 12 standard",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 8.0,
+          "AVG_SHOW_POSITION": 15.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "7c02d5fa93812c74",
+        "query_text": "runway стандартная подписка что дает",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 9.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
+        "query_id": "7c434131fde8305b",
+        "query_text": "soft delivery лицензия corel",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32773,52 +32473,12 @@
         }
       },
       {
-        "query_id": "7d7504a7f89fb45e",
-        "query_text": "способы оплатить icloud из россии klerk.ru/blogs/era2/699557",
-        "indicators": {
-          "TOTAL_SHOWS": 0.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": null,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
         "query_id": "7d8ffaa50a2406dd",
         "query_text": "vegas pro сауна бизнес",
         "indicators": {
           "TOTAL_SHOWS": 1.0,
           "TOTAL_CLICKS": 0.0,
           "AVG_SHOW_POSITION": 3.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "7e1d89dd83b565d4",
-        "query_text": "сколько стоит dev seat в фигма",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 12.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "7e66dd6914cc3b3a",
-        "query_text": "покупка зарубежных сервисов для юр лиц",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 4.0,
-          "AVG_CLICK_POSITION": null
-        }
-      },
-      {
-        "query_id": "7f507e103d6fd0d0",
-        "query_text": "сервис perplexity enterprise pro что это",
-        "indicators": {
-          "TOTAL_SHOWS": 1.0,
-          "TOTAL_CLICKS": 0.0,
-          "AVG_SHOW_POSITION": 7.0,
           "AVG_CLICK_POSITION": null
         }
       },
@@ -32833,6 +32493,16 @@
         }
       },
       {
+        "query_id": "7fdf78ff77e5ac2e",
+        "query_text": "think-cell suite на 12 месяцев (annual plan) – 8 шт",
+        "indicators": {
+          "TOTAL_SHOWS": 1.0,
+          "TOTAL_CLICKS": 0.0,
+          "AVG_SHOW_POSITION": 12.0,
+          "AVG_CLICK_POSITION": null
+        }
+      },
+      {
         "query_id": "7feb20c64959e56e",
         "query_text": "wind surf pro",
         "indicators": {
@@ -32843,10 +32513,10 @@
         }
       }
     ],
-    "fetched": 1280
+    "fetched": 1247
   },
   "popular_urls": {
-    "error": "HTTP 404: {\"error_message\":\"Resource not found\",\"error_code\":\"RESOURCE_NOT_FOUND\"}",
+    "error": "HTTP 404: {\"error_code\":\"RESOURCE_NOT_FOUND\",\"error_message\":\"Resource not found\"}",
     "urls": [],
     "fetched": 0,
     "count": 0

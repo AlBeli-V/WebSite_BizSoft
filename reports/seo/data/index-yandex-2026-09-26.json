@@ -66,11 +66,7 @@
   "/cases",
   "/catalog",
   "/catalog/ai",
-  "/catalog/ai/code",
   "/catalog/ai/enterprise",
-  "/catalog/ai/image",
-  "/catalog/ai/marketing",
-  "/catalog/ai/office",
   "/catalog/ai/video",
   "/catalog/architecture",
   "/catalog/collaboration",
@@ -211,7 +207,6 @@
   "/product/bitdefender-gravityzone-business",
   "/product/bitdefender-gravityzone-premium",
   "/product/bitdefender-premium-security-family",
-  "/product/bitdefender-premium-security-ind",
   "/product/bitdefender-total-security-family",
   "/product/bitdefender-total-security-ind",
   "/product/bitdefender-ultimate-security-ind",
@@ -379,6 +374,7 @@
   "/product/me-endpoint-central-professional-10-servers-and-single-user-license",
   "/product/me-endpoint-central-security-10-servers-and-single-user-license",
   "/product/me-endpoint-central-uem-10-servers-and-single-user-license",
+  "/product/me-endpoint-dlp-plus-professional-100-workstations",
   "/product/me-exchange-reporter-plus-professional-100-mailboxes",
   "/product/me-key-manager-plus-25-keys-perp",
   "/product/me-malware-protection-plus-enterprise-10-servers-perp",
@@ -391,6 +387,7 @@
   "/product/me-patch-connect-plus-enterprise-250-computers-perp",
   "/product/me-ransomware-protection-plus-enterprise-10-servers-perp",
   "/product/me-remote-access-plus-professional-25-computers-and-5-users",
+  "/product/me-servicedesk-plus-enterprise-2-technicians",
   "/product/me-vulnerability-manager-plus-enterprise-10-servers-and-single-user-license-perp",
   "/product/miro-business",
   "/product/miro-starter",
@@ -436,6 +433,8 @@
   "/product/parallels-desktop-business",
   "/product/perplexity-enterprise-max",
   "/product/perplexity-enterprise-pro",
+  "/product/perplexity-max",
+  "/product/perplexity-pro",
   "/product/photon-ent",
   "/product/photon-fusion-100",
   "/product/photon-fusion-1000",
@@ -450,6 +449,7 @@
   "/product/principle-updates",
   "/product/procr-dreams",
   "/product/procr-ipad",
+  "/product/recraft-advanced",
   "/product/recraft-ent",
   "/product/recraft-pro",
   "/product/recraft-team",
@@ -540,6 +540,7 @@
   "/product/zoom-wp-business-plus",
   "/product/zoom-wp-pro",
   "/solutions",
+  "/solutions/ai-dlya-biznesa",
   "/solutions/ai-dlya-prodazh",
   "/solutions/po-dlya-razrabotki-igr",
   "/solutions/podarochnye-karty-sotrudnikam",
@@ -553,6 +554,7 @@
   "/vendors/adobe?etext=2202.Ci3ty1suQYGC8tKu4v58V36E4czOq5PFuA9yEdIl0nVUWsxpPoFd8_4xZ4ndv1fUc3N0bGZmb3FnZXJmdW5wcQ.2612e0fbe495250f3af586b72921cc89115bccb7",
   "/vendors/adobe?etext=2202.TboRu-iU2IpvmaEuOz43cXkMhOtcAwweK5R3llLRBBRbs-58Hc9ekgRX1KKti6lYZmxxaGNlaGZvbnhmemloeA.93b910e455fbbfc048e3d925321e2842fd26d9d1",
   "/vendors/adobe?etext=2202.gU_kN8enmJltc0znsei-TwxMCeBk6HPYLNk8myg8YdcBt5g1VzQ53pNz8par-_5PeHJtaWtzem9idWZybXd3dw.58c1cdf20285939fdcae3b9dea9d54792d0564cd",
+  "/vendors/adobe?etext=2202.n8WXoTU3Twoo4FlBpSAXxqjZZSsv0zI_OPcgC1fMSJpqcGtvc2ZtbmpicG5sZWRu.31a923191b3c14cd2bd27a05c09d038506a646bb",
   "/vendors/adobe?etext=2202.qmbgBOhagZWqiKp8TCyg4cfA812V3Z6qW8DW2BQLozzK_C8UyWfe4VMOtTDjeA_YeWx5dHZkamRta3plam1ucA.b3e2edb50d0c76df797a5e3fd90a202eb76bd3e5",
   "/vendors/adobe?etext=2202.x_CrIQmezGprS5npZGomLYzzKFasXpxUmVyJAzZHckvfecPX6CF90IgC9cuey_YEZHF3a3dtZXRwdGZ4aGlkZg.87f3ed2a1270ece91cc0e986ce92fa364eff81bc",
   "/vendors/airalo",
@@ -622,6 +624,7 @@
   "/vendors/microsoft",
   "/vendors/midjourney",
   "/vendors/midjourney?etext=2202.EugcprZWfcKUOCoHERJAiQjIOSfObZQUHsXr14O2ucijzxWery1UFDCoLGIezJ2QbeneFnxbq1E4Ep-MGRKESXScNigA3Vwf11-cPeKgLod6cmd6eGtkYnpxY2NjYmx0.6cf81dffef98f8fae65845eb6e7d6bb4e20c663d",
+  "/vendors/midjourney?etext=2202.brTKlYFe-N9NN150jy89DW1jY21kcWhxcGZ1bHFkZGE.094c6d4983ad874c0904a8e1dc12f84927a94741",
   "/vendors/miro",
   "/vendors/monotype",
   "/vendors/motion-array",
@@ -669,9 +672,39 @@
   "/vendors/zoho",
   "/vendors/zoom"
  ],
- "in_search_count": 663,
- "in_search_fetched": 663,
+ "in_search_count": 664,
+ "in_search_fetched": 664,
  "excluded": {
+  "/catalog/ai/code": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-26",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/ai/image": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-26",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/ai/marketing": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-26",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/catalog/ai/office": {
+   "status": "LOW_QUALITY",
+   "date": "2026-09-26",
+   "bad_http_status": null,
+   "target_url": null
+  },
+  "/product/bitdefender-premium-security-ind": {
+   "status": "NO_INDEX",
+   "date": "2026-09-26",
+   "bad_http_status": null,
+   "target_url": null
+  },
   "/catalog/ai/audio": {
    "status": "LOW_QUALITY",
    "date": "2026-09-24",
@@ -919,12 +952,6 @@
    "target_url": null
   },
   "/product/me-ddi-central-professional-2-dns-clusters-2-dhcp-clusters-3-ntp-servers": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-15",
-   "bad_http_status": null,
-   "target_url": null
-  },
-  "/product/me-endpoint-dlp-plus-professional-100-workstations": {
    "status": "LOW_QUALITY",
    "date": "2026-09-15",
    "bad_http_status": null,
@@ -1440,12 +1467,6 @@
    "bad_http_status": null,
    "target_url": null
   },
-  "/product/recraft-advanced": {
-   "status": "LOW_QUALITY",
-   "date": "2026-09-09",
-   "bad_http_status": null,
-   "target_url": null
-  },
   "/product/rizom-rs-perp": {
    "status": "LOW_QUALITY",
    "date": "2026-09-09",
@@ -1699,6 +1720,6 @@
    "target_url": null
   }
  },
- "events_count": 2265,
- "events_fetched": 2263
+ "events_count": 2276,
+ "events_fetched": 2276
 }
